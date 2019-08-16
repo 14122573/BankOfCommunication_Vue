@@ -1,29 +1,83 @@
 const Layout = () => import('@/components/Layout/main')
-const TipsNetworkErr  = () => import( '@/views/errorTips/network')
-const TipsNoAuth  = () => import( '@/views/errorTips/auth')
+const contentWrapper = () => import('@/components/Layout/content-wrapper')
+const TipsNetworkErr  = () => import( '@/views/tips/network')
+const TipsNoAuth  = () => import( '@/views/tips/auth')
+const TipsOutsite  = () => import( '@/views/tips/outsite')
 const HomePage = () => import('@/views/home')
 const LoginPage = () => import('@/views/login')
 const BindPhone = () => import('@/views/bindPhone')
 const PersonCenter = () => import('@/views/person-center')
 
+/**
+ * 要求：
+ *  1、配置Router时，需将此router的权限编码信息、打开方式信息、是否在面包屑隐藏信息、是否为左侧菜单、是否有菜单图标配置在内。
+ *  2、如此路由节点是要在面包屑中展示的，则需严格按照路由父子级，将子路由定义在其直属父级路由的children中
+ *  3、为页面渲layout，所有除’/‘外的路由，都需定在’/‘路由的children下
+ * 作用：除去正常路由展示，系统会从本数组内抓取权限菜单、判断是否能在面包屑中显示
+ * 特殊配置字段说明：
+ * meta.menuPath 标记是否为菜单。不是可不设置此字段
+ * meta.authCode 当此路由受权限控制，需设置此字段，并填写与服务端一直的权限编码。不受权限控制可不设置
+ * meta.hideInBread 标记是否需在面包屑中展示。不是可不设置此字段
+ * meta.menuIcon 标记此路由在展示时需显示的ant design的图标。只能填写ant design中ICON组件内允许的字符串
+ * meta.openMode 标记此路由点击后展示打开的方式。若值为normal，可不设置此字段
+ *               spa 注册子前端项目的路由。注，此时设置的router.name为子项目展现路由名称的name，且需带上子项目名称前缀。如：/{micname}/{子项目router.name}，且无需设定router.component
+ *               normal 本项目中自有路由
+ *               outsite 新开标签页打开，此打开方式将不嵌套layout
+ * meta.outsiteLink 当meta.openMode 为outsite时，必须配置此字段，并设置完整跳转页面的href
+ *
+ */
 const appRoutes = [
   { path: '/', name: 'Layout', redirect: '/login', component: Layout,
     children: [
-      { path: '/home', name: 'home',component: HomePage,
-        meta: { title: '首页' },
-      },
-      {
-        path: '/noauth', name: 'noautherr',component: TipsNoAuth,
-        meta: { title: '没有权限', },
-      },
+      { path: '/home', name: 'home',component: HomePage, meta: { title: '首页' }, },
+      { path: '/outsiteTips', name: 'outsiteTips',component: TipsOutsite, meta: { title: '跳转外部系统', },},
+      { path: '/noauth', name: 'noautherr',component: TipsNoAuth, meta: { title: '没有权限', },},
       { path: '/person', name: 'person',component: PersonCenter,
         meta: { title: '个人中心' },
+      },
+      { path: '/scsd', name: 'scsd',component: contentWrapper,
+        meta: { title: '水产新品种审定', menuPath:true, authCode:'S0501', hideInBread:true },
+        children: [
+          { path: '/scsd/1', name: '/scsd/post/scsdPos',
+            meta: { title: '完善申报信息',menuPath:true, authCode:'S050101', hideInBread:true, openMode:'spa' },
+          },
+          { path: '/scsd/2', name: '/scsd/expert/scsdOrgaExpert',
+            meta: { title: '组织专家',menuPath:true, authCode:'S050102', hideInBread:true, openMode:'spa' },
+          },
+          { path: '/scsd/3', name: '/scsd/forma/scsdForma',
+            meta: { title: '形式审查信息',menuPath:true, authCode:'S050103', hideInBread:true, openMode:'spa' },
+          },
+          { path: '/scsd/4', name: '/scsd/exam/scsdExam',
+            meta: { title: '函审信息',menuPath:true, authCode:'S050104', hideInBread:true, openMode:'spa' },
+          },
+          { path: '/scsd/5', name: '/scsd/localexam/scsdLocalExam',
+            meta: { title: '现场审定专家意见',menuPath:true, authCode:'S050105', hideInBread:true, openMode:'spa' },
+          },
+          { path: '/scsd/6', name: '/scsd/local/scsdLocal',
+            meta: { title: '现场审定专家代录入',menuPath:true, authCode:'S050106', hideInBread:true, openMode:'spa' },
+          },
+          { path: '/scsd/post/scsdPos', name: '/scsd/post/scsdPos',
+            meta: { title: '评审结果信息',menuPath:true, authCode:'S050107', hideInBread:true, openMode:'spa' },
+          },
+        ]
+      },
+      { path: '/SCYJ', name: 'SCYJ',component: TipsOutsite,
+        meta: { title: '水产预警', menuPath:true, authCode:'SCYJ', hideInBread:false, openMode:'outsite', outsiteLink:'http://yjyb.szjoin.net' },
+      },
+      { path: '/YQCB', name: 'YQCB',component: TipsOutsite,
+        meta: { title: '全国水产养殖动植物病情测报系统', menuPath:true, authCode:'YQCB', hideInBread:false, openMode:'outsite', outsiteLink:'http://yjyb.szjoin.net' },
+      },
+      { path: '/ZXJC', name: 'ZXJC',component: TipsOutsite,
+        meta: { title: '国家水生动物疫病监测信息管理系统', menuPath:true, authCode:'ZXJC', hideInBread:false, openMode:'outsite', outsiteLink:'http://yjyb.szjoin.net' },
+      },
+      { path: '/NYPC', name: 'NYPC',component: TipsOutsite,
+        meta: { title: '水产养殖动物病原菌耐药性普查数据分析系统', menuPath:true, authCode:'NYPC', hideInBread:false, openMode:'outsite', outsiteLink:'http://yjyb.szjoin.net' },
       },
     ],
   },
   {
     path: '/login', name: 'login',component: LoginPage,
-    meta: { title: '登录', },
+    meta: { title: '登录', menuPath:true, authCode:'S050107' },
   },
   {
     path: '/bindPhone', name: 'bindPhone',component: BindPhone,

@@ -55,7 +55,7 @@ export default {
   data() {
     return {
       collapsed: false,
-      username:''
+      username:'',
     }
   },
   created() {
@@ -68,6 +68,7 @@ export default {
       },
       deep: true
     }
+
   },
   computed: {
     menuMode() {
@@ -96,7 +97,6 @@ export default {
           this.$cookie.remove('refresh_token')
           this.$cookie.remove('userInfo')
           this.$cookie.remove('redirectUrl')
-          this.$cookie.remove('userInfo')
           this.$cookie.remove('url')
           this.$cookie.remove('systemLists')
           this.$cookie.remove('canEnterBind')
