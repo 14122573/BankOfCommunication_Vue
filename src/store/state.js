@@ -5,4 +5,5 @@ export default {
   permissionCodeList: [],
   hasAllRight: false,
   showSpaContent: false,
+  userName: '',
 }

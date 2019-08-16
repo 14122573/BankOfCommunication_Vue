@@ -279,26 +279,21 @@
 					})
 				} else if (res.msg == 'success') {
 					if (gainDatas.redirectUrl) {
-						window.open(gainDatas.redirectUrl, '_parent')
+						window.open(this.$cookie.get('url'), '_parent')
 						this.$cookie.set('canEnterBind', '500')
 					} else {
-						this.$cookie.set('token', gainDatas.access_token)
-						this.$cookie.set('refresh_token', gainDatas.refresh_token)
-						this.$router.push({
-							name: 'home'
-						})
-						// 						if (gainDatas.isNew == true) {
-						// 							this.$cookie.set('token', gainDatas.access_token)
-						// 							this.$cookie.set('refresh_token', gainDatas.refresh_token)
-						// 							this.$router.push({
-						// 								name: 'home',
-						// 							})
-						// 						} else {
-						// 							const openUrl = gainDatas.url + "?userId" + gainDatas.userId + "&access_token=" + gainDatas.access_token +
-						// 								"&refresh_token=" + gainDatas.refresh_token;
-						// 							window.open(openUrl, '_parent')
-						// 							this.$cookie.set('canEnterBind', '500')
-						// 						}
+						if (gainDatas.isNew == true) {
+							this.$cookie.set('token', gainDatas.access_token)
+							this.$cookie.set('refresh_token', gainDatas.refresh_token)
+							this.$router.push({
+								name: 'home',
+							})
+						} else {
+							const openUrl = gainDatas.url + "?userId" + gainDatas.userId + "&access_token=" + gainDatas.access_token +
+								"&refresh_token=" + gainDatas.refresh_token;
+							window.open(openUrl, '_parent')
+							this.$cookie.set('canEnterBind', '500')
+						}
 					}
 				}
 			},
