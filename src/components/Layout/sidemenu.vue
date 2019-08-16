@@ -33,10 +33,12 @@
 </template>
 
 <script>
+// import {permission} from '@/util/mixins'
 import {navigateToUrl} from 'single-spa'
 import common from '@/util/common'
 export default {
   name: 'SideMenu',
+  // mixins: [permission],
   props: {
     menuMode:{
       type: String,
@@ -48,7 +50,7 @@ export default {
   },
   data(){
     return{
-
+      userInfo:null
     }
   },
   created() {
@@ -64,6 +66,29 @@ export default {
       return 'spa'===menu.meta.openMode?true:false
     },
     /**
+     * 组装需要跳转的外部地址
+     * @param {String} baseUrl 跳转外部系统的url地址
+     * @param {String} sysCode 当前点击的外部系统的系统code
+     * @returns false 代表没有找到；
+     */
+    getRedirctUrl(baseUrl,sysCode){
+      if(!baseUrl || !sysCode) return false
+
+      this.userInfo = (this.userInfo==null) ? JSON.parse(this.$cookie.get('userInfo')) : this.userInfo
+      let userId = ''
+      if(Array.isArray(this.userInfo.oldAccountSet) && this.userInfo.oldAccountSet.length>0){
+        this.userInfo.oldAccountSet.forEach(element => {
+          if(element.sysDic && element.sysDic.sysCode ){
+            userId = (element.sysDic.sysCode===sysCode)?element.userId:this.userInfo.id
+          }
+        })
+      }else {
+        userId = this.userInfo.id
+      }
+      let redirctUrl = baseUrl+'?userId='+userId+'&accessToken='+this.$cookie.get('token')+'&refreshToken='+this.$cookie.get('refresh_token')
+      return redirctUrl
+    },
+    /**
      * 根据菜单打开方式，做不同动作
      * @param {Object} menu 菜单的route对象
      *
@@ -75,8 +100,8 @@ export default {
         case 'outsite':
           this.$store.commit('SET_SHOWSPACONTENT', false)
           this.$router.push({name: menu.name})
-          let href = menu.meta.outsiteLink
-          window.open(href, '_blank')
+          let href = this.getRedirctUrl(menu.meta.outsiteLink,key)
+          if(href) window.open(href, '_blank')
           break
         case 'normal':
           this.$store.commit('SET_SHOWSPACONTENT', false)
@@ -95,7 +120,6 @@ export default {
         this.$store.commit('SET_SHOWSPACONTENT', false)
         this.$router.push({name: menu.name})
       }
-      // navigateToUrl(key)
     },
 
   }
