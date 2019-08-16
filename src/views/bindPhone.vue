@@ -347,12 +347,12 @@ export default {
         null,
         (res) => {
           if (res.code == '200') {
-						this.$cookie.set('url', res.data.content.redirectUrl)
+            this.$cookie.set('url', res.data.content.redirectUrl)
             if (this.$cookie.get('redirectUrl') != undefined) {
               window.open(this.$cookie.get('url'), '_parent')
             } else {
-							this.$cookie.set('token', res.data.content.access_token)
-							this.$cookie.set('refresh_token', res.data.content.refresh_token)
+              this.$cookie.set('token', res.data.content.access_token)
+              this.$cookie.set('refresh_token', res.data.content.refresh_token)
               this.$router.push({
                 name: 'home'
               })

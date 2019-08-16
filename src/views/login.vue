@@ -108,7 +108,7 @@
 								<a-form-item>
 									<a-input v-decorator="[
 										'pwd',
-										{   
+										{
 											rules: [{ required: true,whitespace:true, message: '请输入密码!' }, {
 											validator: validateToNextPassword,
 											}]
@@ -151,283 +151,279 @@
 		</div>
 	</template>
 
-	<script>
-		import {
-			permission
-		} from '@/util/mixins'
-		import testStrong from '@/components/testPwd'
-		export default {
-			name: 'Login',
-			components: {
-				testStrong
-			},
-			mixins: [permission],
-			beforeCreate() {
-				this.formLogin = this.$form.createForm(this)
-				this.formRegister = this.$form.createForm(this)
-				// this.formLogin.setFieldsValue
-			},
-			data() {
-				return {
-					pageType: 'login',
-					btnTxt: '发送验证码',
-					disableBtn: true,
-					timer: null,
-					disableCode: false,
-					loginFailMsg: ''
-				}
-			},
-			mounted() {
-				this.setUrl()
-			},
-			computed: {
-				sysCode() {
-					const code = String(this.getQueryString('sysCode'))
-					return code
-				},
-				redirectUrlPrefix() {
-					const code = String(this.getQueryString('redirectUrl'))
-					return code
-				}
-			},
-			methods: {
-				setUrl() {
-					if (this.redirectUrlPrefix != 'null') {
-						this.$cookie.set('redirectUrl', this.getQueryString('redirectUrl') + '&sysCode=' + String(this.getQueryString(
-							'sysCode')))
-					}
-				},
-				handleLogin(e) {
-					this.setUrl()
-					this.formLogin.validateFields((err, values) => {
-						if (!err) {
-							let params = values
-							if (this.redirectUrlPrefix != 'null') {
-								params.redirectUrl = this.$cookie.get('redirectUrl')
-							}
-							this.$ajax.post(
-								this,
-								this.$api.POST_LOGIN,
-								params,
-								null,
-								(res) => {
-									if (res.code == '200') {
-										this.$cookie.set('canEnterBind', '200')
-										if (values.remember == 'true') {
-											this.$cookie.set('accountName', values.username)
-											this.$cookie.set('accountPwd', values.password)
-										}
-										this.loginFailMsg = ''
-										if (res.msg == 'choose') {
-											this.$cookie.set('systemLists', JSON.stringify(res.data.content))
-											if (this.sysCode != 'null') {
-												let data = res.data.content.find(item => item.sysDic.sysCode == this.sysCode)
-												if (data) {
-													let links = '?userId=' + data.id
-													if (this.redirectUrlPrefix != 'null') {
-														links = links + '&redirectUrl=' + this.$cookie.get('redirectUrl')
-													}
-													this.$ajax.get(
-														this,
-														this.$api.GET_SELECT_SYSTEM + links, {},
-														null,
-														(res) => {
-															if (res.code == '200') {
-																if (res.msg != 'bind') {
-																	this.$cookie.set('url', res.data.content.redirectUrl)
-																	if (this.$cookie.get('url') != 'null' && this.$cookie.get('url') != 'undefined') {
-																		window.open(this.$cookie.get('url'), '_parent')
-																	}
-																} else {
-																	this.$router.push({
-																		name: 'bindPhone',
-																		query: {
-																			id: res.data.content
-																		}
-																	})
-																}
-															}
-														}
-													)
-												} else {
-													this.$router.push({
-														name: 'bindPhone',
-													})
-												}
-											} else {
-												this.$router.push({
-													name: 'bindPhone',
-												})
-											}
+<script>
+import {
+  permission
+} from '@/util/mixins'
+import testStrong from '@/components/testPwd'
+export default {
+  name: 'Login',
+  components: {
+    testStrong
+  },
+  mixins: [permission],
+  beforeCreate() {
+    this.formLogin = this.$form.createForm(this)
+    this.formRegister = this.$form.createForm(this)
+    // this.formLogin.setFieldsValue
+  },
+  data() {
+    return {
+      pageType: 'login',
+      btnTxt: '发送验证码',
+      disableBtn: true,
+      timer: null,
+      disableCode: false,
+      loginFailMsg: ''
+    }
+  },
+  mounted() {
+    this.setUrl()
+  },
+  computed: {
+    sysCode() {
+      const code = String(this.getQueryString('sysCode'))
+      return code
+    },
+    redirectUrlPrefix() {
+      const code = String(this.getQueryString('redirectUrl'))
+      return code
+    }
+  },
+  methods: {
+    setUrl() {
+      if (this.redirectUrlPrefix != 'null') {
+        this.$cookie.set('redirectUrl', this.getQueryString('redirectUrl') + '&sysCode=' + String(this.getQueryString(
+          'sysCode')))
+      }
+    },
+    handleLogin(e) {
+      this.setUrl()
+      this.formLogin.validateFields((err, values) => {
+        if (!err) {
+          let params = values
+          if (this.redirectUrlPrefix != 'null') {
+            params.redirectUrl = this.$cookie.get('redirectUrl')
+          }
+          this.$ajax.post(
+            this,
+            this.$api.POST_LOGIN,
+            params,
+            null,
+            (res) => {
+              if (res.code == '200') {
+                this.$cookie.set('canEnterBind', '200')
+                if (values.remember == 'true') {
+                  this.$cookie.set('accountName', values.username)
+                  this.$cookie.set('accountPwd', values.password)
+                }
+                this.loginFailMsg = ''
+                if (res.msg == 'choose') {
+                  this.$cookie.set('systemLists', JSON.stringify(res.data.content))
+                  if (this.sysCode != 'null') {
+                    let data = res.data.content.find(item => item.sysDic.sysCode == this.sysCode)
+                    if (data) {
+                      let links = '?userId=' + data.id
+                      if (this.redirectUrlPrefix != 'null') {
+                        links = links + '&redirectUrl=' + this.$cookie.get('redirectUrl')
+                      }
+                      this.$ajax.get(
+                        this,
+                        this.$api.GET_SELECT_SYSTEM + links, {},
+                        null,
+                        (res) => {
+                          if (res.code == '200') {
+                            if (res.msg != 'bind') {
+                              this.$cookie.set('url', res.data.content.redirectUrl)
+                              if (this.$cookie.get('url') != 'null' && this.$cookie.get('url') != 'undefined') {
+                                window.open(this.$cookie.get('url'), '_parent')
+                              }
+                            } else {
+                              this.$router.push({
+                                name: 'bindPhone',
+                                query: {
+                                  id: res.data.content
+                                }
+                              })
+                            }
+                          }
+                        }
+                      )
+                    } else {
+                      this.$router.push({ name: 'bindPhone', })
+                    }
+                  } else {
+                    this.$router.push({ name: 'bindPhone', })
+                  }
 
-										} else if (res.msg == 'bind') {
-											this.$router.push({
-												name: 'bindPhone',
-												query: {
-													id: res.data.content
-												}
-											})
-										} else if (res.msg == 'success') {
-											this.$cookie.set('url', res.data.content.redirectUrl)
-											if (this.$cookie.get('url') != 'null' && this.$cookie.get('url') != 'undefined') {
-												window.open(this.$cookie.get('url'), '_parent')
-											} else {
-												this.$cookie.set('token', res.data.content.access_token)
-												this.$cookie.set('refresh_token', res.data.content.refresh_token)
-												this.$router.push({
-													name: 'home',
-												})
-											}
-										}
-									} else {
-										this.loginFailMsg = res.data.msg
-									}
-								}
-							)
-						}
-					})
-				},
-				jumpToRegister() {
-					this.setUrl()
-					this.pageType = 'register'
-				},
-				handleRegister(e) {
-					this.formRegister.validateFields((err, values) => {
-						if (!err) {
-							let params = values
-							if (this.redirectUrlPrefix != 'null') {
-								params.redirectUrl = this.$cookie.get('redirectUrl')
-							}
-							this.$ajax.post(
-								this,
-								this.$api.POST_REGISTER,
-								params,
-								null,
-								(res) => {
-									if (res.code == '200') {
-										this.$message.success('成功！')
-										this.pageType = 'login'
-									}
-								},
-							)
-						}
-					})
-				},
-				validateAccount(rule, value, callback) {
-					if (!value || value == undefined || value.split(' ').join('').length === 0) {
-						callback('请输入账户或手机号!')
-					} else {
-						callback()
-					}
-				},
-				//得到传递参数
-				getQueryString(name) {
-					var reg = new RegExp('(^|&)' + name + '=([^&]*)(&|$)', 'i')
-					var reg_rewrite = new RegExp('(^|/)' + name + '/([^/]*)(/|$)', 'i')
-					var r = window.location.search.substr(1).match(reg)
-					var q = window.location.pathname.substr(1).match(reg_rewrite)
-					if (r != null) {
-						return unescape(r[2])
-					} else if (q != null) {
-						return unescape(q[2])
-					} else {
-						return null
-					}
-				},
-				validateCode(rule, value, callback) {
-					if (!value || value == undefined || value.split(' ').join('').length === 0) {
-						callback('请输入手机验证码!')
-					} else {
-						if (!/^\d{6}$/.test(value)) {
-							callback('请输入6位数字验证码!')
-						} else {
-							callback()
-						}
-					}
-				},
-				validatePhone(rule, value, callback) {
-					if (!value || value == undefined || value.split(' ').join('').length === 0) {
-						callback('请输入手机号!')
-					} else {
-						if (!/^1[3456789]\d{9}$/.test(value)) {
-							callback('手机号输入不合法!')
-						} else {
-							let links = '?phone=' + this.formRegister.getFieldValue('username')
-							if (this.redirectUrlPrefix != 'null') {
-								links = links + '&redirectUrl=' + this.$cookie.get('redirectUrl')
-							}
-							this.$ajax.get(
-								this,
-								this.$api.GET_CHECK_PHONE + links, {},
-								null,
-								(res) => {
-									if (res.code == '200') {
-										if (res.data.content == false) {
-											this.disableBtn = false
-											callback()
-										} else {
-											callback('此用户已经存在!')
-										}
-									}
-								}
-							)
-						}
-					}
-				},
-				sendCode() {
-					let links = ''
-					if (this.redirectUrlPrefix != 'null') {
-						links = '?redirectUrl=' + this.$cookie.get('redirectUrl')
-					}
-					this.$ajax.get(
-						this,
-						this.$api.GET_SEND_CODE.replace('{phone}', this.formRegister.getFieldValue('username')) + links, {},
-						null,
-						(res) => {
-							if (res.code != '200') {
-								return
-							}
-							this.disableCode = false
-							this.disableBtn = true
-							let num = 60
-							const interval = () => {
-								this.timer = setInterval(() => {
-									if (num <= 0) {
-										this.clearTimer()
-										return
-									}
-									this.btnTxt = (num -= 1) + 's'
-								}, 1000)
-							}
-							interval()
-						}
-					)
-				},
-				validateToNextPassword(rule, value, callback) {
-					const form = this.formRegister
-					if (value && this.confirmDirty) {
-						form.validateFields(['rePassword'], {
-							force: true
-						})
-					}
-					callback()
-				},
-				compareToFirstPassword(rule, value, callback) {
-					const form = this.formRegister
-					if (value && value !== form.getFieldValue('pwd')) {
-						callback('密码输入不一致!')
-					} else {
-						callback()
-					}
-				},
-				handleConfirmBlur(e) {
-					const value = e.target.value
-					this.confirmDirty = this.confirmDirty || !!value
-				}
+                } else if (res.msg == 'bind') {
+                  this.$router.push({
+                    name: 'bindPhone',
+                    query: {
+                      id: res.data.content
+                    }
+                  })
+                } else if (res.msg == 'success') {
+                  this.$cookie.set('url', res.data.content.redirectUrl)
+                  if (this.$cookie.get('url') != 'null' && this.$cookie.get('url') != 'undefined') {
+                    window.open(this.$cookie.get('url'), '_parent')
+                  } else {
+                    this.$cookie.set('token', res.data.content.access_token)
+                    this.$cookie.set('refresh_token', res.data.content.refresh_token)
+                    this.$router.push({
+                      name: 'home',
+                    })
+                  }
+                }
+              } else {
+                this.loginFailMsg = res.data.msg
+              }
+            }
+          )
+        }
+      })
+    },
+    jumpToRegister() {
+      this.setUrl()
+      this.pageType = 'register'
+    },
+    handleRegister(e) {
+      this.formRegister.validateFields((err, values) => {
+        if (!err) {
+          let params = values
+          if (this.redirectUrlPrefix != 'null') {
+            params.redirectUrl = this.$cookie.get('redirectUrl')
+          }
+          this.$ajax.post(
+            this,
+            this.$api.POST_REGISTER,
+            params,
+            null,
+            (res) => {
+              if (res.code == '200') {
+                this.$message.success('成功！')
+                this.pageType = 'login'
+              }
+            },
+          )
+        }
+      })
+    },
+    validateAccount(rule, value, callback) {
+      if (!value || value == undefined || value.split(' ').join('').length === 0) {
+        callback('请输入账户或手机号!')
+      } else {
+        callback()
+      }
+    },
+    //得到传递参数
+    getQueryString(name) {
+      var reg = new RegExp('(^|&)' + name + '=([^&]*)(&|$)', 'i')
+      var reg_rewrite = new RegExp('(^|/)' + name + '/([^/]*)(/|$)', 'i')
+      var r = window.location.search.substr(1).match(reg)
+      var q = window.location.pathname.substr(1).match(reg_rewrite)
+      if (r != null) {
+        return unescape(r[2])
+      } else if (q != null) {
+        return unescape(q[2])
+      } else {
+        return null
+      }
+    },
+    validateCode(rule, value, callback) {
+      if (!value || value == undefined || value.split(' ').join('').length === 0) {
+        callback('请输入手机验证码!')
+      } else {
+        if (!/^\d{6}$/.test(value)) {
+          callback('请输入6位数字验证码!')
+        } else {
+          callback()
+        }
+      }
+    },
+    validatePhone(rule, value, callback) {
+      if (!value || value == undefined || value.split(' ').join('').length === 0) {
+        callback('请输入手机号!')
+      } else {
+        if (!/^1[3456789]\d{9}$/.test(value)) {
+          callback('手机号输入不合法!')
+        } else {
+          let links = '?phone=' + this.formRegister.getFieldValue('username')
+          if (this.redirectUrlPrefix != 'null') {
+            links = links + '&redirectUrl=' + this.$cookie.get('redirectUrl')
+          }
+          this.$ajax.get(
+            this,
+            this.$api.GET_CHECK_PHONE + links, {},
+            null,
+            (res) => {
+              if (res.code == '200') {
+                if (res.data.content == false) {
+                  this.disableBtn = false
+                  callback()
+                } else {
+                  callback('此用户已经存在!')
+                }
+              }
+            }
+          )
+        }
+      }
+    },
+    sendCode() {
+      let links = ''
+      if (this.redirectUrlPrefix != 'null') {
+        links = '?redirectUrl=' + this.$cookie.get('redirectUrl')
+      }
+      this.$ajax.get(
+        this,
+        this.$api.GET_SEND_CODE.replace('{phone}', this.formRegister.getFieldValue('username')) + links, {},
+        null,
+        (res) => {
+          if (res.code != '200') {
+            return
+          }
+          this.disableCode = false
+          this.disableBtn = true
+          let num = 60
+          const interval = () => {
+            this.timer = setInterval(() => {
+              if (num <= 0) {
+                this.clearTimer()
+                return
+              }
+              this.btnTxt = (num -= 1) + 's'
+            }, 1000)
+          }
+          interval()
+        }
+      )
+    },
+    validateToNextPassword(rule, value, callback) {
+      const form = this.formRegister
+      if (value && this.confirmDirty) {
+        form.validateFields(['rePassword'], {
+          force: true
+        })
+      }
+      callback()
+    },
+    compareToFirstPassword(rule, value, callback) {
+      const form = this.formRegister
+      if (value && value !== form.getFieldValue('pwd')) {
+        callback('密码输入不一致!')
+      } else {
+        callback()
+      }
+    },
+    handleConfirmBlur(e) {
+      const value = e.target.value
+      this.confirmDirty = this.confirmDirty || !!value
+    }
 
-			}
-		}
-	</script>
+  }
+}
+</script>
 
 	<style scoped>
 		.loginFrame {
