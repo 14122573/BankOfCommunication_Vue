@@ -28,7 +28,7 @@ export const permission = {
               // todo: 目前写死权限，是否有全部权限
               const isAllPerm = false
               // 当前用户全部权限编码，包含菜单及功能操作
-              let authCodeList = [ 'btn1', 'btn2', '1', '1-1', '1-2', '2', '2-1', '2-2', '5']
+              let authCodeList = [ 'S0501', 'S050101', 'S050102', 'S050102', 'S050103', 'S050104', 'S050105', 'S050106', 'S050107', 'SCYJ','YQCB','NYPC','ZXJC' ]
               let authMenuAll = []
               // 写入vuex
               this.$store.commit('SET_MENU', {authMenuAll , authCodeList, isAllPerm})
@@ -67,7 +67,7 @@ export const permission = {
         }else{ // vuex中不存在权限码信息，需重新调用接口再获取
 
           // todo:调用权限获取接口，重新获取权限编码
-          let authCodeList = [ 'btn1', 'btn2', '1', '1-1', '1-2', '2', '2-1', '2-2', '5']
+          let authCodeList = [ 'S0501', 'S050101', 'S050102', 'S050102', 'S050103', 'S050104', 'S050105', 'S050106', 'S050107', 'SCYJ','YQCB','NYPC','ZXJC' ]
           authMenuAll = getSideMenu(routes,authCodeList)
           this.$store.commit('SET_MENU', {authMenuAll, authCodeList, isAllPerm})
 
