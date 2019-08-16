@@ -92,6 +92,7 @@ export default {
       if (key == 'logout') {
         this.$ajax.post({
           url: this.$api.POST_LOGOUT,
+					params:{}
         }).then(res => {
           this.$cookie.remove('token')
           this.$cookie.remove('refresh_token')

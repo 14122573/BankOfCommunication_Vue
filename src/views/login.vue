@@ -205,21 +205,18 @@
 						if (this.redirectUrlPrefix != 'null') {
 							params.redirectUrl = this.$cookie.get('redirectUrl')
 						}
-						this.$ajax.post(
-							this,
-							this.$api.POST_LOGIN,
-							params,
-							null,
-							(res) => {
-								if (res.code == '200') {
-									this.$cookie.set('canEnterBind', '200')
-									this.jumpOpeation(res);
-									this.loginFailMsg = ''
-								} else {
-									this.loginFailMsg = res.data.msg
-								}
+						this.$ajax.post({
+							url: this.$api.POST_LOGIN,
+							params: params
+						}).then(res => {
+							if (res.code == '200') {
+								this.$cookie.set('canEnterBind', '200')
+								this.jumpOpeation(res);
+								this.loginFailMsg = ''
+							} else {
+								this.loginFailMsg = res.data.msg
 							}
-						)
+						})
 					}
 				})
 			},
@@ -237,29 +234,27 @@
 							if (this.redirectUrlPrefix != 'null') {
 								links = links + '&redirectUrl=' + this.$cookie.get('redirectUrl')
 							}
-							this.$ajax.get(
-								this,
-								this.$api.GET_SELECT_SYSTEM + links, {},
-								null,
-								(res) => {
-									let gainDatas = res.data.content;
-									if (res.msg != 'bind') {
-										//不需要绑定
-										if (gainDatas.redirectUrl) {
-											window.open(gainDatas.redirectUrl, '_parent')
-											this.$cookie.set('canEnterBind', '500')
-										}
-									} else {
-										//去绑定
-										this.$router.push({
-											name: 'bindPhone',
-											query: {
-												id: gainDatas
-											}
-										})
+							this.$ajax.get({
+								url: this.$api.GET_SELECT_SYSTEM + links,
+								params: {}
+							}).then(res => {
+								let gainDatas = res.data.content;
+								if (res.msg != 'bind') {
+									//不需要绑定
+									if (gainDatas.redirectUrl) {
+										window.open(gainDatas.redirectUrl, '_parent')
+										this.$cookie.set('canEnterBind', '500')
 									}
+								} else {
+									//去绑定
+									this.$router.push({
+										name: 'bindPhone',
+										query: {
+											id: gainDatas
+										}
+									})
 								}
-							)
+							})
 						} else {
 							this.$router.push({
 								name: 'bindPhone',
@@ -282,18 +277,23 @@
 						window.open(this.$cookie.get('url'), '_parent')
 						this.$cookie.set('canEnterBind', '500')
 					} else {
-						if (gainDatas.isNew == true) {
-							this.$cookie.set('token', gainDatas.access_token)
-							this.$cookie.set('refresh_token', gainDatas.refresh_token)
-							this.$router.push({
-								name: 'home',
-							})
-						} else {
-							const openUrl = gainDatas.url + "?userId" + gainDatas.userId + "&access_token=" + gainDatas.access_token +
-								"&refresh_token=" + gainDatas.refresh_token;
-							window.open(openUrl, '_parent')
-							this.$cookie.set('canEnterBind', '500')
-						}
+						this.$cookie.set('token', gainDatas.access_token)
+						this.$cookie.set('refresh_token', gainDatas.refresh_token)
+						this.$router.push({
+							name: 'home',
+						})
+						// 						if (gainDatas.isNew == true) {
+						// 							this.$cookie.set('token', gainDatas.access_token)
+						// 							this.$cookie.set('refresh_token', gainDatas.refresh_token)
+						// 							this.$router.push({
+						// 								name: 'home',
+						// 							})
+						// 						} else {
+						// 							const openUrl = gainDatas.url + "?userId" + gainDatas.userId + "&access_token=" + gainDatas.access_token +
+						// 								"&refresh_token=" + gainDatas.refresh_token;
+						// 							window.open(openUrl, '_parent')
+						// 							this.$cookie.set('canEnterBind', '500')
+						// 						}
 					}
 				}
 			},
@@ -305,18 +305,13 @@
 						if (this.redirectUrlPrefix != 'null') {
 							params.redirectUrl = this.$cookie.get('redirectUrl')
 						}
-						this.$ajax.post(
-							this,
-							this.$api.POST_REGISTER,
-							params,
-							null,
-							(res) => {
-								if (res.code == '200') {
-									this.$message.success('成功！')
-									this.pageType = 'login'
-								}
-							},
-						)
+						this.$ajax.post({
+							url: this.$api.POST_REGISTER,
+							params: params
+						}).then(res => {
+							this.$message.success('成功！')
+							this.pageType = 'login'
+						})
 					}
 				})
 			},
@@ -366,21 +361,17 @@
 						if (this.redirectUrlPrefix != 'null') {
 							links = links + '&redirectUrl=' + this.$cookie.get('redirectUrl')
 						}
-						this.$ajax.get(
-							this,
-							this.$api.GET_CHECK_PHONE + links, {},
-							null,
-							(res) => {
-								if (res.code == '200') {
-									if (res.data.content == false) {
-										this.disableBtn = false
-										callback()
-									} else {
-										callback('此用户已经存在!')
-									}
-								}
+						this.$ajax.get({
+							url: this.$api.GET_CHECK_PHONE + links,
+							params: {}
+						}).then(res => {
+							if (res.data.content == false) {
+								this.disableBtn = false
+								callback()
+							} else {
+								callback('此用户已经存在!')
 							}
-						)
+						})
 					}
 				}
 			},
@@ -390,29 +381,24 @@
 				if (this.redirectUrlPrefix != 'null') {
 					links = '?redirectUrl=' + this.$cookie.get('redirectUrl')
 				}
-				this.$ajax.get(
-					this,
-					this.$api.GET_SEND_CODE.replace('{phone}', this.formRegister.getFieldValue('username')) + links, {},
-					null,
-					(res) => {
-						if (res.code != '200') {
-							return
-						}
-						this.disableCode = false
-						this.disableBtn = true
-						let num = 60
-						const interval = () => {
-							this.timer = setInterval(() => {
-								if (num <= 0) {
-									this.clearTimer()
-									return
-								}
-								this.btnTxt = (num -= 1) + 's'
-							}, 1000)
-						}
-						interval()
+				this.$ajax.get({
+					url: this.$api.GET_SEND_CODE.replace('{phone}', this.formRegister.getFieldValue('username')) + links,
+					params: {}
+				}).then(res => {
+					this.disableCode = false
+					this.disableBtn = true
+					let num = 60
+					const interval = () => {
+						this.timer = setInterval(() => {
+							if (num <= 0) {
+								this.clearTimer()
+								return
+							}
+							this.btnTxt = (num -= 1) + 's'
+						}, 1000)
 					}
-				)
+					interval()
+				})
 			},
 			//密码重复密码校验
 			validateToNextPassword(rule, value, callback) {
