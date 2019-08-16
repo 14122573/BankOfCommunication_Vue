@@ -11,8 +11,8 @@ import { MicConfigs } from '@/config/mic'
 
   // 读取子项目配置
   for(let i=0;i<MicConfigs.length;i++){
-    // await loadResource(MicConfigs[i].baseUrl)
-    // registerApplication(MicConfigs[i].resourceName, () => Promise.resolve(window[MicConfigs[i].micId]),  pathPrefix(MicConfigs[i].pathPrefix))
+    await loadResource(MicConfigs[i].baseUrl)
+    registerApplication(MicConfigs[i].resourceName, () => Promise.resolve(window[MicConfigs[i].micId]),  pathPrefix(MicConfigs[i].pathPrefix))
   }
 
 })()

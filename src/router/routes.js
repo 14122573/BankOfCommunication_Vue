@@ -27,7 +27,7 @@ const PersonCenter = () => import('@/views/person-center')
  *
  */
 const appRoutes = [
-  { path: '/', name: 'Layout', redirect: '/login', component: Layout,
+  { path: '/', name: 'Layout', redirect: '/login', component: contentWrapper,
     children: [
       { path: '/home', name: 'home',component: HomePage, meta: { title: '首页' }, },
       { path: '/outsiteTips', name: 'outsiteTips',component: TipsOutsite, meta: { title: '跳转外部系统', },},

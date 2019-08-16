@@ -39,7 +39,7 @@ export default {
     this.list.forEach((element)=>{
       this.checkPath(element)
     })
-    console.log(this.list)
+    // console.log(this.list)
   },
   methods: {
     checkPath2(path) {

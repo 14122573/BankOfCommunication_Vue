@@ -2,40 +2,45 @@
 <template>
 	<a-layout id="portal">
 		<Loader />
-		<a-layout-sider :collapsed="collapsed" breakpoint="lg" collapsedWidth="80">
-			<div id="logo">
-        <span class="logo-img"></span><span v-if="!collapsed" class="logo-title">智能渔技</span>
-      </div>
-			<SideMenu :menuMode="menuMode" :collapsed="collapsed"></SideMenu>
-		</a-layout-sider>
-		<a-layout>
-			<a-layout-header id="Header">
-        <div class="wrapper">
-            <a-icon class="trigger"
-              :type="collapsed ? 'menu-unfold' : 'menu-fold'"
-              @click="toggleSideCollapsed"
-            />
-            <NavBar class="navbar" />
-            <a-dropdown class="navdropmenu">
-              <span>
-                <a-icon type="user" /> {{username}} <a-icon type="down" />
-              </span>
-              <a-menu slot="overlay" @click="handleClick">
-                <a-menu-item key="person">个人中心</a-menu-item>
-                <a-menu-item key="logout">退出登录</a-menu-item>
-              </a-menu>
-            </a-dropdown>
+    <template v-if="showPurePage">
+      <router-view />
+    </template>
+    <template v-else>
+      <a-layout-sider :collapsed="collapsed" breakpoint="lg" collapsedWidth="80">
+        <div id="logo">
+          <span class="logo-img"></span><span v-if="!collapsed" class="logo-title">智能渔技</span>
+        </div>
+        <SideMenu :menuMode="menuMode" :collapsed="collapsed"></SideMenu>
+      </a-layout-sider>
+      <a-layout>
+        <a-layout-header id="Header">
+          <div class="wrapper">
+              <a-icon class="trigger"
+                :type="collapsed ? 'menu-unfold' : 'menu-fold'"
+                @click="toggleSideCollapsed"
+              />
+              <NavBar class="navbar" />
+              <a-dropdown class="navdropmenu">
+                <span>
+                  <a-icon type="user" /> {{username}} <a-icon type="down" />
+                </span>
+                <a-menu slot="overlay" @click="handleClick">
+                  <a-menu-item key="person">个人中心</a-menu-item>
+                  <a-menu-item key="logout">退出登录</a-menu-item>
+                </a-menu>
+              </a-dropdown>
+            </div>
+        </a-layout-header>
+        <a-layout-content id="AppContent">
+          <div v-show="!showSpaContent" class="wrapper">
+            <router-view :key="$route.path"></router-view>
           </div>
-			</a-layout-header>
-			<a-layout-content id="AppContent">
-				<div v-show="!showSpaContent" class="wrapper">
-          <router-view :key="$route.path"></router-view>
-        </div>
-        <div v-show="showSpaContent">
-          <div id="content" ></div>
-        </div>
-			</a-layout-content>
-		</a-layout>
+          <div v-show="showSpaContent">
+            <div id="content" ></div>
+          </div>
+        </a-layout-content>
+      </a-layout>
+    </template>
 	</a-layout>
 
 </template>
@@ -44,18 +49,23 @@ import SideMenu from '@/components/Layout/sidemenu'
 import NavBar from '@/components/Layout/navbar'
 import Loader from '@/components/Loader/loader'
 import { permission } from '@/util/mixins'
+
+import Login from '@/views/login'
+
 export default {
   name: 'Layout',
   mixins: [permission],
   components: {
     NavBar,
     Loader,
-    SideMenu
+    SideMenu,
+    Login,
   },
   data() {
     return {
       collapsed: false,
       username:'',
+      showPurePage: false,
     }
   },
   created() {
@@ -67,6 +77,14 @@ export default {
         this.username = val
       },
       deep: true
+    },
+    $route(to, from) {
+      // 监听路由，只要是没有parent的路由就独立显示而不是嵌套在layout中显示
+      if (to.matched && to.matched.length > 0 && !to.matched[to.matched.length - 1].parent) {
+        this.showPurePage = true
+      } else {
+        this.showPurePage = false
+      }
     }
 
   },
@@ -90,18 +108,18 @@ export default {
         })
       }
       if (key == 'logout') {
-        this.$ajax.post({
-          url: this.$api.POST_LOGOUT,
-        }).then(res => {
-          this.$cookie.remove('token')
-          this.$cookie.remove('refresh_token')
-          this.$cookie.remove('userInfo')
-          this.$cookie.remove('redirectUrl')
-          this.$cookie.remove('url')
-          this.$cookie.remove('systemLists')
-          this.$cookie.remove('canEnterBind')
-          this.$router.push({ name: 'login' })
-        })
+        // this.$ajax.post({
+        //   url: this.$api.POST_LOGOUT,
+        // }).then(res => {
+        this.$cookie.remove('token')
+        this.$cookie.remove('refresh_token')
+        this.$cookie.remove('userInfo')
+        this.$cookie.remove('redirectUrl')
+        this.$cookie.remove('url')
+        this.$cookie.remove('systemLists')
+        this.$cookie.remove('canEnterBind')
+        this.$router.push({ name: 'login' })
+        // })
       }
     }
   }
