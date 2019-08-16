@@ -17,15 +17,18 @@ default: // 默认环境下（开发环境）
 
 export default {
   BASE_URL,
-  GET_USER_INFO: '/service-user/user/login/user/info', // 获取用户信息	
+  GET_USER_INFO: '/service-user/user/login/user/info', // 获取用户信息
   POST_LOGIN:BASE_URL+'/service-user/user/public/login',//登录
+  POST_LOGOUT:BASE_URL+'/service-user/user/logout',//登出
   POST_REGISTER:BASE_URL+'/service-user/user/public/register/acct',//注册
+  CHECKTOKEN_POST:BASE_URL+'/service-user/user/scrt/check/token',//验证token是否有效
+  REFRESH_TOKEN_POST:BASE_URL+'/service-user/user/public/refresh/token', //刷新token
   GET_USER_PEIMISSION:BASE_URL+'/service-permission/perm/user/menus/code',//用户菜单权限
   GET_SEND_CODE:BASE_URL+'/service-user/user/public/send/bindPhone/{phone}',//发送验证码
-  POST_CHECK_CODE:BASE_URL+'/service-user/user/public/bind/phone/check',//校验手机验证码 
+  POST_CHECK_CODE:BASE_URL+'/service-user/user/public/bind/phone/check',//校验手机验证码
   POST_BIND_USERINFO_UNBIND:BASE_URL+'/service-user/user/public/login/bind/info',//绑定用户信息 (false)
   POST_BIND_USERINFO_BIND:BASE_URL+'/service-user/user/public/bind/phone/check',//绑定用户信息 (true)
-  GET_SELECT_SYSTEM:BASE_URL+'/service-user/user/public/login/chooseSys',//选择系统 
+  GET_SELECT_SYSTEM:BASE_URL+'/service-user/user/public/login/chooseSys',//选择系统
   GET_CHECK_PHONE:BASE_URL+'/service-user/user/public/check/phone/bind'//是否绑定
-	
+
 }

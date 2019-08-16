@@ -33,10 +33,12 @@
 </template>
 
 <script>
+// import {permission} from '@/util/mixins'
 import {navigateToUrl} from 'single-spa'
 import common from '@/util/common'
 export default {
   name: 'SideMenu',
+  // mixins: [permission],
   props: {
     menuMode:{
       type: String,
@@ -95,7 +97,6 @@ export default {
         this.$store.commit('SET_SHOWSPACONTENT', false)
         this.$router.push({name: menu.name})
       }
-      // navigateToUrl(key)
     },
 
   }
