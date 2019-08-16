@@ -69,7 +69,15 @@ export default {
     }
   },
   created() {
-    this.getInfo()
+    let token = this.$cookie.get('token')
+    if (token !=undefined && token !=null && 'String'==typeof token) {
+      this.$ajax.post({
+        url:this.$api.CHECKTOKEN_POST
+      }).then(res =>{
+        this.getInfo()
+      })
+    }
+    // this.getInfo()
   },
   watch:{
     '$store.state.userName': {
