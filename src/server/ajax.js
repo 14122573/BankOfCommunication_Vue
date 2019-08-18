@@ -25,7 +25,7 @@ const errorHandler = (err) => {
     case 404: // 网络请求不存在,跳转统一报错页面
 
       break
-    case 500:
+    // case 500:
     case 501:
       const code = err.response.data && err.response.data.code
 

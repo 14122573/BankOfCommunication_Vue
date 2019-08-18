@@ -99,7 +99,11 @@ export default {
         switch (openMode) {
         case 'outsite':
           this.$store.commit('SET_SHOWSPACONTENT', false)
-          this.$router.push({name: menu.name})
+          this.$router.push({
+            name: menu.name,
+            params: {
+              sysname: menu.meta.title
+            }})
           let href = this.getRedirctUrl(menu.meta.outsiteLink,key)
           if(href) window.open(href, '_blank')
           break
