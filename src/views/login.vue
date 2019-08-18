@@ -108,7 +108,7 @@
 							<a-form-item>
 								<a-input v-decorator="[
 										'pwd',
-										{   
+										{
 											rules: [{ required: true,whitespace:true, message: '请输入密码!' }, {
 											validator: validateToNextPassword,
 											}]
@@ -430,6 +430,7 @@ export default {
 	.loginFrame {
 		width: 100%;
 		height: 100%;
+    min-height: 700px; min-width: 1000px;
 		margin: 0px;
 		padding: 0px;
 		position: relative;

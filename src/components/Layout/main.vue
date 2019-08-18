@@ -6,7 +6,7 @@
       <router-view />
     </template>
     <template v-else>
-      <a-layout-sider :collapsed="collapsed" breakpoint="lg" collapsedWidth="80">
+      <a-layout-sider :collapsed="collapsed" breakpoint="lg" collapsedWidth="80" width="16%">
         <div id="portalLogo">
           <span class="logo-img"></span><span v-if="!collapsed" class="logo-title">智能渔技</span>
         </div>
@@ -22,7 +22,7 @@
               <NavBar class="navbar" />
               <a-dropdown class="navdropmenu">
                 <span>
-                  <a-icon type="user" /> {{username}} <a-icon type="down" />
+                  <a-icon type="user" /> <span class="name">{{username}}</span><a-icon type="down" />
                 </span>
                 <a-menu slot="overlay" @click="handleClick">
                   <a-menu-item key="person">个人中心</a-menu-item>
@@ -157,18 +157,18 @@ export default {
   color: #2c3e50;
   width: 100%;
   height: 100%;
-  overflow: hidden;
+  /* overflow: hidden; */
 }
-#portal, #layout { width: 100%;  height: 100%;}
 #portalLogo { height: 64px; background: #00284e; width: 100%; text-align: left}
 #portalLogo .logo-img{ float: left;  margin: 10px 10px 0 15px; display: inline-block; width: 44px; height: 44px; background: url('../../assets/images/logo.png'); background-size:100%
  }
 #portalLogo .logo-title{ color: #fff; font-size: 24px; line-height: 64px}
 
-#portalHeader .wrapper { padding: 0 1rem}
-#portalHeader .trigger{ float: left; font-size: 18px; line-height: 20px; margin:24px 16px 0 0}
+#portalHeader .wrapper { padding: 0 2rem}
+#portalHeader .trigger{  float: left; font-size: 18px; line-height: 20px; margin:24px 16px 0 0; cursor: pointer;}
 #portalHeader .navbar {float: left; line-height: 20px; margin-top:22px}
-#portalHeader .navdropmenu{float: right;}
+#portalHeader .navdropmenu{float: right;cursor: pointer;}
+#portalHeader .navdropmenu .name { padding:0 10px}
 
 #AppContent { margin: 24px 16px 0}
 #AppContent .wrapper { padding: 24px; background:#fff; min-height: 98%}
