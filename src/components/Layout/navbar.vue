@@ -2,10 +2,6 @@
   <div class="header">
     <a-breadcrumb>
       <template v-for="(item,index) in list">
-        <!-- <a-breadcrumb-item :key="index">
-            <router-link v-if="checkPath(item.path)" class="navlink" :to="item.path">{{item.title}}</router-link>
-            <span v-else>{{item.title}}</span>
-        </a-breadcrumb-item> -->
         <a-breadcrumb-item :key="index">
           <template v-if="!item.hideBread">
             <router-link v-if="item.showBreadPath" class="navlink" :to="item.path">{{item.title}}</router-link>

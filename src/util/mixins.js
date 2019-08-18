@@ -12,6 +12,7 @@ export const permission = {
         this.$api.GET_USER_INFO, {},
         null,
         (res) => {
+          console.log(res)
           // 本地存储用户基本信息
           let userInfo = res.data.content,
             name = userInfo.username = res.data.content.name||res.data.content.phone

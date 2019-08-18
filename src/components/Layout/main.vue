@@ -7,13 +7,13 @@
     </template>
     <template v-else>
       <a-layout-sider :collapsed="collapsed" breakpoint="lg" collapsedWidth="80">
-        <div id="logo">
+        <div id="portalLogo">
           <span class="logo-img"></span><span v-if="!collapsed" class="logo-title">智能渔技</span>
         </div>
         <SideMenu :menuMode="menuMode" :collapsed="collapsed"></SideMenu>
       </a-layout-sider>
       <a-layout>
-        <a-layout-header id="Header">
+        <a-layout-header id="portalHeader">
           <div class="wrapper">
               <a-icon class="trigger"
                 :type="collapsed ? 'menu-unfold' : 'menu-fold'"
@@ -48,7 +48,7 @@
 import SideMenu from '@/components/Layout/sidemenu'
 import NavBar from '@/components/Layout/navbar'
 import Loader from '@/components/Loader/loader'
-import { permission } from '@/util/mixins'
+import { permission, } from '@/util/mixins'
 
 import Login from '@/views/login'
 
@@ -70,14 +70,19 @@ export default {
   },
   created() {
     let token = this.$cookie.get('token')
-    if (token !=undefined && token !=null && 'String'==typeof token) {
-      this.$ajax.post({
-        url:this.$api.CHECKTOKEN_POST
-      }).then(res =>{
-        this.getInfo()
-      })
+    if (token !=undefined && token !=null ) {
+      // this.$ajax.post(
+      //   this,
+      //   this.$api.CHECKTOKEN_POST, {},
+      //   null,
+      //   (res) => {
+      //     console.log(res)
+      this.getInfo()
+      //   }
+      // )
+    }else{
+      this.plogout()
     }
-    // this.getInfo()
   },
   watch:{
     '$store.state.userName': {
@@ -101,11 +106,28 @@ export default {
       return this.collapsed ? 'inline' : 'vertical'
     },
     showSpaContent(){
-      console.log(this.$store.state.showSpaContent)
       return this.$store.state.showSpaContent
     }
   },
   methods: {
+    plogout(){
+      // this.$ajax.post(
+      //   this,
+      //   this.$api.POST_LOGOUT, {},
+      //   null,
+      //   (res) => {
+      this.$cookie.remove('token')
+      this.$cookie.remove('refresh_token')
+      this.$cookie.remove('userInfo')
+      this.$cookie.remove('redirectUrl')
+      this.$cookie.remove('url')
+      this.$cookie.remove('systemLists')
+      this.$cookie.remove('canEnterBind')
+      this.$router.push({ name: 'login' })
+      //   }
+      // )
+    },
+
     toggleSideCollapsed(){
       this.collapsed = !this.collapsed
     },
@@ -116,18 +138,7 @@ export default {
         })
       }
       if (key == 'logout') {
-        // this.$ajax.post({
-        //   url: this.$api.POST_LOGOUT,
-        // }).then(res => {
-        this.$cookie.remove('token')
-        this.$cookie.remove('refresh_token')
-        this.$cookie.remove('userInfo')
-        this.$cookie.remove('redirectUrl')
-        this.$cookie.remove('url')
-        this.$cookie.remove('systemLists')
-        this.$cookie.remove('canEnterBind')
-        this.$router.push({ name: 'login' })
-        // })
+        this.plogout()
       }
     }
   }
@@ -135,11 +146,11 @@ export default {
 </script>
 
 <style scoped>
-#Header {background:#fff; padding: 0}
+#portalHeader {background:#fff; padding: 0}
 </style>
 
 <style>
-#Layout{
+#portal,#Layout{
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -149,15 +160,15 @@ export default {
   overflow: hidden;
 }
 #portal, #layout { width: 100%;  height: 100%;}
-#logo { height: 64px; background: #00284e; width: 100%; text-align: left}
-#logo .logo-img{ float: left;  margin: 10px 10px 0 15px; display: inline-block; width: 44px; height: 44px; background: url('../../assets/images/logo.png'); background-size:100%
+#portalLogo { height: 64px; background: #00284e; width: 100%; text-align: left}
+#portalLogo .logo-img{ float: left;  margin: 10px 10px 0 15px; display: inline-block; width: 44px; height: 44px; background: url('../../assets/images/logo.png'); background-size:100%
  }
-#logo .logo-title{ color: #fff; font-size: 24px; line-height: 64px}
+#portalLogo .logo-title{ color: #fff; font-size: 24px; line-height: 64px}
 
-#Header .wrapper { padding: 0 1rem}
-#Header .trigger{ float: left; font-size: 18px; line-height: 20px; margin:24px 16px 0 0}
-#Header .navbar {float: left; line-height: 20px; margin-top:22px}
-#Header .navdropmenu{float: right;}
+#portalHeader .wrapper { padding: 0 1rem}
+#portalHeader .trigger{ float: left; font-size: 18px; line-height: 20px; margin:24px 16px 0 0}
+#portalHeader .navbar {float: left; line-height: 20px; margin-top:22px}
+#portalHeader .navdropmenu{float: right;}
 
 #AppContent { margin: 24px 16px 0}
 #AppContent .wrapper { padding: 24px; background:#fff; min-height: 98%}
