@@ -5,13 +5,13 @@ import Store from '@/store'
 import Cookie from '@/util/local-cookie'
 import router from '@/router'
 import {
-	message
+  message
 } from 'ant-design-vue'
 
 // 配置请求的根域名和超时时间
 const Axios = axios.create({
-	baseURL: api.BASE_URL,
-	timeout: 15000,
+  baseURL: api.BASE_URL,
+  timeout: 15000,
 })
 const CancelToken = axios.CancelToken
 let cancelRequest = null
@@ -19,88 +19,88 @@ let cancelRequest = null
 // 根据报错的状态码进行错误处理
 
 const errorHandler = (err) => {
-	const errStatus = (err.response && err.response.status) || (err.data && err.data.errcode)
-	if (errStatus) {
-		switch (errStatus) {
-			case 404: // 网络请求不存在,跳转统一报错页面
+  const errStatus = (err.response && err.response.status) || (err.data && err.data.errcode)
+  if (errStatus) {
+    switch (errStatus) {
+    case 404: // 网络请求不存在,跳转统一报错页面
 
-				break
-			case 500:
-			case 501:
-				const code = err.response.data && err.response.data.code
+      break
+    case 500:
+    case 501:
+      const code = err.response.data && err.response.data.code
 
-				if (code == 911) { // token 获取
-					// token过期则重新获取token或refresh token并刷新页面
-					const params = {
-						grant_type: 'refresh_token',
-						client_id: 'house',
-						client_secret: 'house',
-						refresh_token: Cookie.get('refresh_token'),
-					}
-					request({
-						method: 'POST',
-						url: api.GET_TOKEN,
-						params,
-						contentType: 'application/x-www-form-urlencoded;charset=UTF-8',
-					}).then(res => {
-						Cookie.set('token', res.access_token)
-						Cookie.set('refresh_token', res.refresh_token)
-						router.go(0)
-					})
-				} else if (code == 912) { // refresh token 过期
-					router.push({
-						name: 'login'
-					})
-				} else if (code == 710) { // 自定义错误
-					message.error(err.response.data.msg)
-				} else if (code == 720) { // 必填项校验错误
-					message.error(err.response.data.msg)
-				} else if (code == 740) { // 运行时异常
-					router.push({
-						name: 'networkerr'
-					})
-				} else if (code == 900) { // 无权访问
-					router.push({
-						name: 'noauth'
-					})
-				} else { // 其他错误，统一到网络异常页面
-					router.push({
-						name: 'networkerr'
-					})
-				}
-				break
-			default: // 其他错误，统一到网络异常页面
-				router.push({
-					name: 'networkerr'
-				})
-				break
-		}
-	} else if (err.toString().indexOf('timeout') != -1) { // 统一到网络异常页面
-		router.push({
-			name: 'networkerr'
-		})
-	} else if (err.toString().indexOf('Network Error') != -1) { // 统一到网络异常页面
-		router.push({
-			name: 'networkerr'
-		})
-	}
+      if (code == 911) { // token 获取
+        // token过期则重新获取token或refresh token并刷新页面
+        const params = {
+          grant_type: 'refresh_token',
+          client_id: 'house',
+          client_secret: 'house',
+          refresh_token: Cookie.get('refresh_token'),
+        }
+        request({
+          method: 'POST',
+          url: api.GET_TOKEN,
+          params,
+          contentType: 'application/x-www-form-urlencoded;charset=UTF-8',
+        }).then(res => {
+          Cookie.set('token', res.access_token)
+          Cookie.set('refresh_token', res.refresh_token)
+          router.go(0)
+        })
+      } else if (code == 912) { // refresh token 过期
+        router.push({
+          name: 'login'
+        })
+      } else if (code == 710) { // 自定义错误
+        message.error(err.response.data.msg)
+      } else if (code == 720) { // 必填项校验错误
+        message.error(err.response.data.msg)
+      } else if (code == 740) { // 运行时异常
+        router.push({
+          name: 'networkerr'
+        })
+      } else if (code == 900) { // 无权访问
+        router.push({
+          name: 'noauth'
+        })
+      } else { // 其他错误，统一到网络异常页面
+        router.push({
+          name: 'networkerr'
+        })
+      }
+      break
+    default: // 其他错误，统一到网络异常页面
+      router.push({
+        name: 'networkerr'
+      })
+      break
+    }
+  } else if (err.toString().indexOf('timeout') != -1) { // 统一到网络异常页面
+    router.push({
+      name: 'networkerr'
+    })
+  } else if (err.toString().indexOf('Network Error') != -1) { // 统一到网络异常页面
+    router.push({
+      name: 'networkerr'
+    })
+  }
 }
 
 Axios.interceptors.request.use(config => {
-	const token = Cookie.get('token') || Store.state.token
-	if (token) {
-		config.headers.Authorization = token
-	}
-	return config
+  const token = Cookie.get('token') || Store.state.token
+  if (token) {
+    config.headers.Authorization = token
+  }
+  return config
 }, error => {
-	return Promise.reject(error)
+  return Promise.reject(error)
 })
 
 Axios.interceptors.response.use(response => {
-	return response.data
+  return response.data
 }, error => {
-	errorHandler(error)
-	return error.response
+  errorHandler(error)
+  return error.response
 })
 
 /**
@@ -155,7 +155,7 @@ const request = ({method, url, params, contentType = 'application/json;charset=U
 }
 
 export default {
- /**
+  /**
  * 取消请求
  * @param {String} txt [取消请求时需要显示在控制台的提示信息]
  */
