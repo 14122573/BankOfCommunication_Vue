@@ -16,7 +16,7 @@ export default {
   },
   created() {
     let token = this.$cookie.get('token')
-    if (token !=undefined && token !=null && this.$store.state.pUserName =='') {
+    if (token !=undefined && token !=null && this.$store.state.userName =='') {
       this.getInfo()
     }
   },
