@@ -13,6 +13,6 @@ export default {
 </script>
 
 <style>
-.errTips { width: 300px; height:300px; margin: 150px 0 0 40%; text-align: center; line-height: 30px;}
+.errTips { width: 300px;  margin: 150px auto 0; text-align: center; line-height: 30px;}
 .errTips .img {  margin-bottom: 30px }
 </style>
