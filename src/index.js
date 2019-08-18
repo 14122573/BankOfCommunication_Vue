@@ -7,7 +7,7 @@ import App from '@/components/Layout/main'
 
 import router from './router'
 import store from './store'
-import ajax from './server'
+import ajax from './server/ajax'
 import api from './server/api'
 import cookie from './util/local-cookie'
 import common from './util/common'

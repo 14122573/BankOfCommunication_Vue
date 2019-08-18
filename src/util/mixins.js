@@ -1,4 +1,6 @@
-import {routes} from '@/router/routes.js'
+import {
+  routes
+} from '@/router/routes.js'
 import common from '@/util/common'
 
 export const permission = {
@@ -93,44 +95,46 @@ export const permission = {
 }
 
 function checkHideInBread(routerName) {
-  routerName = routerName?routerName:''
+  routerName = routerName ? routerName : ''
 
-  let targetRouter = findRouerByName(routes,routerName)
-  if( targetRouter && targetRouter.meta && targetRouter.meta.hideInBread){
+  let targetRouter = findRouerByName(routes, routerName)
+  if (targetRouter && targetRouter.meta && targetRouter.meta.hideInBread) {
     return true
-  }else{
+  } else {
     return false
   }
 }
-export {checkHideInBread}
+export {
+  checkHideInBread
+}
 /**
  * 递归遍历所有router，找到某一个router节点
  * @param {Array} allRouter 某一层级的route节点,必传
  * @param {String} routerName 需要查找的路由有名称
  * @returns {Object} 与routerName相同的路由节点
  */
-function findRouerByName (allRouter,routerName){
-  routerName = routerName?routerName:''
+function findRouerByName(allRouter, routerName) {
+  routerName = routerName ? routerName : ''
   let targetRouter
   allRouter.forEach((router) => {
-    if(routerName === router.name){
+    if (routerName === router.name) {
       targetRouter = {
-        path:router.path,
-        name:router.name,
-        meta:router.meta
+        path: router.path,
+        name: router.name,
+        meta: router.meta
       }
 
       return targetRouter
-    }else{
-      if(router.children && router.children.length > 0){
-        let target = findRouerByName(router.children,routerName)
-        if(target && target.name){
+    } else {
+      if (router.children && router.children.length > 0) {
+        let target = findRouerByName(router.children, routerName)
+        if (target && target.name) {
           targetRouter = {
-            path:target.path,
-            name:target.name,
-            meta:target.meta
+            path: target.path,
+            name: target.name,
+            meta: target.meta
           }
-          if(targetRouter.name){//判断当前target是否为 null 或 undefined
+          if (targetRouter.name) { //判断当前target是否为 null 或 undefined
             return targetRouter
           }
         }
@@ -145,21 +149,21 @@ function findRouerByName (allRouter,routerName){
  * @param {Array} authCodeList 当前用户全部权限code
  * @returns {Array} 根据当前传入节点，组装的左侧菜单数组
  */
-function getSideMenu(allRouter,authCodeList) {
+function getSideMenu(allRouter, authCodeList) {
   let authMenu = []
-  authCodeList = authCodeList?authCodeList:[]
+  authCodeList = authCodeList ? authCodeList : []
 
   allRouter.forEach((router) => {
     let menu = {}
-    if (router.meta && router.meta.menuPath ) {
-      if(router.meta.authCode){
-        if(common.oneOf(router.meta.authCode, authCodeList)){
+    if (router.meta && router.meta.menuPath) {
+      if (router.meta.authCode) {
+        if (common.oneOf(router.meta.authCode, authCodeList)) {
           menu = {
             name: router.name,
             meta: router.meta
           }
         }
-      }else{
+      } else {
         menu = {
           name: router.name,
           meta: router.meta
@@ -167,7 +171,7 @@ function getSideMenu(allRouter,authCodeList) {
       }
     }
     if (router.children && router.children.length > 0) {
-      let children = getSideMenu(router.children,authCodeList)
+      let children = getSideMenu(router.children, authCodeList)
       if (children.length > 0) {
         menu.children = children
         if (!menu.name) {
@@ -182,4 +186,3 @@ function getSideMenu(allRouter,authCodeList) {
   })
   return authMenu
 }
-
