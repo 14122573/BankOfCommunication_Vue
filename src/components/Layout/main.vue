@@ -71,15 +71,13 @@ export default {
   created() {
     let token = this.$cookie.get('token')
     if (token !=undefined && token !=null ) {
-      // this.$ajax.post(
-      //   this,
-      //   this.$api.CHECKTOKEN_POST, {},
-      //   null,
-      //   (res) => {
-      //     console.log(res)
-      this.getInfo()
-      //   }
-      // )
+      this.$ajax.post({
+        url: this.$api.CHECKTOKEN_POST,
+        params: {}
+      }).then(res=>{
+        console.log(res)
+        this.getInfo()
+      })
     }else{
       this.plogout()
     }
@@ -111,21 +109,19 @@ export default {
   },
   methods: {
     plogout(){
-      // this.$ajax.post(
-      //   this,
-      //   this.$api.POST_LOGOUT, {},
-      //   null,
-      //   (res) => {
-      this.$cookie.remove('token')
-      this.$cookie.remove('refresh_token')
-      this.$cookie.remove('userInfo')
-      this.$cookie.remove('redirectUrl')
-      this.$cookie.remove('url')
-      this.$cookie.remove('systemLists')
-      this.$cookie.remove('canEnterBind')
-      this.$router.push({ name: 'login' })
-      //   }
-      // )
+      this.$ajax.post({
+        url: this.$api.POST_LOGOUT,
+        params: {}
+      }).then(res=>{
+        this.$cookie.remove('token')
+        this.$cookie.remove('refresh_token')
+        this.$cookie.remove('userInfo')
+        this.$cookie.remove('redirectUrl')
+        this.$cookie.remove('url')
+        this.$cookie.remove('systemLists')
+        this.$cookie.remove('canEnterBind')
+        this.$router.push({ name: 'login' })
+      })
     },
 
     toggleSideCollapsed(){
