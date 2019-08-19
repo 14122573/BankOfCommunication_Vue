@@ -167,6 +167,6 @@ export default {
 #portalHeader .navdropmenu .name { padding:0 10px}
 
 #AppContent { margin: 24px 16px 0}
-#AppContent .wrapper { padding: 24px; background:#fff; min-height: 98%}
+#AppContent .wrapper { background:#fff; min-height: 98%}
 
 </style>
