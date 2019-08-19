@@ -20,16 +20,16 @@ let cancelRequest = null
 
 const errorHandler = (err) => {
   const errStatus = (err.response && err.response.status) || (err.data && err.data.errcode)
+  // console.log( typeof errStatus,'errStatus')
   if (errStatus) {
     switch (errStatus) {
     case 404: // 网络请求不存在,跳转统一报错页面
 
       break
-    // case 500:
-    case 501:
+    case 500:
       const code = err.response.data && err.response.data.code
-
-      if (code == 911) { // token 获取
+      if (code == '911') { // token 获取
+        console.log(911)
         // token过期则重新获取token或refresh token并刷新页面
         const params = {
           grant_type: 'refresh_token',
@@ -39,27 +39,32 @@ const errorHandler = (err) => {
         }
         request({
           method: 'POST',
-          url: api.GET_TOKEN,
+          url: api.REFRESH_TOKEN_POST,
           params,
           contentType: 'application/x-www-form-urlencoded;charset=UTF-8',
         }).then(res => {
-          Cookie.set('token', res.access_token)
-          Cookie.set('refresh_token', res.refresh_token)
-          router.go(0)
+          if(res.code === '912'){
+            router.push('/login')
+            return
+          }else{
+            Cookie.set('token', res.access_token)
+            Cookie.set('refresh_token', res.refresh_token)
+            router.go(0)
+          }
         })
-      } else if (code == 912) { // refresh token 过期
+      } else if (code == '912') { // refresh token 过期
         router.push({
           name: 'login'
         })
-      } else if (code == 710) { // 自定义错误
+      } else if (code == '710') { // 自定义错误
         message.error(err.response.data.msg)
-      } else if (code == 720) { // 必填项校验错误
+      } else if (code == '720') { // 必填项校验错误
         message.error(err.response.data.msg)
-      } else if (code == 740) { // 运行时异常
+      } else if (code =='740') { // 运行时异常
         router.push({
           name: 'networkerr'
         })
-      } else if (code == 900) { // 无权访问
+      } else if (code == '900') { // 无权访问
         router.push({
           name: 'noauth'
         })
