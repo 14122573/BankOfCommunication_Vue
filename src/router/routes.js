@@ -55,6 +55,18 @@ const appRoutes = [{
       meta: { title: '个人中心' },
     },
     {
+      path: '/systemManagement',
+      name: 'systemManagement',
+      component: contentOrganization,
+      meta: { title: '系统管理', menuPath: true, authCode: 'S0501', menuIcon: 'setting', hideInBread: true },
+      children: [{
+        path: '/systemManagement/organization',
+        name: '/systemManagement/organization',
+        component: Organization,
+        meta: { title: '组织机构管理', menuPath: true, authCode: 'S050101', menuIcon: 'cluster', hideInBread: false, openMode: 'normal' }
+      }]
+    },
+    {
       path: '/scsd',
       name: 'scsd',
       component: contentWrapper,
@@ -95,18 +107,6 @@ const appRoutes = [{
         meta: { title: '评审结果信息', menuPath: true, authCode: 'S050107', menuIcon: 'audit', hideInBread: false, openMode: 'spa' },
       },
       ]
-    },
-    {
-      path: '/systemManagement',
-      name: 'systemManagement',
-      component: contentOrganization,
-      meta: { title: '系统管理', menuPath: true, authCode: 'S0501', menuIcon: 'setting', hideInBread: true },
-      children: [{
-        path: '/systemManagement/organization',
-        name: '/systemManagement/organization',
-        component: Organization,
-        meta: { title: '组织机构管理', menuPath: true, authCode: 'S050101', menuIcon: 'cluster', hideInBread: false, openMode: 'normal' }
-      }]
     },
     { path: '/SCYJ/:sysname', name: 'SCYJ',component: TipsOutsite,
       meta: { title: '水产预警系统', menuPath:true, authCode:'SCYJ', menuIcon:'alert', hideInBread:false, openMode:'outsite', outsiteLink:'http://47.102.155.97:8080' },
