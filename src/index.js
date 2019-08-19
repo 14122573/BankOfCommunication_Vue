@@ -27,7 +27,8 @@ import {
   Dropdown,
   Row,
   Col,
-  Checkbox
+  Checkbox,
+	Alert
 } from 'ant-design-vue'
 
 import singleSpaVue from 'single-spa-vue'
@@ -45,6 +46,7 @@ Vue.use(Dropdown)
 Vue.use(Row)
 Vue.use(Col)
 Vue.use(Checkbox)
+Vue.use(Alert)
 Vue.config.productionTip = false
 Vue.prototype.$ajax = ajax
 Vue.prototype.$api = api
