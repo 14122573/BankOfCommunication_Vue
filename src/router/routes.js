@@ -89,6 +89,7 @@ const appRoutes = [{
         path: '/scsd/local/scsdLocal',
         name: '/scsd/local/scsdLocal',
         meta: { title: '现场审定专家代录入', menuPath: true, authCode: 'S050106', menuIcon: 'setting', hideInBread: false, openMode: 'spa' },
+
       },
       {
         path: '/scsd/review/scsdReview',
@@ -106,32 +107,20 @@ const appRoutes = [{
         path: '/systemManagement/organization',
         name: '/systemManagement/organization',
         component: Organization,
-        meta: { title: '组织机构', menuPath: true, authCode: 'S050101', menuIcon: 'setting', hideInBread: false, openMode: 'normal' }
+        meta: { title: '组织机构管理', menuPath: true, authCode: 'S050101', menuIcon: 'setting', hideInBread: false, openMode: 'normal' }
       }]
     },
-    {
-      path: '/SCYJ/:sysname',
-      name: 'SCYJ',
-      component: TipsOutsite,
-      meta: { title: '水产预警', menuPath: true, authCode: 'SCYJ', menuIcon: 'setting', hideInBread: false, openMode: 'outsite', outsiteLink: 'http://yjyb.szjoin.net/Sso' },
+    { path: '/SCYJ/:sysname', name: 'SCYJ',component: TipsOutsite,
+      meta: { title: '水产预警系统', menuPath:true, authCode:'SCYJ', menuIcon:'setting', hideInBread:false, openMode:'outsite', outsiteLink:'http://47.102.155.97:8080' },
     },
-    {
-      path: '/YQCB/:sysname',
-      name: 'YQCB',
-      component: TipsOutsite,
-      meta: { title: '全国水产养殖动植物病情测报系统', menuPath: true, menuIcon: 'setting', authCode: 'YQCB', hideInBread: false, openMode: 'outsite', outsiteLink: 'http://yjyb.szjoin.net/Sso' },
+    { path: '/YQCB/:sysname', name: 'YQCB',component: TipsOutsite,
+      meta: { title: '全国水产养殖动植物病情测报系统', menuPath:true, menuIcon:'setting', authCode:'YQCB', hideInBread:false, openMode:'outsite', outsiteLink:'http://47.102.155.97:8081' },
     },
-    {
-      path: '/ZXJC/:sysname',
-      name: 'ZXJC',
-      component: TipsOutsite,
-      meta: { title: '国家水生动物疫病监测信息管理系统', menuPath: true, menuIcon: 'setting', authCode: 'ZXJC', hideInBread: false, openMode: 'outsite', outsiteLink: 'http://yjyb.szjoin.net/Sso' },
+    { path: '/ZXJC/:sysname', name: 'ZXJC',component: TipsOutsite,
+      meta: { title: '国家水生动物疫病监测信息管理系统', menuPath:true, menuIcon:'setting', authCode:'ZXJC', hideInBread:false, openMode:'outsite', outsiteLink:'http://47.102.155.97:8082' },
     },
-    {
-      path: '/NYPC/:sysname',
-      name: 'NYPC',
-      component: TipsOutsite,
-      meta: { title: '水产养殖动物病原菌耐药性普查数据分析系统', menuPath: true, menuIcon: 'setting', authCode: 'NYPC', hideInBread: false, openMode: 'outsite', outsiteLink: 'http://yjyb.szjoin.net/Sso' },
+    { path: '/NYPC/:sysname', name: 'NYPC',component: TipsOutsite,
+      meta: { title: '水产养殖动物病原菌耐药性普查数据分析系统', menuPath:true, menuIcon:'setting', authCode:'NYPC', hideInBread:false, openMode:'outsite', outsiteLink:'http://47.102.155.97:8083' }
     },
   ],
 },
