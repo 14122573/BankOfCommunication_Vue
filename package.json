@@ -9,6 +9,7 @@
     "start": "npm run dev",
     "lint": "eslint --fix --ext .js,.vue src",
     "build": "cross-env NODE_ENV='production' node build/build.js",
+    "build:devol": "cross-env NODE_ENV='devol' node build/build.js",
     "build:sit": "cross-env NODE_ENV='sit' node build/build.js",
     "build:uat": "cross-env NODE_ENV='uat' node build/build.js"
   },
