@@ -84,7 +84,7 @@ export default {
         this.getInfo()
       })
     }else{
-      this.plogout()
+      this.plogout(true)
     }
   },
   watch:{
