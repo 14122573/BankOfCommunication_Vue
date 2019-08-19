@@ -21,6 +21,8 @@ const contentOrganization = () =>
     import ('@/views/systemManagement/content-organization')
 const Organization = () =>
     import ('@/views/systemManagement/organization/list')
+const OrganizationUpload = () =>
+    import ('@/views/systemManagement/organization/upload')
 
 /**
  * 要求：
@@ -107,7 +109,14 @@ const appRoutes = [{
         name: '/systemManagement/organization',
         component: Organization,
         meta: { title: '组织机构', menuPath: true, authCode: 'S050101', menuIcon: 'setting', hideInBread: false, openMode: 'normal' }
-      }]
+      },
+      {
+        path: '/systemManagement/organization/upload',
+        name: '/systemManagement/organization/upload',
+        component: OrganizationUpload,
+        meta: { title: '导入', menuPath: false, authCode: 'S050101', menuIcon: 'setting', hideInBread: false, openMode: 'normal' }
+      }
+      ]
     },
     {
       path: '/SCYJ/:sysname',

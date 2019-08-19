@@ -25,7 +25,7 @@ const errorHandler = (err) => {
     case 404: // 网络请求不存在,跳转统一报错页面
 
       break
-    // case 500:
+      // case 500:
     case 501:
       const code = err.response.data && err.response.data.code
 
@@ -56,33 +56,33 @@ const errorHandler = (err) => {
       } else if (code == 720) { // 必填项校验错误
         message.error(err.response.data.msg)
       } else if (code == 740) { // 运行时异常
-        router.push({
-          name: 'networkerr'
-        })
+        // router.push({
+        //     name: 'networkerr'
+        // })
       } else if (code == 900) { // 无权访问
-        router.push({
-          name: 'noauth'
-        })
+        // router.push({
+        //     name: 'noauth'
+        // })
       } else { // 其他错误，统一到网络异常页面
-        router.push({
-          name: 'networkerr'
-        })
+        // router.push({
+        //     name: 'networkerr'
+        // })
       }
       break
     default: // 其他错误，统一到网络异常页面
-      router.push({
-        name: 'networkerr'
-      })
+      // router.push({
+      //     name: 'networkerr'
+      // })
       break
     }
   } else if (err.toString().indexOf('timeout') != -1) { // 统一到网络异常页面
-    router.push({
-      name: 'networkerr'
-    })
+    // router.push({
+    //     name: 'networkerr'
+    // })
   } else if (err.toString().indexOf('Network Error') != -1) { // 统一到网络异常页面
-    router.push({
-      name: 'networkerr'
-    })
+    // router.push({
+    //     name: 'networkerr'
+    // })
   }
 }
 
@@ -111,7 +111,7 @@ Axios.interceptors.response.use(response => {
  * @param {String} contentType [请求头，默认为'application/json;charset=UTF-8']
  * @param {Boolean} hideLoading [隐藏请求时的loading图，默认为false]
  */
-const request = ({method, url, params, contentType = 'application/json;charset=UTF-8', hideLoading = false}) => {
+const request = ({ method, url, params, contentType = 'application/json;charset=UTF-8', hideLoading = false }) => {
   if (!url || typeof(url) != 'string') {
     throw new Error('接口URL不正确')
   }
@@ -130,12 +130,12 @@ const request = ({method, url, params, contentType = 'application/json;charset=U
     }),
   }
   if (method === 'GET') {
-    config = Object.assign(config, {params})
+    config = Object.assign(config, { params })
   } else {
     if (contentType.toLowerCase().indexOf('x-www-form-urlencoded') >= 0) {
-      config = Object.assign(config, {data: qs.stringify(params)})
+      config = Object.assign(config, { data: qs.stringify(params) })
     } else {
-      config = Object.assign(config, {data: params})
+      config = Object.assign(config, { data: params })
     }
   }
   if (!hideLoading) {
@@ -156,9 +156,9 @@ const request = ({method, url, params, contentType = 'application/json;charset=U
 
 export default {
   /**
- * 取消请求
- * @param {String} txt [取消请求时需要显示在控制台的提示信息]
- */
+     * 取消请求
+     * @param {String} txt [取消请求时需要显示在控制台的提示信息]
+     */
   cancel(txt = '取消请求') {
     Store.commit('SET_LOADING', false)
     if (typeof(cancelRequest) === 'function') {
@@ -166,16 +166,16 @@ export default {
     }
   },
   get(args) {
-    return request({method: 'GET', ...args})
+    return request({ method: 'GET', ...args })
   },
   post(args) {
-    return request({method: 'POST', ...args})
+    return request({ method: 'POST', ...args })
   },
   put(args) {
-    return request({method: 'PUT', ...args})
+    return request({ method: 'PUT', ...args })
   },
   delete(args) {
-    return request({method: 'DELETE', ...args})
+    return request({ method: 'DELETE', ...args })
   },
   all(...ajaxs) {
     return Promise.all(ajaxs)

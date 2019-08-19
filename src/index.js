@@ -14,22 +14,26 @@ import common from './util/common'
 import PermissionControl from './util/permission-control.js' // 权限自定义指令 v-permission="code"
 import { PermissionFilter } from './util/permission-filter.js' // 权限全局方法 v-if="$permission('code')"
 import {
-    Button,
-    message,
-    Spin,
-    Layout,
-    Menu,
-    Icon,
-    Breadcrumb,
-    Form,
-    Input,
-    Card,
-    Dropdown,
-    Row,
-    Col,
-    Checkbox,
-    Select,
-    Alert
+  Button,
+  message,
+  Spin,
+  Layout,
+  Menu,
+  Icon,
+  Breadcrumb,
+  Form,
+  Input,
+  Card,
+  Dropdown,
+  Row,
+  Col,
+  Checkbox,
+  Select,
+  Alert,
+  Table,
+  Divider,
+  Upload,
+  Modal
 } from 'ant-design-vue'
 
 import singleSpaVue from 'single-spa-vue'
@@ -49,6 +53,10 @@ Vue.use(Col)
 Vue.use(Checkbox)
 Vue.use(Select)
 Vue.use(Alert)
+Vue.use(Table)
+Vue.use(Divider)
+Vue.use(Upload)
+Vue.use(Modal)
 Vue.config.productionTip = false
 Vue.prototype.$ajax = ajax
 Vue.prototype.$api = api
@@ -60,25 +68,25 @@ Vue.prototype.$store = store
 
 Vue.config.productionTip = false
 const vueLifecycles = singleSpaVue({
-    Vue,
-    appOptions: {
-        el: '#portal',
-        router,
-        store,
-        render: h => h('div', {
-            attrs: { id: 'Layout' }
-        }, [h(App)]),
-    },
+  Vue,
+  appOptions: {
+    el: '#portal',
+    router,
+    store,
+    render: h => h('div', {
+      attrs: { id: 'Layout' }
+    }, [h(App)]),
+  },
 })
 
 export const bootstrap = [
-    vueLifecycles.bootstrap,
+  vueLifecycles.bootstrap,
 ]
 
 export const mount = [
-    vueLifecycles.mount,
+  vueLifecycles.mount,
 ]
 
 export const unmount = [
-    vueLifecycles.unmount,
+  vueLifecycles.unmount,
 ]
