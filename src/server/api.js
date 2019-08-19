@@ -1,7 +1,7 @@
 let BASE_URL = ''
 switch (process.env.NODE_ENV) {
 case 'sit': // sit环境下
-  BASE_URL = 'https://tw.devops.omniview.pro/api'
+  BASE_URL = 'http://iftp.omniview.pro/api'
   break
 case 'uat': // uat环境下
   BASE_URL = 'https://tw.devops.omniview.pro/api'
