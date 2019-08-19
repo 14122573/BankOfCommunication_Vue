@@ -1,4 +1,4 @@
-const Layout = () => import('@/components/Layout/main')
+// const Layout = () => import('@/components/Layout/main')
 const contentWrapper = () => import('@/components/Layout/content-wrapper')
 const TipsNetworkErr  = () => import( '@/views/tips/network')
 const TipsNoAuth  = () => import( '@/views/tips/auth')
