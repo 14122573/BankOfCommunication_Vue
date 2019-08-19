@@ -30,6 +30,6 @@ export default {
   POST_BIND_USERINFO_BIND:'/service-user/user/public/bind/phone/check',//绑定用户信息 (true)
   GET_SELECT_SYSTEM:'/service-user/user/public/login/chooseSys',//选择系统
   GET_CHECK_PHONE:'/service-user/user/public/check/phone/bind',//是否绑定
-  POST_FIND_PASSWORD:'/public/forget/pwd'//找回密码
+  POST_FIND_PASSWORD:'/service-user/user/public/forget/pwd'//找回密码
 
 }

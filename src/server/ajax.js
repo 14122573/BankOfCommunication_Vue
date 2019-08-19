@@ -56,33 +56,33 @@ const errorHandler = (err) => {
       } else if (code == 720) { // 必填项校验错误
         message.error(err.response.data.msg)
       } else if (code == 740) { // 运行时异常
-        // router.push({
-        //     name: 'networkerr'
-        // })
+        router.push({
+          name: 'networkerr'
+        })
       } else if (code == 900) { // 无权访问
-        // router.push({
-        //     name: 'noauth'
-        // })
+        router.push({
+          name: 'noauth'
+        })
       } else { // 其他错误，统一到网络异常页面
-        // router.push({
-        //     name: 'networkerr'
-        // })
+        router.push({
+          name: 'networkerr'
+        })
       }
       break
     default: // 其他错误，统一到网络异常页面
-      // router.push({
-      //     name: 'networkerr'
-      // })
+      router.push({
+        name: 'networkerr'
+      })
       break
     }
   } else if (err.toString().indexOf('timeout') != -1) { // 统一到网络异常页面
-    // router.push({
-    //     name: 'networkerr'
-    // })
+    router.push({
+      name: 'networkerr'
+    })
   } else if (err.toString().indexOf('Network Error') != -1) { // 统一到网络异常页面
-    // router.push({
-    //     name: 'networkerr'
-    // })
+    router.push({
+      name: 'networkerr'
+    })
   }
 }
 

@@ -33,7 +33,8 @@ import {
   Table,
   Divider,
   Upload,
-  Modal
+  Modal,
+  badge
 } from 'ant-design-vue'
 
 import singleSpaVue from 'single-spa-vue'
@@ -57,6 +58,7 @@ Vue.use(Table)
 Vue.use(Divider)
 Vue.use(Upload)
 Vue.use(Modal)
+Vue.use(badge)
 Vue.config.productionTip = false
 Vue.prototype.$ajax = ajax
 Vue.prototype.$api = api

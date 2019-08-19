@@ -299,15 +299,21 @@ export default {
             url: sendLink,
             params: transData
           }).then(res => {
-            this.$cookie.set('url', res.data.content.redirectUrl)
-            if (this.$cookie.get('url') != 'null' && this.$cookie.get('url') != 'undefined') {
-              window.open(this.$cookie.get('url'), '_parent')
+            let gainDatas = res.data.content
+            if (gainDatas.redirectUrl) {
+              window.open(gainDatas.redirectUrl, '_parent')
             } else {
-              this.$cookie.set('token', res.data.content.access_token)
-              this.$cookie.set('refresh_token', res.data.content.refresh_token)
-              this.$router.push({
-                name: 'home',
-              })
+              if (String(gainDatas.isNew) == 'true') {
+                this.$cookie.set('token', gainDatas.access_token)
+                this.$cookie.set('refresh_token', gainDatas.refresh_token)
+                this.$router.push({
+                  name: 'home',
+                })
+              } else {
+                const openUrl = gainDatas.url + '?userId=' + gainDatas.userId + '&access_token=' + gainDatas.access_token +
+										'&refresh_token=' + gainDatas.refresh_token
+                window.open(openUrl, '_parent')
+              }
             }
           })
         }
@@ -339,15 +345,21 @@ export default {
         url: this.$api.GET_SELECT_SYSTEM + links,
         params: {}
       }).then(res => {
-        this.$cookie.set('url', res.data.content.redirectUrl)
-        if (this.$cookie.get('redirectUrl') != undefined) {
-          window.open(this.$cookie.get('url'), '_parent')
+        let gainDatas = res.data.content
+        if (gainDatas.redirectUrl) {
+          window.open(gainDatas.redirectUrl, '_parent')
         } else {
-          this.$cookie.set('token', res.data.content.access_token)
-          this.$cookie.set('refresh_token', res.data.content.refresh_token)
-          this.$router.push({
-            name: 'home'
-          })
+          if (String(gainDatas.isNew) == 'true') {
+            this.$cookie.set('token', gainDatas.access_token)
+            this.$cookie.set('refresh_token', gainDatas.refresh_token)
+            this.$router.push({
+              name: 'home',
+            })
+          } else {
+            const openUrl = gainDatas.url + '?userId=' + gainDatas.userId + '&access_token=' + gainDatas.access_token +
+								'&refresh_token=' + gainDatas.refresh_token
+            window.open(openUrl, '_parent')
+          }
         }
       })
     },
