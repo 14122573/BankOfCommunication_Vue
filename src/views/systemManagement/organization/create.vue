@@ -1,6 +1,6 @@
 <template>
 	<a-card :bordered='false'>
-		<a-row type="flex" justify="space-between" align="middle">
+		<a-row type="flex" justify="space-between" slot="title" align="middle">
 			<a-col>组织机构创建</a-col>
 			<a-col>
 				<a-button type="primary" ghost @click="handleReturn">
@@ -11,7 +11,7 @@
 				</a-button>
 			</a-col>
 		</a-row>
-		<a-form layout="inline">
+		<a-form>
 			<a-row type="flex" justify="start" align="middle">
 				<a-col :span="8">
 					<a-form-item label="组织机构名称" v-bind="formItemLayout">
@@ -43,15 +43,16 @@
 			</a-row>
 			<a-row type="flex" justify="start" align="middle">
 				<a-col :span="16">
-					<a-form-item label="地址" v-bind="formItemLayout">
-						<a-input placeholder="地址" v-model="position" />
+					<a-form-item label="地址" v-bind="formItemSingle">
+						<a-input placeholder="请输入地址信息(格式要求:XX省XX市XX县XX乡镇XX路XX号)" @blur="handleSearchPoint" />
 					</a-form-item>
 				</a-col>
 			</a-row>
 			<a-row type="flex" justify="start" align="middle">
 				<a-col :span="16">
-					<a-form-item label="地址微调">
-						<BMapComponent :height="250" :width="830" :keyWords="position" :position="positionXY" @on-change="getNewAddress" />
+					<a-form-item label="地址微调" v-bind="formItemSingle">
+						<BMapComponent :height="250" :width="830" :keyWords="position" :position="positionXY" @on-result="gainSearchList"
+						 @on-change="getNewAddress" />
 					</a-form-item>
 				</a-col>
 			</a-row>
@@ -69,10 +70,18 @@ export default {
     return {
       formItemLayout: {
         labelCol: {
-          span: 2
+          span: 8
         },
         wrapperCol: {
-          span: 8
+          span: 14
+        },
+      },
+      formItemSingle: {
+        labelCol: {
+          span: 4
+        },
+        wrapperCol: {
+          span: 19
         },
       },
       position: '',
@@ -84,8 +93,15 @@ export default {
 
     },
     handleReturn() {},
+    handleSearchPoint(e) {
+      const value = e.target.value
+      this.position=value
+    },
     //拖拽或点击获取新的地址
     getNewAddress(data, addressTemp) {},
+    gainSearchList(val) {
+      this.positionList = val.Ar
+    }
 
   }
 }

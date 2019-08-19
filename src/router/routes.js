@@ -21,7 +21,8 @@ const contentOrganization = () =>
     import ('@/views/systemManagement/content-organization')
 const Organization = () =>
     import ('@/views/systemManagement/organization/list')
-
+const OrganizationCreate = () =>
+    import ('@/views/systemManagement/organization/create')
 /**
  * 要求：
  *  1、配置Router时，需将此router的权限编码信息、打开方式信息、是否在面包屑隐藏信息、是否为左侧菜单、是否有菜单图标配置在内。
@@ -64,6 +65,12 @@ const appRoutes = [{
         name: '/systemManagement/organization',
         component: Organization,
         meta: { title: '组织机构管理', menuPath: true, authCode: 'S050101', menuIcon: 'cluster', hideInBread: false, openMode: 'normal' }
+      },
+      {
+			  path: '/organization/create',
+			  name: '/organization/create',
+			  component: OrganizationCreate,
+			  meta: { title: '组织机构创建', menuPath: false, authCode: 'S050101', menuIcon: 'cluster', hideInBread: false, openMode: 'normal' }
       }]
     },
     {

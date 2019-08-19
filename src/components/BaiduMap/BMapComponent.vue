@@ -84,7 +84,9 @@ export default {
           // 判断状态是否正确
           if (local.getStatus() == BMAP_STATUS_SUCCESS) {
             //返回搜索结果
-            vm.$emit('on-result', results)
+            // console.log(results,"3232");
+            vm.setPlace(results.Ar[0].point)
+            // vm.$emit('on-result', results)
           }
         }
       }
