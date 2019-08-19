@@ -28,7 +28,7 @@ import {
   Row,
   Col,
   Checkbox,
-	Alert
+  Alert
 } from 'ant-design-vue'
 
 import singleSpaVue from 'single-spa-vue'

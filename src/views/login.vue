@@ -222,325 +222,325 @@
 </template>
 
 <script>
-	import {
-		permission
-	} from '@/util/mixins'
-	import testStrong from '@/components/testPwd'
-	export default {
-		name: 'Login',
-		components: {
-			testStrong
-		},
-		mixins: [permission],
-		beforeCreate() {
-			this.formLogin = this.$form.createForm(this)
-			this.formRegister = this.$form.createForm(this)
-		},
-		data() {
-			return {
-				pageType: 'login',
-				btnTxt: '发送验证码',
-				disableBtn: true,
-				timer: null,
-				disableCode: false,
-				loginFailMsg: '',
-				visibleError: false
-			}
-		},
-		mounted() {
-			this.setUrl()
-		},
-		computed: {
-			sysCode() {
-				const code = String(this.getQueryString('sysCode'))
-				return code
-			},
-			redirectUrlPrefix() {
-				const code = String(this.getQueryString('redirectUrl'))
-				return code
-			}
-		},
-		methods: {
-			//存储redirectUrl
-			setUrl() {
-				if (this.redirectUrlPrefix != 'null') {
-					this.$cookie.set('redirectUrl', this.getQueryString('redirectUrl') + '&sysCode=' + String(this.getQueryString(
-						'sysCode')))
-				}
-			},
-			//登录操作
-			handleLogin(e) {
-				this.formLogin.validateFields((err, values) => {
-					if (!err) {
-						let params = values
-						if (this.redirectUrlPrefix != 'null') {
-							params.redirectUrl = this.$cookie.get('redirectUrl')
-						}
-						this.$ajax.post({
-							url: this.$api.POST_LOGIN,
-							params: params
-						}).then(res => {
-							if (res.code == '200') {
-								this.$cookie.set('canEnterBind', '200')
-								this.jumpOpeation(res)
-								this.visibleError = false;
-							} else {
-								this.loginFailMsg = res.data.msg
-								this.visibleError = true;
-							}
-						})
-					}
-				})
-			},
-			//跳转操作
-			jumpOpeation(res) {
-				let gainDatas = res.data.content
-				if (res.msg == 'choose') {
-					//存储系统列表
-					this.$cookie.set('systemLists', JSON.stringify(gainDatas))
-					if (this.sysCode != 'null') {
-						//列表存在该code  存在去匹配code值去获取跳转路径 不存在去绑定
-						let data = gainDatas.find(item => item.sysDic.sysCode == this.sysCode)
-						if (data) {
-							let links = '?userId=' + data.id
-							if (this.redirectUrlPrefix != 'null') {
-								links = links + '&redirectUrl=' + this.$cookie.get('redirectUrl')
-							}
-							this.$ajax.get({
-								url: this.$api.GET_SELECT_SYSTEM + links,
-								params: {}
-							}).then(res => {
-								let gainDatas = res.data.content
-								if (res.msg != 'bind') {
-									//不需要绑定
-									if (gainDatas.redirectUrl) {
-										window.open(gainDatas.redirectUrl, '_parent')
-										this.$cookie.set('canEnterBind', '500')
-									}
-								} else {
-									//去绑定
-									this.$router.push({
-										name: 'bindPhone',
-										query: {
-											id: gainDatas
-										}
-									})
-								}
-							})
-						} else {
-							this.$router.push({
-								name: 'bindPhone',
-							})
-						}
-					} else {
-						this.$router.push({
-							name: 'bindPhone',
-						})
-					}
-				} else if (res.msg == 'bind') {
-					this.$router.push({
-						name: 'bindPhone',
-						query: {
-							id: gainDatas
-						}
-					})
-				} else if (res.msg == 'success') {
-					if (gainDatas.redirectUrl) {
-						window.open(this.$cookie.get('url'), '_parent')
-						this.$cookie.set('canEnterBind', '500')
-					} else {
-						this.$cookie.set('token', gainDatas.access_token)
-						this.$cookie.set('refresh_token', gainDatas.refresh_token)
-						this.$router.push({
-							name: 'home',
-						})
-						// 						if (gainDatas.isNew == true) {
-						// 							this.$cookie.set('token', gainDatas.access_token)
-						// 							this.$cookie.set('refresh_token', gainDatas.refresh_token)
-						// 							this.$router.push({
-						// 								name: 'home',
-						// 							})
-						// 						} else {
-						// 							const openUrl = gainDatas.url + "?userId" + gainDatas.userId + "&access_token=" + gainDatas.access_token +
-						// 								"&refresh_token=" + gainDatas.refresh_token;
-						// 							window.open(openUrl, '_parent')
-						// 							this.$cookie.set('canEnterBind', '500')
-						// 						}
-					}
-				}
-			},
-			//关闭login错误提示框
-			handleClose() {
-				this.visibleError = false
-			},
-			//提交注册
-			handleRegister() {
-				this.formRegister.validateFields((err, values) => {
-					if (!err) {
-						let params = values
-						if (this.redirectUrlPrefix != 'null') {
-							params.redirectUrl = this.$cookie.get('redirectUrl')
-						}
-						this.$ajax.post({
-							url: this.$api.POST_REGISTER,
-							params: params
-						}).then(res => {
-							if (res.code == '200') {
-								this.$message.success('注册成功！')
-								this.pageType = 'login'
-							} else {
-								this.$message.error(res.msg)
-							}
-						})
-					}
-				})
-			},
-			//提交找回密码
-			handleFindPwd() {
-				this.formRegister.validateFields((err, values) => {
-					if (!err) {
-						const params = Object.assign(values, {
-							newPwd: values.pwd
-						})
-						delete params['pwd']
-						delete params['rePassword']
-						this.$ajax.post({
-							url: this.$api.POST_FIND_PASSWORD,
-							params: params
-						}).then(res => {
-							if (res.code == '200') {
-								this.$message.success('找回密码成功！')
-								this.pageType = 'login'
-							} else {
-								this.$message.error(res.msg)
-							}
-						})
-					}
-				})
-			},
-			//验证账户是否合法
-			validateAccount(rule, value, callback) {
-				if (!value || value == undefined || value.split(' ').join('').length === 0) {
-					callback('请输入账户或手机号!')
-				} else {
-					callback()
-				}
-			},
-			//得到url传递参数
-			getQueryString(name) {
-				var reg = new RegExp('(^|&)' + name + '=([^&]*)(&|$)', 'i')
-				var reg_rewrite = new RegExp('(^|/)' + name + '/([^/]*)(/|$)', 'i')
-				var r = window.location.search.substr(1).match(reg)
-				var q = window.location.pathname.substr(1).match(reg_rewrite)
-				if (r != null) {
-					return unescape(r[2])
-				} else if (q != null) {
-					return unescape(q[2])
-				} else {
-					return null
-				}
-			},
-			//手机验证码校验
-			validateCode(rule, value, callback) {
-				if (!value || value == undefined || value.split(' ').join('').length === 0) {
-					callback('请输入手机验证码!')
-				} else {
-					if (!/^\d{6}$/.test(value)) {
-						callback('请输入6位数字验证码!')
-					} else {
-						callback()
-					}
-				}
-			},
-			//校验手机号
-			validatePhone(rule, value, callback) {
-				if (!value || value == undefined || value.split(' ').join('').length === 0) {
-					callback('请输入手机号!')
-				} else {
-					if (!this.$com.checkPhone(value)) {
-						callback('手机号输入不合法!')
-					} else {
-						let links = '?phone=' + this.formRegister.getFieldValue('username')
-						if (this.redirectUrlPrefix != 'null') {
-							links = links + '&redirectUrl=' + this.$cookie.get('redirectUrl')
-						}
-						this.$ajax.get({
-							url: this.$api.GET_CHECK_PHONE + links,
-							params: {}
-						}).then(res => {
-							if (res.data.content == false) {
-								this.disableBtn = false
-								callback()
-							} else {
-								callback('此用户已经存在!')
-							}
-						})
-					}
-				}
-			},
-			//校验手机号--忘记密码
-			validatePhoneForget(rule, value, callback) {
-				if (!value || value == undefined || value.split(' ').join('').length === 0) {
-					callback('请输入手机号!')
-				} else {
-					if (!this.$com.checkPhone(value)) {
-						callback('手机号输入不合法!')
-					} else {
-						callback()
-					}
-				}
-			},
-			//发送验证码
-			sendCode() {
-				let links = ''
-				if (this.redirectUrlPrefix != 'null') {
-					links = '?redirectUrl=' + this.$cookie.get('redirectUrl')
-				}
-				this.$ajax.get({
-					url: this.$api.GET_SEND_CODE.replace('{phone}', this.formRegister.getFieldValue('username')) + links,
-					params: {}
-				}).then(res => {
-					if (res.code == '200') {
-						this.disableCode = false
-						this.disableBtn = true
-						let num = 60
-						const interval = () => {
-							this.timer = setInterval(() => {
-								if (num <= 0) {
-									this.clearTimer()
-									return
-								}
-								this.btnTxt = (num -= 1) + 's'
-							}, 1000)
-						}
-						interval()
-					}
-				})
-			},
-			//密码重复密码校验
-			validateToNextPassword(rule, value, callback) {
-				const form = this.formRegister
-				if (value && this.confirmDirty) {
-					form.validateFields(['rePassword'], {
-						force: true
-					})
-				}
-				callback()
-			},
-			compareToFirstPassword(rule, value, callback) {
-				const form = this.formRegister
-				if (value && value !== form.getFieldValue('pwd')) {
-					callback('密码输入不一致!')
-				} else {
-					callback()
-				}
-			},
-			handleConfirmBlur(e) {
-				const value = e.target.value
-				this.confirmDirty = this.confirmDirty || !!value
-			}
-		}
-	}
+import {
+  permission
+} from '@/util/mixins'
+import testStrong from '@/components/testPwd'
+export default {
+  name: 'Login',
+  components: {
+    testStrong
+  },
+  mixins: [permission],
+  beforeCreate() {
+    this.formLogin = this.$form.createForm(this)
+    this.formRegister = this.$form.createForm(this)
+  },
+  data() {
+    return {
+      pageType: 'login',
+      btnTxt: '发送验证码',
+      disableBtn: true,
+      timer: null,
+      disableCode: false,
+      loginFailMsg: '',
+      visibleError: false
+    }
+  },
+  mounted() {
+    this.setUrl()
+  },
+  computed: {
+    sysCode() {
+      const code = String(this.getQueryString('sysCode'))
+      return code
+    },
+    redirectUrlPrefix() {
+      const code = String(this.getQueryString('redirectUrl'))
+      return code
+    }
+  },
+  methods: {
+    //存储redirectUrl
+    setUrl() {
+      if (this.redirectUrlPrefix != 'null') {
+        this.$cookie.set('redirectUrl', this.getQueryString('redirectUrl') + '&sysCode=' + String(this.getQueryString(
+          'sysCode')))
+      }
+    },
+    //登录操作
+    handleLogin(e) {
+      this.formLogin.validateFields((err, values) => {
+        if (!err) {
+          let params = values
+          if (this.redirectUrlPrefix != 'null') {
+            params.redirectUrl = this.$cookie.get('redirectUrl')
+          }
+          this.$ajax.post({
+            url: this.$api.POST_LOGIN,
+            params: params
+          }).then(res => {
+            if (res.code == '200') {
+              this.$cookie.set('canEnterBind', '200')
+              this.jumpOpeation(res)
+              this.visibleError = false
+            } else {
+              this.loginFailMsg = res.data.msg
+              this.visibleError = true
+            }
+          })
+        }
+      })
+    },
+    //跳转操作
+    jumpOpeation(res) {
+      let gainDatas = res.data.content
+      if (res.msg == 'choose') {
+        //存储系统列表
+        this.$cookie.set('systemLists', JSON.stringify(gainDatas))
+        if (this.sysCode != 'null') {
+          //列表存在该code  存在去匹配code值去获取跳转路径 不存在去绑定
+          let data = gainDatas.find(item => item.sysDic.sysCode == this.sysCode)
+          if (data) {
+            let links = '?userId=' + data.id
+            if (this.redirectUrlPrefix != 'null') {
+              links = links + '&redirectUrl=' + this.$cookie.get('redirectUrl')
+            }
+            this.$ajax.get({
+              url: this.$api.GET_SELECT_SYSTEM + links,
+              params: {}
+            }).then(res => {
+              let gainDatas = res.data.content
+              if (res.msg != 'bind') {
+                //不需要绑定
+                if (gainDatas.redirectUrl) {
+                  window.open(gainDatas.redirectUrl, '_parent')
+                  this.$cookie.set('canEnterBind', '500')
+                }
+              } else {
+                //去绑定
+                this.$router.push({
+                  name: 'bindPhone',
+                  query: {
+                    id: gainDatas
+                  }
+                })
+              }
+            })
+          } else {
+            this.$router.push({
+              name: 'bindPhone',
+            })
+          }
+        } else {
+          this.$router.push({
+            name: 'bindPhone',
+          })
+        }
+      } else if (res.msg == 'bind') {
+        this.$router.push({
+          name: 'bindPhone',
+          query: {
+            id: gainDatas
+          }
+        })
+      } else if (res.msg == 'success') {
+        if (gainDatas.redirectUrl) {
+          window.open(this.$cookie.get('url'), '_parent')
+          this.$cookie.set('canEnterBind', '500')
+        } else {
+          this.$cookie.set('token', gainDatas.access_token)
+          this.$cookie.set('refresh_token', gainDatas.refresh_token)
+          this.$router.push({
+            name: 'home',
+          })
+          // 						if (gainDatas.isNew == true) {
+          // 							this.$cookie.set('token', gainDatas.access_token)
+          // 							this.$cookie.set('refresh_token', gainDatas.refresh_token)
+          // 							this.$router.push({
+          // 								name: 'home',
+          // 							})
+          // 						} else {
+          // 							const openUrl = gainDatas.url + "?userId" + gainDatas.userId + "&access_token=" + gainDatas.access_token +
+          // 								"&refresh_token=" + gainDatas.refresh_token;
+          // 							window.open(openUrl, '_parent')
+          // 							this.$cookie.set('canEnterBind', '500')
+          // 						}
+        }
+      }
+    },
+    //关闭login错误提示框
+    handleClose() {
+      this.visibleError = false
+    },
+    //提交注册
+    handleRegister() {
+      this.formRegister.validateFields((err, values) => {
+        if (!err) {
+          let params = values
+          if (this.redirectUrlPrefix != 'null') {
+            params.redirectUrl = this.$cookie.get('redirectUrl')
+          }
+          this.$ajax.post({
+            url: this.$api.POST_REGISTER,
+            params: params
+          }).then(res => {
+            if (res.code == '200') {
+              this.$message.success('注册成功！')
+              this.pageType = 'login'
+            } else {
+              this.$message.error(res.msg)
+            }
+          })
+        }
+      })
+    },
+    //提交找回密码
+    handleFindPwd() {
+      this.formRegister.validateFields((err, values) => {
+        if (!err) {
+          const params = Object.assign(values, {
+            newPwd: values.pwd
+          })
+          delete params['pwd']
+          delete params['rePassword']
+          this.$ajax.post({
+            url: this.$api.POST_FIND_PASSWORD,
+            params: params
+          }).then(res => {
+            if (res.code == '200') {
+              this.$message.success('找回密码成功！')
+              this.pageType = 'login'
+            } else {
+              this.$message.error(res.msg)
+            }
+          })
+        }
+      })
+    },
+    //验证账户是否合法
+    validateAccount(rule, value, callback) {
+      if (!value || value == undefined || value.split(' ').join('').length === 0) {
+        callback('请输入账户或手机号!')
+      } else {
+        callback()
+      }
+    },
+    //得到url传递参数
+    getQueryString(name) {
+      var reg = new RegExp('(^|&)' + name + '=([^&]*)(&|$)', 'i')
+      var reg_rewrite = new RegExp('(^|/)' + name + '/([^/]*)(/|$)', 'i')
+      var r = window.location.search.substr(1).match(reg)
+      var q = window.location.pathname.substr(1).match(reg_rewrite)
+      if (r != null) {
+        return unescape(r[2])
+      } else if (q != null) {
+        return unescape(q[2])
+      } else {
+        return null
+      }
+    },
+    //手机验证码校验
+    validateCode(rule, value, callback) {
+      if (!value || value == undefined || value.split(' ').join('').length === 0) {
+        callback('请输入手机验证码!')
+      } else {
+        if (!/^\d{6}$/.test(value)) {
+          callback('请输入6位数字验证码!')
+        } else {
+          callback()
+        }
+      }
+    },
+    //校验手机号
+    validatePhone(rule, value, callback) {
+      if (!value || value == undefined || value.split(' ').join('').length === 0) {
+        callback('请输入手机号!')
+      } else {
+        if (!this.$com.checkPhone(value)) {
+          callback('手机号输入不合法!')
+        } else {
+          let links = '?phone=' + this.formRegister.getFieldValue('username')
+          if (this.redirectUrlPrefix != 'null') {
+            links = links + '&redirectUrl=' + this.$cookie.get('redirectUrl')
+          }
+          this.$ajax.get({
+            url: this.$api.GET_CHECK_PHONE + links,
+            params: {}
+          }).then(res => {
+            if (res.data.content == false) {
+              this.disableBtn = false
+              callback()
+            } else {
+              callback('此用户已经存在!')
+            }
+          })
+        }
+      }
+    },
+    //校验手机号--忘记密码
+    validatePhoneForget(rule, value, callback) {
+      if (!value || value == undefined || value.split(' ').join('').length === 0) {
+        callback('请输入手机号!')
+      } else {
+        if (!this.$com.checkPhone(value)) {
+          callback('手机号输入不合法!')
+        } else {
+          callback()
+        }
+      }
+    },
+    //发送验证码
+    sendCode() {
+      let links = ''
+      if (this.redirectUrlPrefix != 'null') {
+        links = '?redirectUrl=' + this.$cookie.get('redirectUrl')
+      }
+      this.$ajax.get({
+        url: this.$api.GET_SEND_CODE.replace('{phone}', this.formRegister.getFieldValue('username')) + links,
+        params: {}
+      }).then(res => {
+        if (res.code == '200') {
+          this.disableCode = false
+          this.disableBtn = true
+          let num = 60
+          const interval = () => {
+            this.timer = setInterval(() => {
+              if (num <= 0) {
+                this.clearTimer()
+                return
+              }
+              this.btnTxt = (num -= 1) + 's'
+            }, 1000)
+          }
+          interval()
+        }
+      })
+    },
+    //密码重复密码校验
+    validateToNextPassword(rule, value, callback) {
+      const form = this.formRegister
+      if (value && this.confirmDirty) {
+        form.validateFields(['rePassword'], {
+          force: true
+        })
+      }
+      callback()
+    },
+    compareToFirstPassword(rule, value, callback) {
+      const form = this.formRegister
+      if (value && value !== form.getFieldValue('pwd')) {
+        callback('密码输入不一致!')
+      } else {
+        callback()
+      }
+    },
+    handleConfirmBlur(e) {
+      const value = e.target.value
+      this.confirmDirty = this.confirmDirty || !!value
+    }
+  }
+}
 </script>
 
 <style scoped>
