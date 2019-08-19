@@ -29,6 +29,9 @@
                   <a-menu-item key="logout">退出登录</a-menu-item>
                 </a-menu>
               </a-dropdown>
+              <a-badge class="navTidings" :count="tidingsCount" showZero>
+                <a href="#" class="head-example"><a-icon type="bell" /></a>
+              </a-badge>
             </div>
         </a-layout-header>
         <a-layout-content id="AppContent">
@@ -38,6 +41,7 @@
           <div v-show="showSpaContent">
             <div id="content" ></div>
           </div>
+
         </a-layout-content>
       </a-layout>
     </template>
@@ -66,6 +70,7 @@ export default {
       collapsed: false,
       username:'',
       showPurePage: false,
+      tidingsCount: 0,
     }
   },
   created() {
@@ -163,10 +168,11 @@ export default {
 #portalHeader .wrapper { padding: 0 2rem}
 #portalHeader .trigger{  float: left; font-size: 18px; line-height: 20px; margin:24px 16px 0 0; cursor: pointer;}
 #portalHeader .navbar {float: left; line-height: 20px; margin-top:22px}
-#portalHeader .navdropmenu{float: right;cursor: pointer;}
-#portalHeader .navdropmenu .name { padding:0 10px}
+#portalHeader .navdropmenu{float: right; cursor: pointer;}
+#portalHeader .navdropmenu .name { padding:0 10px 0 5px}
+#portalHeader .navTidings {float: right; margin-right:40px; margin-top:30px; cursor: pointer;}
 
-#AppContent { margin: 24px 16px 0}
+#AppContent { margin: 24px 16px 0; background:url('../../assets/images/content-bg.png') no-repeat top right; background-size:30% }
+#AppContent .contentbg { position: absolute; top:10px; right:10px; z-index: 1; width:20%}
 #AppContent .wrapper { padding: 24px; background:#fff; min-height: 98%}
-
 </style>
