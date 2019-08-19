@@ -1,12 +1,26 @@
 // const Layout = () => import('@/components/Layout/main')
-const contentWrapper = () => import('@/components/Layout/content-wrapper')
-const TipsNetworkErr  = () => import( '@/views/tips/network')
-const TipsNoAuth  = () => import( '@/views/tips/auth')
-const TipsOutsite  = () => import( '@/views/tips/outsite')
-const HomePage = () => import('@/views/home')
-const LoginPage = () => import('@/views/login')
-const BindPhone = () => import('@/views/bindPhone')
-const PersonCenter = () => import('@/views/person-center')
+const contentWrapper = () =>
+    import ('@/components/Layout/content-wrapper')
+const TipsNetworkErr = () =>
+    import ('@/views/tips/network')
+const TipsNoAuth = () =>
+    import ('@/views/tips/auth')
+const TipsOutsite = () =>
+    import ('@/views/tips/outsite')
+const HomePage = () =>
+    import ('@/views/home')
+const LoginPage = () =>
+    import ('@/views/login')
+const BindPhone = () =>
+    import ('@/views/bindPhone')
+const PersonCenter = () =>
+    import ('@/views/person-center')
+    // 系统管理---组织机构
+    // contentOrganization
+const contentOrganization = () =>
+    import ('@/views/systemManagement/content-organization')
+const Organization = () =>
+    import ('@/views/systemManagement/organization/list')
 
 /**
  * 要求：
@@ -26,67 +40,108 @@ const PersonCenter = () => import('@/views/person-center')
  * meta.outsiteLink 当meta.openMode 为outsite时，必须配置此字段，并设置完整跳转页面的href
  *
  */
-const appRoutes = [
-  { path: '/', name: 'Layout', redirect: '/login', component: contentWrapper,
-    children: [
-      { path: '/home', name: 'home',component: HomePage, meta: { title: '首页' }, },
-      // { path: '/outsiteTips/:syscode', name: 'outsiteTips',component: TipsOutsite, meta: { title: '跳转外部系统', },},
-      { path: '/noauth', name: 'noautherr',component: TipsNoAuth, meta: { title: '没有权限', },},
-      { path: '/person', name: 'person',component: PersonCenter,
-        meta: { title: '个人中心' },
+const appRoutes = [{
+  path: '/',
+  name: 'Layout',
+  redirect: '/login',
+  component: contentWrapper,
+  children: [
+    { path: '/home', name: 'home', component: HomePage, meta: { title: '首页' }, },
+    // { path: '/outsiteTips/:syscode', name: 'outsiteTips',component: TipsOutsite, meta: { title: '跳转外部系统', },},
+    { path: '/noauth', name: 'noautherr', component: TipsNoAuth, meta: { title: '没有权限', }, },
+    {
+      path: '/person',
+      name: 'person',
+      component: PersonCenter,
+      meta: { title: '个人中心' },
+    },
+    {
+      path: '/scsd',
+      name: 'scsd',
+      component: contentWrapper,
+      meta: { title: '水产新品种审定', menuPath: true, authCode: 'S0501', menuIcon: 'setting', hideInBread: true },
+      children: [{
+        path: '/scsd/post/scsdPos',
+        name: '/scsd/post/scsdPos',
+        meta: { title: '完善申报信息', menuPath: true, authCode: 'S050101', menuIcon: 'setting', hideInBread: false, openMode: 'spa' },
       },
-      { path: '/scsd', name: 'scsd',component: contentWrapper,
-        meta: { title: '水产新品种审定', menuPath:true, authCode:'S0501', menuIcon:'setting', hideInBread:true },
-        children: [
-          { path: '/scsd/post/scsdPos', name: '/scsd/post/scsdPos',
-            meta: { title: '完善申报信息',menuPath:true, authCode:'S050101', menuIcon:'setting', hideInBread:false, openMode:'spa' },
-          },
-          { path: '/scsd/expert/scsdOrgaExpert', name: '/scsd/expert/scsdOrgaExpert',
-            meta: { title: '组织专家',menuPath:true, authCode:'S050102', menuIcon:'setting', hideInBread:false, openMode:'spa' },
-          },
-          { path: '/scsd/forma/scsdForma', name: '/scsd/forma/scsdForma',
-            meta: { title: '形式审查信息',menuPath:true, authCode:'S050103', menuIcon:'setting', hideInBread:false, openMode:'spa' },
-          },
-          { path: '/scsd/exam/scsdExam', name: '/scsd/exam/scsdExam',
-            meta: { title: '函审信息',menuPath:true, authCode:'S050104', menuIcon:'setting', hideInBread:false, openMode:'spa' },
-          },
-          { path: '/scsd/localexam/scsdLocalExam', name: '/scsd/localexam/scsdLocalExam',
-            meta: { title: '现场审定专家意见',menuPath:true, authCode:'S050105', menuIcon:'setting', hideInBread:false, openMode:'spa' },
-          },
-          { path:  '/scsd/local/scsdLocal', name: '/scsd/local/scsdLocal',
-            meta: { title: '现场审定专家代录入',menuPath:true, authCode:'S050106', menuIcon:'setting', hideInBread:false, openMode:'spa' },
-          },
-          { path: '/scsd/review/scsdReview', name: '/scsd/review/scsdReview',
-            meta: { title: '评审结果信息',menuPath:true, authCode:'S050107', menuIcon:'setting', hideInBread:false, openMode:'spa' },
-          },
-        ]
+      {
+        path: '/scsd/expert/scsdOrgaExpert',
+        name: '/scsd/expert/scsdOrgaExpert',
+        meta: { title: '组织专家', menuPath: true, authCode: 'S050102', menuIcon: 'setting', hideInBread: false, openMode: 'spa' },
       },
-      { path: '/SCYJ/:sysname', name: 'SCYJ',component: TipsOutsite,
-        meta: { title: '水产预警系统', menuPath:true, authCode:'SCYJ', menuIcon:'setting', hideInBread:false, openMode:'outsite', outsiteLink:'http://47.102.155.97:8080' },
+      {
+        path: '/scsd/forma/scsdForma',
+        name: '/scsd/forma/scsdForma',
+        meta: { title: '形式审查信息', menuPath: true, authCode: 'S050103', menuIcon: 'setting', hideInBread: false, openMode: 'spa' },
       },
-      { path: '/YQCB/:sysname', name: 'YQCB',component: TipsOutsite,
-        meta: { title: '全国水产养殖动植物病情测报系统', menuPath:true, menuIcon:'setting', authCode:'YQCB', hideInBread:false, openMode:'outsite', outsiteLink:'http://47.102.155.97:8081' },
+      {
+        path: '/scsd/exam/scsdExam',
+        name: '/scsd/exam/scsdExam',
+        meta: { title: '函审信息', menuPath: true, authCode: 'S050104', menuIcon: 'setting', hideInBread: false, openMode: 'spa' },
       },
-      { path: '/ZXJC/:sysname', name: 'ZXJC',component: TipsOutsite,
-        meta: { title: '国家水生动物疫病监测信息管理系统', menuPath:true, menuIcon:'setting', authCode:'ZXJC', hideInBread:false, openMode:'outsite', outsiteLink:'http://47.102.155.97:8082' },
+      {
+        path: '/scsd/localexam/scsdLocalExam',
+        name: '/scsd/localexam/scsdLocalExam',
+        meta: { title: '现场审定专家意见', menuPath: true, authCode: 'S050105', menuIcon: 'setting', hideInBread: false, openMode: 'spa' },
       },
-      { path: '/NYPC/:sysname', name: 'NYPC',component: TipsOutsite,
-        meta: { title: '水产养殖动物病原菌耐药性普查数据分析系统', menuPath:true, menuIcon:'setting', authCode:'NYPC', hideInBread:false, openMode:'outsite', outsiteLink:'http://47.102.155.97:8083' },
+      {
+        path: '/scsd/local/scsdLocal',
+        name: '/scsd/local/scsdLocal',
+        meta: { title: '现场审定专家代录入', menuPath: true, authCode: 'S050106', menuIcon: 'setting', hideInBread: false, openMode: 'spa' },
+
       },
-    ],
-  },
-  {
-    path: '/login', name: 'login',component: LoginPage,
-    meta: { title: '登录', authCode:'S050107' },
-  },
-  {
-    path: '/bindPhone', name: 'bindPhone',component: BindPhone,
-    meta: { title: '选择系统绑定手机号', },
-  },
-  {
-    path: '/networkerr', name: 'networkerr',component: TipsNetworkErr,
-    meta: { title: '网络错误', },
-  },
+      {
+        path: '/scsd/review/scsdReview',
+        name: '/scsd/review/scsdReview',
+        meta: { title: '评审结果信息', menuPath: true, authCode: 'S050107', menuIcon: 'setting', hideInBread: false, openMode: 'spa' },
+      },
+      ]
+    },
+    {
+      path: '/systemManagement',
+      name: 'systemManagement',
+      component: contentOrganization,
+      meta: { title: '系统管理', menuPath: true, authCode: 'S0501', menuIcon: 'setting', hideInBread: true },
+      children: [{
+        path: '/systemManagement/organization',
+        name: '/systemManagement/organization',
+        component: Organization,
+        meta: { title: '组织机构管理', menuPath: true, authCode: 'S050101', menuIcon: 'setting', hideInBread: false, openMode: 'normal' }
+      }]
+    },
+    { path: '/SCYJ/:sysname', name: 'SCYJ',component: TipsOutsite,
+      meta: { title: '水产预警系统', menuPath:true, authCode:'SCYJ', menuIcon:'setting', hideInBread:false, openMode:'outsite', outsiteLink:'http://47.102.155.97:8080' },
+    },
+    { path: '/YQCB/:sysname', name: 'YQCB',component: TipsOutsite,
+      meta: { title: '全国水产养殖动植物病情测报系统', menuPath:true, menuIcon:'setting', authCode:'YQCB', hideInBread:false, openMode:'outsite', outsiteLink:'http://47.102.155.97:8081' },
+    },
+    { path: '/ZXJC/:sysname', name: 'ZXJC',component: TipsOutsite,
+      meta: { title: '国家水生动物疫病监测信息管理系统', menuPath:true, menuIcon:'setting', authCode:'ZXJC', hideInBread:false, openMode:'outsite', outsiteLink:'http://47.102.155.97:8082' },
+    },
+    { path: '/NYPC/:sysname', name: 'NYPC',component: TipsOutsite,
+      meta: { title: '水产养殖动物病原菌耐药性普查数据分析系统', menuPath:true, menuIcon:'setting', authCode:'NYPC', hideInBread:false, openMode:'outsite', outsiteLink:'http://47.102.155.97:8083' }
+    },
+  ],
+},
+{
+  path: '/login',
+  name: 'login',
+  component: LoginPage,
+  meta: { title: '登录', authCode: 'S050107' },
+},
+{
+  path: '/bindPhone',
+  name: 'bindPhone',
+  component: BindPhone,
+  meta: { title: '选择系统绑定手机号', },
+},
+{
+  path: '/networkerr',
+  name: 'networkerr',
+  component: TipsNetworkErr,
+  meta: { title: '网络错误', },
+},
 ]
 
 export const routes = [
