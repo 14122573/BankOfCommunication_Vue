@@ -69,18 +69,18 @@ const appRoutes = [{
         component: Organization,
         meta: { title: '组织机构管理', menuPath: true, authCode: 'S050101', menuIcon: 'cluster', hideInBread: false, openMode: 'normal' }
       },
-			{
+      {
         path: '/systemManagement/organization/upload',
         name: '/systemManagement/organization/upload',
         component: OrganizationUpload,
         meta: { title: '导入', menuPath: false, authCode: 'S050101', menuIcon: 'setting', hideInBread: false, openMode: 'normal' }
       },
-			{
+      {
 			 path: '/organization/create',
 			 name: '/organization/create',
 			 component: OrganizationCreate,
 			 meta: { title: '组织机构创建', menuPath: false, authCode: 'S050101', menuIcon: 'cluster', hideInBread: false, openMode: 'normal' }
-     }]
+      }]
     },
     {
       path: '/scsd',
