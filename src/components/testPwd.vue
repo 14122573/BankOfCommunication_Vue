@@ -5,11 +5,6 @@
 			<span id="two"></span>
 			<span id="three"></span>
 		</div>
-<!-- 		<div id="font">
-			<span>弱</span>
-			<span>中</span>
-			<span>强</span>
-		</div> -->
 	</div>
 </template>
 
@@ -42,7 +37,6 @@ export default {
   data() {
     return {
       msgText: '',
-      // pwd: '',
     }
   },
   methods: {},

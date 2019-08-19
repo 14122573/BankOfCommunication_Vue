@@ -11,6 +11,7 @@
 				<transition name="fade" mode="out-in" v-if='pageType=="login"'>
 					<div class="login">
 						<h2>用户登录</h2>
+						<a-alert class="showError" type="error" :message="loginFailMsg" v-if="visibleError" showIcon closable :afterClose="handleClose" />
 						<a-form :form="formLogin" class="login-form">
 							<a-form-item>
 								<a-input v-decorator="[
@@ -46,16 +47,10 @@
 										</a-checkbox>
 									</a-col>
 									<a-col :span="12">
-										<a class="login-form-forgot">
+										<a class="login-form-forgot" @click='pageType="findPassword"'>
 											忘记密码?
 										</a>
 									</a-col>
-								</a-row>
-								<a-row type="flex" justify="start" align="middle" :gutter="10" style="min-height:30px;color:red">
-									<a-col>
-										<a-icon style="color:red" type="info-circle" v-show='loginFailMsg!=""' />
-									</a-col>
-									<a-col>{{loginFailMsg}}</a-col>
 								</a-row>
 								<a-button type="primary" html-type="submit" class="login-form-button" @click="handleLogin">
 									登录
@@ -99,7 +94,7 @@
 										</a-input>
 									</a-col>
 									<a-col :span="8" :offset="1">
-										<a-button type="primary" :disabled='disableBtn' ghost @click="sendCode" size="small" style="height:42px">
+										<a-button type="primary" :disabled='disableBtn' ghost @click="sendCode" size="small" style="height:42px;min-width: 40px;">
 											{{btnTxt}}
 										</a-button>
 									</a-col>
@@ -142,6 +137,81 @@
 						</a-form>
 					</div>
 				</transition>
+				<transition name="fade" mode="out-in" v-if='pageType=="findPassword"'>
+					<div class="register">
+						<h2>忘记密码</h2>
+						<a-form :form="formRegister" class="register-form">
+							<a-form-item>
+								<a-input v-decorator="[
+			  						'username',
+			  						{   validateTrigger:'blur',
+			  							rules: [{validator:validatePhoneForget}]
+			  						}
+			  					]"
+								 placeholder="手机号">
+									<a-icon slot="prefix" type="mobile" style="color: rgba(0,0,0,.25)" />
+								</a-input>
+							</a-form-item>
+							<a-form-item>
+								<a-row type="flex">
+									<a-col :span="15">
+										<a-input v-decorator="[
+			  								'code',
+			  								{
+			  									validateTrigger:'blur',
+			  									rules: [
+			  										{ validator:validateCode}
+			  										]
+			  								}
+			  							]"
+										 placeholder="手机验证码" :disabled='disableCode'>
+											<a-icon slot="prefix" type="code" style="color: rgba(0,0,0,.25)" />
+										</a-input>
+									</a-col>
+									<a-col :span="8" :offset="1">
+										<a-button type="primary" :disabled='disableBtn' ghost @click="sendCode" size="small" style="height:42px;min-width: 40px;">
+											{{btnTxt}}
+										</a-button>
+									</a-col>
+								</a-row>
+							</a-form-item>
+							<a-form-item>
+								<a-input v-decorator="[
+			  						'pwd',
+			  						{
+			  							rules: [{ required: true,whitespace:true, message: '请输入密码!' }, {
+			  							validator: validateToNextPassword,
+			  							}]
+			  						 }
+			  					]"
+								 type="password" placeholder="密码">
+									<a-icon slot="prefix" type="lock" style="color: rgba(0,0,0,.25)" />
+								</a-input>
+							</a-form-item>
+							<testStrong :pwd='formRegister.getFieldValue("pwd")' v-show='formRegister.getFieldValue("pwd")!=""&&formRegister.getFieldValue("pwd")!=undefined'></testStrong>
+							<a-form-item>
+								<a-input v-decorator="[
+			  						'rePassword',
+			  						{
+			  							rules: [{ required: true,whitespace:true,  message: '请重复填写密码!' }, {
+			  							validator: compareToFirstPassword,
+			  						}] }
+			  					]"
+								 type="password" placeholder="重复密码" @blur="handleConfirmBlur">
+									<a-icon slot="prefix" type="lock" style="color: rgba(0,0,0,.25)" />
+								</a-input>
+							</a-form-item>
+							<a-form-item>
+								<a-button type="primary" html-type="submit" class="login-form-button" @click="handleFindPwd">
+									重置密码
+								</a-button>
+								<a @click="pageType='login'" class="login-form-register">
+									找回密码?去登录
+								</a>
+							</a-form-item>
+						</a-form>
+					</div>
+				</transition>
 			</div>
 		</div>
 		<div class="footer">
@@ -173,7 +243,8 @@ export default {
       disableBtn: true,
       timer: null,
       disableCode: false,
-      loginFailMsg: ''
+      loginFailMsg: '',
+      visibleError: false
     }
   },
   mounted() {
@@ -212,9 +283,10 @@ export default {
             if (res.code == '200') {
               this.$cookie.set('canEnterBind', '200')
               this.jumpOpeation(res)
-              this.loginFailMsg = ''
+              this.visibleError = false
             } else {
               this.loginFailMsg = res.data.msg
+              this.visibleError = true
             }
           })
         }
@@ -297,8 +369,12 @@ export default {
         }
       }
     },
+    //关闭login错误提示框
+    handleClose() {
+      this.visibleError = false
+    },
     //提交注册
-    handleRegister(e) {
+    handleRegister() {
       this.formRegister.validateFields((err, values) => {
         if (!err) {
           let params = values
@@ -309,8 +385,35 @@ export default {
             url: this.$api.POST_REGISTER,
             params: params
           }).then(res => {
-            this.$message.success('成功！')
-            this.pageType = 'login'
+            if (res.code == '200') {
+              this.$message.success('注册成功！')
+              this.pageType = 'login'
+            } else {
+              this.$message.error(res.msg)
+            }
+          })
+        }
+      })
+    },
+    //提交找回密码
+    handleFindPwd() {
+      this.formRegister.validateFields((err, values) => {
+        if (!err) {
+          const params = Object.assign(values, {
+            newPwd: values.pwd
+          })
+          delete params['pwd']
+          delete params['rePassword']
+          this.$ajax.post({
+            url: this.$api.POST_FIND_PASSWORD,
+            params: params
+          }).then(res => {
+            if (res.code == '200') {
+              this.$message.success('找回密码成功！')
+              this.pageType = 'login'
+            } else {
+              this.$message.error(res.msg)
+            }
           })
         }
       })
@@ -375,6 +478,18 @@ export default {
         }
       }
     },
+    //校验手机号--忘记密码
+    validatePhoneForget(rule, value, callback) {
+      if (!value || value == undefined || value.split(' ').join('').length === 0) {
+        callback('请输入手机号!')
+      } else {
+        if (!this.$com.checkPhone(value)) {
+          callback('手机号输入不合法!')
+        } else {
+          callback()
+        }
+      }
+    },
     //发送验证码
     sendCode() {
       let links = ''
@@ -385,19 +500,21 @@ export default {
         url: this.$api.GET_SEND_CODE.replace('{phone}', this.formRegister.getFieldValue('username')) + links,
         params: {}
       }).then(res => {
-        this.disableCode = false
-        this.disableBtn = true
-        let num = 60
-        const interval = () => {
-          this.timer = setInterval(() => {
-            if (num <= 0) {
-              this.clearTimer()
-              return
-            }
-            this.btnTxt = (num -= 1) + 's'
-          }, 1000)
+        if (res.code == '200') {
+          this.disableCode = false
+          this.disableBtn = true
+          let num = 60
+          const interval = () => {
+            this.timer = setInterval(() => {
+              if (num <= 0) {
+                this.clearTimer()
+                return
+              }
+              this.btnTxt = (num -= 1) + 's'
+            }, 1000)
+          }
+          interval()
         }
-        interval()
       })
     },
     //密码重复密码校验
@@ -430,7 +547,8 @@ export default {
 	.loginFrame {
 		width: 100%;
 		height: 100%;
-    min-height: 700px; min-width: 1000px;
+		min-height: 700px;
+		min-width: 1000px;
 		margin: 0px;
 		padding: 0px;
 		position: relative;
@@ -544,5 +662,9 @@ export default {
 	.ant-input-affix-wrapper,
 	.login-form-button {
 		height: 44px;
+	}
+
+	.showError {
+		margin-bottom: 20px;
 	}
 </style>
