@@ -166,7 +166,7 @@ export default {
 #portalLogo .logo-title{ color: #fff; font-size: 24px; line-height: 64px}
 
 #portalHeader .wrapper { padding: 0 2rem}
-#portalHeader .trigger{  float: left; font-size: 18px; line-height: 20px; margin:24px 16px 0 0; cursor: pointer;}
+#portalHeader .trigger{  float: left; font-size: 18px; line-height: 20px; margin:20px 16px 0 0; cursor: pointer;}
 #portalHeader .navbar {float: left; line-height: 20px; margin-top:22px}
 #portalHeader .navdropmenu{float: right; cursor: pointer;}
 #portalHeader .navdropmenu .name { padding:0 10px 0 5px}
@@ -174,5 +174,6 @@ export default {
 
 #AppContent { margin: 24px 16px 0; background:url('../../assets/images/content-bg.png') no-repeat top right; background-size:30% }
 #AppContent .contentbg { position: absolute; top:10px; right:10px; z-index: 1; width:20%}
-#AppContent .wrapper { padding: 24px; background:#fff; min-height: 98%}
+#AppContent .wrapper { padding: 0px 10px; background:#fff; min-height: 98%}
+
 </style>

@@ -244,7 +244,8 @@ export default {
       timer: null,
       disableCode: false,
       loginFailMsg: '',
-      visibleError: false
+      visibleError: false,
+      confirmDirty: false
     }
   },
   mounted() {
@@ -316,6 +317,19 @@ export default {
                 if (gainDatas.redirectUrl) {
                   window.open(gainDatas.redirectUrl, '_parent')
                   this.$cookie.set('canEnterBind', '500')
+                } else {
+                  if (String(gainDatas.isNew)== 'true') {
+                    this.$cookie.set('token', gainDatas.access_token)
+                    this.$cookie.set('refresh_token', gainDatas.refresh_token)
+                    this.$router.push({
+                      name: 'home',
+                    })
+                  } else {
+                    const openUrl = gainDatas.url + '?userId=' + gainDatas.userId + '&access_token=' + gainDatas.access_token +
+												'&refresh_token=' + gainDatas.refresh_token
+                    window.open(openUrl, '_parent')
+                    this.$cookie.set('canEnterBind', '500')
+                  }
                 }
               } else {
                 //去绑定
@@ -349,23 +363,18 @@ export default {
           window.open(this.$cookie.get('url'), '_parent')
           this.$cookie.set('canEnterBind', '500')
         } else {
-          this.$cookie.set('token', gainDatas.access_token)
-          this.$cookie.set('refresh_token', gainDatas.refresh_token)
-          this.$router.push({
-            name: 'home',
-          })
-          // 						if (gainDatas.isNew == true) {
-          // 							this.$cookie.set('token', gainDatas.access_token)
-          // 							this.$cookie.set('refresh_token', gainDatas.refresh_token)
-          // 							this.$router.push({
-          // 								name: 'home',
-          // 							})
-          // 						} else {
-          // 							const openUrl = gainDatas.url + "?userId" + gainDatas.userId + "&access_token=" + gainDatas.access_token +
-          // 								"&refresh_token=" + gainDatas.refresh_token;
-          // 							window.open(openUrl, '_parent')
-          // 							this.$cookie.set('canEnterBind', '500')
-          // 						}
+          if (String(gainDatas.isNew)== 'true') {
+            this.$cookie.set('token', gainDatas.access_token)
+            this.$cookie.set('refresh_token', gainDatas.refresh_token)
+            this.$router.push({
+              name: 'home',
+            })
+          } else {
+            const openUrl = gainDatas.url + '?userId=' + gainDatas.userId + '&access_token=' + gainDatas.access_token +
+								'&refresh_token=' + gainDatas.refresh_token
+            window.open(openUrl, '_parent')
+            this.$cookie.set('canEnterBind', '500')
+          }
         }
       }
     },

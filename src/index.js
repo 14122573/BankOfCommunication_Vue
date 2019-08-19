@@ -30,6 +30,10 @@ import {
   Checkbox,
   Select,
   Alert,
+  Table,
+  Divider,
+  Upload,
+  Modal,
   badge
 } from 'ant-design-vue'
 
@@ -50,6 +54,10 @@ Vue.use(Col)
 Vue.use(Checkbox)
 Vue.use(Select)
 Vue.use(Alert)
+Vue.use(Table)
+Vue.use(Divider)
+Vue.use(Upload)
+Vue.use(Modal)
 Vue.use(badge)
 Vue.config.productionTip = false
 Vue.prototype.$ajax = ajax

@@ -45,7 +45,6 @@ const errorHandler = (err) => {
         }).then(res => {
           if(res.code === '912'){
             router.push('/login')
-            return
           }else{
             Cookie.set('token', res.access_token)
             Cookie.set('refresh_token', res.refresh_token)
@@ -116,7 +115,7 @@ Axios.interceptors.response.use(response => {
  * @param {String} contentType [请求头，默认为'application/json;charset=UTF-8']
  * @param {Boolean} hideLoading [隐藏请求时的loading图，默认为false]
  */
-const request = ({method, url, params, contentType = 'application/json;charset=UTF-8', hideLoading = false}) => {
+const request = ({ method, url, params, contentType = 'application/json;charset=UTF-8', hideLoading = false }) => {
   if (!url || typeof(url) != 'string') {
     throw new Error('接口URL不正确')
   }
@@ -135,12 +134,12 @@ const request = ({method, url, params, contentType = 'application/json;charset=U
     }),
   }
   if (method === 'GET') {
-    config = Object.assign(config, {params})
+    config = Object.assign(config, { params })
   } else {
     if (contentType.toLowerCase().indexOf('x-www-form-urlencoded') >= 0) {
-      config = Object.assign(config, {data: qs.stringify(params)})
+      config = Object.assign(config, { data: qs.stringify(params) })
     } else {
-      config = Object.assign(config, {data: params})
+      config = Object.assign(config, { data: params })
     }
   }
   if (!hideLoading) {
@@ -161,9 +160,9 @@ const request = ({method, url, params, contentType = 'application/json;charset=U
 
 export default {
   /**
- * 取消请求
- * @param {String} txt [取消请求时需要显示在控制台的提示信息]
- */
+     * 取消请求
+     * @param {String} txt [取消请求时需要显示在控制台的提示信息]
+     */
   cancel(txt = '取消请求') {
     Store.commit('SET_LOADING', false)
     if (typeof(cancelRequest) === 'function') {
@@ -171,16 +170,16 @@ export default {
     }
   },
   get(args) {
-    return request({method: 'GET', ...args})
+    return request({ method: 'GET', ...args })
   },
   post(args) {
-    return request({method: 'POST', ...args})
+    return request({ method: 'POST', ...args })
   },
   put(args) {
-    return request({method: 'PUT', ...args})
+    return request({ method: 'PUT', ...args })
   },
   delete(args) {
-    return request({method: 'DELETE', ...args})
+    return request({ method: 'DELETE', ...args })
   },
   all(...ajaxs) {
     return Promise.all(ajaxs)
