@@ -29,7 +29,8 @@ import {
   Col,
   Checkbox,
   Select,
-  Alert
+  Alert,
+  badge
 } from 'ant-design-vue'
 
 import singleSpaVue from 'single-spa-vue'
@@ -49,6 +50,7 @@ Vue.use(Col)
 Vue.use(Checkbox)
 Vue.use(Select)
 Vue.use(Alert)
+Vue.use(badge)
 Vue.config.productionTip = false
 Vue.prototype.$ajax = ajax
 Vue.prototype.$api = api
@@ -82,3 +84,4 @@ export const mount = [
 export const unmount = [
   vueLifecycles.unmount,
 ]
+
