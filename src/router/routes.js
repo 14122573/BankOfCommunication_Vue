@@ -66,6 +66,11 @@ const appRoutes = [{
         name: '/systemManagement/organization',
         component: Organization,
         meta: { title: '组织机构管理', menuPath: true, authCode: 'S050101', menuIcon: 'cluster', hideInBread: false, openMode: 'normal' }
+      }, {
+        path: '/systemManagement/organization/upload',
+        name: '/systemManagement/organization/upload',
+        component: OrganizationUpload,
+        meta: { title: '导入', menuPath: false, authCode: 'S050101', menuIcon: 'setting', hideInBread: false, openMode: 'normal' }
       }]
     },
     {
@@ -108,25 +113,6 @@ const appRoutes = [{
         name: '/scsd/review/scsdReview',
         meta: { title: '评审结果信息', menuPath: true, authCode: 'S050107', menuIcon: 'audit', hideInBread: false, openMode: 'spa' },
       },
-      ]
-    },
-    {
-      path: '/systemManagement',
-      name: 'systemManagement',
-      component: contentOrganization,
-      meta: { title: '系统管理', menuPath: true, authCode: 'S0501', menuIcon: 'setting', hideInBread: true },
-      children: [{
-        path: '/systemManagement/organization',
-        name: '/systemManagement/organization',
-        component: Organization,
-        meta: { title: '组织机构', menuPath: true, authCode: 'S050101', menuIcon: 'setting', hideInBread: false, openMode: 'normal' }
-      },
-      {
-        path: '/systemManagement/organization/upload',
-        name: '/systemManagement/organization/upload',
-        component: OrganizationUpload,
-        meta: { title: '导入', menuPath: false, authCode: 'S050101', menuIcon: 'setting', hideInBread: false, openMode: 'normal' }
-      }
       ]
     },
     {
