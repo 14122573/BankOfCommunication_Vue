@@ -4,7 +4,7 @@ case 'sit': // sit环境下
   BASE_URL = 'http://iftp.omniview.pro/api'
   break
 case 'uat': // uat环境下
-  BASE_URL = 'https://tw.devops.omniview.pro/api'
+  BASE_URL = 'http://iftp.omniview.pro/api'
   break
 case 'production': // 生产环境下
   BASE_URL = 'https://tw.devops.omniview.pro/api'
