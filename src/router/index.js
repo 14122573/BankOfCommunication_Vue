@@ -14,10 +14,10 @@ const config = {
 const router = new Router(config)
 
 router.beforeEach((to, from, next) => {
-  const token = Cookie.get('token')
-  const canEnterBind = Cookie.get('canEnterBind')
+  let token = Cookie.get('token')
+  let canEnterBind = Cookie.get('canEnterBind')
   // 当前无token且不在login页面则推到登录页面
-  let isLogin = token == undefined || token == null ? false : true
+  let isLogin = token == undefined || token == null || token == '' ? false : true
   if (!isLogin) {
     // 未登录
     if (to.name == 'login') {
