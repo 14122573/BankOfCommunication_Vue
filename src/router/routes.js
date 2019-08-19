@@ -47,56 +47,12 @@ const appRoutes = [{
   component: contentWrapper,
   children: [
     { path: '/home', name: 'home', component: HomePage, meta: { title: '首页' }, },
-    // { path: '/outsiteTips/:syscode', name: 'outsiteTips',component: TipsOutsite, meta: { title: '跳转外部系统', },},
     { path: '/noauth', name: 'noautherr', component: TipsNoAuth, meta: { title: '没有权限', }, },
     {
       path: '/person',
       name: 'person',
       component: PersonCenter,
       meta: { title: '个人中心' },
-    },
-    {
-      path: '/scsd',
-      name: 'scsd',
-      component: contentWrapper,
-      meta: { title: '水产新品种审定', menuPath: true, authCode: 'S0501', menuIcon: 'setting', hideInBread: true },
-      children: [{
-        path: '/scsd/post/scsdPos',
-        name: '/scsd/post/scsdPos',
-        meta: { title: '完善申报信息', menuPath: true, authCode: 'S050101', menuIcon: 'setting', hideInBread: false, openMode: 'spa' },
-      },
-      {
-        path: '/scsd/expert/scsdOrgaExpert',
-        name: '/scsd/expert/scsdOrgaExpert',
-        meta: { title: '组织专家', menuPath: true, authCode: 'S050102', menuIcon: 'setting', hideInBread: false, openMode: 'spa' },
-      },
-      {
-        path: '/scsd/forma/scsdForma',
-        name: '/scsd/forma/scsdForma',
-        meta: { title: '形式审查信息', menuPath: true, authCode: 'S050103', menuIcon: 'setting', hideInBread: false, openMode: 'spa' },
-      },
-      {
-        path: '/scsd/exam/scsdExam',
-        name: '/scsd/exam/scsdExam',
-        meta: { title: '函审信息', menuPath: true, authCode: 'S050104', menuIcon: 'setting', hideInBread: false, openMode: 'spa' },
-      },
-      {
-        path: '/scsd/localexam/scsdLocalExam',
-        name: '/scsd/localexam/scsdLocalExam',
-        meta: { title: '现场审定专家意见', menuPath: true, authCode: 'S050105', menuIcon: 'setting', hideInBread: false, openMode: 'spa' },
-      },
-      {
-        path: '/scsd/local/scsdLocal',
-        name: '/scsd/local/scsdLocal',
-        meta: { title: '现场审定专家代录入', menuPath: true, authCode: 'S050106', menuIcon: 'setting', hideInBread: false, openMode: 'spa' },
-
-      },
-      {
-        path: '/scsd/review/scsdReview',
-        name: '/scsd/review/scsdReview',
-        meta: { title: '评审结果信息', menuPath: true, authCode: 'S050107', menuIcon: 'setting', hideInBread: false, openMode: 'spa' },
-      },
-      ]
     },
     {
       path: '/systemManagement',
@@ -107,20 +63,62 @@ const appRoutes = [{
         path: '/systemManagement/organization',
         name: '/systemManagement/organization',
         component: Organization,
-        meta: { title: '组织机构管理', menuPath: true, authCode: 'S050101', menuIcon: 'setting', hideInBread: false, openMode: 'normal' }
+        meta: { title: '组织机构管理', menuPath: true, authCode: 'S050101', menuIcon: 'cluster', hideInBread: false, openMode: 'normal' }
       }]
     },
+    {
+      path: '/scsd',
+      name: 'scsd',
+      component: contentWrapper,
+      meta: { title: '水产新品种审定', menuPath: true, authCode: 'S0501', menuIcon: 'barcode', hideInBread: true },
+      children: [{
+        path: '/scsd/post/scsdPos',
+        name: '/scsd/post/scsdPos',
+        meta: { title: '完善申报信息', menuPath: true, authCode: 'S050101', menuIcon: 'exception', hideInBread: false, openMode: 'spa' },
+      },
+      {
+        path: '/scsd/expert/scsdOrgaExpert',
+        name: '/scsd/expert/scsdOrgaExpert',
+        meta: { title: '组织专家', menuPath: true, authCode: 'S050102', menuIcon: 'usergroup-add', hideInBread: false, openMode: 'spa' },
+      },
+      {
+        path: '/scsd/forma/scsdForma',
+        name: '/scsd/forma/scsdForma',
+        meta: { title: '形式审查信息', menuPath: true, authCode: 'S050103', menuIcon: 'file-protect', hideInBread: false, openMode: 'spa' },
+      },
+      {
+        path: '/scsd/exam/scsdExam',
+        name: '/scsd/exam/scsdExam',
+        meta: { title: '函审信息', menuPath: true, authCode: 'S050104', menuIcon: 'reconciliation', hideInBread: false, openMode: 'spa' },
+      },
+      {
+        path: '/scsd/localexam/scsdLocalExam',
+        name: '/scsd/localexam/scsdLocalExam',
+        meta: { title: '现场审定专家意见', menuPath: true, authCode: 'S050105', menuIcon: 'solution', hideInBread: false, openMode: 'spa' },
+      },
+      {
+        path: '/scsd/local/scsdLocal',
+        name: '/scsd/local/scsdLocal',
+        meta: { title: '现场审定专家代录入', menuPath: true, authCode: 'S050106', menuIcon: 'solution', hideInBread: false, openMode: 'spa' },
+      },
+      {
+        path: '/scsd/review/scsdReview',
+        name: '/scsd/review/scsdReview',
+        meta: { title: '评审结果信息', menuPath: true, authCode: 'S050107', menuIcon: 'audit', hideInBread: false, openMode: 'spa' },
+      },
+      ]
+    },
     { path: '/SCYJ/:sysname', name: 'SCYJ',component: TipsOutsite,
-      meta: { title: '水产预警系统', menuPath:true, authCode:'SCYJ', menuIcon:'setting', hideInBread:false, openMode:'outsite', outsiteLink:'http://47.102.155.97:8080' },
+      meta: { title: '水产预警系统', menuPath:true, authCode:'SCYJ', menuIcon:'alert', hideInBread:false, openMode:'outsite', outsiteLink:'http://47.102.155.97:8080' },
     },
     { path: '/YQCB/:sysname', name: 'YQCB',component: TipsOutsite,
-      meta: { title: '全国水产养殖动植物病情测报系统', menuPath:true, menuIcon:'setting', authCode:'YQCB', hideInBread:false, openMode:'outsite', outsiteLink:'http://47.102.155.97:8081' },
+      meta: { title: '全国水产养殖动植物病情测报系统', menuPath:true, menuIcon:'cloud-upload', authCode:'YQCB', hideInBread:false, openMode:'outsite', outsiteLink:'http://47.102.155.97:8081' },
     },
     { path: '/ZXJC/:sysname', name: 'ZXJC',component: TipsOutsite,
-      meta: { title: '国家水生动物疫病监测信息管理系统', menuPath:true, menuIcon:'setting', authCode:'ZXJC', hideInBread:false, openMode:'outsite', outsiteLink:'http://47.102.155.97:8082' },
+      meta: { title: '国家水生动物疫病监测信息管理系统', menuPath:true, menuIcon:'hdd', authCode:'ZXJC', hideInBread:false, openMode:'outsite', outsiteLink:'http://47.102.155.97:8082' },
     },
     { path: '/NYPC/:sysname', name: 'NYPC',component: TipsOutsite,
-      meta: { title: '水产养殖动物病原菌耐药性普查数据分析系统', menuPath:true, menuIcon:'setting', authCode:'NYPC', hideInBread:false, openMode:'outsite', outsiteLink:'http://47.102.155.97:8083' }
+      meta: { title: '水产养殖动物病原菌耐药性普查数据分析系统', menuPath:true, menuIcon:'experiment', authCode:'NYPC', hideInBread:false, openMode:'outsite', outsiteLink:'http://47.102.155.97:8083' }
     },
   ],
 },
