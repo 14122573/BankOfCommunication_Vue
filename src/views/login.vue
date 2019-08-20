@@ -179,12 +179,12 @@
 								<a-input v-decorator="[
 			  						'pwd',
 			  						{
-			  							rules: [{ required: true,whitespace:true, message: '请输入密码!' }, {
+			  							rules: [{ required: true,whitespace:true, message: '请输入新密码!' }, {
 			  							validator: validateToNextPassword,
 			  							}]
 			  						 }
 			  					]"
-								 type="password" placeholder="密码">
+								 type="password" placeholder="新密码">
 									<a-icon slot="prefix" type="lock" style="color: rgba(0,0,0,.25)" />
 								</a-input>
 							</a-form-item>
@@ -193,11 +193,11 @@
 								<a-input v-decorator="[
 			  						'rePassword',
 			  						{
-			  							rules: [{ required: true,whitespace:true,  message: '请重复填写密码!' }, {
+			  							rules: [{ required: true,whitespace:true,  message: '请再次输入新密码!' }, {
 			  							validator: compareToFirstPassword,
 			  						}] }
 			  					]"
-								 type="password" placeholder="重复密码" @blur="handleConfirmBlur">
+								 type="password" placeholder="再次输入新密码" @blur="handleConfirmBlur">
 									<a-icon slot="prefix" type="lock" style="color: rgba(0,0,0,.25)" />
 								</a-input>
 							</a-form-item>

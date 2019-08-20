@@ -25,6 +25,8 @@ const OrganizationUpload = () =>
     import ('@/views/systemManagement/organization/upload')
 const OrganizationCreate = () =>
     import ('@/views/systemManagement/organization/create')
+const OrganizationView = () =>
+    import ('@/views/systemManagement/organization/view')
     // 系统管理---角色
 const RoleManagement = () =>
     import ('@/views/systemManagement/role/list')
@@ -35,24 +37,24 @@ const Administrator = () =>
     import ('@/views/systemManagement/administrator/index')
 const UserDetailView = () =>
     import ('@/views/systemManagement/administrator/view')
-    /**
-     * 要求：
-     *  1、配置Router时，需将此router的权限编码信息、打开方式信息、是否在面包屑隐藏信息、是否为左侧菜单、是否有菜单图标配置在内。
-     *  2、如此路由节点是要在面包屑中展示的，则需严格按照路由父子级，将子路由定义在其直属父级路由的children中
-     *  3、为页面渲layout，所有除’/‘外的路由，都需定在’/‘路由的children下
-     * 作用：除去正常路由展示，系统会从本数组内抓取权限菜单、判断是否能在面包屑中显示
-     * 特殊配置字段说明：
-     * meta.menuPath 标记是否为菜单。不是可不设置此字段
-     * meta.authCode 当此路由受权限控制，需设置此字段，并填写与服务端一直的权限编码。不受权限控制可不设置
-     * meta.hideInBread 标记是否需在面包屑中展示。不是可不设置此字段
-     * meta.menuIcon 标记此路由在展示时需显示的ant design的图标。只能填写ant design中ICON组件内允许的字符串
-     * meta.openMode 标记此路由点击后展示打开的方式。若值为normal，可不设置此字段
-     *               spa 注册子前端项目的路由。注，此时设置的router.name为子项目展现路由名称的name，且需带上子项目名称前缀。如：/{micname}/{子项目router.name}，且无需设定router.component
-     *               normal 本项目中自有路由
-     *               outsite 新开标签页打开，此打开方式将不嵌套layout
-     * meta.outsiteLink 当meta.openMode 为outsite时，必须配置此字段，并设置完整跳转页面的href
-     *
-     */
+
+/**
+ * 要求：
+ *  1、配置Router时，需将此router的权限编码信息、打开方式信息、是否在面包屑隐藏信息、是否为左侧菜单、是否有菜单图标配置在内。
+ *  2、如此路由节点是要在面包屑中展示的，则需严格按照路由父子级，将子路由定义在其直属父级路由的children中
+ *  3、为页面渲layout，所有除’/‘外的路由，都需定在’/‘路由的children下
+ * 作用：除去正常路由展示，系统会从本数组内抓取权限菜单、判断是否能在面包屑中显示
+ * 特殊配置字段说明：
+ * meta.menuPath 标记是否为菜单。不是可不设置此字段
+ * meta.authCode 当此路由受权限控制，需设置此字段，并填写与服务端一直的权限编码。不受权限控制可不设置
+ * meta.hideInBread 标记是否需在面包屑中展示。不是可不设置此字段
+ * meta.menuIcon 标记此路由在展示时需显示的ant design的图标。只能填写ant design中ICON组件内允许的字符串
+ * meta.openMode 标记此路由点击后展示打开的方式。若值为normal，可不设置此字段
+ *               spa 注册子前端项目的路由。注，此时设置的router.name为子项目展现路由名称的name，且需带上子项目名称前缀。如：/{micname}/{子项目router.name}，且无需设定router.component
+ *               normal 本项目中自有路由
+ *               outsite 新开标签页打开，此打开方式将不嵌套layout。对应读取的跳转链接在，config/outside-config.js下。对象键值名需与router.name、router.meta.authCode保持一致
+ *
+ */
 const appRoutes = [{
   path: '/',
   name: 'Layout',
@@ -89,6 +91,12 @@ const appRoutes = [{
         name: '/organization/create',
         component: OrganizationCreate,
         meta: { title: '组织机构创建', menuPath: false, authCode: 'S050101', menuIcon: 'cluster', hideInBread: false, openMode: 'normal' }
+      },
+      {
+        path: '/organization/view',
+        name: '/organization/view',
+        component: OrganizationView,
+        meta: { title: '查看', menuPath: false, authCode: 'S050101', menuIcon: 'cluster', hideInBread: false, openMode: 'normal' }
       },
       {
         path: '/systemManagement/role',
@@ -162,25 +170,25 @@ const appRoutes = [{
       path: '/SCYJ/:sysname',
       name: 'SCYJ',
       component: TipsOutsite,
-      meta: { title: '水产预警系统', menuPath: true, authCode: 'SCYJ', menuIcon: 'alert', hideInBread: false, openMode: 'outsite', outsiteLink: 'http://47.102.155.97:8080' },
+      meta: { title: '水产预警系统', menuPath: true, authCode: 'SCYJ', menuIcon: 'alert', hideInBread: false, openMode: 'outsite' },
     },
     {
       path: '/YQCB/:sysname',
       name: 'YQCB',
       component: TipsOutsite,
-      meta: { title: '全国水产养殖动植物病情测报系统', menuPath: true, menuIcon: 'cloud-upload', authCode: 'YQCB', hideInBread: false, openMode: 'outsite', outsiteLink: 'http://47.102.155.97:8081' },
+      meta: { title: '全国水产养殖动植物病情测报系统', menuPath: true, menuIcon: 'cloud-upload', authCode: 'YQCB', hideInBread: false, openMode: 'outsite' },
     },
     {
       path: '/ZXJC/:sysname',
       name: 'ZXJC',
       component: TipsOutsite,
-      meta: { title: '国家水生动物疫病监测信息管理系统', menuPath: true, menuIcon: 'hdd', authCode: 'ZXJC', hideInBread: false, openMode: 'outsite', outsiteLink: 'http://47.102.155.97:8082' },
+      meta: { title: '国家水生动物疫病监测信息管理系统', menuPath: true, menuIcon: 'hdd', authCode: 'ZXJC', hideInBread: false, openMode: 'outsite' },
     },
     {
       path: '/NYPC/:sysname',
       name: 'NYPC',
       component: TipsOutsite,
-      meta: { title: '水产养殖动物病原菌耐药性普查数据分析系统', menuPath: true, menuIcon: 'experiment', authCode: 'NYPC', hideInBread: false, openMode: 'outsite', outsiteLink: 'http://47.102.155.97:8083' }
+      meta: { title: '水产养殖动物病原菌耐药性普查数据分析系统', menuPath: true, menuIcon: 'experiment', authCode: 'NYPC', hideInBread: false, openMode: 'outsite' }
     },
   ],
 },
