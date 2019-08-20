@@ -41,7 +41,6 @@
           <div v-show="showSpaContent">
             <div id="content" ></div>
           </div>
-
         </a-layout-content>
       </a-layout>
     </template>
@@ -63,7 +62,7 @@ export default {
     NavBar,
     Loader,
     SideMenu,
-    Login,
+    Login
   },
   data() {
     return {
@@ -187,6 +186,10 @@ export default {
 
 #AppContent { margin: 24px 16px 0; background:url('../../assets/images/content-bg.png') no-repeat top right; background-size:30% }
 #AppContent .contentbg { position: absolute; top:10px; right:10px; z-index: 1; width:20%}
-#AppContent .wrapper { padding: 0px 10px; background:#fff; min-height: 98%}
+#AppContent .wrapper {
+  padding: 1px;
+  /* background:#fff;  */
+  min-height: 98%
+}
 
 </style>
