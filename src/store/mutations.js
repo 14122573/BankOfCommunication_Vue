@@ -13,4 +13,13 @@ export default {
   SET_USERNAME(state, name) {
     state.userName = name
   },
+  SET_CLEAR(state) {
+    state.token =null
+    state.showLoading=false
+    state.menuList=[]
+    state.permissionCodeList=[]
+    state.hasAllRight=false
+    state.showSpaContent=false
+    state.userName=''
+  },
 }

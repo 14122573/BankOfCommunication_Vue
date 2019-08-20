@@ -118,6 +118,7 @@ export default {
     plogout(isOnlyClear){
       isOnlyClear = (isOnlyClear!=undefined && isOnlyClear!=null)?isOnlyClear:false
       if(isOnlyClear){
+        this.$store.commit('SET_CLEAR')
         this.$cookie.remove('token')
         this.$cookie.remove('refresh_token')
         this.$cookie.remove('userInfo')
@@ -130,6 +131,7 @@ export default {
           url: this.$api.POST_LOGOUT,
           params: {}
         }).then(res=>{
+          this.$store.commit('SET_CLEAR')
           this.$cookie.remove('token')
           this.$cookie.remove('refresh_token')
           this.$cookie.remove('userInfo')
