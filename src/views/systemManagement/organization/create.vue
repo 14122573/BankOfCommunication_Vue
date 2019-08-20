@@ -6,12 +6,12 @@
 				<a-button type="primary" ghost @click="handleReturn">
 					取消
 				</a-button>
-				<a-button type="primary" @click="handleSave">
+				<a-button type="primary" @click="handleSave" html-type="submit">
 					保存
 				</a-button>
 			</a-col>
 		</a-row>
-		<a-form :form="organizationForm">
+		<a-form :form="organizationForm" :hideRequiredMark='true'>
 			<a-row type="flex" justify="start" align="middle">
 				<a-col :span="8">
 					<a-form-item label="组织机构名称" v-bind="formItemLayout">
@@ -75,8 +75,7 @@
 			<a-row type="flex" justify="start" align="middle">
 				<a-col :span="16">
 					<a-form-item label="地址微调" v-bind="formItemSingle">
-						<BMapComponent :height="250" :width="830" :keyWords="position" :position="positionXY" @on-result="gainSearchList"
-						 @on-change="getNewAddress" />
+						<BMapComponent :height="250" :width="830" :keyWords="position" @on-change="getNewAddress" />
 					</a-form-item>
 				</a-col>
 			</a-row>
@@ -85,96 +84,101 @@
 </template>
 
 <script>
-import BMapComponent from '@/components/BaiduMap/BMapComponent.vue'
-export default {
-  components: {
-    BMapComponent
-  },
-  beforeCreate() {
-    this.organizationForm = this.$form.createForm(this)
-  },
-  data() {
-    return {
-      formItemLayout: {
-        labelCol: {
-          span: 8
-        },
-        wrapperCol: {
-          span: 14
-        },
-      },
-      formItemSingle: {
-        labelCol: {
-          span: 4
-        },
-        wrapperCol: {
-          span: 19
-        },
-      },
-      position: '',
-      positionXY: {},
-    }
-  },
-  methods: {
-    handleSave() {
+	import BMapComponent from '@/components/BaiduMap/BMapComponent.vue'
+	export default {
+		components: {
+			BMapComponent
+		},
+		beforeCreate() {
+			this.organizationForm = this.$form.createForm(this)
+		},
+		data() {
+			return {
+				formItemLayout: {
+					labelCol: {
+						span: 8
+					},
+					wrapperCol: {
+						span: 14
+					},
+				},
+				formItemSingle: {
+					labelCol: {
+						span: 4
+					},
+					wrapperCol: {
+						span: 19
+					},
+				},
+				position: '',
+			}
+		},
+		methods: {
+			handleSave() {
+				this.organizationForm.validateFields((err, values) => {
+					if (!err) {
+					
+					}
+				})
+			},
+			handleReturn() {
+				this.$router.push({
+					name: '/systemManagement/organization'
+				})
+			},
+			handleSearchPoint(e) {
+				const value = e.target.value
+				this.position = value
+			},
+			//拖拽或点击获取新的地址
+			getNewAddress(data, addressTemp) {
+				let address = addressTemp
+				let province = '',
+					city = '',
+					district = ''
+				if (data.province) {
+					province = data.province
+				}
+				if (data.city) {
+					city = data.city
+				}
+				if (data.district) {
+					district = data.district
+				}
+				if (province == city) {
+					if (address.indexOf(province) == -1) {
+						if (district != '') {
+							address = district + address
+						}
+						if (province != '') {
+							address = province + address
+						}
+					}
+				} else {
+					if (address.indexOf(district) != -1) {
+						if (district != '') {
+							address = district + address
+						}
+					}
+					if (address.indexOf(city) == -1) {
+						if (city != '') {
+							address = city + address
+						}
+					}
 
-    },
-    handleReturn() {},
-    handleSearchPoint(e) {
-      console.log('hahahah')
-      const value = e.target.value
-      this.position = value
-    },
-    //拖拽或点击获取新的地址
-    getNewAddress(data, addressTemp) {
-      let address = addressTemp
-      let province = '',
-        city = '',
-        district = ''
-      if (data.province) {
-        province = data.province
-      }
-      if (data.city) {
-        city = data.city
-      }
-      if (data.district) {
-        district = data.district
-      }
-      if (province == city) {
-        if (address.indexOf(province) == -1) {
-          if (district != '') {
-            address = district + address
-          }
-          if (province != '') {
-            address = province + address
-          }
-        }
-      } else {
-        if (address.indexOf(district) != -1) {
-          if (district != '') {
-            address = district + address
-          }
-        }
-        if (address.indexOf(city) == -1) {
-          if (city != '') {
-            address = city + address
-          }
-        }
+					if (address.indexOf(province) == -1) {
+						if (province != '') {
+							address = province + address
+						}
+					}
+				}
+				this.organizationForm.setFieldsValue({
+					address: address
+				})
+			},
 
-        if (address.indexOf(province) == -1) {
-          if (province != '') {
-            address = province + address
-          }
-        }
-      }
-      this.organizationForm.setFieldsValue({address:address})
-    },
-    gainSearchList(val) {
-      this.positionList = val.Ar
-    }
-
-  }
-}
+		}
+	}
 </script>
 
 <style scoped>

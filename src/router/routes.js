@@ -86,6 +86,12 @@ const appRoutes = [{
 			 name: '/organization/view',
 			 component: OrganizationView,
 			 meta: { title: '查看', menuPath: false, authCode: 'S050101', menuIcon: 'cluster', hideInBread: false, openMode: 'normal' }
+      },
+      {
+			 path: '/organization/edit',
+			 name: '/organization/edit',
+			 component: OrganizationCreate,
+			 meta: { title: '编辑', menuPath: false, authCode: 'S050101', menuIcon: 'cluster', hideInBread: false, openMode: 'normal' }
       }]
     },
     {
