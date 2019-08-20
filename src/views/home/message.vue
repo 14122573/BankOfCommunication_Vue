@@ -2,7 +2,7 @@
 <template>
   <div class="todolistWapper">
     <p class="todolistTitle">
-      <span class="name">待办事项</span>
+      <span class="name">通知</span>
     </p>
     <div class="todolistCont">
       <a-skeleton :loading="loadingTodo">
@@ -25,7 +25,7 @@
 <script>
 
 export default {
-  name: 'Todolist',
+  name: 'MyMessages',
   components: {
   },
   data() {

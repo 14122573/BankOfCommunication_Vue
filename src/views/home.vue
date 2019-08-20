@@ -5,14 +5,14 @@
         <FastEntrance></FastEntrance>
       </a-col>
     </a-row>
-    <!-- <a-row class="homeRow" :gutter="16">
+    <a-row class="homeRow" :gutter="16">
       <a-col :span="12">
         <Todolist></Todolist>
       </a-col>
       <a-col :span="12">
         <Todolist></Todolist>
       </a-col>
-    </a-row> -->
+    </a-row>
   </div>
 </template>
 
@@ -20,13 +20,15 @@
 import { permission } from '@/util/mixins'
 import FastEntrance from '@/views/home/fastEntrance.vue'
 import Todolist from '@/views/home/todolist'
+import MyMessages from '@/views/home/message'
 
 export default {
   name: 'HomePage',
   mixins: [permission],
   components: {
     FastEntrance,
-    Todolist
+    Todolist,
+    MyMessages
   },
   data() {
     return {

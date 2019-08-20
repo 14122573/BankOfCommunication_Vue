@@ -20,7 +20,14 @@ case 'devol': // 本地线上部署环境下
   ]
   break
 case 'sit': // sit环境下
-  MicConfig = []
+  MicConfig = [
+    {
+      baseUrl:'http://scsd.omniview.pro',
+      resourceName:'scsd',
+      micId:'mic:scsd',
+      pathPrefix:'/scsd'
+    }
+  ]
   break
 case 'uat': // uat环境下
   MicConfig = []

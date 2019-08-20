@@ -38,7 +38,8 @@ import {
   Tree,
   Tabs,
   DatePicker,
-  skeleton
+  skeleton,
+  pagination
 } from 'ant-design-vue'
 
 import singleSpaVue from 'single-spa-vue'
@@ -67,6 +68,7 @@ Vue.use(skeleton)
 Vue.use(Tree)
 Vue.use(Tabs)
 Vue.use(DatePicker)
+Vue.use(pagination)
 Vue.config.productionTip = false
 Vue.prototype.$ajax = ajax
 Vue.prototype.$api = api
