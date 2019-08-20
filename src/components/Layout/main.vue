@@ -80,7 +80,6 @@ export default {
         url: this.$api.CHECKTOKEN_POST,
         params: {}
       }).then(res=>{
-        console.log(res)
         this.getInfo()
       })
     }else{
@@ -127,7 +126,6 @@ export default {
         this.$cookie.remove('url')
         this.$cookie.remove('systemLists')
         this.$cookie.remove('canEnterBind')
-        this.$router.push({ name: 'login' })
       }else{
         this.$ajax.post({
           url: this.$api.POST_LOGOUT,
