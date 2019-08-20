@@ -1,5 +1,5 @@
 <template>
-<div style="text-align:center">
+<div style="text-align:center;padding-top:1px">
   <div class="errTips">
     <img class="img" src="@/assets/images/networkerr.png" alt="networkerr">
     <p class="tips">网络错误</p>

@@ -1,5 +1,5 @@
 <template>
-<div style="text-align:center">
+<div style="text-align:center;padding-top:1px">
   <div class="errTips">
     <img class="img" src="@/assets/images/noauth.png" alt="noauth">
     <p class="tips">无权访问</p>

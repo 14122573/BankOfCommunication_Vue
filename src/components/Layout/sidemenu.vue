@@ -36,6 +36,7 @@
 // import {permission} from '@/util/mixins'
 import {navigateToUrl} from 'single-spa'
 import common from '@/util/common'
+import { OutsideUrls } from '@/config/outside-config'
 export default {
   name: 'SideMenu',
   // mixins: [permission],
@@ -67,12 +68,11 @@ export default {
     },
     /**
      * 组装需要跳转的外部地址
-     * @param {String} baseUrl 跳转外部系统的url地址
      * @param {String} sysCode 当前点击的外部系统的系统code
      * @returns false 代表没有找到；
      */
-    getRedirctUrl(baseUrl,sysCode){
-      if(!baseUrl || !sysCode) return false
+    getRedirctUrl(sysCode){
+      if(!sysCode) return false
 
       this.userInfo = (this.userInfo==null) ? JSON.parse(this.$cookie.get('userInfo')) : this.userInfo
       let userId = ''
@@ -85,8 +85,11 @@ export default {
       }else {
         userId = this.userInfo.id
       }
-      let redirctUrl = baseUrl+'?userId='+userId+'&accessToken='+this.$cookie.get('token')+'&refreshToken='+this.$cookie.get('refresh_token')
-      return redirctUrl
+      let redirctUrl = ''
+      if('string' == typeof OutsideUrls[sysCode] && OutsideUrls[sysCode] !=''){
+        redirctUrl = OutsideUrls[sysCode]+'?userId='+userId+'&accessToken='+this.$cookie.get('token')+'&refreshToken='+this.$cookie.get('refresh_token')
+      }
+      return redirctUrl==''?false:redirctUrl
     },
     /**
      * 根据菜单打开方式，做不同动作
@@ -99,13 +102,17 @@ export default {
         switch (openMode) {
         case 'outsite':
           this.$store.commit('SET_SHOWSPACONTENT', false)
-          this.$router.push({
-            name: menu.name,
-            params: {
-              sysname: menu.meta.title
-            }})
-          let href = this.getRedirctUrl(menu.meta.outsiteLink,key)
-          if(href) window.open(href, '_blank')
+          let href = this.getRedirctUrl(key)
+          if(href) {
+            this.$router.push({
+              name: menu.name,
+              params: {
+                sysname: menu.meta.title
+              }})
+            window.open(href, '_blank')
+          }else{
+            this.$router.push({name: 'noautherr'})
+          }
           break
         case 'normal':
           this.$store.commit('SET_SHOWSPACONTENT', false)
