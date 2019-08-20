@@ -34,7 +34,10 @@ import {
   Divider,
   Upload,
   Modal,
-  badge
+  badge,
+  Tree,
+  Tabs,
+  DatePicker
 } from 'ant-design-vue'
 
 import singleSpaVue from 'single-spa-vue'
@@ -59,6 +62,9 @@ Vue.use(Divider)
 Vue.use(Upload)
 Vue.use(Modal)
 Vue.use(badge)
+Vue.use(Tree)
+Vue.use(Tabs)
+Vue.use(DatePicker)
 Vue.config.productionTip = false
 Vue.prototype.$ajax = ajax
 Vue.prototype.$api = api

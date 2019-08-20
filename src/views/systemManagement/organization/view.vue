@@ -95,35 +95,35 @@
 	</a-card>
 </template>
 <script>
-	import BMapComponent from '@/components/BaiduMap/BMapComponent.vue'
-	export default {
-		components: {
-			BMapComponent
-		},
-		data() {
-			return {
-				position: ''
-			}
-		},
-		methods: {
-			handleReturn() {
-				this.$router.push({
-					name: '/systemManagement/organization'
-				})
-			},
-			handleSave() {
+import BMapComponent from '@/components/BaiduMap/BMapComponent.vue'
+export default {
+  components: {
+    BMapComponent
+  },
+  data() {
+    return {
+      position: ''
+    }
+  },
+  methods: {
+    handleReturn() {
+      this.$router.push({
+        name: '/systemManagement/organization'
+      })
+    },
+    handleSave() {
 
-			},
-			handleEdit() {
-				this.$router.push({
-					name: '/organization/edit'
-				})
-			}
-		},
-		mounted() {
-			this.position = "上海市玉兰香苑"
-		}
-	}
+    },
+    handleEdit() {
+      this.$router.push({
+        name: '/organization/edit'
+      })
+    }
+  },
+  mounted() {
+    this.position = '上海市玉兰香苑'
+  }
+}
 </script>
 
 <style scoped>
