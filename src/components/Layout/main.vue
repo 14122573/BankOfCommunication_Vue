@@ -80,7 +80,6 @@ export default {
         url: this.$api.CHECKTOKEN_POST,
         params: {}
       }).then(res=>{
-        console.log(res)
         this.getInfo()
       })
     }else{
