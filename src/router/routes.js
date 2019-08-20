@@ -40,8 +40,7 @@ const OrganizationCreate = () =>
  * meta.openMode 标记此路由点击后展示打开的方式。若值为normal，可不设置此字段
  *               spa 注册子前端项目的路由。注，此时设置的router.name为子项目展现路由名称的name，且需带上子项目名称前缀。如：/{micname}/{子项目router.name}，且无需设定router.component
  *               normal 本项目中自有路由
- *               outsite 新开标签页打开，此打开方式将不嵌套layout
- * meta.outsiteLink 当meta.openMode 为outsite时，必须配置此字段，并设置完整跳转页面的href
+ *               outsite 新开标签页打开，此打开方式将不嵌套layout。对应读取的跳转链接在，config/outside-config.js下。对象键值名需与router.name、router.meta.authCode保持一致
  *
  */
 const appRoutes = [{
@@ -128,25 +127,25 @@ const appRoutes = [{
       path: '/SCYJ/:sysname',
       name: 'SCYJ',
       component: TipsOutsite,
-      meta: { title: '水产预警系统', menuPath: true, authCode: 'SCYJ', menuIcon: 'alert', hideInBread: false, openMode: 'outsite', outsiteLink: 'http://47.102.155.97:8080' },
+      meta: { title: '水产预警系统', menuPath: true, authCode: 'SCYJ', menuIcon: 'alert', hideInBread: false, openMode: 'outsite' },
     },
     {
       path: '/YQCB/:sysname',
       name: 'YQCB',
       component: TipsOutsite,
-      meta: { title: '全国水产养殖动植物病情测报系统', menuPath: true, menuIcon: 'cloud-upload', authCode: 'YQCB', hideInBread: false, openMode: 'outsite', outsiteLink: 'http://47.102.155.97:8081' },
+      meta: { title: '全国水产养殖动植物病情测报系统', menuPath: true, menuIcon: 'cloud-upload', authCode: 'YQCB', hideInBread: false, openMode: 'outsite' },
     },
     {
       path: '/ZXJC/:sysname',
       name: 'ZXJC',
       component: TipsOutsite,
-      meta: { title: '国家水生动物疫病监测信息管理系统', menuPath: true, menuIcon: 'hdd', authCode: 'ZXJC', hideInBread: false, openMode: 'outsite', outsiteLink: 'http://47.102.155.97:8082' },
+      meta: { title: '国家水生动物疫病监测信息管理系统', menuPath: true, menuIcon: 'hdd', authCode: 'ZXJC', hideInBread: false, openMode: 'outsite' },
     },
     {
       path: '/NYPC/:sysname',
       name: 'NYPC',
       component: TipsOutsite,
-      meta: { title: '水产养殖动物病原菌耐药性普查数据分析系统', menuPath: true, menuIcon: 'experiment', authCode: 'NYPC', hideInBread: false, openMode: 'outsite', outsiteLink: 'http://47.102.155.97:8083' }
+      meta: { title: '水产养殖动物病原菌耐药性普查数据分析系统', menuPath: true, menuIcon: 'experiment', authCode: 'NYPC', hideInBread: false, openMode: 'outsite' }
     },
   ],
 },
