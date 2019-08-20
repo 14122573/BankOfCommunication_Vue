@@ -65,11 +65,10 @@ export default {
       this.map.clearOverlays() //清除地图上所有覆盖物
       var pp = point //获取第一个智能搜索的结果
       this.setZoom([pp])
-      // this.map.centerAndZoom(pp, this.setZoom(pp));
       let marker = new BMap.Marker(pp)
       this.map.addOverlay(marker) //添加标注
       marker.enableDragging()
-      this.addressByPoint(point)
+      // this.addressByPoint(point)
       //拖拽结束事件
       let vm = this
       marker.addEventListener('dragend', function(e) {
@@ -113,12 +112,11 @@ export default {
       })
     },
 		 // 根据点的数组自动调整缩放级别  
-		 setZoom(bPoints) {  
+		 setZoom(bPoints) {  	
       var view = this.map.getViewport(bPoints)  
       var mapZoom = view.zoom  
       var centerPoint = view.center  
-      this.map.centerAndZoom(centerPoint, mapZoom)  
-				 
+      this.map.centerAndZoom(centerPoint, mapZoom)  	 
     }  
   },
   mounted() {
