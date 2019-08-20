@@ -6,7 +6,30 @@
  *  micId：子项目打包部署时自行定义的名称
  *  pathPrefix：子项目路由base参数
  */
-const MicConfig = [
+
+let MicConfig = []
+switch (process.env.NODE_ENV) {
+case 'devol': // 本地线上部署环境下
+  MicConfig = [
+    {
+      baseUrl:'http://scsd.tao.com',
+      resourceName:'scsd',
+      micId:'mic:scsd',
+      pathPrefix:'/scsd'
+    }
+  ]
+  break
+case 'sit': // sit环境下
+  MicConfig = []
+  break
+case 'uat': // uat环境下
+  MicConfig = []
+  break
+case 'production': // 生产环境下
+  MicConfig = []
+  break
+default: // 默认环境下（开发环境）
+  MicConfig = [
   // {
   //   baseUrl:'http://sub1.tao.com',
   //   resourceName:'spaone',
@@ -19,13 +42,16 @@ const MicConfig = [
   //   micId:'mic:management',
   //   pathPrefix:'/management'
   // },
-  {
-    baseUrl:'http://scsd.tao.com',
-    resourceName:'scsd',
-    micId:'mic:scsd',
-    pathPrefix:'/scsd'
-  }
-]
+    {
+      baseUrl:'http://scsd.tao.com',
+      resourceName:'scsd',
+      micId:'mic:scsd',
+      pathPrefix:'/scsd'
+    }
+  ]
+  break
+};
+
 export const MicConfigs = [
   ...MicConfig,
 ]

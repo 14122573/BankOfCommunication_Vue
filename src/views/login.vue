@@ -325,8 +325,7 @@ export default {
                       name: 'home',
                     })
                   } else {
-                    const openUrl = gainDatas.url + '?userId=' + gainDatas.userId + '&access_token=' + gainDatas.access_token +
-												'&refresh_token=' + gainDatas.refresh_token
+                    const openUrl = gainDatas.url + '?userId=' + gainDatas.userId + '&accessToken=' + gainDatas.access_token + '&refreshToken=' + gainDatas.refresh_token
                     window.open(openUrl, '_parent')
                     this.$cookie.set('canEnterBind', '500')
                   }
@@ -370,8 +369,7 @@ export default {
               name: 'home',
             })
           } else {
-            const openUrl = gainDatas.url + '?userId=' + gainDatas.userId + '&access_token=' + gainDatas.access_token +
-								'&refresh_token=' + gainDatas.refresh_token
+            const openUrl = gainDatas.url + '?userId=' + gainDatas.userId + '&accessToken=' + gainDatas.access_token + '&refreshToken=' + gainDatas.refresh_token
             window.open(openUrl, '_parent')
             this.$cookie.set('canEnterBind', '500')
           }

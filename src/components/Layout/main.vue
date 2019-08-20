@@ -84,7 +84,7 @@ export default {
         this.getInfo()
       })
     }else{
-      this.plogout()
+      this.plogout(true)
     }
   },
   watch:{
@@ -113,11 +113,12 @@ export default {
     }
   },
   methods: {
-    plogout(){
-      this.$ajax.post({
-        url: this.$api.POST_LOGOUT,
-        params: {}
-      }).then(res=>{
+    /**
+     * @param {boolean} isOnlyClear 是否需要调用接口登出 ； false，不需要；
+     */
+    plogout(isOnlyClear){
+      isOnlyClear = (isOnlyClear!=undefined && isOnlyClear!=null)?isOnlyClear:false
+      if(isOnlyClear){
         this.$cookie.remove('token')
         this.$cookie.remove('refresh_token')
         this.$cookie.remove('userInfo')
@@ -126,7 +127,21 @@ export default {
         this.$cookie.remove('systemLists')
         this.$cookie.remove('canEnterBind')
         this.$router.push({ name: 'login' })
-      })
+      }else{
+        this.$ajax.post({
+          url: this.$api.POST_LOGOUT,
+          params: {}
+        }).then(res=>{
+          this.$cookie.remove('token')
+          this.$cookie.remove('refresh_token')
+          this.$cookie.remove('userInfo')
+          this.$cookie.remove('redirectUrl')
+          this.$cookie.remove('url')
+          this.$cookie.remove('systemLists')
+          this.$cookie.remove('canEnterBind')
+          this.$router.push({ name: 'login' })
+        })
+      }
     },
 
     toggleSideCollapsed(){

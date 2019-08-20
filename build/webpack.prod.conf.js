@@ -16,6 +16,8 @@ if (process.env.NODE_ENV === 'sit') {
   env = require('../config/sit.env')
 } else if (process.env.NODE_ENV === 'uat') {
   env = require('../config/uat.env')
+}else if (process.env.NODE_ENV === 'devol') {
+  env = require('../config/devOnline.env')
 }
 
 const webpackConfig = merge(baseWebpackConfig, {
