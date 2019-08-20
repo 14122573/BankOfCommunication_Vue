@@ -1,14 +1,19 @@
 <template>
-	<h1>Home Page</h1>
+  <div>
+   <FastEntrance></FastEntrance>
+  </div>
 </template>
 
 <script>
-import {
-  permission
-} from '@/util/mixins'
+import { permission } from '@/util/mixins'
+import FastEntrance from '@/views/home/fastEntrance.vue'
+
 export default {
   name: 'HomePage',
   mixins: [permission],
+  components: {
+    FastEntrance
+  },
   data() {
     return {
 
