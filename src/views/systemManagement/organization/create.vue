@@ -6,12 +6,12 @@
 				<a-button type="primary" ghost @click="handleReturn">
 					取消
 				</a-button>
-				<a-button type="primary" @click="handleSave">
+				<a-button type="primary" @click="handleSave" html-type="submit">
 					保存
 				</a-button>
 			</a-col>
 		</a-row>
-		<a-form :form="organizationForm">
+		<a-form :form="organizationForm" :hideRequiredMark='true'>
 			<a-row type="flex" justify="start" align="middle">
 				<a-col :span="8">
 					<a-form-item label="组织机构名称" v-bind="formItemLayout">
@@ -75,8 +75,7 @@
 			<a-row type="flex" justify="start" align="middle">
 				<a-col :span="16">
 					<a-form-item label="地址微调" v-bind="formItemSingle">
-						<BMapComponent :height="250" :width="830" :keyWords="position" :position="positionXY" @on-result="gainSearchList"
-						 @on-change="getNewAddress" />
+						<BMapComponent :height="250" :width="830" :keyWords="position" @on-change="getNewAddress" />
 					</a-form-item>
 				</a-col>
 			</a-row>
@@ -112,16 +111,22 @@ export default {
         },
       },
       position: '',
-      positionXY: {},
     }
   },
   methods: {
     handleSave() {
-
+      this.organizationForm.validateFields((err, values) => {
+        if (!err) {
+					
+        }
+      })
     },
-    handleReturn() {},
+    handleReturn() {
+      this.$router.push({
+        name: '/systemManagement/organization'
+      })
+    },
     handleSearchPoint(e) {
-      console.log('hahahah')
       const value = e.target.value
       this.position = value
     },
@@ -167,11 +172,10 @@ export default {
           }
         }
       }
-      this.organizationForm.setFieldsValue({address:address})
+      this.organizationForm.setFieldsValue({
+        address: address
+      })
     },
-    gainSearchList(val) {
-      this.positionList = val.Ar
-    }
 
   }
 }

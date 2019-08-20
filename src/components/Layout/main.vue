@@ -41,6 +41,7 @@
           <div v-show="showSpaContent">
             <div id="content" ></div>
           </div>
+
         </a-layout-content>
       </a-layout>
     </template>
@@ -62,7 +63,7 @@ export default {
     NavBar,
     Loader,
     SideMenu,
-    Login
+    Login,
   },
   data() {
     return {
@@ -79,6 +80,7 @@ export default {
         url: this.$api.CHECKTOKEN_POST,
         params: {}
       }).then(res=>{
+        console.log(res)
         this.getInfo()
       })
     }else{
@@ -117,6 +119,7 @@ export default {
     plogout(isOnlyClear){
       isOnlyClear = (isOnlyClear!=undefined && isOnlyClear!=null)?isOnlyClear:false
       if(isOnlyClear){
+        this.$store.commit('SET_CLEAR')
         this.$cookie.remove('token')
         this.$cookie.remove('refresh_token')
         this.$cookie.remove('userInfo')
@@ -124,11 +127,13 @@ export default {
         this.$cookie.remove('url')
         this.$cookie.remove('systemLists')
         this.$cookie.remove('canEnterBind')
+        this.$router.push({ name: 'login' })
       }else{
         this.$ajax.post({
           url: this.$api.POST_LOGOUT,
           params: {}
         }).then(res=>{
+          this.$store.commit('SET_CLEAR')
           this.$cookie.remove('token')
           this.$cookie.remove('refresh_token')
           this.$cookie.remove('userInfo')
@@ -186,10 +191,6 @@ export default {
 
 #AppContent { margin: 24px 16px 0; background:url('../../assets/images/content-bg.png') no-repeat top right; background-size:30% }
 #AppContent .contentbg { position: absolute; top:10px; right:10px; z-index: 1; width:20%}
-#AppContent .wrapper {
-  padding: 1px;
-  /* background:#fff;  */
-  min-height: 98%
-}
+#AppContent .wrapper { padding: 1px; min-height: 98%}
 
 </style>
