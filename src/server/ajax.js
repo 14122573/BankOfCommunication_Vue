@@ -29,7 +29,6 @@ const errorHandler = (err) => {
     case 500:
       const code = err.response.data && err.response.data.code
       if (code == '911') { // token 获取
-        console.log(911)
         // token过期则重新获取token或refresh token并刷新页面
         const params = {
           grant_type: 'refresh_token',

@@ -37,7 +37,8 @@ import {
   badge,
   Tree,
   Tabs,
-  DatePicker
+  DatePicker,
+  skeleton
 } from 'ant-design-vue'
 
 import singleSpaVue from 'single-spa-vue'
@@ -62,6 +63,7 @@ Vue.use(Divider)
 Vue.use(Upload)
 Vue.use(Modal)
 Vue.use(badge)
+Vue.use(skeleton)
 Vue.use(Tree)
 Vue.use(Tabs)
 Vue.use(DatePicker)
