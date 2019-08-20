@@ -52,7 +52,6 @@ export default {
       type: String,
       required: true,
       validator (value) {
-        console.log(value)
         return common.oneOf(value, ['inline', 'vertical'])
       }
     }
@@ -82,14 +81,19 @@ export default {
     getRedirctUrl(sysCode){
       if(!sysCode) return false
 
+
+
       this.userInfo = (this.userInfo==null) ? JSON.parse(this.$cookie.get('userInfo')) : this.userInfo
       let userId = ''
+
       if(Array.isArray(this.userInfo.oldAccountSet) && this.userInfo.oldAccountSet.length>0){
+
         this.userInfo.oldAccountSet.forEach(element => {
-          if(element.sysDic && element.sysDic.sysCode ){
-            userId = (element.sysDic.sysCode===sysCode)?element.userId:this.userInfo.id
+          if('object'== typeof element.sysDic && 'string' == typeof element.sysDic.sysCode && element.sysDic.sysCode.length>0 ){
+            if(element.sysDic.sysCode===sysCode) userId = element.userId
           }
         })
+        if ( userId =='') userId = this.userInfo.id
       }else {
         userId = this.userInfo.id
       }

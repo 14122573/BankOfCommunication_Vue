@@ -54,7 +54,7 @@ export default {
 </script>
 
 <style>
-.fastEntranceTitle { padding-top:20px; font-size: 20px; color:#4D4D4D; line-height: 1rem }
+.fastEntranceTitle {  font-size: 20px; color:#4D4D4D; line-height: 1rem }
 .fastEntranceWapper { padding: 10px; background-color:#fff }
 .entranceList { padding: 10px}
 .entranceGname { font-size: 16px; color:#4D4D4D; padding-left: 10px; border-left:4px solid #3391FF; height: 16px; line-height: 16px }

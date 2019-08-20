@@ -1,18 +1,32 @@
 <template>
   <div>
-   <FastEntrance></FastEntrance>
+    <a-row>
+      <a-col class="homeRow" :span="24">
+        <FastEntrance></FastEntrance>
+      </a-col>
+    </a-row>
+    <!-- <a-row class="homeRow" :gutter="16">
+      <a-col :span="12">
+        <Todolist></Todolist>
+      </a-col>
+      <a-col :span="12">
+        <Todolist></Todolist>
+      </a-col>
+    </a-row> -->
   </div>
 </template>
 
 <script>
 import { permission } from '@/util/mixins'
 import FastEntrance from '@/views/home/fastEntrance.vue'
+import Todolist from '@/views/home/todolist'
 
 export default {
   name: 'HomePage',
   mixins: [permission],
   components: {
-    FastEntrance
+    FastEntrance,
+    Todolist
   },
   data() {
     return {
@@ -38,3 +52,7 @@ export default {
 	}
 
 </style>
+<style>
+.homeRow {padding-top:20px;}
+</style>
+
