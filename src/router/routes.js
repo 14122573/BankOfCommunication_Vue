@@ -25,25 +25,34 @@ const OrganizationUpload = () =>
     import ('@/views/systemManagement/organization/upload')
 const OrganizationCreate = () =>
     import ('@/views/systemManagement/organization/create')
-
-/**
- * 要求：
- *  1、配置Router时，需将此router的权限编码信息、打开方式信息、是否在面包屑隐藏信息、是否为左侧菜单、是否有菜单图标配置在内。
- *  2、如此路由节点是要在面包屑中展示的，则需严格按照路由父子级，将子路由定义在其直属父级路由的children中
- *  3、为页面渲layout，所有除’/‘外的路由，都需定在’/‘路由的children下
- * 作用：除去正常路由展示，系统会从本数组内抓取权限菜单、判断是否能在面包屑中显示
- * 特殊配置字段说明：
- * meta.menuPath 标记是否为菜单。不是可不设置此字段
- * meta.authCode 当此路由受权限控制，需设置此字段，并填写与服务端一直的权限编码。不受权限控制可不设置
- * meta.hideInBread 标记是否需在面包屑中展示。不是可不设置此字段
- * meta.menuIcon 标记此路由在展示时需显示的ant design的图标。只能填写ant design中ICON组件内允许的字符串
- * meta.openMode 标记此路由点击后展示打开的方式。若值为normal，可不设置此字段
- *               spa 注册子前端项目的路由。注，此时设置的router.name为子项目展现路由名称的name，且需带上子项目名称前缀。如：/{micname}/{子项目router.name}，且无需设定router.component
- *               normal 本项目中自有路由
- *               outsite 新开标签页打开，此打开方式将不嵌套layout
- * meta.outsiteLink 当meta.openMode 为outsite时，必须配置此字段，并设置完整跳转页面的href
- *
- */
+    // 系统管理---角色
+const RoleManagement = () =>
+    import ('@/views/systemManagement/role/list')
+const RoleAdd = () =>
+    import ('@/views/systemManagement/role/add')
+    // 系统管理---管理员
+const Administrator = () =>
+    import ('@/views/systemManagement/administrator/index')
+const UserDetailView = () =>
+    import ('@/views/systemManagement/administrator/view')
+    /**
+     * 要求：
+     *  1、配置Router时，需将此router的权限编码信息、打开方式信息、是否在面包屑隐藏信息、是否为左侧菜单、是否有菜单图标配置在内。
+     *  2、如此路由节点是要在面包屑中展示的，则需严格按照路由父子级，将子路由定义在其直属父级路由的children中
+     *  3、为页面渲layout，所有除’/‘外的路由，都需定在’/‘路由的children下
+     * 作用：除去正常路由展示，系统会从本数组内抓取权限菜单、判断是否能在面包屑中显示
+     * 特殊配置字段说明：
+     * meta.menuPath 标记是否为菜单。不是可不设置此字段
+     * meta.authCode 当此路由受权限控制，需设置此字段，并填写与服务端一直的权限编码。不受权限控制可不设置
+     * meta.hideInBread 标记是否需在面包屑中展示。不是可不设置此字段
+     * meta.menuIcon 标记此路由在展示时需显示的ant design的图标。只能填写ant design中ICON组件内允许的字符串
+     * meta.openMode 标记此路由点击后展示打开的方式。若值为normal，可不设置此字段
+     *               spa 注册子前端项目的路由。注，此时设置的router.name为子项目展现路由名称的name，且需带上子项目名称前缀。如：/{micname}/{子项目router.name}，且无需设定router.component
+     *               normal 本项目中自有路由
+     *               outsite 新开标签页打开，此打开方式将不嵌套layout
+     * meta.outsiteLink 当meta.openMode 为outsite时，必须配置此字段，并设置完整跳转页面的href
+     *
+     */
 const appRoutes = [{
   path: '/',
   name: 'Layout',
@@ -76,11 +85,36 @@ const appRoutes = [{
         meta: { title: '导入', menuPath: false, authCode: 'S050101', menuIcon: 'setting', hideInBread: false, openMode: 'normal' }
       },
       {
-			 path: '/organization/create',
-			 name: '/organization/create',
-			 component: OrganizationCreate,
-			 meta: { title: '组织机构创建', menuPath: false, authCode: 'S050101', menuIcon: 'cluster', hideInBread: false, openMode: 'normal' }
-      }]
+        path: '/organization/create',
+        name: '/organization/create',
+        component: OrganizationCreate,
+        meta: { title: '组织机构创建', menuPath: false, authCode: 'S050101', menuIcon: 'cluster', hideInBread: false, openMode: 'normal' }
+      },
+      {
+        path: '/systemManagement/role',
+        name: '/systemManagement/role',
+        component: RoleManagement,
+        meta: { title: '角色管理', menuPath: true, authCode: 'S050101', menuIcon: 'user', hideInBread: false, openMode: 'normal' }
+      },
+      {
+        path: '/systemManagement/role/add',
+        name: '/systemManagement/role/add',
+        component: RoleAdd,
+        meta: { title: '角色新增', menuPath: false, authCode: 'S050101', menuIcon: 'user', hideInBread: false, openMode: 'normal' }
+      },
+      {
+        path: '/systemManagement/administrator',
+        name: '/systemManagement/administrator',
+        component: Administrator,
+        meta: { title: '管理员管理', menuPath: true, authCode: 'S050101', menuIcon: 'user', hideInBread: false, openMode: 'normal' }
+      },
+      {
+        path: '/systemManagement/administrator/pendingPermissions/view',
+        name: '/systemManagement/administrator/pendingPermissions/view',
+        component: UserDetailView,
+        meta: { title: '查看', menuPath: false, authCode: 'S050101', menuIcon: 'user', hideInBread: false, openMode: 'normal' }
+      },
+      ]
     },
     {
       path: '/scsd',
