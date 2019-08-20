@@ -106,7 +106,7 @@ export default {
   },
   computed: {
     menuMode() {
-      return this.collapsed ? 'inline' : 'vertical'
+      return this.collapsed ? 'vertical':'inline'
     },
     showSpaContent(){
       return this.$store.state.showSpaContent
@@ -189,7 +189,7 @@ export default {
 #portalHeader .navdropmenu .name { padding:0 10px 0 5px}
 #portalHeader .navTidings {float: right; margin-right:40px; margin-top:30px; cursor: pointer;}
 
-#AppContent { margin: 24px 16px 0; background:url('../../assets/images/content-bg.png') no-repeat top right; background-size:30% }
+#AppContent { padding-top:10px; margin: 14px 16px 0; background:url('../../assets/images/content-bg.png') no-repeat top right; background-size:20% }
 #AppContent .contentbg { position: absolute; top:10px; right:10px; z-index: 1; width:20%}
 #AppContent .wrapper { padding: 1px; min-height: 98%}
 

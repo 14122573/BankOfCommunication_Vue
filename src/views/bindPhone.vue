@@ -37,11 +37,9 @@
 								</a-input>
 							</a-form-item>
 						</a-col>
-						<a-col :span="10">
+						<a-col :span="7">
 							<a-form-item>
-								<a-row type="flex" justify="start" :gutter="10" align="middle">
-									<a-col :span="16">
-										<a-input v-decorator="[
+                <a-input v-decorator="[
 											  'code',
 											  { validateTrigger:'blur',
                         rules: [
@@ -50,20 +48,52 @@
 										 placeholder="手机验证码" :disabled='disableCode'>
 											<a-icon slot="prefix" type="code" style="color: rgba(0,0,0,.25)" />
 										</a-input>
-									</a-col>
-									<a-col :span="8">
-										<a-button type="primary" :disabled='disableBtn' ghost @click="sendCode" size="small" style="height:42px">
-											{{btnTxt}}
-										</a-button>
-									</a-col>
-								</a-row>
+
 							</a-form-item>
 						</a-col>
+            <a-col :span="4">
+              <a-form-item>
+                  <a-button type="primary" :disabled='disableBtn' ghost @click="sendCode" size="small" style="height:42px">
+                    {{btnTxt}}
+                  </a-button>
+                  </a-form-item>
+                </a-col>
 					</a-row>
 					<div v-if="!isBind">
 						<div class="tips">{{tips}}</div>
 						<a-row type="flex" justify="start" align="middle" :gutter="10">
-							<a-col>
+
+							<a-col span="7">
+								<a-form-item>
+									<a-input v-decorator="[
+										  'password',
+										  {validateTrigger:'blur',
+											rules: [{ required: true, message: '请输入密码!' }, {
+																  validator: validateToNextPassword,
+																}] }
+										]"
+									 type="password" placeholder="密码">
+										<a-icon slot="prefix" type="lock" style="color: rgba(0,0,0,.25)" />
+									</a-input>
+								</a-form-item>
+							</a-col>
+              <a-col span="7">
+								<a-form-item>
+									<a-input v-decorator="[
+										  'rePassword',
+										  { validateTrigger:'blur',
+                      rules: [{ required: true, message: '请重复填写密码!' }, {
+											  validator: compareToFirstPassword,
+											}] }
+										]"
+									 type="password" placeholder="重复密码" @blur="handleConfirmBlur">
+										<a-icon slot="prefix" type="lock" style="color: rgba(0,0,0,.25)" />
+									</a-input>
+								</a-form-item>
+							</a-col>
+						</a-row>
+	          <a-row type="flex" justify="start" align="middle" :gutter="10">
+              <a-col span="7">
 								<a-form-item>
 									<a-input v-decorator="[
 											  'name',
@@ -78,35 +108,7 @@
 									</a-input>
 								</a-form-item>
 							</a-col>
-							<a-col>
-								<a-form-item>
-									<a-input v-decorator="[
-										  'password',
-										  {validateTrigger:'blur',
-											rules: [{ required: true, message: '请输入密码!' }, {
-																  validator: validateToNextPassword,
-																}] }
-										]"
-									 type="password" placeholder="密码">
-										<a-icon slot="prefix" type="lock" style="color: rgba(0,0,0,.25)" />
-									</a-input>
-								</a-form-item>
-							</a-col>
-							<a-col>
-								<a-form-item>
-									<a-input v-decorator="[
-										  'rePassword',
-										  { validateTrigger:'blur',
-                      rules: [{ required: true, message: '请重复填写密码!' }, {
-											  validator: compareToFirstPassword,
-											}] }
-										]"
-									 type="password" placeholder="重复密码" @blur="handleConfirmBlur">
-										<a-icon slot="prefix" type="lock" style="color: rgba(0,0,0,.25)" />
-									</a-input>
-								</a-form-item>
-							</a-col>
-							<a-col>
+							<a-col span="7">
 								<a-form-item>
 									<a-input v-decorator="[
 										  'mail',
@@ -124,25 +126,7 @@
 									</a-input>
 								</a-form-item>
 							</a-col>
-						</a-row>
-
-						<a-row type="flex" justify="start" align="middle" :gutter="10">
-							<a-col>
-								<a-form-item>
-									<a-input v-decorator="[
-										  'addr',
-										  {
-											rules: [ {
-											  required: true, message: '请输入地址!',
-											}]
-										  }
-										]"
-									 type="text" placeholder="地址">
-										<a-icon slot="prefix" type="environment" style="color: rgba(0,0,0,.25)" />
-									</a-input>
-								</a-form-item>
-							</a-col>
-							<a-col>
+              <a-col span='10'>
 								<a-form-item>
 									<a-input v-decorator="[
 										  'dept',
@@ -157,7 +141,25 @@
 									</a-input>
 								</a-form-item>
 							</a-col>
-							<a-col>
+            </a-row>
+						<a-row type="flex" justify="start" align="middle" :gutter="10">
+							<a-col span='14'>
+								<a-form-item>
+									<a-input v-decorator="[
+										  'addr',
+										  {
+											rules: [ {
+											  required: true, message: '请输入地址!',
+											}]
+										  }
+										]"
+									 type="text" placeholder="地址">
+										<a-icon slot="prefix" type="environment" style="color: rgba(0,0,0,.25)" />
+									</a-input>
+								</a-form-item>
+							</a-col>
+
+							<a-col  span='7'>
 								<a-form-item>
 									<a-input v-decorator="[
 										  'zipCode',
@@ -497,7 +499,7 @@ export default {
 
 	.chooseSystem {
 		width: 900px;
-		height: 460px;
+		height: 540px;
 		position: absolute;
 		left: 0;
 		top: 0;
@@ -586,7 +588,7 @@ export default {
 	.bindPhone {
 		/* width: 700px; */
 		margin: 0 auto;
-		height: 300px;
+		height: 400px;
 		font-size: 14px;
 		margin-top: 20px;
 		text-align: left;

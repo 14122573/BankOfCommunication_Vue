@@ -7,12 +7,18 @@
           <template v-if="menu.meta.menuIcon">
             <a-icon :type="menu.meta.menuIcon" />
           </template>
+          <template v-else>
+            <a-icon type="bars" />
+          </template>
           <span>{{menu.meta.title}}</span>
         </span>
         <template v-for="child in menu.children">
           <a-menu-item :key="child.name" @click="({item, key}) => {navigateTo({item, key},child)}">
             <template v-if="child.meta.menuIcon">
               <a-icon :type="child.meta.menuIcon" />
+            </template>
+            <template v-else>
+              <a-icon type="bars" />
             </template>
             <span>{{child.meta.title}}</span>
           </a-menu-item>
@@ -25,6 +31,9 @@
           <template v-if="menu.meta.menuIcon">
             <a-icon :type="menu.meta.menuIcon" />
           </template>
+          <template v-else>
+            <a-icon type="bars" />
+          </template>
           <span>{{menu.meta.title}}</span>
         </a-menu-item>
       </template>
@@ -33,18 +42,17 @@
 </template>
 
 <script>
-// import {permission} from '@/util/mixins'
 import {navigateToUrl} from 'single-spa'
 import common from '@/util/common'
 import { OutsideUrls } from '@/config/outside-config'
 export default {
   name: 'SideMenu',
-  // mixins: [permission],
   props: {
     menuMode:{
       type: String,
       required: true,
       validator (value) {
+        console.log(value)
         return common.oneOf(value, ['inline', 'vertical'])
       }
     }

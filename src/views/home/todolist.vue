@@ -1,8 +1,8 @@
 
 <template>
-  <div>
-    <p class="fastEntranceTitle">
-      <span class="name">快速入口</span> <a-icon class="settingBtn" theme="filled" type="setting" />
+  <div class="todolistWapper">
+    <p class="todolistTitle">
+      <span class="name">待办事项</span> <a-icon class="settingBtn" theme="filled" type="setting" />
     </p>
     <div class="fastEntranceWapper">
       <a-skeleton :loading="loadingSkeleton">
