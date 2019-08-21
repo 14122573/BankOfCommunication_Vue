@@ -8,7 +8,7 @@
 						<a-input v-decorator="[
 								'username',
 								{   validateTrigger:'blur',
-									rules: [{validator:validatePhone}]
+									  rules: [{validator:validatePhone}]
 								}
 							]"
 						 placeholder="手机号">
@@ -69,7 +69,7 @@
 						<a-button type="primary" html-type="submit" class="login-form-button" @click="handleRegister">
 							注册
 						</a-button>
-						<a @click="handleJump"  class="login-form-register">
+						<a @click="handleJump" class="login-form-register">
 							已有账号?去登录
 						</a>
 					</a-form-item>
@@ -80,145 +80,143 @@
 </template>
 
 <script>
-import testStrong from '@/components/testPwd'
-export default {
-  name: 'register',
-  components: {
-    testStrong
-  },
-  beforeCreate() {
-    this.formRegister = this.$form.createForm(this)
-  },
-  data() {
-    return {
-      pageType: 'login',
-      btnTxt: '发送验证码',
-      disableBtn: true,
-      timer: null,
-      disableCode: false,
-      loginFailMsg: '',
-      visibleError: false,
-      confirmDirty: false,
-      isType: 'text'
-    }
-  },
-  methods: {
-    //校验手机号
-    validatePhone(rule, value, callback) {
-      if (!value || value == undefined || value.split(' ').join('').length === 0) {
-        this.disableBtn = true
-        callback('请输入手机号!')
-      } else {
-        if (!this.$com.checkPhone(value)) {
-          callback('手机号输入不合法!')
-        } else {
-          let links = '?phone=' + this.formRegister.getFieldValue('username')
-          this.$ajax.get({
-            url: this.$api.GET_CHECK_PHONE + links,
-            params: {}
-          }).then(res => {
-            if (res.data.content == false) {
-              this.disableBtn = false
-              callback()
-            } else {
-              callback('此用户已经存在!')
-              this.disableBtn = true
-            }
-          })
-        }
-      }
-    },
-    //手机验证码校验
-    validateCode(rule, value, callback) {
-      if (!value || value == undefined || value.split(' ').join('').length === 0) {
-        callback('请输入手机验证码!')
-      } else {
-        if (!/^\d{6}$/.test(value)) {
-          callback('请输入6位数字验证码!')
-        } else {
-          callback()
-        }
-      }
-    },
-    //密码重复密码校验
-    validateToNextPassword(rule, value, callback) {
-      const form = this.formRegister
-      if (value && this.confirmDirty) {
-        form.validateFields(['rePassword'], {
-          force: true
-        })
-      }
-      callback()
-    },
-    compareToFirstPassword(rule, value, callback) {
-      const form = this.formRegister
-      if (value && value !== form.getFieldValue('pwd')) {
-        callback('密码输入不一致!')
-      } else {
-        callback()
-      }
-    },
-    handleConfirmBlur(e) {
-      const value = e.target.value
-      this.confirmDirty = this.confirmDirty || !!value
-    },
-    pasBlur() {
-      this.isType = 'password'
-    },
-    //发送验证码
-    sendCode() {
-      let links = ''
-      if (this.redirectUrlPrefix != 'null') {
-        links = '?redirectUrl=' + this.$cookie.get('redirectUrl')
-      }
-      this.$ajax.get({
-        url: this.$api.GET_SEND_CODE.replace('{phone}', this.formRegister.getFieldValue('username')) + links,
-        params: {}
-      }).then(res => {
-        if (res.code == '200') {
-          this.disableCode = false
-          this.disableBtn = true
-          let num = 60
-          const interval = () => {
-            this.timer = setInterval(() => {
-              if (num <= 0) {
-                this.clearTimer()
-                return
-              }
-              this.btnTxt = (num -= 1) + 's'
-            }, 1000)
-          }
-          interval()
-        }
-      })
-    },
-    //提交注册
-    handleRegister() {
-      this.formRegister.validateFields((err, values) => {
-        if (!err) {
-          let params = values
-          if (this.redirectUrlPrefix != 'null') {
-            params.redirectUrl = this.$cookie.get('redirectUrl')
-          }
-          this.$ajax.post({
-            url: this.$api.POST_REGISTER,
-            params: params
-          }).then(res => {
-            if (res.code == '200') {
-              this.$message.success('注册成功！')
-              this.pageType = 'login'
-            } else {
-              this.$message.error(res.msg)
-            }
-          })
-        }
-      })
-    },
-    handleJump(){
-      this.$emit('on-change','login')
-    }
-  }
-}
+	import testStrong from '@/components/testPwd'
+	export default {
+		name: 'register',
+		components: {
+			testStrong
+		},
+		beforeCreate() {
+			this.formRegister = this.$form.createForm(this)
+		},
+		data() {
+			return {
+				pageType: 'login',
+				btnTxt: '发送验证码',
+				disableBtn: true,
+				timer: null,
+				disableCode: false,
+				loginFailMsg: '',
+				visibleError: false,
+				confirmDirty: false,
+				isType: 'text'
+			}
+		},
+		methods: {
+			//校验手机号
+			validatePhone(rule, value, callback) {
+				if (!value || value == undefined || value.split(' ').join('').length === 0) {
+					this.disableBtn = true
+					callback('请输入手机号!')
+				} else {
+					if (!this.$com.checkPhone(value)) {
+						callback('手机号输入不合法!')
+					} else {
+						let links = '?phone=' + this.formRegister.getFieldValue('username')
+						this.$ajax.get({
+							url: this.$api.GET_CHECK_PHONE + links
+						}).then(res => {
+							if (res.data.content == false) {
+								this.disableBtn = false
+								callback()
+							} else {
+								callback('此用户已经存在!')
+								this.disableBtn = true
+							}
+						})
+					}
+				}
+			},
+			//手机验证码校验
+			validateCode(rule, value, callback) {
+				if (!value || value == undefined || value.split(' ').join('').length === 0) {
+					callback('请输入手机验证码!')
+				} else {
+					if (!/^\d{6}$/.test(value)) {
+						callback('请输入6位数字验证码!')
+					} else {
+						callback()
+					}
+				}
+			},
+			//密码重复密码校验
+			validateToNextPassword(rule, value, callback) {
+				const form = this.formRegister
+				if (value && this.confirmDirty) {
+					form.validateFields(['rePassword'], {
+						force: true
+					})
+				}
+				callback()
+			},
+			compareToFirstPassword(rule, value, callback) {
+				const form = this.formRegister
+				if (value && value !== form.getFieldValue('pwd')) {
+					callback('密码输入不一致!')
+				} else {
+					callback()
+				}
+			},
+			handleConfirmBlur(e) {
+				const value = e.target.value
+				this.confirmDirty = this.confirmDirty || !!value
+			},
+			pasBlur() {
+				this.isType = 'password'
+			},
+			//发送验证码
+			sendCode() {
+				let links = ''
+				if (this.redirectUrlPrefix != 'null') {
+					links = '?redirectUrl=' + this.$cookie.get('redirectUrl')
+				}
+				this.$ajax.get({
+					url: this.$api.GET_SEND_CODE.replace('{phone}', this.formRegister.getFieldValue('username')) + links
+				}).then(res => {
+					if (res.code == '200') {
+						this.disableCode = false
+						this.disableBtn = true
+						let num = 60
+						const interval = () => {
+							this.timer = setInterval(() => {
+								if (num <= 0) {
+									this.clearTimer()
+									return
+								}
+								this.btnTxt = (num -= 1) + 's'
+							}, 1000)
+						}
+						interval()
+					}
+				})
+			},
+			//提交注册
+			handleRegister() {
+				this.formRegister.validateFields((err, values) => {
+					if (!err) {
+						let params = values
+						if (this.redirectUrlPrefix != 'null') {
+							params.redirectUrl = this.$cookie.get('redirectUrl')
+						}
+						this.$ajax.post({
+							url: this.$api.POST_REGISTER,
+							params: params
+						}).then(res => {
+							if (res.code == '200') {
+								this.$message.success('注册成功！')
+								this.pageType = 'login'
+							} else {
+								this.$message.error(res.msg)
+							}
+						})
+					}
+				})
+			},
+			handleJump() {
+				this.$emit('on-change', 'login')
+			}
+		}
+	}
 </script>
 
 <style scoped>

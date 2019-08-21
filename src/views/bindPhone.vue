@@ -345,8 +345,7 @@ export default {
         links = links + '&redirectUrl=' + this.$cookie.get('redirectUrl')
       }
       this.$ajax.get({
-        url: this.$api.GET_SELECT_SYSTEM + links,
-        params: {}
+        url: this.$api.GET_SELECT_SYSTEM + links
       }).then(res => {
         let gainDatas = res.data.content
         if (gainDatas.redirectUrl) {
@@ -376,8 +375,7 @@ export default {
       }
       if (phone) {
         this.$ajax.get({
-          url: this.$api.GET_SEND_CODE.replace('{phone}', phone) + links,
-          params: {}
+          url: this.$api.GET_SEND_CODE.replace('{phone}', phone) + links
         }).then(res => {
           this.disableCode = false
           this.disableBtn = true
@@ -439,8 +437,7 @@ export default {
             links = links + '&redirectUrl=' + this.$cookie.get('redirectUrl')
           }
           this.$ajax.get({
-            url: this.$api.GET_CHECK_PHONE + links,
-            params: {}
+            url: this.$api.GET_CHECK_PHONE + links
           }).then(res => {
             callback()
             this.disableBtn = false

@@ -17,8 +17,7 @@ router.beforeEach((to, from, next) => {
   let token = Cookie.get('token')
   let canEnterBind = Cookie.get('canEnterBind')
   // 当前无token且不在login页面则推到登录页面
-  let isLogin = token == undefined || token == null || token == '' ? false : true
-  if (!isLogin) {
+  if (!token) {
     // 未登录
     if (to.name == 'login') {
       next()

@@ -171,8 +171,7 @@ export default {
               links = links + '&redirectUrl=' + this.$cookie.get('redirectUrl')
             }
             this.$ajax.get({
-              url: this.$api.GET_SELECT_SYSTEM + links,
-              params: {}
+              url: this.$api.GET_SELECT_SYSTEM + links
             }).then(res => {
               let gainDatas = res.data.content
               if (res.msg != 'bind') {

@@ -3,7 +3,14 @@
 		<transition name="fade" mode="out-in">
 			<div class="register">
 				<h2>忘记密码</h2>
-				<a-form :form="formRegister" class="register-form">
+				<div v-if="appearIndex==0" class='linksTips'>
+					  <div @click='appearIndex=1'><a-icon type="link" />已绑定用户，点击这里找回密码</div>
+					  <div @click='appearIndex=2'><a-icon type="link"/>其他用户，点击这里找回密码</div>
+				</div>
+				<div v-if="appearIndex==1">
+					  已绑定用户,请联系管理员客服进行修改
+				</div>
+				<a-form :form="formRegister" class="register-form" v-if="appearIndex==2">
 					<a-form-item>
 						<a-input v-decorator="[
 		  						'username',
@@ -76,7 +83,6 @@
 				</a-form>
 			</div>
 		</transition>
-
 	</div>
 </template>
 
@@ -100,7 +106,8 @@ export default {
       loginFailMsg: '',
       visibleError: false,
       confirmDirty: false,
-      isType: 'text'
+      isType: 'text',
+			appearIndex:0
     }
   },
   methods: {
@@ -162,8 +169,7 @@ export default {
       // 					links = '?redirectUrl=' + this.$cookie.get('redirectUrl')
       // 				}
       this.$ajax.get({
-        url: this.$api.GET_SEND_CODE.replace('{phone}', this.formRegister.getFieldValue('username')) + links,
-        params: {}
+        url: this.$api.GET_SEND_CODE.replace('{phone}', this.formRegister.getFieldValue('username')) + links
       }).then(res => {
         if (res.code == '200') {
           this.disableCode = false
@@ -248,5 +254,12 @@ export default {
 	.ant-input-affix-wrapper,
 	.login-form-button {
 		height: 44px;
+	}
+	.linksTips{
+		color: #1890ff;
+		cursor: pointer;
+	}
+	.linksTips div{
+		margin: 0 0 10px 0;
 	}
 </style>
