@@ -366,10 +366,6 @@ export default {
 		text-align: center;
 	}
 
-	.register .login-form-button {
-		width: 100%;
-	}
-
 	.footer {
 		height: 50px;
 		width: 100%;

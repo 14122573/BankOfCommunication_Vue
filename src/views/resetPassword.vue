@@ -1,31 +1,33 @@
 <template>
-	<div>
-		<transition name="fade" mode="out-in">
-			<div class="register">
-				<h2>忘记密码</h2>
-				<div v-if="appearIndex==0" class='linksTips'>
-					  <div @click='appearIndex=1'><a-icon type="link" />已绑定用户，点击这里找回密码</div>
-					  <div @click='appearIndex=2'><a-icon type="link"/>其他用户，点击这里找回密码</div>
-				</div>
-				<div v-if="appearIndex==1">
-					  已绑定用户,请联系管理员客服进行修改
-				</div>
-				<a-form :form="formRegister" class="register-form" v-if="appearIndex==2">
-					<a-form-item>
-						<a-input v-decorator="[
+	<div class="findPassword">
+		<h2>忘记密码</h2>
+		<div v-if="appearIndex==0" class='linksTips'>
+			<div @click='appearIndex=1'>
+				<a-icon type="link" />已绑定用户，点击这里找回密码</div>
+			<div @click='appearIndex=2'>
+				<a-icon type="link" />其他用户，点击这里找回密码</div>
+		</div>
+		<div v-if="appearIndex==1">
+			已绑定用户,请联系管理员进行修改
+			<div @click='appearIndex=0' class='linksTips'>
+				<a-icon type="link" />点击返回，重新选择用户类型</div>
+		</div>
+		<a-form :form="formRegister" class="register-form" v-if="appearIndex==2">
+			<a-form-item>
+				<a-input v-decorator="[
 		  						'username',
 		  						{   validateTrigger:'blur',
 		  							rules: [{validator:validatePhoneForget}]
 		  						}
 		  					]"
-						 placeholder="手机号">
-							<a-icon slot="prefix" type="mobile" style="color: rgba(0,0,0,.25)" />
-						</a-input>
-					</a-form-item>
-					<a-form-item>
-						<a-row type="flex">
-							<a-col :span="15">
-								<a-input v-decorator="[
+				 placeholder="手机号">
+					<a-icon slot="prefix" type="mobile" style="color: rgba(0,0,0,.25)" />
+				</a-input>
+			</a-form-item>
+			<a-form-item>
+				<a-row type="flex">
+					<a-col :span="15">
+						<a-input v-decorator="[
 		  								'code',
 		  								{
 		  									validateTrigger:'blur',
@@ -34,20 +36,20 @@
 		  										]
 		  								}
 		  							]"
-								 placeholder="手机验证码" :disabled='disableCode' type="text" autocomplete="off">
-									<a-icon slot="prefix" type="code" style="color: rgba(0,0,0,.25)" />
-								</a-input>
-							</a-col>
-							<a-col :span="8" :offset="1">
-								<a-button type="primary" :disabled='disableBtn' ghost @click="sendCode" size="small" style="height:42px;min-width: 40px;">
-									{{btnTxt}}
-								</a-button>
-							</a-col>
-						</a-row>
-					</a-form-item>
-					<input type="password" style="display:none">
-					<a-form-item>
-						<a-input v-decorator="[
+						 placeholder="手机验证码" :disabled='disableCode' type="text" autocomplete="off">
+							<a-icon slot="prefix" type="code" style="color: rgba(0,0,0,.25)" />
+						</a-input>
+					</a-col>
+					<a-col :span="8" :offset="1">
+						<a-button type="primary" :disabled='disableBtn' ghost @click="sendCode" size="small" style="height:42px;min-width: 40px;">
+							{{btnTxt}}
+						</a-button>
+					</a-col>
+				</a-row>
+			</a-form-item>
+			<input type="password" style="display:none">
+			<a-form-item>
+				<a-input v-decorator="[
 		  						'pwd',
 		  						{
 		  							rules: [{ required: true,whitespace:true, message: '请输入新密码!' }, {
@@ -55,34 +57,32 @@
 		  							}]
 		  						 }
 		  					]"
-						 :type="isType" placeholder="新密码" autocomplete="off" @focus='pasBlur'>
-							<a-icon slot="prefix" type="lock" style="color: rgba(0,0,0,.25)" />
-						</a-input>
-					</a-form-item>
-					<testStrong :pwd='formRegister.getFieldValue("pwd")' v-show='formRegister.getFieldValue("pwd")!=""&&formRegister.getFieldValue("pwd")!=undefined'></testStrong>
-					<a-form-item>
-						<a-input v-decorator="[
+				 :type="isType" placeholder="新密码" autocomplete="off" @focus='pasBlur'>
+					<a-icon slot="prefix" type="lock" style="color: rgba(0,0,0,.25)" />
+				</a-input>
+			</a-form-item>
+			<testStrong :pwd='formRegister.getFieldValue("pwd")' v-show='formRegister.getFieldValue("pwd")!=""&&formRegister.getFieldValue("pwd")!=undefined'></testStrong>
+			<a-form-item>
+				<a-input v-decorator="[
 		  						'rePassword',
 		  						{
 		  							rules: [{ required: true,whitespace:true,  message: '请再次输入新密码!' }, {
 		  							validator: compareToFirstPassword,
 		  						}] }
 		  					]"
-						 :type="isType" placeholder="再次输入新密码" @blur="handleConfirmBlur" autocomplete="off" @focus='pasBlur'>
-							<a-icon slot="prefix" type="lock" style="color: rgba(0,0,0,.25)" />
-						</a-input>
-					</a-form-item>
-					<a-form-item>
-						<a-button type="primary" html-type="submit" class="login-form-button" @click="handleFindPwd">
-							重置密码
-						</a-button>
-						<a @click="handleJump" class="login-form-register">
-							找回密码?去登录
-						</a>
-					</a-form-item>
-				</a-form>
-			</div>
-		</transition>
+				 :type="isType" placeholder="再次输入新密码" @blur="handleConfirmBlur" autocomplete="off" @focus='pasBlur'>
+					<a-icon slot="prefix" type="lock" style="color: rgba(0,0,0,.25)" />
+				</a-input>
+			</a-form-item>
+			<a-form-item>
+				<a-button type="primary" block  html-type="submit" class="login-form-button" @click="handleFindPwd">
+					重置密码
+				</a-button>
+				<a @click="handleJump" class="login-form-register">
+					找回密码?去登录
+				</a>
+			</a-form-item>
+		</a-form>
 	</div>
 </template>
 
@@ -107,7 +107,7 @@ export default {
       visibleError: false,
       confirmDirty: false,
       isType: 'text',
-			appearIndex:0
+      appearIndex: 0
     }
   },
   methods: {
@@ -120,7 +120,7 @@ export default {
           callback('手机号输入不合法!')
           this.disableBtn = true
         } else {
-          this.disableBtn=false
+          this.disableBtn = false
           callback()
         }
       }
@@ -211,8 +211,8 @@ export default {
         }
       })
     },
-    handleJump(){
-      this.$emit('on-change','login')
+    handleJump() {
+      this.$emit('on-change', 'login')
     }
   }
 }
@@ -255,11 +255,13 @@ export default {
 	.login-form-button {
 		height: 44px;
 	}
-	.linksTips{
+
+	.linksTips {
 		color: #1890ff;
 		cursor: pointer;
 	}
-	.linksTips div{
+
+	.linksTips div {
 		margin: 0 0 10px 0;
 	}
 </style>
