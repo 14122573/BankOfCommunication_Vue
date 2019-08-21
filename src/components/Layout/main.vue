@@ -74,17 +74,23 @@ export default {
     }
   },
   created() {
-    let token = this.$cookie.get('token')
-    if (token != undefined && token != null) {
-      this.$ajax.post({
-        url: this.$api.CHECKTOKEN_POST,
-        params: {}
-      }).then(res => {
-        this.getInfo()
-      })
+    const token = this.$cookie.get('token')
+    if (token) {
+      this.getInfo()
     } else {
       this.plogout(true)
     }
+
+    // if (token != undefined && token != null) {
+    //   this.$ajax.post({
+    //     url: this.$api.CHECKTOKEN_POST,
+    //     params: {}
+    //   }).then(res => {
+    //     this.getInfo()
+    //   })
+    // } else {
+    //   this.plogout(true)
+    // }
   },
   watch: {
     '$store.state.userName': {
@@ -131,18 +137,7 @@ export default {
           url: this.$api.POST_LOGOUT,
           params: {}
         }).then(res => {
-          this.$store.commit('SET_CLEAR')
-          this.$cookie.remove('KeepLogin')
-          this.$cookie.remove('token')
-          this.$cookie.remove('refresh_token')
-          this.$cookie.remove('userInfo')
-          this.$cookie.remove('redirectUrl')
-          this.$cookie.remove('url')
-          this.$cookie.remove('systemLists')
-          this.$cookie.remove('canEnterBind')
-          this.$router.push({
-            name: 'login'
-          })
+          this.$com.handleLogOut()
         })
       }
     },

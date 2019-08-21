@@ -90,6 +90,7 @@ export default {
   },
   mounted() {
     this.setUrl()
+    this.$cookie.set('KeepLogin',false,{ expires: 7 }) // 7天免登录默认是false
   },
   computed: {
     sysCode() {
@@ -108,12 +109,12 @@ export default {
   },
   methods: {
     keepLogin(e){
-      // this.remember = e.target.checked
-      // if(this.remember){
-      //   this.$cookie.set('KeepLogin',true,{ expires: 7 })
-      // }else{
-      //   this.$cookie.set('KeepLogin',false,{ expires: 7 })
-      // }
+      this.remember = e.target.checked
+      if(this.remember){
+        this.$cookie.set('KeepLogin',true,{ expires: 7 })
+      }else{
+        this.$cookie.set('KeepLogin',false,{ expires: 7 })
+      }
     },
     //存储redirectUrl
     setUrl() {
@@ -173,8 +174,9 @@ export default {
                   this.$cookie.set('canEnterBind', '500')
                 } else {
                   if (String(gainDatas.isNew) == 'true') {
-                    this.$cookie.set('token', gainDatas.access_token)
-                    this.$cookie.set('refresh_token', gainDatas.refresh_token)
+                    this.$com.setToken(gainDatas.access_token, gainDatas.refresh_token)
+                    // this.$cookie.set('token', gainDatas.access_token)
+                    // this.$cookie.set('refresh_token', gainDatas.refresh_token)
                     this.$router.push({
                       name: 'home',
                     })
@@ -218,8 +220,9 @@ export default {
           this.$cookie.set('canEnterBind', '500')
         } else {
           if (String(gainDatas.isNew) == 'true') {
-            this.$cookie.set('token', gainDatas.access_token)
-            this.$cookie.set('refresh_token', gainDatas.refresh_token)
+            this.$com.setToken(gainDatas.access_token, gainDatas.refresh_token)
+            // this.$cookie.set('token', gainDatas.access_token)
+            // this.$cookie.set('refresh_token', gainDatas.refresh_token)
             this.$router.push({
               name: 'home',
             })

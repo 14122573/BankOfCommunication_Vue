@@ -1,5 +1,7 @@
 /** 公共方法 */
 import Cookie from '@/util/local-cookie'
+import Store from '@/store'
+import Router from '@/router'
 export default {
   /**
      * 在深层数据结构中取值（为了替代类似 res && res.data && res.data.content这种写法）
@@ -123,21 +125,28 @@ export default {
    * @param {String} accessToke
    * @param {String} refreshToken
    */
-  setToken(accessToke,refreshToken) {
-    if(Cookie.get('KeepLogin')==='true'){
-      if(!!accessToke) {
-        Cookie.set('token', accessToke,{ expires: 7 })
-      }
-      if(!!refreshToken) {
-        Cookie.set('refresh_token', refreshToken,{ expires: 7 })
-      }
-    }else{
-      if(!!accessToke) {
-        Cookie.set('token', accessToke,{ expires: 1 })
-      }
-      if(!!refreshToken) {
-        Cookie.set('refresh_token', refreshToken,{ expires: 1 })
-      }
+  setToken(token,refreshToken) {
+    if (Cookie.get('KeepLogin') === 'true') { // 如果保存七天
+      Cookie.set('token', token, {expires: 7})
+      Cookie.set('refresh_token', refreshToken, {expires: 7})
+    } else {
+      Cookie.set('token', token)
+      Cookie.set('refresh_token', refreshToken)
     }
-  }
+  },
+
+  // 退出 --- 清除相关信息并推到登录页
+  handleLogOut() {
+    Store.commit('SET_CLEAR')
+    Cookie.remove('token')
+    Cookie.remove('refresh_token')
+    Cookie.remove('userInfo')
+    Cookie.remove('redirectUrl')
+    Cookie.remove('url')
+    Cookie.remove('systemLists')
+    Cookie.remove('canEnterBind')
+    Router.push({
+      name: 'login'
+    })
+  },
 }
