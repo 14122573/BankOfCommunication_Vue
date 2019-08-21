@@ -31,22 +31,36 @@
 								</a-input>
 							</a-form-item>
 							<input type="text" style="display:none">
+							<!-- <a-form-item class="login-form-password">
+								<a-row type="flex" justify="space-between">
+									<a-col :span="12">
+										<div class="qrcode">
+											<img :src="$api.BASE_URL+$api.GET_CODE" alt="">
+										</div>
+									</a-col>
+									<a-col :span="12">
+										  <a-input style="" v-decorator="[ 'reqId', { validateTrigger:'blur', rules: [{ required: true,whitespace:true, message: '请输入验证码!' }] } ]"
+										   placeholder="验证码" autocomplete="off"/>
+									</a-col>
+								</a-row>
+							</a-form-item> -->
+							<div class="showError">
+								<div v-if="visibleError" ><a-icon type="close-circle" />&nbsp;&nbsp;{{loginFailMsg}}</div>
+<!-- 								<a-alert type="error" :message="loginFailMsg" showIcon closable :afterClose="handleClose" /> -->
+							</div>
 							<a-form-item>
 								<a-row type="flex" justify="space-between">
 									<a-col :span="12" class="login-form-chckbox">
-										<a-checkbox :checked="remember" @change="keepLogin"  > 7天免登录 </a-checkbox>
+										<a-checkbox :checked="remember" @change="keepLogin"> 7天免登录 </a-checkbox>
 									</a-col>
 									<a-col :span="12">
 										<a class="login-form-forgot" @click='pageType="findPassword"'> 忘记密码? </a>
 									</a-col>
 								</a-row>
-								<div class="showError">
-										<a-alert  type="error" :message="loginFailMsg" v-if="visibleError" showIcon closable :afterClose="handleClose" />
-								</div>
-								<a-button type="primary" html-type="submit"  class="login-form-button" @click="handleLogin">
+								<a-button type="primary" html-type="submit" class="login-form-button" @click="handleLogin">
 									登录
 								</a-button>
-								<a @click="pageType = 'register'" class="login-form-register"> 没有账号?去注册 </a>
+								<a @click="pageType = 'register'" class="login-form-register">新用户注册 </a>
 							</a-form-item>
 						</a-form>
 					</div>
@@ -56,14 +70,16 @@
 			</div>
 		</div>
 		<div class="footer">
-			<p>主办单位：全国水产技术推广总站、中国水产协会&nbsp;&nbsp;&nbsp;&nbsp; 技术支持：博彦科技股份有限公司</p>
+			<p>主办单位：全国水产技术推广总站、中国水产学会&nbsp;&nbsp;&nbsp;&nbsp; 技术支持：博彦科技股份有限公司</p>
 			<p>COPYRIGHT&copy;-2016 ALL RIGHTS RESERVED │ 沪ICP备13003917号 </p>
 		</div>
 	</div>
 </template>
 
 <script>
-import { permission } from '@/util/mixins'
+import {
+  permission
+} from '@/util/mixins'
 import testStrong from '@/components/testPwd'
 import Register from '@/views/login/register'
 import ResetPassword from '@/views/login/ResetPassword'
@@ -85,7 +101,7 @@ export default {
       loginFailMsg: '',
       visibleError: false,
       isType: 'text',
-      remember:false, // 设置是否7天免登录
+      remember: false, // 设置是否7天免登录
     }
   },
   mounted() {
@@ -107,7 +123,7 @@ export default {
     }
   },
   methods: {
-    keepLogin(e){
+    keepLogin(e) {
       // this.remember = e.target.checked
       // if(this.remember){
       //   this.$cookie.set('KeepLogin',true,{ expires: 7 })
@@ -118,7 +134,8 @@ export default {
     //存储redirectUrl
     setUrl() {
       if (this.redirectUrlPrefix != 'null') {
-        this.$cookie.set('redirectUrl', this.getQueryString('redirectUrl') + '&sysCode=' + String(this.getQueryString('sysCode')))
+        this.$cookie.set('redirectUrl', this.getQueryString('redirectUrl') + '&sysCode=' + String(this.getQueryString(
+          'sysCode')))
       }
     },
     pasBlur() {
@@ -233,9 +250,9 @@ export default {
       }
     },
     //关闭login错误提示框
-    handleClose() {
-      this.visibleError = false
-    },
+    // 			handleClose() {
+    // 				this.visibleError = false
+    // 			},
     //验证账户是否合法
     validateAccount(rule, value, callback) {
       if (!value || value == undefined || value.split(' ').join('').length === 0) {
@@ -258,8 +275,8 @@ export default {
         return null
       }
     },
-    pageTypeChange(data){
-      this.pageType=data
+    pageTypeChange(data) {
+      this.pageType = data
     }
   }
 }
@@ -269,7 +286,7 @@ export default {
 	.loginFrame {
 		width: 100%;
 		height: 100%;
-		min-height: 700px;
+		/* min-height: 700px; */
 		min-width: 1000px;
 		margin: 0px;
 		padding: 0px;
@@ -354,7 +371,7 @@ export default {
 
 	.login .login-form-button {
 		width: 100%;
-		margin-top: 20px;
+		margin-top: 60px;
 		text-align: center;
 	}
 
@@ -383,7 +400,8 @@ export default {
 	}
 
 	.showError {
-		margin-top:10px;
-		height: 40px;
+		margin-top: -20px;
+		height: 20px;
+		color:red;
 	}
 </style>

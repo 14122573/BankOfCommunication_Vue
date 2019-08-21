@@ -2,15 +2,42 @@
 	<div class="findPassword">
 		<h2>忘记密码</h2>
 		<div v-if="appearIndex==0" class='linksTips'>
-			<div @click='appearIndex=1'>
-				<a-icon type="link" />已绑定用户，点击这里找回密码</div>
 			<div @click='appearIndex=2'>
-				<a-icon type="link" />其他用户，点击这里找回密码</div>
+				<img src="@/assets/images/bgResetPwd.png" alt="" class="bgImage">
+					<a-row type="flex" justify="space-around" align="middle" :gutter="10" style="height: 90px;">
+					<a-col span='6'><img src="../../assets/images/head1.png" alt="" class="icon"></a-col>
+					<a-col span='16'>
+						<div class="title">已绑定手机用户</div>
+						<div class="desc">点击此处找回密码</div>
+					</a-col>
+				</a-row>
+			</div>
+			<div @click='appearIndex=1' class="unBindLinks">
+				<img src="@/assets/images/bgResetPwd.png" alt="" class="bgImage">
+				<a-row type="flex" justify="space-around" align="middle"  style="height: 90px;">
+					<a-col span='6'><img src="../../assets/images/head2.png" alt="" class="icon"></a-col>
+					<a-col span='16'>
+						<div class="title">未绑定手机用户</div>
+						<div class="desc">点击此处联系管理员</div>
+					</a-col>
+				</a-row>
+			</div>
+			<div class="returnPage" @click="handleJump" style="height:100px;line-height: 200px;">
+				<a-icon type="arrow-left" />返回登录</div>
 		</div>
-		<div v-if="appearIndex==1">
-			已绑定用户,请联系管理员进行修改
-			<div @click='appearIndex=0' class='linksTips'>
-				<a-icon type="link" />点击返回，重新选择用户类型</div>
+		<div v-if="appearIndex==1" class='linksTips'>
+			<div>
+				<img src="@/assets/images/bgResetPwd.png" alt="" class="bgImage">
+				<a-row type="flex" justify="space-around" align="middle" style="height: 90px;">
+					<a-col span='6'><img src="../../assets/images/head1.png" alt="" class="icon"></a-col>
+					<a-col span='16'>
+						<div class="title">管理员姓名</div>
+						<div class="desc">18300562365</div>
+					</a-col>
+				</a-row>
+			</div>
+			<div class="returnPage" @click="handleJump" style="height:200px;line-height: 420px;">
+				<a-icon type="arrow-left" />返回登录</div>
 		</div>
 		<a-form :form="formRegister" class="register-form" v-if="appearIndex==2">
 			<a-form-item>
@@ -75,11 +102,11 @@
 				</a-input>
 			</a-form-item>
 			<a-form-item>
-				<a-button type="primary" block  html-type="submit" class="login-form-button" @click="handleFindPwd">
+				<a-button type="primary" block html-type="submit" class="login-form-button" @click="handleFindPwd">
 					重置密码
 				</a-button>
 				<a @click="handleJump" class="login-form-register">
-					找回密码?去登录
+					去登录
 				</a>
 			</a-form-item>
 		</a-form>
@@ -259,9 +286,39 @@ export default {
 	.linksTips {
 		color: #1890ff;
 		cursor: pointer;
+		margin-top: 20px;
 	}
 
-	.linksTips div {
-		margin: 0 0 10px 0;
+	.linksTips>div {
+		margin: 0px 0 20px 0;
+		width: 100%;
+		height: 90px;
+		position: relative;
 	}
+	.linksTips .title{
+		color:black;
+		font-weight:bold;
+		font-size: 14px;
+	}
+	.linksTips .desc{
+		font-size: 12px;
+	}
+	.bgImage {
+		width: 100%;
+		height: 90px;
+		position: absolute;
+		top: 0;
+		left: 0;
+	}
+
+	.returnPage {
+		position: absolute;
+		bottom: 0;
+		line-height: 180px;
+		text-align: center;
+	}
+	.icon{
+		width: 50px!important;
+		height: 50px!important;
+	 }	
 </style>

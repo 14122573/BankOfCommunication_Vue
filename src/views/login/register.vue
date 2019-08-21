@@ -68,7 +68,7 @@
 					注册
 				</a-button>
 				<a @click="handleJump" class="login-form-register">
-					已有账号?去登录
+					去登录
 				</a>
 			</a-form-item>
 		</a-form>

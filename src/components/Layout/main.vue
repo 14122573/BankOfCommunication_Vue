@@ -13,7 +13,7 @@
 					</div>
 					<SideMenu :menuMode="menuMode" :collapsed="collapsed"></SideMenu>
 				</a-layout-sider>
-				<a-layout-header id="portalHeader"  :style="{ position: 'fixed', zIndex: 1, width: '84%',marginLeft:'215px' }">
+				<a-layout-header id="portalHeader"  :style="{ position: 'fixed', zIndex: 1, width: '84%',marginLeft:'16%' }">
 					<div class="wrapper">
 						<a-icon class="trigger" :type="collapsed ? 'menu-unfold' : 'menu-fold'" @click="toggleSideCollapsed" />
 						<NavBar class="navbar" />
@@ -243,9 +243,10 @@ export default {
 
 	#AppContent {
 		width: 84%;
-		margin: 78px 16px 0 230px;
+		margin: 64px 0px 0 16%;
 		background: url('../../assets/images/content-bg.png') no-repeat top right;
 		background-size: 20%;
+		padding: 20px;
 	}
 
 	#AppContent .contentbg {

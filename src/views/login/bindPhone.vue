@@ -194,7 +194,7 @@
 			</div>
 		</div>
 		<div class="footer">
-			<p>主办单位：全国水产技术推广总站、中国水产协会&nbsp;&nbsp;&nbsp;&nbsp; 技术支持：博彦科技股份有限公司</p>
+			<p>主办单位：全国水产技术推广总站、中国水产学会&nbsp;&nbsp;&nbsp;&nbsp; 技术支持：博彦科技股份有限公司</p>
 			<p>COPYRIGHT&copy;-2016 ALL RIGHTS RESERVED │ 沪ICP备13003917号 </p>
 		</div>
 	</div>
@@ -226,6 +226,7 @@ export default {
       confirmDirty: false,
       isBind: true,
       tips: '',
+	  disableNext:true
     }
   },
   mounted() {
@@ -264,7 +265,7 @@ export default {
       this.systemNmme = item.sysDic.sysName
       this.activeIndex = index
       this.pageType = item.isBind == false ? 'isBind' : 'unBind'
-      // this.isBind=item.isBind;
+	  this.disableNext=false
       if (this.pageType != 'isBind') {
         this.right = '登录'
       } else {
