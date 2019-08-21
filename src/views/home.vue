@@ -1,6 +1,7 @@
 <template>
   <div>
-    <a-row>
+    <h1>暂未开放，敬请期待</h1>
+    <!-- <a-row>
       <a-col class="homeRow" :span="24">
         <FastEntrance></FastEntrance>
       </a-col>
@@ -12,7 +13,7 @@
       <a-col :span="12">
         <Todolist></Todolist>
       </a-col>
-    </a-row>
+    </a-row> -->
   </div>
 </template>
 
@@ -48,11 +49,7 @@ export default {
 </script>
 
 <style scoped>
-	h1{
-		text-align: center;
-		padding: 30px;
-	}
-
+	h1{ text-align: center; padding: 30px; }
 </style>
 <style>
 .homeRow {padding-top:20px;}
