@@ -28,7 +28,7 @@
 							<a-form-item>
 								<a-input v-decorator="[
 									  'phone',
-									  { validateTrigger:'blur',
+									  { validateTrigger:'change',
 										 rules: [
 									  { validator: validatePhone}] }
 									]"
@@ -39,25 +39,25 @@
 						</a-col>
 						<a-col :span="7">
 							<a-form-item>
-                <a-input v-decorator="[
+								<a-input v-decorator="[
 											  'code',
 											  { validateTrigger:'blur',
                         rules: [
 											  {validator: validateCode}] }
 											]"
-										 placeholder="手机验证码" :disabled='disableCode'>
-											<a-icon slot="prefix" type="code" style="color: rgba(0,0,0,.25)" />
-										</a-input>
+								 placeholder="手机验证码" :disabled='disableCode'>
+									<a-icon slot="prefix" type="code" style="color: rgba(0,0,0,.25)" />
+								</a-input>
 
 							</a-form-item>
 						</a-col>
-            <a-col :span="4">
-              <a-form-item>
-                  <a-button type="primary" :disabled='disableBtn' ghost @click="sendCode" size="small" style="height:42px">
-                    {{btnTxt}}
-                  </a-button>
-                  </a-form-item>
-                </a-col>
+						<a-col :span="4">
+							<a-form-item>
+								<a-button type="primary" :disabled='disableBtn' ghost @click="sendCode" size="small" style="height:42px">
+									{{btnTxt}}
+								</a-button>
+							</a-form-item>
+						</a-col>
 					</a-row>
 					<div v-if="!isBind">
 						<div class="tips">{{tips}}</div>
@@ -77,7 +77,7 @@
 									</a-input>
 								</a-form-item>
 							</a-col>
-              <a-col span="7">
+							<a-col span="7">
 								<a-form-item>
 									<a-input v-decorator="[
 										  'rePassword',
@@ -92,8 +92,8 @@
 								</a-form-item>
 							</a-col>
 						</a-row>
-	          <a-row type="flex" justify="start" align="middle" :gutter="10">
-              <a-col span="7">
+						<a-row type="flex" justify="start" align="middle" :gutter="10">
+							<a-col span="7">
 								<a-form-item>
 									<a-input v-decorator="[
 											  'name',
@@ -126,7 +126,7 @@
 									</a-input>
 								</a-form-item>
 							</a-col>
-              <a-col span='10'>
+							<a-col span='10'>
 								<a-form-item>
 									<a-input v-decorator="[
 										  'dept',
@@ -141,7 +141,7 @@
 									</a-input>
 								</a-form-item>
 							</a-col>
-            </a-row>
+						</a-row>
 						<a-row type="flex" justify="start" align="middle" :gutter="10">
 							<a-col span='14'>
 								<a-form-item>
@@ -159,7 +159,7 @@
 								</a-form-item>
 							</a-col>
 
-							<a-col  span='7'>
+							<a-col span='7'>
 								<a-form-item>
 									<a-input v-decorator="[
 										  'zipCode',
@@ -176,19 +176,21 @@
 									</a-input>
 								</a-form-item>
 							</a-col>
-							<!-- <a-col>“综合渔技智能服务平台”</a-col> -->
 						</a-row>
 					</div>
 				</a-form>
 			</div>
 			<img src="../assets/images/border.png" alt="" class="border">
 			<div class="btnGroup">
-				<a-button type="primary" @click="showLeft">
-					{{left}}
-				</a-button>
-				<a-button type="primary" @click="showRight">
-					{{right}}
-				</a-button>
+				<div @click="showLeft">
+					<img src="../assets/images/left.png" alt="">
+					<div>{{left}}</div>
+				</div>
+				<div @click="showRight">
+					<img src="../assets/images/right2.png" alt="" v-if='disableNext'>
+					<img src="../assets/images/right.png" alt="" v-else>
+					<div>{{right}}</div>
+				</div>
 			</div>
 		</div>
 		<div class="footer">
@@ -199,303 +201,312 @@
 </template>
 
 <script>
-import {
-  permission
-} from '@/util/mixins'
-export default {
-  name: 'bindPhone',
-  mixins: [permission],
-  beforeCreate() {
-    this.formBind = this.$form.createForm(this)
-  },
-  data() {
-    return {
-      left: '返回登录',
-      disableCode: false,
-      right: '下一步(1/2)',
-      btnTxt: '发送验证码',
-      disableBtn: true,
-      timer: null,
-      systemLists: [],
-      activeIndex: null,
-      pageType: '',
-      userId: '',
-      systemNmme: '',
-      confirmDirty: false,
-      isBind: true,
-      tips: '',
-    }
-  },
-  mounted() {
-    this.systemLists = this.$cookie.get('systemLists') != undefined ? JSON.parse(this.$cookie.get('systemLists')) : []
-    if (this.$route.query.id) {
-      this.userId = this.$route.query.id
-      this.pageType = 'isBind'
-      this.right = '完成绑定'
-      this.left = '返回登录'
-    }
-  },
-  methods: {
-    showLeft() {
-      if (!this.$route.query.id) {
-        if (this.right == '完成绑定') {
-          this.right = '下一步'
-          this.left = '返回登录'
-          this.isBind = true
-        } else {
-          this.$cookie.set('canEnterBind', '500')
-          this.$router.push({
-            name: 'login'
-          })
-        }
-      } else {
-        if (this.right == '完成绑定') {
-          this.$router.push({
-            name: 'login'
-          })
-          this.$cookie.set('canEnterBind', '500')
-        }
-      }
-    },
-    selectSystem(item, index) {
-      this.userId = item.id
-      this.systemNmme = item.sysDic.sysName
-      this.activeIndex = index
-      this.pageType = item.isBind == false ? 'isBind' : 'unBind'
-      // this.isBind=item.isBind;
-      if (this.pageType != 'isBind') {
-        this.right = '登录'
-      } else {
-        this.right = '下一步（1/2）'
-      }
-    },
-    handleBind() {
-      this.formBind.validateFields((err, values) => {
-        if (!err) {
-          let params = {
-            userId: this.userId,
-            pwd: values.password,
-            code: values.code,
-            userInfo: {
-              'phone': values.phone,
-              'mail': values.mail,
-              'addr': values.addr,
-              'name': values.name,
-              'dept': values.dept,
-              'zipCode': values.zipCode,
-              'code': values.code
-            }
-          }
-          let options = {
-            userId: this.userId,
-            phone: values.phone,
-            code: values.code
-          }
-          if (this.$cookie.get('redirectUrl') != undefined) {
-            params.redirectUrl = this.$cookie.get('redirectUrl')
-            options.redirectUrl = this.$cookie.get('redirectUrl')
-          }
-          let sendLink = this.isBind == true ? this.$api.POST_BIND_USERINFO_BIND : this.$api.POST_BIND_USERINFO_UNBIND
-          let transData = this.isBind == true ? options : params
-          this.$ajax.post({
-            url: sendLink,
-            params: transData
-          }).then(res => {
-            let gainDatas = res.data.content
-            if (gainDatas.redirectUrl) {
-              this.$cookie.set('canEnterBind', '500')
-              window.open(gainDatas.redirectUrl, '_parent')
-            } else {
-              if (String(gainDatas.isNew) == 'true') {
-                this.$cookie.set('token', gainDatas.access_token)
-                this.$cookie.set('refresh_token', gainDatas.refresh_token)
-                this.$router.push({
-                  name: 'home',
-                })
-              } else {
-                this.$cookie.set('canEnterBind', '500')
-                const openUrl = gainDatas.url + '?userId=' + gainDatas.userId + '&accessToken=' + gainDatas.access_token + '&refreshToken=' + gainDatas.refresh_token
-                window.open(openUrl, '_parent')
-              }
-            }
-          })
-        }
-      })
-    },
-    showRight() {
-      if (this.pageType != '') {
-        if (this.pageType == 'isBind') {
-          if (this.right == '完成绑定') {
-            this.handleBind()
-          } else {
-            this.right = '完成绑定'
-            this.left = '上一步'
-          }
-        } else {
-          this.goLogin()
-        }
-      } else {
-        this.$message.error('请先选择系统，再进行下一步！')
-      }
+	import {
+		permission
+	} from '@/util/mixins'
+	export default {
+		name: 'bindPhone',
+		mixins: [permission],
+		beforeCreate() {
+			this.formBind = this.$form.createForm(this)
+		},
+		data() {
+			return {
+				left: '返回登录',
+				disableCode: false,
+				right: '下一步(1/2)',
+				btnTxt: '发送验证码',
+				disableBtn: true,
+				timer: null,
+				systemLists: [],
+				activeIndex: null,
+				pageType: '',
+				userId: '',
+				systemNmme: '',
+				confirmDirty: false,
+				isBind: true,
+				transVal: true,
+				tips: '',
+				disableNext: true
+			}
+		},
+		mounted() {
+			this.systemLists = this.$cookie.get('systemLists') != undefined ? JSON.parse(this.$cookie.get('systemLists')) : []
+			if (this.$route.query.id) {
+				this.userId = this.$route.query.id
+				this.pageType = 'isBind'
+				this.right = '完成绑定'
+				this.left = '返回登录'
+			}
+		},
+		methods: {
+			showLeft() {
+				if (!this.$route.query.id) {
+					if (this.right == '完成绑定') {
+						this.right = '下一步'
+						this.left = '返回登录'
+						this.isBind = true
+					} else {
+						this.$cookie.set('canEnterBind', '500')
+						this.$router.push({
+							name: 'login'
+						})
+					}
+				} else {
+					if (this.right == '完成绑定') {
+						this.$router.push({
+							name: 'login'
+						})
+						this.$cookie.set('canEnterBind', '500')
+					}
+				}
+			},
+			selectSystem(item, index) {
+				this.userId = item.id
+				this.systemNmme = item.sysDic.sysName
+				this.activeIndex = index
+				this.pageType = item.isBind == false ? 'isBind' : 'unBind'
+				this.disableNext = false
+				if (this.pageType != 'isBind') {
+					this.right = '登录'
+				} else {
+					this.right = '下一步（1/2）'
+				}
+			},
+			handleBind() {
+				this.formBind.validateFields((err, values) => {
+					if (!err) {
+						let params = {
+							userId: this.userId,
+							pwd: values.password,
+							code: values.code,
+							userInfo: {
+								'phone': values.phone,
+								'mail': values.mail,
+								'addr': values.addr,
+								'name': values.name,
+								'dept': values.dept,
+								'zipCode': values.zipCode,
+								'code': values.code
+							}
+						}
+						let options = {
+							userId: this.userId,
+							phone: values.phone,
+							code: values.code
+						}
+						if (this.$cookie.get('redirectUrl') != undefined) {
+							params.redirectUrl = this.$cookie.get('redirectUrl')
+							options.redirectUrl = this.$cookie.get('redirectUrl')
+						}
+						let sendLink = this.isBind == true ? this.$api.POST_BIND_USERINFO_BIND : this.$api.POST_BIND_USERINFO_UNBIND
+						let transData = this.isBind == true ? options : params
+						this.$ajax.post({
+							url: sendLink,
+							params: transData
+						}).then(res => {
+							let gainDatas = res.data.content
+							if (gainDatas.redirectUrl) {
+								this.$cookie.set('canEnterBind', '500')
+								window.open(gainDatas.redirectUrl, '_parent')
+							} else {
+								if (String(gainDatas.isNew) == 'true') {
+									this.$cookie.set('token', gainDatas.access_token)
+									this.$cookie.set('refresh_token', gainDatas.refresh_token)
+									this.$router.push({
+										name: 'home',
+									})
+								} else {
+									this.$cookie.set('canEnterBind', '500')
+									const openUrl = gainDatas.url + '?userId=' + gainDatas.userId + '&accessToken=' + gainDatas.access_token +
+										'&refreshToken=' + gainDatas.refresh_token
+									window.open(openUrl, '_parent')
+								}
+							}
+						})
+					}
+				})
+			},
+			showRight() {
+				if (this.pageType != '') {
+					if (this.pageType == 'isBind') {
+						if (this.right == '完成绑定') {
+							this.handleBind()
+						} else {
+							this.right = '完成绑定'
+							this.left = '上一步'
+						}
+					} else {
+						this.goLogin()
+					}
+				} else {
+					this.$message.error('请先选择系统，再进行下一步！')
+				}
 
-    },
-    goLogin() {
-      let links = '?userId=' + this.userId
-      if (this.$cookie.get('redirectUrl') != undefined) {
-        links = links + '&redirectUrl=' + this.$cookie.get('redirectUrl')
-      }
-      this.$ajax.get({
-        url: this.$api.GET_SELECT_SYSTEM + links
-      }).then(res => {
-        let gainDatas = res.data.content
-        if (gainDatas.redirectUrl) {
-          this.$cookie.set('canEnterBind', '500')
-          window.open(gainDatas.redirectUrl, '_parent')
-        } else {
-          if (String(gainDatas.isNew) == 'true') {
-            this.$cookie.set('token', gainDatas.access_token)
-            this.$cookie.set('refresh_token', gainDatas.refresh_token)
-            this.$router.push({
-              name: 'home',
-            })
-          } else {
-            this.$cookie.set('canEnterBind', '500')
-            const openUrl = gainDatas.url + '?userId=' + gainDatas.userId + '&accessToken=' + gainDatas.access_token + '&refreshToken=' + gainDatas.refresh_token
-            window.open(openUrl, '_parent')
-          }
-        }
-      })
-    },
-    sendCode() {
-      const phone = this.formBind.getFieldValue('phone')
-      let params = {}
-      let links = ''
-      if (this.$cookie.get('redirectUrl') != undefined) {
-        links = '?redirectUrl=' + this.$cookie.get('redirectUrl')
-      }
-      if (phone) {
-        this.$ajax.get({
-          url: this.$api.GET_SEND_CODE.replace('{phone}', phone) + links
-        }).then(res => {
-          this.disableCode = false
-          this.disableBtn = true
-          let num = 60
-          const interval = () => {
-            this.timer = setInterval(() => {
-              if (num <= 0) {
-                this.clearTimer()
-                return
-              }
-              this.btnTxt = (num -= 1) + 's'
-            }, 1000)
-          }
-          interval()
-        })
-      } else {
-        this.$message.error('请先填写手机号！')
-      }
-    },
-    clearTimer() {
-      clearInterval(this.timer)
-      this.btnTxt = '获取验证码'
-      this.disableBtn = false
-    },
-    validateCode(rule, value, callback) {
-      if (!value || value == undefined || value.split(' ').join('').length === 0) {
-        callback('请输入手机验证码!')
-      } else {
-        const phone = this.formBind.getFieldValue('phone')
-        const code = this.formBind.getFieldValue('code')
-        console.log(phone, code, 'wqwqwqwq')
-        let params = {
-          'phone': phone,
-          'code': code,
-          'userId': this.userId
-        }
-        if (this.$cookie.get('redirectUrl') != undefined) {
-          params.redirectUrl = this.$cookie.get('redirectUrl')
-        }
-        this.$ajax.post({
-          url: this.$api.POST_CHECK_CODE,
-          params: params
-        }).then(res => {
-          if (res.code != '200') {
-            callback('验证码错误!')
-          } else {
-            callback()
-          }
-        })
-      }
-    },
-    validatePhone(rule, value, callback) {
-      if (value && value != undefined) {
-        if (!/^1[3456789]\d{9}$/.test(value)) {
-          callback('手机号码不合法!')
-        } else {
-          let links = '?id=' + this.userId + '&phone=' + value
-          if (this.$cookie.get('redirectUrl') != undefined) {
-            links = links + '&redirectUrl=' + this.$cookie.get('redirectUrl')
-          }
-          this.$ajax.get({
-            url: this.$api.GET_CHECK_PHONE + links
-          }).then(res => {
-            callback()
-            this.disableBtn = false
-            this.isBind = res.data.content
-            if (res.data.content == false) {
-              this.tips = '此号未绑定需完善下方信息!'
-            }
-          })
-        }
-      } else {
-        callback('请输入手机号!')
-      }
-    },
-    checkZipCode(rule, value, callback) {
-      if (value && value != undefined) {
-        if (!/^[0-9]{6}$/.test(value)) {
-          callback('邮编格式不合法!')
-        } else {
-          callback()
-        }
-      } else {
-        callback('请输入邮编!')
-      }
-    },
-    validateToNextPassword(rule, value, callback) {
-      const form = this.formBind
-      if (value && this.confirmDirty) {
-        form.validateFields(['rePassword'], {
-          force: true
-        })
-      }
-      callback()
-    },
-    compareToFirstPassword(rule, value, callback) {
-      const form = this.formBind
-      if (value && value !== form.getFieldValue('password')) {
-        callback('密码输入不一致!')
-      } else {
-        callback()
-      }
-    },
-    handleConfirmBlur(e) {
-      const value = e.target.value
-      this.confirmDirty = this.confirmDirty || !!value
-    },
-  }
-}
+			},
+			goLogin() {
+				let links = '?userId=' + this.userId
+				if (this.$cookie.get('redirectUrl') != undefined) {
+					links = links + '&redirectUrl=' + this.$cookie.get('redirectUrl')
+				}
+				this.$ajax.get({
+					url: this.$api.GET_SELECT_SYSTEM + links
+				}).then(res => {
+					let gainDatas = res.data.content
+					if (gainDatas.redirectUrl) {
+						this.$cookie.set('canEnterBind', '500')
+						window.open(gainDatas.redirectUrl, '_parent')
+					} else {
+						if (String(gainDatas.isNew) == 'true') {
+							this.$cookie.set('token', gainDatas.access_token)
+							this.$cookie.set('refresh_token', gainDatas.refresh_token)
+							this.$router.push({
+								name: 'home',
+							})
+						} else {
+							this.$cookie.set('canEnterBind', '500')
+							const openUrl = gainDatas.url + '?userId=' + gainDatas.userId + '&accessToken=' + gainDatas.access_token +
+								'&refreshToken=' + gainDatas.refresh_token
+							window.open(openUrl, '_parent')
+						}
+					}
+				})
+			},
+			sendCode() {
+				const phone = this.formBind.getFieldValue('phone')
+				let params = {}
+				let links = ''
+				if (this.$cookie.get('redirectUrl') != undefined) {
+					links = '?redirectUrl=' + this.$cookie.get('redirectUrl')
+				}
+				if (phone) {
+					this.$ajax.get({
+						url: this.$api.GET_SEND_CODE.replace('{phone}', phone) + links
+					}).then(res => {
+						this.disableCode = false
+						this.disableBtn = true
+						let num = 60
+						const interval = () => {
+							this.timer = setInterval(() => {
+								if (num <= 0) {
+									this.clearTimer()
+									return
+								}
+								this.btnTxt = (num -= 1) + 's'
+							}, 1000)
+						}
+						interval()
+					})
+				} else {
+					this.$message.error('请先填写手机号！')
+				}
+			},
+			clearTimer() {
+				clearInterval(this.timer)
+				this.btnTxt = '获取验证码'
+				this.disableBtn = false
+			},
+			validateCode(rule, value, callback) {
+				if (!value || value == undefined || value.split(' ').join('').length === 0) {
+					callback('请输入手机验证码!')
+				} else {
+					const phone = this.formBind.getFieldValue('phone')
+					const code = this.formBind.getFieldValue('code')
+					console.log(phone, code, 'wqwqwqwq')
+					let params = {
+						'phone': phone,
+						'code': code,
+						'userId': this.userId
+					}
+					if (this.$cookie.get('redirectUrl') != undefined) {
+						params.redirectUrl = this.$cookie.get('redirectUrl')
+					}
+					this.$ajax.post({
+						url: this.$api.POST_CHECK_CODE,
+						params: params
+					}).then(res => {
+						if (res.code != '200') {
+							callback('验证码错误!')
+						} else {
+							callback()
+							this.isBind = this.transVal
+						}
+					})
+				}
+			},
+			validatePhone(rule, value, callback) {
+				if (value && value != undefined) {
+					if (!/^1[3456789]\d{9}$/.test(value)) {
+						callback('手机号码不合法!')
+					} else {
+						if (value.length == '11') {
+							let links = '?id=' + this.userId + '&phone=' + value
+							if (this.$cookie.get('redirectUrl') != undefined) {
+								links = links + '&redirectUrl=' + this.$cookie.get('redirectUrl')
+							}
+							this.$ajax.get({
+								url: this.$api.GET_CHECK_PHONE + links
+							}).then(res => {
+								callback()
+								this.disableBtn = false
+								this.transVal = res.data.content
+								if (res.data.content == false) {
+									this.tips = '此号未绑定需完善下方信息!'
+								}
+							})
+						}
+					}
+				} else {
+					callback('请输入手机号!')
+				}
+			},
+			checkZipCode(rule, value, callback) {
+				if (value && value != undefined) {
+					if (!/^[0-9]{6}$/.test(value)) {
+						callback('邮编格式不合法!')
+					} else {
+						callback()
+					}
+				} else {
+					callback('请输入邮编!')
+				}
+			},
+			validateToNextPassword(rule, value, callback) {
+				const form = this.formBind
+				if (value && this.confirmDirty) {
+					form.validateFields(['rePassword'], {
+						force: true
+					})
+				}
+				callback()
+			},
+			compareToFirstPassword(rule, value, callback) {
+				const form = this.formBind
+				if (value && value !== form.getFieldValue('password')) {
+					callback('密码输入不一致!')
+				} else {
+					callback()
+				}
+			},
+			handleConfirmBlur(e) {
+				const value = e.target.value
+				this.confirmDirty = this.confirmDirty || !!value
+			},
+		}
+	}
 </script>
 
 <style scoped>
 	.loginFrame {
 		width: 100%;
 		height: 100%;
+		min-height: 700px;
 		margin: 0px;
 		padding: 0px;
 		position: relative;
 		background-image: url("../assets/images/bg.jpg");
 		background-size: cover;
+		z-index: 10;
 	}
 
 	.chooseSystem {
@@ -560,15 +571,39 @@ export default {
 		left: 0px;
 		color: #cfd7f3;
 		font-size: 14px;
+		z-index: 0;
 	}
 
 	.btnGroup {
 		position: absolute;
-		bottom: 20px;
-		left: -20px;
-		width: 950px;
+		bottom: 30px;
+		left: -22px;
+		width: 944px;
 		display: flex;
 		justify-content: space-between;
+	}
+
+	.btnGroup div {
+		width: 150px;
+		height: 50px;
+		line-height: 60px;
+		text-align: center;
+		font-size: 14px;
+		color: white;
+		cursor: pointer;
+		position: relative;
+	}
+
+	.btnGroup div img {
+		width: 150px;
+		height: 50px;
+		position: absolute;
+		top: 0;
+		left: 0;
+	}
+
+	.btnGroup div:last-of-type img {
+		right: 0;
 	}
 
 	.footer p {
@@ -623,7 +658,6 @@ export default {
 	.bindPhoneTitle {
 		margin-bottom: 20px;
 		font-weight: bold;
-		/* text-align: center; */
 	}
 
 	.ant-input-affix-wrapper,

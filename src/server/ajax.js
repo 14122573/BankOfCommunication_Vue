@@ -24,7 +24,9 @@ const errorHandler = (err) => {
   if (errStatus) {
     switch (errStatus) {
     case 404: // 网络请求不存在,跳转统一报错页面
-
+      router.push({
+        name: 'networkerr'
+      })
       break
     case 500:
       const code = err.response.data && err.response.data.code
@@ -55,9 +57,9 @@ const errorHandler = (err) => {
           name: 'login'
         })
       } else if (code == '710') { // 自定义错误
-        message.error(err.response.data.msg)
+        // message.error(err.response.data.msg)
       } else if (code == '720') { // 必填项校验错误
-        message.error(err.response.data.msg)
+        // message.error(err.response.data.msg)
       } else if (code =='740') { // 运行时异常
         router.push({
           name: 'networkerr'

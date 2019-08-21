@@ -162,12 +162,8 @@ export default {
     },
     //发送验证码
     sendCode() {
-      let links = ''
-      if (this.redirectUrlPrefix != 'null') {
-        links = '?redirectUrl=' + this.$cookie.get('redirectUrl')
-      }
       this.$ajax.get({
-        url: this.$api.GET_SEND_CODE.replace('{phone}', this.formRegister.getFieldValue('username')) + links
+        url: this.$api.GET_SEND_CODE.replace('{phone}', this.formRegister.getFieldValue('username'))
       }).then(res => {
         if (res.code == '200') {
           this.disableCode = false

@@ -11,7 +11,6 @@
 				<transition name="fade" mode="out-in" v-if='pageType=="login"'>
 					<div class="login">
 						<h2>用户登录</h2>
-						<a-alert class="showError" type="error" :message="loginFailMsg" v-if="visibleError" showIcon closable :afterClose="handleClose" />
 						<a-form :form="formLogin" class="login-form">
 							<a-form-item>
 								<a-input v-decorator="[
@@ -46,7 +45,7 @@
 													 initialValue: true,
 												 }
 												 ]">
-											记住密码
+											七天免登录
 										</a-checkbox>
 									</a-col>
 									<a-col :span="12">
@@ -55,7 +54,10 @@
 										</a>
 									</a-col>
 								</a-row>
-								<a-button type="primary" html-type="submit" class="login-form-button" @click="handleLogin">
+								<div class="showError">
+										<a-alert  type="error" :message="loginFailMsg" v-if="visibleError" showIcon closable :afterClose="handleClose" />
+								</div>
+								<a-button type="primary" html-type="submit"  class="login-form-button" @click="handleLogin">
 									登录
 								</a-button>
 								<a @click="pageType = 'register'" class="login-form-register">
@@ -222,7 +224,7 @@ export default {
         })
       } else if (res.msg == 'success') {
         if (gainDatas.redirectUrl) {
-          window.open(this.$cookie.get('url'), '_parent')
+          window.open(gainDatas.redirectUrl, '_parent')
           this.$cookie.set('canEnterBind', '500')
         } else {
           if (String(gainDatas.isNew) == 'true') {
@@ -362,7 +364,7 @@ export default {
 
 	.login .login-form-button {
 		width: 100%;
-		margin-top: 40px;
+		margin-top: 20px;
 		text-align: center;
 	}
 
@@ -391,6 +393,7 @@ export default {
 	}
 
 	.showError {
-		margin-bottom: 20px;
+		margin-top:10px;
+		height: 40px;
 	}
 </style>
