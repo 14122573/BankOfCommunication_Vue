@@ -303,6 +303,7 @@ export default {
           }).then(res => {
             let gainDatas = res.data.content
             if (gainDatas.redirectUrl) {
+              this.$cookie.set('canEnterBind', '500')
               window.open(gainDatas.redirectUrl, '_parent')
             } else {
               if (String(gainDatas.isNew) == 'true') {
@@ -312,6 +313,7 @@ export default {
                   name: 'home',
                 })
               } else {
+                this.$cookie.set('canEnterBind', '500')
                 const openUrl = gainDatas.url + '?userId=' + gainDatas.userId + '&accessToken=' + gainDatas.access_token + '&refreshToken=' + gainDatas.refresh_token
                 window.open(openUrl, '_parent')
               }
@@ -348,6 +350,7 @@ export default {
       }).then(res => {
         let gainDatas = res.data.content
         if (gainDatas.redirectUrl) {
+          this.$cookie.set('canEnterBind', '500')
           window.open(gainDatas.redirectUrl, '_parent')
         } else {
           if (String(gainDatas.isNew) == 'true') {
@@ -357,6 +360,7 @@ export default {
               name: 'home',
             })
           } else {
+            this.$cookie.set('canEnterBind', '500')
             const openUrl = gainDatas.url + '?userId=' + gainDatas.userId + '&accessToken=' + gainDatas.access_token + '&refreshToken=' + gainDatas.refresh_token
             window.open(openUrl, '_parent')
           }
