@@ -226,7 +226,7 @@ export default {
       confirmDirty: false,
       isBind: true,
       tips: '',
-	  disableNext:true
+      disableNext: true
     }
   },
   mounted() {
@@ -265,7 +265,7 @@ export default {
       this.systemNmme = item.sysDic.sysName
       this.activeIndex = index
       this.pageType = item.isBind == false ? 'isBind' : 'unBind'
-	  this.disableNext=false
+      this.disableNext = false
       if (this.pageType != 'isBind') {
         this.right = '登录'
       } else {
@@ -424,7 +424,7 @@ export default {
           params: params
         }).then(res => {
           if (res.code != '200') {
-            callback('验证码错误!')
+            callback(res.data.msg)
           } else {
             callback()
             this.isBind = this.transVal
@@ -445,11 +445,15 @@ export default {
             this.$ajax.get({
               url: this.$api.GET_CHECK_PHONE + links
             }).then(res => {
-              callback()
-              this.disableBtn = false
-              this.transVal = res.data.content
-              if (res.data.content == false) {
-                this.tips = '此号未绑定需完善下方信息!'
+              if (res.code == '200') {
+                callback()
+                this.disableBtn = false
+                this.transVal = res.data.content
+                if (res.data.content == false) {
+                  this.tips = '此号未绑定需完善下方信息!'
+                }
+              } else {
+                callback(res.data.msg)
               }
             })
           }

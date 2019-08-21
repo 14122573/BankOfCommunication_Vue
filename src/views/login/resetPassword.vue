@@ -4,7 +4,7 @@
 		<div v-if="appearIndex==0" class='linksTips'>
 			<div @click='appearIndex=2'>
 				<img src="@/assets/images/bgResetPwd.png" alt="" class="bgImage">
-					<a-row type="flex" justify="space-around" align="middle" :gutter="10" style="height: 90px;">
+					<a-row type="flex" justify="space-around" align="middle" :gutter="10" class='block'>
 					<a-col span='6'><img src="../../assets/images/head1.png" alt="" class="icon"></a-col>
 					<a-col span='16'>
 						<div class="title">已绑定手机用户</div>
@@ -14,7 +14,7 @@
 			</div>
 			<div @click='appearIndex=1' class="unBindLinks">
 				<img src="@/assets/images/bgResetPwd.png" alt="" class="bgImage">
-				<a-row type="flex" justify="space-around" align="middle"  style="height: 90px;">
+				<a-row type="flex" justify="space-around" align="middle"   class='block'>
 					<a-col span='6'><img src="../../assets/images/head2.png" alt="" class="icon"></a-col>
 					<a-col span='16'>
 						<div class="title">未绑定手机用户</div>
@@ -22,13 +22,13 @@
 					</a-col>
 				</a-row>
 			</div>
-			<div class="returnPage" @click="handleJump" style="height:100px;line-height: 200px;">
+			<div class="returnPage" @click="handleJump" >
 				<a-icon type="arrow-left" />返回登录</div>
 		</div>
 		<div v-if="appearIndex==1" class='linksTips'>
 			<div>
 				<img src="@/assets/images/bgResetPwd.png" alt="" class="bgImage">
-				<a-row type="flex" justify="space-around" align="middle" style="height: 90px;">
+				<a-row type="flex" justify="space-around" align="middle"  class='block'>
 					<a-col span='6'><img src="../../assets/images/head1.png" alt="" class="icon"></a-col>
 					<a-col span='16'>
 						<div class="title">管理员姓名</div>
@@ -36,7 +36,7 @@
 					</a-col>
 				</a-row>
 			</div>
-			<div class="returnPage" @click="handleJump" style="height:200px;line-height: 420px;">
+			<div class="backPage" @click="handleJump">
 				<a-icon type="arrow-left" />返回登录</div>
 		</div>
 		<a-form :form="formRegister" class="register-form" v-if="appearIndex==2">
@@ -312,13 +312,20 @@ export default {
 	}
 
 	.returnPage {
-		position: absolute;
-		bottom: 0;
-		line-height: 180px;
+		text-align: center;
+		line-height: 90px;
+		margin-top: 55px!important;
+	}
+	.backPage{
+		line-height: 90px;
+		margin-top: 165px!important;
 		text-align: center;
 	}
 	.icon{
-		width: 50px!important;
-		height: 50px!important;
+		width: 50px;
+		height: 50px;
 	 }	
+	 .block{
+		 height: 90px;
+	 }
 </style>
