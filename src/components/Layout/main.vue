@@ -54,7 +54,7 @@ import {
   permission,
 } from '@/util/mixins'
 
-import Login from '@/views/login'
+import Login from '@/views/login/login'
 
 export default {
   name: 'Layout',
@@ -132,6 +132,7 @@ export default {
           params: {}
         }).then(res => {
           this.$store.commit('SET_CLEAR')
+          this.$cookie.remove('KeepLogin')
           this.$cookie.remove('token')
           this.$cookie.remove('refresh_token')
           this.$cookie.remove('userInfo')
@@ -145,7 +146,6 @@ export default {
         })
       }
     },
-
     toggleSideCollapsed() {
       this.collapsed = !this.collapsed
     },

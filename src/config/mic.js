@@ -22,7 +22,8 @@ case 'devol': // 本地线上部署环境下
 case 'sit': // sit环境下
   MicConfig = [
     {
-      baseUrl:'http://scsd.omniview.pro',
+      baseUrl:'http://scsd.tao.com',
+      // baseUrl:'http://scsd.omniview.pro',
       resourceName:'scsd',
       micId:'mic:scsd',
       pathPrefix:'/scsd'

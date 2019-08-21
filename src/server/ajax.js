@@ -4,6 +4,7 @@ import api from './api'
 import Store from '@/store'
 import Cookie from '@/util/local-cookie'
 import router from '@/router'
+import Common from '@/util/common'
 import {
   message
 } from 'ant-design-vue'
@@ -32,26 +33,33 @@ const errorHandler = (err) => {
       const code = err.response.data && err.response.data.code
       if (code == '911') { // token 获取
         // token过期则重新获取token或refresh token并刷新页面
-        const params = {
-          grant_type: 'refresh_token',
-          client_id: 'house',
-          client_secret: 'house',
-          refresh_token: Cookie.get('refresh_token'),
-        }
-        request({
-          method: 'POST',
-          url: api.REFRESH_TOKEN_POST,
-          params,
-          contentType: 'application/x-www-form-urlencoded;charset=UTF-8',
-        }).then(res => {
-          if(res.code === '912'){
-            router.push('/login')
-          }else{
-            Cookie.set('token', res.access_token)
-            Cookie.set('refresh_token', res.refresh_token)
-            router.go(0)
+        if(!Cookie.get('KeepLogin')) {
+          router.push({
+            name: 'login'
+          })
+        }else{
+          if(Cookie.get('KeepLogin')==='true'){
+            const params = {
+              grant_type: 'refresh_token',
+              client_id: 'house',
+              client_secret: 'house',
+              refresh_token: Cookie.get('refresh_token'),
+            }
+            request({
+              method: 'POST',
+              url: api.REFRESH_TOKEN_POST,
+              params,
+              contentType: 'application/x-www-form-urlencoded;charset=UTF-8',
+            }).then(res => {
+              if(res.code === '912'){
+                router.push('/login')
+              }else{
+                Common.setToken(res.access_token,res.refresh_token)
+                router.go(0)
+              }
+            })
           }
-        })
+        }
       } else if (code == '912') { // refresh token 过期
         router.push({
           name: 'login'

@@ -3,7 +3,7 @@
 		<div class="loginForm">
 			<div class="matching">
 				<a-row type="flex" justify="start" align="middle" :gutter="10">
-					<a-col offset="1"><img src="../assets/images/logo.png" alt="" class="logo"></a-col>
+					<a-col offset="1"><img src="../../assets/images/logo.png" alt="" class="logo"></a-col>
 					<a-col>“综合渔技智能服务平台”</a-col>
 				</a-row>
 			</div>
@@ -25,11 +25,7 @@
 							</a-form-item>
 							<input type="password" style="display: none;">
 							<a-form-item class="login-form-password">
-								<a-input v-decorator="[
-										 'pwd',
-										 { validateTrigger:'blur',
-											 rules: [{ required: true,whitespace:true, message: '请输入密码!' }] }
-									 ]"
+								<a-input v-decorator="[ 'pwd', { validateTrigger:'blur', rules: [{ required: true,whitespace:true, message: '请输入密码!' }] } ]"
 								 :type="isType" id="pwds" placeholder="密码" autocomplete="off" @focus='pasBlur'>
 									<a-icon slot="prefix" type="lock" style="color: rgba(0,0,0,.25)" />
 								</a-input>
@@ -38,20 +34,10 @@
 							<a-form-item>
 								<a-row type="flex" justify="space-between">
 									<a-col :span="12" class="login-form-chckbox">
-										<a-checkbox v-decorator="[
-												 'remember',
-												 {
-													 valuePropName: 'checked',
-													 initialValue: true,
-												 }
-												 ]">
-											七天免登录
-										</a-checkbox>
+										<a-checkbox :checked="remember" @change="keepLogin"  > 7天免登陆 </a-checkbox>
 									</a-col>
 									<a-col :span="12">
-										<a class="login-form-forgot" @click='pageType="findPassword"'>
-											忘记密码?
-										</a>
+										<a class="login-form-forgot" @click='pageType="findPassword"'> 忘记密码? </a>
 									</a-col>
 								</a-row>
 								<div class="showError">
@@ -60,9 +46,7 @@
 								<a-button type="primary" html-type="submit"  class="login-form-button" @click="handleLogin">
 									登录
 								</a-button>
-								<a @click="pageType = 'register'" class="login-form-register">
-									没有账号?去注册
-								</a>
+								<a @click="pageType = 'register'" class="login-form-register"> 没有账号?去注册 </a>
 							</a-form-item>
 						</a-form>
 					</div>
@@ -79,12 +63,10 @@
 </template>
 
 <script>
-import {
-  permission
-} from '@/util/mixins'
+import { permission } from '@/util/mixins'
 import testStrong from '@/components/testPwd'
-import Register from '@/views/register'
-import ResetPassword from '@/views/ResetPassword'
+import Register from '@/views/login/register'
+import ResetPassword from '@/views/login/ResetPassword'
 export default {
   name: 'Login',
   components: {
@@ -102,7 +84,8 @@ export default {
       pageType: 'login',
       loginFailMsg: '',
       visibleError: false,
-      isType: 'text'
+      isType: 'text',
+      remember:false, // 设置是否7天免登录
     }
   },
   mounted() {
@@ -124,11 +107,18 @@ export default {
     }
   },
   methods: {
+    keepLogin(e){
+      // this.remember = e.target.checked
+      // if(this.remember){
+      //   this.$cookie.set('KeepLogin',true,{ expires: 7 })
+      // }else{
+      //   this.$cookie.set('KeepLogin',false,{ expires: 7 })
+      // }
+    },
     //存储redirectUrl
     setUrl() {
       if (this.redirectUrlPrefix != 'null') {
-        this.$cookie.set('redirectUrl', this.getQueryString('redirectUrl') + '&sysCode=' + String(this.getQueryString(
-          'sysCode')))
+        this.$cookie.set('redirectUrl', this.getQueryString('redirectUrl') + '&sysCode=' + String(this.getQueryString('sysCode')))
       }
     },
     pasBlur() {
@@ -284,7 +274,7 @@ export default {
 		margin: 0px;
 		padding: 0px;
 		position: relative;
-		background-image: url("../assets/images/bg.jpg");
+		background-image: url("../../assets/images/bg.jpg");
 		background-size: cover;
 	}
 
@@ -307,7 +297,7 @@ export default {
 
 	.matching {
 		width: 550px;
-		background-image: url("../assets/images/pic.jpg");
+		background-image: url("../../assets/images/pic.jpg");
 		background-size: cover;
 		padding: 10px 0;
 		font-size: 26px;

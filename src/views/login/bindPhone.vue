@@ -3,7 +3,7 @@
 		<div class="chooseSystem">
 			<div>
 				<a-row type="flex" justify="start" align="middle" :gutter="10">
-					<a-col><img src="../assets/images/logo.png" alt="" class="logo"></a-col>
+					<a-col><img src="../../assets/images/logo.png" alt="" class="logo"></a-col>
 					<a-col>“综合渔技智能服务平台”</a-col>
 				</a-row>
 			</div>
@@ -14,8 +14,8 @@
 				<div class="systemLists">
 					<div class="systemItem" v-for="(item,index) in systemLists" :key="index" @click="selectSystem(item,index)">
 						{{item.sysDic.sysName}}
-						<img src="../assets/images/system-s.png" alt="" class="checkImage" v-show='activeIndex==index' />
-						<img src="../assets/images/isBind.png" alt="" class="checkImage" v-show='item.isBind=="true"||item.isBind=="1"' />
+						<img src="../../assets/images/system-s.png" alt="" class="checkImage" v-show='activeIndex==index' />
+						<img src="../../assets/images/isBind.png" alt="" class="checkImage" v-show='item.isBind=="true"||item.isBind=="1"' />
 					</div>
 				</div>
 			</div>
@@ -180,7 +180,7 @@
 					</div>
 				</a-form>
 			</div>
-			<img src="../assets/images/border.png" alt="" class="border">
+			<img src="../../assets/images/border.png" alt="" class="border">
 			<div class="btnGroup">
 				<div @click="showLeft">
 					<img src="../assets/images/left.png" alt="">
@@ -201,147 +201,142 @@
 </template>
 
 <script>
-	import {
-		permission
-	} from '@/util/mixins'
-	export default {
-		name: 'bindPhone',
-		mixins: [permission],
-		beforeCreate() {
-			this.formBind = this.$form.createForm(this)
-		},
-		data() {
-			return {
-				left: '返回登录',
-				disableCode: false,
-				right: '下一步(1/2)',
-				btnTxt: '发送验证码',
-				disableBtn: true,
-				timer: null,
-				systemLists: [],
-				activeIndex: null,
-				pageType: '',
-				userId: '',
-				systemNmme: '',
-				confirmDirty: false,
-				isBind: true,
-				transVal: true,
-				tips: '',
-				disableNext: true
-			}
-		},
-		mounted() {
-			this.systemLists = this.$cookie.get('systemLists') != undefined ? JSON.parse(this.$cookie.get('systemLists')) : []
-			if (this.$route.query.id) {
-				this.userId = this.$route.query.id
-				this.pageType = 'isBind'
-				this.right = '完成绑定'
-				this.left = '返回登录'
-			}
-		},
-		methods: {
-			showLeft() {
-				if (!this.$route.query.id) {
-					if (this.right == '完成绑定') {
-						this.right = '下一步'
-						this.left = '返回登录'
-						this.isBind = true
-					} else {
-						this.$cookie.set('canEnterBind', '500')
-						this.$router.push({
-							name: 'login'
-						})
-					}
-				} else {
-					if (this.right == '完成绑定') {
-						this.$router.push({
-							name: 'login'
-						})
-						this.$cookie.set('canEnterBind', '500')
-					}
-				}
-			},
-			selectSystem(item, index) {
-				this.userId = item.id
-				this.systemNmme = item.sysDic.sysName
-				this.activeIndex = index
-				this.pageType = item.isBind == false ? 'isBind' : 'unBind'
-				this.disableNext = false
-				if (this.pageType != 'isBind') {
-					this.right = '登录'
-				} else {
-					this.right = '下一步（1/2）'
-				}
-			},
-			handleBind() {
-				this.formBind.validateFields((err, values) => {
-					if (!err) {
-						let params = {
-							userId: this.userId,
-							pwd: values.password,
-							code: values.code,
-							userInfo: {
-								'phone': values.phone,
-								'mail': values.mail,
-								'addr': values.addr,
-								'name': values.name,
-								'dept': values.dept,
-								'zipCode': values.zipCode,
-								'code': values.code
-							}
-						}
-						let options = {
-							userId: this.userId,
-							phone: values.phone,
-							code: values.code
-						}
-						if (this.$cookie.get('redirectUrl') != undefined) {
-							params.redirectUrl = this.$cookie.get('redirectUrl')
-							options.redirectUrl = this.$cookie.get('redirectUrl')
-						}
-						let sendLink = this.isBind == true ? this.$api.POST_BIND_USERINFO_BIND : this.$api.POST_BIND_USERINFO_UNBIND
-						let transData = this.isBind == true ? options : params
-						this.$ajax.post({
-							url: sendLink,
-							params: transData
-						}).then(res => {
-							let gainDatas = res.data.content
-							if (gainDatas.redirectUrl) {
-								this.$cookie.set('canEnterBind', '500')
-								window.open(gainDatas.redirectUrl, '_parent')
-							} else {
-								if (String(gainDatas.isNew) == 'true') {
-									this.$cookie.set('token', gainDatas.access_token)
-									this.$cookie.set('refresh_token', gainDatas.refresh_token)
-									this.$router.push({
-										name: 'home',
-									})
-								} else {
-									this.$cookie.set('canEnterBind', '500')
-									const openUrl = gainDatas.url + '?userId=' + gainDatas.userId + '&accessToken=' + gainDatas.access_token +
-										'&refreshToken=' + gainDatas.refresh_token
-									window.open(openUrl, '_parent')
-								}
-							}
-						})
-					}
-				})
-			},
-			showRight() {
-				if (this.pageType != '') {
-					if (this.pageType == 'isBind') {
-						if (this.right == '完成绑定') {
-							this.handleBind()
-						} else {
-							this.right = '完成绑定'
-							this.left = '上一步'
-						}
-					} else {
-						this.goLogin()
-					}
-				} else {
-					this.$message.error('请先选择系统，再进行下一步！')
-				}
+import { permission } from '@/util/mixins'
+export default {
+  name: 'bindPhone',
+  mixins: [permission],
+  beforeCreate() {
+    this.formBind = this.$form.createForm(this)
+  },
+  data() {
+    return {
+      left: '返回登录',
+      disableCode: false,
+      right: '下一步(1/2)',
+      btnTxt: '发送验证码',
+      disableBtn: true,
+      timer: null,
+      systemLists: [],
+      activeIndex: null,
+      pageType: '',
+      userId: '',
+      systemNmme: '',
+      confirmDirty: false,
+      isBind: true,
+      tips: '',
+    }
+  },
+  mounted() {
+    this.systemLists = this.$cookie.get('systemLists') != undefined ? JSON.parse(this.$cookie.get('systemLists')) : []
+    if (this.$route.query.id) {
+      this.userId = this.$route.query.id
+      this.pageType = 'isBind'
+      this.right = '完成绑定'
+      this.left = '返回登录'
+    }
+  },
+  methods: {
+    showLeft() {
+      if (!this.$route.query.id) {
+        if (this.right == '完成绑定') {
+          this.right = '下一步'
+          this.left = '返回登录'
+          this.isBind = true
+        } else {
+          this.$cookie.set('canEnterBind', '500')
+          this.$router.push({
+            name: 'login'
+          })
+        }
+      } else {
+        if (this.right == '完成绑定') {
+          this.$router.push({
+            name: 'login'
+          })
+          this.$cookie.set('canEnterBind', '500')
+        }
+      }
+    },
+    selectSystem(item, index) {
+      this.userId = item.id
+      this.systemNmme = item.sysDic.sysName
+      this.activeIndex = index
+      this.pageType = item.isBind == false ? 'isBind' : 'unBind'
+      // this.isBind=item.isBind;
+      if (this.pageType != 'isBind') {
+        this.right = '登录'
+      } else {
+        this.right = '下一步（1/2）'
+      }
+    },
+    handleBind() {
+      this.formBind.validateFields((err, values) => {
+        if (!err) {
+          let params = {
+            userId: this.userId,
+            pwd: values.password,
+            code: values.code,
+            userInfo: {
+              'phone': values.phone,
+              'mail': values.mail,
+              'addr': values.addr,
+              'name': values.name,
+              'dept': values.dept,
+              'zipCode': values.zipCode,
+              'code': values.code
+            }
+          }
+          let options = {
+            userId: this.userId,
+            phone: values.phone,
+            code: values.code
+          }
+          if (this.$cookie.get('redirectUrl') != undefined) {
+            params.redirectUrl = this.$cookie.get('redirectUrl')
+            options.redirectUrl = this.$cookie.get('redirectUrl')
+          }
+          let sendLink = this.isBind == true ? this.$api.POST_BIND_USERINFO_BIND : this.$api.POST_BIND_USERINFO_UNBIND
+          let transData = this.isBind == true ? options : params
+          this.$ajax.post({
+            url: sendLink,
+            params: transData
+          }).then(res => {
+            let gainDatas = res.data.content
+            if (gainDatas.redirectUrl) {
+              this.$cookie.set('canEnterBind', '500')
+              window.open(gainDatas.redirectUrl, '_parent')
+            } else {
+              if (String(gainDatas.isNew) == 'true') {
+                this.$cookie.set('token', gainDatas.access_token)
+                this.$cookie.set('refresh_token', gainDatas.refresh_token)
+                this.$router.push({
+                  name: 'home',
+                })
+              } else {
+                this.$cookie.set('canEnterBind', '500')
+                const openUrl = gainDatas.url + '?userId=' + gainDatas.userId + '&accessToken=' + gainDatas.access_token + '&refreshToken=' + gainDatas.refresh_token
+                window.open(openUrl, '_parent')
+              }
+            }
+          })
+        }
+      })
+    },
+    showRight() {
+      if (this.pageType != '') {
+        if (this.pageType == 'isBind') {
+          if (this.right == '完成绑定') {
+            this.handleBind()
+          } else {
+            this.right = '完成绑定'
+            this.left = '上一步'
+          }
+        } else {
+          this.goLogin()
+        }
+      } else {
+        this.$message.error('请先选择系统，再进行下一步！')
+      }
 
 			},
 			goLogin() {
@@ -412,7 +407,6 @@
 				} else {
 					const phone = this.formBind.getFieldValue('phone')
 					const code = this.formBind.getFieldValue('code')
-					console.log(phone, code, 'wqwqwqwq')
 					let params = {
 						'phone': phone,
 						'code': code,
@@ -504,7 +498,7 @@
 		margin: 0px;
 		padding: 0px;
 		position: relative;
-		background-image: url("../assets/images/bg.jpg");
+		background-image: url("../../assets/images/bg.jpg");
 		background-size: cover;
 		z-index: 10;
 	}
