@@ -34,7 +34,7 @@
 							<a-form-item>
 								<a-row type="flex" justify="space-between">
 									<a-col :span="12" class="login-form-chckbox">
-										<a-checkbox :checked="remember" @change="keepLogin"  > 7天免登陆 </a-checkbox>
+										<a-checkbox :checked="remember" @change="keepLogin"  > 7天免登录 </a-checkbox>
 									</a-col>
 									<a-col :span="12">
 										<a class="login-form-forgot" @click='pageType="findPassword"'> 忘记密码? </a>
