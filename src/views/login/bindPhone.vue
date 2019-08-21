@@ -183,12 +183,12 @@
 			<img src="../../assets/images/border.png" alt="" class="border">
 			<div class="btnGroup">
 				<div @click="showLeft">
-					<img src="../assets/images/left.png" alt="">
+					<img src="../../assets/images/left.png" alt="">
 					<div>{{left}}</div>
 				</div>
 				<div @click="showRight">
-					<img src="../assets/images/right2.png" alt="" v-if='disableNext'>
-					<img src="../assets/images/right.png" alt="" v-else>
+					<img src="../../assets/images/right2.png" alt="" v-if='disableNext'>
+					<img src="../../assets/images/right.png" alt="" v-else>
 					<div>{{right}}</div>
 				</div>
 			</div>
@@ -201,142 +201,145 @@
 </template>
 
 <script>
-import { permission } from '@/util/mixins'
-export default {
-  name: 'bindPhone',
-  mixins: [permission],
-  beforeCreate() {
-    this.formBind = this.$form.createForm(this)
-  },
-  data() {
-    return {
-      left: '返回登录',
-      disableCode: false,
-      right: '下一步(1/2)',
-      btnTxt: '发送验证码',
-      disableBtn: true,
-      timer: null,
-      systemLists: [],
-      activeIndex: null,
-      pageType: '',
-      userId: '',
-      systemNmme: '',
-      confirmDirty: false,
-      isBind: true,
-      tips: '',
-    }
-  },
-  mounted() {
-    this.systemLists = this.$cookie.get('systemLists') != undefined ? JSON.parse(this.$cookie.get('systemLists')) : []
-    if (this.$route.query.id) {
-      this.userId = this.$route.query.id
-      this.pageType = 'isBind'
-      this.right = '完成绑定'
-      this.left = '返回登录'
-    }
-  },
-  methods: {
-    showLeft() {
-      if (!this.$route.query.id) {
-        if (this.right == '完成绑定') {
-          this.right = '下一步'
-          this.left = '返回登录'
-          this.isBind = true
-        } else {
-          this.$cookie.set('canEnterBind', '500')
-          this.$router.push({
-            name: 'login'
-          })
-        }
-      } else {
-        if (this.right == '完成绑定') {
-          this.$router.push({
-            name: 'login'
-          })
-          this.$cookie.set('canEnterBind', '500')
-        }
-      }
-    },
-    selectSystem(item, index) {
-      this.userId = item.id
-      this.systemNmme = item.sysDic.sysName
-      this.activeIndex = index
-      this.pageType = item.isBind == false ? 'isBind' : 'unBind'
-      // this.isBind=item.isBind;
-      if (this.pageType != 'isBind') {
-        this.right = '登录'
-      } else {
-        this.right = '下一步（1/2）'
-      }
-    },
-    handleBind() {
-      this.formBind.validateFields((err, values) => {
-        if (!err) {
-          let params = {
-            userId: this.userId,
-            pwd: values.password,
-            code: values.code,
-            userInfo: {
-              'phone': values.phone,
-              'mail': values.mail,
-              'addr': values.addr,
-              'name': values.name,
-              'dept': values.dept,
-              'zipCode': values.zipCode,
-              'code': values.code
-            }
-          }
-          let options = {
-            userId: this.userId,
-            phone: values.phone,
-            code: values.code
-          }
-          if (this.$cookie.get('redirectUrl') != undefined) {
-            params.redirectUrl = this.$cookie.get('redirectUrl')
-            options.redirectUrl = this.$cookie.get('redirectUrl')
-          }
-          let sendLink = this.isBind == true ? this.$api.POST_BIND_USERINFO_BIND : this.$api.POST_BIND_USERINFO_UNBIND
-          let transData = this.isBind == true ? options : params
-          this.$ajax.post({
-            url: sendLink,
-            params: transData
-          }).then(res => {
-            let gainDatas = res.data.content
-            if (gainDatas.redirectUrl) {
-              this.$cookie.set('canEnterBind', '500')
-              window.open(gainDatas.redirectUrl, '_parent')
-            } else {
-              if (String(gainDatas.isNew) == 'true') {
-                this.$cookie.set('token', gainDatas.access_token)
-                this.$cookie.set('refresh_token', gainDatas.refresh_token)
-                this.$router.push({
-                  name: 'home',
-                })
-              } else {
-                this.$cookie.set('canEnterBind', '500')
-                const openUrl = gainDatas.url + '?userId=' + gainDatas.userId + '&accessToken=' + gainDatas.access_token + '&refreshToken=' + gainDatas.refresh_token
-                window.open(openUrl, '_parent')
-              }
-            }
-          })
-        }
-      })
-    },
-    showRight() {
-      if (this.pageType != '') {
-        if (this.pageType == 'isBind') {
-          if (this.right == '完成绑定') {
-            this.handleBind()
-          } else {
-            this.right = '完成绑定'
-            this.left = '上一步'
-          }
-        } else {
-          this.goLogin()
-        }
-      } else {
-        this.$message.error('请先选择系统，再进行下一步！')
-      }
+	import {
+		permission
+	} from '@/util/mixins'
+	export default {
+		name: 'bindPhone',
+		mixins: [permission],
+		beforeCreate() {
+			this.formBind = this.$form.createForm(this)
+		},
+		data() {
+			return {
+				left: '返回登录',
+				disableCode: false,
+				right: '下一步(1/2)',
+				btnTxt: '发送验证码',
+				disableBtn: true,
+				timer: null,
+				systemLists: [],
+				activeIndex: null,
+				pageType: '',
+				userId: '',
+				systemNmme: '',
+				confirmDirty: false,
+				isBind: true,
+				tips: '',
+			}
+		},
+		mounted() {
+			this.systemLists = this.$cookie.get('systemLists') != undefined ? JSON.parse(this.$cookie.get('systemLists')) : []
+			if (this.$route.query.id) {
+				this.userId = this.$route.query.id
+				this.pageType = 'isBind'
+				this.right = '完成绑定'
+				this.left = '返回登录'
+			}
+		},
+		methods: {
+			showLeft() {
+				if (!this.$route.query.id) {
+					if (this.right == '完成绑定') {
+						this.right = '下一步'
+						this.left = '返回登录'
+						this.isBind = true
+					} else {
+						this.$cookie.set('canEnterBind', '500')
+						this.$router.push({
+							name: 'login'
+						})
+					}
+				} else {
+					if (this.right == '完成绑定') {
+						this.$router.push({
+							name: 'login'
+						})
+						this.$cookie.set('canEnterBind', '500')
+					}
+				}
+			},
+			selectSystem(item, index) {
+				this.userId = item.id
+				this.systemNmme = item.sysDic.sysName
+				this.activeIndex = index
+				this.pageType = item.isBind == false ? 'isBind' : 'unBind'
+				// this.isBind=item.isBind;
+				if (this.pageType != 'isBind') {
+					this.right = '登录'
+				} else {
+					this.right = '下一步（1/2）'
+				}
+			},
+			handleBind() {
+				this.formBind.validateFields((err, values) => {
+					if (!err) {
+						let params = {
+							userId: this.userId,
+							pwd: values.password,
+							code: values.code,
+							userInfo: {
+								'phone': values.phone,
+								'mail': values.mail,
+								'addr': values.addr,
+								'name': values.name,
+								'dept': values.dept,
+								'zipCode': values.zipCode,
+								'code': values.code
+							}
+						}
+						let options = {
+							userId: this.userId,
+							phone: values.phone,
+							code: values.code
+						}
+						if (this.$cookie.get('redirectUrl') != undefined) {
+							params.redirectUrl = this.$cookie.get('redirectUrl')
+							options.redirectUrl = this.$cookie.get('redirectUrl')
+						}
+						let sendLink = this.isBind == true ? this.$api.POST_BIND_USERINFO_BIND : this.$api.POST_BIND_USERINFO_UNBIND
+						let transData = this.isBind == true ? options : params
+						this.$ajax.post({
+							url: sendLink,
+							params: transData
+						}).then(res => {
+							let gainDatas = res.data.content
+							if (gainDatas.redirectUrl) {
+								this.$cookie.set('canEnterBind', '500')
+								window.open(gainDatas.redirectUrl, '_parent')
+							} else {
+								if (String(gainDatas.isNew) == 'true') {
+									this.$cookie.set('token', gainDatas.access_token)
+									this.$cookie.set('refresh_token', gainDatas.refresh_token)
+									this.$router.push({
+										name: 'home',
+									})
+								} else {
+									this.$cookie.set('canEnterBind', '500')
+									const openUrl = gainDatas.url + '?userId=' + gainDatas.userId + '&accessToken=' + gainDatas.access_token +
+										'&refreshToken=' + gainDatas.refresh_token
+									window.open(openUrl, '_parent')
+								}
+							}
+						})
+					}
+				})
+			},
+			showRight() {
+				if (this.pageType != '') {
+					if (this.pageType == 'isBind') {
+						if (this.right == '完成绑定') {
+							this.handleBind()
+						} else {
+							this.right = '完成绑定'
+							this.left = '上一步'
+						}
+					} else {
+						this.goLogin()
+					}
+				} else {
+					this.$message.error('请先选择系统，再进行下一步！')
+				}
 
 			},
 			goLogin() {
