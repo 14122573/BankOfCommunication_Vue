@@ -10,9 +10,9 @@ const TipsOutsite = () =>
 const HomePage = () =>
     import ('@/views/home')
 const LoginPage = () =>
-    import ('@/views/login')
+    import ('@/views/login/login')
 const BindPhone = () =>
-    import ('@/views/bindPhone')
+    import ('@/views/login/bindPhone')
 const PersonCenter = () =>
     import ('@/views/person-center')
     // 系统管理---组织机构

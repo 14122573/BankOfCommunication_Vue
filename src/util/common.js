@@ -1,4 +1,5 @@
 /** 公共方法 */
+import Cookie from '@/util/local-cookie'
 export default {
   /**
      * 在深层数据结构中取值（为了替代类似 res && res.data && res.data.content这种写法）
@@ -117,4 +118,26 @@ export default {
     const filter = /^[\u4E00-\u9FA5A-Za-z0-9]+$/
     return filter.test(txt)
   },
+  /**
+   * 统一设置 两个token信息。根据是否7天免登陆进行判断，设置的cookie失效时间
+   * @param {String} accessToke
+   * @param {String} refreshToken
+   */
+  setToken(accessToke,refreshToken) {
+    if(Cookie.get('KeepLogin')==='true'){
+      if(!!accessToke) {
+        Cookie.set('token', accessToke,{ expires: 7 })
+      }
+      if(!!refreshToken) {
+        Cookie.set('refresh_token', refreshToken,{ expires: 7 })
+      }
+    }else{
+      if(!!accessToke) {
+        Cookie.set('token', accessToke,{ expires: 1 })
+      }
+      if(!!refreshToken) {
+        Cookie.set('refresh_token', refreshToken,{ expires: 1 })
+      }
+    }
+  }
 }

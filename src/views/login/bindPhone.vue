@@ -3,7 +3,7 @@
 		<div class="chooseSystem">
 			<div>
 				<a-row type="flex" justify="start" align="middle" :gutter="10">
-					<a-col><img src="../assets/images/logo.png" alt="" class="logo"></a-col>
+					<a-col><img src="../../assets/images/logo.png" alt="" class="logo"></a-col>
 					<a-col>“综合渔技智能服务平台”</a-col>
 				</a-row>
 			</div>
@@ -14,8 +14,8 @@
 				<div class="systemLists">
 					<div class="systemItem" v-for="(item,index) in systemLists" :key="index" @click="selectSystem(item,index)">
 						{{item.sysDic.sysName}}
-						<img src="../assets/images/system-s.png" alt="" class="checkImage" v-show='activeIndex==index' />
-						<img src="../assets/images/isBind.png" alt="" class="checkImage" v-show='item.isBind=="true"||item.isBind=="1"' />
+						<img src="../../assets/images/system-s.png" alt="" class="checkImage" v-show='activeIndex==index' />
+						<img src="../../assets/images/isBind.png" alt="" class="checkImage" v-show='item.isBind=="true"||item.isBind=="1"' />
 					</div>
 				</div>
 			</div>
@@ -181,7 +181,7 @@
 					</div>
 				</a-form>
 			</div>
-			<img src="../assets/images/border.png" alt="" class="border">
+			<img src="../../assets/images/border.png" alt="" class="border">
 			<div class="btnGroup">
 				<a-button type="primary" @click="showLeft">
 					{{left}}
@@ -199,9 +199,7 @@
 </template>
 
 <script>
-import {
-  permission
-} from '@/util/mixins'
+import { permission } from '@/util/mixins'
 export default {
   name: 'bindPhone',
   mixins: [permission],
@@ -494,7 +492,7 @@ export default {
 		margin: 0px;
 		padding: 0px;
 		position: relative;
-		background-image: url("../assets/images/bg.jpg");
+		background-image: url("../../assets/images/bg.jpg");
 		background-size: cover;
 	}
 

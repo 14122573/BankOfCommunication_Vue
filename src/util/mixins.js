@@ -14,20 +14,25 @@ export const permission = {
         params: {}
       }).then(res => {
         // 本地存储用户基本信息
-        let userInfo = res.data.content,
-          name = userInfo.username = res.data.content.name||res.data.content.phone
-        this.$cookie.set('userInfo', userInfo)
-        this.$cookie.set('userName', name)
-        this.$store.commit('SET_USERNAME', name)
+        let userInfo ,name ,oldSysAuthCode
+        if(!res.data || !res.data.content){
+          userInfo = {}
+          name = ''
+          oldSysAuthCode = []
+        }else{
+          userInfo = res.data.content
+          let name = userInfo.username = res.data.content.name||res.data.content.phone
+          this.$cookie.set('userInfo', userInfo)
+          this.$cookie.set('userName', name)
+          this.$store.commit('SET_USERNAME', name)
+          oldSysAuthCode = getOldSysAuthCode(userInfo.sysDicSet)
+        }
 
-        let oldSysAuthCode = getOldSysAuthCode(userInfo.sysDicSet)
         const isAllPerm = false
         // 此处应API获取用户权限信息，先暂写死权限信息
         this.$ajax.get({
-          url: this.$api.GET_USER_PEIMISSION,
-          params: {}
+          url: this.$api.GET_USER_PEIMISSION
         }).then(res=>{
-          // console.log('auth',res.data.content)
           // 当前用户全部权限编码，包含菜单及功能操作
           let authCodeList = []
           if(res.data!=undefined && res.data!=null && res.data.content!=undefined && res.data.content!=null){

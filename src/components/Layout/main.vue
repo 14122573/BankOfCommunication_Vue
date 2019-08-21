@@ -54,7 +54,7 @@ import NavBar from '@/components/Layout/navbar'
 import Loader from '@/components/Loader/loader'
 import { permission, } from '@/util/mixins'
 
-import Login from '@/views/login'
+import Login from '@/views/login/login'
 
 export default {
   name: 'Layout',
@@ -117,21 +117,31 @@ export default {
      */
     plogout(isOnlyClear){
       isOnlyClear = (isOnlyClear!=undefined && isOnlyClear!=null)?isOnlyClear:false
+      let isKeepLogin = this.$cookie.get('KeepLogin')
       if(isOnlyClear){
-        this.$store.commit('SET_CLEAR')
-        this.$cookie.remove('token')
-        this.$cookie.remove('refresh_token')
-        this.$cookie.remove('userInfo')
-        this.$cookie.remove('redirectUrl')
-        this.$cookie.remove('url')
-        this.$cookie.remove('systemLists')
-        this.$cookie.remove('canEnterBind')
+        if(!isKeepLogin){
+          this.$store.commit('SET_CLEAR')
+          this.$cookie.remove('KeepLogin')
+          this.$cookie.remove('token')
+          this.$cookie.remove('refresh_token')
+          this.$cookie.remove('userInfo')
+          this.$cookie.remove('redirectUrl')
+          this.$cookie.remove('url')
+          this.$cookie.remove('systemLists')
+          this.$cookie.remove('canEnterBind')
+        }else{
+          this.$cookie.remove('redirectUrl')
+          this.$cookie.remove('url')
+          this.$cookie.remove('systemLists')
+          this.$cookie.remove('canEnterBind')
+        }
       }else{
         this.$ajax.post({
           url: this.$api.POST_LOGOUT,
           params: {}
         }).then(res=>{
           this.$store.commit('SET_CLEAR')
+          this.$cookie.remove('KeepLogin')
           this.$cookie.remove('token')
           this.$cookie.remove('refresh_token')
           this.$cookie.remove('userInfo')
