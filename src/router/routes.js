@@ -100,8 +100,8 @@ const appRoutes = [{
       component: contentWrapper,
       meta: { title: '水产新品种审定', menuPath: true, authCode: 'S0501', menuIcon: 'barcode', hideInBread: true },
       children: [{
-        path: '/scsd/post/scsdPos',
-        name: '/scsd/post/scsdPos',
+        path: '/scsd/post/scsdPost',
+        name: '/scsd/post/scsdPost',
         meta: { title: '完善申报信息', menuPath: true, authCode: 'S050101', menuIcon: 'exception', hideInBread: false, openMode: 'spa' },
       },
       {
