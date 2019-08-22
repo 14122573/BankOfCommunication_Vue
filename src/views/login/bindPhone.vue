@@ -32,7 +32,7 @@
 										 rules: [
 									  { validator: validatePhone}] }
 									]"
-								 placeholder="手机号" :disabled='disablePhone' >
+								 placeholder="手机号" :disabled='disablePhone'>
 									<a-icon slot="prefix" type="mobile" style="color: rgba(0,0,0,.25)" />
 								</a-input>
 							</a-form-item>
@@ -53,7 +53,7 @@
 						</a-col>
 						<a-col :span="4">
 							<a-form-item>
-								<a-button type="primary" :disabled='disableBtn' ghost @click="sendCode" size="small" style="height:42px">
+								<a-button type="primary" :disabled='disableBtn' ghost @click="sendCode" size="small" style="height:42px;min-width: 86px;">
 									{{btnTxt}}
 								</a-button>
 							</a-form-item>
@@ -202,320 +202,324 @@
 </template>
 
 <script>
-import {
-  permission
-} from '@/util/mixins'
-import testStrong from '@/components/testPwd'
-export default {
-  name: 'bindPhone',
-  components: {
-    testStrong
-  },
-  mixins: [permission],
-  beforeCreate() {
-    this.formBind = this.$form.createForm(this)
-  },
-  data() {
-    return {
-      left: '返回',
-      disableCode: false,
-      right: '下一步(1/2)',
-      btnTxt: '发送验证码',
-      disableBtn: false,
-      timer: null,
-      systemLists: [],
-      activeIndex: null,
-      pageType: '',
-      userId: '',
-      systemNmme: '',
-      confirmDirty: false,
-      isBind: true,
-      tips: '',
-      disableNext: true,
-      passwordStrength: false,
-      disablePhone:false
-    }
-  },
-  mounted() {
-    this.systemLists = this.$cookie.get('systemLists') != undefined ? JSON.parse(this.$cookie.get('systemLists')) : []
-    if (this.$route.query.id) {
-      this.userId = this.$route.query.id
-      this.pageType = 'isBind'
-      this.right = '完成绑定'
-      this.left = '返回'
-      this.disableNext = false
-    }
-  },
-  methods: {
-    showLeft() {
-      if (!this.$route.query.id) {
-        if (this.right == '完成绑定') {
-          this.right = '下一步'
-          this.left = '返回'
-          this.isBind = true
-        } else {
-          this.$cookie.set('canEnterBind', '500')
-          this.$router.push({
-            name: 'login'
-          })
-        }
-      } else {
-        if (this.right == '完成绑定') {
-          this.$router.push({
-            name: 'login'
-          })
-          this.$cookie.set('canEnterBind', '500')
-        }
-      }
-    },
-    selectSystem(item, index) {
-      this.userId = item.id
-      this.systemNmme = item.sysDic.sysName
-      this.activeIndex = index
-      this.pageType = item.isBind == false ? 'isBind' : 'unBind'
-      this.disableNext = false
-      if (this.pageType != 'isBind') {
-        this.right = '立即登录'
-      } else {
-        this.right = '下一步（1/2）'
-      }
-    },
-    handleBind() {
-      this.formBind.validateFields((err, values) => {
-        if (!err) {
-          let params = {
-            userId: this.userId,
-            pwd: values.password,
-            code: values.code,
-            userInfo: {
-              'phone': values.phone,
-              'mail': values.mail,
-              'addr': values.addr,
-              'name': values.name,
-              'dept': values.dept,
-              'zipCode': values.zipCode,
-              'code': values.code
-            }
-          }
-          let options = {
-            userId: this.userId,
-            phone: values.phone,
-            code: values.code
-          }
-          if (this.$cookie.get('redirectUrl') != undefined) {
-            params.redirectUrl = this.$cookie.get('redirectUrl')
-            options.redirectUrl = this.$cookie.get('redirectUrl')
-          }
-          let sendLink = this.isBind == true ? this.$api.POST_BIND_USERINFO_BIND : this.$api.POST_BIND_USERINFO_UNBIND
-          let transData = this.isBind == true ? options : params
-          this.$ajax.post({
-            url: sendLink,
-            params: transData
-          }).then(res => {
-            let gainDatas = res.data.content
-            if (gainDatas.redirectUrl) {
-              this.$cookie.set('canEnterBind', '500')
-              window.open(gainDatas.redirectUrl, '_parent')
-            } else {
-              if (gainDatas.isNew === false && gainDatas.haveNewPerm === false) {
-                this.$cookie.set('canEnterBind', '500')
-                const openUrl = gainDatas.url + '?userId=' + gainDatas.userId + '&accessToken=' + gainDatas.access_token +
+	import {
+		permission
+	} from '@/util/mixins'
+	import testStrong from '@/components/testPwd'
+	export default {
+		name: 'bindPhone',
+		components: {
+			testStrong
+		},
+		mixins: [permission],
+		beforeCreate() {
+			this.formBind = this.$form.createForm(this)
+		},
+		data() {
+			return {
+				left: '返回',
+				disableCode: true,
+				right: '下一步(1/2)',
+				btnTxt: '发送验证码',
+				disableBtn: true,
+				timer: null,
+				systemLists: [],
+				activeIndex: null,
+				pageType: '',
+				userId: '',
+				systemNmme: '',
+				confirmDirty: false,
+				isBind: true,
+				tips: '',
+				disableNext: true,
+				passwordStrength: false,
+				disablePhone: true
+			}
+		},
+		mounted() {
+			this.systemLists = this.$cookie.get('systemLists') != undefined ? JSON.parse(this.$cookie.get('systemLists')) : []
+			if (this.$route.query.id) {
+				this.userId = this.$route.query.id
+				this.pageType = 'isBind'
+				this.right = '完成绑定'
+				this.left = '返回'
+				this.disableNext = false
+			}
+		},
+		methods: {
+			showLeft() {
+				if (!this.$route.query.id) {
+					if (this.right == '完成绑定') {
+						this.right = '下一步'
+						this.left = '返回'
+						this.isBind = true
+						this.clearTimer();
+					} else {
+						this.$cookie.set('canEnterBind', '500')
+						this.$router.push({
+							name: 'login'
+						})
+					}
+				} else {
+					if (this.right == '完成绑定') {
+						this.$router.push({
+							name: 'login'
+						})
+						this.$cookie.set('canEnterBind', '500')
+					}
+				}
+			},
+			selectSystem(item, index) {
+				this.userId = item.id
+				this.systemNmme = item.sysDic.sysName
+				this.activeIndex = index
+				this.pageType = item.isBind == false ? 'isBind' : 'unBind'
+				this.disableNext = false
+				if (this.pageType != 'isBind') {
+					this.right = '立即登录'
+				} else {
+					this.right = '下一步（1/2）'
+				}
+			},
+			handleBind() {
+				this.formBind.validateFields((err, values) => {
+					if (!err) {
+						let params = {
+							userId: this.userId,
+							pwd: values.password,
+							code: values.code,
+							userInfo: {
+								'phone': values.phone,
+								'mail': values.mail,
+								'addr': values.addr,
+								'name': values.name,
+								'dept': values.dept,
+								'zipCode': values.zipCode,
+								'code': values.code
+							}
+						}
+						let options = {
+							userId: this.userId,
+							phone: values.phone,
+							code: values.code
+						}
+						if (this.$cookie.get('redirectUrl') != undefined) {
+							params.redirectUrl = this.$cookie.get('redirectUrl')
+							options.redirectUrl = this.$cookie.get('redirectUrl')
+						}
+						let sendLink = this.isBind == true ? this.$api.POST_BIND_USERINFO_BIND : this.$api.POST_BIND_USERINFO_UNBIND
+						let transData = this.isBind == true ? options : params
+						this.$ajax.post({
+							url: sendLink,
+							params: transData
+						}).then(res => {
+							let gainDatas = res.data.content
+							if (gainDatas.redirectUrl) {
+								this.$cookie.set('canEnterBind', '500')
+								window.open(gainDatas.redirectUrl, '_parent')
+							} else {
+								if (gainDatas.isNew === false && gainDatas.haveNewPerm === false) {
+									this.$cookie.set('canEnterBind', '500')
+									const openUrl = gainDatas.url + '?userId=' + gainDatas.userId + '&accessToken=' + gainDatas.access_token +
 										'&refreshToken=' + gainDatas.refresh_token
-                window.open(openUrl, '_parent')
-              } else {
-                this.$com.setToken(gainDatas.access_token, gainDatas.refresh_token)
-                this.$router.push({
-                  name: 'home',
-                })
-              }
-            }
-          })
-        }
-      })
-    },
-    showRight() {
-      if (this.pageType != '') {
-        if (this.pageType == 'isBind') {
-          if (this.right == '完成绑定') {
-            this.handleBind()
-          } else {
-            this.right = '完成绑定'
-            this.left = '上一步'
-          }
-        } else {
-          this.goLogin()
-        }
-      } else {
-        this.$message.error('请先选择系统，再进行下一步！')
-      }
+									window.open(openUrl, '_parent')
+								} else {
+									this.$com.setToken(gainDatas.access_token, gainDatas.refresh_token)
+									this.$router.push({
+										name: 'home',
+									})
+								}
+							}
+						})
+					}
+				})
+			},
+			showRight() {
+				if (this.pageType != '') {
+					if (this.pageType == 'isBind') {
+						if (this.right == '完成绑定') {
+							this.handleBind()
+						} else {
+							this.right = '完成绑定'
+							this.left = '上一步'
+							this.disablePhone = false;
+							this.disableBtn=true;
+						}
+					} else {
+						this.goLogin()
+					}
+				} else {
+					this.$message.error('请先选择系统，再进行下一步！')
+				}
 
-    },
-    goLogin() {
-      let links = '?userId=' + this.userId
-      if (this.$cookie.get('redirectUrl') != undefined) {
-        links = links + '&redirectUrl=' + this.$cookie.get('redirectUrl')
-      }
-      this.$ajax.get({
-        url: this.$api.GET_SELECT_SYSTEM + links
-      }).then(res => {
-        let gainDatas = res.data.content
-        if (gainDatas.redirectUrl) {
-          this.$cookie.set('canEnterBind', '500')
-          window.open(gainDatas.redirectUrl, '_parent')
-        } else {
-          if (gainDatas.isNew === false && gainDatas.haveNewPerm === false) {
-            this.$cookie.set('canEnterBind', '500')
-            const openUrl = gainDatas.url + '?userId=' + gainDatas.userId + '&accessToken=' + gainDatas.access_token +
+			},
+			goLogin() {
+				let links = '?userId=' + this.userId
+				if (this.$cookie.get('redirectUrl') != undefined) {
+					links = links + '&redirectUrl=' + this.$cookie.get('redirectUrl')
+				}
+				this.$ajax.get({
+					url: this.$api.GET_SELECT_SYSTEM + links
+				}).then(res => {
+					let gainDatas = res.data.content
+					if (gainDatas.redirectUrl) {
+						this.$cookie.set('canEnterBind', '500')
+						window.open(gainDatas.redirectUrl, '_parent')
+					} else {
+						if (gainDatas.isNew === false && gainDatas.haveNewPerm === false) {
+							this.$cookie.set('canEnterBind', '500')
+							const openUrl = gainDatas.url + '?userId=' + gainDatas.userId + '&accessToken=' + gainDatas.access_token +
 								'&refreshToken=' + gainDatas.refresh_token
-            window.open(openUrl, '_parent')
-          } else {
-            this.$com.setToken(gainDatas.access_token, gainDatas.refresh_token)
-            this.$router.push({
-              name: 'home',
-            })
-          }
-        }
-      })
-    },
-    sendCode() {
-      const phone = this.formBind.getFieldValue('phone')
-      let params = {}
-      let links = ''
-      if (this.$cookie.get('redirectUrl') != undefined) {
-        links = '?redirectUrl=' + this.$cookie.get('redirectUrl')
-      }
-      if (phone) {
-        this.$ajax.get({
-          url: this.$api.GET_SEND_CODE.replace('{phone}', phone) + links
-        }).then(res => {
-          this.disableCode = false
-          this.disableBtn = true
-          let num = 60
-          const interval = () => {
-            this.timer = setInterval(() => {
-              if (num <= 0) {
-                this.clearTimer()
-                return
-              }
-              this.btnTxt = (num -= 1) + 's'
-            }, 1000)
-          }
-          interval()
-        })
-      } else {
-        this.$message.error('请先填写手机号！')
-      }
-    },
-    clearTimer() {
-      clearInterval(this.timer)
-      this.btnTxt = '获取验证码'
-      this.disableBtn = false
-    },
-    validateCode(rule, value, callback) {
-      if (!value || value == undefined || value.split(' ').join('').length === 0) {
-        callback('请输入手机验证码!')
-      } else {
-        const phone = this.formBind.getFieldValue('phone')
-        const code = this.formBind.getFieldValue('code')
-        let params = {
-          'phone': phone,
-          'code': code,
-          'userId': this.userId
-        }
-        if (this.$cookie.get('redirectUrl') != undefined) {
-          params.redirectUrl = this.$cookie.get('redirectUrl')
-        }
-        this.$ajax.post({
-          url: this.$api.POST_CHECK_CODE,
-          params: params
-        }).then(res => {
-          if (res.code != '200') {
-            callback(res.data.msg)
-          } else {
-            callback()
-            this.disablePhone=true
-            this.disableCode=true
-            this.isBind = this.transVal
-          }
-        })
-      }
-    },
-    validatePhone(rule, value, callback) {
-      if (value && value != undefined) {
-        if (!/^1[3456789]\d{9}$/.test(value)) {
-          callback('手机号码不合法!')
-        } else {
-          if (value.length == '11') {
-            let links = '?id=' + this.userId + '&phone=' + value
-            if (this.$cookie.get('redirectUrl') != undefined) {
-              links = links + '&redirectUrl=' + this.$cookie.get('redirectUrl')
-            }
-            this.$ajax.get({
-              url: this.$api.GET_CHECK_PHONE + links
-            }).then(res => {
-              if (res.code == '200') {
-                callback()
-                this.disableBtn = false
-                this.transVal = res.data.content
-                if (res.data.content == false) {
-                  this.tips = '此号未绑定需完善下方信息!'
-                }
-              } else {
-                callback(res.data.msg)
-              }
-            })
-          }
-        }
-      } else {
-        callback('请输入手机号!')
-      }
-    },
-    checkZipCode(rule, value, callback) {
-      if (value && value != undefined) {
-        if (!/^[0-9]{6}$/.test(value)) {
-          callback('邮编格式不合法!')
-        } else {
-          callback()
-        }
-      } else {
-        callback('请输入邮编!')
-      }
-    },
-    validateToNextPassword(rule, value, callback) {
-      const form = this.formBind
-      if (!value || value == undefined || value.split(' ').join('').length === 0) {
-        callback('请输入密码！')
-        this.passwordStrength = false
-      } else {
-        if (!/^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{6,}$/.test(value)) {
-          callback('请输入6位以上的数字字母组合！')
-          this.passwordStrength = false
-        } else {
-          if (value && this.confirmDirty) {
-            form.validateFields(['rePassword'], {
-              force: true
-            })
-          }
-          this.passwordStrength = true
-          callback()
-        }
-      }
+							window.open(openUrl, '_parent')
+						} else {
+							this.$com.setToken(gainDatas.access_token, gainDatas.refresh_token)
+							this.$router.push({
+								name: 'home',
+							})
+						}
+					}
+				})
+			},
+			sendCode() {
+				const phone = this.formBind.getFieldValue('phone')
+				let params = {}
+				let links = ''
+				if (this.$cookie.get('redirectUrl') != undefined) {
+					links = '?redirectUrl=' + this.$cookie.get('redirectUrl')
+				}
+				if (phone) {
+					this.$ajax.get({
+						url: this.$api.GET_SEND_CODE.replace('{phone}', phone) + links
+					}).then(res => {
+						this.disableCode = false
+						this.disableBtn = true
+						let num = 60
+						const interval = () => {
+							this.timer = setInterval(() => {
+								if (num <= 0) {
+									this.clearTimer()
+									return
+								}
+								this.btnTxt = (num -= 1) + 's'
+							}, 1000)
+						}
+						interval()
+					})
+				} else {
+					this.$message.error('请先填写手机号！')
+				}
+			},
+			clearTimer() {
+				clearInterval(this.timer)
+				this.btnTxt = '获取验证码'
+				this.disableBtn = false
+			},
+			validateCode(rule, value, callback) {
+				if (!value || value == undefined || value.split(' ').join('').length === 0) {
+					callback('请输入手机验证码!')
+				} else {
+					const phone = this.formBind.getFieldValue('phone')
+					const code = this.formBind.getFieldValue('code')
+					let params = {
+						'phone': phone,
+						'code': code,
+						'userId': this.userId
+					}
+					if (this.$cookie.get('redirectUrl') != undefined) {
+						params.redirectUrl = this.$cookie.get('redirectUrl')
+					}
+					this.$ajax.post({
+						url: this.$api.POST_CHECK_CODE,
+						params: params
+					}).then(res => {
+						if (res.code != '200') {
+							callback(res.data.msg)
+						} else {
+							callback()
+							this.disablePhone = true
+							this.disableCode = true
+							this.disableBtn = true;
+							this.isBind = this.transVal
+						}
+					})
+				}
+			},
+			validatePhone(rule, value, callback) {
+				if (value && value != undefined) {
+					if (!/^1[3456789]\d{9}$/.test(value)) {
+						callback('手机号码不合法!')
+					} else {
+						if (value.length == '11') {
+							let links = '?id=' + this.userId + '&phone=' + value
+							if (this.$cookie.get('redirectUrl') != undefined) {
+								links = links + '&redirectUrl=' + this.$cookie.get('redirectUrl')
+							}
+							this.$ajax.get({
+								url: this.$api.GET_CHECK_PHONE + links
+							}).then(res => {
+								if (res.code == '200') {
+									callback()
+									this.disableBtn = false
+									this.transVal = res.data.content
+									if (res.data.content == false) {
+										this.tips = '此号未绑定需完善下方信息!'
+									}
+								} else {
+									callback(res.data.msg)
+								}
+							})
+						}
+					}
+				} else {
+					callback('请输入手机号!')
+				}
+			},
+			checkZipCode(rule, value, callback) {
+				if (value && value != undefined) {
+					if (!/^[0-9]{6}$/.test(value)) {
+						callback('邮编格式不合法!')
+					} else {
+						callback()
+					}
+				} else {
+					callback('请输入邮编!')
+				}
+			},
+			validateToNextPassword(rule, value, callback) {
+				const form = this.formBind
+				if (!value || value == undefined || value.split(' ').join('').length === 0) {
+					callback('请输入密码！')
+					this.passwordStrength = false
+				} else {
+					if (!/^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{6,}$/.test(value)) {
+						callback('请输入6位以上的数字字母组合！')
+						this.passwordStrength = false
+					} else {
+						if (value && this.confirmDirty) {
+							form.validateFields(['rePassword'], {
+								force: true
+							})
+						}
+						this.passwordStrength = true
+						callback()
+					}
+				}
 
-    },
-    compareToFirstPassword(rule, value, callback) {
-      const form = this.formBind
-      if (value && value !== form.getFieldValue('password')) {
-        callback('密码输入不一致!')
-      } else {
-        callback()
-      }
-    },
-    handleConfirmBlur(e) {
-      const value = e.target.value
-      this.confirmDirty = this.confirmDirty || !!value
-    },
-  }
-}
+			},
+			compareToFirstPassword(rule, value, callback) {
+				const form = this.formBind
+				if (value && value !== form.getFieldValue('password')) {
+					callback('密码输入不一致!')
+				} else {
+					callback()
+				}
+			},
+			handleConfirmBlur(e) {
+				const value = e.target.value
+				this.confirmDirty = this.confirmDirty || !!value
+			},
+		}
+	}
 </script>
 
 <style scoped>
