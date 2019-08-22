@@ -183,7 +183,11 @@
 			</div>
 			<img src="../../assets/images/border.png" alt="" class="border">
 			<div class="btnGroup">
-				<div @click="showLeft">
+        <div v-if="hasLogined" @click="toLogin">
+          <img src="../../assets/images/left.png" alt="">
+					<div>退出</div>
+        </div>
+				<div v-else @click="showLeft">
 					<img src="../../assets/images/left.png" alt="">
 					<div>{{left}}</div>
 				</div>
@@ -217,6 +221,7 @@ export default {
   },
   data() {
     return {
+      hasLogined:!this.$router.query.logined?false:(1==parseInt(this.$router.query.logined)?true:false),
       left: '返回',
       disableCode: true,
       right: '下一步(1/2)',
@@ -247,6 +252,9 @@ export default {
     }
   },
   methods: {
+    toLogin(){
+      this.$com.handleLogOut()
+    },
     showLeft() {
       if (!this.$route.query.id) {
         if (this.right == '完成绑定') {
