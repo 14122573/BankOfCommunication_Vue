@@ -1,5 +1,6 @@
 <template>
 	<div class="registerFrame">
+		<Loader />
 		<div class="registerWapper">
 			<div>
 				<a-row type="flex" justify="start" align="middle" :gutter="10">
@@ -144,7 +145,7 @@ export default {
   name: 'Register',
   components: {
     Loader,
-		testStrong
+    testStrong
   },
   beforeCreate() {
     this.formRegister = this.$form.createForm(this)
@@ -250,7 +251,7 @@ export default {
           callback()
         }
       }
-			
+
     },
     /**
      * 校验两次密码一致
