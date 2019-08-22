@@ -355,7 +355,7 @@ export default {
           this.$cookie.set('canEnterBind', '500')
           window.open(gainDatas.redirectUrl, '_parent')
         } else {
-          if (gainDatas.isNew===true&&gainDatas.haveNewPerm === false) {
+          if (gainDatas.isNew===false&&gainDatas.haveNewPerm === false) {
             this.$cookie.set('canEnterBind', '500')
             const openUrl = gainDatas.url + '?userId=' + gainDatas.userId + '&accessToken=' + gainDatas.access_token +
 								'&refreshToken=' + gainDatas.refresh_token

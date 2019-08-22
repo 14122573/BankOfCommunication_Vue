@@ -22,22 +22,24 @@
 					</a-col>
 				</a-row>
 			</div>
-			<div class="returnPage" @click="handleJump">
-				<a-icon type="arrow-left" />返回登录</div>
 		</div>
-		<div v-if="appearIndex==1" class='linksTips'>
-			<div>
-				<img src="@/assets/images/bgResetPwd.png" alt="" class="bgImage">
-				<a-row type="flex" justify="space-around" align="middle" class='block'>
-					<a-col span='6'><img src="../../assets/images/head1.png" alt="" class="icon"></a-col>
-					<a-col span='16'>
-						<div class="title">管理员姓名</div>
-						<div class="desc">18300562365</div>
-					</a-col>
-				</a-row>
+		<div v-if="appearIndex==1">
+			<div>管理员联系方式</div>
+			<div class='linksTips contract'>
+				<div>
+					<img src="@/assets/images/bgResetPwd.png" alt="" class="bgImage">
+					<a-row type="flex" justify="space-around" align="middle" class='block'>
+						<a-col span='6'><img src="../../assets/images/head1.png" alt="" class="icon"></a-col>
+						<a-col span='16'>
+							<div class="title">管理员姓名</div>
+							<div class="desc" style="color:black">18300562365</div>
+						</a-col>
+					</a-row>
+				</div>
 			</div>
-			<div class="backPage" @click="handleJump">
-				<a-icon type="arrow-left" />返回登录</div>
+		</div>
+		<div class="backPage" @click="handleJump" v-if="appearIndex!=2">
+			<a-icon type="arrow-left" />返回登录
 		</div>
 		<a-form :form="formRegister" class="register-form" v-if="appearIndex==2">
 			<a-form-item>
@@ -260,6 +262,11 @@ export default {
 		top: 35px;
 	}
 
+	.findPassword {
+		height: calc(100% - 35px);
+		position: relative;
+	}
+
 	h2 {
 		font-size: 24px;
 		text-align: left;
@@ -321,24 +328,33 @@ export default {
 		left: 0;
 	}
 
+	.block {
+		height: 90px;
+	}
+
 	.returnPage {
 		text-align: center;
-		line-height: 90px;
-		margin-top: 55px !important;
+		height: 45px;
+		line-height: 45px;
+		margin-top: 100px !important;
+		cursor: default;
 	}
 
 	.backPage {
-		line-height: 90px;
-		margin-top: 165px !important;
+		width: 100%;
 		text-align: center;
+		cursor: pointer;
+		position: absolute;
+		bottom: 30px;
+		color: #0076FF;
+	}
+
+	.contract {
+		margin-top: 10px;
 	}
 
 	.icon {
 		width: 50px;
 		height: 50px;
-	}
-
-	.block {
-		height: 90px;
 	}
 </style>
