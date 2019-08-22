@@ -1,5 +1,5 @@
 <template>
-  <a-menu :mode="menuMode" theme="dark" style="text-align:left;">
+  <a-menu :mode="menuMode" class="sideMenu" theme="dark" style="text-align:left;">
     <template v-for="menu in menus">
       <template v-if="menu.children && menu.children.length > 0">
       <a-sub-menu :key="menu.name">
@@ -150,5 +150,5 @@ export default {
 </script>
 
 <style>
-
+.sideMenu { padding-top: 10px;}
 </style>

@@ -139,10 +139,12 @@
 
 <script>
 import testStrong from '@/components/testPwd'
+import Loader from '@/components/Loader/loader'
 export default {
   name: 'Register',
   components: {
-    testStrong
+    Loader,
+		testStrong
   },
   beforeCreate() {
     this.formRegister = this.$form.createForm(this)

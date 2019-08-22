@@ -9,7 +9,10 @@
 			<a-layout>
 				<a-layout-sider :collapsed="collapsed" breakpoint="lg" collapsedWidth="80" width="16%" :style="{ overflow: 'auto', height: '100vh', position: 'fixed', left: 0,zIndex:2 }">
 					<div id="portalLogo">
-						<span class="logo-img"></span><span v-if="!collapsed" class="logo-title">智能渔技</span>
+            <a-row class="portalLogoWapper" type="flex" justify="center" align="middle" :gutter="10">
+              <a-col :span='collapsed?24:5' :style="collapsed?'text-align:center':'text-align:right'"><span class="logo-img"></span></a-col>
+              <a-col v-if="!collapsed" span=11><span class="logo-name">智能渔技</span></a-col>
+            </a-row>
 					</div>
 					<SideMenu :menuMode="menuMode" :collapsed="collapsed"></SideMenu>
 				</a-layout-sider>
@@ -206,23 +209,23 @@ export default {
 		height: 64px;
 		background: #00284e;
 		width: 100%;
-		text-align: left
 	}
+  #portalLogo .portalLogoWapper{ height: 64px; padding-top:7px;}
 
 	#portalLogo .logo-img {
-		float: left;
-		margin: 10px 10px 0 15px;
 		display: inline-block;
-		width: 44px;
-		height: 44px;
+		width: 40px;
+		height: 40px;
 		background: url('../../assets/images/logo.png');
 		background-size: 100%
 	}
 
-	#portalLogo .logo-title {
+	#portalLogo .logo-name {
 		color: #fff;
-		font-size: 24px;
-		line-height: 64px
+		font-size: 20px;
+    line-height:20px;
+    height: 20px;
+    text-align:left;
 	}
 
 	#portalHeader .wrapper {
