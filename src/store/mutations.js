@@ -13,6 +13,9 @@ export default {
   SET_USERNAME(state, name) {
     state.userName = name
   },
+  SET_USERINFO(state,userInfo) {
+    state.userInfos =JSON.parse(JSON.stringify(userInfo))
+  },
   SET_CLEAR(state) {
     state.token =null
     state.showLoading=false
@@ -21,5 +24,6 @@ export default {
     state.hasAllRight=false
     state.showSpaContent=false
     state.userName=''
+    state.userInfos = null
   },
 }

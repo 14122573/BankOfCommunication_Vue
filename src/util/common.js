@@ -144,7 +144,6 @@ export default {
     }else{
       Cookie.remove('refresh_token')
     }
-    Cookie.remove('userInfo')
     Cookie.remove('redirectUrl')
     Cookie.remove('url')
     Cookie.remove('systemLists')

@@ -81,9 +81,7 @@ export default {
     getRedirctUrl(sysCode){
       if(!sysCode) return false
 
-
-
-      this.userInfo = (this.userInfo==null) ? JSON.parse(this.$cookie.get('userInfo')) : this.userInfo
+      this.userInfo = (null == this.userInfo) ? this.$store.state.userInfos : this.userInfo
       let userId = ''
 
       if(Array.isArray(this.userInfo.oldAccountSet) && this.userInfo.oldAccountSet.length>0){
