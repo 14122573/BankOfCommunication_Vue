@@ -4,7 +4,7 @@
 			<div class="matching">
 				<a-row type="flex" justify="start" align="middle" :gutter="10">
 					<a-col offset="1"><img src="../../assets/images/logo.png" alt="" class="logo"></a-col>
-					<a-col>“综合渔技智能服务平台”</a-col>
+					<a-col>“智能渔技综合服务平台”</a-col>
 				</a-row>
 			</div>
 			<div class="form">
@@ -30,7 +30,7 @@
 							</a-input>
 						</a-form-item>
 						<input type="text" style="display:none">
-						<!-- <a-form-item class="login-form-password">
+						<a-form-item class="login-form-code" v-if='errorCount>=3'>
 							<a-row type="flex" justify="space-between">
 								<a-col :span="12">
 									<div class="qrcode">
@@ -38,11 +38,11 @@
 									</div>
 								</a-col>
 								<a-col :span="12">
-									<a-input style="" v-decorator="[ 'reqId', { validateTrigger:'blur', rules: [{ required: true,whitespace:true, message: '请输入验证码!' }] } ]"
+									<a-input style="height:44px" v-decorator="[ 'reqId', { validateTrigger:'blur', rules: [{ required: true,whitespace:true, message: '请输入验证码!' }] } ]"
 									 placeholder="验证码" autocomplete="off" />
 								</a-col>
 							</a-row>
-						</a-form-item> -->
+						</a-form-item>
 						<div class="showError">
 							<div v-if="visibleError">
 								<a-icon type="close-circle" />&nbsp;&nbsp;{{loginFailMsg}}
@@ -104,7 +104,8 @@ export default {
       visibleError: false,
       isType: 'text',
       remember: false, // 设置是否7天免登录
-      successText: ''
+      successText: '',
+      errorCount: 0
     }
   },
   mounted() {
@@ -167,9 +168,11 @@ export default {
               this.$cookie.set('canEnterBind', '200')
               this.jumpOpeation(res)
               this.visibleError = false
+              this.threeTimesShowCode(values.username,'success')
             } else {
               this.loginFailMsg = res.data.msg
               this.visibleError = true
+              this.threeTimesShowCode(values.username, 'error')
             }
           })
         }
@@ -262,6 +265,13 @@ export default {
       if (!value || value == undefined || value.split(' ').join('').length === 0) {
         callback('请输入账户或手机号!')
       } else {
+        if (this.$cookie.get('threeTime')) {
+          let lists = JSON.parse(this.$cookie.get('threeTime'))
+          let targetItem = lists.find(ele => ele.userId == value)
+          if (targetItem) {
+            this.errorCount=targetItem.count
+          } 
+        }
         callback()
       }
     },
@@ -286,13 +296,52 @@ export default {
       this.pageType = 'success'
       this.successText = data
     },
-    threeTimesShowCode(query) {
-      //query分钟数
-      let inFifteenMinutes = new Date(new Date().getTime() + 15 * 60 * 1000)
-      let threeTime={userId:'',count:''}
-      Cookies.set('threeTime',JSON.stringify(threeTime), {
-        expires: inFifteenMinutes
-      })
+    threeTimesShowCode(id, isSuccess) {
+      // 				if (isSuccess == 'success') {
+      // 					if (this.$cookie.get('threeTime')) {
+      // 						let lists = JSON.parse(this.$cookie.get('threeTime'));
+      // 						let targetItem = lists.findIndex(ele => ele.userId == id);
+      // 						if (targetItem) {
+      // 							lists.splice(targetItem,1);
+      // 						} 
+      // 					}
+      // 					this.errorCount=0;
+      // 				} else {
+      // 					if (!this.$cookie.get('threeTime')) {
+      // 						let datas = [{
+      // 							userId: id,
+      // 							count: 1
+      // 						}]
+      // 						this.setTime(datas);
+      // 					} else {
+      // 						let lists = JSON.parse(this.$cookie.get('threeTime'));
+      // 						let targetItem = lists.findIndex(ele => ele.userId == id);
+      // 						if (targetItem) {
+      // 							lists[targetItem].count = lists[targetItem].count + 1;
+      // 							this.errorCount=lists[targetItem].count;
+      // 						} else {
+      // 							lists.push({
+      // 								userId: id,
+      // 								count: 1
+      // 							})
+      // 						}
+      // 						lists = lists.filter(ele => {
+      // 							ele.count >= 3&&ele.userId==id;
+      // 						})
+      // 						this.setTime(lists);
+      // 					}
+      // 				}
+    },
+    setTime(lists) {
+      // 				var now = new Date();
+      // 				let time = now.toLocaleString('chinese', {
+      // 					hour12: false
+      // 				}).split(" ")[1];
+      // 				let totalMinutes = (24 - Number(time.split(":")[0]) - 1) * 60 + (60 - Number(time.split(":")[1]));
+      // 				let inFifteenMinutes = new Date(new Date().getTime() + totalMinutes * 60 * 1000);
+      // 				this.$cookie.set('threeTime', JSON.stringify(lists), {
+      // 					expires: inFifteenMinutes
+      // 				})
     }
   }
 }
@@ -387,7 +436,7 @@ export default {
 
 	.login .login-form-button {
 		width: 100%;
-		margin-top: 60px;
+		margin-top: 40px;
 		text-align: center;
 	}
 
