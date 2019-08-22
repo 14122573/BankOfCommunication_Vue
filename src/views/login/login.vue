@@ -166,9 +166,9 @@ export default {
           if (this.redirectUrlPrefix != 'null') {
             params.redirectUrl = this.$cookie.get('redirectUrl')
           }
-					if(values.captcha){
+          if(values.captcha){
 						 params.reqId=this.figure
-					}
+          }
           this.$ajax.post({
             url: this.$api.POST_LOGIN,
             params: params
