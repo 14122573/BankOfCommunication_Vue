@@ -5,21 +5,17 @@ const TipsNoAuth = () => import ('@/views/tips/auth')
 const TipsOutsite = () => import ('@/views/tips/outsite')
 const HomePage = () => import ('@/views/home')
 const LoginPage = () => import ('@/views/login/login')
+const RegisterPage = () => import ('@/views/login/register-new')
 const OldSysLogout= () => import ('@/views/login/oldSysLogout')
 const BindPhone = () => import ('@/views/login/bindPhone')
 const PersonCenter = () => import ('@/views/person-center')
 // 系统管理---组织机构
 // contentOrganization
-const contentOrganization = () =>
-    import ('@/views/systemManagement/content-organization')
-const Organization = () =>
-    import ('@/views/systemManagement/organization/list')
-const OrganizationUpload = () =>
-    import ('@/views/systemManagement/organization/upload')
-const OrganizationCreate = () =>
-    import ('@/views/systemManagement/organization/create')
-const OrganizationView = () =>
-    import ('@/views/systemManagement/organization/view')
+const contentOrganization = () => import ('@/views/systemManagement/content-organization')
+const Organization = () => import ('@/views/systemManagement/organization/list')
+const OrganizationUpload = () => import ('@/views/systemManagement/organization/upload')
+const OrganizationCreate = () => import ('@/views/systemManagement/organization/create')
+const OrganizationView = () => import ('@/views/systemManagement/organization/view')
 /**
  * 要求：
  *  1、配置Router时，需将此router的权限编码信息、打开方式信息、是否在面包屑隐藏信息、是否为左侧菜单、是否有菜单图标配置在内。
@@ -55,37 +51,40 @@ const appRoutes = [{
       path: '/systemManagement',
       name: 'systemManagement',
       component: contentOrganization,
-      meta: { title: '系统管理', menuPath: true, authCode: 'S0501', menuIcon: 'setting', hideInBread: true },
+      meta: { title: '系统管理', menuPath: true, authCode: 'P00000', menuIcon: 'setting', hideInBread: true },
       children: [{
         path: '/systemManagement/organization',
         name: '/systemManagement/organization',
         component: Organization,
-        meta: { title: '组织机构管理', menuPath: true, authCode: 'S050101', menuIcon: 'cluster', hideInBread: false, openMode: 'normal' }
+        meta: { title: '组织机构管理', menuPath: true, authCode: 'P01000', menuIcon: 'cluster', hideInBread: false, openMode: 'normal' },
+        children:[
+          {
+            path: '/systemManagement/organization/upload',
+            name: '/systemManagement/organization/upload',
+            component: OrganizationUpload,
+            meta: { title: '导入', menuPath: false, authCode: 'P01005', menuIcon: 'setting', hideInBread: false, openMode: 'normal' }
+          },
+          {
+            path: '/organization/create',
+            name: '/organization/create',
+            component: OrganizationCreate,
+            meta: { title: '创建', menuPath: false, authCode: 'P01001', menuIcon: 'cluster', hideInBread: false, openMode: 'normal' }
+          },
+          {
+            path: '/organization/view',
+            name: '/organization/view',
+            component: OrganizationView,
+            meta: { title: '查看', menuPath: false, authCode: 'P01002', menuIcon: 'cluster', hideInBread: false, openMode: 'normal' }
+          },
+          {
+            path: '/organization/edit',
+            name: '/organization/edit',
+            component: OrganizationCreate,
+            meta: { title: '编辑', menuPath: false, authCode: 'P01003', menuIcon: 'cluster', hideInBread: false, openMode: 'normal' }
+          }
+        ]
       },
-      {
-        path: '/systemManagement/organization/upload',
-        name: '/systemManagement/organization/upload',
-        component: OrganizationUpload,
-        meta: { title: '导入', menuPath: false, authCode: 'S050101', menuIcon: 'setting', hideInBread: false, openMode: 'normal' }
-      },
-      {
-			 path: '/organization/create',
-			 name: '/organization/create',
-			 component: OrganizationCreate,
-			 meta: { title: '创建', menuPath: false, authCode: 'S050101', menuIcon: 'cluster', hideInBread: false, openMode: 'normal' }
-      },
-      {
-			 path: '/organization/view',
-			 name: '/organization/view',
-			 component: OrganizationView,
-			 meta: { title: '查看', menuPath: false, authCode: 'S050101', menuIcon: 'cluster', hideInBread: false, openMode: 'normal' }
-      },
-      {
-			 path: '/organization/edit',
-			 name: '/organization/edit',
-			 component: OrganizationCreate,
-			 meta: { title: '编辑', menuPath: false, authCode: 'S050101', menuIcon: 'cluster', hideInBread: false, openMode: 'normal' }
-      }]
+      ]
     },
     {
       path: '/scsd',
@@ -159,7 +158,13 @@ const appRoutes = [{
   path: '/login',
   name: 'login',
   component: LoginPage,
-  meta: { title: '登录', authCode: 'S050107' },
+  meta: { title: '登录' },
+},
+{
+  path: '/register',
+  name: 'register',
+  component: RegisterPage,
+  meta: { title: '注册'  },
 },
 {
   path: '/bindPhone',
