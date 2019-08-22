@@ -11,7 +11,6 @@
         <template v-if="!showSuccess">
           <div class='resigerTitle' >
             <span class="title">用户注册</span>
-            <span class="errTips"><a-icon class="errIcon" type="close-circle" />12312321321312</span>
             <span class="errTips" v-if="err.showTips"><a-icon type="close-circle" />{{err.tips}}</span>
           </div>
           <a-form :form="formRegister" class="register-form">
@@ -207,9 +206,9 @@ export default {
         } else {
           const phone = this.formRegister.getFieldValue('phone')
           const code = this.formRegister.getFieldValue('code')
-          
+
           this.$ajax.post({
-            url: this.$api.POST_CHECK_PHONE_CODE.replace('{type}', 'register').replace('{phone}', phone).replace('{code}', code) 
+            url: this.$api.POST_CHECK_PHONE_CODE.replace('{type}', 'register').replace('{phone}', phone).replace('{code}', code)
           }).then(res => {
             if (res.code != '200') {
               callback(res.data.msg)
@@ -263,7 +262,7 @@ export default {
       this.confirmDirty = this.confirmDirty || !!value
     },
     /**
-     * 
+     *
      */
     toRegister(){
       // 重置表单提交报错
@@ -287,7 +286,7 @@ export default {
               'zipCode':values.zipCode
             }
           }
-          
+
           this.$ajax.post({
             url: this.$api.POST_REGISTER,
             params: params
@@ -311,7 +310,7 @@ export default {
       let links = ''
       if (phone) {
         this.$ajax.get({
-          url: this.$api.GET_PHONE_CODE.replace('{type}', 'register').replace('{phone}', phone) 
+          url: this.$api.GET_PHONE_CODE.replace('{type}', 'register').replace('{phone}', phone)
         }).then(res => {
           this.disPhoneCheckCode = false
           this.allowSendCode = true
