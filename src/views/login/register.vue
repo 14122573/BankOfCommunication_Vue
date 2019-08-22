@@ -389,7 +389,7 @@ export default {
 .resigerTitle { margin-bottom: 20px; }
 .resigerTitle .title { font-size: 20px; font-weight: bold; }
 .resigerTitle .formBtns{ height:50px}
-.resigerTitle .errTips { font-size:14px; padding-left:20px; color:#FF3737; linr-height:20px;}
+.resigerTitle .errTips { font-size:14px; padding-left:20px; color:#FF3737; line-height:20px;}
 .resigerTitle .errIcon{ padding-right:5px}
 
 .resigerFormWapper { margin: 0 auto; height: 400px; font-size: 14px; margin-top: 20px; text-align: left; overflow: hidden; overflow-y: auto; padding: 0 10px;}
