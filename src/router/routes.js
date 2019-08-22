@@ -1,22 +1,15 @@
 // const Layout = () => import('@/components/Layout/main')
-const contentWrapper = () =>
-    import ('@/components/Layout/content-wrapper')
-const TipsNetworkErr = () =>
-    import ('@/views/tips/network')
-const TipsNoAuth = () =>
-    import ('@/views/tips/auth')
-const TipsOutsite = () =>
-    import ('@/views/tips/outsite')
-const HomePage = () =>
-    import ('@/views/home')
-const LoginPage = () =>
-    import ('@/views/login/login')
-const BindPhone = () =>
-    import ('@/views/login/bindPhone')
-const PersonCenter = () =>
-    import ('@/views/person-center')
-    // 系统管理---组织机构
-    // contentOrganization
+const contentWrapper = () => import ('@/components/Layout/content-wrapper')
+const TipsNetworkErr = () => import ('@/views/tips/network')
+const TipsNoAuth = () => import ('@/views/tips/auth')
+const TipsOutsite = () => import ('@/views/tips/outsite')
+const HomePage = () => import ('@/views/home')
+const LoginPage = () => import ('@/views/login/login')
+const OldSysLogout= () => import ('@/views/login/oldSysLogout')
+const BindPhone = () => import ('@/views/login/bindPhone')
+const PersonCenter = () => import ('@/views/person-center')
+// 系统管理---组织机构
+// contentOrganization
 const contentOrganization = () =>
     import ('@/views/systemManagement/content-organization')
 const Organization = () =>
@@ -173,6 +166,12 @@ const appRoutes = [{
   name: 'bindPhone',
   component: BindPhone,
   meta: { title: '选择系统绑定手机号', },
+},
+{
+  path: '/oldSysLogout',
+  name: 'oldSysLogout',
+  component: OldSysLogout,
+  meta: { title: '老系统安全登出', },
 },
 {
   path: '/networkerr',
