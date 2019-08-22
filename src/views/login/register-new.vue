@@ -7,166 +7,143 @@
 					<a-col>“综合渔技智能服务平台”</a-col>
 				</a-row>
 			</div>
-
 			<div class="bindPhone">
-				<div class='bindPhoneTitle' style="margin-bottom:2px">{{systemNmme}}</div>
-				<div class='bindPhoneTitle' style="font-weight:normal">绑定手机号码</div>
+				<div class='resigerTitle' >用户注册</div>
 				<a-form :form="formBind" class="register-form">
 					<a-row type="flex" justify="start" align="middle" :gutter="10">
 						<a-col :span="7">
 							<a-form-item>
-								<a-input v-decorator="[
-									  'phone',
-									  { validateTrigger:'change',
-										 rules: [
-									  { validator: validatePhone}] }
-									]"
-								 placeholder="手机号">
+								<a-input v-decorator="[ 'phone', { validateTrigger:'change', rules: [ { validator: validatePhone}] } ]" placeholder="手机号">
 									<a-icon slot="prefix" type="mobile" style="color: rgba(0,0,0,.25)" />
 								</a-input>
 							</a-form-item>
 						</a-col>
 						<a-col :span="7">
 							<a-form-item>
-								<a-input v-decorator="[
-											  'code',
-											  { validateTrigger:'blur',
-                                            rules: [
-											  {validator: validateCode}] }
-											]"
-								 placeholder="手机验证码" :disabled='disableCode'>
+								<a-input v-decorator="[ 'code', { validateTrigger:'blur', rules: [ {validator: validateCode}] } ]" placeholder="手机验证码" :disabled='disableCode'>
 									<a-icon slot="prefix" type="code" style="color: rgba(0,0,0,.25)" />
 								</a-input>
-
 							</a-form-item>
 						</a-col>
 						<a-col :span="4">
 							<a-form-item>
-								<a-button type="primary" :disabled='disableBtn' ghost @click="sendCode" size="small" style="height:42px">
-									{{btnTxt}}
-								</a-button>
+								<a-button type="primary" :disabled='disableBtn' ghost @click="sendCode" size="small" style="height:42px"> {{btnTxt}} </a-button>
 							</a-form-item>
 						</a-col>
 					</a-row>
-					<div v-if="!isBind">
-						<div class="tips">{{tips}}</div>
-						<a-row type="flex" justify="start" align="middle" :gutter="10">
-							<a-col span="7">
-								<a-form-item>
-									<a-input v-decorator="[
-										  'password',
-										  {
-											validateTrigger:'blur',
-											rules: [{ required: true, message: '请输入密码!' }, {
-												validator: validateToNextPassword,
-											}] }
-										]"
-									 type="password" placeholder="密码">
-										<a-icon slot="prefix" type="lock" style="color: rgba(0,0,0,.25)" />
-									</a-input>
-								</a-form-item>
-							</a-col>
-							<a-col span="7">
-								<a-form-item>
-									<a-input v-decorator="[
-										  'rePassword',
-										  { validateTrigger:'blur',
-                                              rules: [{ required: true, message: '请重复填写密码!' }, {
-											  validator: compareToFirstPassword,
-											}] }
-										]"
-									 type="password" placeholder="重复密码" @blur="handleConfirmBlur">
-										<a-icon slot="prefix" type="lock" style="color: rgba(0,0,0,.25)" />
-									</a-input>
-								</a-form-item>
-							</a-col>
-						</a-row>
-						<a-row type="flex" justify="start" align="middle" :gutter="10">
-							<a-col span="7">
-								<a-form-item>
-									<a-input v-decorator="[
-											  'name',
-											  {validateTrigger:'blur',
-												rules: [ {
-												  required: true, message: '请输入姓名!',
-												}]
-											  }
-											]"
-									 type="text" placeholder="姓名">
-										<a-icon slot="prefix" type="user" style="color: rgba(0,0,0,.25)" />
-									</a-input>
-								</a-form-item>
-							</a-col>
-							<a-col span="7">
-								<a-form-item>
-									<a-input v-decorator="[
-										  'mail',
-										  {
-                                            validateTrigger:'blur',
-											rules: [{
-											  type: 'email', message: '请输入合法邮箱!',
-											}, {
-											  required: true, message: '请输入邮箱!',
-											}]
-										  }
-										]"
-									 type="text" placeholder="邮箱">
-										<a-icon slot="prefix" type="mail" style="color: rgba(0,0,0,.25)" />
-									</a-input>
-								</a-form-item>
-							</a-col>
-							<a-col span='10'>
-								<a-form-item>
-									<a-input v-decorator="[
-										  'dept',
-										  {
-											rules: [ {
-											  required: true, message: '请输入单位!',
-											}]
-										  }
-										]"
-									 type="text" placeholder="单位">
-										<a-icon slot="prefix" type="bank" style="color: rgba(0,0,0,.25)" />
-									</a-input>
-								</a-form-item>
-							</a-col>
-						</a-row>
-						<a-row type="flex" justify="start" align="middle" :gutter="10">
-							<a-col span='14'>
-								<a-form-item>
-									<a-input v-decorator="[
-										  'addr',
-										  {
-											rules: [ {
-											  required: true, message: '请输入地址!',
-											}]
-										  }
-										]"
-									 type="text" placeholder="地址">
-										<a-icon slot="prefix" type="environment" style="color: rgba(0,0,0,.25)" />
-									</a-input>
-								</a-form-item>
-							</a-col>
 
-							<a-col span='7'>
-								<a-form-item>
-									<a-input v-decorator="[
-										  'zipCode',
-										  {
-											validateTrigger:'blur',
-											rules: [ {
-											  required: true,
-												validator: checkZipCode,
-											}]
-										  }
-										]"
-									 type="text" placeholder="邮编">
-										<a-icon slot="prefix" type="code" style="color: rgba(0,0,0,.25)" />
-									</a-input>
-								</a-form-item>
-							</a-col>
-						</a-row>
-					</div>
+          <a-row type="flex" justify="start" align="middle" :gutter="10">
+            <a-col span="7">
+              <a-form-item>
+                <a-input v-decorator="[
+                    'password',
+                    {
+                    validateTrigger:'blur',
+                    rules: [{ required: true, message: '请输入密码!' }, {
+                      validator: validateToNextPassword,
+                    }] }
+                  ]"
+                  type="password" placeholder="密码">
+                  <a-icon slot="prefix" type="lock" style="color: rgba(0,0,0,.25)" />
+                </a-input>
+              </a-form-item>
+            </a-col>
+            <a-col span="7">
+              <a-form-item>
+                <a-input v-decorator="[ 'rePassword',
+                    { validateTrigger:'blur', rules: [{ required: true, message: '请重复填写密码!' }, { validator: compareToFirstPassword, }] }
+                  ]"
+                  type="password" placeholder="重复密码" @blur="handleConfirmBlur">
+                  <a-icon slot="prefix" type="lock" style="color: rgba(0,0,0,.25)" />
+                </a-input>
+              </a-form-item>
+            </a-col>
+          </a-row>
+          <a-row type="flex" justify="start" align="middle" :gutter="10">
+            <a-col span="7">
+              <a-form-item>
+                <a-input v-decorator="[
+                      'name',
+                      {validateTrigger:'blur',
+                      rules: [ {
+                        required: true, message: '请输入姓名!',
+                      }]
+                      }
+                    ]"
+                  type="text" placeholder="姓名">
+                  <a-icon slot="prefix" type="user" style="color: rgba(0,0,0,.25)" />
+                </a-input>
+              </a-form-item>
+            </a-col>
+            <a-col span="7">
+              <a-form-item>
+                <a-input v-decorator="[
+                    'mail',
+                    {
+                                          validateTrigger:'blur',
+                    rules: [{
+                      type: 'email', message: '请输入合法邮箱!',
+                    }, {
+                      required: true, message: '请输入邮箱!',
+                    }]
+                    }
+                  ]"
+                  type="text" placeholder="邮箱">
+                  <a-icon slot="prefix" type="mail" style="color: rgba(0,0,0,.25)" />
+                </a-input>
+              </a-form-item>
+            </a-col>
+            <a-col span='10'>
+              <a-form-item>
+                <a-input v-decorator="[
+                    'dept',
+                    {
+                    rules: [ {
+                      required: true, message: '请输入单位!',
+                    }]
+                    }
+                  ]"
+                  type="text" placeholder="单位">
+                  <a-icon slot="prefix" type="bank" style="color: rgba(0,0,0,.25)" />
+                </a-input>
+              </a-form-item>
+            </a-col>
+          </a-row>
+          <a-row type="flex" justify="start" align="middle" :gutter="10">
+            <a-col span='14'>
+              <a-form-item>
+                <a-input v-decorator="[
+                    'addr',
+                    {
+                    rules: [ {
+                      required: true, message: '请输入地址!',
+                    }]
+                    }
+                  ]"
+                  type="text" placeholder="地址">
+                  <a-icon slot="prefix" type="environment" style="color: rgba(0,0,0,.25)" />
+                </a-input>
+              </a-form-item>
+            </a-col>
+
+            <a-col span='7'>
+              <a-form-item>
+                <a-input v-decorator="[
+                    'zipCode',
+                    {
+                    validateTrigger:'blur',
+                    rules: [ {
+                      required: true,
+                      validator: checkZipCode,
+                    }]
+                    }
+                  ]"
+                  type="text" placeholder="邮编">
+                  <a-icon slot="prefix" type="code" style="color: rgba(0,0,0,.25)" />
+                </a-input>
+              </a-form-item>
+            </a-col>
+          </a-row>
 				</a-form>
 			</div>
 			<img src="../../assets/images/border.png" alt="" class="border">
@@ -176,12 +153,8 @@
 </template>
 
 <script>
-import {
-  permission
-} from '@/util/mixins'
 export default {
-  name: 'bindPhone',
-  mixins: [permission],
+  name: 'Register',
   beforeCreate() {
     this.formBind = this.$form.createForm(this)
   },
@@ -205,144 +178,86 @@ export default {
     }
   },
   mounted() {
-    this.systemLists = this.$cookie.get('systemLists') != undefined ? JSON.parse(this.$cookie.get('systemLists')) : []
-    if (this.$route.query.id) {
-      this.userId = this.$route.query.id
-      this.pageType = 'isBind'
-      this.right = '完成绑定'
-      this.left = '返回'
-    }
+    // this.systemLists = this.$cookie.get('systemLists') != undefined ? JSON.parse(this.$cookie.get('systemLists')) : []
+    // if (this.$route.query.id) {
+    //   this.userId = this.$route.query.id
+    //   this.pageType = 'isBind'
+    //   this.right = '完成绑定'
+    //   this.left = '返回'
+    // }
   },
   methods: {
-    showLeft() {
-      if (!this.$route.query.id) {
-        if (this.right == '完成绑定') {
-          this.right = '下一步'
-          this.left = '返回'
-          this.isBind = true
+    //校验手机号
+    validatePhone(rule, value, callback) {
+      if (!value || value == undefined || value.split(' ').join('').length === 0) {
+        this.disableBtn = true
+        callback('请输入手机号!')
+      } else {
+        if (!this.$com.checkPhone(value)) {
+          callback('手机号输入不合法!')
         } else {
-          this.$cookie.set('canEnterBind', '500')
-          this.$router.push({
-            name: 'login'
-          })
-        }
-      } else {
-        if (this.right == '完成绑定') {
-          this.$router.push({
-            name: 'login'
-          })
-          this.$cookie.set('canEnterBind', '500')
-        }
-      }
-    },
-    selectSystem(item, index) {
-      this.userId = item.id
-      this.systemNmme = item.sysDic.sysName
-      this.activeIndex = index
-      this.pageType = item.isBind == false ? 'isBind' : 'unBind'
-      this.disableNext = false
-      if (this.pageType != 'isBind') {
-        this.right = '登录'
-      } else {
-        this.right = '下一步（1/2）'
-      }
-    },
-    handleBind() {
-      this.formBind.validateFields((err, values) => {
-        if (!err) {
-          let params = {
-            userId: this.userId,
-            pwd: values.password,
-            code: values.code,
-            userInfo: {
-              'phone': values.phone,
-              'mail': values.mail,
-              'addr': values.addr,
-              'name': values.name,
-              'dept': values.dept,
-              'zipCode': values.zipCode,
-              'code': values.code
-            }
-          }
-          let options = {
-            userId: this.userId,
-            phone: values.phone,
-            code: values.code
-          }
-          if (this.$cookie.get('redirectUrl') != undefined) {
-            params.redirectUrl = this.$cookie.get('redirectUrl')
-            options.redirectUrl = this.$cookie.get('redirectUrl')
-          }
-          let sendLink = this.isBind == true ? this.$api.POST_BIND_USERINFO_BIND : this.$api.POST_BIND_USERINFO_UNBIND
-          let transData = this.isBind == true ? options : params
-          this.$ajax.post({
-            url: sendLink,
-            params: transData
-          }).then(res => {
-            let gainDatas = res.data.content
-            if (gainDatas.redirectUrl) {
-              this.$cookie.set('canEnterBind', '500')
-              window.open(gainDatas.redirectUrl, '_parent')
-            } else {
-              if (gainDatas.isNew === false && gainDatas.haveNewPerm === false) {
-                this.$cookie.set('canEnterBind', '500')
-                const openUrl = gainDatas.url + '?userId=' + gainDatas.userId + '&accessToken=' + gainDatas.access_token +
-										'&refreshToken=' + gainDatas.refresh_token
-                window.open(openUrl, '_parent')
+          if (value.length == 11) {
+            let links = '?phone=' + value
+            this.$ajax.get({
+              url: this.$api.GET_CHECK_PHONE_EXIST + links
+            }).then(res => {
+              if (res.data.content === false) {
+                this.disableBtn = false
+                callback()
               } else {
-                this.$com.setToken(gainDatas.access_token, gainDatas.refresh_token)
-                this.$router.push({
-                  name: 'home',
-                })
+                callback('已存在此用户!')
+                this.disableBtn = true
               }
-            }
-          })
-        }
-      })
-    },
-    showRight() {
-      if (this.pageType != '') {
-        if (this.pageType == 'isBind') {
-          if (this.right == '完成绑定') {
-            this.handleBind()
-          } else {
-            this.right = '完成绑定'
-            this.left = '上一步'
-          }
-        } else {
-          this.goLogin()
-        }
-      } else {
-        this.$message.error('请先选择系统，再进行下一步！')
-      }
-
-    },
-    goLogin() {
-      let links = '?userId=' + this.userId
-      if (this.$cookie.get('redirectUrl') != undefined) {
-        links = links + '&redirectUrl=' + this.$cookie.get('redirectUrl')
-      }
-      this.$ajax.get({
-        url: this.$api.GET_SELECT_SYSTEM + links
-      }).then(res => {
-        let gainDatas = res.data.content
-        if (gainDatas.redirectUrl) {
-          this.$cookie.set('canEnterBind', '500')
-          window.open(gainDatas.redirectUrl, '_parent')
-        } else {
-          if (gainDatas.isNew===true&&gainDatas.haveNewPerm === false) {
-            this.$cookie.set('canEnterBind', '500')
-            const openUrl = gainDatas.url + '?userId=' + gainDatas.userId + '&accessToken=' + gainDatas.access_token +
-								'&refreshToken=' + gainDatas.refresh_token
-            window.open(openUrl, '_parent')
-          } else {
-            this.$com.setToken(gainDatas.access_token, gainDatas.refresh_token)
-            this.$router.push({
-              name: 'home',
             })
           }
         }
-      })
+      }
+    },
+    //手机验证码校验
+    validateCode(rule, value, callback) {
+      if (!value || value == undefined || value.split(' ').join('').length === 0) {
+        callback('请输入手机验证码!')
+      } else {
+        if (!/^\d{6}$/.test(value)) {
+          callback('请输入6位数字验证码!')
+        } else {
+          callback()
+        }
+      }
+    },
+    //密码重复密码校验
+    validateToNextPassword(rule, value, callback) {
+      const form = this.formRegister
+      if (value && this.confirmDirty) {
+        form.validateFields(['rePassword'], {
+          force: true
+        })
+      }
+      callback()
+    },
+    compareToFirstPassword(rule, value, callback) {
+      const form = this.formRegister
+      if (value && value !== form.getFieldValue('pwd')) {
+        callback('密码输入不一致!')
+      } else {
+        callback()
+      }
+    },
+    // 效验邮政编码
+    checkZipCode(rule, value, callback) {
+      if (value && value != undefined) {
+        if (!/^[0-9]{6}$/.test(value)) {
+          callback('邮编格式不合法!')
+        } else {
+          callback()
+        }
+      } else {
+        callback('请输入邮编!')
+      }
+    },
+    handleConfirmBlur(e) {
+      const value = e.target.value
+      this.confirmDirty = this.confirmDirty || !!value
     },
     sendCode() {
       const phone = this.formBind.getFieldValue('phone')
@@ -372,100 +287,6 @@ export default {
       } else {
         this.$message.error('请先填写手机号！')
       }
-    },
-    clearTimer() {
-      clearInterval(this.timer)
-      this.btnTxt = '获取验证码'
-      this.disableBtn = false
-    },
-    validateCode(rule, value, callback) {
-      if (!value || value == undefined || value.split(' ').join('').length === 0) {
-        callback('请输入手机验证码!')
-      } else {
-        const phone = this.formBind.getFieldValue('phone')
-        const code = this.formBind.getFieldValue('code')
-        let params = {
-          'phone': phone,
-          'code': code,
-          'userId': this.userId
-        }
-        if (this.$cookie.get('redirectUrl') != undefined) {
-          params.redirectUrl = this.$cookie.get('redirectUrl')
-        }
-        this.$ajax.post({
-          url: this.$api.POST_CHECK_CODE,
-          params: params
-        }).then(res => {
-          if (res.code != '200') {
-            callback(res.data.msg)
-          } else {
-            callback()
-            this.isBind = this.transVal
-          }
-        })
-      }
-    },
-    validatePhone(rule, value, callback) {
-      if (value && value != undefined) {
-        if (!/^1[3456789]\d{9}$/.test(value)) {
-          callback('手机号码不合法!')
-        } else {
-          if (value.length == '11') {
-            let links = '?id=' + this.userId + '&phone=' + value
-            if (this.$cookie.get('redirectUrl') != undefined) {
-              links = links + '&redirectUrl=' + this.$cookie.get('redirectUrl')
-            }
-            this.$ajax.get({
-              url: this.$api.GET_CHECK_PHONE + links
-            }).then(res => {
-              if (res.code == '200') {
-                callback()
-                this.disableBtn = false
-                this.transVal = res.data.content
-                if (res.data.content == false) {
-                  this.tips = '此号未绑定需完善下方信息!'
-                }
-              } else {
-                callback(res.data.msg)
-              }
-            })
-          }
-        }
-      } else {
-        callback('请输入手机号!')
-      }
-    },
-    checkZipCode(rule, value, callback) {
-      if (value && value != undefined) {
-        if (!/^[0-9]{6}$/.test(value)) {
-          callback('邮编格式不合法!')
-        } else {
-          callback()
-        }
-      } else {
-        callback('请输入邮编!')
-      }
-    },
-    validateToNextPassword(rule, value, callback) {
-      const form = this.formBind
-      if (value && this.confirmDirty) {
-        form.validateFields(['rePassword'], {
-          force: true
-        })
-      }
-      callback()
-    },
-    compareToFirstPassword(rule, value, callback) {
-      const form = this.formBind
-      if (value && value !== form.getFieldValue('password')) {
-        callback('密码输入不一致!')
-      } else {
-        callback()
-      }
-    },
-    handleConfirmBlur(e) {
-      const value = e.target.value
-      this.confirmDirty = this.confirmDirty || !!value
     },
   }
 }
@@ -617,23 +438,11 @@ export default {
 
 	.bindPhone::-webkit-scrollbar-thumb {
 		/*滚动条里面小方块*/
-		border-radius: 5px;
-		-webkit-box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.3);
-		background: #e8eaec;
-		/* display: none; */
-	}
+		border-radius: 5px; -webkit-box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.3); background: #e8eaec;  }
 
-	.bindPhone::-webkit-scrollbar-track {
-		/*滚动条里面轨道*/
-		-webkit-box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2);
-		border-radius: 0;
-		background: white;
-	}
+	.bindPhone::-webkit-scrollbar-track { -webkit-box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2); 	border-radius: 0; background-color:#fff; }
 
-	.bindPhoneTitle {
-		margin-bottom: 20px;
-		font-weight: bold;
-	}
+	.resigerTitle { margin-bottom: 20px; font-weight: bold; }
 
 	.ant-input-affix-wrapper,
 	.login-form-button {
