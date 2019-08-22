@@ -60,11 +60,11 @@
 							<a-button type="primary" html-type="submit" class="login-form-button" @click="handleLogin">
 								登录
 							</a-button>
-							<a @click="pageType = 'register'" class="login-form-register">新用户注册 </a>
+							<a @click="toRegister" class="login-form-register">新用户注册 </a>
 						</a-form-item>
 					</a-form>
 				</div>
-				<Register v-if='pageType=="register"' @on-change='pageTypeChange' @on-success='changeSuccess'></Register>
+				<!-- <Register v-if='pageType=="register"' @on-change='pageTypeChange' @on-success='changeSuccess'></Register> -->
 				<ResetPassword v-if='pageType=="findPassword"' @on-change='pageTypeChange' @on-success='changeSuccess'></ResetPassword>
 				<opeationSuccess v-if='pageType=="success"' @on-change='pageTypeChange' :successText='successText'></opeationSuccess>
 			</div>
@@ -81,14 +81,14 @@ import {
   permission
 } from '@/util/mixins'
 import testStrong from '@/components/testPwd'
-import Register from '@/views/login/register'
+// import Register from '@/views/login/register'
 import ResetPassword from '@/views/login/ResetPassword'
 import opeationSuccess from '@/views/login/success'
 export default {
   name: 'Login',
   components: {
     testStrong,
-    Register,
+    // Register,
     ResetPassword,
     opeationSuccess
   },
@@ -129,6 +129,9 @@ export default {
     }
   },
   methods: {
+    toRegister(){
+      this.$router.push({name:'register'})
+    },
     keepLogin(e) {
       this.remember = e.target.checked
       if (this.remember) {

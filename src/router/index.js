@@ -22,7 +22,7 @@ router.beforeEach((to, from, next) => {
     if (to.name == 'login') {
       next()
     } else {
-      if (to.name == 'register' || to.name == 'oldSysLogout' || (to.name == 'bindPhone' && canEnterBind == '200')) {
+      if (to.name == 'networkerr' || to.name == 'register' || to.name == 'oldSysLogout' || (to.name == 'bindPhone' && canEnterBind == '200')) {
         next()
       } else {
         next('/login')
