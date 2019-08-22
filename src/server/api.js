@@ -36,8 +36,6 @@ export default {
   POST_FIND_PASSWORD:'/service-user/user/public/forget/pwd',//找回密码
   GET_CODE:'/service-user/user/public/captcha/code',//得到验证码
   GET_CHECK_PHONE_EXIST:'/service-user/user/public/check/phone/exist',//判断手机是否存在
-  GET_CHECK_CODE_REGISTER:'/service-user/user/public/send/register/{phone}',//注册-手机验证码验证
-  GET_CHECK_CODE_BACK:'/service-user/user/public/send/back/{phone}',//找回密码-手机验证码验证
   GET_PHONE_CODE:'/service-user/user/public/send/{type}/{phone}',// 发送验证码 （用于注册、忘记密码）
   POST_CHECK_PHONE_CODE:'/service-user/user/public/check/{type}/{phone}/{code}',// 验证手机验证码 （用于注册、忘记密码）
 }
