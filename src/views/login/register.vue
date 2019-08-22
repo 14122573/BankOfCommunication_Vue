@@ -1,5 +1,6 @@
 <template>
 	<div class="registerFrame">
+		<Loader />
 		<div class="registerWapper">
 			<div>
 				<a-row type="flex" justify="start" align="middle" :gutter="10">
@@ -37,18 +38,20 @@
             </a-row>
             <a-row type="flex" justify="start" align="middle" :gutter="10">
               <a-col span="7">
+						    <input type="password" style="display: none;">
                 <a-form-item>
-                  <a-input autocomplete="off"  v-decorator="[ 'password', { validateTrigger:'blur', rules: [ { validator: validateToNextPassword}] } ]" type="password" placeholder="密码输入6位以上的数字字母组合">
+                  <a-input autocomplete="off" :type="inputAutoType.password" @focus='pasBlur' v-decorator="[ 'password', { validateTrigger:'blur', rules: [ { validator: validateToNextPassword}] } ]" placeholder="密码需大于6位且含数字和字母">
                     <a-icon slot="prefix" type="lock" style="color: rgba(0,0,0,.25)" />
                   </a-input>
                 </a-form-item>
 									<testStrong :pwd="formRegister.getFieldValue('password')"  :width="75" v-show="passwordStrength"></testStrong>
               </a-col>
               <a-col span="7">
+                <input type="password" style="display: none;">
                 <a-form-item>
                   <input type="password" style="display: none;">
-                  <a-input autocomplete="off" v-decorator="[ 'rePassword', { validateTrigger:'blur', rules: [{ required: true, message: '请重复填写密码!' }, { validator: compareToFirstPassword, }] } ]"
-                    type="password" placeholder="重复密码" @blur="handleConfirmBlur">
+                  <a-input autocomplete="off" :type="inputAutoType.password" @focus='pasBlur' v-decorator="[ 'rePassword', { validateTrigger:'blur', rules: [{ required: true, message: '请重复填写密码!' }, { validator: compareToFirstPassword, }] } ]"
+                    placeholder="重复密码" @blur="handleConfirmBlur">
                     <a-icon slot="prefix" type="lock" style="color: rgba(0,0,0,.25)" />
                   </a-input>
                 </a-form-item>
@@ -67,7 +70,7 @@
               <a-col span="7">
                 <a-form-item>
                   <a-input autocomplete="off" v-decorator="[ 'mail', { validateTrigger:'blur', rules: [ { type: 'email', message: '请输入合法邮箱!' }, { required: true, message: '请输入邮箱!' }] } ]"
-                    type="text" placeholder="邮箱">
+                    type="text" :readonly='inputAutoType.mail' @focus='mailBlur' placeholder="邮箱" >
                     <a-icon slot="prefix" type="mail" style="color: rgba(0,0,0,.25)" />
                   </a-input>
                 </a-form-item>
@@ -144,7 +147,7 @@ export default {
   name: 'Register',
   components: {
     Loader,
-		testStrong
+    testStrong
   },
   beforeCreate() {
     this.formRegister = this.$form.createForm(this)
@@ -163,7 +166,7 @@ export default {
       showSuccess:false,
       inputAutoType:{
         password:'text',
-        mail:'text'
+        mail:true
       },
       passwordStrength:false
     }
@@ -171,6 +174,20 @@ export default {
   mounted() {
   },
   methods: {
+    /**
+     * 处理邮箱被浏览器自动填充值
+     * 当未获取焦点时，设置readonly为true，否则设置为false
+     */
+    mailBlur() {
+      this.inputAutoType.mail = false
+    },
+    /**
+     * 处理密码被浏览器自动填充值
+     * 当未获取焦点时，设置type为text，否则为password
+     */
+    pasBlur() {
+      this.inputAutoType.password = 'password'
+    },
     toLogin(){
       this.$router.push({name:'login'})
     },
@@ -250,7 +267,7 @@ export default {
           callback()
         }
       }
-			
+
     },
     /**
      * 校验两次密码一致
@@ -372,7 +389,7 @@ export default {
 .resigerTitle { margin-bottom: 20px; }
 .resigerTitle .title { font-size: 20px; font-weight: bold; }
 .resigerTitle .formBtns{ height:50px}
-.resigerTitle .errTips { font-size:14px; padding-left:20px; color:#FF3737; linr-height:20px;}
+.resigerTitle .errTips { font-size:14px; padding-left:20px; color:#FF3737; line-height:20px;}
 .resigerTitle .errIcon{ padding-right:5px}
 
 .resigerFormWapper { margin: 0 auto; height: 400px; font-size: 14px; margin-top: 20px; text-align: left; overflow: hidden; overflow-y: auto; padding: 0 10px;}
