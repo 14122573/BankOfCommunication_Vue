@@ -14,7 +14,7 @@ export const permission = {
         params: {}
       }).then(res => {
         // 本地存储用户基本信息
-        let userInfo ,name ,oldSysAuthCode
+        let userInfo = res.data.content ,name ,oldSysAuthCode
         if(!res.data || !res.data.content){
           userInfo = {}
           name = ''
@@ -22,7 +22,7 @@ export const permission = {
         }else{
           userInfo = res.data.content
           let name = userInfo.username = res.data.content.name||res.data.content.phone
-          this.$cookie.set('userInfo', userInfo)
+          this.$store.commit('SET_USERINFO',userInfo)
           this.$cookie.set('userName', name)
           this.$store.commit('SET_USERNAME', name)
           oldSysAuthCode = getOldSysAuthCode(userInfo.sysDicSet)
@@ -79,7 +79,7 @@ export const permission = {
             params: {}
           }).then(res=>{
             // 当前用户全部权限编码，包含菜单及功能操作
-            let oldSysDatas = this.$cookie.get('userInfo')
+            let oldSysDatas = this.$store.state.userInfos
             let authCodeList = [],oldSysAuthCode = getOldSysAuthCode(oldSysDatas)
             if(res.data!=undefined && res.data!=null && res.data.content!=undefined && res.data.content!=null){
               authCodeList = res.data.content.concat(oldSysAuthCode)
