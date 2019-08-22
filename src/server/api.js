@@ -35,7 +35,7 @@ export default {
   GET_CHECK_PHONE:'/service-user/user/public/check/phone/bind',//是否绑定
   POST_FIND_PASSWORD:'/service-user/user/public/forget/pwd',//找回密码
   GET_CODE:'/service-user/user/public/captcha/code',//得到验证码
-	GET_CHECK_PHONE_EXIST:'/service-user/user/public/check/phone/exist',//判断手机是否存在
-	GET_CHECK_CODE_REGISTER:'/service-user/user/public/send/register/{phone}',//注册
-	GET_CHECK_CODE_BACK:'/service-user/user/public/send/back/{phone}',//找回
+  GET_CHECK_PHONE_EXIST:'/service-user/user/public/check/phone/exist',//判断手机是否存在
+  GET_CHECK_CODE_REGISTER:'/service-user/user/public/send/register/{phone}',//注册
+  GET_CHECK_CODE_BACK:'/service-user/user/public/send/back/{phone}',//找回
 }

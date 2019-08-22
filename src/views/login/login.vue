@@ -77,225 +77,225 @@
 </template>
 
 <script>
-	import {
-		permission
-	} from '@/util/mixins'
-	import testStrong from '@/components/testPwd'
-	import Register from '@/views/login/register'
-	import ResetPassword from '@/views/login/ResetPassword'
-	import opeationSuccess from '@/views/login/success'
-	export default {
-		name: 'Login',
-		components: {
-			testStrong,
-			Register,
-			ResetPassword,
-			opeationSuccess
-		},
-		mixins: [permission],
-		beforeCreate() {
-			this.formLogin = this.$form.createForm(this)
-			this.formRegister = this.$form.createForm(this)
-		},
-		data() {
-			return {
-				pageType: 'login',
-				loginFailMsg: '',
-				visibleError: false,
-				isType: 'text',
-				remember: false, // 设置是否7天免登录
-				successText: ''
-			}
-		},
-		mounted() {
-			this.setUrl()
-			this.$cookie.set('KeepLogin', false, {
-				expires: 7
-			}) // 7天免登录默认是false
-		},
-		computed: {
-			sysCode() {
-				const code = String(this.getQueryString('sysCode'))
-				return code
-			},
-			redirectUrlPrefix() {
-				const code = String(this.getQueryString('redirectUrl'))
-				return code
-			}
-		},
-		watch: {
-			pageType() {
-				this.isType = 'text'
-			}
-		},
-		methods: {
-			keepLogin(e) {
-				this.remember = e.target.checked
-				if (this.remember) {
-					this.$cookie.set('KeepLogin', true, {
-						expires: 7
-					})
-				} else {
-					this.$cookie.set('KeepLogin', false, {
-						expires: 7
-					})
-				}
-			},
-			//存储redirectUrl
-			setUrl() {
-				if (this.redirectUrlPrefix != 'null') {
-					this.$cookie.set('redirectUrl', this.getQueryString('redirectUrl') + '&sysCode=' + String(this.getQueryString(
-						'sysCode')))
-				}
-			},
-			pasBlur() {
-				this.isType = 'password'
-			},
-			//登录操作
-			handleLogin(e) {
-				this.formLogin.validateFields((err, values) => {
-					if (!err) {
-						let params = values
-						if (this.redirectUrlPrefix != 'null') {
-							params.redirectUrl = this.$cookie.get('redirectUrl')
-						}
-						this.$ajax.post({
-							url: this.$api.POST_LOGIN,
-							params: params
-						}).then(res => {
-							if (res.code == '200') {
-								this.$cookie.set('canEnterBind', '200')
-								this.jumpOpeation(res)
-								this.visibleError = false
-							} else {
-								this.loginFailMsg = res.data.msg
-								this.visibleError = true
-							}
-						})
-					}
-				})
-			},
-			//跳转操作
-			jumpOpeation(res) {
-				let gainDatas = res.data.content
-				if (res.msg == 'choose') {
-					//存储系统列表
-					this.$cookie.set('systemLists', JSON.stringify(gainDatas))
-					if (this.sysCode != 'null') {
-						//列表存在该code  存在去匹配code值去获取跳转路径 不存在去绑定
-						let data = gainDatas.find(item => item.sysDic.sysCode == this.sysCode)
-						if (data) {
-							let links = '?userId=' + data.id
-							if (this.redirectUrlPrefix != 'null') {
-								links = links + '&redirectUrl=' + this.$cookie.get('redirectUrl')
-							}
-							this.$ajax.get({
-								url: this.$api.GET_SELECT_SYSTEM + links
-							}).then(res => {
-								let gainDatas = res.data.content
-								if (res.msg != 'bind') {
-									//不需要绑定
-									this.$com.setToken(gainDatas.access_token, gainDatas.refresh_token)
-									if (gainDatas.redirectUrl) {
-										this.$cookie.set('canEnterBind', '500')
-										window.open(gainDatas.redirectUrl, '_parent')
-									} else {
-										if (gainDatas.isNew === false && gainDatas.haveNewPerm === false) {
-											const openUrl = gainDatas.url + '?userId=' + gainDatas.userId + '&accessToken=' + gainDatas.access_token +
-												'&refreshToken=' + gainDatas.refresh_token;
-											this.$cookie.set('canEnterBind', '500')
-											window.open(openUrl, '_parent')
-										} else {
-											this.$router.push({
-												name: 'home'
-											})
-										}
-									}
-								} else {
-									//去绑定
-									this.$router.push({
-										name: 'bindPhone',
-										query: {
-											id: gainDatas
-										}
-									})
-								}
-							})
-						} else {
-							this.$router.push({
-								name: 'bindPhone'
-							})
-						}
-					} else {
-						this.$router.push({
-							name: 'bindPhone'
-						})
-					}
-				} else if (res.msg == 'bind') {
-					this.$router.push({
-						name: 'bindPhone',
-						query: {
-							id: gainDatas
-						}
-					})
-				} else if (res.msg == 'success') {
-					this.$com.setToken(gainDatas.access_token, gainDatas.refresh_token)
-					if (gainDatas.redirectUrl) {
-						this.$cookie.set('canEnterBind', '500')
-						window.open(gainDatas.redirectUrl, '_parent')
-					} else {
-						if (gainDatas.isNew === false && gainDatas.haveNewPerm === false) {
-							const openUrl = gainDatas.url + '?userId=' + gainDatas.userId + '&accessToken=' + gainDatas.access_token +
-								'&refreshToken=' + gainDatas.refresh_token;
-							this.$cookie.set('canEnterBind', '500')
-							window.open(openUrl, '_parent')
-						} else {
-							this.$router.push({
-								name: 'home'
-							})
-						}
-					}
-				}
-			},
-			//验证账户是否合法
-			validateAccount(rule, value, callback) {
-				if (!value || value == undefined || value.split(' ').join('').length === 0) {
-					callback('请输入账户或手机号!')
-				} else {
-					callback()
-				}
-			},
-			//得到url传递参数
-			getQueryString(name) {
-				var reg = new RegExp('(^|&)' + name + '=([^&]*)(&|$)', 'i')
-				var reg_rewrite = new RegExp('(^|/)' + name + '/([^/]*)(/|$)', 'i')
-				var r = window.location.search.substr(1).match(reg)
-				var q = window.location.pathname.substr(1).match(reg_rewrite)
-				if (r != null) {
-					return unescape(r[2])
-				} else if (q != null) {
-					return unescape(q[2])
-				} else {
-					return null
-				}
-			},
-			pageTypeChange(data) {
-				this.pageType = data
-			},
-			changeSuccess(data) {
-				this.pageType = 'success'
-				this.successText = data
-			},
-			threeTimesShowCode(query) {
-				//query分钟数
-				let inFifteenMinutes = new Date(new Date().getTime() + 15 * 60 * 1000);
-				let threeTime={userId:'',count:''}
-				Cookies.set('threeTime',JSON.stringify(threeTime), {
-					expires: inFifteenMinutes
-				});
-			}
-		}
-	}
+import {
+  permission
+} from '@/util/mixins'
+import testStrong from '@/components/testPwd'
+import Register from '@/views/login/register'
+import ResetPassword from '@/views/login/ResetPassword'
+import opeationSuccess from '@/views/login/success'
+export default {
+  name: 'Login',
+  components: {
+    testStrong,
+    Register,
+    ResetPassword,
+    opeationSuccess
+  },
+  mixins: [permission],
+  beforeCreate() {
+    this.formLogin = this.$form.createForm(this)
+    this.formRegister = this.$form.createForm(this)
+  },
+  data() {
+    return {
+      pageType: 'login',
+      loginFailMsg: '',
+      visibleError: false,
+      isType: 'text',
+      remember: false, // 设置是否7天免登录
+      successText: ''
+    }
+  },
+  mounted() {
+    this.setUrl()
+    this.$cookie.set('KeepLogin', false, {
+      expires: 7
+    }) // 7天免登录默认是false
+  },
+  computed: {
+    sysCode() {
+      const code = String(this.getQueryString('sysCode'))
+      return code
+    },
+    redirectUrlPrefix() {
+      const code = String(this.getQueryString('redirectUrl'))
+      return code
+    }
+  },
+  watch: {
+    pageType() {
+      this.isType = 'text'
+    }
+  },
+  methods: {
+    keepLogin(e) {
+      this.remember = e.target.checked
+      if (this.remember) {
+        this.$cookie.set('KeepLogin', true, {
+          expires: 7
+        })
+      } else {
+        this.$cookie.set('KeepLogin', false, {
+          expires: 7
+        })
+      }
+    },
+    //存储redirectUrl
+    setUrl() {
+      if (this.redirectUrlPrefix != 'null') {
+        this.$cookie.set('redirectUrl', this.getQueryString('redirectUrl') + '&sysCode=' + String(this.getQueryString(
+          'sysCode')))
+      }
+    },
+    pasBlur() {
+      this.isType = 'password'
+    },
+    //登录操作
+    handleLogin(e) {
+      this.formLogin.validateFields((err, values) => {
+        if (!err) {
+          let params = values
+          if (this.redirectUrlPrefix != 'null') {
+            params.redirectUrl = this.$cookie.get('redirectUrl')
+          }
+          this.$ajax.post({
+            url: this.$api.POST_LOGIN,
+            params: params
+          }).then(res => {
+            if (res.code == '200') {
+              this.$cookie.set('canEnterBind', '200')
+              this.jumpOpeation(res)
+              this.visibleError = false
+            } else {
+              this.loginFailMsg = res.data.msg
+              this.visibleError = true
+            }
+          })
+        }
+      })
+    },
+    //跳转操作
+    jumpOpeation(res) {
+      let gainDatas = res.data.content
+      if (res.msg == 'choose') {
+        //存储系统列表
+        this.$cookie.set('systemLists', JSON.stringify(gainDatas))
+        if (this.sysCode != 'null') {
+          //列表存在该code  存在去匹配code值去获取跳转路径 不存在去绑定
+          let data = gainDatas.find(item => item.sysDic.sysCode == this.sysCode)
+          if (data) {
+            let links = '?userId=' + data.id
+            if (this.redirectUrlPrefix != 'null') {
+              links = links + '&redirectUrl=' + this.$cookie.get('redirectUrl')
+            }
+            this.$ajax.get({
+              url: this.$api.GET_SELECT_SYSTEM + links
+            }).then(res => {
+              let gainDatas = res.data.content
+              if (res.msg != 'bind') {
+                //不需要绑定
+                this.$com.setToken(gainDatas.access_token, gainDatas.refresh_token)
+                if (gainDatas.redirectUrl) {
+                  this.$cookie.set('canEnterBind', '500')
+                  window.open(gainDatas.redirectUrl, '_parent')
+                } else {
+                  if (gainDatas.isNew === false && gainDatas.haveNewPerm === false) {
+                    const openUrl = gainDatas.url + '?userId=' + gainDatas.userId + '&accessToken=' + gainDatas.access_token +
+												'&refreshToken=' + gainDatas.refresh_token
+                    this.$cookie.set('canEnterBind', '500')
+                    window.open(openUrl, '_parent')
+                  } else {
+                    this.$router.push({
+                      name: 'home'
+                    })
+                  }
+                }
+              } else {
+                //去绑定
+                this.$router.push({
+                  name: 'bindPhone',
+                  query: {
+                    id: gainDatas
+                  }
+                })
+              }
+            })
+          } else {
+            this.$router.push({
+              name: 'bindPhone'
+            })
+          }
+        } else {
+          this.$router.push({
+            name: 'bindPhone'
+          })
+        }
+      } else if (res.msg == 'bind') {
+        this.$router.push({
+          name: 'bindPhone',
+          query: {
+            id: gainDatas
+          }
+        })
+      } else if (res.msg == 'success') {
+        this.$com.setToken(gainDatas.access_token, gainDatas.refresh_token)
+        if (gainDatas.redirectUrl) {
+          this.$cookie.set('canEnterBind', '500')
+          window.open(gainDatas.redirectUrl, '_parent')
+        } else {
+          if (gainDatas.isNew === false && gainDatas.haveNewPerm === false) {
+            const openUrl = gainDatas.url + '?userId=' + gainDatas.userId + '&accessToken=' + gainDatas.access_token +
+								'&refreshToken=' + gainDatas.refresh_token
+            this.$cookie.set('canEnterBind', '500')
+            window.open(openUrl, '_parent')
+          } else {
+            this.$router.push({
+              name: 'home'
+            })
+          }
+        }
+      }
+    },
+    //验证账户是否合法
+    validateAccount(rule, value, callback) {
+      if (!value || value == undefined || value.split(' ').join('').length === 0) {
+        callback('请输入账户或手机号!')
+      } else {
+        callback()
+      }
+    },
+    //得到url传递参数
+    getQueryString(name) {
+      var reg = new RegExp('(^|&)' + name + '=([^&]*)(&|$)', 'i')
+      var reg_rewrite = new RegExp('(^|/)' + name + '/([^/]*)(/|$)', 'i')
+      var r = window.location.search.substr(1).match(reg)
+      var q = window.location.pathname.substr(1).match(reg_rewrite)
+      if (r != null) {
+        return unescape(r[2])
+      } else if (q != null) {
+        return unescape(q[2])
+      } else {
+        return null
+      }
+    },
+    pageTypeChange(data) {
+      this.pageType = data
+    },
+    changeSuccess(data) {
+      this.pageType = 'success'
+      this.successText = data
+    },
+    threeTimesShowCode(query) {
+      //query分钟数
+      let inFifteenMinutes = new Date(new Date().getTime() + 15 * 60 * 1000)
+      let threeTime={userId:'',count:''}
+      Cookies.set('threeTime',JSON.stringify(threeTime), {
+        expires: inFifteenMinutes
+      })
+    }
+  }
+}
 </script>
 
 <style scoped>
