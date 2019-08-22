@@ -40,14 +40,14 @@ export default {
     }
   },
   computed: {
-		returnStyle(){
-			if(this.width){
-				return{
-					width:this.width+'px'
-				}
-			}
-		}
-	},
+    returnStyle(){
+      if(this.width){
+        return{
+          width:this.width+'px'
+        }
+      }
+    }
+  },
   watch: {
     pwd(newValue, oldValue) {
       this.msgText = checkStrong(newValue)

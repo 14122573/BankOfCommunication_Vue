@@ -141,9 +141,9 @@
 import testStrong from '@/components/testPwd'
 export default {
   name: 'Register',
-	components: {
-		testStrong
-	},
+  components: {
+    testStrong
+  },
   beforeCreate() {
     this.formRegister = this.$form.createForm(this)
   },
@@ -163,7 +163,7 @@ export default {
         password:'text',
         mail:'text'
       },
-			passwordStrength:false
+      passwordStrength:false
     }
   },
   mounted() {
@@ -231,23 +231,23 @@ export default {
      */
     validateToNextPassword(rule, value, callback) {
       const form = this.formRegister
-			if(!value || value == undefined || value.split(' ').join('').length === 0){
-				callback('请输入密码！')
-				this.passwordStrength=false;
-			}else{
-				if(!/^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{6,}$/.test(value)){
-					callback('请输入6位以上的数字字母组合！')
-					this.passwordStrength=false;
-				}else{
-					if (value && this.confirmDirty) {
+      if(!value || value == undefined || value.split(' ').join('').length === 0){
+        callback('请输入密码！')
+        this.passwordStrength=false
+      }else{
+        if(!/^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{6,}$/.test(value)){
+          callback('请输入6位以上的数字字母组合！')
+          this.passwordStrength=false
+        }else{
+          if (value && this.confirmDirty) {
 					  form.validateFields(['rePassword'], {
 					    force: true
 					  })
-					}
-					this.passwordStrength=true;
-					callback()
-				}
-			}
+          }
+          this.passwordStrength=true
+          callback()
+        }
+      }
 			
     },
     /**
