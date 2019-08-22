@@ -38,10 +38,11 @@
             <a-row type="flex" justify="start" align="middle" :gutter="10">
               <a-col span="7">
                 <a-form-item>
-                  <a-input autocomplete="off" v-decorator="[ 'password', { validateTrigger:'blur', rules: [{ required: true, message: '请输入密码!' }, { validator: validateToNextPassword}] } ]" type="password" placeholder="密码">
+                  <a-input autocomplete="off"  v-decorator="[ 'password', { validateTrigger:'blur', rules: [ { validator: validateToNextPassword}] } ]" type="password" placeholder="密码输入6位以上的数字字母组合">
                     <a-icon slot="prefix" type="lock" style="color: rgba(0,0,0,.25)" />
                   </a-input>
                 </a-form-item>
+									<testStrong :pwd="formRegister.getFieldValue('password')"  :width="75" v-show="passwordStrength"></testStrong>
               </a-col>
               <a-col span="7">
                 <a-form-item>
@@ -137,8 +138,12 @@
 </template>
 
 <script>
+import testStrong from '@/components/testPwd'
 export default {
   name: 'Register',
+	components: {
+		testStrong
+	},
   beforeCreate() {
     this.formRegister = this.$form.createForm(this)
   },
@@ -157,7 +162,8 @@ export default {
       inputAutoType:{
         password:'text',
         mail:'text'
-      }
+      },
+			passwordStrength:false
     }
   },
   mounted() {
@@ -225,12 +231,24 @@ export default {
      */
     validateToNextPassword(rule, value, callback) {
       const form = this.formRegister
-      if (value && this.confirmDirty) {
-        form.validateFields(['rePassword'], {
-          force: true
-        })
-      }
-      callback()
+			if(!value || value == undefined || value.split(' ').join('').length === 0){
+				callback('请输入密码！')
+				this.passwordStrength=false;
+			}else{
+				if(!/^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{6,}$/.test(value)){
+					callback('请输入6位以上的数字字母组合！')
+					this.passwordStrength=false;
+				}else{
+					if (value && this.confirmDirty) {
+					  form.validateFields(['rePassword'], {
+					    force: true
+					  })
+					}
+					this.passwordStrength=true;
+					callback()
+				}
+			}
+			
     },
     /**
      * 校验两次密码一致
