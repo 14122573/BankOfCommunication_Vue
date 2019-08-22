@@ -23,7 +23,7 @@
 				</a-row>
 			</div>
 		</div>
-		<div v-if="appearIndex==1">
+		<div v-if="appearIndex==1" style="margin-top: 100px;">
 			<div>管理员联系方式</div>
 			<div class='linksTips contract'>
 				<div>
@@ -372,7 +372,7 @@ export default {
 	}
 
 	.contract {
-		margin-top: 10px;
+		cursor: default;
 	}
 
 	.icon {
