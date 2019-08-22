@@ -54,6 +54,8 @@ export default {
                 this.$router.push({name:'home'})
               }else{
                 if(this.verOldSysAuth(userInfo.oldAccountSet)){
+                  this.$cookie.remove('token')
+                  this.$cookie.remove('refresh_token')
                   this.$router.push({name:'bindPhone',query:{ logined:1 }})
                 }else{
                   this.$com.handleLogOut()
