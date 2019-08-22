@@ -91,7 +91,7 @@ export default {
     testStrong,
     Register,
     ResetPassword,
-		opeationSuccess
+    opeationSuccess
   },
   mixins: [permission],
   beforeCreate() {
@@ -105,7 +105,7 @@ export default {
       visibleError: false,
       isType: 'text',
       remember: false, // 设置是否7天免登录
-			successText:''
+      successText:''
     }
   },
   mounted() {
@@ -280,10 +280,10 @@ export default {
     pageTypeChange(data) {
       this.pageType = data
     },
-		changeSuccess(data){
-			this.pageType = 'success';
-			this.successText=data;
-		}
+    changeSuccess(data){
+      this.pageType = 'success'
+      this.successText=data
+    }
   }
 }
 </script>

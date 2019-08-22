@@ -47,140 +47,140 @@
 
 </template>
 <script>
-	import SideMenu from '@/components/Layout/sidemenu'
-	import NavBar from '@/components/Layout/navbar'
-	import Loader from '@/components/Loader/loader'
-	import {
-		permission,
-	} from '@/util/mixins'
+import SideMenu from '@/components/Layout/sidemenu'
+import NavBar from '@/components/Layout/navbar'
+import Loader from '@/components/Loader/loader'
+import {
+  permission,
+} from '@/util/mixins'
 
-	import Login from '@/views/login/login'
+import Login from '@/views/login/login'
 
-	export default {
-		name: 'Layout',
-		mixins: [permission],
-		components: {
-			NavBar,
-			Loader,
-			SideMenu,
-			Login,
-		},
-		data() {
-			return {
-				collapsed: false,
-				username: '',
-				showPurePage: false,
-				tidingsCount: 0,
-			}
-		},
-		created() {
-			let token = this.$cookie.get('token')
-			if (token != undefined && token != null) {
-				this.$ajax.post({
-					url: this.$api.CHECKTOKEN_POST,
-					params: {}
-				}).then(res => {
-					this.getInfo()
-				})
-			} else {
-				this.plogout(true)
-			}
-		},
-		watch: {
-			'$store.state.userName': {
-				handler: function(val) {
-					this.username = val
-				},
-				deep: true
-			},
-			$route(to, from) {
-				// 监听路由，只要是没有parent的路由就独立显示而不是嵌套在layout中显示
-				if (to.matched && to.matched.length > 0 && !to.matched[to.matched.length - 1].parent) {
-					this.showPurePage = true
-				} else {
-					this.showPurePage = false
-				}
-			}
+export default {
+  name: 'Layout',
+  mixins: [permission],
+  components: {
+    NavBar,
+    Loader,
+    SideMenu,
+    Login,
+  },
+  data() {
+    return {
+      collapsed: false,
+      username: '',
+      showPurePage: false,
+      tidingsCount: 0,
+    }
+  },
+  created() {
+    let token = this.$cookie.get('token')
+    if (token != undefined && token != null) {
+      this.$ajax.post({
+        url: this.$api.CHECKTOKEN_POST,
+        params: {}
+      }).then(res => {
+        this.getInfo()
+      })
+    } else {
+      this.plogout(true)
+    }
+  },
+  watch: {
+    '$store.state.userName': {
+      handler: function(val) {
+        this.username = val
+      },
+      deep: true
+    },
+    $route(to, from) {
+      // 监听路由，只要是没有parent的路由就独立显示而不是嵌套在layout中显示
+      if (to.matched && to.matched.length > 0 && !to.matched[to.matched.length - 1].parent) {
+        this.showPurePage = true
+      } else {
+        this.showPurePage = false
+      }
+    }
 
-		},
-		computed: {
-			menuMode() {
-				return this.collapsed ? 'vertical' : 'inline'
-			},
-			showSpaContent() {
-				return this.$store.state.showSpaContent
-			},
-			handleStyle() {
-				if (this.collapsed === true) {
-					return {
-						position: 'fixed',
-						zIndex: 1,
-						width: 'calc(100% - 80px)',
-						marginLeft: '80px'
-					};
-				} else {
-					return {
-						position: 'fixed',
-						zIndex: 1,
-						width:'84%',
-						marginLeft: '16%'
-					};
-				}
+  },
+  computed: {
+    menuMode() {
+      return this.collapsed ? 'vertical' : 'inline'
+    },
+    showSpaContent() {
+      return this.$store.state.showSpaContent
+    },
+    handleStyle() {
+      if (this.collapsed === true) {
+        return {
+          position: 'fixed',
+          zIndex: 1,
+          width: 'calc(100% - 80px)',
+          marginLeft: '80px'
+        }
+      } else {
+        return {
+          position: 'fixed',
+          zIndex: 1,
+          width:'84%',
+          marginLeft: '16%'
+        }
+      }
 
-			},
-		},
-		methods: {
-			/**
+    },
+  },
+  methods: {
+    /**
 			 * @param {boolean} isOnlyClear 是否需要调用接口登出 ； false，不需要；
 			 */
-			plogout(isOnlyClear) {
-				isOnlyClear = (isOnlyClear != undefined && isOnlyClear != null) ? isOnlyClear : false
-				if (isOnlyClear) {
-					this.$store.commit('SET_CLEAR')
-					this.$cookie.remove('token')
-					this.$cookie.remove('refresh_token')
-					this.$cookie.remove('userInfo')
-					this.$cookie.remove('redirectUrl')
-					this.$cookie.remove('url')
-					this.$cookie.remove('systemLists')
-					this.$cookie.remove('canEnterBind')
-				} else {
-					this.$ajax.post({
-						url: this.$api.POST_LOGOUT,
-						params: {}
-					}).then(res => {
-						this.$store.commit('SET_CLEAR')
-						this.$cookie.remove('KeepLogin')
-						this.$cookie.remove('token')
-						this.$cookie.remove('refresh_token')
-						this.$cookie.remove('userInfo')
-						this.$cookie.remove('redirectUrl')
-						this.$cookie.remove('url')
-						this.$cookie.remove('systemLists')
-						this.$cookie.remove('canEnterBind')
-						this.$router.push({
-							name: 'login'
-						})
-					})
-				}
-			},
-			toggleSideCollapsed() {
-				this.collapsed = !this.collapsed
-			},
-			handleClick({
-				key
-			}) {
-				if (key == 'person') {
-					this.$router.push({
-						name: 'person'
-					})
-				}
-				if (key == 'logout') {
-					this.plogout()
-				}
-			}
-		}
-	}
+    plogout(isOnlyClear) {
+      isOnlyClear = (isOnlyClear != undefined && isOnlyClear != null) ? isOnlyClear : false
+      if (isOnlyClear) {
+        this.$store.commit('SET_CLEAR')
+        this.$cookie.remove('token')
+        this.$cookie.remove('refresh_token')
+        this.$cookie.remove('userInfo')
+        this.$cookie.remove('redirectUrl')
+        this.$cookie.remove('url')
+        this.$cookie.remove('systemLists')
+        this.$cookie.remove('canEnterBind')
+      } else {
+        this.$ajax.post({
+          url: this.$api.POST_LOGOUT,
+          params: {}
+        }).then(res => {
+          this.$store.commit('SET_CLEAR')
+          this.$cookie.remove('KeepLogin')
+          this.$cookie.remove('token')
+          this.$cookie.remove('refresh_token')
+          this.$cookie.remove('userInfo')
+          this.$cookie.remove('redirectUrl')
+          this.$cookie.remove('url')
+          this.$cookie.remove('systemLists')
+          this.$cookie.remove('canEnterBind')
+          this.$router.push({
+            name: 'login'
+          })
+        })
+      }
+    },
+    toggleSideCollapsed() {
+      this.collapsed = !this.collapsed
+    },
+    handleClick({
+      key
+    }) {
+      if (key == 'person') {
+        this.$router.push({
+          name: 'person'
+        })
+      }
+      if (key == 'logout') {
+        this.plogout()
+      }
+    }
+  }
+}
 </script>
 
 <style scoped>
