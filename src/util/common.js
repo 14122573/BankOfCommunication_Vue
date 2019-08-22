@@ -140,7 +140,10 @@ export default {
   handleLogOut() {
     Store.commit('SET_CLEAR')
     Cookie.remove('token')
-    Cookie.remove('refresh_token')
+    if('true' == Cookie.get('keepLogin')){
+    }else{
+      Cookie.remove('refresh_token')
+    }
     Cookie.remove('userInfo')
     Cookie.remove('redirectUrl')
     Cookie.remove('url')
