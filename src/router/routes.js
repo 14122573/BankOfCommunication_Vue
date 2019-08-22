@@ -140,7 +140,7 @@ const appRoutes = [{
       path: '/SCYJ/:sysname',
       name: 'SCYJ',
       component: TipsOutsite,
-      meta: { title: '水产预警系统', menuPath: true, authCode: 'SCYJ', menuIcon: 'alert', hideInBread: false, openMode: 'outsite' },
+      meta: { title: '国家水生动物疫情预警系统', menuPath: true, authCode: 'SCYJ', menuIcon: 'alert', hideInBread: false, openMode: 'outsite' },
     },
     {
       path: '/YQCB/:sysname',
