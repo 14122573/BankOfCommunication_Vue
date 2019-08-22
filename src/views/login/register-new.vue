@@ -116,21 +116,21 @@
           </a-form>
           <div class="formBtns" >
             <a-button type="primary" class="registerBtn" @click="toRegister"> 注册 </a-button>
-            <a-button @click="toLogin" class="registerBtn tologin" > 已有账号，去登录 </a-button>
+            <a-button @click="toLogin" class="registerBtn tologin" > 已有账号，立即登录 </a-button>
           </div>
         </template>
         <template v-else>
           <div class='resigerSuccess'>
             <a-icon class='successIcon' type="check-circle" />
             <p class='tips'>注册成功</p>
-            <a-button type="primary" class='toLogin' @click="toLogin" > 去登录 </a-button>
+            <a-button type="primary" class='toLogin' @click="toLogin" > 立即登录 </a-button>
           </div>
         </template>
 			</div>
 		</div>
     <div class="footer">
 			<p>主办单位：全国水产技术推广总站、中国水产学会&nbsp;&nbsp;&nbsp;&nbsp; 技术支持：博彦科技股份有限公司</p>
-			<p>COPYRIGHT&copy;-2016 ALL RIGHTS RESERVED</p>
+			<p>COPYRIGHT&copy;-2019 ALL RIGHTS RESERVED</p>
 		</div>
 	</div>
 </template>

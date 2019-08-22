@@ -7,7 +7,7 @@
 			<a-col span="24">{{successText}}</a-col>
 			<a-col span="24">
 				<a-button type="primary" @click="handleLogin" style="min-width:100px">
-					去登录
+					立即登录
 				</a-button>
 			</a-col>
 		</a-row>

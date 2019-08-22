@@ -71,7 +71,7 @@
 		</div>
 		<div class="footer">
 			<p>主办单位：全国水产技术推广总站、中国水产学会&nbsp;&nbsp;&nbsp;&nbsp; 技术支持：博彦科技股份有限公司</p>
-			<p>COPYRIGHT&copy;-2016 ALL RIGHTS RESERVED</p>
+			<p>COPYRIGHT&copy;-2019 ALL RIGHTS RESERVED</p>
 		</div>
 	</div>
 </template>
@@ -130,8 +130,10 @@ export default {
     }
   },
   methods: {
-    toRegister(){
-      this.$router.push({name:'register'})
+    toRegister() {
+      this.$router.push({
+        name: 'register'
+      })
     },
     keepLogin(e) {
       this.remember = e.target.checked
@@ -171,7 +173,7 @@ export default {
               this.$cookie.set('canEnterBind', '200')
               this.jumpOpeation(res)
               this.visibleError = false
-              this.threeTimesShowCode(values.username,'success')
+              this.threeTimesShowCode(values.username, 'success')
             } else {
               this.loginFailMsg = res.data.msg
               this.visibleError = true
@@ -270,10 +272,18 @@ export default {
       } else {
         if (this.$cookie.get('threeTime')) {
           let lists = JSON.parse(this.$cookie.get('threeTime'))
-          let targetItem = lists.find(ele => ele.userId == value)
-          if (targetItem) {
-            this.errorCount=targetItem.count
-          } 
+          lists.forEach((ele,index)=>{
+            if(ele.count<3){
+              lists.splice(index,1)
+            }
+          })
+          let index=lists.find(ele=>ele.userId==value)
+          if(datas){
+            this.errorCount=lists[index].count
+          }else{
+            this.errorCount=0
+          }
+          this.setTime(lists)
         }
         callback()
       }
@@ -300,15 +310,15 @@ export default {
       this.successText = data
     },
     threeTimesShowCode(id, isSuccess) {
-      // 				if (isSuccess == 'success') {
+      // if (isSuccess == 'success') {
       // 					if (this.$cookie.get('threeTime')) {
       // 						let lists = JSON.parse(this.$cookie.get('threeTime'));
       // 						let targetItem = lists.findIndex(ele => ele.userId == id);
       // 						if (targetItem) {
-      // 							lists.splice(targetItem,1);
-      // 						} 
+      // 							lists.splice(targetItem, 1);
+      // 						}
       // 					}
-      // 					this.errorCount=0;
+      // 					this.errorCount = 0;
       // 				} else {
       // 					if (!this.$cookie.get('threeTime')) {
       // 						let datas = [{
@@ -321,30 +331,27 @@ export default {
       // 						let targetItem = lists.findIndex(ele => ele.userId == id);
       // 						if (targetItem) {
       // 							lists[targetItem].count = lists[targetItem].count + 1;
-      // 							this.errorCount=lists[targetItem].count;
       // 						} else {
       // 							lists.push({
       // 								userId: id,
       // 								count: 1
       // 							})
       // 						}
-      // 						lists = lists.filter(ele => {
-      // 							ele.count >= 3&&ele.userId==id;
-      // 						})
       // 						this.setTime(lists);
       // 					}
       // 				}
     },
     setTime(lists) {
-      // 				var now = new Date();
-      // 				let time = now.toLocaleString('chinese', {
-      // 					hour12: false
-      // 				}).split(" ")[1];
-      // 				let totalMinutes = (24 - Number(time.split(":")[0]) - 1) * 60 + (60 - Number(time.split(":")[1]));
-      // 				let inFifteenMinutes = new Date(new Date().getTime() + totalMinutes * 60 * 1000);
-      // 				this.$cookie.set('threeTime', JSON.stringify(lists), {
-      // 					expires: inFifteenMinutes
-      // 				})
+      var now = new Date()
+      let time = now.toLocaleString('chinese', {
+        hour12: false
+      }).split(' ')[1]
+      let totalMinutes = (24 - Number(time.split(':')[0]) - 1) * 60 + (60 - Number(time.split(':')[1]))
+      let inFifteenMinutes = new Date(new Date().getTime() + totalMinutes * 60 * 1000)
+      let datas = JSON.stringify(lists)
+      this.$cookie.set('threeTime', datas, {
+        expires: inFifteenMinutes
+      })
     }
   }
 }

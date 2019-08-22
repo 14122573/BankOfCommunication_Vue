@@ -39,7 +39,7 @@
 			</div>
 		</div>
 		<div class="backPage" @click="handleJump" v-if="appearIndex!=2">
-			<a-icon type="arrow-left" />返回登录
+			<a-icon type="arrow-left" />立即登录
 		</div>
 		<a-form :form="formRegister" class="register-form" v-if="appearIndex==2">
 			<a-form-item>
@@ -108,7 +108,7 @@
 					重置密码
 				</a-button>
 				<a @click="handleJump" class="login-form-register">
-					去登录
+					立即登录
 				</a>
 			</a-form-item>
 		</a-form>
