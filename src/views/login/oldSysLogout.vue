@@ -18,10 +18,12 @@ export default {
     }
   },
   mounted() {
-    let token = this.$com.getQueryVariable('accessToken')
-    if(!token){
+    let accessToken = this.$com.getQueryVariable('accessToken')
+    let refreshToken = this.$com.getQueryVariable('refreshToken')
+    if(!accessToken){
       this.$com.handleLogOut()
     }else{
+      this.$com.setToken(accessToken,refreshToken)
       this.$ajax.get({
         url: this.$api.GET_USER_INFO,
         params: {}
@@ -30,6 +32,7 @@ export default {
         if(!res.data || !res.data.content){
           this.$com.handleLogOut()
         }else{
+          let userInfo = res.data.content
           this.$ajax.get({
             url: this.$api.GET_USER_PEIMISSION
           }).then(res=>{
@@ -39,18 +42,21 @@ export default {
               let authCodes = res.data.content
               let hasNewSysAuth = false
               if(Array.isArray(authCodes)){
-                for(let i=0;i<authCodes.length;i++){
-                  if(authCodes[i].indexOf('S')>0){
-                    hasNewSysAuth = true
+                if(authCodes.length ==0)
+                  for(let i=0;i<authCodes.length;i++){
+                    if(authCodes[i].indexOf('S')>0){
+                      hasNewSysAuth = true
+                    }
                   }
-                }
               }
 
               if(hasNewSysAuth){
-                this.router.push({name:'home'})
+                this.$router.push({name:'home'})
               }else{
-                if(this.verOldSysAuth()){
-                  this.router.push({name:'bindPhone',query:{ logined:1 }})
+                if(this.verOldSysAuth(userInfo.oldAccountSet)){
+                  this.$cookie.remove('token')
+                  this.$cookie.remove('refresh_token')
+                  this.$router.push({name:'bindPhone',query:{ logined:1 }})
                 }else{
                   this.$com.handleLogOut()
                 }
