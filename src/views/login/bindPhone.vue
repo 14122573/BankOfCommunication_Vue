@@ -221,7 +221,7 @@ export default {
   },
   data() {
     return {
-      hasLogined:!this.$router.query.logined?false:(1==parseInt(this.$router.query.logined)?true:false),
+      hasLogined:!this.$route.query.logined?false:(1==parseInt(this.$route.query.logined)?true:false),
       left: '返回',
       disableCode: true,
       right: '下一步(1/2)',
@@ -243,6 +243,7 @@ export default {
   },
   mounted() {
     this.systemLists = this.$cookie.get('systemLists') != undefined ? JSON.parse(this.$cookie.get('systemLists')) : []
+
     if (this.$route.query.id) {
       this.userId = this.$route.query.id
       this.pageType = 'isBind'
