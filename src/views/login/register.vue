@@ -137,8 +137,13 @@
 </template>
 
 <script>
+
+import Loader from '@/components/Loader/loader'
 export default {
   name: 'Register',
+  components: {
+    Loader,
+  },
   beforeCreate() {
     this.formRegister = this.$form.createForm(this)
   },
