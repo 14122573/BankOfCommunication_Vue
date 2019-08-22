@@ -238,7 +238,7 @@ export default {
       tips: '',
       disableNext: true,
       passwordStrength: false,
-      disablePhone: true
+      disablePhone: false
     }
   },
   mounted() {
