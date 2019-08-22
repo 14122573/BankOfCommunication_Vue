@@ -15,19 +15,19 @@
 </template>
 
 <script>
-	export default {
-		props:['successText'],
-		data() {
-			return {
-				tips: '操作成功'
-			}
-		},
-		methods: {
-			handleLogin() {
-                this.$emit('on-change','login')
-			}
-		}
-	}
+export default {
+  props:['successText'],
+  data() {
+    return {
+      tips: '操作成功'
+    }
+  },
+  methods: {
+    handleLogin() {
+      this.$emit('on-change','login')
+    }
+  }
+}
 </script>
 
 <style scoped>
