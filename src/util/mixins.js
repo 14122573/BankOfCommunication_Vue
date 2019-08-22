@@ -79,7 +79,7 @@ export const permission = {
             params: {}
           }).then(res=>{
             // 当前用户全部权限编码，包含菜单及功能操作
-            let oldSysDatas = this.$store.state.userInfos
+            let oldSysDatas = this.$store.state.userInfos.sysDicSet
             let authCodeList = [],oldSysAuthCode = getOldSysAuthCode(oldSysDatas)
             if(res.data!=undefined && res.data!=null && res.data.content!=undefined && res.data.content!=null){
               authCodeList = res.data.content.concat(oldSysAuthCode)
