@@ -59,7 +59,7 @@
 						<a-input v-decorator="[
 		  								'code',
 		  								{
-		  									validateTrigger:'blur',
+		  									validateTrigger:'change',
 		  									rules: [
 		  										{ validator:validateCode}
 		  										]
@@ -70,7 +70,7 @@
 						</a-input>
 					</a-col>
 					<a-col :span="8" :offset="1">
-						<a-button type="primary" :disabled='disableBtn' ghost @click="sendCode" size="small" style="height:42px;min-width: 40px;">
+						<a-button type="primary" :disabled='disableBtn' ghost @click="sendCode" size="small" style="height:42px;min-width: 86px;">
 							{{btnTxt}}
 						</a-button>
 					</a-col>
@@ -131,7 +131,7 @@ export default {
       btnTxt: '发送验证码',
       disableBtn: true,
       timer: null,
-      disableCode: false,
+      disableCode: true,
       loginFailMsg: '',
       visibleError: false,
       confirmDirty: false,
@@ -174,7 +174,16 @@ export default {
         if (!/^\d{6}$/.test(value)) {
           callback('请输入6位数字验证码!')
         } else {
-          callback()
+          this.$ajax.get({
+            url: this.$api.POST_CHECK_PHONE_CODE.replace('{type}','back').replace('{phone}',this.formRegister.getFieldValue('username')).replace('{code}',value)
+          }).then(res => {
+            if (res.code != '200') {
+              callback(res.data.msg)
+            } else {
+              callback()
+            }
+          })
+						
         }
       }
     },
@@ -206,24 +215,25 @@ export default {
     //发送验证码
     sendCode() {
       this.$ajax.get({
-        url: this.$api.GET_SEND_CODE.replace('{phone}', this.formRegister.getFieldValue('username'))
+        url: this.$api.GET_PHONE_CODE.replace('{phone}', this.formRegister.getFieldValue('username')).replace('{type}','back')
       }).then(res => {
-        if (res.code == '200') {
-          this.disableCode = false
-          this.disableBtn = true
-          let num = 60
-          const interval = () => {
-            this.timer = setInterval(() => {
-              if (num <= 0) {
-                this.clearTimer()
-                return
-              }
-              this.btnTxt = (num -= 1) + 's'
-            }, 1000)
-          }
-          interval()
+        this.disableCode = false
+        this.disableBtn = true
+        let num = 60
+        const interval = () => {
+          this.timer = setInterval(() => {
+            if (num <= 0) {
+              this.clearTimer()
+              return
+            }
+            this.btnTxt = (num -= 1) + 's'
+          }, 1000)
         }
+        interval()
       })
+    },
+    clearTimer(){
+      this.timer=null
     },
     //提交找回密码
     handleFindPwd() {

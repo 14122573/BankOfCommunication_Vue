@@ -4,7 +4,7 @@
 			<div>
 				<a-row type="flex" justify="start" align="middle" :gutter="10">
 					<a-col><img src="../../assets/images/logo.png" alt="" class="logo"></a-col>
-					<a-col>“综合渔技智能服务平台”</a-col>
+					<a-col>“智能渔技综合服务平台”</a-col>
 				</a-row>
 			</div>
 			<div class="systemBlock" v-if='right!="完成绑定"'>
@@ -236,6 +236,7 @@ export default {
       this.pageType = 'isBind'
       this.right = '完成绑定'
       this.left = '返回'
+      this.disableNext=false
     }
   },
   methods: {
