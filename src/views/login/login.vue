@@ -187,21 +187,21 @@ export default {
               if (res.msg != 'bind') {
                 //不需要绑定
                 if (gainDatas.redirectUrl) {
-                  window.open(gainDatas.redirectUrl, '_parent')
+                  this.$com.setToken(gainDatas.access_token, gainDatas.refresh_token)
                   this.$cookie.set('canEnterBind', '500')
+
+                  window.open(gainDatas.redirectUrl, '_parent')
                 } else {
                   if (String(gainDatas.isNew) == 'true') {
                     this.$com.setToken(gainDatas.access_token, gainDatas.refresh_token)
                     // this.$cookie.set('token', gainDatas.access_token)
                     // this.$cookie.set('refresh_token', gainDatas.refresh_token)
-                    this.$router.push({
-                      name: 'home',
-                    })
+                    this.$router.push({  name: 'home' })
                   } else {
-                    const openUrl = gainDatas.url + '?userId=' + gainDatas.userId + '&accessToken=' + gainDatas.access_token +
-												'&refreshToken=' + gainDatas.refresh_token
-                    window.open(openUrl, '_parent')
+                    const openUrl = gainDatas.url + '?userId=' + gainDatas.userId + '&accessToken=' + gainDatas.access_token + '&refreshToken=' + gainDatas.refresh_token
                     this.$cookie.set('canEnterBind', '500')
+                    this.$com.setToken(gainDatas.access_token, gainDatas.refresh_token)
+                    window.open(openUrl, '_parent')
                   }
                 }
               } else {
@@ -215,14 +215,10 @@ export default {
               }
             })
           } else {
-            this.$router.push({
-              name: 'bindPhone',
-            })
+            this.$router.push({ name: 'bindPhone' })
           }
         } else {
-          this.$router.push({
-            name: 'bindPhone',
-          })
+          this.$router.push({ name: 'bindPhone' })
         }
       } else if (res.msg == 'bind') {
         this.$router.push({
@@ -233,21 +229,20 @@ export default {
         })
       } else if (res.msg == 'success') {
         if (gainDatas.redirectUrl) {
-          window.open(gainDatas.redirectUrl, '_parent')
           this.$cookie.set('canEnterBind', '500')
+          this.$com.setToken(gainDatas.access_token, gainDatas.refresh_token)
+          window.open(gainDatas.redirectUrl, '_parent')
         } else {
           if (String(gainDatas.isNew) == 'true') {
             this.$com.setToken(gainDatas.access_token, gainDatas.refresh_token)
             // this.$cookie.set('token', gainDatas.access_token)
             // this.$cookie.set('refresh_token', gainDatas.refresh_token)
-            this.$router.push({
-              name: 'home',
-            })
+            this.$router.push({ name: 'home' })
           } else {
-            const openUrl = gainDatas.url + '?userId=' + gainDatas.userId + '&accessToken=' + gainDatas.access_token +
-								'&refreshToken=' + gainDatas.refresh_token
-            window.open(openUrl, '_parent')
+            this.$com.setToken(gainDatas.access_token, gainDatas.refresh_token)
             this.$cookie.set('canEnterBind', '500')
+            const openUrl = gainDatas.url + '?userId=' + gainDatas.userId + '&accessToken=' + gainDatas.access_token + '&refreshToken=' + gainDatas.refresh_token
+            window.open(openUrl, '_parent')
           }
         }
       }

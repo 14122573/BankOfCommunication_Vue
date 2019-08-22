@@ -307,18 +307,23 @@ export default {
             let gainDatas = res.data.content
             if (gainDatas.redirectUrl) {
               this.$cookie.set('canEnterBind', '500')
+              this.$com.setToken(gainDatas.access_token, gainDatas.refresh_token)
+
               window.open(gainDatas.redirectUrl, '_parent')
             } else {
               if (String(gainDatas.isNew) == 'true') {
-                this.$cookie.set('token', gainDatas.access_token)
-                this.$cookie.set('refresh_token', gainDatas.refresh_token)
+                this.$com.setToken(gainDatas.access_token, gainDatas.refresh_token)
+                // this.$cookie.set('token', gainDatas.access_token)
+                // this.$cookie.set('refresh_token', gainDatas.refresh_token)
                 this.$router.push({
                   name: 'home',
                 })
               } else {
                 this.$cookie.set('canEnterBind', '500')
                 const openUrl = gainDatas.url + '?userId=' + gainDatas.userId + '&accessToken=' + gainDatas.access_token +
-										'&refreshToken=' + gainDatas.refresh_token
+                    '&refreshToken=' + gainDatas.refresh_token
+                this.$com.setToken(gainDatas.access_token, gainDatas.refresh_token)
+
                 window.open(openUrl, '_parent')
               }
             }
@@ -354,15 +359,19 @@ export default {
         let gainDatas = res.data.content
         if (gainDatas.redirectUrl) {
           this.$cookie.set('canEnterBind', '500')
+          this.$com.setToken(gainDatas.access_token, gainDatas.refresh_token)
+
           window.open(gainDatas.redirectUrl, '_parent')
         } else {
           if (String(gainDatas.isNew) == 'true') {
-            this.$cookie.set('token', gainDatas.access_token)
-            this.$cookie.set('refresh_token', gainDatas.refresh_token)
+            this.$com.setToken(gainDatas.access_token, gainDatas.refresh_token)
+            // this.$cookie.set('token', gainDatas.access_token)
+            // this.$cookie.set('refresh_token', gainDatas.refresh_token)
             this.$router.push({
               name: 'home',
             })
           } else {
+            this.$com.setToken(gainDatas.access_token, gainDatas.refresh_token)
             this.$cookie.set('canEnterBind', '500')
             const openUrl = gainDatas.url + '?userId=' + gainDatas.userId + '&accessToken=' + gainDatas.access_token +
 								'&refreshToken=' + gainDatas.refresh_token
