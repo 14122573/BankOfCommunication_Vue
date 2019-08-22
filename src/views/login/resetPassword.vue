@@ -4,7 +4,7 @@
 		<div v-if="appearIndex==0" class='linksTips'>
 			<div @click='appearIndex=2'>
 				<img src="@/assets/images/bgResetPwd.png" alt="" class="bgImage">
-					<a-row type="flex" justify="space-around" align="middle" :gutter="10" class='block'>
+				<a-row type="flex" justify="space-around" align="middle" :gutter="10" class='block'>
 					<a-col span='6'><img src="../../assets/images/head1.png" alt="" class="icon"></a-col>
 					<a-col span='16'>
 						<div class="title">已绑定手机用户</div>
@@ -14,7 +14,7 @@
 			</div>
 			<div @click='appearIndex=1' class="unBindLinks">
 				<img src="@/assets/images/bgResetPwd.png" alt="" class="bgImage">
-				<a-row type="flex" justify="space-around" align="middle"   class='block'>
+				<a-row type="flex" justify="space-around" align="middle" class='block'>
 					<a-col span='6'><img src="../../assets/images/head2.png" alt="" class="icon"></a-col>
 					<a-col span='16'>
 						<div class="title">未绑定手机用户</div>
@@ -22,13 +22,13 @@
 					</a-col>
 				</a-row>
 			</div>
-			<div class="returnPage" @click="handleJump" >
+			<div class="returnPage" @click="handleJump">
 				<a-icon type="arrow-left" />返回登录</div>
 		</div>
 		<div v-if="appearIndex==1" class='linksTips'>
 			<div>
 				<img src="@/assets/images/bgResetPwd.png" alt="" class="bgImage">
-				<a-row type="flex" justify="space-around" align="middle"  class='block'>
+				<a-row type="flex" justify="space-around" align="middle" class='block'>
 					<a-col span='6'><img src="../../assets/images/head1.png" alt="" class="icon"></a-col>
 					<a-col span='16'>
 						<div class="title">管理员姓名</div>
@@ -114,135 +114,142 @@
 </template>
 
 <script>
-import testStrong from '@/components/testPwd'
-export default {
-  name: 'register',
-  components: {
-    testStrong
-  },
-  beforeCreate() {
-    this.formRegister = this.$form.createForm(this)
-  },
-  data() {
-    return {
-      pageType: 'login',
-      btnTxt: '发送验证码',
-      disableBtn: true,
-      timer: null,
-      disableCode: false,
-      loginFailMsg: '',
-      visibleError: false,
-      confirmDirty: false,
-      isType: 'text',
-      appearIndex: 0
-    }
-  },
-  methods: {
-    //校验手机号--忘记密码
-    validatePhoneForget(rule, value, callback) {
-      if (!value || value == undefined || value.split(' ').join('').length === 0) {
-        callback('请输入手机号!')
-      } else {
-        if (!this.$com.checkPhone(value)) {
-          callback('手机号输入不合法!')
-          this.disableBtn = true
-        } else {
-          this.disableBtn = false
-          callback()
-        }
-      }
-    },
-    //手机验证码校验
-    validateCode(rule, value, callback) {
-      if (!value || value == undefined || value.split(' ').join('').length === 0) {
-        callback('请输入手机验证码!')
-      } else {
-        if (!/^\d{6}$/.test(value)) {
-          callback('请输入6位数字验证码!')
-        } else {
-          callback()
-        }
-      }
-    },
-    //密码重复密码校验
-    validateToNextPassword(rule, value, callback) {
-      const form = this.formRegister
-      if (value && this.confirmDirty) {
-        form.validateFields(['rePassword'], {
-          force: true
-        })
-      }
-      callback()
-    },
-    compareToFirstPassword(rule, value, callback) {
-      const form = this.formRegister
-      if (value && value !== form.getFieldValue('pwd')) {
-        callback('密码输入不一致!')
-      } else {
-        callback()
-      }
-    },
-    handleConfirmBlur(e) {
-      const value = e.target.value
-      this.confirmDirty = this.confirmDirty || !!value
-    },
-    pasBlur() {
-      this.isType = 'password'
-    },
-    //发送验证码
-    sendCode() {
-      let links = ''
-      // 				if (this.redirectUrlPrefix != 'null') {
-      // 					links = '?redirectUrl=' + this.$cookie.get('redirectUrl')
-      // 				}
-      this.$ajax.get({
-        url: this.$api.GET_SEND_CODE.replace('{phone}', this.formRegister.getFieldValue('username')) + links
-      }).then(res => {
-        if (res.code == '200') {
-          this.disableCode = false
-          this.disableBtn = true
-          let num = 60
-          const interval = () => {
-            this.timer = setInterval(() => {
-              if (num <= 0) {
-                this.clearTimer()
-                return
-              }
-              this.btnTxt = (num -= 1) + 's'
-            }, 1000)
-          }
-          interval()
-        }
-      })
-    },
-    //提交找回密码
-    handleFindPwd() {
-      this.formRegister.validateFields((err, values) => {
-        if (!err) {
-          const params = Object.assign(values, {
-            newPwd: values.pwd
-          })
-          delete params['pwd']
-          delete params['rePassword']
-          this.$ajax.post({
-            url: this.$api.POST_FIND_PASSWORD,
-            params: params
-          }).then(res => {
-            if (res.code == '200') {
-              this.$message.success('找回密码成功！')
-              this.pageType = 'login'
-            } else {
-              this.$message.error(res.msg)
-            }
-          })
-        }
-      })
-    },
-    handleJump() {
-      this.$emit('on-change', 'login')
-    }
-  }
-}
+	import testStrong from '@/components/testPwd'
+	export default {
+		name: 'register',
+		components: {
+			testStrong
+		},
+		beforeCreate() {
+			this.formRegister = this.$form.createForm(this)
+		},
+		data() {
+			return {
+				pageType: 'login',
+				btnTxt: '发送验证码',
+				disableBtn: true,
+				timer: null,
+				disableCode: false,
+				loginFailMsg: '',
+				visibleError: false,
+				confirmDirty: false,
+				isType: 'text',
+				appearIndex: 0
+			}
+		},
+		methods: {
+			//校验手机号--忘记密码
+			validatePhoneForget(rule, value, callback) {
+				if (!value || value == undefined || value.split(' ').join('').length === 0) {
+					callback('请输入手机号!')
+				} else {
+					if (!this.$com.checkPhone(value)) {
+						callback('手机号输入不合法!')
+						this.disableBtn = true
+					} else {
+						if (value.length == 11) {
+							let links = '?phone=' + value
+							this.$ajax.get({
+								url: this.$api.GET_CHECK_PHONE + links
+							}).then(res => {
+								if (res.data.content == false) {
+									this.disableBtn = false
+									callback()
+								} else {
+									callback('此用户已经存在!')
+									this.disableBtn = true
+								}
+							})
+						}
+					}
+				}
+			},
+			//手机验证码校验
+			validateCode(rule, value, callback) {
+				if (!value || value == undefined || value.split(' ').join('').length === 0) {
+					callback('请输入手机验证码!')
+				} else {
+					if (!/^\d{6}$/.test(value)) {
+						callback('请输入6位数字验证码!')
+					} else {
+						callback()
+					}
+				}
+			},
+			//密码重复密码校验
+			validateToNextPassword(rule, value, callback) {
+				const form = this.formRegister
+				if (value && this.confirmDirty) {
+					form.validateFields(['rePassword'], {
+						force: true
+					})
+				}
+				callback()
+			},
+			compareToFirstPassword(rule, value, callback) {
+				const form = this.formRegister
+				if (value && value !== form.getFieldValue('pwd')) {
+					callback('密码输入不一致!')
+				} else {
+					callback()
+				}
+			},
+			handleConfirmBlur(e) {
+				const value = e.target.value
+				this.confirmDirty = this.confirmDirty || !!value
+			},
+			pasBlur() {
+				this.isType = 'password'
+			},
+			//发送验证码
+			sendCode() {
+				this.$ajax.get({
+					url: this.$api.GET_SEND_CODE.replace('{phone}', this.formRegister.getFieldValue('username'))
+				}).then(res => {
+					if (res.code == '200') {
+						this.disableCode = false
+						this.disableBtn = true
+						let num = 60
+						const interval = () => {
+							this.timer = setInterval(() => {
+								if (num <= 0) {
+									this.clearTimer()
+									return
+								}
+								this.btnTxt = (num -= 1) + 's'
+							}, 1000)
+						}
+						interval()
+					}
+				})
+			},
+			//提交找回密码
+			handleFindPwd() {
+				this.formRegister.validateFields((err, values) => {
+					if (!err) {
+						const params = Object.assign(values, {
+							newPwd: values.pwd
+						})
+						delete params['pwd']
+						delete params['rePassword']
+						this.$ajax.post({
+							url: this.$api.POST_FIND_PASSWORD,
+							params: params
+						}).then(res => {
+							if (res.code == '200') {
+								this.$emit('on-success','找回密码成功！');
+							} else {
+								this.$message.error(res.msg)
+							}
+						})
+					}
+				})
+			},
+			handleJump() {
+				this.$emit('on-change', 'login')
+			}
+		}
+	}
 </script>
 
 <style scoped>
@@ -295,14 +302,17 @@ export default {
 		height: 90px;
 		position: relative;
 	}
-	.linksTips .title{
-		color:black;
-		font-weight:bold;
+
+	.linksTips .title {
+		color: black;
+		font-weight: bold;
 		font-size: 14px;
 	}
-	.linksTips .desc{
+
+	.linksTips .desc {
 		font-size: 12px;
 	}
+
 	.bgImage {
 		width: 100%;
 		height: 90px;
@@ -314,18 +324,21 @@ export default {
 	.returnPage {
 		text-align: center;
 		line-height: 90px;
-		margin-top: 55px!important;
+		margin-top: 55px !important;
 	}
-	.backPage{
+
+	.backPage {
 		line-height: 90px;
-		margin-top: 165px!important;
+		margin-top: 165px !important;
 		text-align: center;
 	}
-	.icon{
+
+	.icon {
 		width: 50px;
 		height: 50px;
-	 }	
-	 .block{
-		 height: 90px;
-	 }
+	}
+
+	.block {
+		height: 90px;
+	}
 </style>
