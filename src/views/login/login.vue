@@ -8,8 +8,7 @@
 				</a-row>
 			</div>
 			<div class="form">
-				<transition name="fade" mode="out-in" v-if='pageType=="login"'>
-					<div class="login">
+				<div class="login" v-if='pageType=="login"'>
 						<h2>用户登录</h2>
 						<a-form :form="formLogin" class="login-form">
 							<a-form-item>
@@ -31,7 +30,7 @@
 								</a-input>
 							</a-form-item>
 							<input type="text" style="display:none">
-							<!-- <a-form-item class="login-form-password">
+							<a-form-item class="login-form-password">
 								<a-row type="flex" justify="space-between">
 									<a-col :span="12">
 										<div class="qrcode">
@@ -43,10 +42,9 @@
 										   placeholder="验证码" autocomplete="off"/>
 									</a-col>
 								</a-row>
-							</a-form-item> -->
+							</a-form-item>
 							<div class="showError">
 								<div v-if="visibleError" ><a-icon type="close-circle" />&nbsp;&nbsp;{{loginFailMsg}}</div>
-<!-- 								<a-alert type="error" :message="loginFailMsg" showIcon closable :afterClose="handleClose" /> -->
 							</div>
 							<a-form-item>
 								<a-row type="flex" justify="space-between">
@@ -64,7 +62,6 @@
 							</a-form-item>
 						</a-form>
 					</div>
-				</transition>
 				<Register v-if='pageType=="register"' @on-change='pageTypeChange' @on-success='changeSuccess'></Register>
 				<ResetPassword v-if='pageType=="findPassword"' @on-change='pageTypeChange' @on-success='changeSuccess'></ResetPassword>
 				<opeationSuccess v-if='pageType=="success"'  @on-change='pageTypeChange' :successText='successText'></opeationSuccess>
