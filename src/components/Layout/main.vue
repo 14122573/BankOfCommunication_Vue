@@ -9,13 +9,10 @@
 			<a-layout>
 				<a-layout-sider :collapsed="collapsed" breakpoint="lg" collapsedWidth="80" width="16%" :style="{ overflow: 'auto', height: '100vh', position: 'fixed', left: 0,zIndex:2 }">
 					<div id="portalLogo">
-            <!-- <div class="portalLogoWapper"> -->
-            <a-row class="portalLogoWapper" type="flex" justify="center" align="middle" >
-              <a-col span=5><span class="logo-img"></span></a-col>
-              <a-col span=11><span class="logo-name">智能渔技</span></a-col>
+            <a-row class="portalLogoWapper" type="flex" justify="center" align="middle" :gutter="10">
+              <a-col :span='collapsed?24:5' :style="collapsed?'text-align:center':'text-align:right'"><span class="logo-img"></span></a-col>
+              <a-col v-if="!collapsed" span=11><span class="logo-name">智能渔技</span></a-col>
             </a-row>
-            <!-- </div> -->
-						<!-- <span class="logo-img"></span><span v-if="!collapsed" class="logo-title">智能渔技</span> -->
 					</div>
 					<SideMenu :menuMode="menuMode" :collapsed="collapsed"></SideMenu>
 				</a-layout-sider>
