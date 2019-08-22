@@ -154,7 +154,7 @@ export default {
   },
   data() {
     return {
-      disPhoneCheckCode: false,
+      disPhoneCheckCode: true,
       sendCodeBtnText: '发送验证码',
       allowSendCode: true,
       sendCodeTimer: null,
@@ -372,6 +372,7 @@ export default {
       clearInterval(this.sendCodeTimer)
       this.sendCodeBtnText = '获取验证码'
       this.allowSendCode = false
+      this.disPhoneCheckCode = true
     },
   }
 }
