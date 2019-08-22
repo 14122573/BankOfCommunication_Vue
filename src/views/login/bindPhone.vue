@@ -195,7 +195,7 @@
 		</div>
 		<div class="footer">
 			<p>主办单位：全国水产技术推广总站、中国水产学会&nbsp;&nbsp;&nbsp;&nbsp; 技术支持：博彦科技股份有限公司</p>
-			<p>COPYRIGHT&copy;-2016 ALL RIGHTS RESERVED │ 沪ICP备13003917号 </p>
+			<p>COPYRIGHT&copy;-2016 ALL RIGHTS RESERVED │ 沪备13003917号 </p>
 		</div>
 	</div>
 </template>
@@ -308,22 +308,19 @@ export default {
             if (gainDatas.redirectUrl) {
               this.$cookie.set('canEnterBind', '500')
               this.$com.setToken(gainDatas.access_token, gainDatas.refresh_token)
-
               window.open(gainDatas.redirectUrl, '_parent')
             } else {
               if (String(gainDatas.isNew) == 'true') {
-                this.$com.setToken(gainDatas.access_token, gainDatas.refresh_token)
-                // this.$cookie.set('token', gainDatas.access_token)
-                // this.$cookie.set('refresh_token', gainDatas.refresh_token)
+                this.$cookie.set('token', gainDatas.access_token)
+                this.$cookie.set('refresh_token', gainDatas.refresh_token)
                 this.$router.push({
                   name: 'home',
                 })
               } else {
                 this.$cookie.set('canEnterBind', '500')
-                const openUrl = gainDatas.url + '?userId=' + gainDatas.userId + '&accessToken=' + gainDatas.access_token +
-                    '&refreshToken=' + gainDatas.refresh_token
                 this.$com.setToken(gainDatas.access_token, gainDatas.refresh_token)
-
+                const openUrl = gainDatas.url + '?userId=' + gainDatas.userId + '&accessToken=' + gainDatas.access_token +
+										'&refreshToken=' + gainDatas.refresh_token
                 window.open(openUrl, '_parent')
               }
             }
@@ -360,19 +357,17 @@ export default {
         if (gainDatas.redirectUrl) {
           this.$cookie.set('canEnterBind', '500')
           this.$com.setToken(gainDatas.access_token, gainDatas.refresh_token)
-
           window.open(gainDatas.redirectUrl, '_parent')
         } else {
           if (String(gainDatas.isNew) == 'true') {
-            this.$com.setToken(gainDatas.access_token, gainDatas.refresh_token)
-            // this.$cookie.set('token', gainDatas.access_token)
-            // this.$cookie.set('refresh_token', gainDatas.refresh_token)
+            this.$cookie.set('token', gainDatas.access_token)
+            this.$cookie.set('refresh_token', gainDatas.refresh_token)
             this.$router.push({
               name: 'home',
             })
           } else {
-            this.$com.setToken(gainDatas.access_token, gainDatas.refresh_token)
             this.$cookie.set('canEnterBind', '500')
+            this.$com.setToken(gainDatas.access_token, gainDatas.refresh_token)
             const openUrl = gainDatas.url + '?userId=' + gainDatas.userId + '&accessToken=' + gainDatas.access_token +
 								'&refreshToken=' + gainDatas.refresh_token
             window.open(openUrl, '_parent')

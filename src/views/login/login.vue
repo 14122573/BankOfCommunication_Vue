@@ -65,13 +65,14 @@
 						</a-form>
 					</div>
 				</transition>
-				<Register v-if='pageType=="register"' @on-change='pageTypeChange'></Register>
-				<ResetPassword v-if='pageType=="findPassword"' @on-change='pageTypeChange'></ResetPassword>
+				<Register v-if='pageType=="register"' @on-change='pageTypeChange' @on-success='changeSuccess'></Register>
+				<ResetPassword v-if='pageType=="findPassword"' @on-change='pageTypeChange' @on-success='changeSuccess'></ResetPassword>
+				<opeationSuccess v-if='pageType=="success"'  @on-change='pageTypeChange' :successText='successText'></opeationSuccess>
 			</div>
 		</div>
 		<div class="footer">
 			<p>主办单位：全国水产技术推广总站、中国水产学会&nbsp;&nbsp;&nbsp;&nbsp; 技术支持：博彦科技股份有限公司</p>
-			<p>COPYRIGHT&copy;-2016 ALL RIGHTS RESERVED │ 沪ICP备13003917号 </p>
+			<p>COPYRIGHT&copy;-2016 ALL RIGHTS RESERVED │ 沪备13003917号 </p>
 		</div>
 	</div>
 </template>
@@ -83,12 +84,14 @@ import {
 import testStrong from '@/components/testPwd'
 import Register from '@/views/login/register'
 import ResetPassword from '@/views/login/ResetPassword'
+import opeationSuccess from '@/views/login/success'
 export default {
   name: 'Login',
   components: {
     testStrong,
     Register,
-    ResetPassword
+    ResetPassword,
+		opeationSuccess
   },
   mixins: [permission],
   beforeCreate() {
@@ -102,6 +105,7 @@ export default {
       visibleError: false,
       isType: 'text',
       remember: false, // 设置是否7天免登录
+			successText:''
     }
   },
   mounted() {
@@ -275,7 +279,11 @@ export default {
     },
     pageTypeChange(data) {
       this.pageType = data
-    }
+    },
+		changeSuccess(data){
+			this.pageType = 'success';
+			this.successText=data;
+		}
   }
 }
 </script>
