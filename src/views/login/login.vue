@@ -4,7 +4,7 @@
 			<div class="matching">
 				<a-row type="flex" justify="start" align="middle" :gutter="10">
 					<a-col offset="1"><img src="../../assets/images/logo.png" alt="" class="logo"></a-col>
-					<a-col>“智能渔技综合服务平台”</a-col>
+					<a-col>“智能渔技”综合信息服务平台</a-col>
 				</a-row>
 			</div>
 			<div class="form">
