@@ -6,10 +6,10 @@
 				<a-button type="primary" ghost @click="handleReturn">
 					返回
 				</a-button>
-				<a-button type="primary" ghost @click="handleEdit">
+				<a-button type="primary"  @click="handleEdit">
 					修改
 				</a-button>
-				<a-button type="primary" ghost @click="handleSave">
+				<a-button type="danger" ghost  @click="handleSave">
 					删除
 				</a-button>
 			</a-col>
