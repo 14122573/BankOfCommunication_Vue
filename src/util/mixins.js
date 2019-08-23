@@ -10,8 +10,7 @@ export const permission = {
      */
     getInfo() {
       this.$ajax.get({
-        url: this.$api.GET_USER_INFO,
-        params: {}
+        url: this.$api.GET_USER_INFO
       }).then(res => {
         // 本地存储用户基本信息
         let userInfo = res.data.content ,name ,oldSysAuthCode
