@@ -1,9 +1,9 @@
 <template>
 	<div style="margin-top:-24px">
-		<div class='input_span'>
-			<span id="one"></span>
-			<span id="two"></span>
-			<span id="three"></span>
+		<div class='input_span' >
+			<span id="one" :style="returnStyle"></span>
+			<span id="two" :style="returnStyle"></span>
+			<span id="three" :style="returnStyle"></span>
 		</div>
 	</div>
 </template>
@@ -33,13 +33,21 @@ export function checkStrong(sValue) {
   return modes
 }
 export default {
-  props: ['pwd'],
+  props: ['pwd','width'],
   data() {
     return {
       msgText: '',
     }
   },
-  methods: {},
+  computed: {
+    returnStyle(){
+      if(this.width){
+        return{
+          width:this.width+'px'
+        }
+      }
+    }
+  },
   watch: {
     pwd(newValue, oldValue) {
       this.msgText = checkStrong(newValue)

@@ -6,4 +6,5 @@ export default {
   hasAllRight: false,
   showSpaContent: false,
   userName: '',
+  userInfos:null
 }

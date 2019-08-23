@@ -1,31 +1,21 @@
 // const Layout = () => import('@/components/Layout/main')
-const contentWrapper = () =>
-    import ('@/components/Layout/content-wrapper')
-const TipsNetworkErr = () =>
-    import ('@/views/tips/network')
-const TipsNoAuth = () =>
-    import ('@/views/tips/auth')
-const TipsOutsite = () =>
-    import ('@/views/tips/outsite')
-const HomePage = () =>
-    import ('@/views/home')
-const LoginPage = () =>
-    import ('@/views/login')
-const BindPhone = () =>
-    import ('@/views/bindPhone')
-const PersonCenter = () =>
-    import ('@/views/person-center')
-    // 系统管理---组织机构
-    // contentOrganization
-const contentOrganization = () =>
-    import ('@/views/systemManagement/content-organization')
-const Organization = () =>
-    import ('@/views/systemManagement/organization/list')
-const OrganizationUpload = () =>
-    import ('@/views/systemManagement/organization/upload')
-const OrganizationCreate = () =>
-    import ('@/views/systemManagement/organization/create')
-
+const contentWrapper = () => import ('@/components/Layout/content-wrapper')
+const TipsNetworkErr = () => import ('@/views/tips/network')
+const TipsNoAuth = () => import ('@/views/tips/auth')
+const TipsOutsite = () => import ('@/views/tips/outsite')
+const HomePage = () => import ('@/views/home')
+const LoginPage = () => import ('@/views/login/login')
+const RegisterPage = () => import ('@/views/login/register')
+const OldSysLogout= () => import ('@/views/login/oldSysLogout')
+const BindPhone = () => import ('@/views/login/bindPhone')
+const PersonCenter = () => import ('@/views/person-center')
+// 系统管理---组织机构
+// contentOrganization
+const contentOrganization = () => import ('@/views/systemManagement/content-organization')
+const Organization = () => import ('@/views/systemManagement/organization/list')
+const OrganizationUpload = () => import ('@/views/systemManagement/organization/upload')
+const OrganizationCreate = () => import ('@/views/systemManagement/organization/create')
+const OrganizationView = () => import ('@/views/systemManagement/organization/view')
 /**
  * 要求：
  *  1、配置Router时，需将此router的权限编码信息、打开方式信息、是否在面包屑隐藏信息、是否为左侧菜单、是否有菜单图标配置在内。
@@ -40,8 +30,7 @@ const OrganizationCreate = () =>
  * meta.openMode 标记此路由点击后展示打开的方式。若值为normal，可不设置此字段
  *               spa 注册子前端项目的路由。注，此时设置的router.name为子项目展现路由名称的name，且需带上子项目名称前缀。如：/{micname}/{子项目router.name}，且无需设定router.component
  *               normal 本项目中自有路由
- *               outsite 新开标签页打开，此打开方式将不嵌套layout
- * meta.outsiteLink 当meta.openMode 为outsite时，必须配置此字段，并设置完整跳转页面的href
+ *               outsite 新开标签页打开，此打开方式将不嵌套layout。对应读取的跳转链接在，config/outside-config.js下。对象键值名需与router.name、router.meta.authCode保持一致
  *
  */
 const appRoutes = [{
@@ -62,25 +51,40 @@ const appRoutes = [{
       path: '/systemManagement',
       name: 'systemManagement',
       component: contentOrganization,
-      meta: { title: '系统管理', menuPath: true, authCode: 'S0501', menuIcon: 'setting', hideInBread: true },
+      meta: { title: '系统管理', menuPath: true, authCode: 'P00000', menuIcon: 'setting', hideInBread: true },
       children: [{
         path: '/systemManagement/organization',
         name: '/systemManagement/organization',
         component: Organization,
-        meta: { title: '组织机构管理', menuPath: true, authCode: 'S050101', menuIcon: 'cluster', hideInBread: false, openMode: 'normal' }
+        meta: { title: '组织机构管理', menuPath: true, authCode: 'P01000', menuIcon: 'cluster', hideInBread: false, openMode: 'normal' },
+        children:[
+          {
+            path: '/systemManagement/organization/upload',
+            name: '/systemManagement/organization/upload',
+            component: OrganizationUpload,
+            meta: { title: '导入', menuPath: false, authCode: 'P01005', menuIcon: 'setting', hideInBread: false, openMode: 'normal' }
+          },
+          {
+            path: '/organization/create',
+            name: '/organization/create',
+            component: OrganizationCreate,
+            meta: { title: '创建', menuPath: false, authCode: 'P01001', menuIcon: 'cluster', hideInBread: false, openMode: 'normal' }
+          },
+          {
+            path: '/organization/view',
+            name: '/organization/view',
+            component: OrganizationView,
+            meta: { title: '查看', menuPath: false, authCode: 'P01002', menuIcon: 'cluster', hideInBread: false, openMode: 'normal' }
+          },
+          {
+            path: '/organization/edit',
+            name: '/organization/edit',
+            component: OrganizationCreate,
+            meta: { title: '编辑', menuPath: false, authCode: 'P01003', menuIcon: 'cluster', hideInBread: false, openMode: 'normal' }
+          }
+        ]
       },
-      {
-        path: '/systemManagement/organization/upload',
-        name: '/systemManagement/organization/upload',
-        component: OrganizationUpload,
-        meta: { title: '导入', menuPath: false, authCode: 'S050101', menuIcon: 'setting', hideInBread: false, openMode: 'normal' }
-      },
-      {
-			 path: '/organization/create',
-			 name: '/organization/create',
-			 component: OrganizationCreate,
-			 meta: { title: '组织机构创建', menuPath: false, authCode: 'S050101', menuIcon: 'cluster', hideInBread: false, openMode: 'normal' }
-      }]
+      ]
     },
     {
       path: '/scsd',
@@ -88,8 +92,8 @@ const appRoutes = [{
       component: contentWrapper,
       meta: { title: '水产新品种审定', menuPath: true, authCode: 'S0501', menuIcon: 'barcode', hideInBread: true },
       children: [{
-        path: '/scsd/post/scsdPos',
-        name: '/scsd/post/scsdPos',
+        path: '/scsd/post/scsdPost',
+        name: '/scsd/post/scsdPost',
         meta: { title: '完善申报信息', menuPath: true, authCode: 'S050101', menuIcon: 'exception', hideInBread: false, openMode: 'spa' },
       },
       {
@@ -128,25 +132,25 @@ const appRoutes = [{
       path: '/SCYJ/:sysname',
       name: 'SCYJ',
       component: TipsOutsite,
-      meta: { title: '水产预警系统', menuPath: true, authCode: 'SCYJ', menuIcon: 'alert', hideInBread: false, openMode: 'outsite', outsiteLink: 'http://47.102.155.97:8080' },
+      meta: { title: '国家水生动物疫情预警系统', menuPath: true, authCode: 'SCYJ', menuIcon: 'alert', hideInBread: false, openMode: 'outsite' },
     },
     {
       path: '/YQCB/:sysname',
       name: 'YQCB',
       component: TipsOutsite,
-      meta: { title: '全国水产养殖动植物病情测报系统', menuPath: true, menuIcon: 'cloud-upload', authCode: 'YQCB', hideInBread: false, openMode: 'outsite', outsiteLink: 'http://47.102.155.97:8081' },
+      meta: { title: '全国水产养殖动植物病情测报系统', menuPath: true, menuIcon: 'cloud-upload', authCode: 'YQCB', hideInBread: false, openMode: 'outsite' },
     },
     {
       path: '/ZXJC/:sysname',
       name: 'ZXJC',
       component: TipsOutsite,
-      meta: { title: '国家水生动物疫病监测信息管理系统', menuPath: true, menuIcon: 'hdd', authCode: 'ZXJC', hideInBread: false, openMode: 'outsite', outsiteLink: 'http://47.102.155.97:8082' },
+      meta: { title: '国家水生动物疫病监测信息管理系统', menuPath: true, menuIcon: 'hdd', authCode: 'ZXJC', hideInBread: false, openMode: 'outsite' },
     },
     {
       path: '/NYPC/:sysname',
       name: 'NYPC',
       component: TipsOutsite,
-      meta: { title: '水产养殖动物病原菌耐药性普查数据分析系统', menuPath: true, menuIcon: 'experiment', authCode: 'NYPC', hideInBread: false, openMode: 'outsite', outsiteLink: 'http://47.102.155.97:8083' }
+      meta: { title: '水产养殖动物病原菌耐药性普查数据分析系统', menuPath: true, menuIcon: 'experiment', authCode: 'NYPC', hideInBread: false, openMode: 'outsite' }
     },
   ],
 },
@@ -154,13 +158,25 @@ const appRoutes = [{
   path: '/login',
   name: 'login',
   component: LoginPage,
-  meta: { title: '登录', authCode: 'S050107' },
+  meta: { title: '登录' },
+},
+{
+  path: '/register',
+  name: 'register',
+  component: RegisterPage,
+  meta: { title: '注册'  },
 },
 {
   path: '/bindPhone',
   name: 'bindPhone',
   component: BindPhone,
   meta: { title: '选择系统绑定手机号', },
+},
+{
+  path: '/oldSysLogout',
+  name: 'oldSysLogout',
+  component: OldSysLogout,
+  meta: { title: '老系统安全登出', },
 },
 {
   path: '/networkerr',

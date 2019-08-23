@@ -13,23 +13,34 @@ export const permission = {
         url: this.$api.GET_USER_INFO,
         params: {}
       }).then(res => {
-        console.log(res)
         // 本地存储用户基本信息
-        let userInfo = res.data.content,
-          name = userInfo.username = res.data.content.name||res.data.content.phone
-        this.$cookie.set('userInfo', userInfo)
-        this.$cookie.set('userName', name)
-        this.$store.commit('SET_USERNAME', name)
+        let userInfo = res.data.content ,name ,oldSysAuthCode
+        if(!res.data || !res.data.content){
+          userInfo = {}
+          name = ''
+          oldSysAuthCode = []
+        }else{
+          userInfo = res.data.content
+          let name = userInfo.username = res.data.content.name||res.data.content.phone
+          this.$store.commit('SET_USERINFO',userInfo)
+          this.$cookie.set('userName', name)
+          this.$store.commit('SET_USERNAME', name)
+          oldSysAuthCode = getOldSysAuthCode(userInfo.sysDicSet)
+        }
 
+        const isAllPerm = false
         // 此处应API获取用户权限信息，先暂写死权限信息
         this.$ajax.get({
-          url: this.$api.GET_USER_PEIMISSION,
-          params: {}
+          url: this.$api.GET_USER_PEIMISSION
         }).then(res=>{
-          // todo: 目前写死权限，是否有全部权限
-          const isAllPerm = false
           // 当前用户全部权限编码，包含菜单及功能操作
-          let authCodeList = [ 'S0501', 'S050101', 'S050102', 'S050102', 'S050103', 'S050104', 'S050105', 'S050106', 'S050107', 'SCYJ','YQCB','NYPC','ZXJC' ]
+          let authCodeList = []
+          if(res.data!=undefined && res.data!=null && res.data.content!=undefined && res.data.content!=null){
+            authCodeList = res.data.content.concat(oldSysAuthCode)
+          }else{
+            authCodeList = oldSysAuthCode
+          }
+          // 预设用户权限菜单
           let authMenuAll = []
           // 写入vuex
           this.$store.commit('SET_MENU', {authMenuAll , authCodeList, isAllPerm})
@@ -57,20 +68,25 @@ export const permission = {
       }else { // 只有部分权限，需根据权限码组装菜单
 
         // 从vuex中取出存入的权限码，若不存在重新声明
-        let authCodeList = this.$store.state.permissionCodeList ? this.$store.state.permissionCodeList:[]
+        let authCodeList = this.$store.state.permissionCodeList.length>0 ? this.$store.state.permissionCodeList:[]
 
         if(authCodeList.length>0){ //vuex中存有权限码信息
-
           authMenuAll = getSideMenu(routes,authCodeList)
           this.$store.commit('SET_MENU', {authMenuAll, authCodeList, isAllPerm})
         }else{ // vuex中不存在权限码信息，需重新调用接口再获取
-
           this.$ajax.get({
             url: this.$api.GET_USER_PEIMISSION,
             params: {}
           }).then(res=>{
-            // todo:调用权限获取接口，重新获取权限编码
-            let authCodeList = [ 'S0501', 'S050101', 'S050102', 'S050102', 'S050103', 'S050104', 'S050105', 'S050106', 'S050107', 'SCYJ','YQCB','NYPC','ZXJC' ]
+            // 当前用户全部权限编码，包含菜单及功能操作
+            let oldSysDatas = this.$store.state.userInfos.sysDicSet
+            let authCodeList = [],oldSysAuthCode = getOldSysAuthCode(oldSysDatas)
+            if(res.data!=undefined && res.data!=null && res.data.content!=undefined && res.data.content!=null){
+              authCodeList = res.data.content.concat(oldSysAuthCode)
+            }else{
+              authCodeList = oldSysAuthCode
+            }
+
             authMenuAll = getSideMenu(routes,authCodeList)
             this.$store.commit('SET_MENU', {authMenuAll, authCodeList, isAllPerm})
           })
@@ -106,6 +122,18 @@ function checkHideInBread(routerName) {
 }
 export {
   checkHideInBread
+}
+
+
+function getOldSysAuthCode(syslist){
+  let oldSysAuthCode = []
+
+  if(syslist == undefined || syslist == null || 'object' != typeof syslist) return oldSysAuthCode
+
+  for(let i=0;i<syslist.length;i++){
+    oldSysAuthCode.push(syslist[i].sysCode)
+  }
+  return oldSysAuthCode
 }
 /**
  * 递归遍历所有router，找到某一个router节点

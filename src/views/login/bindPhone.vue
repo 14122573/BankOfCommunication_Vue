@@ -3,8 +3,8 @@
 		<div class="chooseSystem">
 			<div>
 				<a-row type="flex" justify="start" align="middle" :gutter="10">
-					<a-col><img src="../assets/images/logo.png" alt="" class="logo"></a-col>
-					<a-col>“综合渔技智能服务平台”</a-col>
+					<a-col><img src="../../assets/images/logo.png" alt="" class="logo"></a-col>
+					<a-col>“智能渔技”综合信息服务平台</a-col>
 				</a-row>
 			</div>
 			<div class="systemBlock" v-if='right!="完成绑定"'>
@@ -14,8 +14,8 @@
 				<div class="systemLists">
 					<div class="systemItem" v-for="(item,index) in systemLists" :key="index" @click="selectSystem(item,index)">
 						{{item.sysDic.sysName}}
-						<img src="../assets/images/system-s.png" alt="" class="checkImage" v-show='activeIndex==index' />
-						<img src="../assets/images/isBind.png" alt="" class="checkImage" v-show='item.isBind=="true"||item.isBind=="1"' />
+						<img src="../../assets/images/system-s.png" alt="" class="checkImage" v-show='activeIndex==index' />
+						<img src="../../assets/images/isBind.png" alt="" class="checkImage" v-show='item.isBind=="true"||item.isBind=="1"' />
 					</div>
 				</div>
 			</div>
@@ -28,42 +28,73 @@
 							<a-form-item>
 								<a-input v-decorator="[
 									  'phone',
-									  { validateTrigger:'blur',
+									  { validateTrigger:'change',
 										 rules: [
 									  { validator: validatePhone}] }
 									]"
-								 placeholder="手机号">
+								 placeholder="手机号" :disabled='disablePhone'>
 									<a-icon slot="prefix" type="mobile" style="color: rgba(0,0,0,.25)" />
 								</a-input>
 							</a-form-item>
 						</a-col>
-						<a-col :span="10">
+						<a-col :span="7">
 							<a-form-item>
-								<a-row type="flex" justify="start" :gutter="10" align="middle">
-									<a-col :span="16">
-										<a-input v-decorator="[
+								<a-input v-decorator="[
 											  'code',
 											  { validateTrigger:'blur',
-                        rules: [
+                                            rules: [
 											  {validator: validateCode}] }
 											]"
-										 placeholder="手机验证码" :disabled='disableCode'>
-											<a-icon slot="prefix" type="code" style="color: rgba(0,0,0,.25)" />
-										</a-input>
-									</a-col>
-									<a-col :span="8">
-										<a-button type="primary" :disabled='disableBtn' ghost @click="sendCode" size="small" style="height:42px">
-											{{btnTxt}}
-										</a-button>
-									</a-col>
-								</a-row>
+								 placeholder="手机验证码" :disabled='disableCode'>
+									<a-icon slot="prefix" type="code" style="color: rgba(0,0,0,.25)" />
+								</a-input>
+
+							</a-form-item>
+						</a-col>
+						<a-col :span="4">
+							<a-form-item>
+								<a-button type="primary" :disabled='disableBtn' ghost @click="sendCode" size="small" style="height:42px;min-width: 86px;">
+									{{btnTxt}}
+								</a-button>
 							</a-form-item>
 						</a-col>
 					</a-row>
 					<div v-if="!isBind">
 						<div class="tips">{{tips}}</div>
 						<a-row type="flex" justify="start" align="middle" :gutter="10">
-							<a-col>
+							<a-col span="7">
+								<a-form-item>
+									<a-input v-decorator="[
+										  'password',
+										  {
+											validateTrigger:'blur',
+											rules: [ {
+												validator: validateToNextPassword,
+											}] }
+										]"
+									 type="password" placeholder="密码需大于6位且含字母和数字">
+										<a-icon slot="prefix" type="lock" style="color: rgba(0,0,0,.25)" />
+									</a-input>
+								</a-form-item>
+								<testStrong :pwd="formBind.getFieldValue('password')" :width="75" v-show="passwordStrength"></testStrong>
+							</a-col>
+							<a-col span="7">
+								<a-form-item>
+									<a-input v-decorator="[
+										  'rePassword',
+										  { validateTrigger:'blur',
+                        rules: [{ required: true, message: '请重复填写密码!' }, {
+											  validator: compareToFirstPassword,
+											}] }
+										]"
+									 type="password" placeholder="重复密码" @blur="handleConfirmBlur">
+										<a-icon slot="prefix" type="lock" style="color: rgba(0,0,0,.25)" />
+									</a-input>
+								</a-form-item>
+							</a-col>
+						</a-row>
+						<a-row type="flex" justify="start" align="middle" :gutter="10">
+							<a-col span="7">
 								<a-form-item>
 									<a-input v-decorator="[
 											  'name',
@@ -78,40 +109,12 @@
 									</a-input>
 								</a-form-item>
 							</a-col>
-							<a-col>
-								<a-form-item>
-									<a-input v-decorator="[
-										  'password',
-										  {validateTrigger:'blur',
-											rules: [{ required: true, message: '请输入密码!' }, {
-																  validator: validateToNextPassword,
-																}] }
-										]"
-									 type="password" placeholder="密码">
-										<a-icon slot="prefix" type="lock" style="color: rgba(0,0,0,.25)" />
-									</a-input>
-								</a-form-item>
-							</a-col>
-							<a-col>
-								<a-form-item>
-									<a-input v-decorator="[
-										  'rePassword',
-										  { validateTrigger:'blur',
-                      rules: [{ required: true, message: '请重复填写密码!' }, {
-											  validator: compareToFirstPassword,
-											}] }
-										]"
-									 type="password" placeholder="重复密码" @blur="handleConfirmBlur">
-										<a-icon slot="prefix" type="lock" style="color: rgba(0,0,0,.25)" />
-									</a-input>
-								</a-form-item>
-							</a-col>
-							<a-col>
+							<a-col span="7">
 								<a-form-item>
 									<a-input v-decorator="[
 										  'mail',
 										  {
-                      validateTrigger:'blur',
+                                            validateTrigger:'blur',
 											rules: [{
 											  type: 'email', message: '请输入合法邮箱!',
 											}, {
@@ -124,25 +127,7 @@
 									</a-input>
 								</a-form-item>
 							</a-col>
-						</a-row>
-
-						<a-row type="flex" justify="start" align="middle" :gutter="10">
-							<a-col>
-								<a-form-item>
-									<a-input v-decorator="[
-										  'addr',
-										  {
-											rules: [ {
-											  required: true, message: '请输入地址!',
-											}]
-										  }
-										]"
-									 type="text" placeholder="地址">
-										<a-icon slot="prefix" type="environment" style="color: rgba(0,0,0,.25)" />
-									</a-input>
-								</a-form-item>
-							</a-col>
-							<a-col>
+							<a-col span='10'>
 								<a-form-item>
 									<a-input v-decorator="[
 										  'dept',
@@ -157,16 +142,34 @@
 									</a-input>
 								</a-form-item>
 							</a-col>
-							<a-col>
+						</a-row>
+						<a-row type="flex" justify="start" align="middle" :gutter="10">
+							<a-col span='14'>
+								<a-form-item>
+									<a-input v-decorator="[
+										  'addr',
+										  {
+											rules: [ {
+											  required: true, message: '请输入地址!',
+											}]
+										  }
+										]"
+									 type="text" placeholder="地址">
+										<a-icon slot="prefix" type="environment" style="color: rgba(0,0,0,.25)" />
+									</a-input>
+								</a-form-item>
+							</a-col>
+
+							<a-col span='7'>
 								<a-form-item>
 									<a-input v-decorator="[
 										  'zipCode',
 										  {
-                        validateTrigger:'blur',
-                        rules: [ {
-                          required: true,
-                            validator: checkZipCode,
-                        }]
+											validateTrigger:'blur',
+											rules: [ {
+											  required: true,
+												validator: checkZipCode,
+											}]
 										  }
 										]"
 									 type="text" placeholder="邮编">
@@ -174,24 +177,30 @@
 									</a-input>
 								</a-form-item>
 							</a-col>
-							<!-- <a-col>“综合渔技智能服务平台”</a-col> -->
 						</a-row>
 					</div>
 				</a-form>
 			</div>
-			<img src="../assets/images/border.png" alt="" class="border">
+			<img src="../../assets/images/border.png" alt="" class="border">
 			<div class="btnGroup">
-				<a-button type="primary" @click="showLeft">
-					{{left}}
-				</a-button>
-				<a-button type="primary" @click="showRight">
-					{{right}}
-				</a-button>
+        <div v-if="hasLogined" @click="toLogin">
+          <img src="../../assets/images/left.png" alt="">
+					<div>退出</div>
+        </div>
+				<div v-else @click="showLeft">
+					<img src="../../assets/images/left.png" alt="">
+					<div>{{left}}</div>
+				</div>
+				<div @click="showRight">
+					<img src="../../assets/images/right2.png" alt="" v-if='disableNext'>
+					<img src="../../assets/images/right.png" alt="" v-else>
+					<div>{{right}}</div>
+				</div>
 			</div>
 		</div>
 		<div class="footer">
-			<p>主办单位：全国水产技术推广总站、中国水产协会&nbsp;&nbsp;&nbsp;&nbsp; 技术支持：博彦科技股份有限公司</p>
-			<p>COPYRIGHT&copy;-2016 ALL RIGHTS RESERVED │ 沪ICP备13003917号 </p>
+			<p>主办单位：全国水产技术推广总站、中国水产学会&nbsp;&nbsp;&nbsp;&nbsp; 技术支持：博彦科技股份有限公司</p>
+			<p>COPYRIGHT&copy;-2019 ALL RIGHTS RESERVED</p>
 		</div>
 	</div>
 </template>
@@ -200,16 +209,21 @@
 import {
   permission
 } from '@/util/mixins'
+import testStrong from '@/components/testPwd'
 export default {
   name: 'bindPhone',
+  components: {
+    testStrong
+  },
   mixins: [permission],
   beforeCreate() {
     this.formBind = this.$form.createForm(this)
   },
   data() {
     return {
-      left: '返回登录',
-      disableCode: false,
+      hasLogined:!this.$route.query.logined?false:(1==parseInt(this.$route.query.logined)?true:false),
+      left: '返回',
+      disableCode: true,
       right: '下一步(1/2)',
       btnTxt: '发送验证码',
       disableBtn: true,
@@ -222,24 +236,33 @@ export default {
       confirmDirty: false,
       isBind: true,
       tips: '',
+      disableNext: true,
+      passwordStrength: false,
+      disablePhone: false
     }
   },
   mounted() {
     this.systemLists = this.$cookie.get('systemLists') != undefined ? JSON.parse(this.$cookie.get('systemLists')) : []
+
     if (this.$route.query.id) {
       this.userId = this.$route.query.id
       this.pageType = 'isBind'
       this.right = '完成绑定'
-      this.left = '返回登录'
+      this.left = '返回'
+      this.disableNext = false
     }
   },
   methods: {
+    toLogin(){
+      this.$com.handleLogOut()
+    },
     showLeft() {
       if (!this.$route.query.id) {
         if (this.right == '完成绑定') {
           this.right = '下一步'
-          this.left = '返回登录'
+          this.left = '返回'
           this.isBind = true
+          this.clearTimer()
         } else {
           this.$cookie.set('canEnterBind', '500')
           this.$router.push({
@@ -260,9 +283,9 @@ export default {
       this.systemNmme = item.sysDic.sysName
       this.activeIndex = index
       this.pageType = item.isBind == false ? 'isBind' : 'unBind'
-      // this.isBind=item.isBind;
+      this.disableNext = false
       if (this.pageType != 'isBind') {
-        this.right = '登录'
+        this.right = '立即登录'
       } else {
         this.right = '下一步（1/2）'
       }
@@ -301,17 +324,19 @@ export default {
           }).then(res => {
             let gainDatas = res.data.content
             if (gainDatas.redirectUrl) {
+              this.$cookie.set('canEnterBind', '500')
               window.open(gainDatas.redirectUrl, '_parent')
             } else {
-              if (String(gainDatas.isNew) == 'true') {
-                this.$cookie.set('token', gainDatas.access_token)
-                this.$cookie.set('refresh_token', gainDatas.refresh_token)
+              if (gainDatas.isNew === false && gainDatas.haveNewPerm === false) {
+                this.$cookie.set('canEnterBind', '500')
+                const openUrl = gainDatas.url + '?userId=' + gainDatas.userId + '&accessToken=' + gainDatas.access_token +
+										'&refreshToken=' + gainDatas.refresh_token
+                window.open(openUrl, '_parent')
+              } else {
+                this.$com.setToken(gainDatas.access_token, gainDatas.refresh_token)
                 this.$router.push({
                   name: 'home',
                 })
-              } else {
-                const openUrl = gainDatas.url + '?userId=' + gainDatas.userId + '&accessToken=' + gainDatas.access_token + '&refreshToken=' + gainDatas.refresh_token
-                window.open(openUrl, '_parent')
               }
             }
           })
@@ -326,6 +351,8 @@ export default {
           } else {
             this.right = '完成绑定'
             this.left = '上一步'
+            this.disablePhone = false
+            this.disableBtn=true
           }
         } else {
           this.goLogin()
@@ -341,22 +368,23 @@ export default {
         links = links + '&redirectUrl=' + this.$cookie.get('redirectUrl')
       }
       this.$ajax.get({
-        url: this.$api.GET_SELECT_SYSTEM + links,
-        params: {}
+        url: this.$api.GET_SELECT_SYSTEM + links
       }).then(res => {
         let gainDatas = res.data.content
         if (gainDatas.redirectUrl) {
+          this.$cookie.set('canEnterBind', '500')
           window.open(gainDatas.redirectUrl, '_parent')
         } else {
-          if (String(gainDatas.isNew) == 'true') {
-            this.$cookie.set('token', gainDatas.access_token)
-            this.$cookie.set('refresh_token', gainDatas.refresh_token)
+          if (gainDatas.isNew === false && gainDatas.haveNewPerm === false) {
+            this.$cookie.set('canEnterBind', '500')
+            const openUrl = gainDatas.url + '?userId=' + gainDatas.userId + '&accessToken=' + gainDatas.access_token +
+								'&refreshToken=' + gainDatas.refresh_token
+            window.open(openUrl, '_parent')
+          } else {
+            this.$com.setToken(gainDatas.access_token, gainDatas.refresh_token)
             this.$router.push({
               name: 'home',
             })
-          } else {
-            const openUrl = gainDatas.url + '?userId=' + gainDatas.userId + '&accessToken=' + gainDatas.access_token + '&refreshToken=' + gainDatas.refresh_token
-            window.open(openUrl, '_parent')
           }
         }
       })
@@ -370,8 +398,7 @@ export default {
       }
       if (phone) {
         this.$ajax.get({
-          url: this.$api.GET_SEND_CODE.replace('{phone}', phone) + links,
-          params: {}
+          url: this.$api.GET_SEND_CODE.replace('{phone}', phone) + links
         }).then(res => {
           this.disableCode = false
           this.disableBtn = true
@@ -402,7 +429,6 @@ export default {
       } else {
         const phone = this.formBind.getFieldValue('phone')
         const code = this.formBind.getFieldValue('code')
-        console.log(phone, code, 'wqwqwqwq')
         let params = {
           'phone': phone,
           'code': code,
@@ -416,9 +442,13 @@ export default {
           params: params
         }).then(res => {
           if (res.code != '200') {
-            callback('验证码错误!')
+            callback(res.data.msg)
           } else {
             callback()
+            this.disablePhone = true
+            this.disableCode = true
+            this.disableBtn = true
+            this.isBind = this.transVal
           }
         })
       }
@@ -428,21 +458,26 @@ export default {
         if (!/^1[3456789]\d{9}$/.test(value)) {
           callback('手机号码不合法!')
         } else {
-          let links = '?id=' + this.userId + '&phone=' + value
-          if (this.$cookie.get('redirectUrl') != undefined) {
-            links = links + '&redirectUrl=' + this.$cookie.get('redirectUrl')
-          }
-          this.$ajax.get({
-            url: this.$api.GET_CHECK_PHONE + links,
-            params: {}
-          }).then(res => {
-            callback()
-            this.disableBtn = false
-            this.isBind = res.data.content
-            if (res.data.content == false) {
-              this.tips = '此号未绑定需完善下方信息!'
+          if (value.length == '11') {
+            let links = '?id=' + this.userId + '&phone=' + value
+            if (this.$cookie.get('redirectUrl') != undefined) {
+              links = links + '&redirectUrl=' + this.$cookie.get('redirectUrl')
             }
-          })
+            this.$ajax.get({
+              url: this.$api.GET_CHECK_PHONE + links
+            }).then(res => {
+              if (res.code == '200') {
+                callback()
+                this.disableBtn = false
+                this.transVal = res.data.content
+                if (res.data.content == false) {
+                  this.tips = '此号未绑定需完善下方信息!'
+                }
+              } else {
+                callback(res.data.msg)
+              }
+            })
+          }
         }
       } else {
         callback('请输入手机号!')
@@ -461,12 +496,24 @@ export default {
     },
     validateToNextPassword(rule, value, callback) {
       const form = this.formBind
-      if (value && this.confirmDirty) {
-        form.validateFields(['rePassword'], {
-          force: true
-        })
+      if (!value || value == undefined || value.split(' ').join('').length === 0) {
+        callback('请输入密码！')
+        this.passwordStrength = false
+      } else {
+        if (!/^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{6,}$/.test(value)) {
+          callback('请输入6位以上的数字字母组合！')
+          this.passwordStrength = false
+        } else {
+          if (value && this.confirmDirty) {
+            form.validateFields(['rePassword'], {
+              force: true
+            })
+          }
+          this.passwordStrength = true
+          callback()
+        }
       }
-      callback()
+
     },
     compareToFirstPassword(rule, value, callback) {
       const form = this.formBind
@@ -488,16 +535,18 @@ export default {
 	.loginFrame {
 		width: 100%;
 		height: 100%;
+		min-height: 700px;
 		margin: 0px;
 		padding: 0px;
 		position: relative;
-		background-image: url("../assets/images/bg.jpg");
+		background-image: url("../../assets/images/bg.jpg");
 		background-size: cover;
+		z-index: 10;
 	}
 
 	.chooseSystem {
 		width: 900px;
-		height: 460px;
+		height: 540px;
 		position: absolute;
 		left: 0;
 		top: 0;
@@ -557,15 +606,39 @@ export default {
 		left: 0px;
 		color: #cfd7f3;
 		font-size: 14px;
+		z-index: 0;
 	}
 
 	.btnGroup {
 		position: absolute;
-		bottom: 20px;
-		left: -20px;
-		width: 950px;
+		bottom: 30px;
+		left: -22px;
+		width: 944px;
 		display: flex;
 		justify-content: space-between;
+	}
+
+	.btnGroup div {
+		width: 150px;
+		height: 50px;
+		line-height: 60px;
+		text-align: center;
+		font-size: 14px;
+		color: white;
+		cursor: pointer;
+		position: relative;
+	}
+
+	.btnGroup div img {
+		width: 150px;
+		height: 50px;
+		position: absolute;
+		top: 0;
+		left: 0;
+	}
+
+	.btnGroup div:last-of-type img {
+		right: 0;
 	}
 
 	.footer p {
@@ -586,7 +659,7 @@ export default {
 	.bindPhone {
 		/* width: 700px; */
 		margin: 0 auto;
-		height: 300px;
+		height: 400px;
 		font-size: 14px;
 		margin-top: 20px;
 		text-align: left;
@@ -620,7 +693,6 @@ export default {
 	.bindPhoneTitle {
 		margin-bottom: 20px;
 		font-weight: bold;
-		/* text-align: center; */
 	}
 
 	.ant-input-affix-wrapper,

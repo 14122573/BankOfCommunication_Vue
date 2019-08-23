@@ -1,4 +1,7 @@
 /** 公共方法 */
+import Cookie from '@/util/local-cookie'
+import Store from '@/store'
+import Router from '@/router'
 export default {
   /**
      * 在深层数据结构中取值（为了替代类似 res && res.data && res.data.content这种写法）
@@ -117,4 +120,49 @@ export default {
     const filter = /^[\u4E00-\u9FA5A-Za-z0-9]+$/
     return filter.test(txt)
   },
+  /**
+   * 统一设置 两个token信息。根据是否7天免登陆进行判断，设置的cookie失效时间
+   * @param {String} accessToke
+   * @param {String} refreshToken
+   */
+  setToken(token,refreshToken) {
+    if (Cookie.get('KeepLogin') === 'true') { // 如果保存七天
+      Cookie.set('token', token, {expires: 7})
+      Cookie.set('refresh_token', refreshToken, {expires: 7})
+    } else {
+      Cookie.set('token', token)
+      Cookie.set('refresh_token', refreshToken)
+    }
+  },
+  /**
+   * 退出 --- 清除相关信息并推到登录页
+   */
+  handleLogOut() {
+    Store.commit('SET_CLEAR')
+    Cookie.remove('token')
+    if('true' == Cookie.get('keepLogin')){
+    }else{
+      Cookie.remove('refresh_token')
+    }
+    Cookie.remove('redirectUrl')
+    Cookie.remove('url')
+    Cookie.remove('systemLists')
+    Cookie.remove('canEnterBind')
+    Router.push({
+      name: 'login'
+    })
+  },
+  /**
+   * 获取URL执行参数值
+   * @param {String} variable 地址参数名
+   * @return false 未找到；
+   */
+  getQueryVariable(variable){
+    var query = window.location.search.substring(1)
+    var vars = query.split('&')
+    for (var i=0;i<vars.length;i++) {
+      var pair = vars[i].split('=')
+      if(pair[0] == variable){return pair[1]}
+    }
+  }
 }
