@@ -13,8 +13,8 @@ case 'production': // 生产环境下
   BASE_URL = 'http://iftp.omniview.pro/api'
   break
 default: // 默认环境下（开发环境）
-  BASE_URL = 'http://iftp.omniview.pro/api'
-  // BASE_URL = 'http://fish.omniview.pro/api'
+  BASE_URL = 'http://fish.omniview.pro/api'
+  // BASE_URL = 'http://iftp.omniview.pro/api'
   break
 };
 

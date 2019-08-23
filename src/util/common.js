@@ -2,6 +2,8 @@
 import Cookie from '@/util/local-cookie'
 import Store from '@/store'
 import Router from '@/router'
+import Md5 from 'js-md5'
+
 export default {
   /**
      * 在深层数据结构中取值（为了替代类似 res && res.data && res.data.content这种写法）
@@ -143,6 +145,7 @@ export default {
     if('true' == Cookie.get('keepLogin')){
     }else{
       Cookie.remove('refresh_token')
+      Cookie.remove('oldSysAccountsList')
     }
     Cookie.remove('redirectUrl')
     Cookie.remove('url')
@@ -164,5 +167,81 @@ export default {
       var pair = vars[i].split('=')
       if(pair[0] == variable){return pair[1]}
     }
+  },
+  /**
+	 * 获取当前年
+	 *
+	 */
+  getCurrentYear(){
+	  var date=new Date
+    return date.getFullYear()
+  },
+  /**
+   * 老账户登录系统成功，将其token信息及已有的老账户数组存入cookie，并增加一个唯一识别签名。用于比对数据是否被串改
+   * @param {String} accessToken
+   * @param {String} refreshToken
+   * @param {Object} oldSysList
+   */
+  setOldSysAccounts(accessToken,refreshToken,oldSysList){
+    // 从cookie里获取已有数据，并转为对象数组。否则重新声明
+    let oldSysAccountsListCS =  Cookie.get('oldSysAccountsList')
+    let oldSysAccountsList = []
+    if(!!oldSysAccountsListCS){
+      oldSysAccountsList = JSON.parse(oldSysAccountsListCS)
+    }
+
+    // 准备要塞入数组的数据
+    accessToken = !accessToken? '':accessToken
+    refreshToken = !refreshToken? '':refreshToken
+    oldSysList = ! oldSysList ?[]:oldSysList
+    let accessTokenMd5 = Md5(accessToken)
+    let refreshTokenMd5 = Md5(accessTokenMd5+refreshToken)
+    let sign = Md5(refreshTokenMd5+JSON.stringify(oldSysList))
+    let newItem = {
+      'accessToken':accessToken,
+      'refreshToken':refreshToken,
+      'oldSysList':oldSysList,
+      'sign':sign
+    }
+    oldSysAccountsList.push(newItem)
+    Cookie.set('oldSysAccountsList',JSON.stringify(oldSysAccountsList),{expires: 7})
+  },
+  /**
+   * 验证当前获取的token是否在oldSysAccountsList的cookie里存储，并且sign校验通过。若校验通过返回，老系统数组。否则返回false
+   * @param {*} accessToken
+   * @param {*} refreshToken
+   * @returns false:校验不通过； 对象数组，校验通过，返回该用户拥有的老系统清单
+   */
+  checkOldSysAccounts(accessToken,refreshToken){
+    accessToken = !accessToken? '':accessToken
+    refreshToken = !refreshToken? '':refreshToken
+
+    // 从cookie里获取已有数据，并转为对象数组。否则直接返回false
+    let oldSysAccountsListCS =  Cookie.get('oldSysAccountsList')
+    if(!oldSysAccountsListCS) {
+      return false
+    }
+    let oldSysAccountsList =  JSON.parse(oldSysAccountsListCS)
+
+    // 根据传入参数，进行校验
+    if(Array.isArray(oldSysAccountsList) &&  oldSysAccountsList.length>0){
+      for(let i=0;i<oldSysAccountsList.length;i++){
+        let item = oldSysAccountsList[i]
+
+        if(item.accessToken === accessToken && item.refreshToken === refreshToken){
+
+          let accessTokenMd5 = Md5(item.accessToken)
+          let refreshTokenMd5 = Md5(accessTokenMd5+item.refreshToken)
+          let checkSign = Md5(refreshTokenMd5+JSON.stringify(item.oldSysList))
+          if(checkSign == item.sign) {
+            return item.oldSysList
+          }
+        }
+      }
+    }else{
+      return false
+    }
+
+    return false
   }
 }

@@ -24,47 +24,41 @@ export default {
       this.$com.handleLogOut()
     }else{
       this.$com.setToken(accessToken,refreshToken)
-      this.$ajax.get({
-        url: this.$api.GET_USER_INFO,
-        params: {}
-      }).then(res => {
-        // 获取用户权限信息，判断权限code里是否包含新系统权限
-        if(!res.data || !res.data.content){
-          this.$com.handleLogOut()
-        }else{
-          let userInfo = res.data.content
-          this.$ajax.get({
-            url: this.$api.GET_USER_PEIMISSION
-          }).then(res=>{
-            if(!res.data || !res.data.content){
-              this.$com.handleLogOut()
-            }else{
-              let authCodes = res.data.content
-              let hasNewSysAuth = false
-              if(Array.isArray(authCodes)){
-                if(authCodes.length ==0)
-                  for(let i=0;i<authCodes.length;i++){
-                    if(authCodes[i].indexOf('S')>0){
-                      hasNewSysAuth = true
-                    }
+      let checkResult = this.$com.checkOldSysAccounts(accessToken,refreshToken)
+      if(!checkResult){
+        this.$com.handleLogOut()
+      }else{
+        this.$ajax.get({
+          url: this.$api.GET_USER_PEIMISSION
+        }).then(res=>{
+          if(!res.data || !res.data.content){
+            this.$com.handleLogOut()
+          }else{
+            let authCodes = res.data.content
+            let hasNewSysAuth = false
+            if(Array.isArray(authCodes)){
+              if(authCodes.length ==0)
+                for(let i=0;i<authCodes.length;i++){
+                  if(authCodes[i].indexOf('S')>0){
+                    hasNewSysAuth = true
                   }
-              }
-
-              if(hasNewSysAuth){
-                this.$router.push({name:'home'})
-              }else{
-                if(this.verOldSysAuth(userInfo.oldAccountSet)){
-                  this.$cookie.remove('token')
-                  this.$cookie.remove('refresh_token')
-                  this.$router.push({name:'bindPhone',query:{ logined:1 }})
-                }else{
-                  this.$com.handleLogOut()
                 }
+            }
+
+            if(hasNewSysAuth){
+              this.$router.push({name:'home'})
+            }else{
+              if(this.verOldSysAuth(checkResult)){
+                this.$cookie.remove('token')
+                this.$cookie.remove('refresh_token')
+                this.$router.push({name:'bindPhone',query:{ logined:1 }})
+              }else{
+                this.$com.handleLogOut()
               }
             }
-          })
-        }
-      })
+          }
+        })
+      }
     }
   },
   methods: {

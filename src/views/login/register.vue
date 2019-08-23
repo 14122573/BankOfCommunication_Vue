@@ -135,11 +135,10 @@
 		</div>
     <div class="footer">
 			<p>主办单位：全国水产技术推广总站、中国水产学会&nbsp;&nbsp;&nbsp;&nbsp; 技术支持：博彦科技股份有限公司</p>
-			<p>COPYRIGHT&copy;-2019 ALL RIGHTS RESERVED</p>
+			<p>COPYRIGHT&copy;-{{$com.getCurrentYear()}} ALL RIGHTS RESERVED</p>
 		</div>
 	</div>
 </template>
-
 <script>
 import testStrong from '@/components/testPwd'
 import Loader from '@/components/Loader/loader'
@@ -158,6 +157,7 @@ export default {
       sendCodeBtnText: '发送验证码',
       allowSendCode: true,
       sendCodeTimer: null,
+      isInCountdown:false,
       confirmDirty: false,
       err: {
         tips:'',
@@ -208,7 +208,11 @@ export default {
               url: this.$api.GET_CHECK_PHONE_EXIST + links
             }).then(res => {
               if (res.data.content === false) {
-                this.allowSendCode = false
+                if(this.isInCountdown){
+                  this.allowSendCode = true
+                }else{
+                  this.allowSendCode = false
+                }
                 callback()
               } else {
                 callback('已存在此用户!')
@@ -352,6 +356,7 @@ export default {
           this.allowSendCode = true
           let num = 60
           const interval = () => {
+            this.isInCountdown = true
             this.sendCodeTimer = setInterval(() => {
               if (num <= 0) {
                 this.clearTimer()
@@ -369,6 +374,7 @@ export default {
 
     clearTimer() {
       clearInterval(this.sendCodeTimer)
+      this.isInCountdown = false
       this.sendCodeBtnText = '获取验证码'
       this.allowSendCode = false
       this.disPhoneCheckCode = true

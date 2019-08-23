@@ -64,14 +64,13 @@
 						</a-form-item>
 					</a-form>
 				</div>
-				<!-- <Register v-if='pageType=="register"' @on-change='pageTypeChange' @on-success='changeSuccess'></Register> -->
 				<ResetPassword v-if='pageType=="findPassword"' @on-change='pageTypeChange' @on-success='changeSuccess'></ResetPassword>
 				<opeationSuccess v-if='pageType=="success"' @on-change='pageTypeChange' :successText='successText'></opeationSuccess>
 			</div>
 		</div>
 		<div class="footer">
 			<p>主办单位：全国水产技术推广总站、中国水产学会&nbsp;&nbsp;&nbsp;&nbsp; 技术支持：博彦科技股份有限公司</p>
-			<p>COPYRIGHT&copy;-2019 ALL RIGHTS RESERVED</p>
+			<p>COPYRIGHT&copy;-{{$com.getCurrentYear()}} ALL RIGHTS RESERVED</p>
 		</div>
 	</div>
 </template>
@@ -80,14 +79,12 @@ import {
   permission
 } from '@/util/mixins'
 import testStrong from '@/components/testPwd'
-// import Register from '@/views/login/register'
 import ResetPassword from '@/views/login/ResetPassword'
 import opeationSuccess from '@/views/login/success'
 export default {
   name: 'Login',
   components: {
     testStrong,
-    // Register,
     ResetPassword,
     opeationSuccess
   },
@@ -363,7 +360,6 @@ export default {
 	.loginFrame {
 		width: 100%;
 		height: 100%;
-		/* min-height: 700px; */
 		min-width: 1000px;
 		margin: 0px;
 		padding: 0px;
