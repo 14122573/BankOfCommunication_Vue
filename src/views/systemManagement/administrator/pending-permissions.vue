@@ -134,7 +134,7 @@ export default {
     // 查看按钮
     viewBtn(item){
       this.$router.push({
-        name:'/systemManagement/administrator/pendingPermissions/view'
+        name:'/systemManagement/administrator/pendingView'
       })
     },
   }

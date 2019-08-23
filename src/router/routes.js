@@ -1,38 +1,65 @@
 // const Layout = () => import('@/components/Layout/main')
-const contentWrapper = () => import ('@/components/Layout/content-wrapper')
-const TipsNetworkErr = () => import ('@/views/tips/network')
-const TipsNoAuth = () => import ('@/views/tips/auth')
-const TipsOutsite = () => import ('@/views/tips/outsite')
-const HomePage = () => import ('@/views/home')
-const LoginPage = () => import ('@/views/login/login')
-const RegisterPage = () => import ('@/views/login/register')
-const OldSysLogout= () => import ('@/views/login/oldSysLogout')
-const BindPhone = () => import ('@/views/login/bindPhone')
-const PersonCenter = () => import ('@/views/person-center')
-// 系统管理---组织机构
-// contentOrganization
-const contentOrganization = () => import ('@/views/systemManagement/content-organization')
-const Organization = () => import ('@/views/systemManagement/organization/list')
-const OrganizationUpload = () => import ('@/views/systemManagement/organization/upload')
-const OrganizationCreate = () => import ('@/views/systemManagement/organization/create')
-const OrganizationView = () => import ('@/views/systemManagement/organization/view')
-/**
- * 要求：
- *  1、配置Router时，需将此router的权限编码信息、打开方式信息、是否在面包屑隐藏信息、是否为左侧菜单、是否有菜单图标配置在内。
- *  2、如此路由节点是要在面包屑中展示的，则需严格按照路由父子级，将子路由定义在其直属父级路由的children中
- *  3、为页面渲layout，所有除’/‘外的路由，都需定在’/‘路由的children下
- * 作用：除去正常路由展示，系统会从本数组内抓取权限菜单、判断是否能在面包屑中显示
- * 特殊配置字段说明：
- * meta.menuPath 标记是否为菜单。不是可不设置此字段
- * meta.authCode 当此路由受权限控制，需设置此字段，并填写与服务端一直的权限编码。不受权限控制可不设置
- * meta.hideInBread 标记是否需在面包屑中展示。不是可不设置此字段
- * meta.menuIcon 标记此路由在展示时需显示的ant design的图标。只能填写ant design中ICON组件内允许的字符串
- * meta.openMode 标记此路由点击后展示打开的方式。若值为normal，可不设置此字段
- *               spa 注册子前端项目的路由。注，此时设置的router.name为子项目展现路由名称的name，且需带上子项目名称前缀。如：/{micname}/{子项目router.name}，且无需设定router.component
- *               normal 本项目中自有路由
- *               outsite 新开标签页打开，此打开方式将不嵌套layout。对应读取的跳转链接在，config/outside-config.js下。对象键值名需与router.name、router.meta.authCode保持一致
- *
- */
+const contentWrapper = () =>
+    import ('@/components/Layout/content-wrapper')
+const TipsNetworkErr = () =>
+    import ('@/views/tips/network')
+const TipsNoAuth = () =>
+    import ('@/views/tips/auth')
+const TipsOutsite = () =>
+    import ('@/views/tips/outsite')
+const HomePage = () =>
+    import ('@/views/home')
+const LoginPage = () =>
+    import ('@/views/login/login')
+const RegisterPage = () =>
+    import ('@/views/login/register')
+const OldSysLogout = () =>
+    import ('@/views/login/oldSysLogout')
+const BindPhone = () =>
+    import ('@/views/login/bindPhone')
+const PersonCenter = () =>
+    import ('@/views/person-center')
+    // 系统管理
+    // 组织机构
+const contentSystemManagement = () =>
+    import ('@/views/systemManagement/content-systemManagement')
+const Organization = () =>
+    import ('@/views/systemManagement/organization/list')
+const OrganizationUpload = () =>
+    import ('@/views/systemManagement/organization/upload')
+const OrganizationCreate = () =>
+    import ('@/views/systemManagement/organization/create')
+const OrganizationView = () =>
+    import ('@/views/systemManagement/organization/view')
+    // 角色管理
+const RoleManagement = () =>
+    import ('@/views/systemManagement/role/list')
+const RoleCreate = () =>
+    import ('@/views/systemManagement/role/add')
+    // 管理员管理
+const AdministratorManagement = () =>
+    import ('@/views/systemManagement/administrator/index')
+const PendingView = () =>
+    import ('@/views/systemManagement/administrator/pending-view')
+const Distribution = () =>
+    import ('@/views/systemManagement/administrator/distribution')
+    /**
+     * 要求：
+     *  1、配置Router时，需将此router的权限编码信息、打开方式信息、是否在面包屑隐藏信息、是否为左侧菜单、是否有菜单图标配置在内。
+     *  2、如此路由节点是要在面包屑中展示的，则需严格按照路由父子级，将子路由定义在其直属父级路由的children中
+     *  3、为页面渲layout，所有除’/‘外的路由，都需定在’/‘路由的children下
+     * 作用：除去正常路由展示，系统会从本数组内抓取权限菜单、判断是否能在面包屑中显示
+     * 特殊配置字段说明：
+     * meta.menuPath 标记是否为菜单。不是可不设置此字段
+     * meta.authCode 当此路由受权限控制，需设置此字段，并填写与服务端一直的权限编码。不受权限控制可不设置
+     * meta.hideInBread 标记是否需在面包屑中展示。不是可不设置此字段
+     * meta.menuIcon 标记此路由在展示时需显示的ant design的图标。只能填写ant design中ICON组件内允许的字符串
+     * meta.openMode 标记此路由点击后展示打开的方式。若值为normal，可不设置此字段
+     *               spa 注册子前端项目的路由。注，此时设置的router.name为子项目展现路由名称的name，且需带上子项目名称前缀。如：/{micname}/{子项目router.name}，且无需设定router.component
+     *               normal 本项目中自有路由
+     *               outsite 新开标签页打开，此打开方式将不嵌套layout。对应读取的跳转链接在，config/outside-config.js下。对象键值名需与router.name、router.meta.authCode保持一致
+     *
+     */
 const appRoutes = [{
   path: '/',
   name: 'Layout',
@@ -50,39 +77,81 @@ const appRoutes = [{
     {
       path: '/systemManagement',
       name: 'systemManagement',
-      component: contentOrganization,
+      component: contentSystemManagement,
       meta: { title: '系统管理', menuPath: true, authCode: 'P00000', menuIcon: 'setting', hideInBread: true },
       children: [{
         path: '/systemManagement/organization',
         name: '/systemManagement/organization',
         component: Organization,
         meta: { title: '组织机构管理', menuPath: true, authCode: 'P01000', menuIcon: 'cluster', hideInBread: false, openMode: 'normal' },
-        children:[
-          {
-            path: '/systemManagement/organization/upload',
-            name: '/systemManagement/organization/upload',
-            component: OrganizationUpload,
-            meta: { title: '导入', menuPath: false, authCode: 'P01005', menuIcon: 'setting', hideInBread: false, openMode: 'normal' }
-          },
-          {
-            path: '/organization/create',
-            name: '/organization/create',
-            component: OrganizationCreate,
-            meta: { title: '创建', menuPath: false, authCode: 'P01001', menuIcon: 'cluster', hideInBread: false, openMode: 'normal' }
-          },
-          {
-            path: '/organization/view',
-            name: '/organization/view',
-            component: OrganizationView,
-            meta: { title: '查看', menuPath: false, authCode: 'P01002', menuIcon: 'cluster', hideInBread: false, openMode: 'normal' }
-          },
-          {
-            path: '/organization/edit',
-            name: '/organization/edit',
-            component: OrganizationCreate,
-            meta: { title: '编辑', menuPath: false, authCode: 'P01003', menuIcon: 'cluster', hideInBread: false, openMode: 'normal' }
-          }
-        ]
+      },
+      {
+        path: '/systemManagement/organization/upload',
+        name: '/systemManagement/organization/upload',
+        component: OrganizationUpload,
+        meta: { title: '导入', menuPath: false, authCode: 'P01005', menuIcon: 'setting', hideInBread: false, openMode: 'normal' }
+      },
+      {
+        path: '/systemManagement/organization/create',
+        name: '/systemManagement/organization/create',
+        component: OrganizationCreate,
+        meta: { title: '组织机构创建', menuPath: false, authCode: 'P01001', menuIcon: 'cluster', hideInBread: false, openMode: 'normal' }
+      },
+      {
+        path: '/systemManagement/organization/view',
+        name: '/systemManagement/organization/view',
+        component: OrganizationView,
+        meta: { title: '组织机构查看', menuPath: false, authCode: 'P01002', menuIcon: 'cluster', hideInBread: false, openMode: 'normal' }
+      },
+      {
+        path: '/systemManagement/organization/edit',
+        name: '/systemManagement/organization/edit',
+        component: OrganizationCreate,
+        meta: { title: '组织机构编辑', menuPath: false, authCode: 'P01003', menuIcon: 'cluster', hideInBread: false, openMode: 'normal' }
+      },
+        // RoleManagement角色管理
+      {
+        path: '/systemManagement/role',
+        name: '/systemManagement/role',
+        component: RoleManagement,
+        meta: { title: '角色管理', menuPath: true, authCode: 'P02000', menuIcon: 'cluster', hideInBread: false, openMode: 'normal' },
+      },
+      {
+        path: '/systemManagement/role/create',
+        name: '/systemManagement/role/create',
+        component: RoleCreate,
+        meta: { title: '角色创建', menuPath: false, authCode: 'P02001', menuIcon: 'cluster', hideInBread: false, openMode: 'normal' }
+      },
+      {
+        path: '/systemManagement/role/edit',
+        name: '/systemManagement/role/edit',
+        component: RoleCreate,
+        meta: { title: '角色修改', menuPath: false, authCode: 'P02003', menuIcon: 'cluster', hideInBread: false, openMode: 'normal' }
+      },
+      {
+        path: '/systemManagement/role/view',
+        name: '/systemManagement/role/view',
+        component: RoleCreate,
+        meta: { title: '角色查看', menuPath: false, authCode: 'P02002', menuIcon: 'cluster', hideInBread: false, openMode: 'normal' }
+      },
+        // AdministratorManagement管理员管理
+      {
+        path: '/systemManagement/administrator',
+        name: '/systemManagement/administrator',
+        component: AdministratorManagement,
+        meta: { title: '管理员管理', menuPath: true, authCode: 'P03000', menuIcon: 'cluster', hideInBread: false, openMode: 'normal' },
+      },
+      {
+        path: '/systemManagement/administrator/pendingView',
+        name: '/systemManagement/administrator/pendingView',
+        component: PendingView,
+        meta: { title: '待分配权限查看', menuPath: false, authCode: 'P03101', menuIcon: 'cluster', hideInBread: false, openMode: 'normal' },
+      },
+      {
+        path: '/systemManagement/administrator/distribution',
+        name: '/systemManagement/administrator/distribution',
+        component: Distribution,
+        meta: { title: '权限分配', menuPath: false, authCode: 'P03102', menuIcon: 'cluster', hideInBread: false, openMode: 'normal' },
       },
       ]
     },
@@ -164,7 +233,7 @@ const appRoutes = [{
   path: '/register',
   name: 'register',
   component: RegisterPage,
-  meta: { title: '注册'  },
+  meta: { title: '注册' },
 },
 {
   path: '/bindPhone',
