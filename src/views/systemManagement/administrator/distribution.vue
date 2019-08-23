@@ -74,8 +74,8 @@ export default {
   data(){
     return{
       formData:{},
-      labelCol: { span: 10 },
-      wrapperCol: { span: 14 },
+      labelCol: { span: 8 },
+      wrapperCol: { span: 16 },
       treeData: [
         {
           title: 'parent 1',

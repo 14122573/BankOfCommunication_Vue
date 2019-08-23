@@ -28,19 +28,20 @@
                 </a-col>
                 <a-col span="6">
                     <a-form-item
-                        label="邮箱"
+                        label="角色名称："
                         :label-col="labelCol"
                         :wrapper-col="wrapperCol"
                     >
-                    <a-input
-                        placeholder="请输入"
+                    <a-select
+                        placeholder="请选择"
                         v-model="searchForm.name"
+                        :options="nameOptions"
                     />
                     </a-form-item>
                 </a-col>
                 <a-col span="6">
                     <a-form-item
-                        label="单位："
+                        label="手机号："
                         :label-col="labelCol"
                         :wrapper-col="wrapperCol"
                     >
@@ -52,11 +53,11 @@
                 </a-col>
                 <a-col span="12">
                     <a-form-item
-                        label="注册时间端："
-                        :label-col="{span:5}"
-                        :wrapper-col="{span:19}"
+                        label="角色状态："
+                        :label-col="{span:4}"
+                        :wrapper-col="{span:20}"
                     >
-                        <a-range-picker v-model="searchForm.time" :format="dateFormat" style="width:100%" :placeholder="['请选择开始日期','请选择结束日期']" @change="onDateChange" />
+                    <a-checkbox-group :options="plainOptions" v-model="searchForm.checkedList" />
                     </a-form-item>
                 </a-col>
                 <a-col>
@@ -65,11 +66,32 @@
                 </a-col>
             </a-row>
         </a-form>
-        <a-table :columns="columns" :dataSource="data">
+        <a-table :columns="columns" rowKey="name" :dataSource="data">
+            <span slot="status" slot-scope="text, record">
+                <a-badge :status="$com.checkUserStatusTags(record.status).color" :text="$com.checkUserStatusTags(record.status).txt" />
+            </span>
             <span slot="action" slot-scope="text, record">
                 <a href="javascript:;">查看</a>
                 <a-divider type="vertical" />
-                <a href="javascript:;">权限分配</a>
+                <a href="javascript:;">修改</a>
+                <a-divider type="vertical" />
+                <a-dropdown>
+                    <a class="ant-dropdown-link" href="#">
+                     更多
+                     <a-icon type="down" />
+                    </a>
+                    <a-menu slot="overlay">
+                    <a-menu-item>
+                        <a href="javascript:;">重置密码</a>
+                    </a-menu-item>
+                    <a-menu-item>
+                        <a href="javascript:;">禁用</a>
+                    </a-menu-item>
+                    <a-menu-item>
+                        <a href="javascript:;">注销</a>
+                    </a-menu-item>
+                    </a-menu>
+                </a-dropdown>
             </span>
         </a-table>
     </div>
@@ -80,16 +102,33 @@ export default {
     return{
       searchForm:{},
       dateFormat: 'YYYY-MM-DD',
-      labelCol: { span: 10 },
-      wrapperCol: { span: 14 },
-      data:[{}],
+      labelCol: { span: 8 },
+      wrapperCol: { span: 16 },
+      data:[{
+        name:'1',
+        status:'1'
+      }],
       columns:[
         {
           title:'姓名',
           dataIndex:'name',
           key:'name'
+        },
+        {
+          title:'用户状态',
+          dataIndex:'status',
+          key:'status',
+          scopedSlots: { customRender: 'status' }
+        },
+        {
+          title: '操作',
+          dataIndex: 'action',
+          key: 'action',
+          scopedSlots: { customRender: 'action' }
         }
-      ]
+      ],
+      nameOptions:[],
+      plainOptions: ['正常', '禁用', '已冻结', '已注销'],
     }
   },
   methods:{
