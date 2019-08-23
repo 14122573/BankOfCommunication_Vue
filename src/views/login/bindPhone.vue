@@ -41,7 +41,7 @@
 							<a-form-item>
 								<a-input v-decorator="[
 											  'code',
-											  { validateTrigger:'blur',
+											  { validateTrigger:'change',
                                             rules: [
 											  {validator: validateCode}] }
 											]"
@@ -183,10 +183,10 @@
 			</div>
 			<img src="../../assets/images/border.png" alt="" class="border">
 			<div class="btnGroup">
-        <div v-if="hasLogined" @click="toLogin">
-          <img src="../../assets/images/left.png" alt="">
+				<div v-if="hasLogined" @click="toLogin">
+					<img src="../../assets/images/left.png" alt="">
 					<div>退出</div>
-        </div>
+				</div>
 				<div v-else @click="showLeft">
 					<img src="../../assets/images/left.png" alt="">
 					<div>{{left}}</div>
@@ -198,6 +198,12 @@
 				</div>
 			</div>
 		</div>
+		<a-modal title="完成绑定" :visible="visibleModal" :closable='false' :maskClosable='false'>
+			 <template slot="footer">
+        <a-button @click="handleOk" type="primary">继续访问</a-button>
+      </template>
+			<p>可使用原账号或手机号登录</p>
+		</a-modal>
 		<div class="footer">
 			<p>主办单位：全国水产技术推广总站、中国水产学会&nbsp;&nbsp;&nbsp;&nbsp; 技术支持：博彦科技股份有限公司</p>
 			<p>COPYRIGHT&copy;-{{$com.getCurrentYear()}} ALL RIGHTS RESERVED</p>
@@ -221,7 +227,7 @@ export default {
   },
   data() {
     return {
-      hasLogined:!this.$route.query.logined?false:(1==parseInt(this.$route.query.logined)?true:false),
+      hasLogined: !this.$route.query.logined ? false : (1 == parseInt(this.$route.query.logined) ? true : false),
       left: '返回',
       disableCode: true,
       right: '下一步(1/2)',
@@ -238,7 +244,9 @@ export default {
       tips: '',
       disableNext: true,
       passwordStrength: false,
-      disablePhone: false
+      disablePhone: false,
+      visibleModal: false,
+      gainDatas: {}
     }
   },
   mounted() {
@@ -253,7 +261,7 @@ export default {
     }
   },
   methods: {
-    toLogin(){
+    toLogin() {
       this.$com.handleLogOut()
     },
     showLeft() {
@@ -322,26 +330,30 @@ export default {
             url: sendLink,
             params: transData
           }).then(res => {
-            let gainDatas = res.data.content
-            if (gainDatas.redirectUrl) {
-              this.$cookie.set('canEnterBind', '500')
-              window.open(gainDatas.redirectUrl, '_parent')
-            } else {
-              if (gainDatas.isNew === false && gainDatas.haveNewPerm === false) {
-                this.$cookie.set('canEnterBind', '500')
-                const openUrl = gainDatas.url + '?userId=' + gainDatas.userId + '&accessToken=' + gainDatas.access_token +
-										'&refreshToken=' + gainDatas.refresh_token
-                window.open(openUrl, '_parent')
-              } else {
-                this.$com.setToken(gainDatas.access_token, gainDatas.refresh_token)
-                this.$router.push({
-                  name: 'home',
-                })
-              }
-            }
+            this.gainDatas = res.data.content
+            this.visibleModal = true
           })
         }
       })
+    },
+    handleOk() {
+      let gainDatas=this.gainDatas
+      if (gainDatas.redirectUrl) {
+        this.$cookie.set('canEnterBind', '500')
+        window.open(gainDatas.redirectUrl, '_parent')
+      } else {
+        if (gainDatas.isNew === false && gainDatas.haveNewPerm === false) {
+          this.$cookie.set('canEnterBind', '500')
+          const openUrl = gainDatas.url + '?userId=' + gainDatas.userId + '&accessToken=' + gainDatas.access_token +
+							'&refreshToken=' + gainDatas.refresh_token
+          window.open(openUrl, '_parent')
+        } else {
+          this.$com.setToken(gainDatas.access_token, gainDatas.refresh_token)
+          this.$router.push({
+            name: 'home',
+          })
+        }
+      }
     },
     showRight() {
       if (this.pageType != '') {
@@ -352,7 +364,7 @@ export default {
             this.right = '完成绑定'
             this.left = '上一步'
             this.disablePhone = false
-            this.disableBtn=true
+            this.disableBtn = true
           }
         } else {
           this.goLogin()
@@ -427,30 +439,30 @@ export default {
       if (!value || value == undefined || value.split(' ').join('').length === 0) {
         callback('请输入手机验证码!')
       } else {
-        const phone = this.formBind.getFieldValue('phone')
-        const code = this.formBind.getFieldValue('code')
-        let params = {
-          'phone': phone,
-          'code': code,
-          'userId': this.userId
-        }
-        if (this.$cookie.get('redirectUrl') != undefined) {
-          params.redirectUrl = this.$cookie.get('redirectUrl')
-        }
-        this.$ajax.post({
-          url: this.$api.POST_CHECK_CODE,
-          params: params
-        }).then(res => {
-          if (res.code != '200') {
-            callback(res.data.msg)
-          } else {
-            callback()
-            this.disablePhone = true
-            this.disableCode = true
-            this.disableBtn = true
-            this.isBind = this.transVal
+        if (value.length == 6) {
+          const phone = this.formBind.getFieldValue('phone')
+          let params = {
+            'phone': phone,
+            'code': value,
+            'userId': this.userId
           }
-        })
+          this.$ajax.post({
+            url: this.$api.POST_CHECK_CODE,
+            params: params
+          }).then(res => {
+            if (res.code != '200') {
+              callback(res.data.msg)
+            } else {
+              callback()
+              this.disablePhone = true
+              this.disableCode = true
+              this.disableBtn = true
+              this.isBind = this.transVal
+            }
+          })
+        } else {
+          callback('请输入6位手机验证码!')
+        }
       }
     },
     validatePhone(rule, value, callback) {
@@ -471,7 +483,7 @@ export default {
                 this.disableBtn = false
                 this.transVal = res.data.content
                 if (res.data.content == false) {
-                  this.tips = '此号未绑定需完善下方信息!'
+                  this.tips = '请完善以下信息!'
                 }
               } else {
                 callback(res.data.msg)
