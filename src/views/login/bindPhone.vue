@@ -332,30 +332,6 @@ export default {
           }).then(res => {
             this.gainDatas = res.data.content
             this.visibleModal = true
-            // 							this.$Modal.confirm({
-            // 								title: '完成绑定',
-            // 								content: '可使用原账号或手机号登录',
-            // 								okText: '继续访问',
-            // 								onOk() {
-            // 									if (gainDatas.redirectUrl) {
-            // 										this.$cookie.set('canEnterBind', '500')
-            // 										window.open(gainDatas.redirectUrl, '_parent')
-            // 									} else {
-            // 										if (gainDatas.isNew === false && gainDatas.haveNewPerm === false) {
-            // 											this.$cookie.set('canEnterBind', '500')
-            // 											const openUrl = gainDatas.url + '?userId=' + gainDatas.userId + '&accessToken=' + gainDatas.access_token +
-            // 												'&refreshToken=' + gainDatas.refresh_token
-            // 											window.open(openUrl, '_parent')
-            // 										} else {
-            // 											this.$com.setToken(gainDatas.access_token, gainDatas.refresh_token)
-            // 											this.$router.push({
-            // 												name: 'home',
-            // 											})
-            // 										}
-            // 									}
-            // 								}
-            // 							});
-
           })
         }
       })
