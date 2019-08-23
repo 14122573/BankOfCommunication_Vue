@@ -199,9 +199,9 @@
 			</div>
 		</div>
 		<a-modal title="完成绑定" :visible="visibleModal" :closable='false' :maskClosable='false'>
-			 <template slot="footer">
-        <a-button @click="handleOk" type="primary">继续访问</a-button>
-      </template>
+			<template slot="footer">
+				<a-button @click="handleOk" type="primary">继续访问</a-button>
+			</template>
 			<p>可使用原账号或手机号登录</p>
 		</a-modal>
 		<div class="footer">
@@ -251,7 +251,6 @@ export default {
   },
   mounted() {
     this.systemLists = this.$cookie.get('systemLists') != undefined ? JSON.parse(this.$cookie.get('systemLists')) : []
-
     if (this.$route.query.id) {
       this.userId = this.$route.query.id
       this.pageType = 'isBind'
@@ -337,7 +336,11 @@ export default {
       })
     },
     handleOk() {
-      let gainDatas=this.gainDatas
+      let gainDatas = this.gainDatas
+      if (!this.$route.query.id) {
+        let lists = JSON.parse(this.$cookie.get('systemLists'))
+        this.$com.setOldSysAccounts(gainDatas.access_token, gainDatas.refresh_token, lists)
+      }
       if (gainDatas.redirectUrl) {
         this.$cookie.set('canEnterBind', '500')
         window.open(gainDatas.redirectUrl, '_parent')
@@ -383,6 +386,8 @@ export default {
         url: this.$api.GET_SELECT_SYSTEM + links
       }).then(res => {
         let gainDatas = res.data.content
+        let lists = JSON.parse(this.$cookie.get('systemLists'))
+        this.$com.setOldSysAccounts(gainDatas.access_token, gainDatas.refresh_token, lists)
         if (gainDatas.redirectUrl) {
           this.$cookie.set('canEnterBind', '500')
           window.open(gainDatas.redirectUrl, '_parent')
