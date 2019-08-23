@@ -43,8 +43,10 @@ export default {
   },
   methods: {
     /**
+     * 确定从cookie里获取的当前用户老系统权限信息是否是最新的。针对同一系统code，如果与从用户信息接口获得有差异，取新的，否则取cookie里的
      * @param {Object} orgOldSysList 从cookie里取出来的，登录绑定前获取到的老系统清单
      * @param {Object} newOldSysList 登录系统后，通过userInfo获取的最新老系统清单
+     * @returns {Object} 组装好的最新的老系统权限
      */
     getLastOldSysAuth(orgOldSysList,newOldSysList){
       orgOldSysList = !orgOldSysList?[]:orgOldSysList
@@ -71,6 +73,10 @@ export default {
         return []
       }
     },
+    /**
+     * 判断当前用户对于新老系统的权限情况，如果有系统权限跳转进入home，如有多个老系统权限进入系统选择，如果有一个老系统权限直接登出
+     * @param {Object} oldSysList 已经准备好的最新老系统权限清单
+     */
     checkPortalAuth(oldSysList){
       oldSysList = !oldSysList?[]:oldSysList
 
