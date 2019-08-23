@@ -86,8 +86,7 @@ export default {
   components: {
     testStrong,
     ResetPassword,
-    opeationSuccess,
-    Upload
+    opeationSuccess
   },
   mixins: [permission],
   beforeCreate() {
