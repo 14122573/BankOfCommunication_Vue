@@ -164,5 +164,13 @@ export default {
       var pair = vars[i].split('=')
       if(pair[0] == variable){return pair[1]}
     }
+  },
+  /**
+	 * 获取当前年
+	 *
+	 */
+  getCurrentYear(){
+	  var date=new Date
+    return date.getFullYear()
   }
 }
