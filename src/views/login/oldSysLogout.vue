@@ -5,13 +5,10 @@
 </template>
 
 <script>
-import {  permission } from '@/util/mixins'
 export default {
   name: 'VerifyLogin',
   components: {
   },
-  mixins: [permission],
-
   data() {
     return {
 
