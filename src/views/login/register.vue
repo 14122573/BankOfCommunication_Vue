@@ -308,7 +308,6 @@ export default {
       // 提交表单
       this.formRegister.validateFields((err, values) => {
         if (!err) {
-          console.log(values)
           let params = {
             'username':values.phone,
             'pwd':values.password,

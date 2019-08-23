@@ -112,16 +112,20 @@ export default {
         switch (openMode) {
         case 'outsite':
           this.$store.commit('SET_SHOWSPACONTENT', false)
-          let href = this.getRedirctUrl(key)
-          if(href) {
-            this.$router.push({
-              name: menu.name,
-              params: {
-                sysname: menu.meta.title
-              }})
-            window.open(href, '_blank')
+          if(!this.$cookie.get('token')){
+            this.$com.handleLogOut()
           }else{
-            this.$router.push({name: 'noautherr'})
+            let href = this.getRedirctUrl(key)
+            if(href) {
+              this.$router.push({
+                name: menu.name,
+                params: {
+                  sysname: menu.meta.title
+                }})
+              window.open(href, '_blank')
+            }else{
+              this.$router.push({name: 'noautherr'})
+            }
           }
           break
         case 'normal':
