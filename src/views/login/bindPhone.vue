@@ -28,7 +28,7 @@
 							<a-form-item>
 								<a-input v-decorator="[
 									  'phone',
-									  { validateTrigger:'change',
+									  { validateTrigger:'blur',
 										 rules: [
 									  { validator: validatePhone}] }
 									]"
@@ -216,6 +216,7 @@ import {
   permission
 } from '@/util/mixins'
 import testStrong from '@/components/testPwd'
+import {encryptDes} from '@/util/des-cryptojs'
 export default {
   name: 'bindPhone',
   components: {
@@ -302,7 +303,7 @@ export default {
         if (!err) {
           let params = {
             userId: this.userId,
-            pwd: values.password,
+            pwd: encryptDes(values.password),
             code: values.code,
             userInfo: {
               'phone': values.phone,

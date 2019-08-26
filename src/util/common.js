@@ -198,7 +198,7 @@ export default {
     let sign = Md5(refreshTokenMd5 + JSON.stringify(oldSysList))
     let newItem = {
       'accessToken': accessToken,
-      'refreshToken': refreshToken,
+      // 'refreshToken': refreshToken,
       'oldSysList': oldSysList,
       'sign': sign
     }
@@ -227,10 +227,10 @@ export default {
       for (let i = 0; i < oldSysAccountsList.length; i++) {
         let item = oldSysAccountsList[i]
 
-        if (item.accessToken === accessToken && item.refreshToken === refreshToken) {
-
+        // if (item.accessToken === accessToken && item.refreshToken === refreshToken) {
+        if (item.accessToken === accessToken) {
           let accessTokenMd5 = Md5(item.accessToken)
-          let refreshTokenMd5 = Md5(accessTokenMd5 + item.refreshToken)
+          let refreshTokenMd5 = Md5(accessTokenMd5 + refreshToken)
           let checkSign = Md5(refreshTokenMd5 + JSON.stringify(item.oldSysList))
           if (checkSign == item.sign) {
             return item.oldSysList

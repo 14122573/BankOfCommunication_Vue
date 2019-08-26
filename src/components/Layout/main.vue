@@ -72,7 +72,7 @@ export default {
     return {
       collapsed: false,
       username: '',
-      showPurePage: false,
+      showPurePage: true,
       tidingsCount: 0,
     }
   },
