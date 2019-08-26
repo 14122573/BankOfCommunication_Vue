@@ -30,7 +30,14 @@ case 'sit': // sit环境下
   ]
   break
 case 'uat': // uat环境下
-  MicConfig = []
+  MicConfig = [
+    {
+      baseUrl:'http://scsd.szjoin.net',
+      resourceName:'scsd',
+      micId:'mic:scsd',
+      pathPrefix:'/scsd'
+    }
+  ]
   break
 case 'production': // 生产环境下
   MicConfig = []
