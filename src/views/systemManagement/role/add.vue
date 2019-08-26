@@ -90,10 +90,10 @@ export default {
     // 查询权限树
     getTree(){
       this.$ajax.get({
-        url:this.$api.GET_ALL_ROLE + "?isTree=true"
+        url:this.$api.GET_ALL_ROLE + '?isTree=true'
       }).then(res=>{
-        let data=res.data.content;
-        this.allData=data;
+        let data=res.data.content
+        this.allData=data
         
         data.forEach((item,index)=>{
           this.treeData.push(this.getTreeNode(item,index))
@@ -102,53 +102,53 @@ export default {
     },
     // 整理权限树
     getTreeNode(item,index){
-        let childrenNode={
-            title:item.permName,
-            key:item.id
-        };
-        if(item.childList && item.childList.length){
-            childrenNode.children = [];
-            item.childList.forEach((subItem,subIndex) =>{
-                let subkey = subItem.id
-                childrenNode.children.push(this.getTreeNode(subItem,subkey))
-            });
-        }
-        return childrenNode
+      let childrenNode={
+        title:item.permName,
+        key:item.id
+      }
+      if(item.childList && item.childList.length){
+        childrenNode.children = []
+        item.childList.forEach((subItem,subIndex) =>{
+          let subkey = subItem.id
+          childrenNode.children.push(this.getTreeNode(subItem,subkey))
+        })
+      }
+      return childrenNode
     },
     // 查询角色详情
     getRoleInfo(id){
       this.$ajax.get({
         url:this.$api.ROLE_DETAIL.replace('{id}',id)
       })
-      .then(res=>{
-        if(res.code === '200'){
-            let data=res.data.content;
+        .then(res=>{
+          if(res.code === '200'){
+            let data=res.data.content
             this.checkedKeys=data.map((item)=>{
               return item.id
-            });
+            })
 
-            this.expandedKeys=JSON.parse(JSON.stringify(this.checkedKeys));
-            this.showTree=true;
+            this.expandedKeys=JSON.parse(JSON.stringify(this.checkedKeys))
+            this.showTree=true
           }else{
             this.$message.error(res.msg)
           }
-      })
+        })
     },
     // 保存按钮
     save(){
       this.formData.validateFields((err)=>{
         if(!err){
-          let msg;
-          let link;
-          let methods;
+          let msg
+          let link
+          let methods
           if(this.$route.query.id){
-            link=this.$api.PUT_CHARACTER.replace('{id}',this.$route.query.id);
-            methods='put';
-            msg='修改成功';
+            link=this.$api.PUT_CHARACTER.replace('{id}',this.$route.query.id)
+            methods='put'
+            msg='修改成功'
           }else{
-            link=this.$api.ADD_ROLE_POST;
-            methods='post';
-            msg='新增成功';
+            link=this.$api.ADD_ROLE_POST
+            methods='post'
+            msg='新增成功'
           }
           this.$ajax[methods](
             {
@@ -159,14 +159,14 @@ export default {
               }
             }
           )
-          .then(res=>{
-            if(res.code === '200'){
-              this.$message.success(msg);
-              this.$router.back();
-            }else{
-              this.$message.error(res.msg)
-            }
-          })
+            .then(res=>{
+              if(res.code === '200'){
+                this.$message.success(msg)
+                this.$router.back()
+              }else{
+                this.$message.error(res.msg)
+              }
+            })
         }
       })
     },
@@ -175,63 +175,63 @@ export default {
       this.$router.push({
         name:'/systemManagement/role/edit',
         query:{
-            type:'edit',
-            id:this.$route.query.id,
-            roleName:this.$route.query.roleName
+          type:'edit',
+          id:this.$route.query.id,
+          roleName:this.$route.query.roleName
         }
       })
     },
     // 删除按钮
     deleteBtn(){
-      this.deleteShow=true;
+      this.deleteShow=true
     },
     handleOkDelete(){
-        this.deleteShow=false;
-        this.$ajax.delete({
-            url:this.$api.DELETE_CHARACTER.replace('{id}',this.$route.query.id),
-        })
+      this.deleteShow=false
+      this.$ajax.delete({
+        url:this.$api.DELETE_CHARACTER.replace('{id}',this.$route.query.id),
+      })
         .then(res=>{
-            if(res.code === '200'){
-                this.$message.success('删除成功');
-                this.$router.push({
-                  name:'/systemManagement/role'
-                })
-            }else{
-                this.$message.error(res.msg);
-            }
+          if(res.code === '200'){
+            this.$message.success('删除成功')
+            this.$router.push({
+              name:'/systemManagement/role'
+            })
+          }else{
+            this.$message.error(res.msg)
+          }
         })
     },
     handleOkDeleteRole(){
-        this.deleteShow=false;
-        this.$ajax.delete({
-            url:this.$api.DELETE_CHARACTER.replace('{id}',this.$route.query.id),
-        })
+      this.deleteShow=false
+      this.$ajax.delete({
+        url:this.$api.DELETE_CHARACTER.replace('{id}',this.$route.query.id),
+      })
         .then(res=>{
-            if(res.code === '200'){
-                this.$message.success('删除成功');
-                this.$router.push({
-                  name:'/systemManagement/role'
-                })
-            }else{
-                this.$message.error(res.msg);
-            }
+          if(res.code === '200'){
+            this.$message.success('删除成功')
+            this.$router.push({
+              name:'/systemManagement/role'
+            })
+          }else{
+            this.$message.error(res.msg)
+          }
         })
     },
   },
   mounted() {
-    this.getTree();
+    this.getTree()
     if(this.$route.query.type === 'edit'){
-      this.title='修改角色';
-      this.getRoleInfo(this.$route.query.id);
+      this.title='修改角色'
+      this.getRoleInfo(this.$route.query.id)
       this.formData.setFieldsValue({
         roleName:this.$route.query.roleName
-      });
+      })
     }else if(this.$route.query.type === 'view'){
-      this.title=this.$route.query.roleName;
-      this.getRoleInfo(this.$route.query.id);
+      this.title=this.$route.query.roleName
+      this.getRoleInfo(this.$route.query.id)
     }else{
-      this.title='新增角色';
-      this.showTree=true;
+      this.title='新增角色'
+      this.showTree=true
     }
   }
 }

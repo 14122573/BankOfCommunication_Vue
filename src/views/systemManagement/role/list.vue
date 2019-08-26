@@ -84,15 +84,15 @@ export default {
   methods:{
     //   查询列表
     getList(){
-        this.$ajax.get({
-            url:this.$api.GET_ROLE_LIST
-        })
+      this.$ajax.get({
+        url:this.$api.GET_ROLE_LIST
+      })
         .then(res=>{
-            if(res.code === '200'){
-              this.roleList=res.data.content;
-            }else{
-              this.$message.error(res.msg)
-            }
+          if(res.code === '200'){
+            this.roleList=res.data.content
+          }else{
+            this.$message.error(res.msg)
+          }
         })
     },
     addBtn(){
@@ -102,62 +102,62 @@ export default {
     },
     //   删除按钮
     deleteBtn(item){
-      this.deleteShow=true;
-      this.deleteData=item;
+      this.deleteShow=true
+      this.deleteData=item
     },
     // 修改按钮
     edit(item){
-        this.$router.push({
-            name:'/systemManagement/role/edit',
-            query:{
-                type:'edit',
-                id:item.id,
-                roleName:item.roleName
-            }
-        })
+      this.$router.push({
+        name:'/systemManagement/role/edit',
+        query:{
+          type:'edit',
+          id:item.id,
+          roleName:item.roleName
+        }
+      })
     },
     // 查看按钮
     view(item){
-        this.$router.push({
-            name:'/systemManagement/role/view',
-            query:{
-                type:'view',
-                id:item.id,
-                roleName:item.roleName
-            }
-        })
+      this.$router.push({
+        name:'/systemManagement/role/view',
+        query:{
+          type:'view',
+          id:item.id,
+          roleName:item.roleName
+        }
+      })
     },
     handleOkDelete(){
-        this.deleteShow=false;
-        this.$ajax.delete({
-            url:this.$api.DELETE_CHARACTER.replace('{id}',this.deleteData.id),
-        })
+      this.deleteShow=false
+      this.$ajax.delete({
+        url:this.$api.DELETE_CHARACTER.replace('{id}',this.deleteData.id),
+      })
         .then(res=>{
-            if(res.code === '200'){
-                this.$message.success('删除成功');
-                this.getList();
-            }else{
-                this.$message.error(res.msg);
-            }
+          if(res.code === '200'){
+            this.$message.success('删除成功')
+            this.getList()
+          }else{
+            this.$message.error(res.msg)
+          }
         })
     },
     handleOkDeleteRole(){
-        this.deleteShow=false;
-        this.$ajax.delete({
-            url:this.$api.DELETE_CHARACTER.replace('{id}',this.deleteData.id),
-        })
+      this.deleteShow=false
+      this.$ajax.delete({
+        url:this.$api.DELETE_CHARACTER.replace('{id}',this.deleteData.id),
+      })
         .then(res=>{
-            if(res.code === '200'){
-                this.$message.success('删除成功');
-                this.getList();
-            }else{
-                this.$message.error(res.msg);
-            }
+          if(res.code === '200'){
+            this.$message.success('删除成功')
+            this.getList()
+          }else{
+            this.$message.error(res.msg)
+          }
         })
     },
   },
   mounted(){
-      this.getList();
+    this.getList()
   }
 }
 </script>
