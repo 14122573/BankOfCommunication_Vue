@@ -17,8 +17,46 @@ const Axios = axios.create({
 const CancelToken = axios.CancelToken
 let cancelRequest = null
 
-// 根据报错的状态码进行错误处理
+// 处理请求状态码
+const reponseCodeHandler = (res)=>{
+  const code = res.data && res.data.code
+  if(code !='200'){
+    switch(code){
+    case '911':
+      const params = {
+        grant_type: 'refresh_token',
+        client_id: 'house',
+        client_secret: 'house',
+        refresh_token: Cookie.get('refresh_token'),
+      }
+      request({
+        method: 'POST',
+        url: api.REFRESH_TOKEN_POST,
+        params,
+        contentType: 'application/x-www-form-urlencoded;charset=UTF-8',
+      }).then(res => {
+        if(res.code === '912'){
+          Common.handleLogOut()
+        }else{
+          Common.setToken(res.access_token,res.refresh_token)
+          router.go(0)
+        }
+      })
+      break
+    case '900':
+      router.push({  name: 'noauth' })
+      break
+    case '710':
+      break
+    case '720':
+      break
+    }
+  }
+}
 
+
+
+// 根据报错的状态码进行错误处理
 const errorHandler = (err) => {
   const errStatus = (err.response && err.response.status) || (err.data && err.data.errcode)
   // console.log( typeof errStatus,'errStatus')
@@ -100,6 +138,8 @@ Axios.interceptors.request.use(config => {
 })
 
 Axios.interceptors.response.use(response => {
+  console.log(response.data)
+  reponseCodeHandler(response)
   return response.data
 }, error => {
   errorHandler(error)
@@ -118,6 +158,13 @@ const request = ({ method, url, params, contentType = 'application/json;charset=
   if (!url || typeof(url) != 'string') {
     throw new Error('接口URL不正确')
   }
+  // transformResponse()执行完再执行then()。transformResponse函数用于提前处理返回的数据。返回的result对象比transformResponse函数的data对象包含的数据多。
+  // if (method == 'get') {
+  //   let timestamp = Date.now()
+  //   url = (url.indexOf('?') != -1) ? (url + '&timestamp=' + timestamp) : (url + '?timestamp=' + timestamp)
+  //   url = encodeURI(url) //针对IE下地址传值带中文，对其转义
+  // }
+
   if (!params || typeof(params) == 'string' || typeof(params) == 'number') {
     params = {}
   }
