@@ -166,7 +166,7 @@ export default {
             params.redirectUrl = this.$cookie.get('redirectUrl')
           }
           if (values.captcha) {
-						params.captcha=values.captcha
+            params.captcha=values.captcha
             params.reqId = this.figure
           }
           this.$ajax.post({
