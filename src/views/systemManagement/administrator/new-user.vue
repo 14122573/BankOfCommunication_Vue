@@ -27,14 +27,18 @@
 						<a-input placeholder="请输入" v-model="searchForm.name" />
 					</a-form-item>
 				</a-col>
-				<a-col span="13" pull='3'>
-					<a-form-item label="角色状态：" :label-col="labelCol" :wrapper-col="wrapperCol">
+				<a-col span="12">
+					<a-form-item label="角色状态：" :label-col="{span:5}" :wrapper-col="wrapperCol">
 						<a-checkbox-group :options="plainOptions" v-model="checkedList" />
 					</a-form-item>
 				</a-col>
-				<a-col>
-					<a-button type="primary" ghost>重置</a-button>
-					<a-button type="primary">搜索</a-button>
+				<a-col span="6">
+					<a-row type="flex" justify="end">
+						<a-col>
+							<a-button type="primary" ghost>重置</a-button>
+							<a-button type="primary">搜索</a-button>
+						</a-col>
+					</a-row>
 				</a-col>
 			</a-row>
 		</a-form>
@@ -57,13 +61,13 @@
 					</a>
 					<a-menu slot="overlay" @click='showOpeations'>
 						<a-menu-item key="5">
-							修改
+							<a>修改</a>
 						</a-menu-item>
 						<a-menu-item key="2">
-							禁用
+								<a>禁用</a>
 						</a-menu-item>
 						<a-menu-item key="1">
-							启用
+							<a>启用</a>
 						</a-menu-item>
 						<a-menu-item key="3">
 							注销
@@ -80,7 +84,7 @@
 				<a-pagination showQuickJumper :defaultCurrent="1" :total="total" @change="pageChange" />
 			</a-col>
 		</a-row>
-		<a-modal :title="opeationTitle" :bodyStyle="{'text-align':'center'}" :visible="visibleModal" :closable='false'
+		<a-modal :title="opeationTitle" :centered='true' :bodyStyle="{'text-align':'center'}" :visible="visibleModal" :closable='false'
 		 :maskClosable='false'>
 			<template slot="footer">
 				<a-button @click="handleCancle" ghost type="primary">取消</a-button>
@@ -97,10 +101,10 @@ export default {
       searchForm: {},
       dateFormat: 'YYYY-MM-DD',
       labelCol: {
-        span: 9
+        span: 10
       },
       wrapperCol: {
-        span: 15
+        span: 14
       },
       data: [{
         name: 'qwqwq',

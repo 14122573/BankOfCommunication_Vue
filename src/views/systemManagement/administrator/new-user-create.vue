@@ -182,7 +182,7 @@ export default {
       // if not set autoExpandParent to false, if children expanded, parent can not collapse.
       // or, you can remove all expanded children keys.
       this.expandedKeys = expandedKeys
-      // this.autoExpandParent = false
+      this.autoExpandParent = false
     },
     onCheck(checkedKeys) {
       console.log('onCheck', checkedKeys)

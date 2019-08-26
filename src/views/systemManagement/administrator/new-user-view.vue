@@ -111,14 +111,14 @@
 				</a-row>
 			</a-col>
 		</a-row>
-		<a-tree class="tree" checkable :defaultExpandAll="defaultExpandAll" v-model="checkedKeys" :selectedKeys="selectedKeys"
-		 :treeData="treeData" disabled />
+		<a-tree class="tree" disabled checkable :defaultExpandedKeys="defaultExpandedKeys"
+		 v-model="checkedKeys" :treeData="treeData" />
 		<a-modal title="查看地图定位" :width='880' :bodyStyle="{'text-align':'center'}" :visible="map" :closable='false'>
 			<template slot="footer">
 				<a-button @click="map=false" ghost type="primary">取消</a-button>
 				<a-button @click="map=false" type="primary">确认</a-button>
 			</template>
-		    <BMapComponent :height="250" :width="830" :keyWords="keyWords" />
+			<BMapComponent :height="250" :width="830" :keyWords="keyWords" />
 		</a-modal>
 	</a-card>
 </template>
@@ -131,11 +131,11 @@ export default {
   },
   data() {
     return {
+      // defaultSelectedKeys: [],
+      defaultExpandedKeys: [],
       checkedKeys: [],
-      selectedKeys: [],
-      defaultExpandAll: true,
-      map:false,
-      keyWords:'',
+      map: false,
+      keyWords: '',
       treeData: [{
         title: '0-0',
         key: '0-0',
@@ -204,7 +204,9 @@ export default {
       })
     },
     handleAdd() {
-
+				
+      this.defaultExpandedKeys = ['0-0-0']
+      this.checkedKeys = ['0-0-0']
     }
   }
 }
