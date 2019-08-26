@@ -68,7 +68,7 @@
         </a-form>
         <a-table :columns="columns" rowKey="name" :dataSource="data">
             <span slot="status" slot-scope="text, record">
-                <a-badge :status="$com.checkUserStatusTags(record.status).color" :text="$com.checkUserStatusTags(record.status).txt" />
+                <userStatus :status="record.status"/>
             </span>
             <span slot="action" slot-scope="text, record">
                 <a href="javascript:;">查看</a>
@@ -97,7 +97,10 @@
     </div>
 </template>
 <script>
+import userStatus from '../components/user-status'
 export default {
+  name:'old-user',
+  components:{userStatus},
   data(){
     return{
       searchForm:{},
@@ -138,4 +141,10 @@ export default {
   }
 }
 </script>
+<style scoped>
+    .ant-badge-status-dot{
+        width: 9px 9px;
+    }
+</style>
+
 
