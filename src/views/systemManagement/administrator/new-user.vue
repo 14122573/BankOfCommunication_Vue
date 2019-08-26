@@ -40,30 +40,36 @@
 		</a-form>
 		<a-row type="flex" justify="start" class='opeationTable'>
 			<a-col>
-				<a-button type="primary" @click='handleAdd' v-if="$permission('P03303')">新增</a-button>
+				<a-button type="primary" @click='handleAdd'>新增</a-button>
 			</a-col>
 		</a-row>
-		<a-table :columns="columns" :dataSource="data" :pagination='false'>
-			<!-- 查看 v-if="$permission('P03301')" P03301  权限分配P03102  重置密码P03306  禁用P03305 注销P03307-->
+		<a-table :columns="columns" :dataSource="data" rowKey='name' :pagination='false'>
+			<!-- 查看 v-if="$permission('P03301')" P03301  权限分配P03102  重置密码P03306  禁用P03305 注销P03307   新增P03303-->
 			<span slot="action" slot-scope="text, record">
 				<a href="javascript:;" @click="viewBtn(record)">查看</a>
 				<a-divider type="vertical" />
-				<a href="javascript:;" v-if="$permission('P03102')">权限分配</a>
+				<a href="javascript:;">权限分配</a>
 				<a-divider type="vertical" />
 				<a-dropdown>
 					<a class="ant-dropdown-link" href="#">
 						更多
 						<a-icon type="down" />
 					</a>
-					<a-menu slot="overlay">
-						<a-menu-item>
-							<a href="javascript:;">重置密码</a>
+					<a-menu slot="overlay" @click='showOpeations'>
+						<a-menu-item key="5">
+							修改
 						</a-menu-item>
-						<a-menu-item>
-							<a href="javascript:;">禁用</a>
+						<a-menu-item key="2">
+							禁用
 						</a-menu-item>
-						<a-menu-item>
-							<a href="javascript:;">注销</a>
+						<a-menu-item key="1">
+							启用
+						</a-menu-item>
+						<a-menu-item key="3">
+							注销
+						</a-menu-item>
+						<a-menu-item key="4">
+							解冻
 						</a-menu-item>
 					</a-menu>
 				</a-dropdown>
@@ -74,7 +80,8 @@
 				<a-pagination showQuickJumper :defaultCurrent="1" :total="total" @change="pageChange" />
 			</a-col>
 		</a-row>
-		<a-modal :title="opeationTitle" :visible="visibleModal" :closable='false' :maskClosable='false'>
+		<a-modal :title="opeationTitle" :bodyStyle="{'text-align':'center'}" :visible="visibleModal" :closable='false'
+		 :maskClosable='false'>
 			<template slot="footer">
 				<a-button @click="handleCancle" ghost type="primary">取消</a-button>
 				<a-button @click="handleOk" type="primary">确认</a-button>
@@ -144,8 +151,9 @@ export default {
       checkedList: ['正常'],
       total: 0,
       opeationTitle: '',
-      visibleModal:false,
-      tips:''
+      visibleModal: false,
+      tips: '',
+      opeationType: ''
     }
   },
   methods: {
@@ -163,30 +171,63 @@ export default {
         name: '/systemManagement/administrator/newUserView'
       })
     },
-    handleCancle(){
-      this.visibleModal=false
+    handleCancle() {
+      this.visibleModal = false
     },
-    handleOk(type){
-      switch (type){
+    showOpeations({
+      key
+    }) {
+      switch (key) {
       case '1':
-					    this.opeationTitle='启用'
-        this.tips='启用后，该账号将被允许登录平台，您确认要启用该账号吗?'
+        this.opeationTitle = '启用'
+        this.tips = '启用后，该账号将被允许登录平台，您确认要启用该账号吗?'
         break
       case '2':
-					    this.opeationTitle='禁用'
-        this.tips='禁用后，该账号将不被允许登录平台直到再次启用，您确定要禁用吗？'
+        this.opeationTitle = '禁用'
+        this.tips = '禁用后，该账号将不被允许登录平台直到再次启用，您确定要禁用吗？'
         break
       case '3':
-					    this.opeationTitle='注销'
-        this.tips='注销后，该账号将被使用，您确认要注销该账号吗?'
+        this.opeationTitle = '注销'
+        this.tips = '注销后，该账号将被使用，您确认要注销该账号吗?'
         break
       case '4':
-					    this.opeationTitle='解冻'
-        this.tips='解冻后，该账号将可以重新登录，您确定要解冻该账号吗?'
+        this.opeationTitle = '解冻'
+        this.tips = '解冻后，该账号将可以重新登录，您确定要解冻该账号吗?'
+        break
+      case '5':
+        this.$router.push({
+          name: '/systemManagement/administrator/editNewUser'
+        })
+        return
         break
       default:
         break
       }
+      this.opeationType = key
+      this.visibleModal = true
+    },
+    handleOk() {
+      switch (key) {
+      case '1':
+        //启用操作
+
+        break
+      case '2':
+        //禁用操作
+
+        break
+      case '3':
+        //注销操作
+
+        break
+      case '4':
+        //解冻操作
+
+        break
+      default:
+        break
+      }
+      this.visibleModal = false
     }
   }
 }

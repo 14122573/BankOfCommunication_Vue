@@ -250,6 +250,19 @@ const appRoutes = [{
       },
     },
     {
+      path: '/systemManagement/administrator/editNewUser',
+      name: '/systemManagement/administrator/editNewUser',
+      component: CreateNewUser,
+      meta: {
+        title: '新增用户信息修改',
+        menuPath: true,
+        authCode: 'P03302',
+        menuIcon: 'cluster',
+        hideInBread: false,
+        openMode: 'normal'
+      },
+    },
+    {
       path: '/systemManagement/administrator/newUserView',
       name: '/systemManagement/administrator/newUserView',
       component: NewUserView,

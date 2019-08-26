@@ -41,10 +41,16 @@
 					</a-form-item>
 				</a-col>
 			</a-row>
-			<a-row type="flex" justify="start">
+			<a-row type="flex" justify="start" align="middle">
 				<a-col span="16">
 					<a-form-item label="地址：" :label-col="{span:3}" :wrapper-col="wrapperCol">
-						<a-input placeholder="请输入" v-model="searchForm.name" />
+						<a-input placeholder="请输入" v-model="searchForm.name" @change='keyWords=searchForm.name' />
+					</a-form-item>
+				</a-col>
+				<a-col span="6" pull="4">
+					<a-form-item>
+						<div class="position" @click="map=true">
+							<a-icon type="environment" />&nbsp;查看地图定位</div>
 					</a-form-item>
 				</a-col>
 			</a-row>
@@ -67,13 +73,24 @@
 				</a-col>
 			</a-row>
 		</a-form>
-		<a-tree class="tree" checkable @expand="onExpand" :expandedKeys="expandedKeys" :autoExpandParent="autoExpandParent"
+		<a-tree class="tree" :blockNode="true" checkable @expand="onExpand" :expandedKeys="expandedKeys" :autoExpandParent="autoExpandParent"
 		 v-model="checkedKeys" @select="onSelect" :selectedKeys="selectedKeys" :treeData="treeData" />
+		<a-modal title="查看地图定位" :width='880' :bodyStyle="{'text-align':'center'}" :visible="map" :closable='false'>
+			<template slot="footer">
+				<a-button @click="map=false" ghost type="primary">取消</a-button>
+				<a-button @click="map=false" type="primary">确认</a-button>
+			</template>
+            <BMapComponent :height="250" :width="830" :keyWords="keyWords" />
+		</a-modal>
 	</a-card>
 </template>
 
 <script>
+import BMapComponent from '@/components/BaiduMap/BMapComponent.vue'
 export default {
+  components: {
+    BMapComponent
+  },
   data() {
     return {
       searchForm: {
@@ -148,7 +165,9 @@ export default {
       }, {
         title: '0-2',
         key: '0-2',
-      }]
+      }],
+      map: false,
+      keyWords:''
     }
   },
   watch: {
@@ -173,20 +192,22 @@ export default {
       console.log('onSelect', info)
       this.selectedKeys = selectedKeys
     },
-    handleReturn(){
+    handleReturn() {
       this.$router.push({
-        name:'/systemManagement/administrator'
+        name: '/systemManagement/administrator'
       })
     },
-    handleSave(){
-				
-    }
+    handleAdd() {}
   }
 }
 </script>
 
 <style scoped>
-
+	.position {
+		margin-left: 5px;
+		color: #1890ff;
+		cursor: pointer;
+	}
 </style>
 <style>
 	.tree>li {

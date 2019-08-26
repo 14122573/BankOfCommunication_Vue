@@ -72,7 +72,8 @@
 						地址：
 					</a-col>
 					<a-col span="17">
-						地址
+						地址 <span class="position" @click="map=true">
+							<a-icon type="environment" />&nbsp;查看地图定位</span>
 					</a-col>
 				</a-row>
 			</a-col>
@@ -110,18 +111,31 @@
 				</a-row>
 			</a-col>
 		</a-row>
-		<a-tree class="tree" checkable :defaultExpandAll="defaultExpandAll" v-model="checkedKeys"
-		 :selectedKeys="selectedKeys" :treeData="treeData" disabled/>
+		<a-tree class="tree" checkable :defaultExpandAll="defaultExpandAll" v-model="checkedKeys" :selectedKeys="selectedKeys"
+		 :treeData="treeData" disabled />
+		<a-modal title="查看地图定位" :width='880' :bodyStyle="{'text-align':'center'}" :visible="map" :closable='false'>
+			<template slot="footer">
+				<a-button @click="map=false" ghost type="primary">取消</a-button>
+				<a-button @click="map=false" type="primary">确认</a-button>
+			</template>
+		    <BMapComponent :height="250" :width="830" :keyWords="keyWords" />
+		</a-modal>
 	</a-card>
 </template>
 
 <script>
+import BMapComponent from '@/components/BaiduMap/BMapComponent.vue'
 export default {
+  components: {
+    BMapComponent
+  },
   data() {
     return {
       checkedKeys: [],
       selectedKeys: [],
-      defaultExpandAll:true,
+      defaultExpandAll: true,
+      map:false,
+      keyWords:'',
       treeData: [{
         title: '0-0',
         key: '0-0',
@@ -202,6 +216,12 @@ export default {
 
 	.colLabel {
 		text-align: right;
+	}
+
+	.position {
+		margin-left: 5px;
+		color: #1890ff;
+		cursor: pointer;
 	}
 </style>
 <style>
