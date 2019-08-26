@@ -75,12 +75,11 @@
 	</div>
 </template>
 <script>
-import {
-  permission
-} from '@/util/mixins'
+import { permission } from '@/util/mixins'
 import testStrong from '@/components/testPwd'
 import ResetPassword from '@/views/login/ResetPassword'
 import opeationSuccess from '@/views/login/success'
+import {encryptDes} from '@/util/des-cryptojs'
 export default {
   name: 'Login',
   components: {
@@ -159,7 +158,11 @@ export default {
       this.visibleError = false
       this.formLogin.validateFields((err, values) => {
         if (!err) {
-          let params = values
+          let params ={
+            'username':values.username,
+            'pwd':encryptDes(values.pwd)
+          }
+          console.log(params)
           if (this.redirectUrlPrefix != 'null') {
             params.redirectUrl = this.$cookie.get('redirectUrl')
           }

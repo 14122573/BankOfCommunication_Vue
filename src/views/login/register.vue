@@ -142,6 +142,7 @@
 <script>
 import testStrong from '@/components/testPwd'
 import Loader from '@/components/Loader/loader'
+import {encryptDes} from '@/util/des-cryptojs'
 export default {
   name: 'Register',
   components: {
@@ -315,7 +316,7 @@ export default {
         if (!err) {
           let params = {
             'username':values.phone,
-            'pwd':values.password,
+            'pwd':encryptDes(values.password),
             'code':values.code,
             'userInfo':{
               'mail':values.mail,
