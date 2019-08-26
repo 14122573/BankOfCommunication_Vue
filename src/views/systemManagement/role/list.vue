@@ -23,23 +23,23 @@
         <div class="wrapper-roles">
             <div class="box">
                 <div class="inner add-btn">
-                    <a-button icon="plus" @click="addBtn" class="add-btn" type="default" />
+                    <a-button icon="plus" @click="addBtn" class="add-btn" type="default" >新增角色</a-button>
                 </div>
             </div>
             <div class="box" v-for="(item,index) in roleList" :key="index">
                 <div class="inner">
                     <div class="content">
-                        <p class="name">name</p>
+                        <p class="name">{{item.roleName}}</p>
                         <p>
                             <a-icon type="user" /><span class="name-num">4人</span>
                         </p>
                     </div>
                     <div class="operate">
-                        <a href="#">查看</a>
+                        <a @click="view(item)">查看</a>
                         <a-divider type="vertical" />
-                        <a href="#">修改</a>
+                        <a @click="edit(item)">修改</a>
                         <a-divider type="vertical" />
-                        <a @click="deleteBtn">删除</a>
+                        <a @click="deleteBtn(item)">删除</a>
                     </div>
                 </div>
             </div>
@@ -75,24 +75,89 @@ export default {
       searchForm: {},
       labelCol: { span: 10 },
       wrapperCol: { span: 14 },
-      roleList:[{},{},{},{},{},{},{}],
+      roleList:[],
       deleteShow:false,
       deleteRoleShow:false,
+      deleteData:{},
     }
   },
   methods:{
+    //   查询列表
+    getList(){
+      this.$ajax.get({
+        url:this.$api.GET_ROLE_LIST
+      })
+        .then(res=>{
+          if(res.code === '200'){
+            this.roleList=res.data.content
+          }else{
+            this.$message.error(res.msg)
+          }
+        })
+    },
     addBtn(){
-      console.log(this.$router)
       this.$router.push({
         name:'/systemManagement/role/create',
       })
     },
     //   删除按钮
-    deleteBtn(){
+    deleteBtn(item){
       this.deleteShow=true
+      this.deleteData=item
     },
-    handleOkDelete(){},
-    handleOkDeleteRole(){},
+    // 修改按钮
+    edit(item){
+      this.$router.push({
+        name:'/systemManagement/role/edit',
+        query:{
+          type:'edit',
+          id:item.id,
+          roleName:item.roleName
+        }
+      })
+    },
+    // 查看按钮
+    view(item){
+      this.$router.push({
+        name:'/systemManagement/role/view',
+        query:{
+          type:'view',
+          id:item.id,
+          roleName:item.roleName
+        }
+      })
+    },
+    handleOkDelete(){
+      this.deleteShow=false
+      this.$ajax.delete({
+        url:this.$api.DELETE_CHARACTER.replace('{id}',this.deleteData.id),
+      })
+        .then(res=>{
+          if(res.code === '200'){
+            this.$message.success('删除成功')
+            this.getList()
+          }else{
+            this.$message.error(res.msg)
+          }
+        })
+    },
+    handleOkDeleteRole(){
+      this.deleteShow=false
+      this.$ajax.delete({
+        url:this.$api.DELETE_CHARACTER.replace('{id}',this.deleteData.id),
+      })
+        .then(res=>{
+          if(res.code === '200'){
+            this.$message.success('删除成功')
+            this.getList()
+          }else{
+            this.$message.error(res.msg)
+          }
+        })
+    },
+  },
+  mounted(){
+    this.getList()
   }
 }
 </script>
@@ -106,7 +171,7 @@ export default {
   padding: 0 16px 16px 0;
 }
 .inner {
-  height: 150px;
+  height: 140px;
   display: flex;
   flex-direction: column;
   border: 1px solid #e8eaec;
@@ -138,7 +203,8 @@ export default {
 .inner.add-btn > button {
   width: 100%;
   height: 100%;
-  font-size: 30px;
+  font-size: 16px;
+  color: #1890ff;
 }
 .center-p{
     text-align: center;

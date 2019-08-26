@@ -13,8 +13,8 @@ case 'production': // 生产环境下
   BASE_URL = 'http://iftp.omniview.pro/api'
   break
 default: // 默认环境下（开发环境）
-  // BASE_URL = 'http://fish.omniview.pro/api'
-  BASE_URL = 'http://iftp.omniview.pro/api'
+  BASE_URL = 'http://fish.omniview.pro/api'
+  // BASE_URL = 'http://iftp.omniview.pro/api'
   break
 };
 
@@ -38,4 +38,10 @@ export default {
   GET_CHECK_PHONE_EXIST: '/service-user/user/public/check/phone/exist', //判断手机是否存在
   GET_PHONE_CODE: '/service-user/user/public/send/{type}/{phone}', // 发送验证码 （用于注册、忘记密码）
   POST_CHECK_PHONE_CODE: '/service-user/user/public/check/{type}/{phone}/{code}', // 验证手机验证码 （用于注册、忘记密码）
+  GET_ROLE_LIST: '/service-permission/perm/roles', //获取角色列表
+  GET_ALL_ROLE: '/service-permission/perm/menu/tree', //获取权限
+  ADD_ROLE_POST: '/service-permission/perm/role', // 新增角色
+  ROLE_DETAIL: '/service-permission/perm/roles/{id}', // 查询角色权限
+  PUT_CHARACTER: '/service-permission/perm/role/{id}', //编辑角色
+  DELETE_CHARACTER: '/service-permission/perm/role/{id}', //删除角色
 }
