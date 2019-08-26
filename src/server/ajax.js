@@ -5,9 +5,7 @@ import Store from '@/store'
 import Cookie from '@/util/local-cookie'
 import router from '@/router'
 import Common from '@/util/common'
-import {
-  message
-} from 'ant-design-vue'
+import { message } from 'ant-design-vue'
 
 // 配置请求的根域名和超时时间
 const Axios = axios.create({
@@ -20,14 +18,14 @@ let cancelRequest = null
 // 处理请求状态码
 const reponseCodeHandler = (res)=>{
   const code = res.data && res.data.code
-  if(code !='200'){
-    switch(code){
-    case '911':
+  if('string' == typeof code){
+    if(code == '200'){
+    }else if(code == '911'){
       const params = {
         grant_type: 'refresh_token',
         client_id: 'house',
         client_secret: 'house',
-        refresh_token: Cookie.get('refresh_token'),
+        refreshToken: Cookie.get('refresh_token'),
       }
       request({
         method: 'POST',
@@ -35,31 +33,26 @@ const reponseCodeHandler = (res)=>{
         params,
         contentType: 'application/x-www-form-urlencoded;charset=UTF-8',
       }).then(res => {
-        if(res.code === '912'){
+        if(res.code === '200'){
+          Common.setToken(res.data.content.access_token,res.data.content.refresh_token)
+          router.go(0)
+        }else if(res.code === '912'){
           Common.handleLogOut()
         }else{
-          Common.setToken(res.access_token,res.refresh_token)
-          router.go(0)
+          Common.handleLogOut()
         }
       })
-      break
-    case '900':
+    }else if(code == '900'){
       router.push({  name: 'noauth' })
-      break
-    case '710':
-      break
-    case '720':
-      break
+    }else if(code == '710' || code == '720'){
+      // message.error('')
     }
   }
 }
 
-
-
 // 根据报错的状态码进行错误处理
 const errorHandler = (err) => {
   const errStatus = (err.response && err.response.status) || (err.data && err.data.errcode)
-  // console.log( typeof errStatus,'errStatus')
   if (errStatus) {
     switch (errStatus) {
     case 404: // 网络请求不存在,跳转统一报错页面
@@ -69,40 +62,9 @@ const errorHandler = (err) => {
       break
     case 500:
       const code = err.response.data && err.response.data.code
-      if (code == '911') { // token 获取
-        // token过期则重新获取token或refresh token并刷新页面
-        const params = {
-          grant_type: 'refresh_token',
-          client_id: 'house',
-          client_secret: 'house',
-          refresh_token: Cookie.get('refresh_token'),
-        }
-        request({
-          method: 'POST',
-          url: api.REFRESH_TOKEN_POST,
-          params,
-          contentType: 'application/x-www-form-urlencoded;charset=UTF-8',
-        }).then(res => {
-          if(res.code === '912'){
-            Common.handleLogOut()
-          }else{
-            Common.setToken(res.access_token,res.refresh_token)
-            router.go(0)
-          }
-        })
-      } else if (code == '912') { // refresh token 过期
-        Common.handleLogOut()
-      } else if (code == '710') { // 自定义错误
-        // message.error(err.response.data.msg)
-      } else if (code == '720') { // 必填项校验错误
-        // message.error(err.response.data.msg)
-      } else if (code =='740') { // 运行时异常
+      if (code =='740') { // 运行时异常
         router.push({
           name: 'networkerr'
-        })
-      } else if (code == '900') { // 无权访问
-        router.push({
-          name: 'noauth'
         })
       } else { // 其他错误，统一到网络异常页面
         router.push({
@@ -138,7 +100,6 @@ Axios.interceptors.request.use(config => {
 })
 
 Axios.interceptors.response.use(response => {
-  console.log(response.data)
   reponseCodeHandler(response)
   return response.data
 }, error => {

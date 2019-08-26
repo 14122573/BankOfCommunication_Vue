@@ -175,7 +175,7 @@ export default {
               this.jumpOpeation(res)
               this.visibleError = false
             } else {
-              this.loginFailMsg = res.data.msg
+              this.loginFailMsg = res.msg
               this.visibleError = true
               this.threeTimesShowCode(values.username)
             }
