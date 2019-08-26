@@ -28,7 +28,7 @@
 							<a-form-item>
 								<a-input v-decorator="[
 									  'phone',
-									  { validateTrigger:'change',
+									  { validateTrigger:'blur',
 										 rules: [
 									  { validator: validatePhone}] }
 									]"
