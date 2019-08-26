@@ -40,14 +40,15 @@
 		</a-form>
 		<a-row type="flex" justify="start" class='opeationTable'>
 			<a-col>
-				<a-button type="primary" @click='handleAdd'>新增</a-button>
+				<a-button type="primary" @click='handleAdd' v-if="$permission('P03303')">新增</a-button>
 			</a-col>
 		</a-row>
 		<a-table :columns="columns" :dataSource="data" :pagination='false'>
+			<!-- 查看 v-if="$permission('P03301')" P03301  权限分配P03102  重置密码P03306  禁用P03305 注销P03307-->
 			<span slot="action" slot-scope="text, record">
-				<a href="javascript:;">查看</a>
+				<a href="javascript:;" @click="viewBtn(record)">查看</a>
 				<a-divider type="vertical" />
-				<a href="javascript:;">权限分配</a>
+				<a href="javascript:;" v-if="$permission('P03102')">权限分配</a>
 				<a-divider type="vertical" />
 				<a-dropdown>
 					<a class="ant-dropdown-link" href="#">
@@ -73,7 +74,13 @@
 				<a-pagination showQuickJumper :defaultCurrent="1" :total="total" @change="pageChange" />
 			</a-col>
 		</a-row>
-
+		<a-modal :title="opeationTitle" :visible="visibleModal" :closable='false' :maskClosable='false'>
+			<template slot="footer">
+				<a-button @click="handleCancle" ghost type="primary">取消</a-button>
+				<a-button @click="handleOk" type="primary">确认</a-button>
+			</template>
+			<p>{{tips}}</p>
+		</a-modal>
 	</div>
 </template>
 <script>
@@ -136,7 +143,9 @@ export default {
       plainOptions: ['正常', '禁用', '已冻结', '已注销'],
       checkedList: ['正常'],
       total: 0,
-
+      opeationTitle: '',
+      visibleModal:false,
+      tips:''
     }
   },
   methods: {
@@ -146,8 +155,38 @@ export default {
     pageChange() {},
     handleAdd() {
       this.$router.push({
-        name:'new-user-add'
+        name: '/systemManagement/administrator/createNewUser'
       })
+    },
+    viewBtn() {
+      this.$router.push({
+        name: '/systemManagement/administrator/newUserView'
+      })
+    },
+    handleCancle(){
+      this.visibleModal=false
+    },
+    handleOk(type){
+      switch (type){
+      case '1':
+					    this.opeationTitle='启用'
+        this.tips='启用后，该账号将被允许登录平台，您确认要启用该账号吗?'
+        break
+      case '2':
+					    this.opeationTitle='禁用'
+        this.tips='禁用后，该账号将不被允许登录平台直到再次启用，您确定要禁用吗？'
+        break
+      case '3':
+					    this.opeationTitle='注销'
+        this.tips='注销后，该账号将被使用，您确认要注销该账号吗?'
+        break
+      case '4':
+					    this.opeationTitle='解冻'
+        this.tips='解冻后，该账号将可以重新登录，您确定要解冻该账号吗?'
+        break
+      default:
+        break
+      }
     }
   }
 }
