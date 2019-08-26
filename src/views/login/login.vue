@@ -162,11 +162,11 @@ export default {
             'username':values.username,
             'pwd':encryptDes(values.pwd)
           }
-          console.log(params)
           if (this.redirectUrlPrefix != 'null') {
             params.redirectUrl = this.$cookie.get('redirectUrl')
           }
           if (values.captcha) {
+						params.captcha=values.captcha
             params.reqId = this.figure
           }
           this.$ajax.post({
