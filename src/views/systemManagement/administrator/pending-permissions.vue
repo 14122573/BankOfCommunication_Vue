@@ -69,7 +69,7 @@
             <span slot="action" slot-scope="text, record">
                 <a href="javascript:;" @click="viewBtn(record)">查看</a>
                 <a-divider type="vertical" />
-                <a href="javascript:;">权限分配</a>
+                <a href="javascript:;" @click="distributionBtn(record)">权限分配</a>
             </span>
         </a-table>
     </div>
@@ -134,9 +134,15 @@ export default {
     // 查看按钮
     viewBtn(item){
       this.$router.push({
-        name:'/systemManagement/administrator/pendingPermissions/view'
+        name:'/systemManagement/administrator/pendingView'
       })
     },
+    // 权限分配按钮
+    distributionBtn(item){
+      this.$router.push({
+        name:'/systemManagement/administrator/distribution'
+      })
+    }
   }
 }
 </script>

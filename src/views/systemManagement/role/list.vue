@@ -21,6 +21,11 @@
             </a-row>
         </a-form>
         <div class="wrapper-roles">
+            <div class="box">
+                <div class="inner add-btn">
+                    <a-button icon="plus" @click="addBtn" class="add-btn" type="default" />
+                </div>
+            </div>
             <div class="box" v-for="(item,index) in roleList" :key="index">
                 <div class="inner">
                     <div class="content">
@@ -38,11 +43,6 @@
                     </div>
                 </div>
             </div>
-            <div class="box">
-                <div class="inner add-btn">
-                    <a-button icon="plus" @click="addBtn" class="add-btn" type="default" />
-                </div>
-            </div>
         </div>
         <!-- 删除确认 -->
          <a-modal
@@ -52,8 +52,8 @@
             cancelText="取消"
             okText="删除"
             >
-        <p>是否确认删除此角色？</p>
-        <p>此操作不可撤销</p>
+        <p class="center-p">是否确认删除此角色？</p>
+        <p class="center-p">此操作不可撤销</p>
         </a-modal>
         <!-- 删除确认-存在未分配人员 -->
          <a-modal
@@ -63,8 +63,8 @@
             cancelText="取消"
             okText="删除"
             >
-        <p>此角色还有员工未被分配</p>
-        <p>请先处理该角色下所有员工的调岗操作</p>
+        <p class="center-p">此角色还有员工未被分配</p>
+        <p class="center-p">请先处理该角色下所有员工的调岗操作</p>
         </a-modal>
     </a-card>
 </template>
@@ -84,7 +84,7 @@ export default {
     addBtn(){
       console.log(this.$router)
       this.$router.push({
-        name:'/systemManagement/role/add',
+        name:'/systemManagement/role/create',
       })
     },
     //   删除按钮
@@ -139,6 +139,9 @@ export default {
   width: 100%;
   height: 100%;
   font-size: 30px;
+}
+.center-p{
+    text-align: center;
 }
 </style>
 

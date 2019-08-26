@@ -1,21 +1,52 @@
 // const Layout = () => import('@/components/Layout/main')
-const contentWrapper = () => import ('@/components/Layout/content-wrapper')
-const TipsNetworkErr = () => import ('@/views/tips/network')
-const TipsNoAuth = () => import ('@/views/tips/auth')
-const TipsOutsite = () => import ('@/views/tips/outsite')
-const HomePage = () => import ('@/views/home')
-const LoginPage = () => import ('@/views/login/login')
-const RegisterPage = () => import ('@/views/login/register')
-const OldSysLogout= () => import ('@/views/login/oldSysLogout')
-const BindPhone = () => import ('@/views/login/bindPhone')
-const PersonCenter = () => import ('@/views/person-center')
-// 系统管理---组织机构
-// contentOrganization
-const contentOrganization = () => import ('@/views/systemManagement/content-organization')
-const Organization = () => import ('@/views/systemManagement/organization/list')
-const OrganizationUpload = () => import ('@/views/systemManagement/organization/upload')
-const OrganizationCreate = () => import ('@/views/systemManagement/organization/create')
-const OrganizationView = () => import ('@/views/systemManagement/organization/view')
+const contentWrapper = () =>
+	import('@/components/Layout/content-wrapper')
+const TipsNetworkErr = () =>
+	import('@/views/tips/network')
+const TipsNoAuth = () =>
+	import('@/views/tips/auth')
+const TipsOutsite = () =>
+	import('@/views/tips/outsite')
+const HomePage = () =>
+	import('@/views/home')
+const LoginPage = () =>
+	import('@/views/login/login')
+const RegisterPage = () =>
+	import('@/views/login/register')
+const OldSysLogout = () =>
+	import('@/views/login/oldSysLogout')
+const BindPhone = () =>
+	import('@/views/login/bindPhone')
+const PersonCenter = () =>
+	import('@/views/person-center')
+// 系统管理
+// 组织机构
+const contentSystemManagement = () =>
+	import('@/views/systemManagement/content-systemManagement')
+const Organization = () =>
+	import('@/views/systemManagement/organization/list')
+const OrganizationUpload = () =>
+	import('@/views/systemManagement/organization/upload')
+const OrganizationCreate = () =>
+	import('@/views/systemManagement/organization/create')
+const OrganizationView = () =>
+	import('@/views/systemManagement/organization/view')
+// 角色管理
+const RoleManagement = () =>
+	import('@/views/systemManagement/role/list')
+const RoleCreate = () =>
+	import('@/views/systemManagement/role/add')
+// 管理员管理
+const AdministratorManagement = () =>
+	import('@/views/systemManagement/administrator/index')
+const PendingView = () =>
+	import('@/views/systemManagement/administrator/pending-view')
+const Distribution = () =>
+	import('@/views/systemManagement/administrator/distribution')
+const CreateNewUser = () =>
+	import('@/views/systemManagement/administrator/new-user-create')
+const NewUserView = () =>
+	import('@/views/systemManagement/administrator/new-user-view')
 /**
  * 要求：
  *  1、配置Router时，需将此router的权限编码信息、打开方式信息、是否在面包屑隐藏信息、是否为左侧菜单、是否有菜单图标配置在内。
@@ -38,151 +69,417 @@ const appRoutes = [{
   name: 'Layout',
   redirect: '/login',
   component: contentWrapper,
-  children: [
-    { path: '/home', name: 'home', component: HomePage, meta: { title: '首页' }, },
-    { path: '/noauth', name: 'noautherr', component: TipsNoAuth, meta: { title: '没有权限', }, },
-    {
-      path: '/person',
-      name: 'person',
-      component: PersonCenter,
-      meta: { title: '个人中心' },
+  children: [{
+    path: '/home',
+    name: 'home',
+    component: HomePage,
+    meta: {
+      title: '首页'
+    },
+  },
+  {
+    path: '/noauth',
+    name: 'noautherr',
+    component: TipsNoAuth,
+    meta: {
+      title: '没有权限',
+    },
+  },
+  {
+    path: '/person',
+    name: 'person',
+    component: PersonCenter,
+    meta: {
+      title: '个人中心'
+    },
+  },
+  {
+    path: '/systemManagement',
+    name: 'systemManagement',
+    component: contentSystemManagement,
+    meta: {
+      title: '系统管理',
+      menuPath: true,
+      authCode: 'P00000',
+      menuIcon: 'setting',
+      hideInBread: true
+    },
+    children: [{
+      path: '/systemManagement/organization',
+      name: '/systemManagement/organization',
+      component: Organization,
+      meta: {
+        title: '组织机构管理',
+        menuPath: true,
+        authCode: 'P01000',
+        menuIcon: 'cluster',
+        hideInBread: false,
+        openMode: 'normal'
+      },
     },
     {
-      path: '/systemManagement',
-      name: 'systemManagement',
-      component: contentOrganization,
-      meta: { title: '系统管理', menuPath: true, authCode: 'P00000', menuIcon: 'setting', hideInBread: true },
-      children: [{
-        path: '/systemManagement/organization',
-        name: '/systemManagement/organization',
-        component: Organization,
-        meta: { title: '组织机构管理', menuPath: true, authCode: 'P01000', menuIcon: 'cluster', hideInBread: false, openMode: 'normal' },
-        children:[
-          {
-            path: '/systemManagement/organization/upload',
-            name: '/systemManagement/organization/upload',
-            component: OrganizationUpload,
-            meta: { title: '导入', menuPath: false, authCode: 'P01005', menuIcon: 'setting', hideInBread: false, openMode: 'normal' }
-          },
-          {
-            path: '/organization/create',
-            name: '/organization/create',
-            component: OrganizationCreate,
-            meta: { title: '创建', menuPath: false, authCode: 'P01001', menuIcon: 'cluster', hideInBread: false, openMode: 'normal' }
-          },
-          {
-            path: '/organization/view',
-            name: '/organization/view',
-            component: OrganizationView,
-            meta: { title: '查看', menuPath: false, authCode: 'P01002', menuIcon: 'cluster', hideInBread: false, openMode: 'normal' }
-          },
-          {
-            path: '/organization/edit',
-            name: '/organization/edit',
-            component: OrganizationCreate,
-            meta: { title: '编辑', menuPath: false, authCode: 'P01003', menuIcon: 'cluster', hideInBread: false, openMode: 'normal' }
-          }
-        ]
-      },
-      ]
+      path: '/systemManagement/organization/upload',
+      name: '/systemManagement/organization/upload',
+      component: OrganizationUpload,
+      meta: {
+        title: '导入',
+        menuPath: false,
+        authCode: 'P01005',
+        menuIcon: 'setting',
+        hideInBread: false,
+        openMode: 'normal'
+      }
     },
     {
-      path: '/scsd',
-      name: 'scsd',
-      component: contentWrapper,
-      meta: { title: '水产新品种审定', menuPath: true, authCode: 'S0501', menuIcon: 'barcode', hideInBread: true },
-      children: [{
-        path: '/scsd/post/scsdPost',
-        name: '/scsd/post/scsdPost',
-        meta: { title: '完善申报信息', menuPath: true, authCode: 'S050101', menuIcon: 'exception', hideInBread: false, openMode: 'spa' },
-      },
-      {
-        path: '/scsd/expert/scsdOrgaExpert',
-        name: '/scsd/expert/scsdOrgaExpert',
-        meta: { title: '组织专家', menuPath: true, authCode: 'S050102', menuIcon: 'usergroup-add', hideInBread: false, openMode: 'spa' },
-      },
-      {
-        path: '/scsd/forma/scsdForma',
-        name: '/scsd/forma/scsdForma',
-        meta: { title: '形式审查信息', menuPath: true, authCode: 'S050103', menuIcon: 'file-protect', hideInBread: false, openMode: 'spa' },
-      },
-      {
-        path: '/scsd/exam/scsdExam',
-        name: '/scsd/exam/scsdExam',
-        meta: { title: '函审信息', menuPath: true, authCode: 'S050104', menuIcon: 'reconciliation', hideInBread: false, openMode: 'spa' },
-      },
-      {
-        path: '/scsd/localexam/scsdLocalExam',
-        name: '/scsd/localexam/scsdLocalExam',
-        meta: { title: '现场审定专家意见', menuPath: true, authCode: 'S050105', menuIcon: 'solution', hideInBread: false, openMode: 'spa' },
-      },
-      {
-        path: '/scsd/local/scsdLocal',
-        name: '/scsd/local/scsdLocal',
-        meta: { title: '现场审定专家代录入', menuPath: true, authCode: 'S050106', menuIcon: 'solution', hideInBread: false, openMode: 'spa' },
-      },
-      {
-        path: '/scsd/review/scsdReview',
-        name: '/scsd/review/scsdReview',
-        meta: { title: '评审结果信息', menuPath: true, authCode: 'S050107', menuIcon: 'audit', hideInBread: false, openMode: 'spa' },
-      },
-      ]
+      path: '/systemManagement/organization/create',
+      name: '/systemManagement/organization/create',
+      component: OrganizationCreate,
+      meta: {
+        title: '组织机构创建',
+        menuPath: false,
+        authCode: 'P01001',
+        menuIcon: 'cluster',
+        hideInBread: false,
+        openMode: 'normal'
+      }
     },
     {
-      path: '/SCYJ/:sysname',
-      name: 'SCYJ',
-      component: TipsOutsite,
-      meta: { title: '国家水生动物疫情预警系统', menuPath: true, authCode: 'SCYJ', menuIcon: 'alert', hideInBread: false, openMode: 'outsite' },
+      path: '/systemManagement/organization/view',
+      name: '/systemManagement/organization/view',
+      component: OrganizationView,
+      meta: {
+        title: '组织机构查看',
+        menuPath: false,
+        authCode: 'P01002',
+        menuIcon: 'cluster',
+        hideInBread: false,
+        openMode: 'normal'
+      }
     },
     {
-      path: '/YQCB/:sysname',
-      name: 'YQCB',
-      component: TipsOutsite,
-      meta: { title: '全国水产养殖动植物病情测报系统', menuPath: true, menuIcon: 'cloud-upload', authCode: 'YQCB', hideInBread: false, openMode: 'outsite' },
+      path: '/systemManagement/organization/edit',
+      name: '/systemManagement/organization/edit',
+      component: OrganizationCreate,
+      meta: {
+        title: '组织机构编辑',
+        menuPath: false,
+        authCode: 'P01003',
+        menuIcon: 'cluster',
+        hideInBread: false,
+        openMode: 'normal'
+      }
+    },
+      // RoleManagement角色管理
+    {
+      path: '/systemManagement/role',
+      name: '/systemManagement/role',
+      component: RoleManagement,
+      meta: {
+        title: '角色管理',
+        menuPath: true,
+        authCode: 'P02000',
+        menuIcon: 'cluster',
+        hideInBread: false,
+        openMode: 'normal'
+      },
     },
     {
-      path: '/ZXJC/:sysname',
-      name: 'ZXJC',
-      component: TipsOutsite,
-      meta: { title: '国家水生动物疫病监测信息管理系统', menuPath: true, menuIcon: 'hdd', authCode: 'ZXJC', hideInBread: false, openMode: 'outsite' },
+      path: '/systemManagement/role/create',
+      name: '/systemManagement/role/create',
+      component: RoleCreate,
+      meta: {
+        title: '角色创建',
+        menuPath: false,
+        authCode: 'P02001',
+        menuIcon: 'cluster',
+        hideInBread: false,
+        openMode: 'normal'
+      }
     },
     {
-      path: '/NYPC/:sysname',
-      name: 'NYPC',
-      component: TipsOutsite,
-      meta: { title: '水产养殖动物病原菌耐药性普查数据分析系统', menuPath: true, menuIcon: 'experiment', authCode: 'NYPC', hideInBread: false, openMode: 'outsite' }
+      path: '/systemManagement/role/edit',
+      name: '/systemManagement/role/edit',
+      component: RoleCreate,
+      meta: {
+        title: '角色修改',
+        menuPath: false,
+        authCode: 'P02003',
+        menuIcon: 'cluster',
+        hideInBread: false,
+        openMode: 'normal'
+      }
     },
+    {
+      path: '/systemManagement/role/view',
+      name: '/systemManagement/role/view',
+      component: RoleCreate,
+      meta: {
+        title: '角色查看',
+        menuPath: false,
+        authCode: 'P02002',
+        menuIcon: 'cluster',
+        hideInBread: false,
+        openMode: 'normal'
+      }
+    },
+      // AdministratorManagement管理员管理
+    {
+      path: '/systemManagement/administrator',
+      name: '/systemManagement/administrator',
+      component: AdministratorManagement,
+      meta: {
+        title: '管理员管理',
+        menuPath: true,
+        authCode: 'P03000',
+        menuIcon: 'cluster',
+        hideInBread: false,
+        openMode: 'normal'
+      },
+    },
+    {
+      path: '/systemManagement/administrator/createNewUser',
+      name: '/systemManagement/administrator/createNewUser',
+      component: CreateNewUser,
+      meta: {
+        title: '新增用户信息',
+        menuPath: true,
+        authCode: 'P03303',
+        menuIcon: 'cluster',
+        hideInBread: false,
+        openMode: 'normal'
+      },
+    },
+    {
+      path: '/systemManagement/administrator/newUserView',
+      name: '/systemManagement/administrator/newUserView',
+      component: NewUserView,
+      meta: {
+        title: '查看新用户信息',
+        menuPath: true,
+        authCode: 'P03301',
+        menuIcon: 'cluster',
+        hideInBread: false,
+        openMode: 'normal'
+      },
+    },
+    {
+      path: '/systemManagement/administrator/pendingView',
+      name: '/systemManagement/administrator/pendingView',
+      component: PendingView,
+      meta: {
+        title: '待分配权限查看',
+        menuPath: false,
+        authCode: 'P03101',
+        menuIcon: 'cluster',
+        hideInBread: false,
+        openMode: 'normal'
+      },
+    },
+    {
+      path: '/systemManagement/administrator/distribution',
+      name: '/systemManagement/administrator/distribution',
+      component: Distribution,
+      meta: {
+        title: '权限分配',
+        menuPath: false,
+        authCode: 'P03102',
+        menuIcon: 'cluster',
+        hideInBread: false,
+        openMode: 'normal'
+      },
+    },
+    ]
+  },
+  {
+    path: '/scsd',
+    name: 'scsd',
+    component: contentWrapper,
+    meta: {
+      title: '水产新品种审定',
+      menuPath: true,
+      authCode: 'S0501',
+      menuIcon: 'barcode',
+      hideInBread: true
+    },
+    children: [{
+      path: '/scsd/post/scsdPost',
+      name: '/scsd/post/scsdPost',
+      meta: {
+        title: '完善申报信息',
+        menuPath: true,
+        authCode: 'S050101',
+        menuIcon: 'exception',
+        hideInBread: false,
+        openMode: 'spa'
+      },
+    },
+    {
+      path: '/scsd/expert/scsdOrgaExpert',
+      name: '/scsd/expert/scsdOrgaExpert',
+      meta: {
+        title: '组织专家',
+        menuPath: true,
+        authCode: 'S050102',
+        menuIcon: 'usergroup-add',
+        hideInBread: false,
+        openMode: 'spa'
+      },
+    },
+    {
+      path: '/scsd/forma/scsdForma',
+      name: '/scsd/forma/scsdForma',
+      meta: {
+        title: '形式审查信息',
+        menuPath: true,
+        authCode: 'S050103',
+        menuIcon: 'file-protect',
+        hideInBread: false,
+        openMode: 'spa'
+      },
+    },
+    {
+      path: '/scsd/exam/scsdExam',
+      name: '/scsd/exam/scsdExam',
+      meta: {
+        title: '函审信息',
+        menuPath: true,
+        authCode: 'S050104',
+        menuIcon: 'reconciliation',
+        hideInBread: false,
+        openMode: 'spa'
+      },
+    },
+    {
+      path: '/scsd/localexam/scsdLocalExam',
+      name: '/scsd/localexam/scsdLocalExam',
+      meta: {
+        title: '现场审定专家意见',
+        menuPath: true,
+        authCode: 'S050105',
+        menuIcon: 'solution',
+        hideInBread: false,
+        openMode: 'spa'
+      },
+    },
+    {
+      path: '/scsd/local/scsdLocal',
+      name: '/scsd/local/scsdLocal',
+      meta: {
+        title: '现场审定专家代录入',
+        menuPath: true,
+        authCode: 'S050106',
+        menuIcon: 'solution',
+        hideInBread: false,
+        openMode: 'spa'
+      },
+    },
+    {
+      path: '/scsd/review/scsdReview',
+      name: '/scsd/review/scsdReview',
+      meta: {
+        title: '评审结果信息',
+        menuPath: true,
+        authCode: 'S050107',
+        menuIcon: 'audit',
+        hideInBread: false,
+        openMode: 'spa'
+      },
+    },
+    ]
+  },
+  {
+    path: '/SCYJ/:sysname',
+    name: 'SCYJ',
+    component: TipsOutsite,
+    meta: {
+      title: '国家水生动物疫情预警系统',
+      menuPath: true,
+      authCode: 'SCYJ',
+      menuIcon: 'alert',
+      hideInBread: false,
+      openMode: 'outsite'
+    },
+  },
+  {
+    path: '/YQCB/:sysname',
+    name: 'YQCB',
+    component: TipsOutsite,
+    meta: {
+      title: '全国水产养殖动植物病情测报系统',
+      menuPath: true,
+      menuIcon: 'cloud-upload',
+      authCode: 'YQCB',
+      hideInBread: false,
+      openMode: 'outsite'
+    },
+  },
+  {
+    path: '/ZXJC/:sysname',
+    name: 'ZXJC',
+    component: TipsOutsite,
+    meta: {
+      title: '国家水生动物疫病监测信息管理系统',
+      menuPath: true,
+      menuIcon: 'hdd',
+      authCode: 'ZXJC',
+      hideInBread: false,
+      openMode: 'outsite'
+    },
+  },
+  {
+    path: '/NYPC/:sysname',
+    name: 'NYPC',
+    component: TipsOutsite,
+    meta: {
+      title: '水产养殖动物病原菌耐药性普查数据分析系统',
+      menuPath: true,
+      menuIcon: 'experiment',
+      authCode: 'NYPC',
+      hideInBread: false,
+      openMode: 'outsite'
+    }
+  },
   ],
 },
 {
   path: '/login',
   name: 'login',
   component: LoginPage,
-  meta: { title: '登录' },
+  meta: {
+    title: '登录'
+  },
 },
 {
   path: '/register',
   name: 'register',
   component: RegisterPage,
-  meta: { title: '注册'  },
+  meta: {
+    title: '注册'
+  },
 },
 {
   path: '/bindPhone',
   name: 'bindPhone',
   component: BindPhone,
-  meta: { title: '选择系统绑定手机号', },
+  meta: {
+    title: '选择系统绑定手机号',
+  },
 },
 {
   path: '/oldSysLogout',
   name: 'oldSysLogout',
   component: OldSysLogout,
-  meta: { title: '老系统安全登出', },
+  meta: {
+    title: '老系统安全登出',
+  },
 },
 {
   path: '/networkerr',
   name: 'networkerr',
   component: TipsNetworkErr,
-  meta: { title: '网络错误', },
+  meta: {
+    title: '网络错误',
+  },
 },
 ]
 

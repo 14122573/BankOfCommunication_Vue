@@ -2,6 +2,8 @@
 import Cookie from '@/util/local-cookie'
 import Store from '@/store'
 import Router from '@/router'
+import Md5 from 'js-md5'
+
 export default {
   /**
      * 在深层数据结构中取值（为了替代类似 res && res.data && res.data.content这种写法）
@@ -42,7 +44,7 @@ export default {
      * @param {Array} validList 被查找的一维数组
      * @return {Boolean}   是否存在的结果
      */
-  oneOf (value, validList) {
+  oneOf(value, validList) {
     for (let i = 0; i < validList.length; i++) {
       if (value === validList[i]) {
         return true
@@ -121,28 +123,28 @@ export default {
     return filter.test(txt)
   },
   /**
-   * 统一设置 两个token信息。根据是否7天免登陆进行判断，设置的cookie失效时间
-   * @param {String} accessToke
-   * @param {String} refreshToken
-   */
-  setToken(token,refreshToken) {
+     * 统一设置 两个token信息。根据是否7天免登陆进行判断，设置的cookie失效时间
+     * @param {String} accessToke
+     * @param {String} refreshToken
+     */
+  setToken(token, refreshToken) {
     if (Cookie.get('KeepLogin') === 'true') { // 如果保存七天
-      Cookie.set('token', token, {expires: 7})
-      Cookie.set('refresh_token', refreshToken, {expires: 7})
+      Cookie.set('token', token, { expires: 7 })
+      Cookie.set('refresh_token', refreshToken, { expires: 7 })
     } else {
       Cookie.set('token', token)
       Cookie.set('refresh_token', refreshToken)
     }
   },
   /**
-   * 退出 --- 清除相关信息并推到登录页
-   */
+     * 退出 --- 清除相关信息并推到登录页
+     */
   handleLogOut() {
     Store.commit('SET_CLEAR')
     Cookie.remove('token')
-    if('true' == Cookie.get('keepLogin')){
-    }else{
+    if ('true' == Cookie.get('keepLogin')) {} else {
       Cookie.remove('refresh_token')
+      Cookie.remove('oldSysAccountsList')
     }
     Cookie.remove('redirectUrl')
     Cookie.remove('url')
@@ -153,16 +155,125 @@ export default {
     })
   },
   /**
-   * 获取URL执行参数值
-   * @param {String} variable 地址参数名
-   * @return false 未找到；
-   */
-  getQueryVariable(variable){
+     * 获取URL执行参数值
+     * @param {String} variable 地址参数名
+     * @return false 未找到；
+     */
+  getQueryVariable(variable) {
     var query = window.location.search.substring(1)
     var vars = query.split('&')
-    for (var i=0;i<vars.length;i++) {
+    for (var i = 0; i < vars.length; i++) {
       var pair = vars[i].split('=')
-      if(pair[0] == variable){return pair[1]}
+      if (pair[0] == variable) { return pair[1] }
+    }
+  },
+  /**
+     * 获取当前年
+     *
+     */
+  getCurrentYear() {
+    var date = new Date
+    return date.getFullYear()
+  },
+  /**
+     * 老账户登录系统成功，将其token信息及已有的老账户数组存入cookie，并增加一个唯一识别签名。用于比对数据是否被串改
+     * @param {String} accessToken
+     * @param {String} refreshToken
+     * @param {Object} oldSysList
+     */
+  setOldSysAccounts(accessToken, refreshToken, oldSysList) {
+    // 从cookie里获取已有数据，并转为对象数组。否则重新声明
+    let oldSysAccountsListCS = Cookie.get('oldSysAccountsList')
+    let oldSysAccountsList = []
+    if (!!oldSysAccountsListCS) {
+      oldSysAccountsList = JSON.parse(oldSysAccountsListCS)
+    }
+
+    // 准备要塞入数组的数据
+    accessToken = !accessToken ? '' : accessToken
+    refreshToken = !refreshToken ? '' : refreshToken
+    oldSysList = !oldSysList ? [] : oldSysList
+    let accessTokenMd5 = Md5(accessToken)
+    let refreshTokenMd5 = Md5(accessTokenMd5 + refreshToken)
+    let sign = Md5(refreshTokenMd5 + JSON.stringify(oldSysList))
+    let newItem = {
+      'accessToken': accessToken,
+      'refreshToken': refreshToken,
+      'oldSysList': oldSysList,
+      'sign': sign
+    }
+    oldSysAccountsList.push(newItem)
+    Cookie.set('oldSysAccountsList', JSON.stringify(oldSysAccountsList), { expires: 7 })
+  },
+  /**
+     * 验证当前获取的token是否在oldSysAccountsList的cookie里存储，并且sign校验通过。若校验通过返回，老系统数组。否则返回false
+     * @param {*} accessToken
+     * @param {*} refreshToken
+     * @returns false:校验不通过； 对象数组，校验通过，返回该用户拥有的老系统清单
+     */
+  checkOldSysAccounts(accessToken, refreshToken) {
+    accessToken = !accessToken ? '' : accessToken
+    refreshToken = !refreshToken ? '' : refreshToken
+
+    // 从cookie里获取已有数据，并转为对象数组。否则直接返回false
+    let oldSysAccountsListCS = Cookie.get('oldSysAccountsList')
+    if (!oldSysAccountsListCS) {
+      return false
+    }
+    let oldSysAccountsList = JSON.parse(oldSysAccountsListCS)
+
+    // 根据传入参数，进行校验
+    if (Array.isArray(oldSysAccountsList) && oldSysAccountsList.length > 0) {
+      for (let i = 0; i < oldSysAccountsList.length; i++) {
+        let item = oldSysAccountsList[i]
+
+        if (item.accessToken === accessToken && item.refreshToken === refreshToken) {
+
+          let accessTokenMd5 = Md5(item.accessToken)
+          let refreshTokenMd5 = Md5(accessTokenMd5 + item.refreshToken)
+          let checkSign = Md5(refreshTokenMd5 + JSON.stringify(item.oldSysList))
+          if (checkSign == item.sign) {
+            return item.oldSysList
+          }
+        }
+      }
+    } else {
+      return false
+    }
+
+    return false
+  },
+  /**
+     * 用户状态 0：正常、1：禁用、2：已冻结、3：已注销
+     * @param {*} 接口返回的状态名称
+     * @returns 返回tag的颜色类型
+     */
+  checkUserStatusTags(value, status = value.toString()) {
+    switch (status) {
+    case '0':
+      return {
+        txt: '正常',
+        color: 'processing'
+      }
+      break
+    case '1':
+      return {
+        txt: '禁用',
+        color: 'error'
+      }
+      break
+    case '2':
+      return {
+        txt: '已冻结',
+        color: 'warning'
+      }
+      break
+    default:
+      return {
+        txt: '已注销',
+        color: 'default'
+      }
+      break
     }
   }
 }

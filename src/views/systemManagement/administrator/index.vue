@@ -5,10 +5,10 @@
                 <PendingPermissions/>
             </a-tab-pane>
             <a-tab-pane tab="老用户管理" key="2">
-
+              <OldUser/>
             </a-tab-pane>
             <a-tab-pane tab="新用户管理" key="3">
-
+                <NewUser/>
             </a-tab-pane>
         </a-tabs>
     </a-card>
