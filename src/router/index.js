@@ -19,13 +19,21 @@ const router = new Router(config)
 router.beforeEach((to, from, next) => {
   if (MicConfigs.length > 0) {
     // 根据配置文件的子项目路由前缀自动识别state.showSpaContent应该是true还是false
-    store.commit('SET_SHOWSPACONTENT', MicConfigs.some(item => to.name.startsWith(item.pathPrefix)))
+    store.commit('SET_SHOWSPACONTENT', MicConfigs.some(item => to.path.startsWith(item.pathPrefix)))
   }
 
   // 使刷新页面后侧边菜单可以记住上一次的展开、选中状态
+  let curRoute = to
+  if (!curRoute.name) {
+    curRoute = from
+  }
+  console.log(to, from);
+
+  console.log(curRoute);
+
   store.commit('SET_DEFAULTMENU_STATUS', {
-    defaultSelectedKeys: [(to && to.name) || ''],
-    defaultOpenKeys: [(to && to.matched) ? (to.matched[to.matched.length - 1].parent && to.matched[to.matched.length - 1].parent.name) : ''],
+    defaultSelectedKeys: [(curRoute && curRoute.name) || ''],
+    defaultOpenKeys: [(curRoute && curRoute.matched) ? (curRoute.matched[curRoute.matched.length - 1].parent && curRoute.matched[curRoute.matched.length - 1].parent.name) : ''],
   })
 
   let token = Cookie.get('token')

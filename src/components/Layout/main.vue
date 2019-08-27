@@ -7,43 +7,40 @@
 		</template>
 		<template v-else>
 			<a-layout>
-				<a-layout-sider :collapsed="collapsed" breakpoint="lg" collapsedWidth="80" width="16%" :style="{ overflow: 'auto', height: '100vh', position: 'fixed', left: 0,zIndex:2 }">
+				<a-layout-sider id="sideMenu" v-model="collapsed" breakpoint="lg">
 					<div id="portalLogo">
-            <a-row class="portalLogoWapper" type="flex" justify="center" align="middle" :gutter="10">
-              <a-col :span='collapsed?24:5' :style="collapsed?'text-align:center':'text-align:right'"><span class="logo-img"></span></a-col>
-              <a-col v-if="!collapsed" span=11><span class="logo-name">智能渔技</span></a-col>
-            </a-row>
+            <img class="logo-img" src="@/assets/images/logo.png" alt="logo"/>
+            <span v-show="!collapsed" class="logo-name">智能渔技</span>
 					</div>
-					<SideMenu :menuMode="menuMode" :collapsed="collapsed"></SideMenu>
+					<SideMenu :menuMode="menuMode" />
 				</a-layout-sider>
-				<a-layout-header id="portalHeader" :style="handleHeaderStyle">
-					<div class="wrapper">
-						<a-icon class="trigger" :type="collapsed ? 'menu-unfold' : 'menu-fold'" @click="toggleSideCollapsed" />
-						<NavBar class="navbar" />
-						<a-dropdown class="navdropmenu">
-							<span>
-								<a-icon type="user" /> <span class="name">{{username}}</span>
-								<a-icon type="down" />
-							</span>
-							<a-menu slot="overlay" @click="handleClick">
-								<a-menu-item key="person">个人中心</a-menu-item>
-								<a-menu-item key="logout">退出登录</a-menu-item>
-							</a-menu>
-						</a-dropdown>
-						<a-badge class="navTidings" :count="tidingsCount" showZero>
-							<a href="#" class="head-example">
-								<a-icon type="bell" /></a>
-						</a-badge>
-					</div>
-				</a-layout-header>
-				<a-layout-content id="AppContent" :style="handleContentStyle">
-					<div v-show="!showSpaContent" class="wrapper">
-						<router-view :key="$route.path"></router-view>
-					</div>
-					<div v-show="showSpaContent" class="wrapper">
-						<div id="content"></div>
-					</div>
-				</a-layout-content>
+        <a-layout style="overflow:hidden">
+          <a-layout-header id="portalHeader">
+            <div>
+              <a-icon class="trigger" :type="collapsed ? 'menu-unfold' : 'menu-fold'" @click="toggleSideCollapsed" />
+              <NavBar />
+            </div>
+            <div>
+              <a-badge class="navTidings" :count="tidingsCount" showZero>
+                <a href="#"><a-icon type="bell" /></a>
+              </a-badge>
+              <a-dropdown class="navdropmenu">
+                <span>
+                  <a-icon type="user" /> <span class="name">{{username}}</span>
+                  <a-icon type="down" />
+                </span>
+                <a-menu slot="overlay" @click="handleClick">
+                  <a-menu-item key="person">个人中心</a-menu-item>
+                  <a-menu-item key="logout">退出登录</a-menu-item>
+                </a-menu>
+              </a-dropdown>
+            </div>
+          </a-layout-header>
+          <a-layout-content id="appContent">
+            <router-view v-show="!showSpaContent" :key="$route.path" />
+            <div v-show="showSpaContent" id="content" />
+          </a-layout-content>
+        </a-layout>
 			</a-layout>
 		</template>
 	</a-layout>
@@ -123,37 +120,6 @@ export default {
     showSpaContent() {
       return this.$store.state.showSpaContent
     },
-    handleHeaderStyle() {
-      if (this.collapsed === true) {
-        return {
-          position: 'fixed',
-          zIndex: 1,
-          width: 'calc(100% - 80px)',
-          marginLeft: '80px'
-        }
-      } else {
-        return {
-          position: 'fixed',
-          zIndex: 1,
-          width:'84%',
-          marginLeft: '16%'
-        }
-      }
-    },
-    handleContentStyle() {
-      if (this.collapsed === true) {
-        return {
-          width: 'calc(100% - 80px)',
-          marginLeft: '80px'
-        }
-      } else {
-        return {
-          width:'84%',
-          marginLeft: '16%'
-        }
-      }
-
-    },
   },
   methods: {
     /**
@@ -193,9 +159,7 @@ export default {
     toggleSideCollapsed() {
       this.collapsed = !this.collapsed
     },
-    handleClick({
-      key
-    }) {
+    handleClick({key}) {
       if (key == 'person') {
         this.$router.push({
           name: 'person'
@@ -210,9 +174,57 @@ export default {
 </script>
 
 <style scoped>
+  #sideMenu {
+    z-index: 1;
+    box-shadow: 0 0 10px 0 rgba(0,0,0,0.5);
+  }
 	#portalHeader {
 		background: #fff;
-		padding: 0
+		padding: 0;
+    box-shadow: 0 0 10px 0 rgba(0,0,0,0.5);
+    z-index: 1;
+	}
+  #portalLogo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+		height: 64px;
+		background: #00284e;
+		width: 100%;
+	}
+  #portalLogo .logo-img {
+		width: 40px;
+		height: 40px;
+	}
+	#portalLogo .logo-name {
+		color: #fff;
+		font-size: 20px;
+    margin-left: 10px;
+	}
+  #portalHeader {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+		padding: 0 2rem;
+	}
+  #portalHeader > div {
+    display: flex;
+    align-items: center;
+  }
+  #portalHeader .trigger {
+		font-size: 18px;
+		cursor: pointer;
+    margin-right: 20px;
+	}
+  #portalHeader .navdropmenu {
+		cursor: pointer;
+	}
+  #portalHeader .navdropmenu .name {
+		padding: 0 5px
+	}
+  #portalHeader .navTidings {
+		cursor: pointer;
+    margin-right: 30px;
 	}
 </style>
 
@@ -225,79 +237,12 @@ export default {
 		color: #2c3e50;
 		width: 100%;
 		height: 100%;
-		/* overflow: hidden; */
 	}
-
-	#portalLogo {
-		height: 64px;
-		/* background: #00284e; */
-		width: 100%;
-	}
-  #portalLogo .portalLogoWapper{ height: 64px; padding-top:7px;}
-
-	#portalLogo .logo-img {
-		display: inline-block;
-		width: 40px;
-		height: 40px;
-		background: url('../../assets/images/logo.png');
-		background-size: 100%
-	}
-
-	#portalLogo .logo-name {
-		color: #fff;
-		font-size: 20px;
-    line-height:20px;
-    height: 20px;
-    text-align:left;
-	}
-
-	#portalHeader .wrapper {
-		padding: 0 2rem
-	}
-
-	#portalHeader .trigger {
-		float: left;
-		font-size: 18px;
-		line-height: 20px;
-		margin: 20px 16px 0 0;
-		cursor: pointer;
-	}
-
-	#portalHeader .navbar {
-		float: left;
-		line-height: 20px;
-		margin-top: 22px
-	}
-    #portalHeader  .trigger{
-		margin-top: 24px
-	}
-	#portalHeader .navdropmenu {
-		float: right;
-		cursor: pointer;
-	}
-
-	#portalHeader .navdropmenu .name {
-		padding: 0 10px 0 5px
-	}
-
-	#portalHeader .navTidings {
-		float: right;
-		margin-right: 40px;
-		margin-top: 30px;
-		cursor: pointer;
-	}
-
-	#AppContent {
-    padding-top:66px;
-    padding-right:2px;
+  #appContent {
+    overflow-y:auto;
+    padding-bottom:16px;
     background: url('../../assets/images/content-bg.png') no-repeat;
-    background-position-y: 66px;
-    background-position-x: right;
+    background-position: 95% 10%;
 		background-size: 20%;
-	}
-
-	#AppContent .wrapper {
-		padding-left: 2px;
-		min-height: 98%
-	}
+  }
 </style>
