@@ -52,7 +52,7 @@
             cancelText="取消"
             okText="删除"
             :maskClosable="false"
-            :width="360"
+            :width="465"
             >
         <p class="center-p">是否确认删除此角色？</p>
         <p class="center-p">此操作不可撤销</p>
@@ -65,7 +65,7 @@
             cancelText="取消"
             okText="删除"
             :maskClosable="false"
-            :width="360"
+            :width="465"
             >
         <p class="center-p">此角色还有员工未被分配</p>
         <p class="center-p">请先处理该角色下所有员工的调岗操作</p>

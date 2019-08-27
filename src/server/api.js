@@ -44,4 +44,5 @@ export default {
   ROLE_DETAIL: '/service-permission/perm/roles/{id}', // 查询角色权限
   PUT_CHARACTER: '/service-permission/perm/role/{id}', //编辑角色
   DELETE_CHARACTER: '/service-permission/perm/role/{id}', //删除角色
+  USER_LIST_TYPE_GET: '/service-user/user/accounts/{type}', // 用户{type} old老用户列表   new-新用户列表
 }

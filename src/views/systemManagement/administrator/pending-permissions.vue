@@ -10,7 +10,7 @@
                     >
                     <a-input
                         placeholder="请输入"
-                        v-model="searchForm.name"
+                        v-model="searchForm.name_l"
                     />
                     </a-form-item>
                 </a-col>
@@ -22,7 +22,7 @@
                     >
                     <a-input
                         placeholder="请输入"
-                        v-model="searchForm.name"
+                        v-model="searchForm.phone_l"
                     />
                     </a-form-item>
                 </a-col>
@@ -34,7 +34,7 @@
                     >
                     <a-input
                         placeholder="请输入"
-                        v-model="searchForm.name"
+                        v-model="searchForm.mail_l"
                     />
                     </a-form-item>
                 </a-col>
@@ -46,7 +46,7 @@
                     >
                     <a-input
                         placeholder="请输入"
-                        v-model="searchForm.name"
+                        v-model="searchForm.dept_l"
                     />
                     </a-form-item>
                 </a-col>
@@ -66,6 +66,10 @@
             </a-row>
         </a-form>
         <a-table row-key="name" :pagination="false" :columns="columns" :dataSource="data">
+            <span slot="createTimeTitle">
+                <span>注册时间</span>
+                <!-- <a-icon type="align-left" /><a-icon type="arrow-up" /> -->
+            </span>
             <span slot="action" slot-scope="text, record">
                 <a href="javascript:;" @click="viewBtn(record)">查看</a>
                 <a-divider type="vertical" />
@@ -89,17 +93,13 @@ export default {
       wrapperCol: { span: 16 },
       params:{
         pageNo:1,
-        pageSize:20,
+        pageSize:10,
+        'ui.createTime_desc':'0',
+        status:'0'
       },
       time:[],
       total:0,
-      data:[{
-        name:'张三',
-        account:'account',
-        email:'email',
-        unit:'unit',
-        time:'time',
-      }],
+      data:[],
       columns:[
         {
           title:'姓名',
@@ -109,25 +109,25 @@ export default {
         {
           title:'账号',
           width:240,
-          dataIndex:'account',
-          key:'account'
+          dataIndex:'phone',
+          key:'phone'
         },
         {
           title:'邮箱',
-          dataIndex:'email',
-          key:'email'
+          dataIndex:'mail',
+          key:'mail'
         },
         {
           title:'单位',
-          dataIndex:'unit',
-          key:'unit'
+          dataIndex:'dept',
+          key:'dept'
         },
         {
-          title:'注册时间',
-          dataIndex:'time',
-          key:'time',
+        //   title:'注册时间',
+          dataIndex:'createTime',
+          key:'createTime',
           width:240,
-          sorter: true,
+          slots:{ title: 'createTimeTitle' }
         },
         {
           title:'操作',
@@ -156,10 +156,25 @@ export default {
       this.getList()
     },
     // 查询列表
-    getList(){},
+    getList(){
+      let params=JSON.parse(JSON.stringify(this.searchForm))
+      // if (params.createTime_desc) params.createTime_desc=params.createTime_desc.join(',');
+      this.$ajax.get({
+        url:this.$api.USER_LIST_TYPE_GET.replace('{type}','new'),
+        params:Object.assign(this.searchForm,this.params)
+      })
+        .then(res=>{
+          if(res.code === '200'){
+            this.data=res.data.content
+          }else{
+            this.$message.error(res.msg)
+          }
+        })
+
+    },
     
     onDateChange(date,dateString){
-      this.searchForm.time=dateString
+      this.searchForm.createTime_desc=dateString
       console.log(date,dateString,this.searchForm.time)
     },
     // 查看按钮
