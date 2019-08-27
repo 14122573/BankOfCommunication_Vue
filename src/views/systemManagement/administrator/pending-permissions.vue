@@ -53,25 +53,30 @@
                 <a-col span="12">
                     <a-form-item
                         label="注册时间端："
-                        :label-col="{span:5}"
-                        :wrapper-col="{span:19}"
+                        :label-col="{span:4}"
+                        :wrapper-col="{span:20}"
                     >
-                        <a-range-picker v-model="searchForm.time" :format="dateFormat" style="width:100%" :placeholder="['请选择开始日期','请选择结束日期']" @change="onDateChange" />
+                        <a-range-picker v-model="time" :format="dateFormat" style="width:100%" :placeholder="['请选择开始日期','请选择结束日期']" @change="onDateChange" />
                     </a-form-item>
                 </a-col>
                 <a-col>
-                    <a-button type="primary" ghost>重置</a-button>
-                    <a-button type="primary">搜索</a-button>
+                    <a-button type="primary" @click="reset" ghost>重置</a-button>
+                    <a-button type="primary" @click="search">搜索</a-button>
                 </a-col>
             </a-row>
         </a-form>
-        <a-table row-key="name" :columns="columns" :dataSource="data">
+        <a-table row-key="name" :pagination="false" :columns="columns" :dataSource="data">
             <span slot="action" slot-scope="text, record">
                 <a href="javascript:;" @click="viewBtn(record)">查看</a>
                 <a-divider type="vertical" />
                 <a href="javascript:;" @click="distributionBtn(record)">权限分配</a>
             </span>
         </a-table>
+        <a-row class="page-row" type="flex" justify="end">
+            <a-col>
+                <a-pagination showQuickJumper @change="onChange" :current="params.pageNo" :total="total" />
+            </a-col>
+        </a-row>
     </div>
 </template>
 <script>
@@ -80,8 +85,14 @@ export default {
     return{
       searchForm:{},
       dateFormat: 'YYYY-MM-DD',
-      labelCol: { span: 10 },
-      wrapperCol: { span: 14 },
+      labelCol: { span: 8 },
+      wrapperCol: { span: 16 },
+      params:{
+        pageNo:1,
+        pageSize:20,
+      },
+      time:[],
+      total:0,
       data:[{
         name:'张三',
         account:'account',
@@ -128,7 +139,27 @@ export default {
     }
   },
   methods:{
+    // 查询按钮
+    search(){
+      this.params.pageNo=1
+      this.getList()
+    },
+    // 重置按钮
+    reset(){
+      this.searchForm={}
+      this.time=[]
+      this.params.pageNo=1
+      this.getList()
+    },
+    onChange(current) {
+      this.params.pageNo = current
+      this.getList()
+    },
+    // 查询列表
+    getList(){},
+    
     onDateChange(date,dateString){
+      this.searchForm.time=dateString
       console.log(date,dateString,this.searchForm.time)
     },
     // 查看按钮
@@ -143,7 +174,17 @@ export default {
         name:'/systemManagement/administrator/distribution'
       })
     }
-  }
+  },
+  mounted(){
+      
+    this.getList()
+  },
 }
 </script>
+<style scoped>
+    .page-row{
+        margin-top: 20px;
+    }
+</style>
+
 
