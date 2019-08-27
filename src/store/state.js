@@ -6,5 +6,9 @@ export default {
   hasAllRight: false,
   showSpaContent: false,
   userName: '',
-  userInfos:null
+  userInfos:null,
+  defaultMenuStatus: {
+    defaultSelectedKeys: [],
+    defaultOpenKeys: [],
+  }
 }

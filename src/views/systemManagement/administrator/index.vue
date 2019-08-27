@@ -1,5 +1,5 @@
 <template>
-    <a-card :bordered="false">
+    <a-card :style="{margin:'0 0 0 14px'}" :bordered="false">
         <a-tabs :animated="false" :defaultActiveKey="key" @change="callback">
             <a-tab-pane tab="待分配权限" key="1">
                 <PendingPermissions/>

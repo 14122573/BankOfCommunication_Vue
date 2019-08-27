@@ -1,5 +1,5 @@
 <template>
-  <a-menu :mode="menuMode" class="sideMenu" theme="dark" style="text-align:left;">
+  <a-menu :mode="menuMode" :defaultSelectedKeys="defaultSelectedKeys" :defaultOpenKeys="defaultOpenKeys" class="sideMenu" theme="dark" style="text-align:left;">
     <template v-for="menu in menus">
       <template v-if="menu.children && menu.children.length > 0">
       <a-sub-menu :key="menu.name">
@@ -58,11 +58,15 @@ export default {
   },
   data(){
     return{
-      userInfo:null
+      userInfo:null,
+      defaultSelectedKeys: [],
+      defaultOpenKeys: [],
     }
   },
   created() {
-
+    const {defaultSelectedKeys, defaultOpenKeys} = this.$store.state.defaultMenuStatus
+    this.defaultSelectedKeys = defaultSelectedKeys
+    this.defaultOpenKeys = defaultOpenKeys
   },
   computed: {
     menus() {
@@ -70,9 +74,6 @@ export default {
     }
   },
   methods: {
-    isSpaMenu(menu){
-      return 'spa'===menu.meta.openMode?true:false
-    },
     /**
      * 组装需要跳转的外部地址
      * @param {String} sysCode 当前点击的外部系统的系统code
@@ -111,7 +112,7 @@ export default {
         let openMode = menu.meta.openMode?menu.meta.openMode:'normal'
         switch (openMode) {
         case 'outsite':
-          this.$store.commit('SET_SHOWSPACONTENT', false)
+          // this.$store.commit('SET_SHOWSPACONTENT', false)
           if(!this.$cookie.get('token')){
             this.$com.handleLogOut()
           }else{
@@ -129,25 +130,25 @@ export default {
           }
           break
         case 'normal':
-          this.$store.commit('SET_SHOWSPACONTENT', false)
+          // this.$store.commit('SET_SHOWSPACONTENT', false)
           this.$router.push({name: menu.name})
           break
         case 'spa':
-          this.$store.commit('SET_SHOWSPACONTENT', true)
+          // this.$store.commit('SET_SHOWSPACONTENT', true)
           navigateToUrl(key)
           break
         default:
-          this.$store.commit('SET_SHOWSPACONTENT', false)
+          // this.$store.commit('SET_SHOWSPACONTENT', false)
           this.$router.push({name: menu.name})
           break
         }
       }else{
-        this.$store.commit('SET_SHOWSPACONTENT', false)
+        // this.$store.commit('SET_SHOWSPACONTENT', false)
         this.$router.push({name: menu.name})
       }
     },
 
-  }
+  },
 }
 </script>
 
