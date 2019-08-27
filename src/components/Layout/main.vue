@@ -16,7 +16,7 @@
 					</div>
 					<SideMenu :menuMode="menuMode" :collapsed="collapsed"></SideMenu>
 				</a-layout-sider>
-				<a-layout-header id="portalHeader" :style="handleStyle">
+				<a-layout-header id="portalHeader" :style="handleHeaderStyle">
 					<div class="wrapper">
 						<a-icon class="trigger" :type="collapsed ? 'menu-unfold' : 'menu-fold'" @click="toggleSideCollapsed" />
 						<NavBar class="navbar" />
@@ -36,11 +36,11 @@
 						</a-badge>
 					</div>
 				</a-layout-header>
-				<a-layout-content id="AppContent">
+				<a-layout-content id="AppContent" :style="handleContentStyle">
 					<div v-show="!showSpaContent" class="wrapper">
 						<router-view :key="$route.path"></router-view>
 					</div>
-					<div v-show="showSpaContent">
+					<div v-show="showSpaContent" class="wrapper">
 						<div id="content"></div>
 					</div>
 				</a-layout-content>
@@ -113,7 +113,7 @@ export default {
     showSpaContent() {
       return this.$store.state.showSpaContent
     },
-    handleStyle() {
+    handleHeaderStyle() {
       if (this.collapsed === true) {
         return {
           position: 'fixed',
@@ -125,6 +125,19 @@ export default {
         return {
           position: 'fixed',
           zIndex: 1,
+          width:'84%',
+          marginLeft: '16%'
+        }
+      }
+    },
+    handleContentStyle() {
+      if (this.collapsed === true) {
+        return {
+          width: 'calc(100% - 80px)',
+          marginLeft: '80px'
+        }
+      } else {
+        return {
           width:'84%',
           marginLeft: '16%'
         }
@@ -265,22 +278,14 @@ export default {
 	}
 
 	#AppContent {
-		width: 84%;
-		margin: 78px 16px 0 230px;
+    padding-top:78px;
+    padding-right:2px;
 		background: url('../../assets/images/content-bg.png') no-repeat top right;
 		background-size: 20%;
 	}
 
-	#AppContent .contentbg {
-		position: absolute;
-		top: 10px;
-		right: 10px;
-		z-index: 1;
-		width: 20%
-	}
-
 	#AppContent .wrapper {
-		padding: 1px;
+		padding-left: 2px;
 		min-height: 98%
 	}
 </style>
