@@ -8,16 +8,15 @@ import { MicConfigs } from '@/config/mic'
   window.isSpa = true
 
   await registerApplication('layout', () => import('@/index.js'), () => true)
-
-  // 读取子项目配置
-  for(let i=0;i<MicConfigs.length;i++){
-    await loadResource(MicConfigs[i].baseUrl)
-    registerApplication(MicConfigs[i].resourceName, () => Promise.resolve(window[MicConfigs[i].micId]),  pathPrefix(MicConfigs[i].pathPrefix))
+  window.onload = async () => {
+    // 当页面加载好了，有了#content元素后才加载子项目，避免刷新后空白的问题
+    for(let i=0;i<MicConfigs.length;i++){
+      // 读取子项目配置
+      await loadResource(MicConfigs[i].baseUrl)
+      registerApplication(MicConfigs[i].resourceName, () => Promise.resolve(window[MicConfigs[i].micId]),  pathPrefix(MicConfigs[i].pathPrefix))
+    }
   }
-
 })()
-
-
 start()
 
 async function loadResource(url) {
