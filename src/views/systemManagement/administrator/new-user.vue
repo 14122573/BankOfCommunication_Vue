@@ -3,44 +3,42 @@
 		<a-form :form="searchForm">
 			<a-row type="flex" justify="space-between">
 				<a-col span="6">
-					<a-form-item label="姓名：" :label-col="labelCol" :wrapper-col="wrapperCol">
+					<a-form-item label="姓名：" v-bind="colSpe">
 						<a-input placeholder="请输入" v-model="searchForm.name" />
 					</a-form-item>
 				</a-col>
 				<a-col span="6">
-					<a-form-item label="账号：" :label-col="labelCol" :wrapper-col="wrapperCol">
-						<a-input placeholder="请输入" v-model="searchForm.name" />
+					<a-form-item label="账号：" v-bind="colSpe">
+						<a-input placeholder="请输入" v-model="searchForm.phone" />
 					</a-form-item>
 				</a-col>
 				<a-col span="6">
-					<a-form-item label="角色名称" :label-col="labelCol" :wrapper-col="wrapperCol">
-						<a-select
-                  placeholder="请选择"
-                  v-model="searchForm.name"
-                  :options="roleList"
-              />
+					<a-form-item label="角色名称" v-bind="colSpe">
+						<a-select placeholder="请选择" :options="roleList" v-model="searchForm['ui.roleId_l']" />
 					</a-form-item>
 				</a-col>
 				<a-col span="6">
-					<a-form-item label="组织机构：" :label-col="labelCol" :wrapper-col="wrapperCol">
-						<a-input placeholder="请输入" v-model="searchForm.name" />
+					<a-form-item label="组织机构：" v-bind="colSpe">
+						<a-tree-select showSearch :treeData="treeData" v-model="searchForm['ui.groupId']" :dropdownStyle="{ maxHeight: '400px', overflow: 'auto' }"
+						 placeholder='请选择' allowClear treeDefaultExpandAll @change="onChange">
+						</a-tree-select>
 					</a-form-item>
 				</a-col>
 				<a-col span="6">
-					<a-form-item label="行政区域：" :label-col="labelCol" :wrapper-col="wrapperCol">
-						<a-input placeholder="请输入" v-model="searchForm.name" />
+					<a-form-item label="行政区域：" v-bind="colSpe">
+						<a-input placeholder="请输入" v-model="searchForm['ui.areaId']" />
 					</a-form-item>
 				</a-col>
 				<a-col span="12">
-					<a-form-item label="角色状态：" :label-col="{span:4}" :wrapper-col="wrapperCol">
-						<a-checkbox-group :options="plainOptions" v-model="checkedList" />
+					<a-form-item label="用户状态：" :label-col="{span:4}" :wrapper-col="{span:16}">
+						<a-checkbox-group :options="plainOptions" v-model="searchForm['status']" />
 					</a-form-item>
 				</a-col>
 				<a-col span="6">
 					<a-row type="flex" justify="end">
 						<a-col>
-							<a-button type="primary" ghost>重置</a-button>
-							<a-button type="primary">搜索</a-button>
+							<a-button type="primary" ghost @click="reset" html-type="submit">重置</a-button>
+							<a-button type="primary" @click="search" html-type="submit">搜索</a-button>
 						</a-col>
 					</a-row>
 				</a-col>
@@ -51,12 +49,12 @@
 				<a-button type="primary" @click='handleAdd'>新增</a-button>
 			</a-col>
 		</a-row>
-		<a-table :columns="columns" :dataSource="data" rowKey='name' :pagination='false'>
+		<a-table :columns="columns" :dataSource="dataTable" rowKey='id' :pagination='false'>
 			<!-- 查看 v-if="$permission('P03301')" P03301  权限分配P03102  重置密码P03306  禁用P03305 注销P03307   新增P03303-->
 			<span slot="action" slot-scope="text, record">
 				<a href="javascript:;" @click="viewBtn(record)">查看</a>
 				<a-divider type="vertical" />
-				<a href="javascript:;">权限分配</a>
+				<a href="javascript:;" @click="$router.push({name: '/systemManagement/administrator/editNewUser'})">修改</a>
 				<a-divider type="vertical" />
 				<a-dropdown>
 					<a class="ant-dropdown-link" href="#">
@@ -64,14 +62,11 @@
 						<a-icon type="down" />
 					</a>
 					<a-menu slot="overlay" @click='showOpeations'>
-						<a-menu-item key="5">
-							<a>修改</a>
-						</a-menu-item>
 						<a-menu-item key="2">
-								<a>禁用</a>
+							禁用
 						</a-menu-item>
 						<a-menu-item key="1">
-							<a>启用</a>
+							启用
 						</a-menu-item>
 						<a-menu-item key="3">
 							注销
@@ -88,47 +83,49 @@
 				<a-pagination showQuickJumper :current="params.pageNo" :total="total" @change="pageChange" />
 			</a-col>
 		</a-row>
-		<a-modal :title="opeationTitle" :centered='true' :bodyStyle="{'text-align':'center'}" :visible="visibleModal" :closable='false'
-		 :maskClosable='false'>
+		<a-modal :title="opeationTitle" :centered='true' :width="465" :bodyStyle="{'text-align':'center'}" :visible="visibleModal"
+		 :closable='false' :maskClosable='false'>
 			<template slot="footer">
 				<a-button @click="handleCancle" ghost type="primary">取消</a-button>
 				<a-button @click="handleOk" type="primary">确认</a-button>
 			</template>
-			<p>{{tips}}</p>
+			<p v-html="tips"></p>
 		</a-modal>
 	</div>
 </template>
 <script>
 export default {
-  name:'new-user',
-  props:{
-    roleList:{
-      type:Array,
-      default:()=>{
+  name: 'new-user',
+  props: {
+    roleList: {
+      type: Array,
+      default: () => {
         return []
       }
     }
   },
   data() {
     return {
-      searchForm: {},
       dateFormat: 'YYYY-MM-DD',
-      labelCol: {
-        span: 8
+      colSpe: {
+        labelCol: {
+          span: 8
+        },
+        wrapperCol: {
+          span: 16
+        },
       },
-      wrapperCol: {
-        span: 16
+      params: {
+        pageNo: 1,
+        pageSize: 10,
+        'ui.createTime_desc': 1,
+        // status: 1
       },
-      params:{
-        pageNo:1,
-        pageSize:20,
+      searchForm: {
+        status: []
       },
-      total:0,
-      data: [{
-        name: 'qwqwq',
-        name1: 'qwqwq',
-        name2: 'qwqwq',
-      }],
+      total: 0,
+      dataTable: [],
       columns: [{
         title: '姓名',
         dataIndex: 'name',
@@ -136,22 +133,22 @@ export default {
       },
       {
         title: '账号',
-        dataIndex: 'name1',
-        key: 'name1'
+        dataIndex: 'phone',
+        key: 'phone',
       },
       {
-        title: '角色管理',
-        dataIndex: 'name2',
+        title: '角色名称',
+        dataIndex: 'roleIds',
         key: 'name2'
       },
       {
         title: '所属组织机构',
-        dataIndex: 'name3',
+        dataIndex: 'group',
         key: 'name3'
       },
       {
         title: '所属行政区域',
-        dataIndex: 'name4',
+        dataIndex: 'area',
         key: 'name4'
       },
       {
@@ -170,32 +167,69 @@ export default {
       }
       ],
       plainOptions: ['正常', '禁用', '已冻结', '已注销'],
-      checkedList: ['正常'],
       opeationTitle: '',
       visibleModal: false,
       tips: '',
-      opeationType: ''
+      opeationType: '',
+      treeData: [{
+        title: 'Node1',
+        value: '0-0',
+        key: '0-0',
+        children: [{
+          title: 'Child Node1',
+          value: '0-0-0',
+          key: '0-0-0',
+        }],
+      }, {
+        title: 'Node2',
+        value: '0-1',
+        key: '0-1',
+        children: [{
+          title: 'Child Node3',
+          value: '0-1-0',
+          key: '0-1-0',
+          disabled: true,
+        }, {
+          title: 'Child Node4',
+          value: '0-1-1',
+          key: '0-1-1',
+        }, {
+          title: 'Child Node5',
+          value: '0-1-2',
+          key: '0-1-2',
+        }],
+      }]
     }
   },
+  mounted() {
+    this.getList()
+  },
   methods: {
-    pageChange() {
+    pageChange(current) {
       this.params.pageNo = current
       this.getList()
     },
     // 查询按钮
-    search(){
-      this.params.pageNo=1
+    search() {
+      this.params.pageNo = 1
       this.getList()
     },
     // 重置按钮
-    reset(){
-      this.searchForm={}
-      this.params.pageNo=1
+    reset() {
+      this.params.pageNo = 1
       this.getList()
     },
     // 查询列表
-    getList(){
-
+    getList() {
+      const params = Object.assign(this.searchForm, this.params)
+      this.$ajax.get({
+        url: this.$api.USER_LIST_TYPE_GET.replace('{type}', 'new'),
+        params: params
+      }).then(res => {
+        console.log(res, '-=-=')
+        this.dataTable = res.data.content
+        this.total = res.data.totalRows
+      })
     },
     handleAdd() {
       this.$router.push({
@@ -216,25 +250,19 @@ export default {
       switch (key) {
       case '1':
         this.opeationTitle = '启用'
-        this.tips = '启用后，该账号将被允许登录平台，您确认要启用该账号吗?'
+        this.tips = '<p>启用后，该账号将被允许登录平台，</p><p>您确认要启用该账号吗?</p>'
         break
       case '2':
         this.opeationTitle = '禁用'
-        this.tips = '禁用后，该账号将不被允许登录平台直到再次启用，您确定要禁用吗？'
+        this.tips = '<p>禁用后，该账号将不被允许登录平台直到再次启用，</p><p>您确定要禁用吗？</p>'
         break
       case '3':
         this.opeationTitle = '注销'
-        this.tips = '注销后，该账号将被使用，您确认要注销该账号吗?'
+        this.tips = '<p>注销后，该账号将被使用，</p><p>您确认要注销该账号吗？</p>'
         break
       case '4':
         this.opeationTitle = '解冻'
-        this.tips = '解冻后，该账号将可以重新登录，您确定要解冻该账号吗?'
-        break
-      case '5':
-        this.$router.push({
-          name: '/systemManagement/administrator/editNewUser'
-        })
-        return
+        this.tips = '<p>解冻后，该账号将可以重新登录，</p><p>您确定要解冻该账号吗？</p>'
         break
       default:
         break
@@ -264,6 +292,9 @@ export default {
         break
       }
       this.visibleModal = false
+    },
+    onChange() {
+
     }
   }
 }

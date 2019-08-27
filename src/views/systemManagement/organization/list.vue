@@ -31,9 +31,9 @@
 		</a-row>
 		<a-table :columns="columns" class="table-margin" :dataSource="data" :pagination="false">
 			<span slot="action" slot-scope="text, record">
-				<a  @click="$router.push({name:'/systemManagement/organization/view'})">查看</a>
+				<a @click="$router.push({name:'/systemManagement/organization/view'})">查看</a>
 				<a-divider type="vertical" />
-				<a  @click="$router.push({name:'/systemManagement/organization/edit'})">修改</a>
+				<a @click="$router.push({name:'/systemManagement/organization/edit'})">修改</a>
 				<a-divider type="vertical" />
 				<a @click="deleteBtn(text,record)">删除</a>
 			</span>
@@ -204,8 +204,9 @@ export default {
       this.getLists()
     },
     //
-    pageChange(){
-				
+    pageChange(val) {
+      this.pageNo = val
+      this.getList()
     }
   }
 }

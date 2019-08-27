@@ -1,50 +1,50 @@
 <template>
-	<a-card :bordered='false'>
+	<a-card :bordered='false' :style="{margin:'0 0 0 14px'}">
 		<a-row type="flex" justify="space-between" slot='title'>
 			<a-col>
-				新增用户信息
+				{{$route.meta.title}}
 			</a-col>
 			<a-col>
 				<a-button type="primary" ghost @click='handleReturn'>返回</a-button>
-				<a-button type="primary" @click='handleAdd'>保存</a-button>
+				<a-button type="primary" @click='handleAdd' html-type="submit">保存</a-button>
 			</a-col>
 		</a-row>
 		<a-form :form="searchForm">
 			<a-row type="flex" justify="space-between">
 				<a-col span="8">
-					<a-form-item label="姓名：" :label-col="labelCol" :wrapper-col="wrapperCol">
-						<a-input placeholder="请输入" v-model="searchForm.name" />
+					<a-form-item label="姓名："  v-bind="colSpe">
+						<a-input placeholder="请输入" />
 					</a-form-item>
 				</a-col>
 				<a-col span="8">
-					<a-form-item label="账号：" :label-col="labelCol" :wrapper-col="wrapperCol">
-						<a-input placeholder="请输入" v-model="searchForm.name" />
+					<a-form-item label="账号：" v-bind="colSpe">
+						<a-input placeholder="请输入" />
 					</a-form-item>
 				</a-col>
 				<a-col span="8">
-					<a-form-item label="邮箱" :label-col="labelCol" :wrapper-col="wrapperCol">
-						<a-input placeholder="请输入" v-model="searchForm.name" />
+					<a-form-item label="邮箱"  v-bind="colSpe">
+						<a-input placeholder="请输入" />
 					</a-form-item>
 				</a-col>
 			</a-row>
 			<a-row type="flex" justify="start">
 				<a-col span="8">
-					<a-form-item label="邮编：" :label-col="labelCol" :wrapper-col="wrapperCol">
-						<a-input placeholder="请输入" v-model="searchForm.name" />
+					<a-form-item label="邮编：" v-bind="colSpe">
+						<a-input placeholder="请输入" />
 					</a-form-item>
 				</a-col>
 			</a-row>
 			<a-row type="flex" justify="start">
 				<a-col span="16">
-					<a-form-item label="单位名称：" :label-col="{span:3}" :wrapper-col="wrapperCol">
-						<a-input placeholder="请输入" v-model="searchForm.name" />
+					<a-form-item label="单位名称：" :label-col="{span:3}" :wrapper-col="{span:15}">
+						<a-input placeholder="请输入" />
 					</a-form-item>
 				</a-col>
 			</a-row>
 			<a-row type="flex" justify="start" align="middle">
 				<a-col span="16">
-					<a-form-item label="地址：" :label-col="{span:3}" :wrapper-col="wrapperCol">
-						<a-input placeholder="请输入" v-model="searchForm.name" @change='keyWords=searchForm.name' />
+					<a-form-item label="地址：" :label-col="{span:3}" :wrapper-col="{span:15}">
+						<a-input placeholder="请输入" @change='keyWords=searchForm.name' />
 					</a-form-item>
 				</a-col>
 				<a-col span="6" pull="4">
@@ -57,18 +57,18 @@
 			<a-divider dashed />
 			<a-row type="flex" justify="space-between">
 				<a-col span="8">
-					<a-form-item label="角色名称：" :label-col="labelCol" :wrapper-col="wrapperCol">
-						<a-input placeholder="请输入" v-model="searchForm.name" />
+					<a-form-item label="角色名称："  v-bind="colSpe">
+						<a-input placeholder="请输入" />
 					</a-form-item>
 				</a-col>
 				<a-col span="8">
-					<a-form-item label="组织机构：" :label-col="labelCol" :wrapper-col="wrapperCol">
-						<a-input placeholder="请输入" v-model="searchForm.name" />
+					<a-form-item label="组织机构："  v-bind="colSpe">
+						<a-input placeholder="请输入" />
 					</a-form-item>
 				</a-col>
 				<a-col span="8">
-					<a-form-item label="所属区域：" :label-col="labelCol" :wrapper-col="wrapperCol">
-						<a-input placeholder="请输入" v-model="searchForm.name" />
+					<a-form-item label="所属区域：" v-bind="colSpe">
+						<a-input placeholder="请输入" />
 					</a-form-item>
 				</a-col>
 			</a-row>
@@ -80,7 +80,7 @@
 				<a-button @click="map=false" ghost type="primary">取消</a-button>
 				<a-button @click="map=false" type="primary">确认</a-button>
 			</template>
-            <BMapComponent :height="250" :width="830" :keyWords="keyWords" />
+			<BMapComponent :height="250" :width="830" :keyWords="keyWords" />
 		</a-modal>
 	</a-card>
 </template>
@@ -91,17 +91,19 @@ export default {
   components: {
     BMapComponent
   },
+  beforeCreate() {
+    this.searchForm = this.$form.createForm(this)
+  },
   data() {
     return {
-      searchForm: {
-        name: ''
-      },
       dateFormat: 'YYYY-MM-DD',
-      labelCol: {
-        span: 6
-      },
-      wrapperCol: {
-        span: 15
+      colSpe:{
+        labelCol: {
+          span: 6
+        },
+        wrapperCol: {
+          span: 15
+        }
       },
       autoExpandParent: true,
       checkedKeys: [],
@@ -167,7 +169,7 @@ export default {
         key: '0-2',
       }],
       map: false,
-      keyWords:''
+      keyWords: ''
     }
   },
   watch: {
