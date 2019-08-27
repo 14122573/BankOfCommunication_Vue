@@ -60,64 +60,64 @@
 	</a-card>
 </template>
 <script>
-	export default {
-		name: 'organization-upload',
-		data() {
-			return {
-				headers: {},
-				fileList: [],
-				uploading: false,
-				fileName: ''
-			}
-		},
-		methods: {
-			beforeUpload(file) {
-				this.fileList = [...this.fileList, file]
-				this.fileName = file.name;
-				// 				const isLt2M = file.size / 1024 / 1024 < 2
-				// 				if (!isLt2M) {
-				// 					this.$message.error('Image must smaller than 2MB!')
-				// 				}
-				console.log(this.fileList, file);
-				return false
-			},
-			handleUpload() {
-				const {
-					fileList
-				} = this
-				const formData = new FormData()
-				fileList.forEach(file => {
-					formData.append('files[]', file)
-				})
-				this.uploading = true
-				reqwest({
-					url: 'https://www.mocky.io/v2/5cc8019d300000980a055e76',
-					method: 'post',
-					processData: false,
-					data: formData,
-					success: () => {
-						this.fileList = []
-						this.uploading = false
-						this.$message.success('upload successfully.')
-					},
-					error: () => {
-						this.uploading = false
-						this.$message.error('upload failed.')
-					}
-				})
-			},
-			handleRemove(index) {
-				this.fileList.splice(index, 1);
-				console.log(this.fileList, "232");
-			},
-			//下载错误数据
-			downloadErrorDatas(){
+export default {
+  name: 'organization-upload',
+  data() {
+    return {
+      headers: {},
+      fileList: [],
+      uploading: false,
+      fileName: ''
+    }
+  },
+  methods: {
+    beforeUpload(file) {
+      this.fileList = [...this.fileList, file]
+      this.fileName = file.name
+      // 				const isLt2M = file.size / 1024 / 1024 < 2
+      // 				if (!isLt2M) {
+      // 					this.$message.error('Image must smaller than 2MB!')
+      // 				}
+      console.log(this.fileList, file)
+      return false
+    },
+    handleUpload() {
+      const {
+        fileList
+      } = this
+      const formData = new FormData()
+      fileList.forEach(file => {
+        formData.append('files[]', file)
+      })
+      this.uploading = true
+      reqwest({
+        url: 'https://www.mocky.io/v2/5cc8019d300000980a055e76',
+        method: 'post',
+        processData: false,
+        data: formData,
+        success: () => {
+          this.fileList = []
+          this.uploading = false
+          this.$message.success('upload successfully.')
+        },
+        error: () => {
+          this.uploading = false
+          this.$message.error('upload failed.')
+        }
+      })
+    },
+    handleRemove(index) {
+      this.fileList.splice(index, 1)
+      console.log(this.fileList, '232')
+    },
+    //下载错误数据
+    downloadErrorDatas(){
 				
-			},
-			downloadTemplate(){
-			}
-		}
-	}
+    },
+    downloadTemplate(){
+    }
+  }
+}
 </script>
 <style scoped>
 	.upload-text {

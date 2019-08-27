@@ -76,117 +76,117 @@
 </template>
 
 <script>
-	import BMapComponent from '@/components/BaiduMap/BMapComponent.vue'
-	export default {
-		components: {
-			BMapComponent
-		},
-		beforeCreate() {
-			this.organizationForm = this.$form.createForm(this)
-		},
-		data() {
-			return {
-				formItemLayout: {
-					labelCol: {
-						span: 8
-					},
-					wrapperCol: {
-						span: 14
-					},
-				},
-				formItemSingle: {
-					labelCol: {
-						span: 4
-					},
-					wrapperCol: {
-						span: 19
-					},
-				},
-				position: '',
-				options: {
-					nameOptions: [{
-						label: '1',
-						value: '1'
-					}],
-					spaceOptions: [{
-						label: '1',
-						value: '1'
-					}],
-				},
-			}
-		},
-		methods: {
-			handleSave() {
-				this.organizationForm.validateFields((err, values) => {
-					if (!err) {
-						console.log(values);
-					}
-				})
-			},
-			handleReturn() {
-				this.$router.push({
-					name: '/systemManagement/organization'
-				})
-			},
-			handleSearchPoint(e) {
-				const value = e.target.value
-				this.position = value
-			},
-			//拖拽或点击获取新的地址
-			getNewAddress(data, addressTemp) {
-				let address = addressTemp
-				let province = '',
-					city = '',
-					district = ''
-				if (data.province) {
-					province = data.province
-				}
-				if (data.city) {
-					city = data.city
-				}
-				if (data.district) {
-					district = data.district
-				}
-				if (province == city) {
-					if (address.indexOf(province) == -1) {
-						if (district != '') {
-							address = district + address
-						}
-						if (province != '') {
-							address = province + address
-						}
-					}
-				} else {
-					if (address.indexOf(district) != -1) {
-						if (district != '') {
-							address = district + address
-						}
-					}
-					if (address.indexOf(city) == -1) {
-						if (city != '') {
-							address = city + address
-						}
-					}
+import BMapComponent from '@/components/BaiduMap/BMapComponent.vue'
+export default {
+  components: {
+    BMapComponent
+  },
+  beforeCreate() {
+    this.organizationForm = this.$form.createForm(this)
+  },
+  data() {
+    return {
+      formItemLayout: {
+        labelCol: {
+          span: 8
+        },
+        wrapperCol: {
+          span: 14
+        },
+      },
+      formItemSingle: {
+        labelCol: {
+          span: 4
+        },
+        wrapperCol: {
+          span: 19
+        },
+      },
+      position: '',
+      options: {
+        nameOptions: [{
+          label: '1',
+          value: '1'
+        }],
+        spaceOptions: [{
+          label: '1',
+          value: '1'
+        }],
+      },
+    }
+  },
+  methods: {
+    handleSave() {
+      this.organizationForm.validateFields((err, values) => {
+        if (!err) {
+          console.log(values)
+        }
+      })
+    },
+    handleReturn() {
+      this.$router.push({
+        name: '/systemManagement/organization'
+      })
+    },
+    handleSearchPoint(e) {
+      const value = e.target.value
+      this.position = value
+    },
+    //拖拽或点击获取新的地址
+    getNewAddress(data, addressTemp) {
+      let address = addressTemp
+      let province = '',
+        city = '',
+        district = ''
+      if (data.province) {
+        province = data.province
+      }
+      if (data.city) {
+        city = data.city
+      }
+      if (data.district) {
+        district = data.district
+      }
+      if (province == city) {
+        if (address.indexOf(province) == -1) {
+          if (district != '') {
+            address = district + address
+          }
+          if (province != '') {
+            address = province + address
+          }
+        }
+      } else {
+        if (address.indexOf(district) != -1) {
+          if (district != '') {
+            address = district + address
+          }
+        }
+        if (address.indexOf(city) == -1) {
+          if (city != '') {
+            address = city + address
+          }
+        }
 
-					if (address.indexOf(province) == -1) {
-						if (province != '') {
-							address = province + address
-						}
-					}
-				}
-				this.organizationForm.setFieldsValue({
-					address: address
-				})
-			},
-			validatePhone(rule, value, callback) {
-				if (value && !this.$com.checkPhone(value)) {
-					callback('手机号码不合法!')
-				} else {
-					callback();
-				}
-			}
-		}
-	}
+        if (address.indexOf(province) == -1) {
+          if (province != '') {
+            address = province + address
+          }
+        }
+      }
+      this.organizationForm.setFieldsValue({
+        address: address
+      })
+    },
+    validatePhone(rule, value, callback) {
+      if (value && !this.$com.checkPhone(value)) {
+        callback('手机号码不合法!')
+      } else {
+        callback()
+      }
+    }
+  }
+}
 </script>
 
 <style scoped>
