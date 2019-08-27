@@ -42,7 +42,8 @@ import {
   skeleton,
   pagination,
   Tag,
-  Badge
+  Badge,
+  TreeSelect
 } from 'ant-design-vue'
 
 import singleSpaVue from 'single-spa-vue'
@@ -74,6 +75,7 @@ Vue.use(DatePicker)
 Vue.use(pagination)
 Vue.use(Tag)
 Vue.use(Badge)
+Vue.use(TreeSelect)
 Vue.prototype.$ajax = ajax
 Vue.prototype.$api = api
 Vue.prototype.$cookie = cookie

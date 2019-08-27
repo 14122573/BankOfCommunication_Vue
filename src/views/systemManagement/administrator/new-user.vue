@@ -14,7 +14,11 @@
 				</a-col>
 				<a-col span="6">
 					<a-form-item label="角色名称" :label-col="labelCol" :wrapper-col="wrapperCol">
-						<a-input placeholder="请输入" v-model="searchForm.name" />
+						<a-select
+                  placeholder="请选择"
+                  v-model="searchForm.name"
+                  :options="roleList"
+              />
 					</a-form-item>
 				</a-col>
 				<a-col span="6">
@@ -28,7 +32,7 @@
 					</a-form-item>
 				</a-col>
 				<a-col span="12">
-					<a-form-item label="角色状态：" :label-col="{span:5}" :wrapper-col="wrapperCol">
+					<a-form-item label="角色状态：" :label-col="{span:4}" :wrapper-col="wrapperCol">
 						<a-checkbox-group :options="plainOptions" v-model="checkedList" />
 					</a-form-item>
 				</a-col>
@@ -81,7 +85,7 @@
 		</a-table>
 		<a-row type="flex" justify="end" class='opeationTable'>
 			<a-col>
-				<a-pagination showQuickJumper :defaultCurrent="1" :total="total" @change="pageChange" />
+				<a-pagination showQuickJumper :current="params.pageNo" :total="total" @change="pageChange" />
 			</a-col>
 		</a-row>
 		<a-modal :title="opeationTitle" :centered='true' :bodyStyle="{'text-align':'center'}" :visible="visibleModal" :closable='false'
@@ -96,16 +100,30 @@
 </template>
 <script>
 export default {
+  name:'new-user',
+  props:{
+    roleList:{
+      type:Array,
+      default:()=>{
+        return []
+      }
+    }
+  },
   data() {
     return {
       searchForm: {},
       dateFormat: 'YYYY-MM-DD',
       labelCol: {
-        span: 10
+        span: 8
       },
       wrapperCol: {
-        span: 14
+        span: 16
       },
+      params:{
+        pageNo:1,
+        pageSize:20,
+      },
+      total:0,
       data: [{
         name: 'qwqwq',
         name1: 'qwqwq',
@@ -153,7 +171,6 @@ export default {
       ],
       plainOptions: ['正常', '禁用', '已冻结', '已注销'],
       checkedList: ['正常'],
-      total: 0,
       opeationTitle: '',
       visibleModal: false,
       tips: '',
@@ -161,10 +178,25 @@ export default {
     }
   },
   methods: {
-    onDateChange(date, dateString) {
-      console.log(date, dateString, this.searchForm.time)
+    pageChange() {
+      this.params.pageNo = current
+      this.getList()
     },
-    pageChange() {},
+    // 查询按钮
+    search(){
+      this.params.pageNo=1
+      this.getList()
+    },
+    // 重置按钮
+    reset(){
+      this.searchForm={}
+      this.params.pageNo=1
+      this.getList()
+    },
+    // 查询列表
+    getList(){
+
+    },
     handleAdd() {
       this.$router.push({
         name: '/systemManagement/administrator/createNewUser'

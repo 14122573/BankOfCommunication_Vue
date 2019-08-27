@@ -1,7 +1,7 @@
 <template>
-	<a-card :bordered='false'>
+	<a-card :bordered='false' :style="{margin:'0 0 0 14px'}">
 		<a-row type="flex" justify="space-between" slot="title" align="middle">
-			<a-col>组织机构创建</a-col>
+			<a-col>{{$route.meta.title}}</a-col>
 			<a-col>
 				<a-button type="primary" ghost @click="handleReturn">
 					取消
@@ -15,11 +15,10 @@
 			<a-row type="flex" justify="start" align="middle">
 				<a-col :span="8">
 					<a-form-item label="组织机构名称" v-bind="formItemLayout">
-						<a-input v-decorator="[
+						<a-select placeholder="请选择" :options='options.nameOptions' v-decorator="[
 										 'name',
 										 { rules: [{ required: true,whitespace:true, message: '请输入组织机构名称!' }] }
-									 ]"
-						 placeholder="组织机构名称" />
+									 ]" />
 					</a-form-item>
 				</a-col>
 				<a-col :span="8">
@@ -35,7 +34,10 @@
 					<a-form-item label="联系电话" v-bind="formItemLayout">
 						<a-input v-decorator="[
 										 'phone',
-										 { rules: [{ required: true,whitespace:true, message: '请输入联系电话!' }] }
+										 {  
+											 validateTrigger:'blur',
+											 rules: [{ required: true,whitespace:true, message: '请输入联系电话!' },
+										   { validator: validatePhone}] }
 									 ]"
 						 placeholder="联系电话" />
 					</a-form-item>
@@ -43,21 +45,11 @@
 			</a-row>
 			<a-row type="flex" justify="start" align="middle">
 				<a-col :span="8">
-					<a-form-item label="单位类型" v-bind="formItemLayout">
-						<a-input v-decorator="[
-										 'type',
-										 { rules: [{ required: true,whitespace:true, message: '请输入单位类型!' }] }
-									 ]"
-						 placeholder="单位类型" />
-					</a-form-item>
-				</a-col>
-				<a-col :span="8">
 					<a-form-item label="所属行政区域" v-bind="formItemLayout">
-						<a-input v-decorator="[
+						<a-select placeholder="请选择" :options='options.nameOptions' v-decorator="[
 										 'area',
 										 { rules: [{ required: true,whitespace:true, message: '请输入所属行政区域!' }] }
-									 ]"
-						 placeholder="所属行政区域" />
+									 ]" />
 					</a-form-item>
 				</a-col>
 			</a-row>
@@ -111,14 +103,23 @@ export default {
         },
       },
       position: '',
+      options: {
+        nameOptions: [{
+          label: '1',
+          value: '1'
+        }],
+        spaceOptions: [{
+          label: '1',
+          value: '1'
+        }],
+      },
     }
   },
   methods: {
     handleSave() {
-			
       this.organizationForm.validateFields((err, values) => {
         if (!err) {
-					
+          console.log(values)
         }
       })
     },
@@ -177,7 +178,13 @@ export default {
         address: address
       })
     },
-
+    validatePhone(rule, value, callback) {
+      if (value && !this.$com.checkPhone(value)) {
+        callback('手机号码不合法!')
+      } else {
+        callback()
+      }
+    }
   }
 }
 </script>
