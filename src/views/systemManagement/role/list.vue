@@ -1,5 +1,5 @@
 <template>
-    <a-card :bordered="false">
+    <a-card :style="{margin:'0 0 0 14px'}" :bordered="false">
         <a-form :form="searchForm">
             <a-row type="flex" justify="space-between">
                 <a-col span="6">
@@ -10,13 +10,13 @@
                     >
                     <a-input
                         placeholder="请输入"
-                        v-model="searchForm.name"
+                        v-model="searchForm.roleName_l"
                     />
                     </a-form-item>
                 </a-col>
                 <a-col>
-                    <a-button type="primary" ghost>重置</a-button>
-                    <a-button type="primary">搜索</a-button>
+                    <a-button type="primary" @click="reset" ghost>重置</a-button>
+                    <a-button type="primary" @click="search">搜索</a-button>
                 </a-col>
             </a-row>
         </a-form>
@@ -31,7 +31,7 @@
                     <div class="content">
                         <p class="name">{{item.roleName}}</p>
                         <p>
-                            <a-icon type="user" /><span class="name-num">4人</span>
+                            <img :src="groups" class="group-icon" alt="人数"><span class="name-num">4人</span>
                         </p>
                     </div>
                     <div class="operate">
@@ -51,6 +51,8 @@
             @ok="handleOkDelete"
             cancelText="取消"
             okText="删除"
+            :maskClosable="false"
+            :width="360"
             >
         <p class="center-p">是否确认删除此角色？</p>
         <p class="center-p">此操作不可撤销</p>
@@ -62,10 +64,18 @@
             @ok="handleOkDeleteRole"
             cancelText="取消"
             okText="删除"
+            :maskClosable="false"
+            :width="360"
             >
         <p class="center-p">此角色还有员工未被分配</p>
         <p class="center-p">请先处理该角色下所有员工的调岗操作</p>
         </a-modal>
+        <!-- 分页 -->
+        <a-row type="flex" justify="end">
+          <a-col>
+            <a-pagination showQuickJumper @change="onChange" :current="params.pageNo" :total="total" />
+          </a-col>
+        </a-row>
     </a-card>
 </template>
 <script>
@@ -79,13 +89,35 @@ export default {
       deleteShow:false,
       deleteRoleShow:false,
       deleteData:{},
+      params:{
+        pageNo:1,
+        pageSize:20,
+      },
+      total:0,
+      groups:require('@/assets/images/group.png'),
     }
   },
   methods:{
+    // 查询按钮
+    search(){
+      this.params.pageNo=1
+      this.getList()
+    },
+    // 重置按钮
+    reset(){
+      this.searchForm={}
+      this.params.pageNo=1
+      this.getList()
+    },
+    onChange(current) {
+      this.params.pageNo = current
+      this.getList()
+    },
     //   查询列表
     getList(){
       this.$ajax.get({
-        url:this.$api.GET_ROLE_LIST
+        url:this.$api.GET_ROLE_LIST,
+        params:Object.assign(this.searchForm,this.params)
       })
         .then(res=>{
           if(res.code === '200'){
@@ -199,6 +231,7 @@ export default {
 }
 .inner.add-btn {
   background: #e8eaec;
+  border: none;
 }
 .inner.add-btn > button {
   width: 100%;
@@ -208,6 +241,11 @@ export default {
 }
 .center-p{
     text-align: center;
+}
+.group-icon{
+  width: 16px;
+  position: relative;
+  top: -2px;
 }
 </style>
 

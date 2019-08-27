@@ -35,7 +35,7 @@
                     <a-select
                         placeholder="请选择"
                         v-model="searchForm.name"
-                        :options="nameOptions"
+                        :options="roleList"
                     />
                     </a-form-item>
                 </a-col>
@@ -61,12 +61,12 @@
                     </a-form-item>
                 </a-col>
                 <a-col>
-                    <a-button type="primary" ghost>重置</a-button>
-                    <a-button type="primary">搜索</a-button>
+                    <a-button type="primary" @click="reset" ghost>重置</a-button>
+                    <a-button type="primary" @click="search">搜索</a-button>
                 </a-col>
             </a-row>
         </a-form>
-        <a-table :columns="columns" rowKey="name" :dataSource="data">
+        <a-table :columns="columns" :pagination="false" rowKey="name" :dataSource="data">
             <span slot="status" slot-scope="text, record">
                 <userStatus :status="record.status"/>
             </span>
@@ -94,6 +94,11 @@
                 </a-dropdown>
             </span>
         </a-table>
+        <a-row class="page-row" type="flex" justify="end">
+            <a-col>
+                <a-pagination showQuickJumper @change="onChange" :current="params.pageNo" :total="total" />
+            </a-col>
+        </a-row>
     </div>
 </template>
 <script>
@@ -101,12 +106,27 @@ import userStatus from '../components/user-status'
 export default {
   name:'old-user',
   components:{userStatus},
+  props:{
+    roleList:{
+      type:Array,
+      default:()=>{
+        return []
+      }
+    }
+  },
   data(){
     return{
-      searchForm:{},
+      searchForm:{
+        checkedList:[]
+      },
       dateFormat: 'YYYY-MM-DD',
       labelCol: { span: 8 },
       wrapperCol: { span: 16 },
+      params:{
+        pageNo:1,
+        pageSize:20,
+      },
+      total:0,
       data:[{
         name:'1',
         status:'1'
@@ -130,20 +150,42 @@ export default {
           scopedSlots: { customRender: 'action' }
         }
       ],
-      nameOptions:[],
       plainOptions: ['正常', '禁用', '已冻结', '已注销'],
     }
   },
   methods:{
-    onDateChange(date,dateString){
-      console.log(date,dateString,this.searchForm.time)
-    }
+    // 查询按钮
+    search(){
+      this.params.pageNo=1
+      this.getList()
+    },
+    // 重置按钮
+    reset(){
+      this.searchForm={}
+      this.params.pageNo=1
+      this.getList()
+    },
+    onChange(current) {
+      this.params.pageNo = current
+      this.getList()
+    },
+    // 查询列表
+    getList(){
+
+    },
+    
+  },
+  mounted(){
+    this.getList()
   }
 }
 </script>
 <style scoped>
     .ant-badge-status-dot{
         width: 9px 9px;
+    }
+    .page-row{
+        margin-top: 20px;
     }
 </style>
 
