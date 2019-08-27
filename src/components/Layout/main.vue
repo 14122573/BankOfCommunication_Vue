@@ -288,9 +288,11 @@ export default {
 	}
 
 	#AppContent {
-    padding-top:78px;
+    padding-top:66px;
     padding-right:2px;
-		background: url('../../assets/images/content-bg.png') no-repeat top right;
+    background: url('../../assets/images/content-bg.png') no-repeat;
+    background-position-y: 66px;
+    background-position-x: right;
 		background-size: 20%;
 	}
 
