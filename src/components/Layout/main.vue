@@ -220,7 +220,7 @@ export default {
 
 	#portalLogo {
 		height: 64px;
-		background: #00284e;
+		/* background: #00284e; */
 		width: 100%;
 	}
   #portalLogo .portalLogoWapper{ height: 64px; padding-top:7px;}

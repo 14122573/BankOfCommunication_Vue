@@ -20,7 +20,7 @@ export const permission = {
           oldSysAuthCode = []
         }else{
           userInfo = res.data.content
-          let name = userInfo.username = res.data.content.name||res.data.content.phone
+          name = userInfo.username = res.data.content.name||res.data.content.phone
           this.$store.commit('SET_USERINFO',userInfo)
           this.$cookie.set('userName', name)
           this.$store.commit('SET_USERNAME', name)
