@@ -1,15 +1,15 @@
 <template>
-	<a-card :bordered='false'>
+	<a-card :bordered='false' :style="{margin:'0 0 0 14px'}">
 		<a-row type="flex" justify="space-between" slot="title" align="middle">
 			<a-col>组织机构</a-col>
 			<a-col>
-				<a-button type="primary" ghost @click="handleReturn">
+				<a-button type="primary" ghost @click="$router.back()">
 					返回
 				</a-button>
-				<a-button type="primary"  @click="handleEdit">
+				<a-button type="primary" @click="$router.push({name: '/systemManagement/organization/edit'})">
 					修改
 				</a-button>
-				<a-button type="danger" ghost  @click="handleSave">
+				<a-button type="danger" ghost @click="handleDel">
 					删除
 				</a-button>
 			</a-col>
@@ -87,7 +87,7 @@
 						地址微调：
 					</a-col>
 					<a-col span="17">
-						<BMapComponent :height="250" :width="830" :keyWords="position" @on-change="getNewAddress" />
+						<BMapComponent :height="250" :width="830" :keyWords="position" />
 					</a-col>
 				</a-row>
 			</a-col>
@@ -106,18 +106,8 @@ export default {
     }
   },
   methods: {
-    handleReturn() {
-      this.$router.push({
-        name: '/systemManagement/organization'
-      })
-    },
-    handleSave() {
+    handleDel() {
 
-    },
-    handleEdit() {
-      this.$router.push({
-        name: '/organization/edit'
-      })
     }
   },
   mounted() {

@@ -25,7 +25,7 @@
                     <a-select 
                         placeholder="请选择"
                         v-model="formData.space"
-                        :options='[]'
+                        :options='options.roleList'
                     />
                     </a-form-item>
                 </a-col>
@@ -35,11 +35,13 @@
                         :label-col="labelCol"
                         :wrapper-col="wrapperCol"
                     >
-                    <a-select 
-                        placeholder="请选择"
-                        v-model="formData.space"
-                        :options='[]'
-                    />
+                    <!-- <a-tree-select
+                        :treeData="treeData"
+                        :defaultExpandedKeys='expandedKeys'
+                        :dropdownStyle="{ maxHeight: '400px', overflow: 'auto' }"
+                        showSearch
+                        allowClear
+                    /> -->
                     </a-form-item>
                 </a-col>
                 <a-col span="8">
@@ -57,11 +59,10 @@
             </a-row>
         </a-form>
         <a-tree
-            checkable
-            :treeData="treeData"
-            v-model="checkedKeys"
-            @select="onSelect"
-            @check="onCheck"
+          checkable
+          :treeData="treeData"
+          :defaultExpandedKeys='expandedKeys'
+          v-model="checkedKeys"
         />
         </a-card>
     </span>
@@ -76,37 +77,74 @@ export default {
       formData:{},
       labelCol: { span: 8 },
       wrapperCol: { span: 16 },
-      treeData: [
-        {
-          title: 'parent 1',
-          key: '0-0',
-          children: [
-            {
-              title: 'parent 1-0',
-              key: '0-0-0',
-              children: [
-                { title: 'leaf', key: '0-0-0-0'},
-                { title: 'leaf', key: '0-0-0-1' }
-              ]
-            },
-            {
-              title: 'parent 1-1',
-              key: '0-0-1',
-              children: [{ key: '0-0-1-0' }]
-            }
-          ]
-        }
-      ],
-      checkedKeys: []
+      options:{
+        roleList:[]
+      },
+      checkedKeys: [],//选择的数组
+      treeData:[],
+      // 默认展开的数组
+      expandedKeys:[],
     }
   },
   methods:{
-    onSelect(selectedKeys, info) {
-      console.log('selected', selectedKeys, info)
+    //   查询options
+    getOptions(){
+      let optionList=[{url:this.$api.GET_ROLE_LIST,name:'roleList'}]
+      optionList.forEach(item=>{
+        this.$ajax.get({
+          url:item.url,
+          params:{
+            pageNo:1,
+            pageSize:10000
+          }
+        })
+          .then(res=>{
+            if(res.code === '200'){
+              let data=res.data.content
+              this.options[item.name]=data.map(item=>{
+                return{
+                  label:item.roleName,
+                  value:item.id
+                }
+              })
+            }else{
+              this.$message.error(res.msg)
+            }
+          })
+      })
     },
-    onCheck(checkedKeys, info) {
-      console.log('onCheck', checkedKeys, info)
+    // // 查询权限树
+    getTree(){
+      this.$ajax.get({
+        url:this.$api.GET_ALL_ROLE + '?isTree=true'
+      }).then(res=>{
+        let data=res.data.content
+        this.allData=data
+        
+        data.forEach((item,index)=>{
+          this.treeData.push(this.getTreeNode(item,index))
+        })
+      })
+    },
+    // 整理权限树
+    getTreeNode(item,index){
+      let childrenNode={
+        title:item.permName,
+        key:item.id,
+        value:item.permName
+      }
+      if(item.childList && item.childList.length){
+        childrenNode.children = []
+        item.childList.forEach((subItem,subIndex) =>{
+          let subkey = subItem.id
+          childrenNode.children.push(this.getTreeNode(subItem,subkey))
+        })
+      }
+      return childrenNode
     }
+  },
+  mounted(){
+    this.$ajax.all(this.getOptions(),this.getTree())
   }
 }
 </script>

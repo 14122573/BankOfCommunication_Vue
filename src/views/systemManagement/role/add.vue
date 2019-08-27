@@ -1,5 +1,5 @@
 <template>
-    <a-card :bordered="false">
+    <a-card :style="{margin:'0 0 0 14px'}" :bordered="false" class="role-ope">
         <a-row type="flex" slot="title" justify="space-between" align="middle">
             <a-col>
                 {{title}}
@@ -16,7 +16,7 @@
         </a-row>
         <a-form :form="formData" v-if="$route.query.type !== 'view'">
             <a-row>
-                <a-col span="6">
+                <a-col span="8">
                     <a-form-item
                         label="角色名称："
                         :label-col="labelCol"
@@ -26,7 +26,7 @@
                         placeholder="请输入"
                         v-decorator="[
                           'roleName',
-                          {rules: [{ required: true, message: '请输入角色名称' ,whitespace:true }],validateTrigger:'blur'}
+                          {rules: [{ required: true, message: '请输入10字以内的角色名称！' ,whitespace:true,max:10 }],validateTrigger:'blur'}
                         ]"
                     />
                     </a-form-item>
@@ -34,13 +34,14 @@
             </a-row>
         </a-form>
         <a-tree
-                v-if="showTree"
-                checkable
-                :treeData="treeData"
-                :defaultExpandedKeys='expandedKeys'
-                v-model="checkedKeys"
-                :disabled="$route.query.type === 'view'"
-            />
+          v-if="showTree"
+          checkable
+          :treeData="treeData"
+          :defaultExpandedKeys='expandedKeys'
+          v-model="checkedKeys"
+          :disabled="$route.query.type === 'view'"
+        />
+        
           <!-- 删除确认 -->
          <a-modal
             title="操作确认"
@@ -48,6 +49,8 @@
             @ok="handleOkDelete"
             cancelText="取消"
             okText="删除"
+            :maskClosable="false"
+            :width="465"
             >
         <p class="center-p">是否确认删除此角色？</p>
         <p class="center-p">此操作不可撤销</p>
@@ -59,6 +62,8 @@
             @ok="handleOkDeleteRole"
             cancelText="取消"
             okText="删除"
+            :maskClosable="false"
+            :width="465"
             >
         <p class="center-p">此角色还有员工未被分配</p>
         <p class="center-p">请先处理该角色下所有员工的调岗操作</p>
@@ -71,12 +76,10 @@ export default {
     return {
       title:'新增角色',
       formData: this.$form.createForm(this),
-      labelCol: { span: 10 },
-      wrapperCol: { span: 14 },
+      labelCol: { span: 8 },
+      wrapperCol: { span: 16 },
       checkedKeys: [],//选择的数组
-      allData:[],
       treeData:[],
-      selected:[],
       // 默认展开的数组
       expandedKeys:[],
       // 删除
@@ -93,7 +96,6 @@ export default {
         url:this.$api.GET_ALL_ROLE + '?isTree=true'
       }).then(res=>{
         let data=res.data.content
-        this.allData=data
         
         data.forEach((item,index)=>{
           this.treeData.push(this.getTreeNode(item,index))
@@ -236,3 +238,16 @@ export default {
   }
 }
 </script>
+<style>
+  .role-ope li.ant-tree-treenode-disabled > span:not(.ant-tree-switcher), li.ant-tree-treenode-disabled > .ant-tree-node-content-wrapper, li.ant-tree-treenode-disabled > .ant-tree-node-content-wrapper span{
+    color:rgba(0, 0, 0,1);
+  }
+  /* .role-ope .anticon-file{
+    display: none;
+  }
+  .role-ope .ant-tree.ant-tree-show-line li:not(:last-child):before{
+    display: none;
+  } */
+</style>
+
+
