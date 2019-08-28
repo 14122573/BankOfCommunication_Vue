@@ -250,27 +250,33 @@ export default {
      */
   checkUserStatusTags(value, status = value.toString()) {
     switch (status) {
-    case '0':
+    case '1':
       return {
         txt: '正常',
         color: 'processing'
       }
       break
-    case '1':
+    case '9':
       return {
         txt: '禁用',
         color: 'error'
       }
       break
-    case '2':
-      return {
-        txt: '已冻结',
-        color: 'warning'
-      }
-      break
-    default:
+    case '8':
       return {
         txt: '已注销',
+        color: 'default'
+      }
+      break
+      // case '2':
+      //   return {
+      //     txt: '已冻结',
+      //     color: 'warning'
+      //   }
+      //   break
+    default:
+      return {
+        txt: '-',
         color: 'default'
       }
       break

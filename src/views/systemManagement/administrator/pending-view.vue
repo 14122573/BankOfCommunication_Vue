@@ -1,5 +1,5 @@
 <template>
-    <a-card :bordered="false">
+    <a-card :style="{margin:'14px 0 0 14px'}" :bordered="false">
         <a-row type="flex" slot="title" justify="space-between" align="middle">
             <a-col>
                 查看

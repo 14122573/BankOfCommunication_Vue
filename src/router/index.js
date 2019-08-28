@@ -27,9 +27,9 @@ router.beforeEach((to, from, next) => {
   if (!curRoute.name) {
     curRoute = from
   }
-  console.log(to, from);
+  console.log(to, from)
 
-  console.log(curRoute);
+  console.log(curRoute)
 
   store.commit('SET_DEFAULTMENU_STATUS', {
     defaultSelectedKeys: [(curRoute && curRoute.name) || ''],

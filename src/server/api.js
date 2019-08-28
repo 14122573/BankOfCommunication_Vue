@@ -45,4 +45,6 @@ export default {
   PUT_CHARACTER: '/service-permission/perm/role/{id}', //编辑角色
   DELETE_CHARACTER: '/service-permission/perm/role/{id}', //删除角色
   USER_LIST_TYPE_GET: '/service-user/user/accounts/{type}', // 用户{type} old老用户列表   new-新用户列表
+  SYSTEM_LIST_ALL_GET: '/service-user/user/systems', //查询系统列表
+  CHECK_USER_STATUS: '/service-user/user/acct/{id}/status/{status}/{type}', //切换用户状态
 }

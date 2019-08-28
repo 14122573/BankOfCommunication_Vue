@@ -56,7 +56,7 @@
                         :label-col="{span:4}"
                         :wrapper-col="{span:20}"
                     >
-                        <a-range-picker v-model="time" :format="dateFormat" style="width:100%" :placeholder="['请选择开始日期','请选择结束日期']" @change="onDateChange" />
+                        <a-range-picker allowClear v-model="time" :format="dateFormat" style="width:100%" :placeholder="['请选择开始日期','请选择结束日期']" @change="onDateChange" />
                     </a-form-item>
                 </a-col>
                 <a-col>
@@ -85,70 +85,70 @@
 </template>
 <script>
 export default {
-  data(){
-    return{
-      searchForm:{},
+  data() {
+    return {
+      searchForm: {},
       dateFormat: 'YYYY-MM-DD',
       labelCol: { span: 8 },
       wrapperCol: { span: 16 },
-      params:{
-        pageNo:1,
-        pageSize:10,
-        'ui.createTime_desc':'0',
-        status:'0'
+      params: {
+        pageNo: 1,
+        pageSize: 10,
+        'ui.createTime_desc': '0',
+        status: '0'
       },
-      time:[],
-      total:0,
-      data:[],
-      columns:[
+      time: [],
+      total: 0,
+      data: [],
+      columns: [
         {
-          title:'姓名',
-          dataIndex:'name',
-          key:'name'
+          title: '姓名',
+          dataIndex: 'name',
+          key: 'name'
         },
         {
-          title:'账号',
-          width:240,
-          dataIndex:'phone',
-          key:'phone'
+          title: '账号',
+          width: 240,
+          dataIndex: 'phone',
+          key: 'phone'
         },
         {
-          title:'邮箱',
-          dataIndex:'mail',
-          key:'mail'
+          title: '邮箱',
+          dataIndex: 'mail',
+          key: 'mail'
         },
         {
-          title:'单位',
-          dataIndex:'dept',
-          key:'dept'
+          title: '单位',
+          dataIndex: 'dept',
+          key: 'dept'
         },
         {
-        //   title:'注册时间',
-          dataIndex:'createTime',
-          key:'createTime',
-          width:240,
-          slots:{ title: 'createTimeTitle' }
+          //   title:'注册时间',
+          dataIndex: 'createTime',
+          key: 'createTime',
+          width: 240,
+          slots: { title: 'createTimeTitle' }
         },
         {
-          title:'操作',
-          dataIndex:'action',
-          key:'action',
+          title: '操作',
+          dataIndex: 'action',
+          key: 'action',
           scopedSlots: { customRender: 'action' }
         }
       ]
     }
   },
-  methods:{
+  methods: {
     // 查询按钮
-    search(){
-      this.params.pageNo=1
+    search() {
+      this.params.pageNo = 1
       this.getList()
     },
     // 重置按钮
-    reset(){
-      this.searchForm={}
-      this.time=[]
-      this.params.pageNo=1
+    reset() {
+      this.searchForm = {}
+      this.time = []
+      this.params.pageNo = 1
       this.getList()
     },
     onChange(current) {
@@ -156,50 +156,62 @@ export default {
       this.getList()
     },
     // 查询列表
-    getList(){
-      let params=JSON.parse(JSON.stringify(this.searchForm))
+    getList() {
+      let searchParams = JSON.parse(JSON.stringify(this.searchForm))
+      if (searchParams.phone_l) {
+        searchParams['ui.phone_l'] = searchParams.phone_l
+        delete searchParams.phone_l
+      }
+      if (searchParams.phone_l) {
+        searchParams['ui.phone_l'] = searchParams.phone_l
+        delete searchParams.phone_l
+      }
+      if (searchParams.createTime_desc) {
+        searchParams['ui.createTime_lt'] = searchParams.createTime_desc[0]
+        searchParams['ui.createTime_gt'] = searchParams.createTime_desc[1]
+        delete searchParams.createTime_desc
+      }
       // if (params.createTime_desc) params.createTime_desc=params.createTime_desc.join(',');
-      this.$ajax.get({
-        url:this.$api.USER_LIST_TYPE_GET.replace('{type}','new'),
-        params:Object.assign(this.searchForm,this.params)
-      })
-        .then(res=>{
-          if(res.code === '200'){
-            this.data=res.data.content
-          }else{
+      this.$ajax
+        .get({
+          url: this.$api.USER_LIST_TYPE_GET.replace('{type}', 'new'),
+          params: Object.assign(searchParams, this.params)
+        })
+        .then(res => {
+          if (res.code === '200') {
+            this.total = res.data.totalRows
+            this.data = res.data.content
+          } else {
             this.$message.error(res.msg)
           }
         })
-
     },
-    
-    onDateChange(date,dateString){
-      this.searchForm.createTime_desc=dateString
-      console.log(date,dateString,this.searchForm.time)
+
+    onDateChange(date, dateString) {
+      this.searchForm.createTime_desc = dateString
     },
     // 查看按钮
-    viewBtn(item){
+    viewBtn(item) {
       this.$router.push({
-        name:'/systemManagement/administrator/pendingView'
+        name: '/systemManagement/administrator/pendingView'
       })
     },
     // 权限分配按钮
-    distributionBtn(item){
+    distributionBtn(item) {
       this.$router.push({
-        name:'/systemManagement/administrator/distribution'
+        name: '/systemManagement/administrator/distribution'
       })
     }
   },
-  mounted(){
-      
+  mounted() {
     this.getList()
-  },
+  }
 }
 </script>
 <style scoped>
-    .page-row{
-        margin-top: 20px;
-    }
+.page-row {
+  margin-top: 20px;
+}
 </style>
 
 
