@@ -90,7 +90,7 @@ export default {
     /** 持久化存储vuex 使其页面刷新后数据不丢失 */
     //在页面加载时读取sessionStorage里的状态信息
     if (sessionStorage.getItem('VuexStore')) {
-      console.log('getStore');
+      console.log('getStore')
 
       this.$store.replaceState(Object.assign({}, this.$store.state, JSON.parse(sessionStorage.getItem('VuexStore'))))
     }

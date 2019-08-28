@@ -13,38 +13,38 @@
 			<a-row type="flex" justify="space-between">
 				<a-col span="8">
 					<a-form-item label="姓名：" v-bind="colSpe">
-						<a-input placeholder="请输入" v-decorate="['name',{rules:[{type:required,messgae:'请输入姓名'}]}]"/>
+						<a-input placeholder="请输入" v-decorator="['name',searchFormRules.name]"/>
 					</a-form-item>
 				</a-col>
 				<a-col span="8">
 					<a-form-item label="账号：" v-bind="colSpe" >
-						<a-input placeholder="请输入" v-decorate="['name',{rules:[{type:required,messgae:'请输入账号'}]}]"/>
+						<a-input placeholder="请输入" v-decorator="['phone',searchFormRules.phone]"/>
 					</a-form-item>
 				</a-col>
 				<a-col span="8">
 					<a-form-item label="邮箱" v-bind="colSpe" >
-						<a-input placeholder="请输入" v-decorate="['name',{rules:[{type:required,messgae:'请输入邮箱'},{type:'mail',messgae:'邮箱格式不合法'}]}]"/>
+						<a-input placeholder="请输入" v-decorator="['mail',searchFormRules.mail]"/>
 					</a-form-item>
 				</a-col>
 			</a-row>
 			<a-row type="flex" justify="start">
 				<a-col span="8">
 					<a-form-item label="邮编：" v-bind="colSpe" >
-						<a-input placeholder="请输入" v-decorate="['name',{rules:[{type:required,messgae:'请输入邮编'}]}]"/>
+						<a-input placeholder="请输入" v-decorator="['zipCode',searchFormRules.zipCode]"/>
 					</a-form-item>
 				</a-col>
 			</a-row>
 			<a-row type="flex" justify="start">
 				<a-col span="16">
 					<a-form-item label="单位名称：" :label-col="{span:3}" :wrapper-col="{span:15}"  v-bind="colSpe">
-						<a-input placeholder="请输入"  v-decorate="['name',{rules:[{type:required,messgae:'请输入单位名称'}]}]"/>
+						<a-input placeholder="请输入"  v-decorator="['dept',searchFormRules.dept]"/>
 					</a-form-item>
 				</a-col>
 			</a-row>
 			<a-row type="flex" justify="start" align="middle">
 				<a-col span="16">
 					<a-form-item label="地址：" :label-col="{span:3}" :wrapper-col="{span:15}">
-						<a-input placeholder="请输入" @change='keyWords=searchForm.name' v-decorate="['name',{rules:[{type:required,messgae:'请输入地址'}]}]"/>
+						<a-input placeholder="请输入" @change='keyWords=searchForm.name' v-decorator="['addr',searchFormRules.addr]"/>
 					</a-form-item>
 				</a-col>
 				<a-col span="6" pull="4">
@@ -86,128 +86,136 @@
 </template>
 
 <script>
-	import BMapComponent from '@/components/BaiduMap/BMapComponent.vue'
-	export default {
-		components: {
-			BMapComponent
-		},
-		beforeCreate() {
-			this.searchForm = this.$form.createForm(this)
-		},
-		data() {
-			return {
-				dateFormat: 'YYYY-MM-DD',
-				colSpe: {
-					labelCol: {
-						span: 6
-					},
-					wrapperCol: {
-						span: 15
-					}
-				},
-				autoExpandParent: true,
-				checkedKeys: [],
-				expandedKeys: [],
-				selectedKeys: [],
-				treeData: [{
-					title: '0-0',
-					key: '0-0',
-					children: [{
-						title: '0-0-0',
-						key: '0-0-0',
-						children: [{
-								title: '0-0-0-0',
-								key: '0-0-0-0'
-							},
-							{
-								title: '0-0-0-1',
-								key: '0-0-0-1'
-							},
-							{
-								title: '0-0-0-2',
-								key: '0-0-0-2'
-							},
-						],
-					}, {
-						title: '0-0-1',
-						key: '0-0-1',
-						children: [{
-								title: '0-0-1-0',
-								key: '0-0-1-0'
-							},
-							{
-								title: '0-0-1-1',
-								key: '0-0-1-1'
-							},
-							{
-								title: '0-0-1-2',
-								key: '0-0-1-2'
-							},
-						],
-					}, {
-						title: '0-0-2',
-						key: '0-0-2',
-					}],
-				}, {
-					title: '0-1',
-					key: '0-1',
-					children: [{
-							title: '0-1-0-0',
-							key: '0-1-0-0'
-						},
-						{
-							title: '0-1-0-1',
-							key: '0-1-0-1'
-						},
-						{
-							title: '0-1-0-2',
-							key: '0-1-0-2'
-						},
-					],
-				}, {
-					title: '0-2',
-					key: '0-2',
-				}],
-				map: false,
-				keyWords: ''
-			}
-		},
-		watch: {
-			checkedKeys(val) {
-				console.log('onCheck', val)
-			}
-		},
-		methods: {
-			onExpand(expandedKeys) {
-				console.log('onExpand', expandedKeys)
-				// this.expandedKeys.push(expandedKeys);
-				// if not set autoExpandParent to false, if children expanded, parent can not collapse.
-				// or, you can remove all expanded children keys.
-				this.expandedKeys = expandedKeys
-				this.autoExpandParent = false
-			},
-			onCheck(checkedKeys) {
-				console.log('onCheck', checkedKeys)
-				this.checkedKeys = checkedKeys
-			},
-			onSelect(selectedKeys, info) {
-				console.log('onSelect', info)
-				this.selectedKeys = selectedKeys
-			},
-			handleReturn() {
-				this.$router.push({
-					name: '/systemManagement/administrator'
-				})
-			},
-			handleAdd() {
-				this.searchForm.validateFields((err, values) => {
-					if (!err) {
-						console.log('Received values of form: ', values);
-					}
-				});
-			}
-		}
-	}
+import BMapComponent from '@/components/BaiduMap/BMapComponent.vue'
+export default {
+  components: {
+    BMapComponent
+  },
+  beforeCreate() {
+    this.searchForm = this.$form.createForm(this)
+  },
+  data() {
+    return {
+      dateFormat: 'YYYY-MM-DD',
+      colSpe: {
+        labelCol: {
+          span: 6
+        },
+        wrapperCol: {
+          span: 15
+        }
+      },
+      autoExpandParent: true,
+      checkedKeys: [],
+      expandedKeys: [],
+      selectedKeys: [],
+      treeData: [{
+        title: '0-0',
+        key: '0-0',
+        children: [{
+          title: '0-0-0',
+          key: '0-0-0',
+          children: [{
+            title: '0-0-0-0',
+            key: '0-0-0-0'
+          },
+          {
+            title: '0-0-0-1',
+            key: '0-0-0-1'
+          },
+          {
+            title: '0-0-0-2',
+            key: '0-0-0-2'
+          },
+          ],
+        }, {
+          title: '0-0-1',
+          key: '0-0-1',
+          children: [{
+            title: '0-0-1-0',
+            key: '0-0-1-0'
+          },
+          {
+            title: '0-0-1-1',
+            key: '0-0-1-1'
+          },
+          {
+            title: '0-0-1-2',
+            key: '0-0-1-2'
+          },
+          ],
+        }, {
+          title: '0-0-2',
+          key: '0-0-2',
+        }],
+      }, {
+        title: '0-1',
+        key: '0-1',
+        children: [{
+          title: '0-1-0-0',
+          key: '0-1-0-0'
+        },
+        {
+          title: '0-1-0-1',
+          key: '0-1-0-1'
+        },
+        {
+          title: '0-1-0-2',
+          key: '0-1-0-2'
+        },
+        ],
+      }, {
+        title: '0-2',
+        key: '0-2',
+      }],
+      map: false,
+      keyWords: '',
+      searchFormRules:{
+        name:{validateTrigger:'blur',rules:[{required:true,messgae:'请输入姓名'}]},
+        phone:{validateTrigger:'blur',rules:[{required:true,messgae:'请输入账号'}]},
+        mail:{validateTrigger:'blur',rules:[{required:true,messgae:'请输入邮箱'},{type:'email',messgae:'邮箱格式不合法'}]},
+        zipCode:{validateTrigger:'blur',rules:[{required:true,messgae:'请输入邮编'}]},
+        dept:{rules:[{required:true,messgae:'请输入单位名称'}]},
+        addr:{rules:[{required:true,messgae:'请输入地址'}]}
+      }
+    }
+  },
+  watch: {
+    checkedKeys(val) {
+      console.log('onCheck', val)
+    }
+  },
+  methods: {
+    onExpand(expandedKeys) {
+      console.log('onExpand', expandedKeys)
+      // this.expandedKeys.push(expandedKeys);
+      // if not set autoExpandParent to false, if children expanded, parent can not collapse.
+      // or, you can remove all expanded children keys.
+      this.expandedKeys = expandedKeys
+      this.autoExpandParent = false
+    },
+    onCheck(checkedKeys) {
+      console.log('onCheck', checkedKeys)
+      this.checkedKeys = checkedKeys
+    },
+    onSelect(selectedKeys, info) {
+      console.log('onSelect', info)
+      this.selectedKeys = selectedKeys
+    },
+    handleReturn() {
+      this.$router.push({
+        name: '/systemManagement/administrator'
+      })
+    },
+    handleAdd() {
+      this.searchForm.validateFields((err, values) => {
+        if (!err) {
+          console.log('Received values of form: ', values)
+        }
+      })
+    }
+  }
+}
 </script>
 
 <style scoped>
