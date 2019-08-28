@@ -53,7 +53,7 @@ import Loader from '@/components/Loader/loader'
 import {
   permission,
 } from '@/util/mixins'
-
+import {MicConfigs} from '@/config/mic'
 import Login from '@/views/login/login'
 
 export default {
@@ -69,8 +69,9 @@ export default {
     return {
       collapsed: false,
       username: '',
-      showPurePage: true,
+      showPurePage: false,
       tidingsCount: 0,
+      showSpaContent: false,
     }
   },
   created() {
@@ -89,6 +90,8 @@ export default {
     /** 持久化存储vuex 使其页面刷新后数据不丢失 */
     //在页面加载时读取sessionStorage里的状态信息
     if (sessionStorage.getItem('VuexStore')) {
+      console.log('getStore');
+
       this.$store.replaceState(Object.assign({}, this.$store.state, JSON.parse(sessionStorage.getItem('VuexStore'))))
     }
     //在页面刷新时将vuex里的信息保存到sessionStorage里
@@ -104,21 +107,26 @@ export default {
       deep: true
     },
     $route(to, from) {
+      if (MicConfigs.length > 0) {
+        // 根据配置文件的子项目路由前缀自动识别state.showSpaContent应该是true还是false
+        this.showSpaContent = MicConfigs.some(item => to.path.startsWith(item.pathPrefix))
+      }
+
+      if (!to.name) {
+        this.showPurePage = false
+        return
+      }
       // 监听路由，只要是没有parent的路由就独立显示而不是嵌套在layout中显示
       if (to.matched && to.matched.length > 0 && !to.matched[to.matched.length - 1].parent) {
         this.showPurePage = true
       } else {
         this.showPurePage = false
       }
-    }
-
+    },
   },
   computed: {
     menuMode() {
       return this.collapsed ? 'vertical' : 'inline'
-    },
-    showSpaContent() {
-      return this.$store.state.showSpaContent
     },
   },
   methods: {
@@ -237,6 +245,7 @@ export default {
 		color: #2c3e50;
 		width: 100%;
 		height: 100%;
+    overflow: hidden;
 	}
   #appContent {
     overflow-y:auto;
