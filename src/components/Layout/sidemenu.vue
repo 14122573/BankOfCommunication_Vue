@@ -1,29 +1,29 @@
 <template>
-  <a-menu :mode="menuMode" :defaultSelectedKeys="defaultSelectedKeys" :defaultOpenKeys="defaultOpenKeys" class="sideMenu" theme="dark" style="text-align:left;">
+  <a-menu :mode="menuMode" @openChange="onOpenChange" :openKeys="defaultOpenKeys" v-model="defaultSelectedKeys" class="sideMenu" theme="dark" style="text-align:left;">
     <template v-for="menu in menus">
       <template v-if="menu.children && menu.children.length > 0">
-      <a-sub-menu :key="menu.name">
-        <span slot="title">
-          <template v-if="menu.meta.menuIcon">
-            <a-icon :type="menu.meta.menuIcon" />
-          </template>
-          <template v-else>
-            <a-icon type="bars" />
-          </template>
-          <span>{{menu.meta.title}}</span>
-        </span>
-        <template v-for="child in menu.children">
-          <a-menu-item :key="child.name" @click="({item, key}) => {navigateTo({item, key},child)}">
-            <template v-if="child.meta.menuIcon">
-              <a-icon :type="child.meta.menuIcon" />
+        <a-sub-menu :key="menu.name">
+          <span slot="title">
+            <template v-if="menu.meta.menuIcon">
+              <a-icon :type="menu.meta.menuIcon" />
             </template>
             <template v-else>
               <a-icon type="bars" />
             </template>
-            <span>{{child.meta.title}}</span>
-          </a-menu-item>
-        </template>
-      </a-sub-menu>
+            <span>{{menu.meta.title}}</span>
+          </span>
+          <template v-for="child in menu.children">
+            <a-menu-item :key="child.name" @click="({item, key}) => {navigateTo({item, key},child)}">
+              <template v-if="child.meta.menuIcon">
+                <a-icon :type="child.meta.menuIcon" />
+              </template>
+              <template v-else>
+                <a-icon type="bars" />
+              </template>
+              <span>{{child.meta.title}}</span>
+            </a-menu-item>
+          </template>
+        </a-sub-menu>
       </template>
 
       <template v-else-if="!menu.children">
@@ -59,6 +59,7 @@ export default {
   data(){
     return{
       userInfo:null,
+      openKeys: [],
       defaultSelectedKeys: [],
       defaultOpenKeys: [],
     }
@@ -112,7 +113,6 @@ export default {
         let openMode = menu.meta.openMode?menu.meta.openMode:'normal'
         switch (openMode) {
         case 'outsite':
-          // this.$store.commit('SET_SHOWSPACONTENT', false)
           if(!this.$cookie.get('token')){
             this.$com.handleLogOut()
           }else{
@@ -130,28 +130,52 @@ export default {
           }
           break
         case 'normal':
-          // this.$store.commit('SET_SHOWSPACONTENT', false)
           this.$router.push({name: menu.name})
           break
         case 'spa':
-          // this.$store.commit('SET_SHOWSPACONTENT', true)
           navigateToUrl(key)
           break
         default:
-          // this.$store.commit('SET_SHOWSPACONTENT', false)
           this.$router.push({name: menu.name})
           break
         }
       }else{
-        // this.$store.commit('SET_SHOWSPACONTENT', false)
         this.$router.push({name: menu.name})
       }
     },
+    // 点击菜单，收起其他展开的所有菜单
+    onOpenChange (openKeys) {
+      const menuKeys = this.menus.map(item => item.name)
+      const latestOpenKey = openKeys.find(key => this.defaultOpenKeys.indexOf(key) === -1)
+      console.log(menuKeys, latestOpenKey, openKeys);
 
+      if (menuKeys.indexOf(latestOpenKey) === -1) {
+        this.defaultOpenKeys = openKeys
+      } else {
+        this.defaultOpenKeys = latestOpenKey ? [latestOpenKey] : []
+      }
+    },
+  },
+  watch: {
+    $route(to) {
+      if (!to.name) return
+      if (this.defaultSelectedKeys.indexOf(to.name) < 0) {
+        this.defaultSelectedKeys = []
+        this.defaultOpenKeys = []
+        this.$store.commit('SET_DEFAULTMENU_STATUS', {
+          defaultSelectedKeys: [],
+          defaultOpenKeys: [],
+        })
+      }
+    },
   },
 }
 </script>
 
 <style>
-.sideMenu { padding-top: 10px;}
+.sideMenu {
+  padding-top: 10px;
+  height: 90%;
+  overflow-y: auto;
+}
 </style>
