@@ -12,39 +12,39 @@
 		<a-form :form="searchForm">
 			<a-row type="flex" justify="space-between">
 				<a-col span="8">
-					<a-form-item label="姓名："  v-bind="colSpe">
-						<a-input placeholder="请输入" />
+					<a-form-item label="姓名：" v-bind="colSpe">
+						<a-input placeholder="请输入" v-decorate="['name',{rules:[{type:required,messgae:'请输入姓名'}]}]"/>
 					</a-form-item>
 				</a-col>
 				<a-col span="8">
-					<a-form-item label="账号：" v-bind="colSpe">
-						<a-input placeholder="请输入" />
+					<a-form-item label="账号：" v-bind="colSpe" >
+						<a-input placeholder="请输入" v-decorate="['name',{rules:[{type:required,messgae:'请输入账号'}]}]"/>
 					</a-form-item>
 				</a-col>
 				<a-col span="8">
-					<a-form-item label="邮箱"  v-bind="colSpe">
-						<a-input placeholder="请输入" />
+					<a-form-item label="邮箱" v-bind="colSpe" >
+						<a-input placeholder="请输入" v-decorate="['name',{rules:[{type:required,messgae:'请输入邮箱'},{type:'mail',messgae:'邮箱格式不合法'}]}]"/>
 					</a-form-item>
 				</a-col>
 			</a-row>
 			<a-row type="flex" justify="start">
 				<a-col span="8">
-					<a-form-item label="邮编：" v-bind="colSpe">
-						<a-input placeholder="请输入" />
+					<a-form-item label="邮编：" v-bind="colSpe" >
+						<a-input placeholder="请输入" v-decorate="['name',{rules:[{type:required,messgae:'请输入邮编'}]}]"/>
 					</a-form-item>
 				</a-col>
 			</a-row>
 			<a-row type="flex" justify="start">
 				<a-col span="16">
-					<a-form-item label="单位名称：" :label-col="{span:3}" :wrapper-col="{span:15}">
-						<a-input placeholder="请输入" />
+					<a-form-item label="单位名称：" :label-col="{span:3}" :wrapper-col="{span:15}"  v-bind="colSpe">
+						<a-input placeholder="请输入"  v-decorate="['name',{rules:[{type:required,messgae:'请输入单位名称'}]}]"/>
 					</a-form-item>
 				</a-col>
 			</a-row>
 			<a-row type="flex" justify="start" align="middle">
 				<a-col span="16">
 					<a-form-item label="地址：" :label-col="{span:3}" :wrapper-col="{span:15}">
-						<a-input placeholder="请输入" @change='keyWords=searchForm.name' />
+						<a-input placeholder="请输入" @change='keyWords=searchForm.name' v-decorate="['name',{rules:[{type:required,messgae:'请输入地址'}]}]"/>
 					</a-form-item>
 				</a-col>
 				<a-col span="6" pull="4">
@@ -57,12 +57,12 @@
 			<a-divider dashed />
 			<a-row type="flex" justify="space-between">
 				<a-col span="8">
-					<a-form-item label="角色名称："  v-bind="colSpe">
+					<a-form-item label="角色名称：" v-bind="colSpe">
 						<a-input placeholder="请输入" />
 					</a-form-item>
 				</a-col>
 				<a-col span="8">
-					<a-form-item label="组织机构："  v-bind="colSpe">
+					<a-form-item label="组织机构：" v-bind="colSpe">
 						<a-input placeholder="请输入" />
 					</a-form-item>
 				</a-col>
@@ -97,7 +97,7 @@ export default {
   data() {
     return {
       dateFormat: 'YYYY-MM-DD',
-      colSpe:{
+      colSpe: {
         labelCol: {
           span: 6
         },
@@ -199,7 +199,13 @@ export default {
         name: '/systemManagement/administrator'
       })
     },
-    handleAdd() {}
+    handleAdd() {
+      this.searchForm.validateFields((err, values) => {
+        if (!err) {
+          console.log('Received values of form: ', values)
+        }
+      })
+    }
   }
 }
 </script>

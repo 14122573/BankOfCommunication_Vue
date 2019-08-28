@@ -103,7 +103,6 @@ export default {
     const filter = /(^\d{15}$)|(^\d{17}([0-9]|X)$)/
     return filter.test(num)
   },
-
   /**
      * 数字校验(整数或者小数)
      * @param {String} num [需校验的数字]
@@ -113,7 +112,15 @@ export default {
     const filter = /^[0-9]+\.{0,1}[0-9]{0,2}$/
     return filter.test(num)
   },
-
+  /**
+     * 邮编校验(整数或者小数)
+     * @param {String} num [需校验的数字]
+     */
+  checkZipCode(num) {
+    if (!num && num != 0) return false
+    const filter = /^[0-9]{6}$/
+    return filter.test(num)
+  },
   /**
      * 文本校验(只能为中文、英文、数字组合，不允许其他特殊符号)
      * @param {String} txt [需校验的文本]
@@ -123,14 +130,27 @@ export default {
     return filter.test(txt)
   },
   /**
+     * 密码校验(6位以上数字字母的组合)
+     * @param {String} txt [需校验的文本]
+     */
+  checkPassword(num) {
+    if (!num && num != 0) return false
+    const filter = /^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{6,}$/
+    return filter.test(num)
+  },
+  /**
      * 统一设置 两个token信息。根据是否7天免登陆进行判断，设置的cookie失效时间
      * @param {String} accessToke
      * @param {String} refreshToken
      */
   setToken(token, refreshToken) {
     if (Cookie.get('KeepLogin') === 'true') { // 如果保存七天
-      Cookie.set('token', token, { expires: 7 })
-      Cookie.set('refresh_token', refreshToken, { expires: 7 })
+      Cookie.set('token', token, {
+        expires: 7
+      })
+      Cookie.set('refresh_token', refreshToken, {
+        expires: 7
+      })
     } else {
       Cookie.set('token', token)
       Cookie.set('refresh_token', refreshToken)
@@ -150,6 +170,7 @@ export default {
     Cookie.remove('url')
     Cookie.remove('systemLists')
     Cookie.remove('canEnterBind')
+    Cookie.remove('NavbarList')
     Router.push({
       name: 'login'
     })
@@ -164,7 +185,9 @@ export default {
     var vars = query.split('&')
     for (var i = 0; i < vars.length; i++) {
       var pair = vars[i].split('=')
-      if (pair[0] == variable) { return pair[1] }
+      if (pair[0] == variable) {
+        return pair[1]
+      }
     }
   },
   /**
@@ -203,7 +226,9 @@ export default {
       'sign': sign
     }
     oldSysAccountsList.push(newItem)
-    Cookie.set('oldSysAccountsList', JSON.stringify(oldSysAccountsList), { expires: 7 })
+    Cookie.set('oldSysAccountsList', JSON.stringify(oldSysAccountsList), {
+      expires: 7
+    })
   },
   /**
      * 验证当前获取的token是否在oldSysAccountsList的cookie里存储，并且sign校验通过。若校验通过返回，老系统数组。否则返回false

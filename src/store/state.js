@@ -4,7 +4,6 @@ export default {
   menuList: [],
   permissionCodeList: [],
   hasAllRight: false,
-  showSpaContent: false,
   userName: '',
   userInfos:null,
   defaultMenuStatus: {

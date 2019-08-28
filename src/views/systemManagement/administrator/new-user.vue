@@ -4,7 +4,7 @@
 			<a-row type="flex" justify="space-between">
 				<a-col span="6">
 					<a-form-item label="姓名：" v-bind="colSpe">
-						<a-input placeholder="请输入" v-model="searchForm.name" />
+						<a-input placeholder="请输入" v-model="searchForm.name_l" />
 					</a-form-item>
 				</a-col>
 				<a-col span="6">
@@ -206,6 +206,7 @@ export default {
   },
   methods: {
     pageChange(current) {
+      console.log('saas',current)
       this.params.pageNo = current
       this.getList()
     },
@@ -226,7 +227,6 @@ export default {
         url: this.$api.USER_LIST_TYPE_GET.replace('{type}', 'new'),
         params: params
       }).then(res => {
-        console.log(res, '-=-=')
         this.dataTable = res.data.content
         this.total = res.data.totalRows
       })
@@ -293,8 +293,9 @@ export default {
       }
       this.visibleModal = false
     },
-    onChange() {
-
+    onChange(current) {
+      this.params.pageNo = current
+      this.getList()
     }
   }
 }
