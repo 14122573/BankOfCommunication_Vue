@@ -1,5 +1,5 @@
 <template>
-    <span class="distribution-span">
+    <span :style="{margin:'14px 0 0 14px'}" class="distribution-span">
         <a-card :bordered="false">
             <a-row type="flex" slot="title" justify="space-between" align="middle">
                 <a-col>
@@ -26,6 +26,25 @@
                         placeholder="请选择"
                         v-model="formData.space"
                         :options='options.roleList'
+                        @change="roleChange"
+                    />
+                    </a-form-item>
+                </a-col>
+                <a-col span="8">
+                    <a-form-item
+                        label="所属行政区域："
+                        :label-col="labelCol"
+                        :wrapper-col="wrapperCol"
+                        allowClear
+                    >
+                    <a-tree-select
+                        :treeData="regionData"
+                        :dropdownStyle="{ maxHeight: '200px', overflow: 'auto' }"
+                        showSearch
+                        allowClear
+                        :loadData="loadRegion"
+                        @search="regionSearch"
+                        @select="selectRegion"
                     />
                     </a-form-item>
                 </a-col>
@@ -34,6 +53,7 @@
                         label="组织机构："
                         :label-col="labelCol"
                         :wrapper-col="wrapperCol"
+                        allowClear
                     >
                     <!-- <a-tree-select
                         :treeData="treeData"
@@ -42,18 +62,6 @@
                         showSearch
                         allowClear
                     /> -->
-                    </a-form-item>
-                </a-col>
-                <a-col span="8">
-                    <a-form-item
-                        label="所属行政区域："
-                        :label-col="labelCol"
-                        :wrapper-col="wrapperCol"
-                    >
-                    <a-input
-                        placeholder="请输入"
-                        v-model="formData.name"
-                    />
                     </a-form-item>
                 </a-col>
             </a-row>
@@ -84,9 +92,49 @@ export default {
       treeData:[],
       // 默认展开的数组
       expandedKeys:[],
+      // 所属行政区域
+      regionData:[],
     }
   },
   methods:{
+    // 角色切换
+    roleChange(value){
+      console.log(value)
+      this.$ajax.get({
+        url:this.$api.ROLE_DETAIL.replace('{id}',value)
+      })
+        .then(res=>{
+          if(res.code === '200'){
+            let data=res.data.content
+            this.checkedKeys=data.map((item)=>{
+              return item.id
+            })
+          }else{
+            this.$message.error(res.msg)
+          }
+        })
+    },
+    // 搜索框发生改变
+    regionSearch(value){
+      let data=JSON.parse(JSON.stringify(this.allData))
+      if(value === ''){
+        this.regionData=[]
+      }else{
+        this.regionData=[]
+        data.forEach((item,index)=>{
+          this.regionData.push(this.getTreeNode(item,index))
+        })
+      }
+
+    },
+    // 异步加载行政区域树
+    loadRegion(){
+      
+    },
+    // 选中行政区域
+    selectRegion(value, node, extra){
+      console.log(value, node, extra,node.eventKey)
+    },
     //   查询options
     getOptions(){
       let optionList=[{url:this.$api.GET_ROLE_LIST,name:'roleList'}]

@@ -147,8 +147,6 @@ export default {
     onOpenChange (openKeys) {
       const menuKeys = this.menus.map(item => item.name)
       const latestOpenKey = openKeys.find(key => this.defaultOpenKeys.indexOf(key) === -1)
-      console.log(menuKeys, latestOpenKey, openKeys)
-
       if (menuKeys.indexOf(latestOpenKey) === -1) {
         this.defaultOpenKeys = openKeys
       } else {

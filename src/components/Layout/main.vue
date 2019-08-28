@@ -44,7 +44,6 @@
 			</a-layout>
 		</template>
 	</a-layout>
-
 </template>
 <script>
 import SideMenu from '@/components/Layout/sidemenu'
@@ -90,8 +89,6 @@ export default {
     /** 持久化存储vuex 使其页面刷新后数据不丢失 */
     //在页面加载时读取sessionStorage里的状态信息
     if (sessionStorage.getItem('VuexStore')) {
-      console.log('getStore')
-
       this.$store.replaceState(Object.assign({}, this.$store.state, JSON.parse(sessionStorage.getItem('VuexStore'))))
     }
     //在页面刷新时将vuex里的信息保存到sessionStorage里
@@ -144,6 +141,7 @@ export default {
         this.$cookie.remove('url')
         this.$cookie.remove('systemLists')
         this.$cookie.remove('canEnterBind')
+        this.$cookie.remove('NavbarList')
       } else {
         this.$ajax.post({
           url: this.$api.POST_LOGOUT,
@@ -158,6 +156,7 @@ export default {
           this.$cookie.remove('url')
           this.$cookie.remove('systemLists')
           this.$cookie.remove('canEnterBind')
+          this.$cookie.remove('NavbarList')
           this.$router.push({
             name: 'login'
           })

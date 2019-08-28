@@ -18,6 +18,7 @@
 // 不够严谨，临时制造，需要改进
 
 import {checkHideInBread} from '@/util/mixins'
+import {routes} from '@/router/routes'
 export default {
   name: 'NavBar',
   data() {
@@ -26,8 +27,8 @@ export default {
     }
   },
   mounted() {
-    if(this.$cookie.get('NavbarList') && this.$cookie.get('NavbarList').length>0){
-      let list= this.$cookie.get('NavbarList')
+    const list = this.$cookie.get('NavbarList')
+    if(list && list.length>0){
       this.list = JSON.parse(list)
     }else{
       this.list = [{title: '首页',routerName:'home', path: '/home'}]
@@ -35,12 +36,9 @@ export default {
     this.list.forEach((element)=>{
       this.checkPath(element)
     })
-    // console.log(this.list)
+    this.getRoutes()
   },
   methods: {
-    checkPath2(path) {
-      return this.list[0].path === path
-    },
     /**
      * @param {Object} navItem 当前展示路由的完整父子级中的一个路由节点
      * @returns {Object} hideBread 是否隐藏在面包屑中，true为隐藏
@@ -48,7 +46,6 @@ export default {
      */
     checkPath(navItem) {
       let hideBread=false, showBreadPath = true
-      // console.log(navItem)
       if(this.$route.path === navItem.path){
         // 面包屑中的路径与当前路由一致时，无法点击,但要显示在面包屑中
         navItem.hideBread = false
@@ -63,12 +60,30 @@ export default {
           navItem.showBreadPath = hideBread ? false:true
         }
       }
+    },
+    getRoutes() {
+      const layoutRoutes = routes.find(route => route.name == 'Layout')
+      let list = []
+      layoutRoutes.children.forEach(parent => {
+        if (parent.children && parent.children.length > 0) {
+          parent.children.forEach(child => {
+            list.push(child)
+          })
+        }
+      })
+      this.routeList = list
     }
   },
   watch: {
     $route(to, from) {
       let navList = []
       if(to && to.matched && Array.isArray(to.matched)){
+        if (!to.name) {
+          const parentRoute = this.routeList.find(item => to.path.startsWith(item.path))
+          navList.push({ title: '首页', routerName:'home', path: '/home' })
+          navList.push({ title: parentRoute.meta.title, routerName: parentRoute.name, path: parentRoute.path })
+          // navList.push({ title: '详情', path: to.path })
+        }
         to.matched.forEach((element,index) => {
           if(0===index){
             if (element.path.indexOf('/')>=0) {
@@ -99,16 +114,14 @@ export default {
             }
           }
         })
-      }else {
+      } else {
         navList = [{title: '首页', path: '/'}]
       }
-      this.list =  navList
-      this.list.forEach((element)=>{
+      navList.forEach((element)=>{
         this.checkPath(element)
       })
-      const NavbarList = JSON.stringify(this.list)
-      this.$cookie.set('NavbarList', NavbarList)
-
+      this.list = navList
+      this.$cookie.set('NavbarList', JSON.stringify(navList))
     }
   },
 }

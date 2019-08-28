@@ -13,8 +13,16 @@
 				<a-input-group compact>
 					<span class="upload-text">导入文件：</span>
 					<a-input read-only :value="fileName" style="width:60%;" />
-					<a-upload accept=".jpg,.jpeg,.png" :showUploadList="false" style="width:20%;" name="file" :multiple="true" action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
-					 :headers="headers" :beforeUpload="beforeUpload">
+					<a-upload 
+						accept=".jpg,.jpeg,.png" 
+						:showUploadList="false"
+						style="width:20%;" 
+						name="file" 
+						:multiple="true" 
+						action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
+						:headers="headers" 
+					  :beforeUpload="beforeUpload"
+					 >
 						<a-button type="primary">
 							选择文件
 						</a-button>

@@ -2,18 +2,6 @@
     <div class="old-user">
         <a-form :form="searchForm">
             <a-row type="flex" justify="space-between">
-                <!-- <a-col span="6">
-                    <a-form-item
-                        label="姓名："
-                        :label-col="labelCol"
-                        :wrapper-col="wrapperCol"
-                    >
-                    <a-input
-                        placeholder="请输入"
-                        v-model="searchForm.name"
-                    />
-                    </a-form-item>
-                </a-col> -->
                 <a-col span="6">
                     <a-form-item
                         label="账号："
@@ -28,62 +16,58 @@
                 </a-col>
                 <a-col span="6">
                     <a-form-item
-                        label="角色名称："
+                        label="所属老系统："
                         :label-col="labelCol"
                         :wrapper-col="wrapperCol"
                     >
                     <a-select
                         placeholder="请选择"
-                        v-model="searchForm.roleId"
-                        :options="roleList"
+                        v-model="searchForm.sysDicId"
+                        :options="systemList"
+                        allowClear
                     />
                     </a-form-item>
                 </a-col>
                 <a-col span="12">
                     <a-form-item
-                        label="角色状态："
+                        label="用户状态："
                         :label-col="{span:4}"
                         :wrapper-col="{span:20}"
                     >
-                    <a-checkbox-group :options="plainOptions" v-model="searchForm.checkedList" />
+                    <a-checkbox-group  v-model="searchForm.checkedList" >
+                        <a-checkbox :value="item.value" v-for="(item,index) in plainOptions" :key="index">{{item.text}}</a-checkbox>
+                    </a-checkbox-group>
                     </a-form-item>
                 </a-col>
-                <a-col span="6">
-                    <a-form-item
-                        label="所属老系统："
-                        :label-col="labelCol"
-                        :wrapper-col="wrapperCol"
-                    >
-                    <a-input
-                        placeholder="请输入"
-                        v-model="searchForm.sysDicName_l"
-                    />
-                    </a-form-item>
-                </a-col>
+            </a-row>
+            <a-row type="flex" justify="end" :style="{minHeight:'63px'}">
                 <a-col>
                     <a-button type="primary" @click="reset" ghost>重置</a-button>
                     <a-button type="primary" @click="search">搜索</a-button>
                 </a-col>
-
             </a-row>
         </a-form>
         <a-table :columns="columns" :pagination="false" rowKey="id" :dataSource="data">
             <span slot="sysDic" slot-scope="text,record">
                 {{record.sysDic.sysName || '无'}}
             </span>
+            <!-- phone -->
+            <span slot="phone" slot-scope="text,record">
+                {{record.phone || '无'}}
+            </span>
             <span slot="status" slot-scope="text, record">
-                <!-- <userStatus :status="record.status"/> -->
+                <userStatus :status="record.status"/>
             </span>
             <span slot="action" slot-scope="text, record">
-                <a @click="resetBtn(record)">重置密码</a>
-                <a-divider type="vertical" />
-                <a @click="viewModal('0',record)">启用</a>
-                <a-divider type="vertical" />
-                <a @click="viewModal('1',record)">禁用</a>
-                <a-divider type="vertical" />
-                <a @click="viewModal('2',record)">注销</a>
-                <a-divider type="vertical" />
-                <a @click="viewModal('3',record)">解冻</a>
+                <a v-if="record.status != '8'" @click="resetBtn(record)">重置密码</a>
+                <a-divider v-if="record.status != '8'" type="vertical" />
+                <a v-if="record.status == '9'" @click="viewModal('0',record,'1')">启用</a>
+                <a-divider v-if="record.status == '9'" type="vertical" />
+                <a v-if="record.status == '1'" @click="viewModal('1',record,'9')">禁用</a>
+                <a-divider v-if="record.status == '1'" type="vertical" />
+                <a v-if="record.status != '8'" @click="viewModal('2',record,'8')">注销</a>
+                <!-- <a-divider type="vertical" />
+                <a @click="viewModal('3',record,'1')">解冻</a> -->
             </span>
         </a-table>
         <a-row class="page-row" type="flex" justify="end">
@@ -147,62 +131,55 @@
 import userStatus from '../components/user-status'
 import testStrong from '@/components/testPwd'
 export default {
-  name:'old-user',
-  components:{userStatus,testStrong},
-  props:{
-    roleList:{
-      type:Array,
-      default:()=>{
+  name: 'old-user',
+  components: { userStatus, testStrong },
+  props: {
+    roleList: {
+      type: Array,
+      default: () => {
         return []
       }
     }
   },
-  data(){
-    return{
-      searchForm:{
-        checkedList:[]
+  data() {
+    return {
+      searchForm: {
+        checkedList: []
       },
       dateFormat: 'YYYY-MM-DD',
       labelCol: { span: 8 },
       wrapperCol: { span: 16 },
-      params:{
-        pageNo:1,
-        pageSize:10,
-        'ui.createTime_desc':1
+      params: {
+        pageNo: 1,
+        pageSize: 10,
+        'ui.createTime_desc': 1
       },
-      total:0,
-      data:[],
-      columns:[
+      total: 0,
+      data: [],
+      columns: [
         {
-          title:'账号',
-          dataIndex:'username',
-          key:'username'
+          title: '账号',
+          dataIndex: 'username',
+          key: 'username'
         },
-        // {
-        //     title:'角色名称',
-        // },
-        // {
-        //   title:'所属组织机构',
-        //   dataIndex:'groupId',
-        //   key:'groupId'
-        // },
         {
-          title:'所属老系统',
-          dataIndex:'sysDic',
-          key:'sysDic',
-          scopedSlots:{customRender:'sysDic'}
+          title: '所属老系统',
+          dataIndex: 'sysDic',
+          key: 'sysDic',
+          scopedSlots: { customRender: 'sysDic' }
         },
-        // {
-        //   title:'关联手机号',
-        //   dataIndex:'phone',
-        //   key:'phone'
-        // },
-        // {
-        //   title:'用户状态',
-        //   dataIndex:'status',
-        //   key:'status',
-        //   scopedSlots: { customRender: 'status' }
-        // },
+        {
+          title: '关联手机号',
+          dataIndex: 'phone',
+          key: 'phone',
+          scopedSlots: { customRender: 'phone' }
+        },
+        {
+          title: '用户状态',
+          dataIndex: 'status',
+          key: 'status',
+          scopedSlots: { customRender: 'status' }
+        },
         {
           title: '操作',
           dataIndex: 'action',
@@ -210,47 +187,78 @@ export default {
           scopedSlots: { customRender: 'action' }
         }
       ],
-      plainOptions: ['正常', '禁用', '已冻结', '已注销'],
-      modal:{
-        show:false
+      plainOptions: [
+        { text: '正常', value: '1' },
+        { text: '禁用', value: '9' },
+        { text: '已注销', value: '8' }
+      ],
+      modal: {
+        show: false
       },
-      modalData:{},
+      modalData: {},
+      modalStatus:'0',//1-正常  8-注销 9-禁用
       //   重置密码
-      resetPwdShow:false,
+      resetPwdShow: false,
       resetData: this.$form.createForm(this),
-      pswType:'text',
-      passwordStrength:false,
+      pswType: 'text',
+      passwordStrength: false,
+      systemList: []
     }
   },
-  methods:{
-    pasBlur(){
-      this.pswType='password'
+  methods: {
+    //   查询系统列表
+    getSystemList() {
+      this.$ajax
+        .get({
+          url: this.$api.SYSTEM_LIST_ALL_GET
+        })
+        .then(res => {
+          if (res.code === '200') {
+            let data = res.data.content
+            this.systemList=data.map((item)=>{
+              return {
+                label:item.sysName,
+                value:item.id
+              }
+            })
+          } else {
+            this.$message.error(res.msg)
+          }
+        })
+    },
+    pasBlur() {
+      this.pswType = 'password'
     },
     //密码重复密码校验
     validateToNextPassword(rule, value, callback) {
       const form = this.formRegister
-	  if(!value || value == undefined || value.split(' ').join('').length === 0){
-	    callback('请输入密码！')
-	    this.passwordStrength=false
-	  }else{
-	    if(!/^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{6,}$/.test(value)){
-	      callback('请输入6位以上的数字字母组合！')
-	      this.passwordStrength=false
-	    }else{
-	      callback()
-	      this.passwordStrength=true
-	    }
-	  }
+      if (
+        !value ||
+        value == undefined ||
+        value.split(' ').join('').length === 0
+      ) {
+        callback('请输入密码！')
+        this.passwordStrength = false
+      } else {
+        if (!/^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{6,}$/.test(value)) {
+          callback('请输入6位以上的数字字母组合！')
+          this.passwordStrength = false
+        } else {
+          callback()
+          this.passwordStrength = true
+        }
+      }
     },
     // 查询按钮
-    search(){
-      this.params.pageNo=1
+    search() {
+      this.params.pageNo = 1
       this.getList()
     },
     // 重置按钮
-    reset(){
-      this.searchForm={}
-      this.params.pageNo=1
+    reset() {
+      this.searchForm = {}
+      this.searchForm.checkedList = []
+      this.params.pageNo = 1
       this.getList()
     },
     onChange(current) {
@@ -258,87 +266,110 @@ export default {
       this.getList()
     },
     // 查询列表
-    getList(){
-      this.$ajax.get({
-        url:this.$api.USER_LIST_TYPE_GET.replace('{type}','old'),
-        params:Object.assign(this.searchForm,this.params)
-      })
-        .then(res=>{
-          if(res.code === '200'){
-            this.data=res.data.content
-          }else{
+    getList() {
+      let searchParams = JSON.parse(JSON.stringify(this.searchForm))
+      if (searchParams.checkedList.length > 0) {
+        searchParams['oa.status_in'] = searchParams.checkedList.join(',')
+      } else {
+        searchParams['oa.status_in'] = '1'
+      }
+      if (searchParams.checkedList) delete searchParams.checkedList
+      this.$ajax
+        .get({
+          url: this.$api.USER_LIST_TYPE_GET.replace('{type}', 'old'),
+          params: Object.assign(searchParams, this.params)
+        })
+        .then(res => {
+          if (res.code === '200') {
+            this.total = res.data.totalRows
+            this.data = res.data.content
+          } else {
             this.$message.error(res.msg)
           }
         })
     },
     // 重置密码按钮
-    resetBtn(item){
+    resetBtn(item) {
       // this.resetData=item;
-      this.resetPwdShow=true
+      this.resetPwdShow = true
     },
     // 操作按钮
-    viewModal(key,item){
-      switch(key){
+    viewModal(key, item,checkStatus) {
+      switch (key) {
       case '0':
-        this.modal.title='启用'
-        this.modal.content='启用后，该账号将被允许登录平台'
-        this.modal.tips='您确认要启用该账号吗？'
+        this.modal.title = '启用'
+        this.modal.content = '启用后，该账号将被允许登录平台'
+        this.modal.tips = '您确认要启用该账号吗？'
         break
       case '1':
-        this.modal.title='禁用'
-        this.modal.content='禁用后，该账号将不被允许登录平台直到再次启用'
-        this.modal.tips='您确认要禁用该账号吗？'
+        this.modal.title = '禁用'
+        this.modal.content = '禁用后，该账号将不被允许登录平台直到再次启用'
+        this.modal.tips = '您确认要禁用该账号吗？'
         break
       case '2':
-        this.modal.title='注销'
-        this.modal.content='注销后，该账号将不被使用'
-        this.modal.tips='您确认要注销该账号吗？'
+        this.modal.title = '注销'
+        this.modal.content = '注销后，该账号将不被使用'
+        this.modal.tips = '您确认要注销该账号吗？'
         break
       case '3':
-        this.modal.title='解冻'
-        this.modal.content='解冻后，该账号将可以重新登录'
-        this.modal.tips='您确认要解冻该账号吗？'
+        this.modal.title = '解冻'
+        this.modal.content = '解冻后，该账号将可以重新登录'
+        this.modal.tips = '您确认要解冻该账号吗？'
         break
       default:
         break
       }
-      this.modal.key=key
-      this.modalData=item
-      this.modal.show=true
+      this.modal.key = key
+      this.modalData = item
+      this.checkStatus=checkStatus
+      this.modal.show = true
     },
-    handleOk(){
-
+    // 确定操作
+    handleOk() {
+      this.$ajax.put({
+        url:this.$api.CHECK_USER_STATUS.replace('{id}',this.modalData.id).replace('{status}',this.checkStatus).replace('{type}','old')
+      })
+        .then(res => {
+          if (res.code === '200') {
+            this.$message.success(this.modal.title+'成功！')
+            this.modal.show=false
+            this.getList()
+          } else {
+            this.$message.error(res.msg)
+          }
+        })
     },
     // 确认重置
-    handleResetOk(){
-      this.resetData.validateFields((err)=>{
-        if(!err){
+    handleResetOk() {
+      this.resetData.validateFields(err => {
+        if (!err) {
 
         }
       })
     },
     // 取消重置密码
-    hadnleCancel(){
-      this.resetPwdShow=false
-      this.passwordStrength=false
+    hadnleCancel() {
+      this.resetPwdShow = false
+      this.passwordStrength = false
       this.resetData.resetFields()
     }
   },
-  mounted(){
+  mounted() {
     this.getList()
+    this.getSystemList()
   }
 }
 </script>
 <style scoped>
-    .ant-badge-status-dot{
-        width: 9px 9px;
-    }
-    .page-row{
-        margin-top: 20px;
-    }
-    .center-p{
-        text-align: center;
-    }
+.ant-badge-status-dot {
+  width: 9px 9px;
+}
+.page-row {
+  margin-top: 20px;
+}
+.center-p {
+  text-align: center;
+}
 </style>
 
 

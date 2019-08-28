@@ -55,7 +55,7 @@
 			<!-- 查看 v-if="$permission('P03301')" P03301  权限分配P03102  重置密码P03306  禁用P03305 注销P03307   新增P03303-->
 			<span slot="action" slot-scope="text, record">
 				<a href="javascript:;" @click="viewBtn(record)">查看</a>
-				<a-divider type="vertical"  v-if="record.status==8"/>
+				<a-divider type="vertical" />
 				<a href="javascript:;" v-if="record.status==8" @click="$router.push({name: '/systemManagement/administrator/editNewUser'})">修改</a>
 				<a-divider type="vertical" />
 				<a-dropdown>
@@ -95,260 +95,260 @@
 	</div>
 </template>
 <script>
-import userStatus from '@/views/systemManagement/components/user-status' 
-export default {
-  name: 'new-user',
-  components:{
-    userStatus
-  },
-  props: {
-    roleList: {
-      type: Array,
-      default: () => {
-        return []
-      }
-    }
-  },
-  data() {
-    return {
-      dateFormat: 'YYYY-MM-DD',
-      colSpe: {
-        labelCol: {
-          span: 8
-        },
-        wrapperCol: {
-          span: 16
-        },
-      },
-      params: {
-        pageNo: 1,
-        pageSize: 10,
-        'ui.createTime_desc': 1
-      },
-      searchForm: {
+	import userStatus from '@/views/systemManagement/components/user-status' 
+	export default {
+		components:{
+			userStatus
+		},
+		name: 'new-user',
+		props: {
+			roleList: {
+				type: Array,
+				default: () => {
+					return []
+				}
+			}
+		},
+		data() {
+			return {
+				dateFormat: 'YYYY-MM-DD',
+				colSpe: {
+					labelCol: {
+						span: 8
+					},
+					wrapperCol: {
+						span: 16
+					},
+				},
+				params: {
+					pageNo: 1,
+					pageSize: 10,
+					'ui.createTime_desc': 1
+				},
+				searchForm: {
 
-      },
-      total: 0,
-      dataTable: [],
-      columns: [{
-        title: '姓名',
-        dataIndex: 'name',
-        key: 'name'
-      },
-      {
-        title: '账号',
-        dataIndex: 'phone',
-        key: 'phone',
-      },
-      {
-        title: '角色名称',
-        dataIndex: 'roleNames',
-        key: 'roleNames'
-      },
-      {
-        title: '所属组织机构',
-        dataIndex: 'group',
-        key: 'group'
-      },
-      {
-        title: '所属行政区域',
-        dataIndex: 'area',
-        key: 'area'
-      },
-      {
-        title: '用户状态',
-        dataIndex: 'status',
-        key: 'status',
-        scopedSlots: {
-          customRender: 'status'
-        }
-      },
-      {
-        title: '操作',
-        key: 'operation',
-        fixed: 'right',
-        width: 250,
-        scopedSlots: {
-          customRender: 'action'
-        }
-      }
-      ],
-      plainOptions: [{
-        text: '正常',
-        value: '1'
-      },
-      {
-        text: '禁用',
-        value: '9'
-      },
-      {
-        text: '已注销',
-        value: '8'
-      }
-      ],
-      opeationTitle: '',
-      visibleModal: false,
-      tips: '',
-      opeationType: '',
-      opeationItem: {},
-      treeData: [{
-        title: 'Node1',
-        value: '0-0',
-        key: '0-0',
-        children: [{
-          title: 'Child Node1',
-          value: '0-0-0',
-          key: '0-0-0',
-        }],
-      }, {
-        title: 'Node2',
-        value: '0-1',
-        key: '0-1',
-        children: [{
-          title: 'Child Node3',
-          value: '0-1-0',
-          key: '0-1-0',
-          disabled: true,
-        }, {
-          title: 'Child Node4',
-          value: '0-1-1',
-          key: '0-1-1',
-        }, {
-          title: 'Child Node5',
-          value: '0-1-2',
-          key: '0-1-2',
-        }],
-      }]
-    }
-  },
-  mounted() {
-    this.getList()
-  },
-  methods: {
-    pageChange(current) {
-      console.log('saas', current)
-      this.params.pageNo = current
-      this.getList()
-    },
-    // 查询按钮
-    search() {
-      this.params.pageNo = 1
-      this.getList()
-    },
-    // 重置按钮
-    reset() {
-      this.params.pageNo = 1
-      this.getList()
-    },
-    // 查询列表
-    getList() {
-      this.searchForm['oa.status_in'] = this.searchForm.checkedList && this.searchForm.checkedList.length > 0 ? this.searchForm
-        .checkedList.join(',') : '1'
-      if (this.searchForm.checkedList) delete this.searchForm.checkedList
-      const params = Object.assign(this.searchForm, this.params)
-      this.$ajax.get({
-        url: this.$api.USER_LIST_TYPE_GET.replace('{type}', 'new'),
-        params: params
-      }).then(res => {
-        this.dataTable = res.data.content
-        this.total = res.data.totalRows
-      })
-    },
-    handleAdd() {
-      this.$router.push({
-        name: '/systemManagement/administrator/createNewUser'
-      })
-    },
-    viewBtn() {
-      this.$router.push({
-        name: '/systemManagement/administrator/newUserView'
-      })
-    },
-    handleCancle() {
-      this.visibleModal = false
-    },
-    showOpeations(key,item) {
-      switch (key) {
-      case '1':
-        this.opeationTitle = '启用'
-        this.tips = '<p>启用后，该账号将被允许登录平台，</p><p>您确认要启用该账号吗?</p>'
-        break
-      case '2':
-        this.opeationTitle = '禁用'
-        this.tips = '<p>禁用后，该账号将不被允许登录平台直到再次启用，</p><p>您确定要禁用吗？</p>'
-        break
-      case '3':
-        this.opeationTitle = '注销'
-        this.tips = '<p>注销后，该账号将被使用，</p><p>您确认要注销该账号吗？</p>'
-        break
-        // 					case '4':
-        // 						this.opeationTitle = '解冻'
-        // 						this.tips = '<p>解冻后，该账号将可以重新登录，</p><p>您确定要解冻该账号吗？</p>'
-        // 						break
-      default:
-        break
-      }
-      this.opeationType = key
-      this.opeationItem=item
-      this.visibleModal = true
-    },
-    handleOk() {
-      let key=this.opeationType
-      switch (key) {
-      case '1':
-        //启用操作
-        this.$ajax.put({
-          url: this.$api.CHECK_USER_STATUS.replace('{type}', 'new').replace('{id}', this.opeationItem.id).replace(
-            '{status}', '1')
-        }).then(res => {
-          if (res.code == '200') {
-            this.$message.success('启用成功！')
-          } else {
-            this.$message.error(res.data.msg)
-          }
-        })
-        break
-      case '2':
-        //禁用操作
-        this.$ajax.put({
-          url: this.$api.CHECK_USER_STATUS.replace('{type}', 'new').replace('{id}', this.opeationItem.id).replace(
-            '{status}', '9')
-        }).then(res => {
-          if (res.code == '200') {
-            this.$message.success('禁用成功！')
-          } else {
-            this.$message.error(res.data.msg)
-          }
-        })
-        break
-      case '3':
-        //注销操作
-        this.$ajax.put({
-          url: this.$api.CHECK_USER_STATUS.replace('{type}', 'new').replace('{id}', this.opeationItem.id).replace(
-            '{status}', '8')
-        }).then(res => {
-          if (res.code == '200') {
-            this.$message.success('注销成功！')
-          } else {
-            this.$message.error(res.data.msg)
-          }
-        })
-        break
-        // 					case '4':
-        // 						//解冻操作
-        // 
-        // 						break
-      default:
-        break
-      }
-      this.visibleModal = false
-    },
-    onChange(current) {
-      this.params.pageNo = current
-      this.getList()
-    }
-  }
-}
+				},
+				total: 0,
+				dataTable: [],
+				columns: [{
+						title: '姓名',
+						dataIndex: 'name',
+						key: 'name'
+					},
+					{
+						title: '账号',
+						dataIndex: 'phone',
+						key: 'phone',
+					},
+					{
+						title: '角色名称',
+						dataIndex: 'roleNames',
+						key: 'roleNames'
+					},
+					{
+						title: '所属组织机构',
+						dataIndex: 'group',
+						key: 'group'
+					},
+					{
+						title: '所属行政区域',
+						dataIndex: 'area',
+						key: 'area'
+					},
+					{
+						title: '用户状态',
+						dataIndex: 'status',
+						key: 'status',
+						scopedSlots: {
+							customRender: 'status'
+						}
+					},
+					{
+						title: '操作',
+						key: 'operation',
+						fixed: 'right',
+						width: 250,
+						scopedSlots: {
+							customRender: 'action'
+						}
+					}
+				],
+				plainOptions: [{
+						text: "正常",
+						value: "1"
+					},
+					{
+						text: "禁用",
+						value: "9"
+					},
+					{
+						text: "已注销",
+						value: "8"
+					}
+				],
+				opeationTitle: '',
+				visibleModal: false,
+				tips: '',
+				opeationType: '',
+				opeationItem: {},
+				treeData: [{
+					title: 'Node1',
+					value: '0-0',
+					key: '0-0',
+					children: [{
+						title: 'Child Node1',
+						value: '0-0-0',
+						key: '0-0-0',
+					}],
+				}, {
+					title: 'Node2',
+					value: '0-1',
+					key: '0-1',
+					children: [{
+						title: 'Child Node3',
+						value: '0-1-0',
+						key: '0-1-0',
+						disabled: true,
+					}, {
+						title: 'Child Node4',
+						value: '0-1-1',
+						key: '0-1-1',
+					}, {
+						title: 'Child Node5',
+						value: '0-1-2',
+						key: '0-1-2',
+					}],
+				}]
+			}
+		},
+		mounted() {
+			this.getList()
+		},
+		methods: {
+			pageChange(current) {
+				console.log("saas", current)
+				this.params.pageNo = current
+				this.getList()
+			},
+			// 查询按钮
+			search() {
+				this.params.pageNo = 1
+				this.getList()
+			},
+			// 重置按钮
+			reset() {
+				this.params.pageNo = 1
+				this.getList()
+			},
+			// 查询列表
+			getList() {
+				this.searchForm["oa.status_in"] = this.searchForm.checkedList && this.searchForm.checkedList.length > 0 ? this.searchForm
+					.checkedList.join(",") : "1";
+				if (this.searchForm.checkedList) delete this.searchForm.checkedList;
+				const params = Object.assign(this.searchForm, this.params)
+				this.$ajax.get({
+					url: this.$api.USER_LIST_TYPE_GET.replace("{type}", "new"),
+					params: params
+				}).then(res => {
+					this.dataTable = res.data.content
+					this.total = res.data.totalRows
+				})
+			},
+			handleAdd() {
+				this.$router.push({
+					name: '/systemManagement/administrator/createNewUser'
+				})
+			},
+			viewBtn() {
+				this.$router.push({
+					name: '/systemManagement/administrator/newUserView'
+				})
+			},
+			handleCancle() {
+				this.visibleModal = false
+			},
+			showOpeations(key,item) {
+				switch (key) {
+					case '1':
+						this.opeationTitle = '启用'
+						this.tips = '<p>启用后，该账号将被允许登录平台，</p><p>您确认要启用该账号吗?</p>'
+						break
+					case '2':
+						this.opeationTitle = '禁用'
+						this.tips = '<p>禁用后，该账号将不被允许登录平台直到再次启用，</p><p>您确定要禁用吗？</p>'
+						break
+					case '3':
+						this.opeationTitle = '注销'
+						this.tips = '<p>注销后，该账号将被使用，</p><p>您确认要注销该账号吗？</p>'
+						break
+						// 					case '4':
+						// 						this.opeationTitle = '解冻'
+						// 						this.tips = '<p>解冻后，该账号将可以重新登录，</p><p>您确定要解冻该账号吗？</p>'
+						// 						break
+					default:
+						break
+				}
+				this.opeationType = key
+				this.opeationItem=item;
+				this.visibleModal = true
+			},
+			handleOk() {
+				let key=this.opeationType
+				switch (key) {
+					case '1':
+						//启用操作
+						this.$ajax.put({
+							url: this.$api.CHECK_USER_STATUS.replace("{type}", "new").replace("{id}", this.opeationItem.id).replace(
+								"{status}", "1")
+						}).then(res => {
+							if (res.code == "200") {
+								this.$message.success("启用成功！")
+							} else {
+								this.$message.error(res.data.msg)
+							}
+						})
+						break
+					case '2':
+						//禁用操作
+						this.$ajax.put({
+							url: this.$api.CHECK_USER_STATUS.replace("{type}", "new").replace("{id}", this.opeationItem.id).replace(
+								"{status}", "9")
+						}).then(res => {
+							if (res.code == "200") {
+								this.$message.success("禁用成功！")
+							} else {
+								this.$message.error(res.data.msg)
+							}
+						})
+						break
+					case '3':
+						//注销操作
+						this.$ajax.put({
+							url: this.$api.CHECK_USER_STATUS.replace("{type}", "new").replace("{id}", this.opeationItem.id).replace(
+								"{status}", "8")
+						}).then(res => {
+							if (res.code == "200") {
+								this.$message.success("注销成功！")
+							} else {
+								this.$message.error(res.data.msg)
+							}
+						})
+						break
+						// 					case '4':
+						// 						//解冻操作
+						// 
+						// 						break
+					default:
+						break
+				}
+				this.visibleModal = false
+			},
+			onChange(current) {
+				this.params.pageNo = current;
+				this.getList();
+			}
+		}
+	}
 </script>
 <style scoped>
 	.opeationTable {

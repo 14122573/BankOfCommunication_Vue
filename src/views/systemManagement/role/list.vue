@@ -1,5 +1,5 @@
 <template>
-    <a-card :style="{margin:'0 0 0 14px'}" :bordered="false">
+    <a-card :style="{margin:'14px 0 0 14px'}" :bordered="false">
         <a-form :form="searchForm">
             <a-row type="flex" justify="space-between">
                 <a-col span="6">
@@ -121,6 +121,7 @@ export default {
       })
         .then(res=>{
           if(res.code === '200'){
+            this.total=res.data.totalRows
             this.roleList=res.data.content
           }else{
             this.$message.error(res.msg)
