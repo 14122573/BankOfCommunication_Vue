@@ -170,9 +170,10 @@ export default {
 		Cookie.remove('url')
 		Cookie.remove('systemLists')
 		Cookie.remove('canEnterBind')
+    Cookie.remove('NavbarList')
 		Router.push({
 			name: 'login'
-		})
+    })
 	},
 	/**
 	 * 获取URL执行参数值
