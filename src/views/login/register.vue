@@ -259,7 +259,7 @@ export default {
         callback('请输入密码！')
         this.passwordStrength=false
       }else{
-        if(!/^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{6,}$/.test(value)){
+        if(!this.$com.checkPassword(value)){
           callback('请输入6位以上的数字字母组合！')
           this.passwordStrength=false
         }else{
@@ -290,7 +290,7 @@ export default {
      */
     checkZipCode(rule, value, callback) {
       if (value && value != undefined) {
-        if (!/^[0-9]{6}$/.test(value)) {
+        if (!this.$com.checkZipCode(value)) {
           callback('邮编格式不合法!')
         } else {
           callback()

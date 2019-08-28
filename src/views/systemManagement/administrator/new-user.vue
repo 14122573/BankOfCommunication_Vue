@@ -4,7 +4,7 @@
 			<a-row type="flex" justify="space-between">
 				<a-col span="6">
 					<a-form-item label="姓名：" v-bind="colSpe">
-						<a-input placeholder="请输入" v-model="searchForm.name" />
+						<a-input placeholder="请输入" v-model="searchForm.name_l" />
 					</a-form-item>
 				</a-col>
 				<a-col span="6">
@@ -94,210 +94,211 @@
 	</div>
 </template>
 <script>
-export default {
-  name: 'new-user',
-  props: {
-    roleList: {
-      type: Array,
-      default: () => {
-        return []
-      }
-    }
-  },
-  data() {
-    return {
-      dateFormat: 'YYYY-MM-DD',
-      colSpe: {
-        labelCol: {
-          span: 8
-        },
-        wrapperCol: {
-          span: 16
-        },
-      },
-      params: {
-        pageNo: 1,
-        pageSize: 10,
-        'ui.createTime_desc': 1,
-        // status: 1
-      },
-      searchForm: {
-        status: []
-      },
-      total: 0,
-      dataTable: [],
-      columns: [{
-        title: '姓名',
-        dataIndex: 'name',
-        key: 'name'
-      },
-      {
-        title: '账号',
-        dataIndex: 'phone',
-        key: 'phone',
-      },
-      {
-        title: '角色名称',
-        dataIndex: 'roleIds',
-        key: 'name2'
-      },
-      {
-        title: '所属组织机构',
-        dataIndex: 'group',
-        key: 'name3'
-      },
-      {
-        title: '所属行政区域',
-        dataIndex: 'area',
-        key: 'name4'
-      },
-      {
-        title: '用户状态',
-        dataIndex: 'name5',
-        key: 'name5'
-      },
-      {
-        title: '操作',
-        key: 'operation',
-        fixed: 'right',
-        width: 250,
-        scopedSlots: {
-          customRender: 'action'
-        }
-      }
-      ],
-      plainOptions: ['正常', '禁用', '已冻结', '已注销'],
-      opeationTitle: '',
-      visibleModal: false,
-      tips: '',
-      opeationType: '',
-      treeData: [{
-        title: 'Node1',
-        value: '0-0',
-        key: '0-0',
-        children: [{
-          title: 'Child Node1',
-          value: '0-0-0',
-          key: '0-0-0',
-        }],
-      }, {
-        title: 'Node2',
-        value: '0-1',
-        key: '0-1',
-        children: [{
-          title: 'Child Node3',
-          value: '0-1-0',
-          key: '0-1-0',
-          disabled: true,
-        }, {
-          title: 'Child Node4',
-          value: '0-1-1',
-          key: '0-1-1',
-        }, {
-          title: 'Child Node5',
-          value: '0-1-2',
-          key: '0-1-2',
-        }],
-      }]
-    }
-  },
-  mounted() {
-    this.getList()
-  },
-  methods: {
-    pageChange(current) {
-      this.params.pageNo = current
-      this.getList()
-    },
-    // 查询按钮
-    search() {
-      this.params.pageNo = 1
-      this.getList()
-    },
-    // 重置按钮
-    reset() {
-      this.params.pageNo = 1
-      this.getList()
-    },
-    // 查询列表
-    getList() {
-      const params = Object.assign(this.searchForm, this.params)
-      this.$ajax.get({
-        url: this.$api.USER_LIST_TYPE_GET.replace('{type}', 'new'),
-        params: params
-      }).then(res => {
-        console.log(res, '-=-=')
-        this.dataTable = res.data.content
-        this.total = res.data.totalRows
-      })
-    },
-    handleAdd() {
-      this.$router.push({
-        name: '/systemManagement/administrator/createNewUser'
-      })
-    },
-    viewBtn() {
-      this.$router.push({
-        name: '/systemManagement/administrator/newUserView'
-      })
-    },
-    handleCancle() {
-      this.visibleModal = false
-    },
-    showOpeations({
-      key
-    }) {
-      switch (key) {
-      case '1':
-        this.opeationTitle = '启用'
-        this.tips = '<p>启用后，该账号将被允许登录平台，</p><p>您确认要启用该账号吗?</p>'
-        break
-      case '2':
-        this.opeationTitle = '禁用'
-        this.tips = '<p>禁用后，该账号将不被允许登录平台直到再次启用，</p><p>您确定要禁用吗？</p>'
-        break
-      case '3':
-        this.opeationTitle = '注销'
-        this.tips = '<p>注销后，该账号将被使用，</p><p>您确认要注销该账号吗？</p>'
-        break
-      case '4':
-        this.opeationTitle = '解冻'
-        this.tips = '<p>解冻后，该账号将可以重新登录，</p><p>您确定要解冻该账号吗？</p>'
-        break
-      default:
-        break
-      }
-      this.opeationType = key
-      this.visibleModal = true
-    },
-    handleOk() {
-      switch (key) {
-      case '1':
-        //启用操作
+	export default {
+		name: 'new-user',
+		props: {
+			roleList: {
+				type: Array,
+				default: () => {
+					return []
+				}
+			}
+		},
+		data() {
+			return {
+				dateFormat: 'YYYY-MM-DD',
+				colSpe: {
+					labelCol: {
+						span: 8
+					},
+					wrapperCol: {
+						span: 16
+					},
+				},
+				params: {
+					pageNo: 1,
+					pageSize: 10,
+					'ui.createTime_desc': 1,
+					// status: 1
+				},
+				searchForm: {
+					status: []
+				},
+				total: 0,
+				dataTable: [],
+				columns: [{
+						title: '姓名',
+						dataIndex: 'name',
+						key: 'name'
+					},
+					{
+						title: '账号',
+						dataIndex: 'phone',
+						key: 'phone',
+					},
+					{
+						title: '角色名称',
+						dataIndex: 'roleIds',
+						key: 'name2'
+					},
+					{
+						title: '所属组织机构',
+						dataIndex: 'group',
+						key: 'name3'
+					},
+					{
+						title: '所属行政区域',
+						dataIndex: 'area',
+						key: 'name4'
+					},
+					{
+						title: '用户状态',
+						dataIndex: 'name5',
+						key: 'name5'
+					},
+					{
+						title: '操作',
+						key: 'operation',
+						fixed: 'right',
+						width: 250,
+						scopedSlots: {
+							customRender: 'action'
+						}
+					}
+				],
+				plainOptions: ['正常', '禁用', '已冻结', '已注销'],
+				opeationTitle: '',
+				visibleModal: false,
+				tips: '',
+				opeationType: '',
+				treeData: [{
+					title: 'Node1',
+					value: '0-0',
+					key: '0-0',
+					children: [{
+						title: 'Child Node1',
+						value: '0-0-0',
+						key: '0-0-0',
+					}],
+				}, {
+					title: 'Node2',
+					value: '0-1',
+					key: '0-1',
+					children: [{
+						title: 'Child Node3',
+						value: '0-1-0',
+						key: '0-1-0',
+						disabled: true,
+					}, {
+						title: 'Child Node4',
+						value: '0-1-1',
+						key: '0-1-1',
+					}, {
+						title: 'Child Node5',
+						value: '0-1-2',
+						key: '0-1-2',
+					}],
+				}]
+			}
+		},
+		mounted() {
+			this.getList()
+		},
+		methods: {
+			pageChange(current) {
+				console.log("saas",current)
+				this.params.pageNo = current
+				this.getList()
+			},
+			// 查询按钮
+			search() {
+				this.params.pageNo = 1
+				this.getList()
+			},
+			// 重置按钮
+			reset() {
+				this.params.pageNo = 1
+				this.getList()
+			},
+			// 查询列表
+			getList() {
+				const params = Object.assign(this.searchForm, this.params)
+				this.$ajax.get({
+					url: this.$api.USER_LIST_TYPE_GET.replace('{type}', 'new'),
+					params: params
+				}).then(res => {
+					this.dataTable = res.data.content
+					this.total = res.data.totalRows
+				})
+			},
+			handleAdd() {
+				this.$router.push({
+					name: '/systemManagement/administrator/createNewUser'
+				})
+			},
+			viewBtn() {
+				this.$router.push({
+					name: '/systemManagement/administrator/newUserView'
+				})
+			},
+			handleCancle() {
+				this.visibleModal = false
+			},
+			showOpeations({
+				key
+			}) {
+				switch (key) {
+					case '1':
+						this.opeationTitle = '启用'
+						this.tips = '<p>启用后，该账号将被允许登录平台，</p><p>您确认要启用该账号吗?</p>'
+						break
+					case '2':
+						this.opeationTitle = '禁用'
+						this.tips = '<p>禁用后，该账号将不被允许登录平台直到再次启用，</p><p>您确定要禁用吗？</p>'
+						break
+					case '3':
+						this.opeationTitle = '注销'
+						this.tips = '<p>注销后，该账号将被使用，</p><p>您确认要注销该账号吗？</p>'
+						break
+					case '4':
+						this.opeationTitle = '解冻'
+						this.tips = '<p>解冻后，该账号将可以重新登录，</p><p>您确定要解冻该账号吗？</p>'
+						break
+					default:
+						break
+				}
+				this.opeationType = key
+				this.visibleModal = true
+			},
+			handleOk() {
+				switch (key) {
+					case '1':
+						//启用操作
 
-        break
-      case '2':
-        //禁用操作
+						break
+					case '2':
+						//禁用操作
 
-        break
-      case '3':
-        //注销操作
+						break
+					case '3':
+						//注销操作
 
-        break
-      case '4':
-        //解冻操作
+						break
+					case '4':
+						//解冻操作
 
-        break
-      default:
-        break
-      }
-      this.visibleModal = false
-    },
-    onChange() {
-
-    }
-  }
-}
+						break
+					default:
+						break
+				}
+				this.visibleModal = false
+			},
+			onChange(current) {
+				this.params.pageNo = current;
+				this.getList();
+			}
+		}
+	}
 </script>
 <style scoped>
 	.opeationTable {
