@@ -247,7 +247,7 @@ export default {
         this.$router.push({
           name: '/systemManagement/organization/create',
           query: {
-            data: JSON.stringify(transData)
+            data: JSON.stringify(this.transData)
           }
         })
       }
