@@ -14,6 +14,7 @@
 				</a-button>
 			</a-col>
 		</a-row>
+		<!-- <a-skeleton :loading="loading" :rows="30"> -->
 		<a-row type="flex" justify="start">
 			<a-col span="8">
 				<a-row type="flex" justify="start" class="colMargin">
@@ -21,7 +22,7 @@
 						组织机构名称：
 					</a-col>
 					<a-col span="17">
-						组织机构名称
+						{{detail.groupName|| "暂无"}}
 					</a-col>
 				</a-row>
 			</a-col>
@@ -31,7 +32,7 @@
 						联系人：
 					</a-col>
 					<a-col span="17">
-						联系人
+						{{detail.contact|| "暂无"}}
 					</a-col>
 				</a-row>
 			</a-col>
@@ -41,7 +42,7 @@
 						联系电话：
 					</a-col>
 					<a-col span="17">
-						联系电话
+						{{detail.contactPhone|| "暂无"}}
 					</a-col>
 				</a-row>
 			</a-col>
@@ -50,20 +51,10 @@
 			<a-col span="8">
 				<a-row type="flex" justify="start" class="colMargin">
 					<a-col span="7" class="colLabel">
-						单位类型：
-					</a-col>
-					<a-col span="17">
-						单位类型
-					</a-col>
-				</a-row>
-			</a-col>
-			<a-col span="8">
-				<a-row type="flex" justify="start" class="colMargin">
-					<a-col span="7" class="colLabel">
 						所属行政区域：
 					</a-col>
 					<a-col span="17">
-						所属行政区域
+						{{detail.areaName || "暂无"}}
 					</a-col>
 				</a-row>
 			</a-col>
@@ -75,7 +66,7 @@
 						地址：
 					</a-col>
 					<a-col span="17">
-						地址
+						{{detail.addr|| "暂无"}}
 					</a-col>
 				</a-row>
 			</a-col>
@@ -92,6 +83,7 @@
 				</a-row>
 			</a-col>
 		</a-row>
+		<!-- </a-skeleton> -->
 	</a-card>
 </template>
 <script>
@@ -102,16 +94,38 @@ export default {
   },
   data() {
     return {
-      position: ''
+      position: '',
+      detail: {},
+      loading: true
     }
   },
   methods: {
     handleDel() {
-
+      this.$ajax.delete({
+        url: this.$api.DELETE_ORGANIZATION_LIST.replace('{id}', this.$route.query.id)
+      }).then(res => {
+        if (res.code == '200') {
+          this.$message.success('删除成功！')
+          this.$router.push({
+            name: '/systemManagement/organization'
+          })
+        } else {
+          this.$message.success('删除失败！')
+        }
+      })
+    },
+    getDetail() {
+      this.$ajax.get({
+        url: this.$api.GET_ORGANIZATION_LIST_DETAIL.replace('{id}', this.$route.query.id)
+      }).then(res => {
+        this.loading = false
+        this.detail = this.$com.confirm(res, 'data.content', {})
+        this.position = this.$com.confirm(res, 'data.content.addr', '上海市')
+      })
     }
   },
   mounted() {
-    this.position = '上海市玉兰香苑'
+    this.getDetail()
   }
 }
 </script>

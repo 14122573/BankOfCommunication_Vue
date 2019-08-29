@@ -52,4 +52,8 @@ export default {
   GET_ORGANIZATION_LIST: '/service-permission/perm/groups', //组织机构列表
   CONFIG_ROLES_TO_USER: '/service-user/user/config/roles', //给用户分配权限
   USER_UPDATE_PWD: '/service-user/user/update/pwd', //管理员修改密码
+  POST_ADD_ORGANIZATION_LIST: '/service-permission/perm/group', //新增组织机构
+  PUT_EDIT_ORGANIZATION_LIST: '/service-permission/perm/group/{id}', //修改组织机构
+  DELETE_ORGANIZATION_LIST: '/service-permission/perm/group/{id}', //删除组织机构
+  GET_ORGANIZATION_LIST_DETAIL: '/service-permission/perm/group/{id}', //组织机构详情
 }

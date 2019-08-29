@@ -260,10 +260,6 @@ export default {
         this.opeationTitle = '注销'
         this.tips = '<p>注销后，该账号将被使用，</p><p>您确认要注销该账号吗？</p>'
         break
-      case '4':
-        this.opeationTitle = '解冻'
-        this.tips = '<p>解冻后，该账号将可以重新登录，</p><p>您确定要解冻该账号吗？</p>'
-        break
       default:
         break
       }
