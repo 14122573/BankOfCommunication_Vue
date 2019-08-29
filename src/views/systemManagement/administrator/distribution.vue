@@ -114,12 +114,12 @@ export default {
   methods:{
     // 角色切换
     roleChange(item){
-      this.roles=item;
+      this.roles=item
       if(item.length===0){
-        this.expandedKeys=[];
+        this.expandedKeys=[]
       }else{
         let params=item.map((it)=>{
-          return it.key;
+          return it.key
         })
         this.$ajax.get({
           url:this.$api.ROLE_DETAIL.replace('{id}',params)
@@ -142,8 +142,8 @@ export default {
     },
     // 行政区域改变
     areaChange(value){
-      this.options.organList=[];
-      this.formData.resetFields('organ');
+      this.options.organList=[]
+      this.formData.resetFields('organ')
       this.getOrganList(value)
     },
     // 查询组织机构
@@ -158,9 +158,9 @@ export default {
           },
           hideLoading:true
         })
-        .then(res=>{
+          .then(res=>{
             if(res.code === '200'){
-              let data=res.data.content;
+              let data=res.data.content
               this.options.organList=data.map((item)=>{
                 return {
                   label:item.groupName,
@@ -175,7 +175,7 @@ export default {
     },
     //   查询options
     getOptions(){
-      let info = this.$store.state.userInfos;
+      let info = this.$store.state.userInfos
       let optionList=[{url:this.$api.GET_ROLE_LIST,name:'roleList',params:{pageNo:1,pageSize:10000}}]
       if(info.area){
         optionList.push({url:this.$api.GET_AREA_NEXT,name:'areaList',params:{parentId:info.area.id}})
@@ -187,7 +187,7 @@ export default {
         })
           .then(res=>{
             if(res.code === '200'){
-              let data=res.data.content;
+              let data=res.data.content
               this.options[item.name]=data.map(item=>{
                 return{
                   label:item.roleName || item.areaName,
@@ -235,7 +235,7 @@ export default {
       this.formData.validateFields((err)=>{
         if(!err){
           let formData=this.formData.getFieldsValue()
-          let params={};
+          let params={}
           params.group={
             id:formData.organ
           }
@@ -255,16 +255,16 @@ export default {
             url:this.$api.CONFIG_ROLES_TO_USER,
             params:params
           })
-          .then((res)=>{
-            if(res.code === '200'){
-              this.$message.success('分配成功');
-              this.$router.push({
-                name:'/systemManagement/administrator'
-              })
-            }else{
-              this.$message.error(res.msg)
-            }
-          })
+            .then((res)=>{
+              if(res.code === '200'){
+                this.$message.success('分配成功')
+                this.$router.push({
+                  name:'/systemManagement/administrator'
+                })
+              }else{
+                this.$message.error(res.msg)
+              }
+            })
         }
       })
     }

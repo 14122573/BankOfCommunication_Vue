@@ -301,7 +301,7 @@ export default {
     },
     // 重置密码按钮
     resetBtn(item) {
-      this.resetId=item.id;
+      this.resetId=item.id
       this.resetPwdShow = true
     },
     // 操作按钮
@@ -354,22 +354,22 @@ export default {
     handleResetOk() {
       this.resetData.validateFields(err => {
         if (!err) {
-            this.$ajax.put({
-                url:this.$api.USER_UPDATE_PWD,
-                params:{
-                    id:this.resetId,
-                    type:'old',
-                    newPwd:encryptDes(this.resetData.getFieldValue('newPwd'))
-                }
-            })
+          this.$ajax.put({
+            url:this.$api.USER_UPDATE_PWD,
+            params:{
+              id:this.resetId,
+              type:'old',
+              newPwd:encryptDes(this.resetData.getFieldValue('newPwd'))
+            }
+          })
             .then(res => {
-            if (res.code === '200') {
+              if (res.code === '200') {
                 this.$message.success('重置密码成功')
                 this.hadnleCancel()
                 this.getList()
-            } else {
+              } else {
                 this.$message.error(res.msg)
-            }
+              }
             })
         }
       })

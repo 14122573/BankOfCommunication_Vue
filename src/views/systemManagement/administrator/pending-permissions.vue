@@ -195,7 +195,7 @@ export default {
       this.$router.push({
         name: '/systemManagement/administrator/pendingView',
         query:{
-            id:item.id
+          id:item.id
         }
       })
     },
@@ -204,7 +204,7 @@ export default {
       this.$router.push({
         name: '/systemManagement/administrator/distribution',
         query:{
-            id:item.id
+          id:item.id
         }
       })
     }

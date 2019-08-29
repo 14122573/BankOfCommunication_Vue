@@ -76,48 +76,48 @@
 </template>
 <script>
 export default {
-    props:{
-        id:{
-            type:String,
-            default:null
-        }
-    },
-    data(){
-        return{
-            detail:{},
-        }
-    },
-    methods:{
-        getDetail(){
-            console.log(this.id);
-            if(this.id !== null){
-                this.$ajax.get({
-                    url:this.$api.USER_ACCOUNT_DETAIL.replace('{id}',this.id)
-                })
-                .then((res)=>{
-                    if(res.code === '200'){
-                        let data=res.data.content
-                        this.detail=data
-                    }else{
-                        this.$message.error(res.msg)
-                    }
-                })
-            }
-        }
-    },
-    mounted(){
-        console.log('?????')
-        this.getDetail()
-    },
-    filters:{
-        txt(value){
-            if(value !== null && value !== ''){
-                return value
-            }else{
-                return '暂无'
-            }
-        }
+  props:{
+    id:{
+      type:String,
+      default:null
     }
+  },
+  data(){
+    return{
+      detail:{},
+    }
+  },
+  methods:{
+    getDetail(){
+      console.log(this.id)
+      if(this.id !== null){
+        this.$ajax.get({
+          url:this.$api.USER_ACCOUNT_DETAIL.replace('{id}',this.id)
+        })
+          .then((res)=>{
+            if(res.code === '200'){
+              let data=res.data.content
+              this.detail=data
+            }else{
+              this.$message.error(res.msg)
+            }
+          })
+      }
+    }
+  },
+  mounted(){
+    console.log('?????')
+    this.getDetail()
+  },
+  filters:{
+    txt(value){
+      if(value !== null && value !== ''){
+        return value
+      }else{
+        return '暂无'
+      }
+    }
+  }
 }
 </script>
 <style scoped>

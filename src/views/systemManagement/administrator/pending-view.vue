@@ -22,7 +22,7 @@ export default {
       this.$router.push({
         name:'/systemManagement/administrator/distribution',
         query:{
-            id:this.$route.query.id
+          id:this.$route.query.id
         }
       })
     }

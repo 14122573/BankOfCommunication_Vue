@@ -9,101 +9,101 @@ import { message } from 'ant-design-vue'
 
 // 配置请求的根域名和超时时间
 const Axios = axios.create({
-    baseURL: api.BASE_URL,
-    timeout: 15000,
+  baseURL: api.BASE_URL,
+  timeout: 15000,
 })
 const CancelToken = axios.CancelToken
 let cancelRequest = null
 
 // 处理请求状态码
 const reponseCodeHandler = (res) => {
-    const code = res.data && res.data.code
-    if ('string' == typeof code) {
-        if (code == '200') {} else if (code == '911') {
-            const params = {
-                grant_type: 'refresh_token',
-                client_id: 'house',
-                client_secret: 'house',
-                refreshToken: Cookie.get('refresh_token'),
-            }
-            request({
-                method: 'POST',
-                url: api.REFRESH_TOKEN_POST,
-                params,
-                contentType: 'application/x-www-form-urlencoded;charset=UTF-8',
-            }).then(res => {
-                if (res.code === '200') {
-                    Common.setToken(res.data.content.access_token, res.data.content.refresh_token)
-                    router.go(0)
-                } else if (res.code === '912') {
-                    Common.handleLogOut()
-                } else {
-                    Common.handleLogOut()
-                }
-            })
-        } else if (code == '900') {
-            router.push({ name: 'noauth' })
-        } else if (code == '710' || code == '720') {
-            // message.error('')
+  const code = res.data && res.data.code
+  if ('string' == typeof code) {
+    if (code == '200') {} else if (code == '911') {
+      const params = {
+        grant_type: 'refresh_token',
+        client_id: 'house',
+        client_secret: 'house',
+        refreshToken: Cookie.get('refresh_token'),
+      }
+      request({
+        method: 'POST',
+        url: api.REFRESH_TOKEN_POST,
+        params,
+        contentType: 'application/x-www-form-urlencoded;charset=UTF-8',
+      }).then(res => {
+        if (res.code === '200') {
+          Common.setToken(res.data.content.access_token, res.data.content.refresh_token)
+          router.go(0)
+        } else if (res.code === '912') {
+          Common.handleLogOut()
+        } else {
+          Common.handleLogOut()
         }
+      })
+    } else if (code == '900') {
+      router.push({ name: 'noauth' })
+    } else if (code == '710' || code == '720') {
+      // message.error('')
     }
+  }
 }
 
 // 根据报错的状态码进行错误处理
 const errorHandler = (err) => {
-    const errStatus = (err.response && err.response.status) || (err.data && err.data.errcode)
-    if (errStatus) {
-        switch (errStatus) {
-            case 404: // 网络请求不存在,跳转统一报错页面
-                router.push({
-                    name: 'networkerr'
-                })
-                break
-            case 500:
-                const code = err.response.data && err.response.data.code
-                if (code == '740') { // 运行时异常
-                    router.push({
-                        name: 'networkerr'
-                    })
-                } else { // 其他错误，统一到网络异常页面
-                    router.push({
-                        name: 'networkerr'
-                    })
-                }
-                break
-            default: // 其他错误，统一到网络异常页面
-                router.push({
-                    name: 'networkerr'
-                })
-                break
-        }
-    } else if (err.toString().indexOf('timeout') != -1) { // 统一到网络异常页面
+  const errStatus = (err.response && err.response.status) || (err.data && err.data.errcode)
+  if (errStatus) {
+    switch (errStatus) {
+    case 404: // 网络请求不存在,跳转统一报错页面
+      router.push({
+        name: 'networkerr'
+      })
+      break
+    case 500:
+      const code = err.response.data && err.response.data.code
+      if (code == '740') { // 运行时异常
         router.push({
-            name: 'networkerr'
+          name: 'networkerr'
         })
-    } else if (err.toString().indexOf('Network Error') != -1) { // 统一到网络异常页面
+      } else { // 其他错误，统一到网络异常页面
         router.push({
-            name: 'networkerr'
+          name: 'networkerr'
         })
+      }
+      break
+    default: // 其他错误，统一到网络异常页面
+      router.push({
+        name: 'networkerr'
+      })
+      break
     }
+  } else if (err.toString().indexOf('timeout') != -1) { // 统一到网络异常页面
+    router.push({
+      name: 'networkerr'
+    })
+  } else if (err.toString().indexOf('Network Error') != -1) { // 统一到网络异常页面
+    router.push({
+      name: 'networkerr'
+    })
+  }
 }
 
 Axios.interceptors.request.use(config => {
-    const token = Cookie.get('token') || Store.state.token
-    if (token) {
-        config.headers.Authorization = token
-    }
-    return config
+  const token = Cookie.get('token') || Store.state.token
+  if (token) {
+    config.headers.Authorization = token
+  }
+  return config
 }, error => {
-    return Promise.reject(error)
+  return Promise.reject(error)
 })
 
 Axios.interceptors.response.use(response => {
-    reponseCodeHandler(response)
-    return response.data
+  reponseCodeHandler(response)
+  return response.data
 }, error => {
-    errorHandler(error)
-    return error.response
+  errorHandler(error)
+  return error.response
 })
 
 /**
@@ -115,79 +115,79 @@ Axios.interceptors.response.use(response => {
  * @param {Boolean} hideLoading [隐藏请求时的loading图，默认为false]
  */
 const request = ({ method, url, params, contentType = 'application/json;charset=UTF-8', hideLoading = false }) => {
-    if (!url || typeof(url) != 'string') {
-        throw new Error('接口URL不正确')
-    }
-    // transformResponse()执行完再执行then()。transformResponse函数用于提前处理返回的数据。返回的result对象比transformResponse函数的data对象包含的数据多。
-    // if (method == 'get') {
-    //   let timestamp = Date.now()
-    //   url = (url.indexOf('?') != -1) ? (url + '&timestamp=' + timestamp) : (url + '?timestamp=' + timestamp)
-    //   url = encodeURI(url) //针对IE下地址传值带中文，对其转义
-    // }
+  if (!url || typeof(url) != 'string') {
+    throw new Error('接口URL不正确')
+  }
+  // transformResponse()执行完再执行then()。transformResponse函数用于提前处理返回的数据。返回的result对象比transformResponse函数的data对象包含的数据多。
+  // if (method == 'get') {
+  //   let timestamp = Date.now()
+  //   url = (url.indexOf('?') != -1) ? (url + '&timestamp=' + timestamp) : (url + '?timestamp=' + timestamp)
+  //   url = encodeURI(url) //针对IE下地址传值带中文，对其转义
+  // }
 
-    if (!params || typeof(params) == 'string' || typeof(params) == 'number') {
-        params = {}
-    }
-    let config = {
-        method,
-        url,
-        headers: {
-            'X-Requested-With': 'XMLHttpRequest',
-            'Content-Type': contentType,
-        },
-        cancelToken: new CancelToken((c) => {
-            cancelRequest = c
-        }),
-    }
-    if (method === 'GET') {
-        config = Object.assign(config, { params })
+  if (!params || typeof(params) == 'string' || typeof(params) == 'number') {
+    params = {}
+  }
+  let config = {
+    method,
+    url,
+    headers: {
+      'X-Requested-With': 'XMLHttpRequest',
+      'Content-Type': contentType,
+    },
+    cancelToken: new CancelToken((c) => {
+      cancelRequest = c
+    }),
+  }
+  if (method === 'GET') {
+    config = Object.assign(config, { params })
+  } else {
+    if (contentType.toLowerCase().indexOf('x-www-form-urlencoded') >= 0) {
+      config = Object.assign(config, { data: qs.stringify(params) })
     } else {
-        if (contentType.toLowerCase().indexOf('x-www-form-urlencoded') >= 0) {
-            config = Object.assign(config, { data: qs.stringify(params) })
-        } else {
-            config = Object.assign(config, { data: params })
-        }
+      config = Object.assign(config, { data: params })
     }
-    if (!hideLoading) {
-        Store.commit('SET_LOADING', true)
-    }
+  }
+  if (!hideLoading) {
+    Store.commit('SET_LOADING', true)
+  }
 
-    return new Promise((resolve, reject) => {
-        Axios(config)
-            .then(res => {
-                resolve(res)
-                Store.commit('SET_LOADING', false)
-            }).catch(err => {
-                reject(err)
-                Store.commit('SET_LOADING', false)
-            })
-    })
+  return new Promise((resolve, reject) => {
+    Axios(config)
+      .then(res => {
+        resolve(res)
+        Store.commit('SET_LOADING', false)
+      }).catch(err => {
+        reject(err)
+        Store.commit('SET_LOADING', false)
+      })
+  })
 }
 
 export default {
-    /**
+  /**
      * 取消请求
      * @param {String} txt [取消请求时需要显示在控制台的提示信息]
      */
-    cancel(txt = '取消请求') {
-        Store.commit('SET_LOADING', false)
-        if (typeof(cancelRequest) === 'function') {
-            return cancelRequest(txt)
-        }
-    },
-    get(args) {
-        return request({ method: 'GET', ...args })
-    },
-    post(args) {
-        return request({ method: 'POST', ...args })
-    },
-    put(args) {
-        return request({ method: 'PUT', ...args })
-    },
-    delete(args) {
-        return request({ method: 'DELETE', ...args })
-    },
-    all(...ajaxs) {
-        return Promise.all(ajaxs)
-    },
+  cancel(txt = '取消请求') {
+    Store.commit('SET_LOADING', false)
+    if (typeof(cancelRequest) === 'function') {
+      return cancelRequest(txt)
+    }
+  },
+  get(args) {
+    return request({ method: 'GET', ...args })
+  },
+  post(args) {
+    return request({ method: 'POST', ...args })
+  },
+  put(args) {
+    return request({ method: 'PUT', ...args })
+  },
+  delete(args) {
+    return request({ method: 'DELETE', ...args })
+  },
+  all(...ajaxs) {
+    return Promise.all(ajaxs)
+  },
 }
