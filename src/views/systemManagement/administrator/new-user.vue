@@ -31,7 +31,7 @@
 				</a-col>
 				<a-col span="12">
 					<a-form-item label="用户状态：" :label-col="{span:4}" :wrapper-col="{span:16}">
-						<a-checkbox-group v-model="searchForm.checkedList">
+						<a-checkbox-group  v-model="searchForm['checkedList']">
 							<a-checkbox :value="item.value" v-for="(item,index) in plainOptions" :key="index">{{item.text}}</a-checkbox>
 						</a-checkbox-group>
 					</a-form-item>
@@ -55,7 +55,7 @@
 			<!-- 查看 v-if="$permission('P03301')" P03301  权限分配P03102  重置密码P03306  禁用P03305 注销P03307   新增P03303-->
 			<span slot="action" slot-scope="text, record">
 				<a href="javascript:;" @click="viewBtn(record)">查看</a>
-				<a-divider type="vertical" v-if="record.status==8" />
+				<a-divider type="vertical" />
 				<a href="javascript:;" v-if="record.status==8" @click="$router.push({name: '/systemManagement/administrator/editNewUser'})">修改</a>
 				<a-divider type="vertical" />
 				<a-dropdown>
@@ -64,7 +64,7 @@
 						<a-icon type="down" />
 					</a>
 					<a-menu slot="overlay" @click='(event)=>{showOpeations(event.key,record)}'>
-						<a-menu-item key="2" v-if="record.status==1">
+						<a-menu-item key="2"  v-if="record.status==1">
 							禁用
 						</a-menu-item>
 						<a-menu-item key="1" v-if="record.status==9">
@@ -76,7 +76,7 @@
 				</a-dropdown>
 			</span>
 			<span slot="status" slot-scope="text, record">
-				<userStatus :status="record.status" />
+				<userStatus :status="record.status"/>
 			</span>
 		</a-table>
 		<a-row type="flex" justify="end" class='opeationTable'>
@@ -95,9 +95,9 @@
 	</div>
 </template>
 <script>
-import userStatus from '@/views/systemManagement/components/user-status'
+import userStatus from '@/views/systemManagement/components/user-status' 
 export default {
-  components: {
+  components:{
     userStatus
   },
   name: 'new-user',
@@ -126,7 +126,7 @@ export default {
         'ui.createTime_desc': 1
       },
       searchForm: {
-        checkedList: []
+
       },
       total: 0,
       dataTable: [],
@@ -238,19 +238,17 @@ export default {
     // 重置按钮
     reset() {
       this.params.pageNo = 1
-      this.searchForm = {}
-      this.searchForm.checkedList = []
       this.getList()
     },
     // 查询列表
     getList() {
-      let params = JSON.parse(JSON.stringify(this.searchForm))
-      params['oa.status_in'] = params.checkedList && params.checkedList.length > 0 ? params.checkedList.join(',') : '1'
-      if (params.checkedList) delete params.checkedList
-      const option = Object.assign(params, this.params)
+      this.searchForm['oa.status_in'] = this.searchForm.checkedList && this.searchForm.checkedList.length > 0 ? this.searchForm
+        .checkedList.join(',') : '1'
+      if (this.searchForm.checkedList) delete this.searchForm.checkedList
+      const params = Object.assign(this.searchForm, this.params)
       this.$ajax.get({
         url: this.$api.USER_LIST_TYPE_GET.replace('{type}', 'new'),
-        params: option
+        params: params
       }).then(res => {
         this.dataTable = res.data.content
         this.total = res.data.totalRows
@@ -269,7 +267,7 @@ export default {
     handleCancle() {
       this.visibleModal = false
     },
-    showOpeations(key, item) {
+    showOpeations(key,item) {
       switch (key) {
       case '1':
         this.opeationTitle = '启用'
@@ -283,19 +281,15 @@ export default {
         this.opeationTitle = '注销'
         this.tips = '<p>注销后，该账号将被使用，</p><p>您确认要注销该账号吗？</p>'
         break
-        // 					case '4':
-        // 						this.opeationTitle = '解冻'
-        // 						this.tips = '<p>解冻后，该账号将可以重新登录，</p><p>您确定要解冻该账号吗？</p>'
-        // 						break
       default:
         break
       }
       this.opeationType = key
-      this.opeationItem = item
+      this.opeationItem=item
       this.visibleModal = true
     },
     handleOk() {
-      let key = this.opeationType
+      let key=this.opeationType
       switch (key) {
       case '1':
         //启用操作
@@ -336,10 +330,6 @@ export default {
           }
         })
         break
-        // 					case '4':
-        // 						//解冻操作
-        // 
-        // 						break
       default:
         break
       }
