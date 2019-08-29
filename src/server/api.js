@@ -47,4 +47,10 @@ export default {
   USER_LIST_TYPE_GET: '/service-user/user/accounts/{type}', // 用户{type} old老用户列表   new-新用户列表
   SYSTEM_LIST_ALL_GET: '/service-user/user/systems', //查询系统列表
   CHECK_USER_STATUS: '/service-user/user/acct/{id}/status/{status}/{type}', //切换用户状态
+  GET_ORGANIZATION_LIST:'/service-permission/perm/groups',//组织机构列表
+  POST_ADD_ORGANIZATION_LIST:'/service-permission/perm/group',//新增组织机构
+  PUT_EDIT_ORGANIZATION_LIST:'/service-permission/perm/group/{id}',//修改组织机构
+  DELETE_ORGANIZATION_LIST:'/service-permission/perm/group/{id}',//删除组织机构
+  GET_ORGANIZATION_LIST_DETAIL:'/service-permission/perm/group/{id}',//组织机构详情
+  GET_AREA_NEXT: '/service-user/user/area/next', //获取下级地区
 }

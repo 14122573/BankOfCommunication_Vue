@@ -11,56 +11,42 @@
 				</a-button>
 			</a-col>
 		</a-row>
-		<a-form :form="organizationForm" :hideRequiredMark='true'>
+		<a-form :form="organizationForm">
 			<a-row type="flex" justify="start" align="middle">
 				<a-col :span="8">
 					<a-form-item label="组织机构名称" v-bind="formItemLayout">
-						<a-select placeholder="请选择" :options='options.nameOptions' v-decorator="[
-										 'name',
-										 { rules: [{ required: true,whitespace:true, message: '请输入组织机构名称!' }] }
-									 ]" />
+						<a-input v-decorator="['groupName', rules.groupName]" placeholder="组织机构名称" />
 					</a-form-item>
 				</a-col>
 				<a-col :span="8">
 					<a-form-item label="联系人" v-bind="formItemLayout">
-						<a-input v-decorator="[
-										 'contractName',
-										 { rules: [{ required: true,whitespace:true, message: '请输入联系人!' }] }
-									 ]"
-						 placeholder="联系人" />
+						<a-input v-decorator="['contact',rules.contact]" placeholder="联系人" />
 					</a-form-item>
 				</a-col>
 				<a-col :span="8">
 					<a-form-item label="联系电话" v-bind="formItemLayout">
-						<a-input v-decorator="[
-										 'phone',
-										 {  
-											 validateTrigger:'blur',
-											 rules: [{ required: true,whitespace:true, message: '请输入联系电话!' },
-										   { validator: validatePhone}] }
-									 ]"
-						 placeholder="联系电话" />
+						<a-input v-decorator="['contactPhone',rules.contactPhone]" placeholder="联系电话" />
 					</a-form-item>
 				</a-col>
 			</a-row>
 			<a-row type="flex" justify="start" align="middle">
 				<a-col :span="8">
 					<a-form-item label="所属行政区域" v-bind="formItemLayout">
-						<a-select placeholder="请选择" :options='options.nameOptions' v-decorator="[
-										 'area',
-										 { rules: [{ required: true,whitespace:true, message: '请输入所属行政区域!' }] }
-									 ]" />
+						<a-select placeholder="请选择" :options='options.areaLists' v-decorator="['areaCode',rules.areaCode]" />
+					</a-form-item>
+				</a-col>
+				<a-col :span="8">
+					<a-form-item label="上级机构" v-bind="formItemLayout">
+						<a-select placeholder="请选择" v-decorator="['parentId']">
+							<a-select-option v-for="(item,index) in options.upLists" :key="index" :value="item.id">{{item.groupName}}</a-select-option>
+						</a-select>
 					</a-form-item>
 				</a-col>
 			</a-row>
 			<a-row type="flex" justify="start" align="middle">
 				<a-col :span="16">
 					<a-form-item label="地址" v-bind="formItemSingle">
-						<a-input v-decorator="[
-										 'address',
-										 { rules: [{ required: true,whitespace:true, message: '请输入地址!' }] }
-									 ]"
-						 placeholder="请输入地址信息(格式要求:XX省XX市XX县XX乡镇XX路XX号)" @blur="handleSearchPoint" />
+						<a-input v-decorator="['addr',rules.addr]" placeholder="请输入地址信息(格式要求:XX省XX市XX县XX乡镇XX路XX号)" @blur="handleSearchPoint" />
 					</a-form-item>
 				</a-col>
 			</a-row>
@@ -104,22 +90,93 @@ export default {
       },
       position: '',
       options: {
-        nameOptions: [{
-          label: '1',
-          value: '1'
-        }],
-        spaceOptions: [{
-          label: '1',
-          value: '1'
-        }],
+        areaLists: [],
+        upLists: [],
       },
+      rules: {
+        groupName: {
+          validateTrigger: 'blur',
+          rules: [{
+            required: true,
+            whitespace: true,
+            message: '请输入组织机构名称!'
+          }]
+        },
+        contact: {
+          validateTrigger: 'blur',
+          rules: [{
+            required: true,
+            whitespace: true,
+            message: '请输入联系人!'
+          }]
+        },
+        contactPhone: {
+          validateTrigger: 'blur',
+          rules: [{
+            required: true,
+            whitespace: true,
+            message: '请输入联系电话!'
+          }, {
+            validator: this.validatePhone
+          }]
+        },
+        addr: {
+          validateTrigger: 'blur',
+          rules: [{
+            required: true,
+            whitespace: true,
+            message: '请输入地址!'
+          }]
+        },
+        areaCode: {
+          validateTrigger: 'blur',
+          rules: [{
+            required: true,
+            whitespace: true,
+            message: '请输入行政区名称!'
+          }]
+        }
+      }
+    }
+  },
+  mounted() {
+    this.options.areaLists = [JSON.parse(this.$route.query.data).area]
+    this.getUpLists(JSON.parse(this.$route.query.data).area.parentId)
+    if (this.$route.query.id) {
+      this.getDetail()
     }
   },
   methods: {
     handleSave() {
       this.organizationForm.validateFields((err, values) => {
         if (!err) {
-          console.log(values)
+          values.areaName = JSON.parse(this.$route.query.data).area.title
+          if (!this.$route.query.id) {
+            this.$ajax.post({
+              url: this.$api.POST_ADD_ORGANIZATION_LIST,
+              params: values
+            }).then(res => {
+              if (res.code == '200') {
+                this.$message.success('新增成功！')
+                this.$router.push({
+                  name: '/systemManagement/organization'
+                })
+              }
+            })
+          } else {
+            this.$ajax.put({
+              url: this.$api.PUT_EDIT_ORGANIZATION_LIST.replace('{id}',this.$route.query.id),
+              params: values
+            }).then(res => {
+              if (res.code == '200') {
+                this.$message.success('修改成功！')
+                this.$router.push({
+                  name: '/systemManagement/organization'
+                })
+              }
+            })
+          }
+
         }
       })
     },
@@ -175,7 +232,7 @@ export default {
         }
       }
       this.organizationForm.setFieldsValue({
-        address: address
+        addr: address
       })
     },
     validatePhone(rule, value, callback) {
@@ -184,6 +241,28 @@ export default {
       } else {
         callback()
       }
+    },
+    getUpLists(query) {
+      const params = {
+        pageSize: 1000,
+        pageNo: 1,
+        areaCode: query
+      }
+      this.$ajax.get({
+        url: this.$api.GET_ORGANIZATION_LIST,
+        params: params
+      }).then(res => {
+        this.options.upLists = this.$com.confirm(res, 'data.content', [])
+      })
+    },
+    getDetail() {
+      this.$ajax.get({
+        url: this.$api.GET_ORGANIZATION_LIST_DETAIL.replace('{id}', this.$route.query.id)
+      }).then(res => {
+        console.log(res, '9090')
+        this.organizationForm.setFieldsValue(this.$com.confirm(res, 'data.content', {}))
+        this.position = this.$com.confirm(res, 'data.content.addr', '上海市')
+      })
     }
   }
 }
