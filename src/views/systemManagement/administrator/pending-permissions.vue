@@ -193,13 +193,19 @@ export default {
     // 查看按钮
     viewBtn(item) {
       this.$router.push({
-        name: '/systemManagement/administrator/pendingView'
+        name: '/systemManagement/administrator/pendingView',
+        query:{
+            id:item.id
+        }
       })
     },
     // 权限分配按钮
     distributionBtn(item) {
       this.$router.push({
-        name: '/systemManagement/administrator/distribution'
+        name: '/systemManagement/administrator/distribution',
+        query:{
+            id:item.id
+        }
       })
     }
   },

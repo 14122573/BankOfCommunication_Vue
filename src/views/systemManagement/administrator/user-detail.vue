@@ -1,5 +1,5 @@
 <template>
-    <span>
+    <span >
         <a-row type="flex" justify="start" >
             <a-col span="8">
                 <a-row type="flex" justify="start" class="colMargin">
@@ -7,7 +7,7 @@
                         姓名：
                     </a-col>
                     <a-col span="18">
-                        1111111
+                        {{detail.name | txt}}
                     </a-col>
                 </a-row>
             </a-col>
@@ -17,7 +17,7 @@
                         账号：
                     </a-col>
                     <a-col span="18">
-                        1111111
+                        {{detail.phone | txt}}
                     </a-col>
                 </a-row>
             </a-col>
@@ -27,7 +27,7 @@
                         邮箱：
                     </a-col>
                     <a-col span="18">
-                        1111111
+                        {{detail.mail | txt}}
                     </a-col>
                 </a-row>
             </a-col>
@@ -37,7 +37,7 @@
                         邮编：
                     </a-col>
                     <a-col span="18">
-                        1111111
+                        {{detail.zipCode | txt}}
                     </a-col>
                 </a-row>
             </a-col>
@@ -47,7 +47,7 @@
                         注册时间：
                     </a-col>
                     <a-col span="18">
-                        1111111
+                        {{detail.createTime | txt}}
                     </a-col>
                 </a-row>
             </a-col>
@@ -57,7 +57,7 @@
                         单位：
                     </a-col>
                     <a-col span="18">
-                        1111111
+                        {{detail.dept | txt}}
                     </a-col>
                 </a-row>
             </a-col>
@@ -67,7 +67,7 @@
                         地址：
                     </a-col>
                     <a-col span="18">
-                        1111111
+                        {{detail.addr | txt}}
                     </a-col>
                 </a-row>
             </a-col>
@@ -76,7 +76,48 @@
 </template>
 <script>
 export default {
-    
+    props:{
+        id:{
+            type:String,
+            default:null
+        }
+    },
+    data(){
+        return{
+            detail:{},
+        }
+    },
+    methods:{
+        getDetail(){
+            console.log(this.id);
+            if(this.id !== null){
+                this.$ajax.get({
+                    url:this.$api.USER_ACCOUNT_DETAIL.replace('{id}',this.id)
+                })
+                .then((res)=>{
+                    if(res.code === '200'){
+                        let data=res.data.content
+                        this.detail=data
+                    }else{
+                        this.$message.error(res.msg)
+                    }
+                })
+            }
+        }
+    },
+    mounted(){
+        console.log('?????')
+        this.getDetail()
+    },
+    filters:{
+        txt(value){
+            if(value !== null && value !== ''){
+                return value
+            }else{
+                return '暂无'
+            }
+        }
+    }
 }
 </script>
 <style scoped>

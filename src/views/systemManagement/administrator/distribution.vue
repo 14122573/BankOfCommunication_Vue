@@ -7,10 +7,10 @@
                 </a-col>
                 <a-col >
                     <a-button type="primary" @click="$router.back();" ghost>返回</a-button>
-                    <a-button type="primary">保存</a-button>
+                    <a-button type="primary" @click="save">保存</a-button>
                 </a-col>
             </a-row>
-            <UserDetail/>
+            <UserDetail :id="$route.query.id"/>
         </a-card>
         <a-divider style="margin-top:0px;"  dashed />
         <a-card :bordered="false">
@@ -24,9 +24,15 @@
                     >
                     <a-select 
                         placeholder="请选择"
-                        v-model="formData.space"
                         :options='options.roleList'
                         @change="roleChange"
+                        allowClear
+                        mode="multiple"
+                        labelInValue
+                        v-decorator="[
+                          'role',
+                          {rules: [rules.required],validateTrigger:'change'}
+                        ]"
                     />
                     </a-form-item>
                 </a-col>
@@ -35,16 +41,18 @@
                         label="所属行政区域："
                         :label-col="labelCol"
                         :wrapper-col="wrapperCol"
-                        allowClear
                     >
-                    <a-tree-select
-                        :treeData="regionData"
-                        :dropdownStyle="{ maxHeight: '200px', overflow: 'auto' }"
+                    <a-select
+                        placeholder="请选择"
+                        :options="options.areaList"
+                        @change="areaChange"
+                        :filterOption="filterOption"
+                        v-decorator="[
+                          'area',
+                          {rules: [rules.required],validateTrigger:'change'}
+                        ]"
                         showSearch
                         allowClear
-                        :loadData="loadRegion"
-                        @search="regionSearch"
-                        @select="selectRegion"
                     />
                     </a-form-item>
                 </a-col>
@@ -55,13 +63,14 @@
                         :wrapper-col="wrapperCol"
                         allowClear
                     >
-                    <!-- <a-tree-select
-                        :treeData="treeData"
-                        :defaultExpandedKeys='expandedKeys'
-                        :dropdownStyle="{ maxHeight: '400px', overflow: 'auto' }"
-                        showSearch
-                        allowClear
-                    /> -->
+                    <a-select
+                        placeholder="请选择"
+                        :options="options.organList"
+                        v-decorator="[
+                          'organ',
+                          {rules: [rules.required],validateTrigger:'change'}
+                        ]"
+                    />
                     </a-form-item>
                 </a-col>
             </a-row>
@@ -82,76 +91,106 @@ export default {
   components:{UserDetail},
   data(){
     return{
-      formData:{},
+      formData:this.$form.createForm(this),
       labelCol: { span: 8 },
       wrapperCol: { span: 16 },
+      rules:{
+        required:{
+          required:true,message:'请选择'
+        }
+      },
       options:{
-        roleList:[]
+        roleList:[],
+        areaList:[],
+        organList:[]
       },
       checkedKeys: [],//选择的数组
       treeData:[],
       // 默认展开的数组
       expandedKeys:[],
-      // 所属行政区域
-      regionData:[],
+      roles:[]
     }
   },
   methods:{
     // 角色切换
-    roleChange(value){
-      console.log(value)
-      this.$ajax.get({
-        url:this.$api.ROLE_DETAIL.replace('{id}',value)
-      })
-        .then(res=>{
-          if(res.code === '200'){
-            let data=res.data.content
-            this.checkedKeys=data.map((item)=>{
-              return item.id
-            })
-          }else{
-            this.$message.error(res.msg)
-          }
-        })
-    },
-    // 搜索框发生改变
-    regionSearch(value){
-      let data=JSON.parse(JSON.stringify(this.allData))
-      if(value === ''){
-        this.regionData=[]
+    roleChange(item){
+      this.roles=item;
+      if(item.length===0){
+        this.expandedKeys=[];
       }else{
-        this.regionData=[]
-        data.forEach((item,index)=>{
-          this.regionData.push(this.getTreeNode(item,index))
+        let params=item.map((it)=>{
+          return it.key;
         })
-      }
-
-    },
-    // 异步加载行政区域树
-    loadRegion(){
-      
-    },
-    // 选中行政区域
-    selectRegion(value, node, extra){
-      console.log(value, node, extra,node.eventKey)
-    },
-    //   查询options
-    getOptions(){
-      let optionList=[{url:this.$api.GET_ROLE_LIST,name:'roleList'}]
-      optionList.forEach(item=>{
         this.$ajax.get({
-          url:item.url,
-          params:{
-            pageNo:1,
-            pageSize:10000
-          }
+          url:this.$api.ROLE_DETAIL.replace('{id}',params)
         })
           .then(res=>{
             if(res.code === '200'){
               let data=res.data.content
+              this.checkedKeys=data.map((item)=>{
+                return item.id
+              })
+            }else{
+              this.$message.error(res.msg)
+            }
+          })
+      }
+      
+    },
+    filterOption(input,option){
+      return option.componentOptions.children[0].text.indexOf(input)>=0
+    },
+    // 行政区域改变
+    areaChange(value){
+      this.options.organList=[];
+      this.formData.resetFields('organ');
+      this.getOrganList(value)
+    },
+    // 查询组织机构
+    getOrganList(value){
+      if(value !== ''){
+        this.$ajax.get({
+          url:this.$api.GET_ORGANIZATION_LIST,
+          params:{
+            pageSize: 10000,
+            pageNo: 1,
+            areaCode: value
+          },
+          hideLoading:true
+        })
+        .then(res=>{
+            if(res.code === '200'){
+              let data=res.data.content;
+              this.options.organList=data.map((item)=>{
+                return {
+                  label:item.groupName,
+                  value:item.id
+                }
+              })
+            }else{
+              this.$message.error(res.msg)
+            }
+          })
+      }
+    },
+    //   查询options
+    getOptions(){
+      let info = this.$store.state.userInfos;
+      let optionList=[{url:this.$api.GET_ROLE_LIST,name:'roleList',params:{pageNo:1,pageSize:10000}}]
+      if(info.area){
+        optionList.push({url:this.$api.GET_AREA_NEXT,name:'areaList',params:{parentId:info.area.id}})
+      }
+      optionList.forEach(item=>{
+        this.$ajax.get({
+          url:item.url,
+          params:item.params
+        })
+          .then(res=>{
+            if(res.code === '200'){
+              let data=res.data.content;
               this.options[item.name]=data.map(item=>{
                 return{
-                  label:item.roleName,
+                  label:item.roleName || item.areaName,
                   value:item.id
                 }
               })
@@ -179,7 +218,8 @@ export default {
       let childrenNode={
         title:item.permName,
         key:item.id,
-        value:item.permName
+        value:item.permName,
+        disabled:true
       }
       if(item.childList && item.childList.length){
         childrenNode.children = []
@@ -189,6 +229,44 @@ export default {
         })
       }
       return childrenNode
+    },
+    // 保存按钮
+    save(){
+      this.formData.validateFields((err)=>{
+        if(!err){
+          let formData=this.formData.getFieldsValue()
+          let params={};
+          params.group={
+            id:formData.organ
+          }
+          params.area={
+            id:formData.area
+          }
+          params.roleIds=formData.role.map((item)=>{
+            return item.key
+          })
+          params.roleIds=params.roleIds.join(',')
+          params.roleNames=formData.role.map((item)=>{
+            return item.label
+          })
+          params.roleNames=params.roleNames.join(',')
+          params.id=this.$route.query.id
+          this.$ajax.put({
+            url:this.$api.CONFIG_ROLES_TO_USER,
+            params:params
+          })
+          .then((res)=>{
+            if(res.code === '200'){
+              this.$message.success('分配成功');
+              this.$router.push({
+                name:'/systemManagement/administrator'
+              })
+            }else{
+              this.$message.error(res.msg)
+            }
+          })
+        }
+      })
     }
   },
   mounted(){
@@ -202,6 +280,12 @@ export default {
         display: block;
     }
 </style>
+<style>
+  .distribution-span li.ant-tree-treenode-disabled > span:not(.ant-tree-switcher), li.ant-tree-treenode-disabled > .ant-tree-node-content-wrapper, li.ant-tree-treenode-disabled > .ant-tree-node-content-wrapper span{
+    color:rgba(0, 0, 0,1);
+  }
+</style>
+
 
 
 

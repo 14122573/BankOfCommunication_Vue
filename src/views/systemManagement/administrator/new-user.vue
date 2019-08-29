@@ -4,17 +4,17 @@
 			<a-row type="flex" justify="space-between">
 				<a-col span="6">
 					<a-form-item label="姓名：" v-bind="colSpe">
-						<a-input placeholder="请输入" v-model="searchForm.name_l" />
+						<a-input placeholder="请输入" v-model="searchForm.name" />
 					</a-form-item>
 				</a-col>
 				<a-col span="6">
 					<a-form-item label="账号：" v-bind="colSpe">
-						<a-input placeholder="请输入" v-model="searchForm['ui.phone_l']" />
+						<a-input placeholder="请输入" v-model="searchForm.phone" />
 					</a-form-item>
 				</a-col>
 				<a-col span="6">
 					<a-form-item label="角色名称" v-bind="colSpe">
-						<a-select placeholder="请选择" :options="roleList" v-model="searchForm['ui.roleIds']" />
+						<a-select placeholder="请选择" :options="roleList" v-model="searchForm['ui.roleId_l']" />
 					</a-form-item>
 				</a-col>
 				<a-col span="6">
@@ -31,9 +31,7 @@
 				</a-col>
 				<a-col span="12">
 					<a-form-item label="用户状态：" :label-col="{span:4}" :wrapper-col="{span:16}">
-						<a-checkbox-group  v-model="searchForm['checkedList']">
-							<a-checkbox :value="item.value" v-for="(item,index) in plainOptions" :key="index">{{item.text}}</a-checkbox>
-						</a-checkbox-group>
+						<a-checkbox-group :options="plainOptions" v-model="searchForm['status']" />
 					</a-form-item>
 				</a-col>
 				<a-col span="6">
@@ -56,27 +54,28 @@
 			<span slot="action" slot-scope="text, record">
 				<a href="javascript:;" @click="viewBtn(record)">查看</a>
 				<a-divider type="vertical" />
-				<a href="javascript:;" v-if="record.status==8" @click="$router.push({name: '/systemManagement/administrator/editNewUser'})">修改</a>
+				<a href="javascript:;" @click="$router.push({name: '/systemManagement/administrator/editNewUser'})">修改</a>
 				<a-divider type="vertical" />
 				<a-dropdown>
 					<a class="ant-dropdown-link" href="#">
 						更多
 						<a-icon type="down" />
 					</a>
-					<a-menu slot="overlay" @click='(event)=>{showOpeations(event.key,record)}'>
-						<a-menu-item key="2"  v-if="record.status==1">
+					<a-menu slot="overlay" @click='showOpeations'>
+						<a-menu-item key="2">
 							禁用
 						</a-menu-item>
-						<a-menu-item key="1" v-if="record.status==9">
+						<a-menu-item key="1">
+							启用
 						</a-menu-item>
-						<a-menu-item key="3" v-if="record.status==1||record.status==9">
+						<a-menu-item key="3">
 							注销
+						</a-menu-item>
+						<a-menu-item key="4">
+							解冻
 						</a-menu-item>
 					</a-menu>
 				</a-dropdown>
-			</span>
-			<span slot="status" slot-scope="text, record">
-				<userStatus :status="record.status"/>
 			</span>
 		</a-table>
 		<a-row type="flex" justify="end" class='opeationTable'>
@@ -95,11 +94,7 @@
 	</div>
 </template>
 <script>
-import userStatus from '@/views/systemManagement/components/user-status' 
 export default {
-  components:{
-    userStatus
-  },
   name: 'new-user',
   props: {
     roleList: {
@@ -123,10 +118,11 @@ export default {
       params: {
         pageNo: 1,
         pageSize: 10,
-        'ui.createTime_desc': 1
+        'ui.createTime_desc': 1,
+        // status: 1
       },
       searchForm: {
-
+        status: []
       },
       total: 0,
       dataTable: [],
@@ -142,26 +138,23 @@ export default {
       },
       {
         title: '角色名称',
-        dataIndex: 'roleNames',
-        key: 'roleNames'
+        dataIndex: 'roleIds',
+        key: 'name2'
       },
       {
         title: '所属组织机构',
         dataIndex: 'group',
-        key: 'group'
+        key: 'name3'
       },
       {
         title: '所属行政区域',
         dataIndex: 'area',
-        key: 'area'
+        key: 'name4'
       },
       {
         title: '用户状态',
-        dataIndex: 'status',
-        key: 'status',
-        scopedSlots: {
-          customRender: 'status'
-        }
+        dataIndex: 'name5',
+        key: 'name5'
       },
       {
         title: '操作',
@@ -173,24 +166,11 @@ export default {
         }
       }
       ],
-      plainOptions: [{
-        text: '正常',
-        value: '1'
-      },
-      {
-        text: '禁用',
-        value: '9'
-      },
-      {
-        text: '已注销',
-        value: '8'
-      }
-      ],
+      plainOptions: ['正常', '禁用', '已冻结', '已注销'],
       opeationTitle: '',
       visibleModal: false,
       tips: '',
       opeationType: '',
-      opeationItem: {},
       treeData: [{
         title: 'Node1',
         value: '0-0',
@@ -226,7 +206,6 @@ export default {
   },
   methods: {
     pageChange(current) {
-      console.log('saas', current)
       this.params.pageNo = current
       this.getList()
     },
@@ -242,14 +221,12 @@ export default {
     },
     // 查询列表
     getList() {
-      this.searchForm['oa.status_in'] = this.searchForm.checkedList && this.searchForm.checkedList.length > 0 ? this.searchForm
-        .checkedList.join(',') : '1'
-      if (this.searchForm.checkedList) delete this.searchForm.checkedList
       const params = Object.assign(this.searchForm, this.params)
       this.$ajax.get({
         url: this.$api.USER_LIST_TYPE_GET.replace('{type}', 'new'),
         params: params
       }).then(res => {
+        console.log(res, '-=-=')
         this.dataTable = res.data.content
         this.total = res.data.totalRows
       })
@@ -267,7 +244,9 @@ export default {
     handleCancle() {
       this.visibleModal = false
     },
-    showOpeations(key,item) {
+    showOpeations({
+      key
+    }) {
       switch (key) {
       case '1':
         this.opeationTitle = '启用'
@@ -281,71 +260,41 @@ export default {
         this.opeationTitle = '注销'
         this.tips = '<p>注销后，该账号将被使用，</p><p>您确认要注销该账号吗？</p>'
         break
-        // 					case '4':
-        // 						this.opeationTitle = '解冻'
-        // 						this.tips = '<p>解冻后，该账号将可以重新登录，</p><p>您确定要解冻该账号吗？</p>'
-        // 						break
+      case '4':
+        this.opeationTitle = '解冻'
+        this.tips = '<p>解冻后，该账号将可以重新登录，</p><p>您确定要解冻该账号吗？</p>'
+        break
       default:
         break
       }
       this.opeationType = key
-      this.opeationItem=item
       this.visibleModal = true
     },
     handleOk() {
-      let key=this.opeationType
       switch (key) {
       case '1':
         //启用操作
-        this.$ajax.put({
-          url: this.$api.CHECK_USER_STATUS.replace('{type}', 'new').replace('{id}', this.opeationItem.id).replace(
-            '{status}', '1')
-        }).then(res => {
-          if (res.code == '200') {
-            this.$message.success('启用成功！')
-          } else {
-            this.$message.error(res.data.msg)
-          }
-        })
+
         break
       case '2':
         //禁用操作
-        this.$ajax.put({
-          url: this.$api.CHECK_USER_STATUS.replace('{type}', 'new').replace('{id}', this.opeationItem.id).replace(
-            '{status}', '9')
-        }).then(res => {
-          if (res.code == '200') {
-            this.$message.success('禁用成功！')
-          } else {
-            this.$message.error(res.data.msg)
-          }
-        })
+
         break
       case '3':
         //注销操作
-        this.$ajax.put({
-          url: this.$api.CHECK_USER_STATUS.replace('{type}', 'new').replace('{id}', this.opeationItem.id).replace(
-            '{status}', '8')
-        }).then(res => {
-          if (res.code == '200') {
-            this.$message.success('注销成功！')
-          } else {
-            this.$message.error(res.data.msg)
-          }
-        })
+
         break
-        // 					case '4':
-        // 						//解冻操作
-        // 
-        // 						break
+      case '4':
+        //解冻操作
+
+        break
       default:
         break
       }
       this.visibleModal = false
     },
-    onChange(current) {
-      this.params.pageNo = current
-      this.getList()
+    onChange() {
+
     }
   }
 }
