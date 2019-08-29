@@ -86,136 +86,136 @@
 </template>
 
 <script>
-	import BMapComponent from '@/components/BaiduMap/BMapComponent.vue'
-	export default {
-		components: {
-			BMapComponent
-		},
-		beforeCreate() {
-			this.searchForm = this.$form.createForm(this)
-		},
-		data() {
-			return {
-				dateFormat: 'YYYY-MM-DD',
-				colSpe: {
-					labelCol: {
-						span: 6
-					},
-					wrapperCol: {
-						span: 15
-					}
-				},
-				autoExpandParent: true,
-				checkedKeys: [],
-				expandedKeys: [],
-				selectedKeys: [],
-				treeData: [{
-					title: '0-0',
-					key: '0-0',
-					children: [{
-						title: '0-0-0',
-						key: '0-0-0',
-						children: [{
-								title: '0-0-0-0',
-								key: '0-0-0-0'
-							},
-							{
-								title: '0-0-0-1',
-								key: '0-0-0-1'
-							},
-							{
-								title: '0-0-0-2',
-								key: '0-0-0-2'
-							},
-						],
-					}, {
-						title: '0-0-1',
-						key: '0-0-1',
-						children: [{
-								title: '0-0-1-0',
-								key: '0-0-1-0'
-							},
-							{
-								title: '0-0-1-1',
-								key: '0-0-1-1'
-							},
-							{
-								title: '0-0-1-2',
-								key: '0-0-1-2'
-							},
-						],
-					}, {
-						title: '0-0-2',
-						key: '0-0-2',
-					}],
-				}, {
-					title: '0-1',
-					key: '0-1',
-					children: [{
-							title: '0-1-0-0',
-							key: '0-1-0-0'
-						},
-						{
-							title: '0-1-0-1',
-							key: '0-1-0-1'
-						},
-						{
-							title: '0-1-0-2',
-							key: '0-1-0-2'
-						},
-					],
-				}, {
-					title: '0-2',
-					key: '0-2',
-				}],
-				map: false,
-				keyWords: '',
-				searchFormRules:{
-					name:{validateTrigger:'blur',rules:[{required:true,messgae:'请输入姓名'}]},
-					phone:{validateTrigger:'blur',rules:[{required:true,messgae:'请输入账号'}]},
-					mail:{validateTrigger:'blur',rules:[{required:true,messgae:'请输入邮箱'},{type:'email',messgae:'邮箱格式不合法'}]},
-					zipCode:{validateTrigger:'blur',rules:[{required:true,messgae:'请输入邮编'}]},
-					dept:{rules:[{required:true,messgae:'请输入单位名称'}]},
-					addr:{rules:[{required:true,messgae:'请输入地址'}]}
-				}
-			}
-		},
-		watch: {
-			checkedKeys(val) {
-				console.log('onCheck', val)
-			}
-		},
-		methods: {
-			onExpand(expandedKeys) {
-				console.log('onExpand', expandedKeys)
-				// this.expandedKeys.push(expandedKeys);
-				// if not set autoExpandParent to false, if children expanded, parent can not collapse.
-				// or, you can remove all expanded children keys.
-				this.expandedKeys = expandedKeys
-				this.autoExpandParent = false
-			},
-			onCheck(checkedKeys) {
-				console.log('onCheck', checkedKeys)
-				this.checkedKeys = checkedKeys
-			},
-			onSelect(selectedKeys, info) {
-				console.log('onSelect', info)
-				this.selectedKeys = selectedKeys
-			},
-			handleReturn() {
-				this.$router.push({
-					name: '/systemManagement/administrator'
-				})
-			},
-			handleAdd() {
-				this.searchForm.validateFields((err, values) => {
-					if (!err) {
-						console.log('Received values of form: ', values);
-					}
-				});
-			}
-		}
-	}
+import BMapComponent from '@/components/BaiduMap/BMapComponent.vue'
+export default {
+  components: {
+    BMapComponent
+  },
+  beforeCreate() {
+    this.searchForm = this.$form.createForm(this)
+  },
+  data() {
+    return {
+      dateFormat: 'YYYY-MM-DD',
+      colSpe: {
+        labelCol: {
+          span: 6
+        },
+        wrapperCol: {
+          span: 15
+        }
+      },
+      autoExpandParent: true,
+      checkedKeys: [],
+      expandedKeys: [],
+      selectedKeys: [],
+      treeData: [{
+        title: '0-0',
+        key: '0-0',
+        children: [{
+          title: '0-0-0',
+          key: '0-0-0',
+          children: [{
+            title: '0-0-0-0',
+            key: '0-0-0-0'
+          },
+          {
+            title: '0-0-0-1',
+            key: '0-0-0-1'
+          },
+          {
+            title: '0-0-0-2',
+            key: '0-0-0-2'
+          },
+          ],
+        }, {
+          title: '0-0-1',
+          key: '0-0-1',
+          children: [{
+            title: '0-0-1-0',
+            key: '0-0-1-0'
+          },
+          {
+            title: '0-0-1-1',
+            key: '0-0-1-1'
+          },
+          {
+            title: '0-0-1-2',
+            key: '0-0-1-2'
+          },
+          ],
+        }, {
+          title: '0-0-2',
+          key: '0-0-2',
+        }],
+      }, {
+        title: '0-1',
+        key: '0-1',
+        children: [{
+          title: '0-1-0-0',
+          key: '0-1-0-0'
+        },
+        {
+          title: '0-1-0-1',
+          key: '0-1-0-1'
+        },
+        {
+          title: '0-1-0-2',
+          key: '0-1-0-2'
+        },
+        ],
+      }, {
+        title: '0-2',
+        key: '0-2',
+      }],
+      map: false,
+      keyWords: '',
+      searchFormRules:{
+        name:{validateTrigger:'blur',rules:[{required:true,messgae:'请输入姓名'}]},
+        phone:{validateTrigger:'blur',rules:[{required:true,messgae:'请输入账号'}]},
+        mail:{validateTrigger:'blur',rules:[{required:true,messgae:'请输入邮箱'},{type:'email',messgae:'邮箱格式不合法'}]},
+        zipCode:{validateTrigger:'blur',rules:[{required:true,messgae:'请输入邮编'}]},
+        dept:{rules:[{required:true,messgae:'请输入单位名称'}]},
+        addr:{rules:[{required:true,messgae:'请输入地址'}]}
+      }
+    }
+  },
+  watch: {
+    checkedKeys(val) {
+      console.log('onCheck', val)
+    }
+  },
+  methods: {
+    onExpand(expandedKeys) {
+      console.log('onExpand', expandedKeys)
+      // this.expandedKeys.push(expandedKeys);
+      // if not set autoExpandParent to false, if children expanded, parent can not collapse.
+      // or, you can remove all expanded children keys.
+      this.expandedKeys = expandedKeys
+      this.autoExpandParent = false
+    },
+    onCheck(checkedKeys) {
+      console.log('onCheck', checkedKeys)
+      this.checkedKeys = checkedKeys
+    },
+    onSelect(selectedKeys, info) {
+      console.log('onSelect', info)
+      this.selectedKeys = selectedKeys
+    },
+    handleReturn() {
+      this.$router.push({
+        name: '/systemManagement/administrator'
+      })
+    },
+    handleAdd() {
+      this.searchForm.validateFields((err, values) => {
+        if (!err) {
+          console.log('Received values of form: ', values)
+        }
+      })
+    }
+  }
+}
 </script>
 
 <style scoped>
