@@ -9,7 +9,7 @@
                 <a-button type="primary" @click="toDistribution">权限分配</a-button>
             </a-col>
         </a-row>
-        <UserDetail />
+        <UserDetail :id="$route.query.id" />
     </a-card>
 </template>
 <script>
@@ -20,7 +20,10 @@ export default {
   methods:{
     toDistribution(){
       this.$router.push({
-        name:'/systemManagement/administrator/distribution'
+        name:'/systemManagement/administrator/distribution',
+        query:{
+          id:this.$route.query.id
+        }
       })
     }
   }

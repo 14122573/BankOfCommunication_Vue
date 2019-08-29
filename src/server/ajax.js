@@ -16,11 +16,10 @@ const CancelToken = axios.CancelToken
 let cancelRequest = null
 
 // 处理请求状态码
-const reponseCodeHandler = (res)=>{
+const reponseCodeHandler = (res) => {
   const code = res.data && res.data.code
-  if('string' == typeof code){
-    if(code == '200'){
-    }else if(code == '911'){
+  if ('string' == typeof code) {
+    if (code == '200') {} else if (code == '911') {
       const params = {
         grant_type: 'refresh_token',
         client_id: 'house',
@@ -33,18 +32,18 @@ const reponseCodeHandler = (res)=>{
         params,
         contentType: 'application/x-www-form-urlencoded;charset=UTF-8',
       }).then(res => {
-        if(res.code === '200'){
-          Common.setToken(res.data.content.access_token,res.data.content.refresh_token)
+        if (res.code === '200') {
+          Common.setToken(res.data.content.access_token, res.data.content.refresh_token)
           router.go(0)
-        }else if(res.code === '912'){
+        } else if (res.code === '912') {
           Common.handleLogOut()
-        }else{
+        } else {
           Common.handleLogOut()
         }
       })
-    }else if(code == '900'){
-      router.push({  name: 'noauth' })
-    }else if(code == '710' || code == '720'){
+    } else if (code == '900') {
+      router.push({ name: 'noauth' })
+    } else if (code == '710' || code == '720') {
       // message.error('')
     }
   }
@@ -62,7 +61,7 @@ const errorHandler = (err) => {
       break
     case 500:
       const code = err.response.data && err.response.data.code
-      if (code =='740') { // 运行时异常
+      if (code == '740') { // 运行时异常
         router.push({
           name: 'networkerr'
         })

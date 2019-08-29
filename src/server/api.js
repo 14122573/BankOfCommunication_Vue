@@ -47,4 +47,9 @@ export default {
   USER_LIST_TYPE_GET: '/service-user/user/accounts/{type}', // 用户{type} old老用户列表   new-新用户列表
   SYSTEM_LIST_ALL_GET: '/service-user/user/systems', //查询系统列表
   CHECK_USER_STATUS: '/service-user/user/acct/{id}/status/{status}/{type}', //切换用户状态
+  GET_AREA_NEXT: '/service-user/user/area/next', //获取下级地区
+  USER_ACCOUNT_DETAIL: '/service-user/user/account/{id}', //待分配权限详情
+  GET_ORGANIZATION_LIST: '/service-permission/perm/groups', //组织机构列表
+  CONFIG_ROLES_TO_USER: '/service-user/user/config/roles', //给用户分配权限
+  USER_UPDATE_PWD: '/service-user/user/update/pwd', //管理员修改密码
 }

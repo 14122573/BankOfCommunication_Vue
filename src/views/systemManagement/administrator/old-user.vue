@@ -49,11 +49,11 @@
         </a-form>
         <a-table :columns="columns" :pagination="false" rowKey="id" :dataSource="data">
             <span slot="sysDic" slot-scope="text,record">
-                {{record.sysDic.sysName || '无'}}
+                {{record.sysDic.sysName || '暂无'}}
             </span>
             <!-- phone -->
             <span slot="phone" slot-scope="text,record">
-                {{record.phone || '无'}}
+                {{record.phone || '暂无'}}
             </span>
             <span slot="status" slot-scope="text, record">
                 <userStatus :status="record.status"/>
@@ -87,7 +87,16 @@
         <p class="center-p">{{modal.content}}</p>
         <p class="center-p">{{modal.tips}}</p>
         </a-modal>
-        <a-modal cancelText="取消" okText="确认" @ok="handleResetOk" @cancel="hadnleCancel" :width="465" title="重置密码" v-model="resetPwdShow">
+        <a-modal 
+        :maskClosable="false"
+        cancelText="取消" 
+        okText="确认"
+        @ok="handleResetOk" 
+        @cancel="hadnleCancel" 
+        :width="465" 
+        title="重置密码" 
+        :visible="resetPwdShow"
+        >
             <a-form :form="resetData">
                 <a-row>
                     <a-col span="24">
@@ -96,7 +105,7 @@
                             :label-col="{span:8}"
                             :wrapper-col="{span:16}"
                         >
-                        123456
+                        ******
                         </a-form-item>
                     </a-col>
                     <a-col span="24">
@@ -106,7 +115,7 @@
                             :wrapper-col="{span:16}"
                         >
                         <a-input v-decorator="[
-		  						'pwd',
+		  						'newPwd',
 		  						{
 		  							rules: [ {
 		  							validator: validateToNextPassword,
@@ -120,7 +129,7 @@
                     </a-col>
                     <a-col span="8"></a-col>
                     <a-col span="16">
-                        <testStrong id="strong" :width="90" :pwd='resetData.getFieldValue("pwd")'  v-if='passwordStrength'></testStrong>
+                        <testStrong id="strong" :width="90" :pwd='resetData.getFieldValue("newPwd")'  v-if='passwordStrength'></testStrong>
                     </a-col>
                 </a-row>
             </a-form>
@@ -128,6 +137,7 @@
     </div>
 </template>
 <script>
+import {encryptDes} from '@/util/des-cryptojs'
 import userStatus from '../components/user-status'
 import testStrong from '@/components/testPwd'
 export default {
@@ -202,7 +212,8 @@ export default {
       resetData: this.$form.createForm(this),
       pswType: 'text',
       passwordStrength: false,
-      systemList: []
+      systemList: [],
+      resetId:null,
     }
   },
   methods: {
@@ -290,7 +301,7 @@ export default {
     },
     // 重置密码按钮
     resetBtn(item) {
-      // this.resetData=item;
+      this.resetId=item.id
       this.resetPwdShow = true
     },
     // 操作按钮
@@ -343,7 +354,23 @@ export default {
     handleResetOk() {
       this.resetData.validateFields(err => {
         if (!err) {
-
+          this.$ajax.put({
+            url:this.$api.USER_UPDATE_PWD,
+            params:{
+              id:this.resetId,
+              type:'old',
+              newPwd:encryptDes(this.resetData.getFieldValue('newPwd'))
+            }
+          })
+            .then(res => {
+              if (res.code === '200') {
+                this.$message.success('重置密码成功')
+                this.hadnleCancel()
+                this.getList()
+              } else {
+                this.$message.error(res.msg)
+              }
+            })
         }
       })
     },

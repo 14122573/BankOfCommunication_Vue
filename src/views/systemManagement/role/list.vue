@@ -31,7 +31,7 @@
                     <div class="content">
                         <p class="name">{{item.roleName}}</p>
                         <p>
-                            <img :src="groups" class="group-icon" alt="人数"><span class="name-num">4人</span>
+                            <img :src="groups" class="group-icon" alt="人数"><span class="name-num">{{item.userCount || '0'}}人</span>
                         </p>
                     </div>
                     <div class="operate">
