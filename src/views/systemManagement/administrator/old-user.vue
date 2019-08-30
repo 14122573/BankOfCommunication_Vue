@@ -154,7 +154,7 @@ export default {
   data() {
     return {
       searchForm: {
-        checkedList: []
+        checkedList: ['1']
       },
       dateFormat: 'YYYY-MM-DD',
       labelCol: { span: 8 },
@@ -267,9 +267,9 @@ export default {
     },
     // 重置按钮
     reset() {
-      this.searchForm.username_l=null
-      this.searchForm.sysDicId=null
-      this.searchForm.checkedList = []
+      delete this.searchForm.username_l
+      delete this.searchForm.sysDicId
+      this.searchForm.checkedList = ['1']
       this.params.pageNo = 1
       this.getList()
     },
