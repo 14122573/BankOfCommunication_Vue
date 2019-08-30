@@ -6,7 +6,7 @@
 			</a-col>
 			<a-col>
 				<a-button type="primary" ghost @click='handleReturn'>返回</a-button>
-				<a-button type="primary" ghost @click='handleEdit'>修改</a-button>
+				<a-button type="primary" @click='handleEdit'>修改</a-button>
 			</a-col>
 		</a-row>
 		<a-row type="flex" justify="start">
@@ -96,7 +96,7 @@
 						组织机构名称：
 					</a-col>
 					<a-col span="17">
-						{{detail.area!=null?detail.area.name:"暂无"}}
+						{{detail.area!=null?detail.area.areaName:"暂无"}}
 					</a-col>
 				</a-row>
 			</a-col>
@@ -106,12 +106,12 @@
 						所属行政区域：
 					</a-col>
 					<a-col span="17">
-						{{detail.group!=null?detail.group.name:"暂无"}}
+						{{detail.group!=null?detail.group.groupName:"暂无"}}
 					</a-col>
 				</a-row>
 			</a-col>
 		</a-row>
-		<a-tree showLine checkable :treeData="treeData" v-model="checkedKeys" />
+		<a-tree showLine checkable :treeData="treeData" v-model="checkedKeys"  disabled/>
 		<a-modal title="查看地图定位" :width='880' :bodyStyle="{'text-align':'center'}" :visible="map" :closable='false'>
 			<template slot="footer">
 				<a-button @click="map=false" ghost type="primary">取消</a-button>
@@ -150,7 +150,9 @@ export default {
     handleEdit() {
       this.$router.push({
         name: '/systemManagement/administrator/newUserEdit',
-        query:{id:this.$route.query.id}
+        query: {
+          id: this.$route.query.id
+        }
       })
     },
     getDetail() {
@@ -159,8 +161,8 @@ export default {
       }).then(res => {
         this.detail = res.data.content
         this.keyWords = this.detail.addr
-        this.checkedKeys = this.detail.roleIds
         this.getTree()
+        this.getDefaultRole(this.detail.roleIds)
       })
     },
     // 查询权限树
@@ -190,6 +192,19 @@ export default {
       }
       return childrenNode
     },
+    getDefaultRole(params) {
+      this.$ajax.get({
+        url: this.$api.ROLE_DETAIL.replace('{id}', params)
+      })
+        .then(res => {
+          if (res.code === '200') {
+            let data = res.data.content
+            this.checkedKeys = data.map((item) => {
+              return item.id
+            })
+          }
+        })
+    }
   }
 }
 </script>

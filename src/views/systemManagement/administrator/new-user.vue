@@ -59,7 +59,7 @@
 			<span slot="action" slot-scope="text, record">
 				<a href="javascript:;" @click="viewBtn(record)">查看</a>
 				<a-divider type="vertical" v-if="record.status!=8" />
-				<a href="javascript:;" v-if="record.status!=8" @click="$router.push({name: '/systemManagement/administrator/editNewUser'})">修改</a>
+				<a href="javascript:;" v-if="record.status!=8" @click="$router.push({name: '/systemManagement/administrator/editNewUser',query:{id:record.id}})">修改</a>
 				<a-divider type="vertical" />
 				<a-dropdown>
 					<a class="ant-dropdown-link" href="#">
