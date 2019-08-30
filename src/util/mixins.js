@@ -61,7 +61,6 @@ export const permission = {
       let authMenuAll = [],authCodeList=[]
 
       if(isAllPerm){ //有全部权限
-        console.log(1)
         authMenuAll = getAllSideMenu(routes)
         this.$store.commit('SET_MENU', {authMenuAll, authCodeList, isAllPerm})
       }else { // 只有部分权限，需根据权限码组装菜单
