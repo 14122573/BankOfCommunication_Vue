@@ -73,7 +73,8 @@
         <!-- 分页 -->
         <a-row type="flex" justify="end">
           <a-col>
-            <a-pagination showQuickJumper @change="onChange" :current="params.pageNo" :total="total" />
+              <a-pagination :defaultPageSize="20" showQuickJumper @change="onChange" :current="params.pageNo" :total="total" >
+              </a-pagination>
           </a-col>
         </a-row>
     </a-card>
@@ -145,7 +146,6 @@ export default {
         query:{
           type:'edit',
           id:item.id,
-          roleName:item.roleName
         }
       })
     },
@@ -156,7 +156,6 @@ export default {
         query:{
           type:'view',
           id:item.id,
-          roleName:item.roleName
         }
       })
     },

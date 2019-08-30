@@ -78,8 +78,9 @@
         <a-tree
           checkable
           :treeData="treeData"
-          :defaultExpandedKeys='expandedKeys'
           v-model="checkedKeys"
+          showLine
+          disabled
         />
         </a-card>
     </span>
@@ -107,7 +108,6 @@ export default {
       checkedKeys: [],//选择的数组
       treeData:[],
       // 默认展开的数组
-      expandedKeys:[],
       roles:[]
     }
   },
@@ -116,7 +116,7 @@ export default {
     roleChange(item){
       this.roles=item
       if(item.length===0){
-        this.expandedKeys=[]
+        this.checkedKeys=[]
       }else{
         let params=item.map((it)=>{
           return it.key
@@ -219,7 +219,6 @@ export default {
         title:item.permName,
         key:item.id,
         value:item.permName,
-        disabled:true
       }
       if(item.childList && item.childList.length){
         childrenNode.children = []

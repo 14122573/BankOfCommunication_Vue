@@ -267,7 +267,8 @@ export default {
     },
     // 重置按钮
     reset() {
-      this.searchForm = {}
+      this.searchForm.username_l=null
+      this.searchForm.sysDicId=null
       this.searchForm.checkedList = []
       this.params.pageNo = 1
       this.getList()
