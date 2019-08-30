@@ -306,5 +306,18 @@ export default {
       }
       break
     }
-  }
+  },
+  /**
+     * 接收带时分秒的时间格式，返回去掉时分秒的时间格式
+     * @param {String} val
+     */
+  strTime(val) {
+    if (val === undefined || val == null) return
+    val = val.toString()
+    if (val == null || val == '') {
+      return ''
+    } else {
+      return val.slice(0, val.indexOf(' '))
+    }
+  },
 }

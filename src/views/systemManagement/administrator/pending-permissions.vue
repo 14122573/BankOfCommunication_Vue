@@ -65,10 +65,14 @@
                 </a-col>
             </a-row>
         </a-form>
-        <a-table row-key="name" :pagination="false" :columns="columns" :dataSource="data">
+        <a-table row-key="id" :pagination="false" :columns="columns" :dataSource="data">
             <span slot="createTimeTitle">
                 <span>注册时间</span>
                 <!-- <a-icon type="align-left" /><a-icon type="arrow-up" /> -->
+            </span>
+            <!-- createTime -->
+            <span slot="createTime" slot-scope="text, record">
+                {{$com.strTime(record.createTime)}}
             </span>
             <span slot="action" slot-scope="text, record">
                 <a href="javascript:;" @click="viewBtn(record)">查看</a>
@@ -127,7 +131,8 @@ export default {
           dataIndex: 'createTime',
           key: 'createTime',
           width: 240,
-          slots: { title: 'createTimeTitle' }
+          slots: { title: 'createTimeTitle' },
+          scopedSlots: { customRender: 'createTime' }
         },
         {
           title: '操作',

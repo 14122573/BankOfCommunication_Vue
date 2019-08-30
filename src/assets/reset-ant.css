@@ -1,2 +1,4 @@
 .has-error .ant-form-explain, .has-error .ant-form-split {font-size: 12px;}
 .ant-form-item-control .ant-form-explain, .ant-form-item-control .ant-form-split { margin-top: 0px}
+
+.ant-layout { height:100%}

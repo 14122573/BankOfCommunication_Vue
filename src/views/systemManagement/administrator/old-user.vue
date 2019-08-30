@@ -105,7 +105,7 @@
                             :label-col="{span:8}"
                             :wrapper-col="{span:16}"
                         >
-                        ******
+                        <span style="vertical-align: middle;">******</span>
                         </a-form-item>
                     </a-col>
                     <a-col span="24">
