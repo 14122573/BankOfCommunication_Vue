@@ -43,6 +43,7 @@
                         :wrapper-col="wrapperCol"
                     >
                     <a-select
+                        v-if="isAdminator !== true"
                         placeholder="请选择"
                         :options="options.areaList"
                         @change="areaChange"
@@ -54,6 +55,21 @@
                         showSearch
                         allowClear
                     />
+                    <a-tree-select 
+                      v-else
+                      :treeData="organData" 
+                      :loadData="onLoadData" 
+                      showLine 
+                      :dropdownStyle="{ maxHeight: '200px', overflow: 'auto' }" 
+                      placeholder='请选择' 
+                      allowClear
+                      v-decorator="[
+                        'area',
+                        {rules: [rules.required],validateTrigger:'change'}
+                      ]" 
+                      @change="onChangeTree"
+                    >
+                    </a-tree-select>
                     </a-form-item>
                 </a-col>
                 <a-col span="8">
@@ -108,7 +124,10 @@ export default {
       checkedKeys: [],//选择的数组
       treeData:[],
       // 默认展开的数组
-      roles:[]
+      roles:[],
+      // 行政区域
+      organData:[],
+      isAdminator:''
     }
   },
   methods:{
@@ -135,7 +154,6 @@ export default {
             }
           })
       }
-      
     },
     filterOption(input,option){
       return option.componentOptions.children[0].text.indexOf(input)>=0
@@ -177,8 +195,10 @@ export default {
     getOptions(){
       let info = this.$store.state.userInfos
       let optionList=[{url:this.$api.GET_ROLE_LIST,name:'roleList',params:{pageNo:1,pageSize:10000}}]
-      if(info.area){
+      if(info.area && this.isAdminator !== true){
         optionList.push({url:this.$api.GET_AREA_NEXT,name:'areaList',params:{parentId:info.area.id}})
+      }else{
+        this.getArea()
       }
       optionList.forEach(item=>{
         this.$ajax.get({
@@ -229,6 +249,59 @@ export default {
       }
       return childrenNode
     },
+    // 行政区域修改---
+    onLoadData(treeNode) {
+      return new Promise((resolve) => {
+        if (treeNode.dataRef.children) {
+          resolve()
+          return
+        }
+        this.$ajax.get({
+          url: this.$api.GET_AREA_NEXT,
+          params: {
+            parentId: treeNode.dataRef.id
+          }
+        }).then(res => {
+          let datas = this.$com.confirm(res, 'data.content', [])
+          let array = []
+          datas.forEach((ele, index) => {
+            array.push(this.getOrganTree(ele, index))
+          })
+          treeNode.dataRef.children = array
+          this.organData = [...this.organData]
+          resolve()
+        })
+      })
+    },
+    onChangeTree(value, label, extra) {
+      this.options.organList=[]
+      this.formData.resetFields('organ')
+      this.getOrganList(value)
+    },
+    getArea() {
+      this.$ajax.get({
+        url: this.$api.GET_AREA_NEXT,
+        params: {
+          parentId: this.isAdminator?'999999':this.$store.state.userInfos.area.id
+        }
+      }).then(res => {
+        let datas = this.$com.confirm(res, 'data.content', [])
+        datas.forEach((ele, index) => {
+          this.organData.push(this.getOrganTree(ele, index))
+        })
+      })
+    },
+    getOrganTree(item, index) {
+      let childrenNode = {
+        title: item.areaName,
+        value: item.id,
+        id: item.id,
+        key: item.id,
+        parentId: item.parentId,
+        children: item.childList
+      }
+      return childrenNode
+    },
     // 保存按钮
     save(){
       this.formData.validateFields((err)=>{
@@ -269,6 +342,7 @@ export default {
     }
   },
   mounted(){
+    this.isAdminator = this.$store.state.userInfos.isAllPerm
     this.$ajax.all(this.getOptions(),this.getTree())
   }
 }
