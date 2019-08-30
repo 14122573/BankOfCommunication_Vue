@@ -13,38 +13,38 @@
 			<a-row type="flex" justify="space-between">
 				<a-col span="8">
 					<a-form-item label="姓名：" v-bind="colSpe">
-						<a-input placeholder="请输入" v-decorator="['name',searchFormRules.name]"/>
+						<a-input placeholder="请输入" v-decorator="['name',searchFormRules.name]" />
 					</a-form-item>
 				</a-col>
 				<a-col span="8">
-					<a-form-item label="账号：" v-bind="colSpe" >
-						<a-input placeholder="请输入" v-decorator="['phone',searchFormRules.phone]"/>
+					<a-form-item label="账号：" v-bind="colSpe">
+						<a-input placeholder="请输入" v-decorator="['phone',searchFormRules.phone]" />
 					</a-form-item>
 				</a-col>
 				<a-col span="8">
-					<a-form-item label="邮箱" v-bind="colSpe" >
-						<a-input placeholder="请输入" v-decorator="['mail',searchFormRules.mail]"/>
+					<a-form-item label="邮箱" v-bind="colSpe">
+						<a-input placeholder="请输入" v-decorator="['mail',searchFormRules.mail]" />
 					</a-form-item>
 				</a-col>
 			</a-row>
 			<a-row type="flex" justify="start">
 				<a-col span="8">
-					<a-form-item label="邮编：" v-bind="colSpe" >
-						<a-input placeholder="请输入" v-decorator="['zipCode',searchFormRules.zipCode]"/>
+					<a-form-item label="邮编：" v-bind="colSpe">
+						<a-input placeholder="请输入" v-decorator="['zipCode',searchFormRules.zipCode]" />
 					</a-form-item>
 				</a-col>
 			</a-row>
 			<a-row type="flex" justify="start">
 				<a-col span="16">
-					<a-form-item label="单位名称：" :label-col="{span:3}" :wrapper-col="{span:15}"  v-bind="colSpe">
-						<a-input placeholder="请输入"  v-decorator="['dept',searchFormRules.dept]"/>
+					<a-form-item label="单位名称：" :label-col="{span:3}" :wrapper-col="{span:15}" v-bind="colSpe">
+						<a-input placeholder="请输入" v-decorator="['dept',searchFormRules.dept]" />
 					</a-form-item>
 				</a-col>
 			</a-row>
 			<a-row type="flex" justify="start" align="middle">
 				<a-col span="16">
 					<a-form-item label="地址：" :label-col="{span:3}" :wrapper-col="{span:15}">
-						<a-input placeholder="请输入" @change='keyWords=searchForm.name' v-decorator="['addr',searchFormRules.addr]"/>
+						<a-input placeholder="请输入" @blur='position=searchForm.getFieldValue("addr")' v-decorator="['addr',searchFormRules.addr]" />
 					</a-form-item>
 				</a-col>
 				<a-col span="6" pull="4">
@@ -58,29 +58,33 @@
 			<a-row type="flex" justify="space-between">
 				<a-col span="8">
 					<a-form-item label="角色名称：" v-bind="colSpe">
-						<a-input placeholder="请输入" />
-					</a-form-item>
-				</a-col>
-				<a-col span="8">
-					<a-form-item label="组织机构：" v-bind="colSpe">
-						<a-input placeholder="请输入" />
+						<a-input placeholder="请输入" v-decorator="['roleNames',searchFormRules.roleNames]" />
 					</a-form-item>
 				</a-col>
 				<a-col span="8">
 					<a-form-item label="所属区域：" v-bind="colSpe">
-						<a-input placeholder="请输入" />
+						<a-tree-select :treeData="administrativeRegions"  v-decorator="['area',searchFormRules.area]" :loadData="onLoadData"
+						 :dropdownStyle="{ maxHeight: '400px', overflow: 'auto' }" placeholder='请选择' allowClear @change="onChangeTree">
+						</a-tree-select>
+					</a-form-item>
+				</a-col>
+				<a-col span="8">
+					<a-form-item label="组织机构：" v-bind="colSpe">
+						<a-select v-decorator="['group',searchFormRules.group]" placeholder='请选择'>
+							<a-select-option v-for="(item,index) in groupLists" :key="index" :value="item.id">{{item.groupName}}</a-select-option>
+						</a-select>
 					</a-form-item>
 				</a-col>
 			</a-row>
 		</a-form>
-		<a-tree class="tree" :blockNode="true" checkable @expand="onExpand" :expandedKeys="expandedKeys" :autoExpandParent="autoExpandParent"
-		 v-model="checkedKeys" @select="onSelect" :selectedKeys="selectedKeys" :treeData="treeData" />
+		<a-tree showLine checkable :treeData="treeData" v-model="checkedKeys" />
 		<a-modal title="查看地图定位" :width='880' :bodyStyle="{'text-align':'center'}" :visible="map" :closable='false'>
 			<template slot="footer">
 				<a-button @click="map=false" ghost type="primary">取消</a-button>
 				<a-button @click="map=false" type="primary">确认</a-button>
 			</template>
-			<BMapComponent :height="250" :width="830" :keyWords="keyWords" />
+			{{position}}
+			<BMapComponent :height="250" :width="830" :keyWords="position" />
 		</a-modal>
 	</a-card>
 </template>
@@ -109,76 +113,88 @@ export default {
       checkedKeys: [],
       expandedKeys: [],
       selectedKeys: [],
-      treeData: [{
-        title: '0-0',
-        key: '0-0',
-        children: [{
-          title: '0-0-0',
-          key: '0-0-0',
-          children: [{
-            title: '0-0-0-0',
-            key: '0-0-0-0'
-          },
-          {
-            title: '0-0-0-1',
-            key: '0-0-0-1'
-          },
-          {
-            title: '0-0-0-2',
-            key: '0-0-0-2'
-          },
-          ],
-        }, {
-          title: '0-0-1',
-          key: '0-0-1',
-          children: [{
-            title: '0-0-1-0',
-            key: '0-0-1-0'
-          },
-          {
-            title: '0-0-1-1',
-            key: '0-0-1-1'
-          },
-          {
-            title: '0-0-1-2',
-            key: '0-0-1-2'
-          },
-          ],
-        }, {
-          title: '0-0-2',
-          key: '0-0-2',
-        }],
-      }, {
-        title: '0-1',
-        key: '0-1',
-        children: [{
-          title: '0-1-0-0',
-          key: '0-1-0-0'
-        },
-        {
-          title: '0-1-0-1',
-          key: '0-1-0-1'
-        },
-        {
-          title: '0-1-0-2',
-          key: '0-1-0-2'
-        },
-        ],
-      }, {
-        title: '0-2',
-        key: '0-2',
-      }],
+      treeData: [],
       map: false,
-      keyWords: '',
-      searchFormRules:{
-        name:{validateTrigger:'blur',rules:[{required:true,messgae:'请输入姓名'}]},
-        phone:{validateTrigger:'blur',rules:[{required:true,messgae:'请输入账号'}]},
-        mail:{validateTrigger:'blur',rules:[{required:true,messgae:'请输入邮箱'},{type:'email',messgae:'邮箱格式不合法'}]},
-        zipCode:{validateTrigger:'blur',rules:[{required:true,messgae:'请输入邮编'}]},
-        dept:{rules:[{required:true,messgae:'请输入单位名称'}]},
-        addr:{rules:[{required:true,messgae:'请输入地址'}]}
-      }
+      position: '',
+      searchFormRules: {
+        name: {
+          validateTrigger: 'blur',
+          rules: [{
+            required: true,
+            message: '请输入姓名'
+          }]
+        },
+        phone: {
+          validateTrigger: 'blur',
+          rules: [{
+            required: true,
+            message: '请输入账号'
+          }]
+        },
+        mail: {
+          validateTrigger: 'blur',
+          rules: [{
+            required: true,
+            message: '请输入邮箱'
+          }, {
+            type: 'email',
+            message: '邮箱格式不合法'
+          }]
+        },
+        zipCode: {
+          validateTrigger: 'blur',
+          rules: [{
+            required: true,
+            message: '请输入邮编'
+          }]
+        },
+        dept: {
+          validateTrigger: 'blur',
+          rules: [{
+            required: true,
+            message: '请输入单位名称'
+          }]
+        },
+        addr: {
+          validateTrigger: 'blur',
+          rules: [{
+            required: true,
+            message: '请输入地址'
+          }]
+        },
+        group: {
+          validateTrigger: 'change',
+          rules: [{
+            required: true,
+            message: '请选择组织机构！'
+          }]
+        },
+        area: {
+          validateTrigger: 'change',
+          rules: [{
+            required: true,
+            message: '请选择所属区域！'
+          }]
+        },
+        roleNames: {
+          validateTrigger: 'blur',
+          rules: [{
+            required: true,
+            message: '请输入角色名称！'
+          }]
+        }
+      },
+      isAdminator: '',
+      administrativeRegions: [],
+      groupLists: [],
+      groupName:'',
+      // showTree: false
     }
+  },
+  mounted() {
+    this.isAdminator = this.$store.state.userInfos.isAllPerm
+    this.getArea()
+    this.getTree()
   },
   watch: {
     checkedKeys(val) {
@@ -186,21 +202,32 @@ export default {
     }
   },
   methods: {
-    onExpand(expandedKeys) {
-      console.log('onExpand', expandedKeys)
-      // this.expandedKeys.push(expandedKeys);
-      // if not set autoExpandParent to false, if children expanded, parent can not collapse.
-      // or, you can remove all expanded children keys.
-      this.expandedKeys = expandedKeys
-      this.autoExpandParent = false
+    // 查询权限树
+    getTree() {
+      this.$ajax.get({
+        url: this.$api.GET_ALL_ROLE + '?isTree=true'
+      }).then(res => {
+        let data = res.data.content
+        data.forEach((item, index) => {
+          this.treeData.push(this.getTreeData(item, index))
+        })
+      })
     },
-    onCheck(checkedKeys) {
-      console.log('onCheck', checkedKeys)
-      this.checkedKeys = checkedKeys
-    },
-    onSelect(selectedKeys, info) {
-      console.log('onSelect', info)
-      this.selectedKeys = selectedKeys
+    // 整理权限树
+    getTreeData(item, index) {
+      let childrenNode = {
+        title: item.permName,
+        key: item.id,
+        value:item.id
+      }
+      if (item.childList && item.childList.length) {
+        childrenNode.children = []
+        item.childList.forEach((subItem, subIndex) => {
+          let subkey = subItem.id
+          childrenNode.children.push(this.getTreeData(subItem, subkey))
+        })
+      }
+      return childrenNode
     },
     handleReturn() {
       this.$router.push({
@@ -210,8 +237,84 @@ export default {
     handleAdd() {
       this.searchForm.validateFields((err, values) => {
         if (!err) {
-          console.log('Received values of form: ', values)
+          values.area={id:this.areaCode,name:this.groupName}
+          let groupId=JSON.parse(JSON.stringify(values.group))
+          let data=this.groupLists.find(ele=>ele.id==groupId)
+          values.group={id:groupId,name:data.groupName}
+          values.roleIds=this.checkedKeys
+          this.$ajax.post({url:this.$api.POST_ADD_USER,params:values}).then(res=>{
+            if(res.code=='200'){
+              this.$message.success('新增成功！')
+            }else{
+              this.$message.error('新增失败！')
+            }
+          })
         }
+      })
+    },
+    getArea() {
+      this.$ajax.get({
+        url: this.$api.GET_AREA_NEXT,
+        params: {
+          parentId: this.isAdminator ? '999999' : this.$store.state.userInfos.area.id
+        }
+      }).then(res => {
+        let datas = this.$com.confirm(res, 'data.content', [])
+        datas.forEach((ele, index) => {
+          this.administrativeRegions.push(this.getTreeNode(ele, index))
+        })
+      })
+    },
+    getTreeNode(item, index) {
+      let childrenNode = {
+        title: item.areaName,
+        value: item.id,
+        id: item.id,
+        key: item.id,
+        parentId: item.parentId,
+        children: item.childList
+      }
+      return childrenNode
+    },
+    onLoadData(treeNode) {
+      return new Promise((resolve) => {
+        if (treeNode.dataRef.children) {
+          resolve()
+          return
+        }
+        this.$ajax.get({
+          url: this.$api.GET_AREA_NEXT,
+          params: {
+            parentId: treeNode.dataRef.id
+          }
+        }).then(res => {
+          let datas = this.$com.confirm(res, 'data.content', [])
+          let array = []
+          datas.forEach((ele, index) => {
+            array.push(this.getTreeNode(ele, index))
+          })
+          treeNode.dataRef.children = array
+          this.treeData = [...this.treeData]
+          resolve()
+        })
+      })
+    },
+    onChangeTree(value, label, extra) {
+      this.areaCode = value
+      this.groupName=label[0]
+      this.getListGroup()
+    },
+    getListGroup() {
+      const params = {
+        pageSize: 10000,
+        pageNo: 1,
+        areaCode: this.areaCode
+      }
+      this.$ajax.get({
+        url: this.$api.GET_ORGANIZATION_LIST,
+        params: params
+      }).then(res => {
+        this.groupLists = this.$com.confirm(res, 'data.content', [])
       })
     }
   }

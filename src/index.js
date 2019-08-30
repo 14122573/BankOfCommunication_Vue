@@ -43,10 +43,17 @@ import {
   pagination,
   Tag,
   Badge,
-  TreeSelect
+  TreeSelect,
+  Radio,
+  Cascader,
 } from 'ant-design-vue'
-
+import ActiveForm from '@/components/ActiveForm'
 import singleSpaVue from 'single-spa-vue'
+
+// 由于日期组件默认是英文的，需要本地化
+import moment from 'moment'
+import 'moment/locale/zh-cn'
+moment.locale('zh-cn')
 
 Vue.use(Button)
 Vue.use(Spin)
@@ -76,6 +83,10 @@ Vue.use(pagination)
 Vue.use(Tag)
 Vue.use(Badge)
 Vue.use(TreeSelect)
+Vue.use(Radio)
+Vue.use(Cascader)
+
+Vue.use(ActiveForm)
 Vue.prototype.$ajax = ajax
 Vue.prototype.$api = api
 Vue.prototype.$cookie = cookie
@@ -83,6 +94,7 @@ Vue.prototype.$com = common
 Vue.prototype.$permission = PermissionFilter
 Vue.prototype.$message = message
 Vue.prototype.$store = store
+Vue.prototype.$moment = moment
 
 Vue.config.productionTip = false
 const vueLifecycles = singleSpaVue({

@@ -133,6 +133,7 @@ export default {
   },
   watch: {
     keyWords() {
+      console.log(this.keyWords,'-==-=')
       this.searchKeyWords(this.keyWords)
     },
     position() {

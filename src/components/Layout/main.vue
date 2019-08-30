@@ -251,6 +251,8 @@ export default {
     padding-bottom:16px;
     background: url('../../assets/images/content-bg.png') no-repeat;
     background-position: 95% 10%;
-		background-size: 20%;
+    background-size: 20%;
+    height: 100%;
   }
+  #appContent #content { height: 100%;}
 </style>
