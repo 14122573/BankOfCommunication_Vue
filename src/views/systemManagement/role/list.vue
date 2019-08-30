@@ -123,7 +123,7 @@ export default {
         .then(res=>{
           if(res.code === '200'){
             this.total=res.data.totalRows
-            this.roleList=res.data.content
+            this.roleList= this.$com.confirm(res, 'data.content', [])
           }else{
             this.$message.error(res.msg)
           }

@@ -145,7 +145,7 @@ export default {
         })
           .then(res=>{
             if(res.code === '200'){
-              let data=res.data.content
+              let data = this.$com.confirm(res, 'data.content', [])
               this.checkedKeys=data.map((item)=>{
                 return item.id
               })
@@ -178,7 +178,7 @@ export default {
         })
           .then(res=>{
             if(res.code === '200'){
-              let data=res.data.content
+              let data = this.$com.confirm(res, 'data.content', [])
               this.options.organList=data.map((item)=>{
                 return {
                   label:item.groupName,
@@ -207,7 +207,7 @@ export default {
         })
           .then(res=>{
             if(res.code === '200'){
-              let data=res.data.content
+              let data = this.$com.confirm(res, 'data.content', [])
               this.options[item.name]=data.map(item=>{
                 return{
                   label:item.roleName || item.areaName,
@@ -225,7 +225,7 @@ export default {
       this.$ajax.get({
         url:this.$api.GET_ALL_ROLE + '?isTree=true'
       }).then(res=>{
-        let data=res.data.content
+        let data = this.$com.confirm(res, 'data.content', [])
         this.allData=data
         
         data.forEach((item,index)=>{
