@@ -218,7 +218,7 @@ export default {
   padding:0px 20px;
 }
 .content .name{
-    font-size: 18px;font-weight: bold;
+    font-size: 16px;font-weight: bold;
 }
 .content .name-num{
     margin-left: 5px;font-weight: bold;

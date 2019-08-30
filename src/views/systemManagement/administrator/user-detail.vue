@@ -47,7 +47,7 @@
                         注册时间：
                     </a-col>
                     <a-col span="18">
-                        {{detail.createTime | txt}}
+                        {{$com.strTime(detail.createTime) | txt}}
                     </a-col>
                 </a-row>
             </a-col>
@@ -89,7 +89,6 @@ export default {
   },
   methods:{
     getDetail(){
-      console.log(this.id)
       if(this.id !== null){
         this.$ajax.get({
           url:this.$api.USER_ACCOUNT_DETAIL.replace('{id}',this.id)
@@ -106,7 +105,6 @@ export default {
     }
   },
   mounted(){
-    console.log('?????')
     this.getDetail()
   },
   filters:{
