@@ -185,7 +185,7 @@ export default {
         .then(res => {
           if (res.code === '200') {
             this.total = res.data.totalRows
-            this.data = res.data.content
+            this.data = this.$com.confirm(res, 'data.content', [])
           } else {
             this.$message.error(res.msg)
           }

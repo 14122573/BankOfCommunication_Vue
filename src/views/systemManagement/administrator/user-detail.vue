@@ -95,7 +95,7 @@ export default {
         })
           .then((res)=>{
             if(res.code === '200'){
-              let data=res.data.content
+              let data = this.$com.confirm(res, 'data.content', {})
               this.detail=data
             }else{
               this.$message.error(res.msg)

@@ -154,7 +154,7 @@ export default {
   data() {
     return {
       searchForm: {
-        checkedList: []
+        checkedList: ['1']
       },
       dateFormat: 'YYYY-MM-DD',
       labelCol: { span: 8 },
@@ -225,7 +225,7 @@ export default {
         })
         .then(res => {
           if (res.code === '200') {
-            let data = res.data.content
+            let data = this.$com.confirm(res, 'data.content', [])
             this.systemList=data.map((item)=>{
               return {
                 label:item.sysName,
@@ -267,8 +267,9 @@ export default {
     },
     // 重置按钮
     reset() {
-      this.searchForm = {}
-      this.searchForm.checkedList = []
+      delete this.searchForm.username_l
+      delete this.searchForm.sysDicId
+      this.searchForm.checkedList = ['1']
       this.params.pageNo = 1
       this.getList()
     },
@@ -293,7 +294,7 @@ export default {
         .then(res => {
           if (res.code === '200') {
             this.total = res.data.totalRows
-            this.data = res.data.content
+            this.data = this.$com.confirm(res, 'data.content', [])
           } else {
             this.$message.error(res.msg)
           }
