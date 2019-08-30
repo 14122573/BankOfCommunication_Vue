@@ -242,7 +242,7 @@ const appRoutes = [{
       component: CreateNewUser,
       meta: {
         title: '新增用户信息',
-        menuPath: true,
+        menuPath: false,
         authCode: 'P03303',
         menuIcon: 'cluster',
         hideInBread: false,
@@ -255,7 +255,7 @@ const appRoutes = [{
       component: CreateNewUser,
       meta: {
         title: '新增用户信息修改',
-        menuPath: true,
+        menuPath: false,
         authCode: 'P03302',
         menuIcon: 'cluster',
         hideInBread: false,
@@ -268,7 +268,7 @@ const appRoutes = [{
       component: NewUserView,
       meta: {
         title: '查看新用户信息',
-        menuPath: true,
+        menuPath: false,
         authCode: 'P03301',
         menuIcon: 'cluster',
         hideInBread: false,
