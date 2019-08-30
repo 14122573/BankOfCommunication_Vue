@@ -6,10 +6,10 @@
 				<a-button type="primary" ghost @click="$router.back()">
 					返回
 				</a-button>
-				<a-button type="primary" @click="$router.push({name: '/systemManagement/organization/edit'})">
+				<!-- <a-button type="primary" @click="$router.push({name: '/systemManagement/organization/edit',query:{id:$route.query.id}})">
 					修改
-				</a-button>
-				<a-button type="danger" ghost @click="handleDel">
+				</a-button> -->
+				<a-button type="primary"  @click="handleDel">
 					删除
 				</a-button>
 			</a-col>
