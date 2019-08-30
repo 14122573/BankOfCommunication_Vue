@@ -244,7 +244,7 @@ export default {
 		color: #2c3e50;
 		width: 100%;
 		height: 100%;
-    overflow: hidden;
+    /* overflow: hidden; */
 	}
   #appContent {
     overflow-y:auto;
@@ -253,6 +253,8 @@ export default {
     background-position: 95% 10%;
     background-size: 20%;
     height: 100%;
+
   }
   #appContent #content { height: 100%;}
+  #appContent #content > div{overflow-y: auto;}
 </style>
