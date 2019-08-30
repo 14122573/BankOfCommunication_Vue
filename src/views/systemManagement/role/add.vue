@@ -2,7 +2,7 @@
     <a-card :style="{margin:'0 0 0 14px'}" :bordered="false" class="role-ope">
         <a-row type="flex" slot="title" justify="space-between" align="middle">
             <a-col>
-                {{title}}
+                {{roleName}}
             </a-col>
             <a-col v-if="$route.query.type === 'view'">
                 <a-button type="primary" @click="$router.back();" ghost>返回</a-button>
@@ -40,6 +40,7 @@
           :defaultExpandedKeys='expandedKeys'
           v-model="checkedKeys"
           :disabled="$route.query.type === 'view'"
+          showLine
         />
         
           <!-- 删除确认 -->
@@ -75,7 +76,6 @@ export default {
   data() {
     return {
       title:'新增角色',
-      formData: this.$form.createForm(this),
       labelCol: { span: 8 },
       wrapperCol: { span: 16 },
       checkedKeys: [],//选择的数组
@@ -87,6 +87,7 @@ export default {
       deleteRoleShow:false,
       deleteData:{},
       showTree:false,
+      roleName:null
     }
   },
   methods: {
@@ -120,12 +121,18 @@ export default {
     // 查询角色详情
     getRoleInfo(id){
       this.$ajax.get({
-        url:this.$api.ROLE_DETAIL.replace('{id}',id)
+        url:this.$api.PUT_CHARACTER.replace('{id}',id)
       })
         .then(res=>{
           if(res.code === '200'){
             let data=res.data.content
-            this.checkedKeys=data.map((item)=>{
+            this.roleName=data.roleName
+            if(this.$route.query.type !== 'view'){
+              this.formData.setFieldsValue({
+                roleName:data.roleName
+              })
+            }
+            this.checkedKeys=data.perm.map((item)=>{
               return item.id
             })
 
@@ -225,9 +232,7 @@ export default {
     if(this.$route.query.type === 'edit'){
       this.title='修改角色'
       this.getRoleInfo(this.$route.query.id)
-      this.formData.setFieldsValue({
-        roleName:this.$route.query.roleName
-      })
+      
     }else if(this.$route.query.type === 'view'){
       this.title=this.$route.query.roleName
       this.getRoleInfo(this.$route.query.id)
@@ -235,7 +240,10 @@ export default {
       this.title='新增角色'
       this.showTree=true
     }
-  }
+  },
+  beforeCreate() {
+    this.formData = this.$form.createForm(this)
+  },
 }
 </script>
 <style>

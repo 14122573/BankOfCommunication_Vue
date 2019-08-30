@@ -37,7 +37,9 @@
             </div>
           </a-layout-header>
           <a-layout-content id="appContent">
-            <router-view v-show="!showSpaContent" :key="$route.path" />
+            <a-locale-provider :locale="zh_CN">
+              <router-view v-show="!showSpaContent" :key="$route.path" />
+            </a-locale-provider>
             <div v-show="showSpaContent" id="content" />
           </a-layout-content>
         </a-layout>
@@ -49,6 +51,7 @@
 import SideMenu from '@/components/Layout/sidemenu'
 import NavBar from '@/components/Layout/navbar'
 import Loader from '@/components/Loader/loader'
+import zh_CN from 'ant-design-vue/lib/locale-provider/zh_CN'
 import {
   permission,
 } from '@/util/mixins'
@@ -66,6 +69,7 @@ export default {
   },
   data() {
     return {
+      zh_CN,
       collapsed: false,
       username: '',
       showPurePage: false,

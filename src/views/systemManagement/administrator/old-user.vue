@@ -225,7 +225,7 @@ export default {
         })
         .then(res => {
           if (res.code === '200') {
-            let data = res.data.content
+            let data = this.$com.confirm(res, 'data.content', [])
             this.systemList=data.map((item)=>{
               return {
                 label:item.sysName,
@@ -267,7 +267,8 @@ export default {
     },
     // 重置按钮
     reset() {
-      this.searchForm = {}
+      this.searchForm.username_l=null
+      this.searchForm.sysDicId=null
       this.searchForm.checkedList = []
       this.params.pageNo = 1
       this.getList()
@@ -293,7 +294,7 @@ export default {
         .then(res => {
           if (res.code === '200') {
             this.total = res.data.totalRows
-            this.data = res.data.content
+            this.data = this.$com.confirm(res, 'data.content', [])
           } else {
             this.$message.error(res.msg)
           }

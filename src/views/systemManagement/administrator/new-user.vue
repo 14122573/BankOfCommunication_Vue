@@ -4,34 +4,39 @@
 			<a-row type="flex" justify="space-between">
 				<a-col span="6">
 					<a-form-item label="姓名：" v-bind="colSpe">
-						<a-input placeholder="请输入" v-model="searchForm.name" />
+						<a-input placeholder="请输入" v-model="searchForm.name_l" />
 					</a-form-item>
 				</a-col>
 				<a-col span="6">
 					<a-form-item label="账号：" v-bind="colSpe">
-						<a-input placeholder="请输入" v-model="searchForm.phone" />
+						<a-input placeholder="请输入" v-model="searchForm['ui.phone_l']" />
 					</a-form-item>
 				</a-col>
 				<a-col span="6">
 					<a-form-item label="角色名称" v-bind="colSpe">
-						<a-select placeholder="请选择" :options="roleList" v-model="searchForm['ui.roleId_l']" />
-					</a-form-item>
-				</a-col>
-				<a-col span="6">
-					<a-form-item label="组织机构：" v-bind="colSpe">
-						<a-tree-select showSearch :treeData="treeData" v-model="searchForm['ui.groupId']" :dropdownStyle="{ maxHeight: '400px', overflow: 'auto' }"
-						 placeholder='请选择' allowClear treeDefaultExpandAll @change="onChange">
-						</a-tree-select>
+						<a-select placeholder="请选择" :options="roleList" v-model="searchForm['ui.roleIds']" />
 					</a-form-item>
 				</a-col>
 				<a-col span="6">
 					<a-form-item label="行政区域：" v-bind="colSpe">
-						<a-input placeholder="请输入" v-model="searchForm['ui.areaId']" />
+						<a-tree-select :treeData="treeData" :loadData="onLoadData" show-line v-model="searchForm['ui.areaId']"
+						 :dropdownStyle="{ maxHeight: '400px', overflow: 'auto' }" placeholder='请选择' allowClear @change="onChangeTree">
+						</a-tree-select>
+					</a-form-item>
+				</a-col>
+				<a-col span="6">
+					<a-form-item label="组织机构：" v-bind="colSpe">
+						<a-select  v-model="searchForm['ui.groupId']"   placeholder='请选择'>
+							<a-select-option v-for="(item,index) in groupLists" :key="index" :value="item.id">{{item.groupName}}</a-select-option>
+						</a-select>
 					</a-form-item>
 				</a-col>
 				<a-col span="12">
 					<a-form-item label="用户状态：" :label-col="{span:4}" :wrapper-col="{span:16}">
-						<a-checkbox-group :options="plainOptions" v-model="searchForm['status']" />
+						<a-checkbox-group v-model="searchForm['checkedList']">
+							<a-checkbox :value="item.value" v-for="(item,index) in plainOptions" :key="index">{{item.text}}</a-checkbox>
+						</a-checkbox-group>
+
 					</a-form-item>
 				</a-col>
 				<a-col span="6">
@@ -53,38 +58,38 @@
 			<!-- 查看 v-if="$permission('P03301')" P03301  权限分配P03102  重置密码P03306  禁用P03305 注销P03307   新增P03303-->
 			<span slot="action" slot-scope="text, record">
 				<a href="javascript:;" @click="viewBtn(record)">查看</a>
-				<a-divider type="vertical" />
-				<a href="javascript:;" @click="$router.push({name: '/systemManagement/administrator/editNewUser'})">修改</a>
+				<a-divider type="vertical" v-if="record.status!=8" />
+				<a href="javascript:;" v-if="record.status!=8" @click="$router.push({name: '/systemManagement/administrator/editNewUser'})">修改</a>
 				<a-divider type="vertical" />
 				<a-dropdown>
 					<a class="ant-dropdown-link" href="#">
 						更多
 						<a-icon type="down" />
 					</a>
-					<a-menu slot="overlay" @click='showOpeations'>
-						<a-menu-item key="2">
+					<a-menu slot="overlay" @click='(event)=>{showOpeations(event.key,record)}'>
+						<a-menu-item key="2" v-if="record.status==1">
 							禁用
 						</a-menu-item>
-						<a-menu-item key="1">
+						<a-menu-item key="1" v-if="record.status==9">
 							启用
 						</a-menu-item>
-						<a-menu-item key="3">
+						<a-menu-item key="3" v-if="record.status==1||record.status==9">
 							注销
-						</a-menu-item>
-						<a-menu-item key="4">
-							解冻
 						</a-menu-item>
 					</a-menu>
 				</a-dropdown>
 			</span>
 			<span slot="group" slot-scope="text, record">
-				{{record.group.groupName}}
+				{{record.group!=null?record.group.groupName: "暂无"}}
 			</span>
 			<span slot="area" slot-scope="text, record">
-				{{record.area.areaName}}
+				{{record.area!=null?record.area.areaName: "暂无"}}
+			</span>
+			<span slot="roleNames" slot-scope="text, record">
+				{{record.roleNames!=null?record.roleNames: "暂无"}}
 			</span>
 			<span slot="status" slot-scope="text, record">
-				{{record.status}}
+				<userStatus :status="record.status" />
 			</span>
 		</a-table>
 		<a-row type="flex" justify="end" class='opeationTable'>
@@ -103,8 +108,12 @@
 	</div>
 </template>
 <script>
+import userStatus from '@/views/systemManagement/components/user-status'
 export default {
   name: 'new-user',
+  components: {
+    userStatus
+  },
   props: {
     roleList: {
       type: Array,
@@ -131,7 +140,7 @@ export default {
         // status: 1
       },
       searchForm: {
-        status: []
+        checkedList: []
       },
       total: 0,
       dataTable: [],
@@ -148,7 +157,10 @@ export default {
       {
         title: '角色名称',
         dataIndex: 'roleNames',
-        key: 'roleNames'
+        key: 'roleNames',
+        scopedSlots: {
+          customRender: 'roleNames'
+        }
       },
       {
         title: '所属组织机构',
@@ -184,43 +196,33 @@ export default {
         }
       }
       ],
-      plainOptions: ['正常', '禁用', '已冻结', '已注销'],
+      plainOptions: [{
+        text: '正常',
+        value: '1'
+      },
+      {
+        text: '禁用',
+        value: '9'
+      },
+      {
+        text: '已注销',
+        value: '8'
+      }
+      ],
       opeationTitle: '',
       visibleModal: false,
       tips: '',
       opeationType: '',
-      treeData: [{
-        title: 'Node1',
-        value: '0-0',
-        key: '0-0',
-        children: [{
-          title: 'Child Node1',
-          value: '0-0-0',
-          key: '0-0-0',
-        }],
-      }, {
-        title: 'Node2',
-        value: '0-1',
-        key: '0-1',
-        children: [{
-          title: 'Child Node3',
-          value: '0-1-0',
-          key: '0-1-0',
-          disabled: true,
-        }, {
-          title: 'Child Node4',
-          value: '0-1-1',
-          key: '0-1-1',
-        }, {
-          title: 'Child Node5',
-          value: '0-1-2',
-          key: '0-1-2',
-        }],
-      }]
+      treeData: [],
+      isAdminator: '',
+      areaCode: '',
+      groupLists:[]
     }
   },
   mounted() {
     this.getList()
+    this.isAdminator = this.$store.state.userInfos.isAllPerm
+    this.getArea()
   },
   methods: {
     pageChange(current) {
@@ -235,16 +237,21 @@ export default {
     // 重置按钮
     reset() {
       this.params.pageNo = 1
+      this.searchForm = {}
+      this.searchForm.checkedList = []
       this.getList()
     },
     // 查询列表
     getList() {
-      const params = Object.assign(this.searchForm, this.params)
+      let options = JSON.parse(JSON.stringify(this.searchForm))
+      options['oa.status_in'] = options.checkedList && options.checkedList.length > 0 ? options.checkedList.join(',') :
+        '1'
+      if (options.checkedList) delete options.checkedList
+      const params = Object.assign(options, this.params)
       this.$ajax.get({
         url: this.$api.USER_LIST_TYPE_GET.replace('{type}', 'new'),
         params: params
       }).then(res => {
-        console.log(res, '-=-=')
         this.dataTable = res.data.content
         this.total = res.data.totalRows
       })
@@ -254,17 +261,16 @@ export default {
         name: '/systemManagement/administrator/createNewUser'
       })
     },
-    viewBtn() {
+    viewBtn(record) {
       this.$router.push({
-        name: '/systemManagement/administrator/newUserView'
+        name: '/systemManagement/administrator/newUserView',
+        query:{id:record.id}
       })
     },
     handleCancle() {
       this.visibleModal = false
     },
-    showOpeations({
-      key
-    }) {
+    showOpeations(key, item) {
       switch (key) {
       case '1':
         this.opeationTitle = '启用'
@@ -282,34 +288,134 @@ export default {
         break
       }
       this.opeationType = key
+      this.opeationItem = item
       this.visibleModal = true
     },
     handleOk() {
+      let key = this.opeationType
       switch (key) {
       case '1':
         //启用操作
-
+        this.$ajax.put({
+          url: this.$api.CHECK_USER_STATUS.replace('{type}', 'new').replace('{id}', this.opeationItem.id).replace(
+            '{status}', '1')
+        }).then(res => {
+          if (res.code == '200') {
+            this.$message.success('启用成功！')
+            this.getList()
+          } else {
+            this.$message.error('启用失败')
+          }
+        })
         break
       case '2':
         //禁用操作
+        this.$ajax.put({
+          url: this.$api.CHECK_USER_STATUS.replace('{type}', 'new').replace('{id}', this.opeationItem.id).replace(
+            '{status}', '9')
+        }).then(res => {
+          if (res.code == '200') {
+            this.$message.success('禁用成功！')
+            this.getList()
+          } else {
+            this.$message.error('禁用失败！')
+          }
+        })
 
         break
       case '3':
         //注销操作
-
-        break
-      case '4':
-        //解冻操作
-
+        this.$ajax.put({
+          url: this.$api.CHECK_USER_STATUS.replace('{type}', 'new').replace('{id}', this.opeationItem.id).replace(
+            '{status}', '8')
+        }).then(res => {
+          if (res.code == '200') {
+            this.$message.success('注销成功！')
+            this.getList()
+          } else {
+            this.$message.error('注销失败！')
+          }
+        })
         break
       default:
         break
       }
       this.visibleModal = false
     },
-    onChange() {
-
+    onChange(current) {
+      this.params.pageNo = current
+      this.getList()
+    },
+    getArea() {
+      this.$ajax.get({
+        url: this.$api.GET_AREA_NEXT,
+        params: {
+          parentId: this.isAdminator?'999999':this.$store.state.userInfos.area.id
+        }
+      }).then(res => {
+        let datas = this.$com.confirm(res, 'data.content', [])
+        datas.forEach((ele, index) => {
+          this.treeData.push(this.getTreeNode(ele, index))
+        })
+      })
+    },
+    getTreeNode(item, index) {
+      let childrenNode = {
+        title: item.areaName,
+        value: item.id,
+        id: item.id,
+        key: item.id,
+        parentId: item.parentId,
+        children: item.childList
+      }
+      return childrenNode
+    },
+    onLoadData(treeNode) {
+      return new Promise((resolve) => {
+        if (treeNode.dataRef.children) {
+          resolve()
+          return
+        }
+        this.$ajax.get({
+          url: this.$api.GET_AREA_NEXT,
+          params: {
+            parentId: treeNode.dataRef.id
+          }
+        }).then(res => {
+          let datas = this.$com.confirm(res, 'data.content', [])
+          let array = []
+          datas.forEach((ele, index) => {
+            array.push(this.getTreeNode(ele, index))
+          })
+          treeNode.dataRef.children = array
+          this.treeData = [...this.treeData]
+          resolve()
+        })
+      })
+    },
+    onChangeTree(value, label, extra) {
+      this.areaCode = value
+      this.getListGroup()
+    },
+    getListGroup() {
+      const params = {
+        pageSize: 10000,
+        pageNo: 1,
+        areaCode: this.areaCode
+      }
+      this.$ajax.get({
+        url: this.$api.GET_ORGANIZATION_LIST,
+        params: params
+      }).then(res => {
+        this.groupLists = this.$com.confirm(res, 'data.content', [])
+      })
     }
+    // 			onSelect(selectedKeys, info) {
+    // 				this.pageNo = 1
+    // 				this.areaCode = selectedKeys[0]
+    // 				this.transData.area = info.node.dataRef
+    // 				this.getListGroup()
+    // 			},
   }
 }
 </script>

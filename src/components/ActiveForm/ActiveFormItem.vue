@@ -87,10 +87,15 @@
     <span v-if="item.type == 'text'" v-decorator="validate">
       {{model[entry]}}
     </span>
+
+    <template v-if="item.render">
+      <component :is="component" />
+    </template>
   </a-form-item>
 </template>
 
 <script>
+import Vue from 'vue'
 export default {
   name: 'ActiveFormItem',
   props: {
@@ -118,6 +123,15 @@ export default {
   data() {
     return {
       curData: null,
+      component: null,
+    }
+  },
+  created() {
+    if (this.item.render) {
+      this.component = Vue.component(this.entry, {
+        render: this.item.render,
+        props: this.item.props,
+      })
     }
   },
   methods: {
