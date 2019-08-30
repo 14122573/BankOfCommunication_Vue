@@ -32,7 +32,7 @@
 					</a-row>
 				</a-form>
 				<a-row>
-					<a-button type="primary" @click="handleAdd">新建单位</a-button>
+					<a-button type="primary" @click="handleAdd"> 新建单位</a-button>
 					<a-button type="primary" @click="toUpload">导入</a-button>
 				</a-row>
 				<a-table :columns="columns" class="table-margin" rowKey="groupName" :dataSource="dataSource" :pagination="false">
