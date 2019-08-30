@@ -180,7 +180,7 @@ function getAllSideMenu(allRouter) {
 
   allRouter.forEach((router) => {
     let menu = {}
-    if (router.meta && router.meta.menuPath) {
+    if (router.meta && router.meta.menuPath && 'outsite'!=router.meta.openMode) { // 超级管理员无老系统权限
       menu = {
         name: router.name,
         meta: router.meta
