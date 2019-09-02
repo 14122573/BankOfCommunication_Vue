@@ -44,12 +44,12 @@
 			<a-row type="flex" justify="start" align="middle">
 				<a-col span="16">
 					<a-form-item label="地址：" :label-col="{span:3}" :wrapper-col="{span:15}">
-						<a-input placeholder="请输入" @blur='position=searchForm.getFieldValue("addr")' v-decorator="['addr',searchFormRules.addr]" />
+						<a-input placeholder="请输入" v-decorator="['addr',searchFormRules.addr]" />
 					</a-form-item>
 				</a-col>
 				<a-col span="6" pull="4">
 					<a-form-item>
-						<div class="position" @click="map=true">
+						<div class="position" @click="map=true;position=searchForm.getFieldValue('addr')">
 							<a-icon type="environment" />&nbsp;查看地图定位</div>
 					</a-form-item>
 				</a-col>
@@ -58,13 +58,15 @@
 			<a-row type="flex" justify="space-between">
 				<a-col span="8">
 					<a-form-item label="角色名称：" v-bind="colSpe">
-						<a-input placeholder="请输入" v-decorator="['roleNames',searchFormRules.roleNames]" />
+						<a-select placeholder="请选择" @change="roleChange" allowClear mode="multiple" labelInValue v-decorator="['notes', searchFormRules.notes]">
+							<a-select-option v-for="(item,index) in roleList" :key="index" :value="item.id">{{item.roleName}}</a-select-option>
+						</a-select>
 					</a-form-item>
 				</a-col>
 				<a-col span="8">
 					<a-form-item label="所属区域：" v-bind="colSpe">
-						<a-tree-select :treeData="administrativeRegions"  v-decorator="['area',searchFormRules.area]" :loadData="onLoadData"
-						 :dropdownStyle="{ maxHeight: '400px', overflow: 'auto' }" placeholder='请选择' allowClear @change="onChangeTree">
+						<a-tree-select :treeData="administrativeRegions" v-decorator="['area',searchFormRules.area]" :loadData="onLoadData"
+						 :dropdownStyle="{ maxHeight: '200px', overflow: 'auto' }" placeholder='请选择' allowClear @change="onChangeTree">
 						</a-tree-select>
 					</a-form-item>
 				</a-col>
@@ -77,13 +79,12 @@
 				</a-col>
 			</a-row>
 		</a-form>
-		<a-tree showLine checkable :treeData="treeData" v-model="checkedKeys" />
+		<a-tree showLine checkable disabled :treeData="treeData" v-model="checkedKeys" />
 		<a-modal title="查看地图定位" :width='880' :bodyStyle="{'text-align':'center'}" :visible="map" :closable='false'>
 			<template slot="footer">
 				<a-button @click="map=false" ghost type="primary">取消</a-button>
 				<a-button @click="map=false" type="primary">确认</a-button>
 			</template>
-			{{position}}
 			<BMapComponent :height="250" :width="830" :keyWords="position" />
 		</a-modal>
 	</a-card>
@@ -111,7 +112,6 @@ export default {
       },
       autoExpandParent: true,
       checkedKeys: [],
-      expandedKeys: [],
       selectedKeys: [],
       treeData: [],
       map: false,
@@ -176,30 +176,27 @@ export default {
             message: '请选择所属区域！'
           }]
         },
-        roleNames: {
+        notes: {
           validateTrigger: 'blur',
           rules: [{
             required: true,
-            message: '请输入角色名称！'
+            message: '请选择角色名称！'
           }]
         }
       },
       isAdminator: '',
       administrativeRegions: [],
       groupLists: [],
-      groupName:'',
-      // showTree: false
+      groupName: '',
+      roleList: [],
+      roles: []
     }
   },
   mounted() {
     this.isAdminator = this.$store.state.userInfos.isAllPerm
     this.getArea()
     this.getTree()
-  },
-  watch: {
-    checkedKeys(val) {
-      console.log('onCheck', val)
-    }
+    this.getRoleLists()
   },
   methods: {
     // 查询权限树
@@ -218,7 +215,7 @@ export default {
       let childrenNode = {
         title: item.permName,
         key: item.id,
-        value:item.id
+        value: item.id
       }
       if (item.childList && item.childList.length) {
         childrenNode.children = []
@@ -237,18 +234,59 @@ export default {
     handleAdd() {
       this.searchForm.validateFields((err, values) => {
         if (!err) {
-          values.area={id:this.areaCode,name:this.groupName}
-          let groupId=JSON.parse(JSON.stringify(values.group))
-          let data=this.groupLists.find(ele=>ele.id==groupId)
-          values.group={id:groupId,name:data.groupName}
-          values.roleIds=this.checkedKeys
-          this.$ajax.post({url:this.$api.POST_ADD_USER,params:values}).then(res=>{
-            if(res.code=='200'){
-              this.$message.success('新增成功！')
-            }else{
-              this.$message.error('新增失败！')
+          values.area = {
+            id: this.areaCode,
+            name: this.groupName
+          }
+          let isSelect=this.searchForm.isFieldTouched('area')
+          if(isSelect){
+            let groupId = JSON.parse(JSON.stringify(values.group))
+            let data = this.groupLists.find(ele => ele.id == groupId)
+            values.group = {
+              id: groupId,
+              name: data.groupName
             }
-          })
+          }else{
+            values.group = {
+              id: this.detail.group.id,
+              name: values.groupName
+            }
+          }
+          values.roleIds = (this.roles.map(ele => {
+            return ele.key
+          })).join(',')
+          values.roleNames = (this.roles.map(ele => {
+            return ele.label
+          })).join(',')
+          if (!this.$route.query.id) {
+            this.$ajax.post({
+              url: this.$api.POST_ADD_USER,
+              params: values
+            }).then(res => {
+              if (res.code == '200') {
+                this.$message.success('新增成功！')
+                this.$router.push({
+                  name: '/systemManagement/administrator'
+                })
+              } else {
+                this.$message.error(res.msg)
+              }
+            })
+          } else {
+            this.$ajax.put({
+              url: this.$api.PUT_USER_LIST.replace('{id}', this.$route.query.id),
+              params:values
+            }).then(res => {
+              if (res.code == '200') {
+                this.$message.success('修改成功！')
+                this.$router.push({
+                  name: '/systemManagement/administrator'
+                })
+              } else {
+                this.$message.error('修改失败！')
+              }
+            })
+          }
         }
       })
     },
@@ -299,9 +337,11 @@ export default {
         })
       })
     },
-    onChangeTree(value, label, extra) {
+    onChangeTree(value, label) {
       this.areaCode = value
-      this.groupName=label[0]
+      this.groupName = label[0]
+      this.groupLists=[]
+      this.searchForm.setFieldsValue({group:''})
       this.getListGroup()
     },
     getListGroup() {
@@ -315,6 +355,81 @@ export default {
         params: params
       }).then(res => {
         this.groupLists = this.$com.confirm(res, 'data.content', [])
+      })
+    },
+    getRoleLists() {
+      this.$ajax.get({
+        url: this.$api.GET_ROLE_LIST,
+        params: {
+          pageNo: 1,
+          pageSize: 10000
+        }
+      }).then(res => {
+        this.roleList = this.$com.confirm(res, 'data.content', [])
+        if (this.$route.query.id) {
+          this.getDetail()
+        }
+      })
+    },
+    // 角色切换
+    roleChange(item) {
+      this.roles = item
+      if (item.length != 0) {
+        let params = item.map((it) => {
+          return it.key
+        })
+        this.$ajax.get({
+          url: this.$api.ROLE_DETAIL.replace('{id}', params)
+        })
+          .then(res => {
+            if (res.code === '200') {
+              let data = res.data.content
+              this.checkedKeys = data.map((item) => {
+                return item.id
+              })
+            } else {
+              this.$message.error(res.msg)
+            }
+          })
+      }
+    },
+    getDetail() {
+      this.$ajax.get({
+        url: this.$api.GET_USER_DETAIL.replace('{id}', this.$route.query.id)
+      }).then(res => {
+        this.detail = res.data.content
+        this.onChangeTree(this.detail.area.id, [this.detail.area.areaName])
+        const {
+          mail,
+          name,
+          dept,
+          phone,
+          addr,
+          zipCode
+        } = this.detail
+
+        let datas = this.detail.roleIds.split(',')
+        let datas1 = this.detail.roleNames.split(',')
+        datas.forEach((ele, index) => {
+          datas[index] = {
+            'key': ele,
+            'label': datas1[index]
+          }
+        })
+        let setDatas = {
+          mail,
+          name,
+          dept,
+          phone,
+          addr,
+          zipCode,
+        }
+        setDatas.group = this.detail.group.id
+        setDatas.area = this.detail.area.areaName
+        setDatas.notes = datas
+        this.roles = datas
+        this.searchForm.setFieldsValue(setDatas)
+        this.roleChange(datas)
       })
     }
   }
