@@ -60,9 +60,9 @@
          <a-modal
             title="操作确认"
             v-model="deleteRoleShow"
-            @ok="handleOkDeleteRole"
+            @ok="deleteRoleShow=false"
             cancelText="取消"
-            okText="删除"
+            okText="确定"
             :maskClosable="false"
             :width="465"
             >
@@ -87,7 +87,8 @@ export default {
       deleteRoleShow:false,
       deleteData:{},
       showTree:false,
-      roleName:null
+      roleName:null,
+      userCount:null
     }
   },
   methods: {
@@ -127,6 +128,7 @@ export default {
           if(res.code === '200'){
             let data=res.data.content
             this.roleName=data.roleName
+            this.userCount=data.userCount
             if(this.$route.query.type !== 'view'){
               this.formData.setFieldsValue({
                 roleName:data.roleName
@@ -192,7 +194,11 @@ export default {
     },
     // 删除按钮
     deleteBtn(){
-      this.deleteShow=true
+      if(this.userCount !== null && this.userCount !== '' && this.userCount != 0){
+        this.deleteRoleShow=true
+      }else{
+        this.deleteShow=true
+      }
     },
     handleOkDelete(){
       this.deleteShow=false
@@ -247,6 +253,9 @@ export default {
 }
 </script>
 <style>
+  .center-p{
+      text-align: center;
+  }
   .role-ope li.ant-tree-treenode-disabled > span:not(.ant-tree-switcher), li.ant-tree-treenode-disabled > .ant-tree-node-content-wrapper, li.ant-tree-treenode-disabled > .ant-tree-node-content-wrapper span{
     color:rgba(0, 0, 0,1);
   }
