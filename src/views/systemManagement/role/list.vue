@@ -61,9 +61,9 @@
          <a-modal
             title="操作确认"
             v-model="deleteRoleShow"
-            @ok="handleOkDeleteRole"
+            @ok="deleteRoleShow=false"
             cancelText="取消"
-            okText="删除"
+            okText="确定"
             :maskClosable="false"
             :width="465"
             >
@@ -136,8 +136,12 @@ export default {
     },
     //   删除按钮
     deleteBtn(item){
-      this.deleteShow=true
-      this.deleteData=item
+      if(item.userCount !== null && item.userCount !== '' && item.userCount != 0){
+        this.deleteRoleShow=true
+      }else{
+        this.deleteShow=true
+        this.deleteData=item
+      }
     },
     // 修改按钮
     edit(item){
