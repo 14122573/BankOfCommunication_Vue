@@ -49,7 +49,7 @@
 				</a-col>
 				<a-col span="6" pull="4">
 					<a-form-item>
-						<div class="position" @click="map=true;position=searchForm.getFieldValue('addr')">
+						<div class="position" @click="showModal">
 							<a-icon type="environment" />&nbsp;查看地图定位</div>
 					</a-form-item>
 				</a-col>
@@ -89,7 +89,7 @@
 				<a-button @click="map=false" ghost type="primary">取消</a-button>
 				<a-button @click="map=false" type="primary">确认</a-button>
 			</template>
-			<BMapComponent :height="250" :width="830" :keyWords="position" />
+			<BMapComponent :height="250" :width="830"  ref="bdMap"  :keyWords="position"/>
 		</a-modal>
 	</a-card>
 </template>
@@ -211,6 +211,10 @@ export default {
         })
       })
     },
+		showModal(){
+			this.map=true;
+			this.position=this.searchForm.getFieldValue('addr');
+		},
     // 整理权限树
     getTreeData(item, index) {
       let childrenNode = {
