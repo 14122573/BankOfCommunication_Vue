@@ -259,8 +259,9 @@ export default {
       this.$ajax.get({
         url: this.$api.GET_ORGANIZATION_LIST_DETAIL.replace('{id}', this.$route.query.id)
       }).then(res => {
-        console.log(res, '9090')
-        this.organizationForm.setFieldsValue(this.$com.confirm(res, 'data.content', {}))
+				let {addr,contact,contactPhone,areaCode,groupName}=this.$com.confirm(res, 'data.content', {});
+				let parentId=this.$com.confirm(res, 'data.content.parentId', "0")=="0"?"":this.$com.confirm(res, 'data.content.parentId', "0");
+        this.organizationForm.setFieldsValue({addr,contact,contactPhone,areaCode,parentId,groupName})
         this.position = this.$com.confirm(res, 'data.content.addr', '上海市')
       })
     }
