@@ -112,12 +112,12 @@
 			</a-col>
 		</a-row>
 		<a-tree showLine checkable :treeData="treeData" v-model="checkedKeys" disabled />
-		<a-modal title="查看地图定位" v-if="map" :width='880' :bodyStyle="{'text-align':'center'}" :visible="map" :closable='false'>
+		<a-modal title="查看地图定位"  :width='880' :bodyStyle="{'text-align':'center'}" :visible="map" :closable='false'>
 			<template slot="footer">
 				<a-button @click="map=false" ghost type="primary">取消</a-button>
 				<a-button @click="map=false" type="primary">确认</a-button>
 			</template>
-			<BMapComponent :height="250" :width="830" :keyWords="position" />
+			<BMapComponent refs="bdMap" :height="250" :width="830" :keyWords="position" />
 		</a-modal>
 	</a-card>
 </template>
