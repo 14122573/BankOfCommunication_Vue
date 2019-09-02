@@ -24,5 +24,8 @@ export default {
   },
   SET_DEFAULTMENU_STATUS(state, data) { // 菜单的默认展开、选中状态
     state.defaultMenuStatus = data
+  },
+  SET_TABNAME(state,data){
+    state.tabName = data
   }
 }

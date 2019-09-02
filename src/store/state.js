@@ -9,5 +9,6 @@ export default {
   defaultMenuStatus: {
     defaultSelectedKeys: [],
     defaultOpenKeys: [],
-  }
+  },
+  tabName:''
 }

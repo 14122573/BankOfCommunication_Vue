@@ -58,25 +58,25 @@
 			<a-row type="flex" justify="space-between">
 				<a-col span="8">
 					<a-form-item label="角色名称：" v-bind="colSpe">
-						<a-select placeholder="请选择" @change="roleChange"  allowClear mode="multiple" labelInValue v-decorator="['notes', searchFormRules.notes]">
+						<a-select placeholder="请选择" @change="roleChange" allowClear mode="multiple" labelInValue v-decorator="['notes', searchFormRules.notes]">
 							<a-select-option v-for="(item,index) in roleList" :key="index" :value="item.id">{{item.roleName}}</a-select-option>
 						</a-select>
 					</a-form-item>
 				</a-col>
 				<a-col span="8">
 					<a-form-item label="所属区域：" v-bind="colSpe">
-						<a-select  v-if="isAdminator !== true" placeholder="请选择" labelInValue @change="onChangeTree"
-						 showSearch  v-decorator="['area',searchFormRules.area]">
+						<a-select v-if="isAdminator !== true" placeholder="请选择" labelInValue @change="onChangeTree" showSearch
+						 v-decorator="['area',searchFormRules.area]">
 							<a-select-option v-for="(item,index) in administrativeRegions" :key="index" :value="item.id">{{item.title}}</a-select-option>
 						</a-select>
-						<a-tree-select  v-else :treeData="administrativeRegions" v-decorator="['area',searchFormRules.area]" :loadData="onLoadData"
+						<a-tree-select v-else :treeData="administrativeRegions" v-decorator="['area',searchFormRules.area]" :loadData="onLoadData"
 						 :dropdownStyle="{ maxHeight: '200px', overflow: 'auto' }" placeholder='请选择' allowClear @change="onChangeTree">
 						</a-tree-select>
 					</a-form-item>
 				</a-col>
 				<a-col span="8">
 					<a-form-item label="组织机构：" v-bind="colSpe">
-						<a-select v-decorator="['group',searchFormRules.group]" placeholder='请选择'>
+						<a-select v-decorator="['group',searchFormRules.group]" allowClear placeholder='请选择'>
 							<a-select-option v-for="(item,index) in groupLists" :key="index" :value="item.id">{{item.groupName}}</a-select-option>
 						</a-select>
 					</a-form-item>
@@ -237,22 +237,26 @@ export default {
             id: this.areaCode,
             name: this.areaName
           }
-          let isSelect = this.searchForm.isFieldTouched('area')
+          let isSelect = this.searchForm.isFieldTouched('group')
           if (isSelect) {
-            if(values.group!=''){
+            if (values.group != ''&&values.group != undefined) {
               let groupId = JSON.parse(JSON.stringify(values.group))
               let data = this.groupLists.find(ele => ele.id == groupId)
               values.group = {
                 id: groupId,
                 name: data.groupName
               }
-            }else{
+            } else {
               delete values.group
             }
           } else {
-            values.group = {
-              id: this.detail.group.id,
-              name: this.detail.group.groupName
+            if(this.detail.group!=null){
+              values.group = {
+                id: this.detail.group.id,
+                name: this.detail.group.groupName
+              }
+            }else{
+              values.group=null
             }
           }
           values.roleIds = (this.roles.map(ele => {
@@ -341,10 +345,10 @@ export default {
       })
     },
     onChangeTree(value, label) {
-      if(this.isAdminator!=true){
+      if (this.isAdminator != true) {
         this.areaCode = value.key
         this.areaName = value.label
-      }else{
+      } else {
         this.areaCode = value
         this.areaName = label[0]
       }
@@ -360,8 +364,8 @@ export default {
         pageNo: 1,
         areaCode: this.areaCode
       }
-      if(!this.isAdminator){
-				  params.parentId=this.$store.state.userInfos.group.id	
+      if (!this.isAdminator) {
+        params.parentId = this.$store.state.userInfos.group.id
       }
       this.$ajax.get({
         url: this.$api.GET_ORGANIZATION_LIST,
@@ -411,7 +415,15 @@ export default {
         url: this.$api.GET_USER_DETAIL.replace('{id}', this.$route.query.id)
       }).then(res => {
         this.detail = res.data.content
-        this.onChangeTree(this.detail.area.id, [this.detail.area.areaName])
+        if (!this.isAdminator) {
+          let obj = {
+            key: this.detail.area.id,
+            label: this.detail.area.areaName
+          }
+          this.onChangeTree(obj)
+        } else {
+          this.onChangeTree(this.detail.area.id, [this.detail.area.areaName])
+        }
         const {
           mail,
           name,
@@ -437,8 +449,12 @@ export default {
           addr,
           zipCode,
         }
-        setDatas.group = this.detail.group.id
-        setDatas.area = this.detail.area.areaName
+        setDatas.group = this.detail.group!=null?this.detail.group.id:''
+        if(this.isAdminator){
+          setDatas.area = this.detail.area!=null?this.detail.area.areaName:''
+        }else{
+          setDatas.area = {label:this.detail.area.areaName,key:this.detail.area.id}
+        }
         setDatas.notes = datas
         this.roles = datas
         this.searchForm.setFieldsValue(setDatas)

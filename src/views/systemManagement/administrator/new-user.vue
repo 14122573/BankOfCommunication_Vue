@@ -194,7 +194,7 @@ export default {
         title: '操作',
         key: 'operation',
         fixed: 'right',
-        width: 250,
+        width: 200,
         scopedSlots: {
           customRender: 'action'
         }
