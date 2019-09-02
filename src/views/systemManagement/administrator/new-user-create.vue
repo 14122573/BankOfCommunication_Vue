@@ -211,10 +211,10 @@ export default {
         })
       })
     },
-		showModal(){
-			this.map=true;
-			this.position=this.searchForm.getFieldValue('addr');
-		},
+    showModal(){
+      this.map=true
+      this.position=this.searchForm.getFieldValue('addr')
+    },
     // 整理权限树
     getTreeData(item, index) {
       let childrenNode = {
@@ -419,14 +419,16 @@ export default {
         url: this.$api.GET_USER_DETAIL.replace('{id}', this.$route.query.id)
       }).then(res => {
         this.detail = res.data.content
-        if (!this.isAdminator) {
-          let obj = {
-            key: this.detail.area.id,
-            label: this.detail.area.areaName
+        if(this.detail.area!=null){
+          if (!this.isAdminator) {
+					  let obj = {
+					    key: this.detail.area.id,
+					    label: this.detail.area.areaName
+					  }
+					  this.onChangeTree(obj)
+          } else {
+					  this.onChangeTree(this.detail.area.id, [this.detail.area.areaName])
           }
-          this.onChangeTree(obj)
-        } else {
-          this.onChangeTree(this.detail.area.id, [this.detail.area.areaName])
         }
         const {
           mail,
