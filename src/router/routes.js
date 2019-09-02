@@ -328,18 +328,6 @@ const appRoutes = [{
         },
       },
       {
-        path: '/scsd/expert/scsdOrgaExpert',
-        name: '/scsd/expert/scsdOrgaExpert',
-        meta: {
-          title: '组织专家',
-          menuPath: true,
-          authCode: 'S050102',
-          menuIcon: 'usergroup-add',
-          hideInBread: false,
-          openMode: 'spa'
-        },
-      },
-      {
         path: '/scsd/forma/scsdForma',
         name: '/scsd/forma/scsdForma',
         meta: {
@@ -347,6 +335,18 @@ const appRoutes = [{
           menuPath: true,
           authCode: 'S050103',
           menuIcon: 'file-protect',
+          hideInBread: false,
+          openMode: 'spa'
+        },
+      },
+      {
+        path: '/scsd/expert/scsdOrgaExpert',
+        name: '/scsd/expert/scsdOrgaExpert',
+        meta: {
+          title: '组织专家',
+          menuPath: true,
+          authCode: 'S050102',
+          menuIcon: 'usergroup-add',
           hideInBread: false,
           openMode: 'spa'
         },
@@ -391,7 +391,7 @@ const appRoutes = [{
         path: '/scsd/review/scsdReview',
         name: '/scsd/review/scsdReview',
         meta: {
-          title: '评审结果信息',
+          title: '评审结果录入',
           menuPath: true,
           authCode: 'S050107',
           menuIcon: 'audit',
@@ -401,7 +401,7 @@ const appRoutes = [{
       },
       {
         path: '/scsd/selectPost', name: '/scsd/selectPost',
-        meta: { title: '查看申报记录', menuPath:true, authCode:'S050108', menuIcon: 'exception',hideInBread:false, menuIcon: 'appstore'}
+        meta: { title: '查看申报记录', menuPath:true, authCode:'S050108', menuIcon: 'exception',hideInBread:false, openMode: 'spa', menuIcon: 'appstore'}
       }
     ]
   },
