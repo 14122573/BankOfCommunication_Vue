@@ -252,7 +252,7 @@ export default {
 	}
   #appContent {
     overflow-y:auto;
-    padding-bottom:16px;
+    /* padding-bottom:16px; */
     background: url('../../assets/images/content-bg.png') no-repeat;
     background-position: 95% 10%;
     background-size: 20%;
