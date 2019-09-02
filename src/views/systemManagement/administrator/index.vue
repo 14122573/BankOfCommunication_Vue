@@ -1,6 +1,6 @@
 <template>
     <a-card :style="{margin:'14px 0 0 14px'}" :bordered="false">
-        <a-tabs :animated="false" :defaultActiveKey="key" @change="callback">
+        <a-tabs :animated="false" :activeKey="key" @change="callback">
             <a-tab-pane tab="待分配权限" key="1">
                 <PendingPermissions/>
             </a-tab-pane>
@@ -29,9 +29,9 @@ export default {
     }
   },
   methods:{
-    callback(){
-
-    },
+    callback(keyName){
+      this.key=keyName
+    },  
     // 查询角色列表
     getRoleList(){
       this.$ajax.get({
@@ -58,7 +58,18 @@ export default {
   },
   mounted(){
     this.getRoleList()
-  }
+  },
+  beforeRouteEnter(to, from, next){
+    let key
+    if(from.name !== null && (from.name.indexOf('newUserView') != -1 || from.name.indexOf('createNewUser') != -1 || from.name.indexOf('editNewUser') != -1)){
+      key='3'
+    }else{
+      key='1'
+    }
+    next(vm=>{
+      vm.key=key
+    })
+  } 
 }
 </script>
 

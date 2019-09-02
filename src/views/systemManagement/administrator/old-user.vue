@@ -99,7 +99,7 @@
         >
             <a-form :form="resetData">
                 <a-row>
-                    <a-col span="24">
+                    <!-- <a-col span="24">
                         <a-form-item
                             label="原密码："
                             :label-col="{span:8}"
@@ -107,7 +107,7 @@
                         >
                         <span style="vertical-align: middle;">******</span>
                         </a-form-item>
-                    </a-col>
+                    </a-col> -->
                     <a-col span="24">
                         <a-form-item
                             label="新密码："
@@ -115,21 +115,35 @@
                             :wrapper-col="{span:16}"
                         >
                         <a-input v-decorator="[
-		  						'newPwd',
-		  						{
-		  							rules: [ {
-		  							validator: validateToNextPassword,
-		  							}]
-		  						 }
-		  					]"
+                              'newPwd',
+                              {
+                                rules: [{ required: true,whitespace:true,  message: '请输入新密码!' }, {
+                                validator: validateToNextPassword,
+                                }]
+                              }
+                            ]"
                             :type="pswType" @focus='pasBlur' placeholder="新密码需大于6位且含字母和数字" autocomplete="off">
                             <!-- <a-icon slot="prefix" type="lock" style="color: rgba(0,0,0,.25)" /> -->
                             </a-input>                        
                         </a-form-item>
-                    </a-col>
-                    <a-col span="8"></a-col>
-                    <a-col span="16">
-                        <testStrong id="strong" :width="90" :pwd='resetData.getFieldValue("newPwd")'  v-if='passwordStrength'></testStrong>
+                        <a-col span="8"></a-col>
+                        <a-col span="16">
+                            <testStrong id="strong" :width="90" :pwd='resetData.getFieldValue("newPwd")'  v-if='passwordStrength'></testStrong>
+                        </a-col>
+                        <a-form-item 
+                            label="重复密码："
+                            :label-col="{span:8}"
+                            :wrapper-col="{span:16}">
+                          <a-input v-decorator="[
+                                    'rePassword',
+                                    {
+                                      rules: [{ required: true,whitespace:true,  message: '请再次输入新密码!' }, {
+                                      validator: compareToFirstPassword,
+                                    }] }
+                                  ]"
+                          :type="pswType" placeholder="再次输入新密码" @blur="handleConfirmBlur" autocomplete="off" @focus='pasBlur'>
+                          </a-input>
+                        </a-form-item>
                     </a-col>
                 </a-row>
             </a-form>
@@ -214,6 +228,7 @@ export default {
       passwordStrength: false,
       systemList: [],
       resetId:null,
+      confirmDirty: false,
     }
   },
   methods: {
@@ -242,7 +257,7 @@ export default {
     },
     //密码重复密码校验
     validateToNextPassword(rule, value, callback) {
-      const form = this.formRegister
+      const form = this.resetData
       if (
         !value ||
         value == undefined ||
@@ -251,14 +266,31 @@ export default {
         callback('请输入密码！')
         this.passwordStrength = false
       } else {
-        if (!/^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{6,}$/.test(value)) {
+        if(!this.$com.checkPassword(value)){
           callback('请输入6位以上的数字字母组合！')
-          this.passwordStrength = false
-        } else {
+          this.passwordStrength=false
+        }else{
+          if (value && this.confirmDirty) {
+            form.validateFields(['rePassword'], {
+              force: true
+            })
+          }
           callback()
-          this.passwordStrength = true
+          this.passwordStrength=true
         }
       }
+    },
+    compareToFirstPassword(rule, value, callback) {
+      const form = this.resetData
+      if (value && value !== form.getFieldValue('newPwd')) {
+        callback('密码输入不一致!')
+      } else {
+        callback()
+      }
+    },
+    handleConfirmBlur(e) {
+      const value = e.target.value
+      this.confirmDirty = this.confirmDirty || !!value
     },
     // 查询按钮
     search() {

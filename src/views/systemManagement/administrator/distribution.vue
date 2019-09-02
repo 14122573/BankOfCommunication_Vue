@@ -166,14 +166,19 @@ export default {
     },
     // 查询组织机构
     getOrganList(value){
+      let info = this.$store.state.userInfos
+      let params={
+        pageSize: 10000,
+        pageNo: 1,
+        areaCode: value,
+      }
+      if(!this.isAdminator && info.group.id){
+        params.parentId=info.group.id
+      }
       if(value !== ''){
         this.$ajax.get({
           url:this.$api.GET_ORGANIZATION_LIST,
-          params:{
-            pageSize: 10000,
-            pageNo: 1,
-            areaCode: value
-          },
+          params:params,
           hideLoading:true
         })
           .then(res=>{
