@@ -14,20 +14,24 @@
 				</a-col>
 				<a-col span="6">
 					<a-form-item label="角色名称" v-bind="colSpe">
-						<a-select placeholder="请选择" :options="roleList" v-model="searchForm['ui.roleIds']" />
+						<a-select placeholder="请选择" :options="roleList" allowClear v-model="searchForm['ui.roleIds']" />
 					</a-form-item>
 				</a-col>
 				<a-col span="6">
 					<a-form-item label="行政区域：" v-bind="colSpe">
-						<a-tree-select :treeData="treeData" :loadData="onLoadData" show-line v-model="searchForm['ui.areaId']"
-						 :dropdownStyle="{ maxHeight: '400px', overflow: 'auto' }" placeholder='请选择' allowClear @change="onChangeTree">
+						<a-select v-model="searchForm['ui.areaId']" v-if="isAdminator !== true" placeholder="请选择" @change="onChangeTree"
+						 showSearch allowClear>
+							<a-select-option v-for="(item,index) in treeData" :key="index" :value="item.id">{{item.title}}</a-select-option>
+						</a-select>
+						<a-tree-select v-else :treeData="treeData" :loadData="onLoadData" show-line v-model="searchForm['ui.areaId']"
+						 :dropdownStyle="{ maxHeight: '200px', overflow: 'auto' }" placeholder='请选择' allowClear @change="onChangeTree">
 						</a-tree-select>
 					</a-form-item>
 				</a-col>
 				<a-col span="6">
 					<a-form-item label="组织机构：" v-bind="colSpe">
-						<a-select  v-model="searchForm['ui.groupId']"   placeholder='请选择'>
-							<a-select-option v-for="(item,index) in groupLists" :key="index" :value="item.id">{{item.groupName}}</a-select-option>
+						<a-select v-model="searchForm['ui.groupId']" placeholder='请选择'>
+							<a-select-option v-for="(item,index) in groupLists" allowClear :key="index" :value="item.id">{{item.groupName}}</a-select-option>
 						</a-select>
 					</a-form-item>
 				</a-col>
@@ -140,7 +144,7 @@ export default {
         // status: 1
       },
       searchForm: {
-        checkedList: []
+					 checkedList: ['1']
       },
       total: 0,
       dataTable: [],
@@ -216,7 +220,7 @@ export default {
       treeData: [],
       isAdminator: '',
       areaCode: '',
-      groupLists:[]
+      groupLists: []
     }
   },
   mounted() {
@@ -237,8 +241,12 @@ export default {
     // 重置按钮
     reset() {
       this.params.pageNo = 1
-      this.searchForm = {}
-      this.searchForm.checkedList = []
+      delete this.searchForm.name_l
+      delete this.searchForm['ui.phone_l']
+      delete this.searchForm['ui.roleIds']
+      delete this.searchForm['ui.areaId']
+      delete this.searchForm['ui.groupId']
+      this.searchForm.checkedList = ['1']
       this.getList()
     },
     // 查询列表
@@ -264,7 +272,9 @@ export default {
     viewBtn(record) {
       this.$router.push({
         name: '/systemManagement/administrator/newUserView',
-        query:{id:record.id}
+        query: {
+          id: record.id
+        }
       })
     },
     handleCancle() {
@@ -350,7 +360,7 @@ export default {
       this.$ajax.get({
         url: this.$api.GET_AREA_NEXT,
         params: {
-          parentId: this.isAdminator?'999999':this.$store.state.userInfos.area.id
+          parentId: this.isAdminator ? '999999' : this.$store.state.userInfos.area.id
         }
       }).then(res => {
         let datas = this.$com.confirm(res, 'data.content', [])
@@ -395,6 +405,7 @@ export default {
     },
     onChangeTree(value, label, extra) {
       this.areaCode = value
+      delete this.searchForm['ui.groupId']
       this.getListGroup()
     },
     getListGroup() {
@@ -403,6 +414,9 @@ export default {
         pageNo: 1,
         areaCode: this.areaCode
       }
+      if(!this.isAdminator){
+				  params.parentId=this.$store.state.userInfos.group.id	
+      }
       this.$ajax.get({
         url: this.$api.GET_ORGANIZATION_LIST,
         params: params
@@ -410,12 +424,6 @@ export default {
         this.groupLists = this.$com.confirm(res, 'data.content', [])
       })
     }
-    // 			onSelect(selectedKeys, info) {
-    // 				this.pageNo = 1
-    // 				this.areaCode = selectedKeys[0]
-    // 				this.transData.area = info.node.dataRef
-    // 				this.getListGroup()
-    // 			},
   }
 }
 </script>

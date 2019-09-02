@@ -17,8 +17,8 @@
 					</a-form-item>
 				</a-col>
 				<a-col span="8">
-					<a-form-item label="账号：" v-bind="colSpe">
-						<a-input placeholder="请输入" v-decorator="['phone',searchFormRules.phone]" />
+					<a-form-item label="登录手机号：" v-bind="colSpe">
+						<a-input placeholder="请输入" :disabled="!!$route.query.id" v-decorator="['phone',searchFormRules.phone]" />
 					</a-form-item>
 				</a-col>
 				<a-col span="8">
@@ -58,14 +58,18 @@
 			<a-row type="flex" justify="space-between">
 				<a-col span="8">
 					<a-form-item label="角色名称：" v-bind="colSpe">
-						<a-select placeholder="请选择" @change="roleChange" allowClear mode="multiple" labelInValue v-decorator="['notes', searchFormRules.notes]">
+						<a-select placeholder="请选择" @change="roleChange"  allowClear mode="multiple" labelInValue v-decorator="['notes', searchFormRules.notes]">
 							<a-select-option v-for="(item,index) in roleList" :key="index" :value="item.id">{{item.roleName}}</a-select-option>
 						</a-select>
 					</a-form-item>
 				</a-col>
 				<a-col span="8">
 					<a-form-item label="所属区域：" v-bind="colSpe">
-						<a-tree-select :treeData="administrativeRegions" v-decorator="['area',searchFormRules.area]" :loadData="onLoadData"
+						<a-select  v-if="isAdminator !== true" placeholder="请选择" labelInValue @change="onChangeTree"
+						 showSearch  v-decorator="['area',searchFormRules.area]">
+							<a-select-option v-for="(item,index) in administrativeRegions" :key="index" :value="item.id">{{item.title}}</a-select-option>
+						</a-select>
+						<a-tree-select  v-else :treeData="administrativeRegions" v-decorator="['area',searchFormRules.area]" :loadData="onLoadData"
 						 :dropdownStyle="{ maxHeight: '200px', overflow: 'auto' }" placeholder='请选择' allowClear @change="onChangeTree">
 						</a-tree-select>
 					</a-form-item>
@@ -129,7 +133,11 @@ export default {
           rules: [{
             required: true,
             message: '请输入账号'
-          }]
+          },
+          {
+            validator: this.validatePhone
+          }
+          ]
         },
         mail: {
           validateTrigger: 'blur',
@@ -162,13 +170,6 @@ export default {
             message: '请输入地址'
           }]
         },
-        group: {
-          validateTrigger: 'change',
-          rules: [{
-            required: true,
-            message: '请选择组织机构！'
-          }]
-        },
         area: {
           validateTrigger: 'change',
           rules: [{
@@ -187,7 +188,7 @@ export default {
       isAdminator: '',
       administrativeRegions: [],
       groupLists: [],
-      groupName: '',
+      areaName: '',
       roleList: [],
       roles: []
     }
@@ -227,29 +228,31 @@ export default {
       return childrenNode
     },
     handleReturn() {
-      this.$router.push({
-        name: '/systemManagement/administrator'
-      })
+      this.$router.back()
     },
     handleAdd() {
       this.searchForm.validateFields((err, values) => {
         if (!err) {
           values.area = {
             id: this.areaCode,
-            name: this.groupName
+            name: this.areaName
           }
-          let isSelect=this.searchForm.isFieldTouched('area')
-          if(isSelect){
-            let groupId = JSON.parse(JSON.stringify(values.group))
-            let data = this.groupLists.find(ele => ele.id == groupId)
-            values.group = {
-              id: groupId,
-              name: data.groupName
+          let isSelect = this.searchForm.isFieldTouched('area')
+          if (isSelect) {
+            if(values.group!=''){
+              let groupId = JSON.parse(JSON.stringify(values.group))
+              let data = this.groupLists.find(ele => ele.id == groupId)
+              values.group = {
+                id: groupId,
+                name: data.groupName
+              }
+            }else{
+              delete values.group
             }
-          }else{
+          } else {
             values.group = {
               id: this.detail.group.id,
-              name: values.groupName
+              name: this.detail.group.groupName
             }
           }
           values.roleIds = (this.roles.map(ele => {
@@ -275,7 +278,7 @@ export default {
           } else {
             this.$ajax.put({
               url: this.$api.PUT_USER_LIST.replace('{id}', this.$route.query.id),
-              params:values
+              params: values
             }).then(res => {
               if (res.code == '200') {
                 this.$message.success('修改成功！')
@@ -338,10 +341,17 @@ export default {
       })
     },
     onChangeTree(value, label) {
-      this.areaCode = value
-      this.groupName = label[0]
-      this.groupLists=[]
-      this.searchForm.setFieldsValue({group:''})
+      if(this.isAdminator!=true){
+        this.areaCode = value.key
+        this.areaName = value.label
+      }else{
+        this.areaCode = value
+        this.areaName = label[0]
+      }
+      this.groupLists = []
+      this.searchForm.setFieldsValue({
+        group: ''
+      })
       this.getListGroup()
     },
     getListGroup() {
@@ -349,6 +359,9 @@ export default {
         pageSize: 10000,
         pageNo: 1,
         areaCode: this.areaCode
+      }
+      if(!this.isAdminator){
+				  params.parentId=this.$store.state.userInfos.group.id	
       }
       this.$ajax.get({
         url: this.$api.GET_ORGANIZATION_LIST,
@@ -408,8 +421,8 @@ export default {
           zipCode
         } = this.detail
 
-        let datas = this.detail.roleIds.split(',')
-        let datas1 = this.detail.roleNames.split(',')
+        let datas = this.detail.roleIds != null ? this.detail.roleIds.split(',') : []
+        let datas1 = this.detail.roleNames != null ? this.detail.roleNames.split(',') : []
         datas.forEach((ele, index) => {
           datas[index] = {
             'key': ele,
@@ -431,6 +444,29 @@ export default {
         this.searchForm.setFieldsValue(setDatas)
         this.roleChange(datas)
       })
+    },
+    validatePhone(rule, value, callback) {
+      if (value && value != undefined) {
+        if (!this.$route.query.id) {
+          if (!this.$com.checkPhone(value)) {
+            callback('登录手机号码不合法!')
+          } else {
+            if (value.length == '11') {
+              this.$ajax.get({
+                url: this.$api.GET_CHECK_PHONE_EXIST + '?phone=' + value
+              }).then(res => {
+                if (res.data.content == false) {
+                  callback()
+                } else {
+                  callback('已存在该账号！')
+                }
+              })
+            }
+          }
+        } else {
+          callback()
+        }
+      }
     }
   }
 }

@@ -111,7 +111,7 @@
 				</a-row>
 			</a-col>
 		</a-row>
-		<a-tree showLine checkable :treeData="treeData" v-model="checkedKeys"  disabled/>
+		<a-tree showLine checkable :treeData="treeData" v-model="checkedKeys" disabled />
 		<a-modal title="查看地图定位" :width='880' :bodyStyle="{'text-align':'center'}" :visible="map" :closable='false'>
 			<template slot="footer">
 				<a-button @click="map=false" ghost type="primary">取消</a-button>
@@ -143,13 +143,11 @@ export default {
   },
   methods: {
     handleReturn() {
-      this.$router.push({
-        name: '/systemManagement/administrator'
-      })
+      this.$router.back()
     },
     handleEdit() {
       this.$router.push({
-        name: '/systemManagement/administrator/newUserEdit',
+        name: '/systemManagement/administrator/editNewUser',
         query: {
           id: this.$route.query.id
         }
