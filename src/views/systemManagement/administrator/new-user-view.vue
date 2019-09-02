@@ -111,7 +111,7 @@
 				</a-row>
 			</a-col>
 		</a-row>
-		<a-tree showLine checkable :treeData="treeData" v-model="checkedKeys"  disabled/>
+		<a-tree showLine checkable :treeData="treeData" v-model="checkedKeys" disabled />
 		<a-modal title="查看地图定位" :width='880' :bodyStyle="{'text-align':'center'}" :visible="map" :closable='false'>
 			<template slot="footer">
 				<a-button @click="map=false" ghost type="primary">取消</a-button>
@@ -123,90 +123,88 @@
 </template>
 
 <script>
-import BMapComponent from '@/components/BaiduMap/BMapComponent.vue'
-export default {
-  components: {
-    BMapComponent
-  },
-  data() {
-    return {
-      defaultExpandedKeys: [],
-      checkedKeys: [],
-      map: false,
-      keyWords: '',
-      detail: {},
-      treeData: []
-    }
-  },
-  mounted() {
-    this.getDetail()
-  },
-  methods: {
-    handleReturn() {
-      this.$router.push({
-        name: '/systemManagement/administrator'
-      })
-    },
-    handleEdit() {
-      this.$router.push({
-        name: '/systemManagement/administrator/newUserEdit',
-        query: {
-          id: this.$route.query.id
-        }
-      })
-    },
-    getDetail() {
-      this.$ajax.get({
-        url: this.$api.GET_USER_DETAIL.replace('{id}', this.$route.query.id)
-      }).then(res => {
-        this.detail = res.data.content
-        this.keyWords = this.detail.addr
-        this.getTree()
-        this.getDefaultRole(this.detail.roleIds)
-      })
-    },
-    // 查询权限树
-    getTree() {
-      this.$ajax.get({
-        url: this.$api.GET_ALL_ROLE + '?isTree=true'
-      }).then(res => {
-        let data = res.data.content
-        data.forEach((item, index) => {
-          this.treeData.push(this.getTreeData(item, index))
-        })
-      })
-    },
-    // 整理权限树
-    getTreeData(item, index) {
-      let childrenNode = {
-        title: item.permName,
-        key: item.id,
-        value: item.id
-      }
-      if (item.childList && item.childList.length) {
-        childrenNode.children = []
-        item.childList.forEach((subItem, subIndex) => {
-          let subkey = subItem.id
-          childrenNode.children.push(this.getTreeData(subItem, subkey))
-        })
-      }
-      return childrenNode
-    },
-    getDefaultRole(params) {
-      this.$ajax.get({
-        url: this.$api.ROLE_DETAIL.replace('{id}', params)
-      })
-        .then(res => {
-          if (res.code === '200') {
-            let data = res.data.content
-            this.checkedKeys = data.map((item) => {
-              return item.id
-            })
-          }
-        })
-    }
-  }
-}
+	import BMapComponent from '@/components/BaiduMap/BMapComponent.vue'
+	export default {
+		components: {
+			BMapComponent
+		},
+		data() {
+			return {
+				defaultExpandedKeys: [],
+				checkedKeys: [],
+				map: false,
+				keyWords: '',
+				detail: {},
+				treeData: []
+			}
+		},
+		mounted() {
+			this.getDetail()
+		},
+		methods: {
+			handleReturn() {
+				this.$router.back();
+			},
+			handleEdit() {
+				this.$router.push({
+					name: '/systemManagement/administrator/editNewUser',
+					query: {
+						id: this.$route.query.id
+					}
+				})
+			},
+			getDetail() {
+				this.$ajax.get({
+					url: this.$api.GET_USER_DETAIL.replace('{id}', this.$route.query.id)
+				}).then(res => {
+					this.detail = res.data.content
+					this.keyWords = this.detail.addr
+					this.getTree()
+					this.getDefaultRole(this.detail.roleIds)
+				})
+			},
+			// 查询权限树
+			getTree() {
+				this.$ajax.get({
+					url: this.$api.GET_ALL_ROLE + '?isTree=true'
+				}).then(res => {
+					let data = res.data.content
+					data.forEach((item, index) => {
+						this.treeData.push(this.getTreeData(item, index))
+					})
+				})
+			},
+			// 整理权限树
+			getTreeData(item, index) {
+				let childrenNode = {
+					title: item.permName,
+					key: item.id,
+					value: item.id
+				}
+				if (item.childList && item.childList.length) {
+					childrenNode.children = []
+					item.childList.forEach((subItem, subIndex) => {
+						let subkey = subItem.id
+						childrenNode.children.push(this.getTreeData(subItem, subkey))
+					})
+				}
+				return childrenNode
+			},
+			getDefaultRole(params) {
+				this.$ajax.get({
+						url: this.$api.ROLE_DETAIL.replace('{id}', params)
+					})
+					.then(res => {
+						if (res.code === '200') {
+							let data = res.data.content
+							this.checkedKeys = data.map((item) => {
+								return item.id
+							})
+						}
+					})
+			}
+		}
+	}
 </script>
 <style scoped>
 	.colMargin {
