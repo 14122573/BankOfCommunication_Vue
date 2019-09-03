@@ -285,6 +285,6 @@ export default {
 	}
 
 	.layoutMargin {
-		margin: 14px 0 0 14px;
+		margin: 14px 14px 0 14px;
 	}
 </style>
