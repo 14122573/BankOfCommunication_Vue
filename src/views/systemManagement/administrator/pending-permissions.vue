@@ -1,91 +1,62 @@
 <template>
-    <div>
-        <a-form :form="searchForm">
-            <a-row type="flex" justify="space-between">
-                <a-col span="6">
-                    <a-form-item
-                        label="姓名："
-                        :label-col="labelCol"
-                        :wrapper-col="wrapperCol"
-                    >
-                    <a-input
-                        placeholder="请输入"
-                        v-model="searchForm.name_l"
-                    />
-                    </a-form-item>
-                </a-col>
-                <a-col span="6">
-                    <a-form-item
-                        label="账号："
-                        :label-col="labelCol"
-                        :wrapper-col="wrapperCol"
-                    >
-                    <a-input
-                        placeholder="请输入"
-                        v-model="searchForm.phone_l"
-                    />
-                    </a-form-item>
-                </a-col>
-                <a-col span="6">
-                    <a-form-item
-                        label="邮箱"
-                        :label-col="labelCol"
-                        :wrapper-col="wrapperCol"
-                    >
-                    <a-input
-                        placeholder="请输入"
-                        v-model="searchForm.mail_l"
-                    />
-                    </a-form-item>
-                </a-col>
-                <a-col span="6">
-                    <a-form-item
-                        label="单位："
-                        :label-col="labelCol"
-                        :wrapper-col="wrapperCol"
-                    >
-                    <a-input
-                        placeholder="请输入"
-                        v-model="searchForm.dept_l"
-                    />
-                    </a-form-item>
-                </a-col>
-                <a-col span="12">
-                    <a-form-item
-                        label="注册时间端："
-                        :label-col="{span:4}"
-                        :wrapper-col="{span:20}"
-                    >
-                        <a-range-picker allowClear v-model="time" :format="dateFormat" style="width:100%" :placeholder="['请选择开始日期','请选择结束日期']" @change="onDateChange" />
-                    </a-form-item>
-                </a-col>
-                <a-col>
-                    <a-button type="primary" @click="reset" ghost>重置</a-button>
-                    <a-button type="primary" @click="search">搜索</a-button>
-                </a-col>
-            </a-row>
-        </a-form>
-        <a-table row-key="id" :pagination="false" :columns="columns" :dataSource="data">
-            <span slot="createTimeTitle">
-                <span>注册时间</span>
-                <!-- <a-icon type="align-left" /><a-icon type="arrow-up" /> -->
-            </span>
-            <!-- createTime -->
-            <span slot="createTime" slot-scope="text, record">
-                {{$com.strTime(record.createTime)}}
-            </span>
-            <span slot="action" slot-scope="text, record">
-                <a href="javascript:;" @click="viewBtn(record)">查看</a>
-                <a-divider type="vertical" />
-                <a href="javascript:;" @click="distributionBtn(record)">权限分配</a>
-            </span>
-        </a-table>
-        <a-row class="page-row" type="flex" justify="end">
-            <a-col>
-                <a-pagination showQuickJumper @change="onChange" :current="params.pageNo" :total="total" />
-            </a-col>
-        </a-row>
-    </div>
+  <div>
+    <a-form class="protalForm" :form="searchForm">
+      <a-row class="formItemLine" type="flex" justify="space-between" align='middle'>
+        <a-col span="6">
+          <a-form-item class="formItem" label="姓名" :label-col="labelCol" :wrapper-col="wrapperCol" >
+            <a-input placeholder="请输入" v-model="searchForm.name_l" />
+          </a-form-item>
+        </a-col>
+        <a-col span="6">
+          <a-form-item class="formItem" label="账号" :label-col="labelCol" :wrapper-col="wrapperCol">
+            <a-input placeholder="请输入" v-model="searchForm.phone_l" />
+          </a-form-item>
+        </a-col>
+        <a-col span="6">
+          <a-form-item label="邮箱" :label-col="labelCol" :wrapper-col="wrapperCol">
+            <a-input placeholder="请输入" v-model="searchForm.mail_l" />
+          </a-form-item>
+        </a-col>
+        <a-col span="6">
+          <a-form-item label="单位" :label-col="labelCol" :wrapper-col="wrapperCol" >
+            <a-input placeholder="请输入" v-model="searchForm.dept_l" />
+          </a-form-item>
+        </a-col>
+      </a-row>
+      <a-row class="formItemLine" type="flex" justify="space-between" align='middle'>
+        <a-col span="12">
+          <a-form-item label="注册时间段" :label-col="{span:4}" :wrapper-col="{span:20}" >
+            <a-range-picker allowClear v-model="time" :format="dateFormat" style="width:100%" :placeholder="['请选择开始日期','请选择结束日期']" @change="onDateChange" />
+          </a-form-item>
+        </a-col>
+        <a-col>
+          <a-button @click="reset">重置</a-button>
+          <a-button type="primary" @click="search">搜索</a-button>
+        </a-col>
+      </a-row>
+    </a-form>
+    <p class="gayLine noline"></p>
+    <a-table class="portalTable" size="small" row-key="id" :pagination="false" :columns="columns" :dataSource="data">
+      <span slot="createTimeTitle">
+          <span>注册时间</span>
+          <!-- <a-icon type="align-left" /><a-icon type="arrow-up" /> -->
+      </span>
+      <!-- createTime -->
+      <span slot="createTime" slot-scope="text, record">
+          {{$com.strTime(record.createTime)}}
+      </span>
+      <span slot="action" slot-scope="text, record">
+        <span class="actionBtn" @click="viewBtn(record)">查看</span>
+        <a-divider type="vertical" />
+        <span class="actionBtn" @click="distributionBtn(record)">权限分配</span>
+      </span>
+    </a-table>
+    <a-row class="page-row" type="flex" justify="end">
+        <a-col>
+            <a-pagination showQuickJumper @change="onChange" :current="params.pageNo" :total="total" />
+        </a-col>
+    </a-row>
+  </div>
 </template>
 <script>
 export default {
@@ -220,9 +191,7 @@ export default {
 }
 </script>
 <style scoped>
-.page-row {
-  margin-top: 20px;
-}
+.page-row { margin-top: 20px; }
 </style>
 
 

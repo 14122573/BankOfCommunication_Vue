@@ -1,39 +1,43 @@
+<style scoped>
+  .roleTitleSeation { border-bottom: 1px solid #e0e0e0; padding:10px}
+  .roleTitleSeation .roleName { font-size: 20px; line-height: 40px; color:#232323; font-weight: bold}
+  .roleTree { margin-top: 10px;}
+  /*
+  .role-ope li.ant-tree-treenode-disabled > span:not(.ant-tree-switcher), li.ant-tree-treenode-disabled > .ant-tree-node-content-wrapper, li.ant-tree-treenode-disabled > .ant-tree-node-content-wrapper span{
+    color:rgba(0, 0, 0,1);
+  } */
+</style>
+
 <template>
-    <a-card :bordered="false" class="layoutMargin role-ope">
-        <a-row type="flex" slot="title" justify="space-between" align="middle">
-            <a-col>
-                {{roleName}}
-            </a-col>
-            <a-col v-if="$route.query.type === 'view'">
-                <a-button type="primary" @click="$router.back();" ghost>返回</a-button>
-                <a-button type="primary" @click="edit" ghost>修改</a-button>
-                <a-button type="primary" @click="deleteBtn" ghost>删除</a-button>
-            </a-col>
-            <a-col v-else>
-                <a-button type="primary" @click="$router.back();" ghost>取消</a-button>
-                <a-button type="primary" @click="save">保存</a-button>
-            </a-col>
-        </a-row>
-        <a-form :form="formData" v-if="$route.query.type !== 'view'">
-            <a-row>
-                <a-col span="8">
-                    <a-form-item
-                        label="角色名称："
-                        :label-col="labelCol"
-                        :wrapper-col="wrapperCol"
-                    >
-                    <a-input
-                        placeholder="请输入"
-                        v-decorator="[
-                          'roleName',
-                          {rules: [{ required: true, message: '请输入10字以内的角色名称！' ,whitespace:true,max:10 }],validateTrigger:'blur'}
-                        ]"
-                    />
-                    </a-form-item>
-                </a-col>
-            </a-row>
+    <div class="layoutMargin">
+      <a-row class="roleTitleSeation" type="flex" justify="space-between" align="middle">
+        <a-col span='6'><span class="roleName">{{roleName}} </span></a-col>
+        <a-col span='8' class="algin-right" v-if="$route.query.type === 'view'">
+          <a-button @click="$router.back();" >返回</a-button>
+          <a-button @click="edit" >修改</a-button>
+          <a-button type="danger" @click="deleteBtn" ghost>删除</a-button>
+        </a-col>
+        <a-col span='8' class="algin-right" v-else>
+          <a-button @click="$router.back();">取消</a-button>
+          <a-button type="primary" @click="save">保存</a-button>
+        </a-col>
+      </a-row>
+      <div class="layoutPadding">
+        <a-form class="protalForm" :form="formData" v-if="$route.query.type !== 'view'">
+          <a-row type="flex" justify="start">
+              <a-col span="8">
+                <a-form-item label="角色名称" class="formItem" :label-col="labelCol" :wrapper-col="wrapperCol" >
+                  <a-input placeholder="请输入"
+                      v-decorator="[
+                        'roleName',
+                        {rules: [{ required: true, message: '请输入10字以内的角色名称！' ,whitespace:true,max:10 }],validateTrigger:'blur'}
+                      ]" />
+                </a-form-item>
+              </a-col>
+          </a-row>
         </a-form>
         <a-tree
+          class="roleTree"
           v-if="showTree"
           checkable
           :treeData="treeData"
@@ -42,34 +46,8 @@
           :disabled="$route.query.type === 'view'"
           showLine
         />
-        
-          <!-- 删除确认 -->
-         <a-modal
-            title="操作确认"
-            v-model="deleteShow"
-            @ok="handleOkDelete"
-            cancelText="取消"
-            okText="删除"
-            :maskClosable="false"
-            :width="465"
-            >
-        <p class="center-p">是否确认删除此角色？</p>
-        <p class="center-p">此操作不可撤销</p>
-        </a-modal>
-        <!-- 删除确认-存在未分配人员 -->
-         <a-modal
-            title="操作确认"
-            v-model="deleteRoleShow"
-            @ok="deleteRoleShow=false"
-            cancelText="取消"
-            okText="确定"
-            :maskClosable="false"
-            :width="465"
-            >
-        <p class="center-p">此角色还有员工未被分配</p>
-        <p class="center-p">请先处理该角色下所有员工的调岗操作</p>
-        </a-modal>
-    </a-card>
+      </div>
+    </div>
 </template>
 <script>
 export default {
@@ -82,9 +60,6 @@ export default {
       treeData:[],
       // 默认展开的数组
       expandedKeys:[],
-      // 删除
-      deleteShow:false,
-      deleteRoleShow:false,
       deleteData:{},
       showTree:false,
       roleName:null,
@@ -98,7 +73,6 @@ export default {
         url:this.$api.GET_ALL_ROLE + '?isTree=true'
       }).then(res=>{
         let data=res.data.content
-        
         data.forEach((item,index)=>{
           this.treeData.push(this.getTreeNode(item,index))
         })
@@ -123,35 +97,32 @@ export default {
     getRoleInfo(id){
       this.$ajax.get({
         url:this.$api.PUT_CHARACTER.replace('{id}',id)
-      })
-        .then(res=>{
-          if(res.code === '200'){
-            let data=res.data.content
-            this.roleName=data.roleName
-            this.userCount=data.userCount
-            if(this.$route.query.type !== 'view'){
-              this.formData.setFieldsValue({
-                roleName:data.roleName
-              })
-            }
-            this.checkedKeys=data.perm.map((item)=>{
-              return item.id
+      }).then(res=>{
+        if(res.code === '200'){
+          let data=res.data.content
+          this.roleName=data.roleName
+          this.userCount=data.userCount
+          if(this.$route.query.type !== 'view'){
+            this.formData.setFieldsValue({
+              roleName:data.roleName
             })
-
-            this.expandedKeys=JSON.parse(JSON.stringify(this.checkedKeys))
-            this.showTree=true
-          }else{
-            this.$message.error(res.msg)
           }
-        })
+          this.checkedKeys=data.perm.map((item)=>{
+            return item.id
+          })
+
+          this.expandedKeys=JSON.parse(JSON.stringify(this.checkedKeys))
+          this.showTree=true
+        }else{
+          this.$message.error(res.msg)
+        }
+      })
     },
     // 保存按钮
     save(){
       this.formData.validateFields((err)=>{
         if(!err){
-          let msg
-          let link
-          let methods
+          let msg,link, methods
           if(this.$route.query.id){
             link=this.$api.PUT_CHARACTER.replace('{id}',this.$route.query.id)
             methods='put'
@@ -169,15 +140,14 @@ export default {
                 permIds:this.checkedKeys.join(',')
               }
             }
-          )
-            .then(res=>{
-              if(res.code === '200'){
-                this.$message.success(msg)
-                this.$router.back()
-              }else{
-                this.$message.error(res.msg)
-              }
-            })
+          ).then(res=>{
+            if(res.code === '200'){
+              this.$message.success(msg)
+              this.$router.back()
+            }else{
+              this.$message.error(res.msg)
+            }
+          })
         }
       })
     },
@@ -194,43 +164,38 @@ export default {
     },
     // 删除按钮
     deleteBtn(){
+      let vm = this
       if(this.userCount !== null && this.userCount !== '' && this.userCount != 0){
-        this.deleteRoleShow=true
+        this.$model.warning({
+          title: '无法删除此角色',
+          content: '此角色还有员工未被分配，请先处理该角色下所有员工的调岗操作'
+        })
       }else{
-        this.deleteShow=true
+        this.$model.confirm({
+          title: '是否确认删除此角色？',
+          content: '此操作不可撤销',
+          okText: '确认',
+          okType: 'danger',
+          cancelText: '取消',
+          onOk() {
+            vm.handleOkDelete()
+          }
+        })
       }
     },
     handleOkDelete(){
-      this.deleteShow=false
       this.$ajax.delete({
         url:this.$api.DELETE_CHARACTER.replace('{id}',this.$route.query.id),
+      }).then(res=>{
+        if(res.code === '200'){
+          this.$message.success('删除成功')
+          this.$router.push({
+            name:'/systemManagement/role'
+          })
+        }else{
+          this.$message.error(res.msg)
+        }
       })
-        .then(res=>{
-          if(res.code === '200'){
-            this.$message.success('删除成功')
-            this.$router.push({
-              name:'/systemManagement/role'
-            })
-          }else{
-            this.$message.error(res.msg)
-          }
-        })
-    },
-    handleOkDeleteRole(){
-      this.deleteShow=false
-      this.$ajax.delete({
-        url:this.$api.DELETE_CHARACTER.replace('{id}',this.$route.query.id),
-      })
-        .then(res=>{
-          if(res.code === '200'){
-            this.$message.success('删除成功')
-            this.$router.push({
-              name:'/systemManagement/role'
-            })
-          }else{
-            this.$message.error(res.msg)
-          }
-        })
     },
   },
   mounted() {
@@ -238,7 +203,6 @@ export default {
     if(this.$route.query.type === 'edit'){
       this.title='修改角色'
       this.getRoleInfo(this.$route.query.id)
-      
     }else if(this.$route.query.type === 'view'){
       this.title=this.$route.query.roleName
       this.getRoleInfo(this.$route.query.id)
@@ -252,19 +216,5 @@ export default {
   },
 }
 </script>
-<style>
-  .center-p{
-      text-align: center;
-  }
-  .role-ope li.ant-tree-treenode-disabled > span:not(.ant-tree-switcher), li.ant-tree-treenode-disabled > .ant-tree-node-content-wrapper, li.ant-tree-treenode-disabled > .ant-tree-node-content-wrapper span{
-    color:rgba(0, 0, 0,1);
-  }
-  /* .role-ope .anticon-file{
-    display: none;
-  }
-  .role-ope .ant-tree.ant-tree-show-line li:not(:last-child):before{
-    display: none;
-  } */
-</style>
 
 

@@ -2,10 +2,15 @@
 .layoutPadding { padding: 20px;}
 
 /* 全局table设置 */
-.portalTable { margin-bottom: 16px;}
 .portalTableOperates { margin-bottom: 10px;}
+.portalTable { margin-bottom: 16px;}
+.portalTable .actionBtn { color:#1890ff; cursor: pointer;}
 
 /* 全局基础样式设置 */
 .algin-right { text-align: right; }
 .gayLine { display:block; clear: both; width: 100%; border-bottom: 1px dashed #e0e0e0; margin: 20px 0}
+.gayLine.noline { border-color: transparent}
+/* 全局表单样式 */
+.protalForm .formItem { width: 100%}
+.protalForm .formItemLine { margin-bottom: 10px;}
 
