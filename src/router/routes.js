@@ -1,86 +1,90 @@
 // const Layout = () => import('@/components/Layout/main')
 const contentWrapper = () =>
-	import('@/components/Layout/content-wrapper')
+    import ('@/components/Layout/content-wrapper')
 const TipsNetworkErr = () =>
-	import('@/views/tips/network')
+    import ('@/views/tips/network')
 const TipsNoAuth = () =>
-	import('@/views/tips/auth')
+    import ('@/views/tips/auth')
 const TipsOutsite = () =>
-	import('@/views/tips/outsite')
+    import ('@/views/tips/outsite')
 const HomePage = () =>
-	import('@/views/home')
+    import ('@/views/home')
 const LoginPage = () =>
-	import('@/views/login/login')
+    import ('@/views/login/login')
 const RegisterPage = () =>
-	import('@/views/login/register')
+    import ('@/views/login/register')
 const OldSysLogout = () =>
-	import('@/views/login/oldSysLogout')
+    import ('@/views/login/oldSysLogout')
 const BindPhone = () =>
-	import('@/views/login/bindPhone')
+    import ('@/views/login/bindPhone')
 const PersonCenter = () =>
-	import('@/views/person-center')
-// 系统管理
-// 组织机构
+    import ('@/views/person-center')
+    // 系统管理
+    // 组织机构
 const contentSystemManagement = () =>
-	import('@/views/systemManagement/content-systemManagement')
+    import ('@/views/systemManagement/content-systemManagement')
 const Organization = () =>
-	import('@/views/systemManagement/organization/list')
+    import ('@/views/systemManagement/organization/list')
 const OrganizationUpload = () =>
-	import('@/views/systemManagement/organization/upload')
+    import ('@/views/systemManagement/organization/upload')
 const OrganizationCreate = () =>
-	import('@/views/systemManagement/organization/create')
+    import ('@/views/systemManagement/organization/create')
 const OrganizationView = () =>
-	import('@/views/systemManagement/organization/view')
-// 角色管理
+    import ('@/views/systemManagement/organization/view')
+    // 角色管理
 const RoleManagement = () =>
-	import('@/views/systemManagement/role/list')
+    import ('@/views/systemManagement/role/list')
 const RoleCreate = () =>
-	import('@/views/systemManagement/role/add')
-// 管理员管理
+    import ('@/views/systemManagement/role/add')
+    // 管理员管理
 const AdministratorManagement = () =>
-	import('@/views/systemManagement/administrator/index')
+    import ('@/views/systemManagement/administrator/index')
 const PendingView = () =>
-	import('@/views/systemManagement/administrator/pending-view')
+    import ('@/views/systemManagement/administrator/pending-view')
 const Distribution = () =>
-	import('@/views/systemManagement/administrator/distribution')
+    import ('@/views/systemManagement/administrator/distribution')
 const CreateNewUser = () =>
-	import('@/views/systemManagement/administrator/new-user-create')
+    import ('@/views/systemManagement/administrator/new-user-create')
 const NewUserView = () =>
-	import('@/views/systemManagement/administrator/new-user-view')
-// 专家管理人员
+    import ('@/views/systemManagement/administrator/new-user-view')
+    // 专家管理人员
 const ContentExpertManagement = () =>
-	import('@/views/expertManagement/content-expertManagement')
+    import ('@/views/expertManagement/content-expertManagement')
 const Talent = () =>
-	import('@/views/expertManagement/talent/list')
+    import ('@/views/expertManagement/talent/list')
 const TalentUpload = () =>
-	import('@/views/expertManagement/talent/upload')
+    import ('@/views/expertManagement/talent/upload')
+const TalentCreate = () =>
+    import ('@/views/expertManagement/talent/create')
+const TalentView = () =>
+    import ('@/views/expertManagement/talent/view')
 const ExpertLibrary = () =>
-	import('@/views/expertManagement/expertLibrary/list')
+    import ('@/views/expertManagement/expertLibrary/list')
 const ExpertLibraryCreate = () =>
-	import('@/views/expertManagement/expertLibrary/create')
+    import ('@/views/expertManagement/expertLibrary/create')
 const ExpertLibrarySelect = () =>
-	import('@/views/expertManagement/expertLibrary/select')
+    import ('@/views/expertManagement/expertLibrary/select')
 const ExpertLibraryView = () =>
-	import('@/views/expertManagement/expertLibrary/view')
+    import ('@/views/expertManagement/expertLibrary/view')
 const ExpertLibraryUpload = () =>
-	import('@/views/expertManagement/expertLibrary/upload')
-/**
-		 * 要求：
-		 *  1、配置Router时，需将此router的权限编码信息、打开方式信息、是否在面包屑隐藏信息、是否为左侧菜单、是否有菜单图标配置在内。
-		 *  2、如此路由节点是要在面包屑中展示的，则需严格按照路由父子级，将子路由定义在其直属父级路由的children中
-		 *  3、为页面渲layout，所有除’/‘外的路由，都需定在’/‘路由的children下
-		 * 作用：除去正常路由展示，系统会从本数组内抓取权限菜单、判断是否能在面包屑中显示
-		 * 特殊配置字段说明：
-		 * meta.menuPath 标记是否为菜单。不是可不设置此字段
-		 * meta.authCode 当此路由受权限控制，需设置此字段，并填写与服务端一直的权限编码。不受权限控制可不设置
-		 * meta.hideInBread 标记是否需在面包屑中展示。不是可不设置此字段
-		 * meta.menuIcon 标记此路由在展示时需显示的ant design的图标。只能填写ant design中ICON组件内允许的字符串
-		 * meta.openMode 标记此路由点击后展示打开的方式。若值为normal，可不设置此字段
-		 *               spa 注册子前端项目的路由。注，此时设置的router.name为子项目展现路由名称的name，且需带上子项目名称前缀。如：/{micname}/{子项目router.name}，且无需设定router.component
-		 *               normal 本项目中自有路由
-		 *               outsite 新开标签页打开，此打开方式将不嵌套layout。对应读取的跳转链接在，config/outside-config.js下。对象键值名需与router.name、router.meta.authCode保持一致
-		 *
-		 */
+    import ('@/views/expertManagement/expertLibrary/upload')
+    /**
+     * 要求：
+     *  1、配置Router时，需将此router的权限编码信息、打开方式信息、是否在面包屑隐藏信息、是否为左侧菜单、是否有菜单图标配置在内。
+     *  2、如此路由节点是要在面包屑中展示的，则需严格按照路由父子级，将子路由定义在其直属父级路由的children中
+     *  3、为页面渲layout，所有除’/‘外的路由，都需定在’/‘路由的children下
+     * 作用：除去正常路由展示，系统会从本数组内抓取权限菜单、判断是否能在面包屑中显示
+     * 特殊配置字段说明：
+     * meta.menuPath 标记是否为菜单。不是可不设置此字段
+     * meta.authCode 当此路由受权限控制，需设置此字段，并填写与服务端一直的权限编码。不受权限控制可不设置
+     * meta.hideInBread 标记是否需在面包屑中展示。不是可不设置此字段
+     * meta.menuIcon 标记此路由在展示时需显示的ant design的图标。只能填写ant design中ICON组件内允许的字符串
+     * meta.openMode 标记此路由点击后展示打开的方式。若值为normal，可不设置此字段
+     *               spa 注册子前端项目的路由。注，此时设置的router.name为子项目展现路由名称的name，且需带上子项目名称前缀。如：/{micname}/{子项目router.name}，且无需设定router.component
+     *               normal 本项目中自有路由
+     *               outsite 新开标签页打开，此打开方式将不嵌套layout。对应读取的跳转链接在，config/outside-config.js下。对象键值名需与router.name、router.meta.authCode保持一致
+     *
+     */
 const appRoutes = [{
   path: '/',
   name: 'Layout',
@@ -355,7 +359,34 @@ const appRoutes = [{
         hideInBread: false,
         openMode: 'normal'
       }
-    }, {
+    },
+    {
+      path: '/expertManagement/talent/create',
+      name: '/expertManagement/talent/create',
+      component: TalentCreate,
+      meta: {
+        title: '新增人才账号',
+        menuPath: false,
+        authCode: 'P10000',
+        menuIcon: 'user',
+        hideInBread: false,
+        openMode: 'normal'
+      }
+    },
+    {
+      path: '/expertManagement/talent/view',
+      name: '/expertManagement/talent/view',
+      component: TalentView,
+      meta: {
+        title: '查看人才账号',
+        menuPath: false,
+        authCode: 'P10000',
+        menuIcon: 'user',
+        hideInBread: false,
+        openMode: 'normal'
+      }
+    },
+    {
       path: '/expertManagement/expertLibrary',
       name: '/expertManagement/expertLibrary',
       component: ExpertLibrary,
@@ -415,7 +446,8 @@ const appRoutes = [{
         hideInBread: false,
         openMode: 'normal'
       }
-    }]
+    }
+    ]
   },
   {
     path: '/scsd',
