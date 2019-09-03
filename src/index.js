@@ -15,40 +15,40 @@ import './assets/reset-ant.css' // 重置ant-design样式
 import PermissionControl from './util/permission-control.js' // 权限自定义指令 v-permission="code"
 import { PermissionFilter } from './util/permission-filter.js' // 权限全局方法 v-if="$permission('code')"
 import {
-    Button,
-    message,
-    Spin,
-    Layout,
-    Menu,
-    Icon,
-    Breadcrumb,
-    Form,
-    Input,
-    Card,
-    Dropdown,
-    Row,
-    Col,
-    Checkbox,
-    Select,
-    Alert,
-    Table,
-    Divider,
-    Upload,
-    Modal,
-    badge,
-    Tree,
-    Tabs,
-    DatePicker,
-    skeleton,
-    pagination,
-    Tag,
-    Badge,
-    TreeSelect,
-    Radio,
-    Cascader,
-    LocaleProvider,
-    Steps,
-    Anchor
+  Button,
+  message,
+  Spin,
+  Layout,
+  Menu,
+  Icon,
+  Breadcrumb,
+  Form,
+  Input,
+  Card,
+  Dropdown,
+  Row,
+  Col,
+  Checkbox,
+  Select,
+  Alert,
+  Table,
+  Divider,
+  Upload,
+  Modal,
+  badge,
+  Tree,
+  Tabs,
+  DatePicker,
+  skeleton,
+  pagination,
+  Tag,
+  Badge,
+  TreeSelect,
+  Radio,
+  Cascader,
+  LocaleProvider,
+  Steps,
+  Anchor
 } from 'ant-design-vue'
 import ActiveForm from '@/components/ActiveForm'
 import singleSpaVue from 'single-spa-vue'
@@ -103,25 +103,25 @@ Vue.prototype.$moment = moment
 
 Vue.config.productionTip = false
 const vueLifecycles = singleSpaVue({
-    Vue,
-    appOptions: {
-        el: '#portal',
-        router,
-        store,
-        render: h => h('div', {
-            attrs: { id: 'Layout' }
-        }, [h(App)]),
-    },
+  Vue,
+  appOptions: {
+    el: '#portal',
+    router,
+    store,
+    render: h => h('div', {
+      attrs: { id: 'Layout' }
+    }, [h(App)]),
+  },
 })
 
 export const bootstrap = [
-    vueLifecycles.bootstrap,
+  vueLifecycles.bootstrap,
 ]
 
 export const mount = [
-    vueLifecycles.mount,
+  vueLifecycles.mount,
 ]
 
 export const unmount = [
-    vueLifecycles.unmount,
+  vueLifecycles.unmount,
 ]
