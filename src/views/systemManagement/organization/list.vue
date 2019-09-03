@@ -1,27 +1,27 @@
 <template>
-	<a-card :bordered="false" class="layoutMargin">
-		<a-row type="flex" :gutter="20">
-			<a-col :span="6">
-				<h2>行政区域</h2>
-				<a-alert>
-					<div slot="message">
-						<a-tree showLine @select="onSelect" v-if="defaultSelectedKeys.length>0" :treeData="treeData" :defaultSelectedKeys="defaultSelectedKeys"
-						 :loadData="onLoadData">
-						</a-tree>
-					</div>
-				</a-alert>
+	<div class="layoutMargin layoutPadding" style="height:96%">
+		<a-row :gutter="20" style="height:100%">
+			<a-col :span="6" style="height:100%;">
+        <div class="institutionalTreeWapper">
+          <h2 class="institutionalTreeTitle">行政区域</h2>
+          <div class="institutionalTree">
+            <a-tree showLine @select="onSelect" v-if="defaultSelectedKeys.length>0" :treeData="treeData" :defaultSelectedKeys="defaultSelectedKeys"
+              :loadData="onLoadData">
+            </a-tree>
+          </div>
+        </div>
 			</a-col>
 			<a-col :span="18">
-				<a-form :form="searchForm">
-					<a-row align="middle">
+				<a-form class="protalForm" :form="searchForm">
+					<a-row type="flex" justify="center" align="middle">
 						<a-col span="9">
-							<a-form-item label="组织机构名称：" :label-col="labelCol" :wrapper-col="wrapperCol">
+							<a-form-item label="组织机构名称" :label-col="labelCol" :wrapper-col="wrapperCol">
 								<a-input placeholder="请输入" v-model="searchForm.groupName_l" />
 								<!-- <a-select placeholder="请选择" v-model="searchForm.groupName_l" :options='options.nameOptions' /> -->
 							</a-form-item>
 						</a-col>
 						<a-col span="9">
-							<a-form-item label="联系人：" :label-col="labelCol" :wrapper-col="wrapperCol">
+							<a-form-item label="联系人" :label-col="labelCol" :wrapper-col="wrapperCol">
 								<a-input placeholder="请输入" v-model="searchForm.contact_l" />
 							</a-form-item>
 						</a-col>
@@ -31,11 +31,12 @@
 						</a-col>
 					</a-row>
 				</a-form>
-				<a-row>
-					<a-button type="primary" @click="handleAdd"> 新建单位</a-button>
-					<a-button type="primary" @click="toUpload">导入</a-button>
-				</a-row>
-				<a-table :columns="columns" class="table-margin" rowKey="groupName" :dataSource="dataSource" :pagination="false">
+        <p class="gayLine"></p>
+				<div class="portalTableOperates">
+					<a-button icon='plus' type="primary" @click="handleAdd">新建组织机构</a-button>
+					<a-button icon='download' @click="toUpload">批量导入组织机构</a-button>
+				</div>
+				<a-table class="portalTable" size='small' :columns="columns" rowKey="groupName" :dataSource="dataSource" :pagination="false">
 					<span slot="action" slot-scope="text, record">
 						<a @click="$router.push({name:'/systemManagement/organization/view',query:{id:record.id}})">查看</a>
 						<a-divider type="vertical" />
@@ -55,14 +56,14 @@
 				</a-row>
 			</a-col>
 		</a-row>
-		<!-- 删除确认 -->
-		<a-modal title="操作确认" v-model="visible" @ok="handleOk" :bodyStyle='{"text-align":"center"}' :maskClosable="false"
-		 cancelText="取消" okText="删除">
-			<p>是否确认删除此组织机构？</p>
-			<p>此操作不可撤销</p>
-		</a-modal>
-	</a-card>
+	</div>
 </template>
+<style>
+.institutionalTreeWapper { height:90%; overflow: hidden; padding-right: 16px; border-right: 1px solid #e0e0e0}
+.institutionalTreeTitle { padding-top: 10px;}
+.institutionalTreeWapper>div { height: 100%; padding: 10px; overflow-y: auto}
+</style>
+
 <script>
 export default {
   name: 'organization',
@@ -109,13 +110,12 @@ export default {
       {
         title: '操作',
         dataIndex: 'action',
-        width: 180,
+        width: 160,
         scopedSlots: {
           customRender: 'action'
         }
       }
       ],
-      visible: false,
       pageNo: 1,
       pageSize: 10,
       areaCode: '',
@@ -138,15 +138,24 @@ export default {
     },
     //删除按钮
     deleteBtn(text, record) {
-      this.visible = true
+      let vm = this
       this.opeationItem = record
+      this.$model.confirm({
+        title: '是否确认删除此组织机构？',
+        content: '此操作不可撤销',
+        okText: '确认删除',
+        okType: 'danger',
+        cancelText: '取消',
+        onOk() {
+          vm.handleOk()
+        }
+      })
     },
     //确认删除
     handleOk() {
       this.$ajax.delete({
         url: this.$api.DELETE_ORGANIZATION_LIST.replace('{id}', this.opeationItem.id)
       }).then(res => {
-        this.visible = false
         if (res.code == '200') {
           this.$message.success('删除成功！')
           this.getLists()
@@ -256,12 +265,3 @@ export default {
   }
 }
 </script>
-<style scoped>
-	.algin-right {
-		text-align: right;
-	}
-
-	.table-margin {
-		margin: 12px 0;
-	}
-</style>

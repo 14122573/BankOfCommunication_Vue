@@ -1,0 +1,11 @@
+.layoutMargin { background-color:#fff; margin: 16px 16px 0 16px; }
+.layoutPadding { padding: 20px;}
+
+/* 全局table设置 */
+.portalTable { margin-bottom: 16px;}
+.portalTableOperates { margin-bottom: 10px;}
+
+/* 全局基础样式设置 */
+.algin-right { text-align: right; }
+.gayLine { display:block; clear: both; width: 100%; border-bottom: 1px dashed #e0e0e0; margin: 20px 0}
+
