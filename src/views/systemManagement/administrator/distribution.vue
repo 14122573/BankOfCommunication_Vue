@@ -1,5 +1,5 @@
 <template>
-	<span :style="{margin:'0px 0 0 14px'}" class="distribution-span">
+	<span class="layoutMargin distribution-span">
 		<a-card :bordered="false">
 			<a-row type="flex" slot="title" justify="space-between" align="middle">
 				<a-col>

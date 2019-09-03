@@ -1,5 +1,5 @@
 <template>
-    <a-card :style="{margin:'0 0 0 14px'}" :bordered="false" class="role-ope">
+    <a-card :bordered="false" class="layoutMargin role-ope">
         <a-row type="flex" slot="title" justify="space-between" align="middle">
             <a-col>
                 {{roleName}}
