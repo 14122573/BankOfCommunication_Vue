@@ -47,7 +47,8 @@ import {
   Radio,
   Cascader,
   LocaleProvider,
-  Steps
+  Steps,
+  Anchor
 } from 'ant-design-vue'
 import './assets/reset-ant.css' // 重置ant-design样式
 import ActiveForm from '@/components/ActiveForm'
@@ -91,6 +92,7 @@ Vue.use(Cascader)
 Vue.use(LocaleProvider)
 Vue.use(ActiveForm)
 Vue.use(Steps)
+Vue.use(Anchor)
 Vue.prototype.$ajax = ajax
 Vue.prototype.$api = api
 Vue.prototype.$cookie = cookie
