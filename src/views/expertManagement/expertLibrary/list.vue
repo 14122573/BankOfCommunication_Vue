@@ -51,7 +51,7 @@
 				<userStatus :status="record.status" />
 			</span>
 			<span slot="action" slot-scope="text, record">
-				<a @click="viewBtn(record)">查看</a>
+				<a @click="$router.push({name:'/expertManagement/expertLibrary/view',query:{id:record.id}})">查看</a>
 				<a-divider type="vertical" />
 				<a @click="editBtn(record)">修改</a>
 				<a-divider type="vertical" />
