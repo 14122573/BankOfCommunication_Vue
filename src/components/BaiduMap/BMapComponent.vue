@@ -121,6 +121,9 @@ export default {
   },
   mounted() {
     this.showMap()
+    if(this.keyWords){
+			 this.searchKeyWords(this.keyWords)
+    }
   },
   computed: {
     mapStyle() {
@@ -133,7 +136,6 @@ export default {
   },
   watch: {
     keyWords() {
-      console.log(this.keyWords,'-==-=')
       this.searchKeyWords(this.keyWords)
     },
     position() {

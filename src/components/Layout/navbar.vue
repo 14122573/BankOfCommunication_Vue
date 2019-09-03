@@ -81,8 +81,9 @@ export default {
         if (!to.name) {
           const parentRoute = this.routeList.find(item => to.path.startsWith(item.path))
           navList.push({ title: '首页', routerName:'home', path: '/home' })
-          navList.push({ title: parentRoute.meta.title, routerName: parentRoute.name, path: parentRoute.path })
-          // navList.push({ title: '详情', path: to.path })
+          if(parentRoute){
+            navList.push({ title: parentRoute.meta.title, routerName: parentRoute.name, path: parentRoute.path })
+          }
         }
         to.matched.forEach((element,index) => {
           if(0===index){

@@ -44,7 +44,8 @@
 						<a @click="deleteBtn(text,record)">删除</a>
 					</span>
 					<span slot="contact" slot-scope="text, record">
-						联系人:{{record.contactPhone || "暂无"}}
+						联系人:&nbsp;{{record.contact || "暂无"}}<br/>
+						联系电话:&nbsp;{{record.contactPhone || "暂无"}}
 					</span>
 				</a-table>
 				<a-row type="flex" justify="end">

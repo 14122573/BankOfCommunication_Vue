@@ -72,7 +72,7 @@
 						地址：
 					</a-col>
 					<a-col span="17">
-						{{detail.addr || "暂无"}} <span class="position" @click="map=true">
+						{{detail.addr || "暂无"}} <span class="position" @click="map=true;position=detail.addr">
 							<a-icon type="environment" />&nbsp;查看地图定位</span>
 					</a-col>
 				</a-row>
@@ -112,12 +112,12 @@
 			</a-col>
 		</a-row>
 		<a-tree showLine checkable :treeData="treeData" v-model="checkedKeys" disabled />
-		<a-modal title="查看地图定位" :width='880' :bodyStyle="{'text-align':'center'}" :visible="map" :closable='false'>
+		<a-modal title="查看地图定位"  :width='880' :bodyStyle="{'text-align':'center'}" :visible="map" :closable='false'>
 			<template slot="footer">
 				<a-button @click="map=false" ghost type="primary">取消</a-button>
 				<a-button @click="map=false" type="primary">确认</a-button>
 			</template>
-			<BMapComponent :height="250" :width="830" :keyWords="keyWords" />
+			<BMapComponent refs="bdMap" :height="250" :width="830" :keyWords="position" />
 		</a-modal>
 	</a-card>
 </template>
@@ -133,7 +133,7 @@ export default {
       defaultExpandedKeys: [],
       checkedKeys: [],
       map: false,
-      keyWords: '',
+      position: '',
       detail: {},
       treeData: []
     }
@@ -158,7 +158,6 @@ export default {
         url: this.$api.GET_USER_DETAIL.replace('{id}', this.$route.query.id)
       }).then(res => {
         this.detail = res.data.content
-        this.keyWords = this.detail.addr
         this.getTree()
         this.getDefaultRole(this.detail.roleIds)
       })

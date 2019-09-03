@@ -1,255 +1,229 @@
 <template>
-    <span :style="{margin:'0px 0 0 14px'}" class="distribution-span">
-        <a-card :bordered="false">
-            <a-row type="flex" slot="title" justify="space-between" align="middle">
-                <a-col>
-                    权限分配
-                </a-col>
-                <a-col >
-                    <a-button type="primary" @click="$router.back();" ghost>返回</a-button>
-                    <a-button type="primary" @click="save">保存</a-button>
-                </a-col>
-            </a-row>
-            <UserDetail :id="$route.query.id"/>
-        </a-card>
-        <a-divider style="margin-top:0px;"  dashed />
-        <a-card :bordered="false">
-            <a-form :form="formData">
-            <a-row>
-                <a-col span="8">
-                    <a-form-item
-                        label="角色名称："
-                        :label-col="labelCol"
-                        :wrapper-col="wrapperCol"
-                    >
-                    <a-select 
-                        placeholder="请选择"
-                        :options='options.roleList'
-                        @change="roleChange"
-                        allowClear
-                        mode="multiple"
-                        labelInValue
-                        v-decorator="[
+	<span :style="{margin:'0px 0 0 14px'}" class="distribution-span">
+		<a-card :bordered="false">
+			<a-row type="flex" slot="title" justify="space-between" align="middle">
+				<a-col>
+					权限分配
+				</a-col>
+				<a-col>
+					<a-button type="primary" @click="$router.back();" ghost>返回</a-button>
+					<a-button type="primary" @click="save">保存</a-button>
+				</a-col>
+			</a-row>
+			<UserDetail :id="$route.query.id" />
+		</a-card>
+		<a-divider style="margin-top:0px;" dashed />
+		<a-card :bordered="false">
+			<a-form :form="formData">
+				<a-row>
+					<a-col span="8">
+						<a-form-item label="角色名称：" :label-col="labelCol" :wrapper-col="wrapperCol">
+							<a-select placeholder="请选择" :options='options.roleList' @change="roleChange" allowClear mode="multiple"
+							 labelInValue v-decorator="[
                           'role',
                           {rules: [rules.required],validateTrigger:'change'}
-                        ]"
-                    />
-                    </a-form-item>
-                </a-col>
-                <a-col span="8">
-                    <a-form-item
-                        label="所属行政区域："
-                        :label-col="labelCol"
-                        :wrapper-col="wrapperCol"
-                    >
-                    <a-select
-                        v-if="isAdminator !== true"
-                        placeholder="请选择"
-                        :options="options.areaList"
-                        @change="areaChange"
-                        :filterOption="filterOption"
-                        v-decorator="[
+                        ]" />
+						</a-form-item>
+					</a-col>
+					<a-col span="8">
+						<a-form-item label="所属行政区域：" :label-col="labelCol" :wrapper-col="wrapperCol">
+							<a-select v-if="isAdminator !== true" placeholder="请选择" :options="options.areaList" @change="areaChange"
+							 :filterOption="filterOption" v-decorator="[
                           'area',
                           {rules: [rules.required],validateTrigger:'change'}
                         ]"
-                        showSearch
-                        allowClear
-                    />
-                    <a-tree-select 
-                      v-else
-                      :treeData="organData" 
-                      :loadData="onLoadData" 
-                      showLine 
-                      :dropdownStyle="{ maxHeight: '200px', overflow: 'auto' }" 
-                      placeholder='请选择' 
-                      allowClear
-                      v-decorator="[
+							 showSearch allowClear />
+							<a-tree-select v-else :treeData="organData" :loadData="onLoadData" showLine :dropdownStyle="{ maxHeight: '200px', overflow: 'auto' }"
+							 placeholder='请选择' allowClear v-decorator="[
                         'area',
                         {rules: [rules.required],validateTrigger:'change'}
-                      ]" 
-                      @change="onChangeTree"
-                    >
-                    </a-tree-select>
-                    </a-form-item>
-                </a-col>
-                <a-col span="8">
-                    <a-form-item
-                        label="组织机构："
-                        :label-col="labelCol"
-                        :wrapper-col="wrapperCol"
-                        allowClear
-                    >
-                    <a-select
-                        placeholder="请选择"
-                        :options="options.organList"
-                        v-decorator="[
-                          'organ',
-                          {rules: [rules.required],validateTrigger:'change'}
-                        ]"
-                    />
-                    </a-form-item>
-                </a-col>
-            </a-row>
-        </a-form>
-        <a-tree
-          checkable
-          :treeData="treeData"
-          v-model="checkedKeys"
-          showLine
-          disabled
-        />
-        </a-card>
-    </span>
+                      ]"
+							 @change="onChangeTree">
+							</a-tree-select>
+						</a-form-item>
+					</a-col>
+					<a-col span="8">
+						<a-form-item label="组织机构：" :label-col="labelCol" :wrapper-col="wrapperCol" allowClear>
+							<a-select placeholder="请选择" :options="options.organList" v-decorator="[
+                          'organ'
+                        ]" />
+						</a-form-item>
+					</a-col>
+				</a-row>
+			</a-form>
+			<a-tree checkable :treeData="treeData" v-model="checkedKeys" showLine disabled />
+		</a-card>
+	</span>
 </template>
 <script>
 import UserDetail from './user-detail'
 export default {
   name: 'pendingPermissions-distribution',
-  components:{UserDetail},
-  data(){
-    return{
-      formData:this.$form.createForm(this),
-      labelCol: { span: 8 },
-      wrapperCol: { span: 16 },
-      rules:{
-        required:{
-          required:true,message:'请选择'
+  components: {
+    UserDetail
+  },
+  data() {
+    return {
+      formData: this.$form.createForm(this),
+      labelCol: {
+        span: 8
+      },
+      wrapperCol: {
+        span: 16
+      },
+      rules: {
+        required: {
+          required: true,
+          message: '请选择'
         }
       },
-      options:{
-        roleList:[],
-        areaList:[],
-        organList:[]
+      options: {
+        roleList: [],
+        areaList: [],
+        organList: []
       },
-      checkedKeys: [],//选择的数组
-      treeData:[],
+      checkedKeys: [], //选择的数组
+      treeData: [],
       // 默认展开的数组
-      roles:[],
+      roles: [],
       // 行政区域
-      organData:[],
-      isAdminator:''
+      organData: [],
+      isAdminator: ''
     }
   },
-  methods:{
+  methods: {
     // 角色切换
-    roleChange(item){
-      this.roles=item
-      if(item.length===0){
-        this.checkedKeys=[]
-      }else{
-        let params=item.map((it)=>{
+    roleChange(item) {
+      this.roles = item
+      if (item.length === 0) {
+        this.checkedKeys = []
+      } else {
+        let params = item.map((it) => {
           return it.key
         })
         this.$ajax.get({
-          url:this.$api.ROLE_DETAIL.replace('{id}',params)
+          url: this.$api.ROLE_DETAIL.replace('{id}', params)
         })
-          .then(res=>{
-            if(res.code === '200'){
+          .then(res => {
+            if (res.code === '200') {
               let data = this.$com.confirm(res, 'data.content', [])
-              this.checkedKeys=data.map((item)=>{
+              this.checkedKeys = data.map((item) => {
                 return item.id
               })
-            }else{
+            } else {
               this.$message.error(res.msg)
             }
           })
       }
     },
-    filterOption(input,option){
-      return option.componentOptions.children[0].text.indexOf(input)>=0
+    filterOption(input, option) {
+      return option.componentOptions.children[0].text.indexOf(input) >= 0
     },
     // 行政区域改变
-    areaChange(value){
-      this.options.organList=[]
+    areaChange(value) {
+      this.options.organList = []
       this.formData.resetFields('organ')
       this.getOrganList(value)
     },
     // 查询组织机构
-    getOrganList(value){
+    getOrganList(value) {
       let info = this.$store.state.userInfos
-      let params={
+      let params = {
         pageSize: 10000,
         pageNo: 1,
         areaCode: value,
       }
-      if(!this.isAdminator && info.group.id){
-        params.parentId=info.group.id
+      if (!this.isAdminator && info.group.id) {
+        params.parentId = info.group.id
       }
-      if(value !== ''){
+      if (value !== '') {
         this.$ajax.get({
-          url:this.$api.GET_ORGANIZATION_LIST,
-          params:params,
-          hideLoading:true
+          url: this.$api.GET_ORGANIZATION_LIST,
+          params: params,
+          hideLoading: true
         })
-          .then(res=>{
-            if(res.code === '200'){
+          .then(res => {
+            if (res.code === '200') {
               let data = this.$com.confirm(res, 'data.content', [])
-              this.options.organList=data.map((item)=>{
+              this.options.organList = data.map((item) => {
                 return {
-                  label:item.groupName,
-                  value:item.id
+                  label: item.groupName,
+                  value: item.id
                 }
               })
-            }else{
+            } else {
               this.$message.error(res.msg)
             }
           })
       }
     },
     //   查询options
-    getOptions(){
+    getOptions() {
       let info = this.$store.state.userInfos
-      let optionList=[{url:this.$api.GET_ROLE_LIST,name:'roleList',params:{pageNo:1,pageSize:10000}}]
-      if(info.area && this.isAdminator !== true){
-        optionList.push({url:this.$api.GET_AREA_NEXT,name:'areaList',params:{parentId:info.area.id}})
-      }else{
+      let optionList = [{
+        url: this.$api.GET_ROLE_LIST,
+        name: 'roleList',
+        params: {
+          pageNo: 1,
+          pageSize: 10000
+        }
+      }]
+      if (info.area && this.isAdminator !== true) {
+        optionList.push({
+          url: this.$api.GET_AREA_NEXT,
+          name: 'areaList',
+          params: {
+            parentId: info.area.id
+          }
+        })
+      } else {
         this.getArea()
       }
-      optionList.forEach(item=>{
+      optionList.forEach(item => {
         this.$ajax.get({
-          url:item.url,
-          params:item.params
+          url: item.url,
+          params: item.params
         })
-          .then(res=>{
-            if(res.code === '200'){
+          .then(res => {
+            if (res.code === '200') {
               let data = this.$com.confirm(res, 'data.content', [])
-              this.options[item.name]=data.map(item=>{
-                return{
-                  label:item.roleName || item.areaName,
-                  value:item.id
+              this.options[item.name] = data.map(item => {
+                return {
+                  label: item.roleName || item.areaName,
+                  value: item.id
                 }
               })
-            }else{
+            } else {
               this.$message.error(res.msg)
             }
           })
       })
     },
     // // 查询权限树
-    getTree(){
+    getTree() {
       this.$ajax.get({
-        url:this.$api.GET_ALL_ROLE + '?isTree=true'
-      }).then(res=>{
+        url: this.$api.GET_ALL_ROLE + '?isTree=true'
+      }).then(res => {
         let data = this.$com.confirm(res, 'data.content', [])
-        this.allData=data
-        
-        data.forEach((item,index)=>{
-          this.treeData.push(this.getTreeNode(item,index))
+        this.allData = data
+
+        data.forEach((item, index) => {
+          this.treeData.push(this.getTreeNode(item, index))
         })
       })
     },
     // 整理权限树
-    getTreeNode(item,index){
-      let childrenNode={
-        title:item.permName,
-        key:item.id,
-        value:item.permName,
+    getTreeNode(item, index) {
+      let childrenNode = {
+        title: item.permName,
+        key: item.id,
+        value: item.permName,
       }
-      if(item.childList && item.childList.length){
+      if (item.childList && item.childList.length) {
         childrenNode.children = []
-        item.childList.forEach((subItem,subIndex) =>{
+        item.childList.forEach((subItem, subIndex) => {
           let subkey = subItem.id
-          childrenNode.children.push(this.getTreeNode(subItem,subkey))
+          childrenNode.children.push(this.getTreeNode(subItem, subkey))
         })
       }
       return childrenNode
@@ -279,7 +253,7 @@ export default {
       })
     },
     onChangeTree(value, label, extra) {
-      this.options.organList=[]
+      this.options.organList = []
       this.formData.resetFields('organ')
       this.getOrganList(value)
     },
@@ -287,7 +261,7 @@ export default {
       this.$ajax.get({
         url: this.$api.GET_AREA_NEXT,
         params: {
-          parentId: this.isAdminator?'999999':this.$store.state.userInfos.area.id
+          parentId: this.isAdminator ? '999999' : this.$store.state.userInfos.area.id
         }
       }).then(res => {
         let datas = this.$com.confirm(res, 'data.content', [])
@@ -308,37 +282,39 @@ export default {
       return childrenNode
     },
     // 保存按钮
-    save(){
-      this.formData.validateFields((err)=>{
-        if(!err){
-          let formData=this.formData.getFieldsValue()
-          let params={}
-          params.group={
-            id:formData.organ
+    save() {
+      this.formData.validateFields((err) => {
+        if (!err) {
+          let formData = this.formData.getFieldsValue()
+          let params = {}
+          if (formData.organ) {
+            params.group = {
+              id: formData.organ
+            }
           }
-          params.area={
-            id:formData.area
+          params.area = {
+            id: formData.area
           }
-          params.roleIds=formData.role.map((item)=>{
+          params.roleIds = formData.role.map((item) => {
             return item.key
           })
-          params.roleIds=params.roleIds.join(',')
-          params.roleNames=formData.role.map((item)=>{
+          params.roleIds = params.roleIds.join(',')
+          params.roleNames = formData.role.map((item) => {
             return item.label
           })
-          params.roleNames=params.roleNames.join(',')
-          params.id=this.$route.query.id
+          params.roleNames = params.roleNames.join(',')
+          params.id = this.$route.query.id
           this.$ajax.put({
-            url:this.$api.CONFIG_ROLES_TO_USER,
-            params:params
+            url: this.$api.CONFIG_ROLES_TO_USER,
+            params: params
           })
-            .then((res)=>{
-              if(res.code === '200'){
+            .then((res) => {
+              if (res.code === '200') {
                 this.$message.success('分配成功')
                 this.$router.push({
-                  name:'/systemManagement/administrator'
+                  name: '/systemManagement/administrator'
                 })
-              }else{
+              } else {
                 this.$message.error(res.msg)
               }
             })
@@ -346,24 +322,22 @@ export default {
       })
     }
   },
-  mounted(){
+  mounted() {
     this.isAdminator = this.$store.state.userInfos.isAllPerm
-    this.$ajax.all(this.getOptions(),this.getTree())
+    this.$ajax.all(this.getOptions(), this.getTree())
   }
 }
 </script>
 <style scoped>
-    .distribution-span{
-        background: #fff;
-        display: block;
-    }
+	.distribution-span {
+		background: #fff;
+		display: block;
+	}
 </style>
 <style>
-  .distribution-span li.ant-tree-treenode-disabled > span:not(.ant-tree-switcher), li.ant-tree-treenode-disabled > .ant-tree-node-content-wrapper, li.ant-tree-treenode-disabled > .ant-tree-node-content-wrapper span{
-    color:rgba(0, 0, 0,1);
-  }
+	.distribution-span li.ant-tree-treenode-disabled>span:not(.ant-tree-switcher),
+	li.ant-tree-treenode-disabled>.ant-tree-node-content-wrapper,
+	li.ant-tree-treenode-disabled>.ant-tree-node-content-wrapper span {
+		color: rgba(0, 0, 0, 1);
+	}
 </style>
-
-
-
-
