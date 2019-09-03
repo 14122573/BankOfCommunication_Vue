@@ -11,7 +11,7 @@ import ajax from './server/ajax'
 import api from './server/api'
 import cookie from './util/local-cookie'
 import common from './util/common'
-import './assets/reset-ant.css' // 重置ant-design样式
+import './assets/base.css' // 引入全局样式
 import PermissionControl from './util/permission-control.js' // 权限自定义指令 v-permission="code"
 import { PermissionFilter } from './util/permission-filter.js' // 权限全局方法 v-if="$permission('code')"
 import {
@@ -50,6 +50,7 @@ import {
   Steps,
   Anchor
 } from 'ant-design-vue'
+import './assets/reset-ant.css' // 重置ant-design样式
 import ActiveForm from '@/components/ActiveForm'
 import singleSpaVue from 'single-spa-vue'
 
@@ -98,6 +99,7 @@ Vue.prototype.$cookie = cookie
 Vue.prototype.$com = common
 Vue.prototype.$permission = PermissionFilter
 Vue.prototype.$message = message
+Vue.prototype.$model = Modal
 Vue.prototype.$store = store
 Vue.prototype.$moment = moment
 

@@ -275,16 +275,6 @@ export default {
 		height: 100%;
 
 	}
-
-	#appContent #content {
-		height: 100%;
-	}
-
-	#appContent #content>div {
-		overflow-y: auto;
-	}
-
-	.layoutMargin {
-		margin: 14px 0 0 14px;
-	}
+	#appContent #content { 	height: 100%; }
+	#appContent #content>div { overflow-y: auto; }
 </style>
