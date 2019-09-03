@@ -1,5 +1,5 @@
 <template>
-	<a-card :bordered="false" :style="{margin:'0 0 0 14px'}">
+	<a-card :bordered="false" class="layoutMargin">
 		<a-row type="flex" :gutter="20">
 			<a-col :span="6">
 				<h2>行政区域</h2>
