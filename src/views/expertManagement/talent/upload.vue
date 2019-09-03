@@ -8,7 +8,8 @@
 				<a-button type="primary" @click="$router.back();" ghost>返回</a-button>
 			</a-col>
 		</a-row>
-		<a-row type="flex" align="middle" :gutter="16">
+		<div :style="{paddingLeft:'20px'}">
+            <a-row type="flex" align="middle" :gutter="16">
 			<a-col span="10">
 				<a-input-group compact>
 					<span class="upload-text">导入文件：</span>
@@ -46,6 +47,27 @@
 				<a-tag v-for="(item,index) in  fileList" :key="index" closable @close="handleRemove(index)">{{item.name}}</a-tag>
 			</a-col>
 		</a-row>
+        <a-row :style="{'margin-top':'20px'}">
+			<a-col span="11">
+				<a-alert type="info" showIcon closable class="successTips">
+					<a-icon slot="icon" type="check-circle" :size="16" />
+					<div slot="message">
+						导入成功,共导入数据125条
+					</div>
+				</a-alert>
+			</a-col>
+		</a-row>
+        <a-row :style="{marginTop:'20px'}">
+            <a-col span="14">
+				<a-alert type="error" showIcon closable class="errorTips">
+					<div slot="message">
+						导入失败,共导入数据125条,成功导入数据125条,导入失败25条,<a @click="downloadErrorDatas">下载导入失败数据&nbsp;<a-icon type="link" /></a>
+                        <p>失败数据：</p>
+					</div>
+				</a-alert>
+			</a-col>
+        </a-row>
+        </div>
         <a-divider dashed />
         <a-alert message="导入流程步骤：" banner type="info" id="uplod-alert" showIcon >
             <a-steps direction="vertical" size="small" id="upload-steps" slot="description" :current="-1">
@@ -55,24 +77,7 @@
                 <a-step title="根据导入提示，进行错误数据排查" />
             </a-steps>
         </a-alert>
-		<!-- <a-row :style="{'margin-top':'10px'}">
-			<a-col span="14">
-				<a-alert type="error" showIcon closable class="errorTips">
-					<div slot="message">
-						导入失败,共导入数据125条,成功导入数据125条,导入失败25条,<a @click="downloadErrorDatas">下载导入失败数据&nbsp;<a-icon type="link" /></a>
-					</div>
-				</a-alert>
-			</a-col>
-			<br />
-			<a-col span="11">
-				<a-alert type="info" showIcon closable class="successTips">
-					<a-icon slot="icon" type="check-circle" :size="16" />
-					<div slot="message">
-						导入成功,共导入数据125条
-					</div>
-				</a-alert>
-			</a-col>
-		</a-row> -->
+
 
 	</a-card>
 </template>
@@ -139,7 +144,7 @@ export default {
 <style scoped>
 	.upload-text {
 		line-height: 32px;
-		width: 20%;
+		/* width: 20%; */
 		text-align: right;
 	}
 
@@ -166,27 +171,44 @@ export default {
     }
     #uplod-alert{
         background-color: #fff;
+        padding-left:44px;
     }
 </style>
 <style>
     #uplod-alert  .ant-alert-icon{
         position:absolute;
         top:18px;
-        left:36px;
+        left:20px;
         font-size:18px;
     }
     #uplod-alert .ant-alert-message{
         font-size: 14px;
     }
+    #upload-steps{
+        margin-top:20px;
+    }
     #upload-steps .ant-steps-item-icon{
         height: 18px;width:18px;
-        line-height:18px;
+        line-height:18px;background-color:rgb(204,204,204);
+        color:#fff;
     }
     #upload-steps .ant-steps-item-tail{
         position: absolute;
         left: 2px;
         top: 0;
         padding: 18px 0px 0 6px;
+    }
+    #upload-steps .ant-steps-item-title{
+        line-height:18px;
+    }
+    #upload-steps .ant-steps-item-wait .ant-steps-item-icon > .ant-steps-icon{
+        color:rgba(250, 250, 250, 1);
+    }
+    #upload-steps .ant-steps-item-icon{
+        border:none;
+    }
+    #upload-steps .ant-steps-item-content{
+        min-height:35px;
     }
 </style>
 
