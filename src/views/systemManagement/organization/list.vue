@@ -14,18 +14,18 @@
 			<a-col :span="18">
 				<a-form class="protalForm" :form="searchForm">
 					<a-row type="flex" justify="center" align="middle">
-						<a-col span="9">
-							<a-form-item label="组织机构名称" :label-col="labelCol" :wrapper-col="wrapperCol">
+						<a-col span="8">
+							<a-form-item class="formItem" label="组织机构名" :label-col="labelCol" :wrapper-col="wrapperCol">
 								<a-input placeholder="请输入" v-model="searchForm.groupName_l" />
 								<!-- <a-select placeholder="请选择" v-model="searchForm.groupName_l" :options='options.nameOptions' /> -->
 							</a-form-item>
 						</a-col>
-						<a-col span="9">
-							<a-form-item label="联系人" :label-col="labelCol" :wrapper-col="wrapperCol">
+						<a-col span="8">
+							<a-form-item class="formItem" label="联系人" :label-col="labelCol" :wrapper-col="wrapperCol">
 								<a-input placeholder="请输入" v-model="searchForm.contact_l" />
 							</a-form-item>
 						</a-col>
-						<a-col span="6" class="algin-right">
+						<a-col span="8" class="algin-right">
 							<a-button type="primary" ghost @click="handleReset">重置</a-button>
 							<a-button type="primary" @click="handleSearch">搜索</a-button>
 						</a-col>
@@ -38,11 +38,11 @@
 				</div>
 				<a-table class="portalTable" size='small' :columns="columns" rowKey="groupName" :dataSource="dataSource" :pagination="false">
 					<span slot="action" slot-scope="text, record">
-						<a @click="$router.push({name:'/systemManagement/organization/view',query:{id:record.id}})">查看</a>
+						<span class="actionBtn" @click="$router.push({name:'/systemManagement/organization/view',query:{id:record.id}})">查看</span>
 						<a-divider type="vertical" />
-						<a @click="$router.push({name:'/systemManagement/organization/edit',query:{id:record.id,data:JSON.stringify(transData)}})">修改</a>
+						<span class="actionBtn" @click="$router.push({name:'/systemManagement/organization/edit',query:{id:record.id,data:JSON.stringify(transData)}})">修改</span>
 						<a-divider type="vertical" />
-						<a @click="deleteBtn(text,record)">删除</a>
+						<span class="actionBtn" @click="deleteBtn(text,record)">删除</span>
 					</span>
 					<span slot="contact" slot-scope="text, record">
 						联系人:&nbsp;{{record.contact || "暂无"}}<br/>
@@ -58,7 +58,7 @@
 		</a-row>
 	</div>
 </template>
-<style>
+<style scoped>
 .institutionalTreeWapper { height:90%; overflow: hidden; padding-right: 16px; border-right: 1px solid #e0e0e0}
 .institutionalTreeTitle { padding-top: 10px;}
 .institutionalTreeWapper>div { height: 100%; padding: 10px; overflow-y: auto}

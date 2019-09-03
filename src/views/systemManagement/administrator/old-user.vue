@@ -1,153 +1,89 @@
 <template>
     <div class="old-user">
-        <a-form :form="searchForm">
-            <a-row type="flex" justify="space-between">
-                <a-col span="6">
-                    <a-form-item
-                        label="账号："
-                        :label-col="labelCol"
-                        :wrapper-col="wrapperCol"
-                    >
-                    <a-input
-                        placeholder="请输入"
-                        v-model="searchForm.username_l"
-                    />
-                    </a-form-item>
-                </a-col>
-                <a-col span="6">
-                    <a-form-item
-                        label="所属老系统："
-                        :label-col="labelCol"
-                        :wrapper-col="wrapperCol"
-                    >
-                    <a-select
-                        placeholder="请选择"
-                        v-model="searchForm.sysDicId"
-                        :options="systemList"
-                        allowClear
-                    />
-                    </a-form-item>
-                </a-col>
-                <a-col span="12">
-                    <a-form-item
-                        label="用户状态："
-                        :label-col="{span:4}"
-                        :wrapper-col="{span:20}"
-                    >
-                    <a-checkbox-group  v-model="searchForm.checkedList" >
-                        <a-checkbox :value="item.value" v-for="(item,index) in plainOptions" :key="index">{{item.text}}</a-checkbox>
-                    </a-checkbox-group>
-                    </a-form-item>
-                </a-col>
-            </a-row>
-            <a-row type="flex" justify="end" :style="{minHeight:'63px'}">
-                <a-col>
-                    <a-button type="primary" @click="reset" ghost>重置</a-button>
-                    <a-button type="primary" @click="search">搜索</a-button>
-                </a-col>
-            </a-row>
-        </a-form>
-        <a-table :columns="columns" :pagination="false" rowKey="id" :dataSource="data">
-            <span slot="sysDic" slot-scope="text,record">
-                {{record.sysDic.sysName || '暂无'}}
-            </span>
-            <!-- phone -->
-            <span slot="phone" slot-scope="text,record">
-                {{record.phone || '暂无'}}
-            </span>
-            <span slot="status" slot-scope="text, record">
-                <userStatus :status="record.status"/>
-            </span>
-            <span slot="action" slot-scope="text, record">
-                <a v-if="record.status != '8'" @click="resetBtn(record)">重置密码</a>
-                <a-divider v-if="record.status != '8'" type="vertical" />
-                <a v-if="record.status == '9'" @click="viewModal('0',record,'1')">启用</a>
-                <a-divider v-if="record.status == '9'" type="vertical" />
-                <a v-if="record.status == '1'" @click="viewModal('1',record,'9')">禁用</a>
-                <a-divider v-if="record.status == '1'" type="vertical" />
-                <a v-if="record.status != '8'" @click="viewModal('2',record,'8')">注销</a>
-                <!-- <a-divider type="vertical" />
-                <a @click="viewModal('3',record,'1')">解冻</a> -->
-            </span>
-        </a-table>
-        <a-row class="page-row" type="flex" justify="end">
-            <a-col>
-                <a-pagination showQuickJumper @change="onChange" :current="params.pageNo" :total="total" />
-            </a-col>
+      <a-form class="protalForm" :form="searchForm">
+        <a-row class="formItemLine" :gutter="8" type="flex" justify="space-between">
+          <a-col span="6">
+            <a-form-item class="formItem" label="账号" :label-col="labelCol" :wrapper-col="wrapperCol" >
+              <a-input placeholder="请输入"  v-model="searchForm.username_l" />
+            </a-form-item>
+          </a-col>
+          <a-col span="8">
+            <a-form-item class="formItem"  label="所属老系统" :label-col="labelCol" :wrapper-col="wrapperCol">
+              <a-select placeholder="请选择" v-model="searchForm.sysDicId" :options="systemList" allowClear />
+            </a-form-item>
+          </a-col>
+          <a-col span="8">
+            <a-form-item class="formItem"  label="用户状态" :label-col="{span:6}" :wrapper-col="{span:18}" >
+              <a-checkbox-group  v-model="searchForm.checkedList" >
+                <a-checkbox :value="item.value" v-for="(item,index) in plainOptions" :key="index">{{item.text}}</a-checkbox>
+              </a-checkbox-group>
+            </a-form-item>
+          </a-col>
         </a-row>
-        <a-modal 
-        :title="modal.title" 
-        v-model="modal.show" 
-        @ok="handleOk" 
-        cancelText="取消"
-        okText="确认"
-        :maskClosable="false"
-        :width="465"
-        >
-        <p class="center-p">{{modal.content}}</p>
-        <p class="center-p">{{modal.tips}}</p>
-        </a-modal>
-        <a-modal 
-        :maskClosable="false"
-        cancelText="取消" 
-        okText="确认"
-        @ok="handleResetOk" 
-        @cancel="hadnleCancel" 
-        :width="465" 
-        title="重置密码" 
-        :visible="resetPwdShow"
-        >
-            <a-form :form="resetData">
-                <a-row>
-                    <!-- <a-col span="24">
-                        <a-form-item
-                            label="原密码："
-                            :label-col="{span:8}"
-                            :wrapper-col="{span:16}"
-                        >
-                        <span style="vertical-align: middle;">******</span>
-                        </a-form-item>
-                    </a-col> -->
-                    <a-col span="24">
-                        <a-form-item
-                            label="新密码："
-                            :label-col="{span:8}"
-                            :wrapper-col="{span:16}"
-                        >
-                        <a-input v-decorator="[
-                              'newPwd',
-                              {
-                                rules: [{ required: true,whitespace:true,  message: '请输入新密码!' }, {
-                                validator: validateToNextPassword,
-                                }]
-                              }
-                            ]"
-                            :type="pswType" @focus='pasBlur' placeholder="新密码需大于6位且含字母和数字" autocomplete="off">
-                            <!-- <a-icon slot="prefix" type="lock" style="color: rgba(0,0,0,.25)" /> -->
-                            </a-input>                        
-                        </a-form-item>
-                        <a-col span="8"></a-col>
-                        <a-col span="16">
-                            <testStrong id="strong" :width="90" :pwd='resetData.getFieldValue("newPwd")'  v-if='passwordStrength'></testStrong>
-                        </a-col>
-                        <a-form-item 
-                            label="重复密码："
-                            :label-col="{span:8}"
-                            :wrapper-col="{span:16}">
-                          <a-input v-decorator="[
-                                    'rePassword',
-                                    {
-                                      rules: [{ required: true,whitespace:true,  message: '请再次输入新密码!' }, {
-                                      validator: compareToFirstPassword,
-                                    }] }
-                                  ]"
-                          :type="pswType" placeholder="再次输入新密码" @blur="handleConfirmBlur" autocomplete="off" @focus='pasBlur'>
-                          </a-input>
-                        </a-form-item>
-                    </a-col>
-                </a-row>
-            </a-form>
-        </a-modal>
+        <a-row class="formItemLine" type="flex" justify="end">
+          <a-col class="algin-right">
+              <a-button  @click="reset">重置</a-button>
+              <a-button type="primary" @click="search">搜索</a-button>
+          </a-col>
+        </a-row>
+      </a-form>
+      <p class="gayLine noline "></p>
+      <a-table class="portalTable" size='small' :columns="columns" :pagination="false" rowKey="id" :dataSource="data">
+        <span slot="sysDic" slot-scope="text,record">
+            {{record.sysDic.sysName || '暂无'}}
+        </span>
+        <!-- phone -->
+        <span slot="phone" slot-scope="text,record">
+            {{record.phone || '暂无'}}
+        </span>
+        <span slot="status" slot-scope="text, record">
+            <userStatus :status="record.status"/>
+        </span>
+        <span slot="action" slot-scope="text, record">
+          <span class="actionBtn" v-if="record.status != '8'" @click="resetBtn(record)">重置密码</span>
+          <a-divider v-if="record.status != '8'" type="vertical" />
+          <span class="actionBtn" v-if="record.status == '9'" @click="viewModal('0',record,'1')">启用</span>
+          <a-divider v-if="record.status == '9'" type="vertical" />
+          <span class="actionBtn" v-if="record.status == '1'" @click="viewModal('1',record,'9')">禁用</span>
+          <a-divider v-if="record.status == '1'" type="vertical" />
+          <span class="actionBtn" v-if="record.status != '8'" @click="viewModal('2',record,'8')">注销</span>
+            <!-- <a-divider type="vertical" />
+            <a @click="viewModal('3',record,'1')">解冻</a> -->
+        </span>
+      </a-table>
+      <a-row class="page-row" type="flex" justify="end">
+        <a-col>
+          <a-pagination showQuickJumper @change="onChange" :current="params.pageNo" :total="total" />
+        </a-col>
+      </a-row>
+
+      <!-- 重置密码表单 -->
+      <a-modal :maskClosable="false" cancelText="取消" okText="确认" @ok="handleResetOk" @cancel="hadnleCancel" :width="465" title="重置密码" :visible="resetPwdShow" >
+        <a-form :form="resetData">
+          <a-row>
+            <a-col span="24">
+              <a-form-item label="新密码" :label-col="{span:8}" :wrapper-col="{span:16}" >
+              <a-input :type="pswType" @focus='pasBlur' placeholder="新密码需大于6位且含字母和数字" autocomplete="off" v-decorator="['newPwd',
+                    { validateTrigger:'blur',rules: [{ required: true,whitespace:true,  message: '请输入新密码!' }, { validator: validateToNextPassword, }] }
+                  ]">
+                  <!-- <a-icon slot="prefix" type="lock" style="color: rgba(0,0,0,.25)" /> -->
+                </a-input>
+              </a-form-item>
+            </a-col>
+            <a-col offset='8' span="16">
+              <testStrong id="strong" :width="90" :pwd='resetData.getFieldValue("newPwd")'  v-if='passwordStrength'></testStrong>
+            </a-col>
+            <a-col span="24">
+              <a-form-item label="重复密码" :label-col="{span:8}" :wrapper-col="{span:16}">
+                <a-input :type="pswType" placeholder="再次输入新密码" @blur="handleConfirmBlur" autocomplete="off" @focus='pasBlur' v-decorator="[ 'rePassword',
+                          {validateTrigger:'blur', rules: [{ required: true,whitespace:true,  message: '请再次输入新密码!' }, { validator: compareToFirstPassword, }] }
+                    ]">
+                </a-input>
+              </a-form-item>
+            </a-col>
+          </a-row>
+        </a-form>
+      </a-modal>
     </div>
 </template>
 <script>
@@ -234,23 +170,21 @@ export default {
   methods: {
     //   查询系统列表
     getSystemList() {
-      this.$ajax
-        .get({
-          url: this.$api.SYSTEM_LIST_ALL_GET
-        })
-        .then(res => {
-          if (res.code === '200') {
-            let data = this.$com.confirm(res, 'data.content', [])
-            this.systemList=data.map((item)=>{
-              return {
-                label:item.sysName,
-                value:item.id
-              }
-            })
-          } else {
-            this.$message.error(res.msg)
-          }
-        })
+      this.$ajax.get({
+        url: this.$api.SYSTEM_LIST_ALL_GET
+      }).then(res => {
+        if (res.code === '200') {
+          let data = this.$com.confirm(res, 'data.content', [])
+          this.systemList=data.map((item)=>{
+            return {
+              label:item.sysName,
+              value:item.id
+            }
+          })
+        } else {
+          this.$message.error(res.msg)
+        }
+      })
     },
     pasBlur() {
       this.pswType = 'password'
@@ -258,11 +192,7 @@ export default {
     //密码重复密码校验
     validateToNextPassword(rule, value, callback) {
       const form = this.resetData
-      if (
-        !value ||
-        value == undefined ||
-        value.split(' ').join('').length === 0
-      ) {
+      if (!value || value == undefined ||value.split(' ').join('').length === 0) {
         callback('请输入密码！')
         this.passwordStrength = false
       } else {
@@ -318,19 +248,17 @@ export default {
         searchParams['oa.status_in'] = '1'
       }
       if (searchParams.checkedList) delete searchParams.checkedList
-      this.$ajax
-        .get({
-          url: this.$api.USER_LIST_TYPE_GET.replace('{type}', 'old'),
-          params: Object.assign(searchParams, this.params)
-        })
-        .then(res => {
-          if (res.code === '200') {
-            this.total = res.data.totalRows
-            this.data = this.$com.confirm(res, 'data.content', [])
-          } else {
-            this.$message.error(res.msg)
-          }
-        })
+      this.$ajax.get({
+        url: this.$api.USER_LIST_TYPE_GET.replace('{type}', 'old'),
+        params: Object.assign(searchParams, this.params)
+      }).then(res => {
+        if (res.code === '200') {
+          this.total = res.data.totalRows
+          this.data = this.$com.confirm(res, 'data.content', [])
+        } else {
+          this.$message.error(res.msg)
+        }
+      })
     },
     // 重置密码按钮
     resetBtn(item) {
@@ -366,22 +294,32 @@ export default {
       this.modal.key = key
       this.modalData = item
       this.checkStatus=checkStatus
-      this.modal.show = true
+      let vm = this
+      this.$model.confirm({
+        title: this.modal.content ,
+        content: this.modal.tips,
+        okText: '确认',
+        okType: 'danger',
+        cancelText: '取消',
+        onOk() {
+          vm.handleOk()
+        }
+      })
+      // this.modal.show = true
     },
     // 确定操作
     handleOk() {
       this.$ajax.put({
         url:this.$api.CHECK_USER_STATUS.replace('{id}',this.modalData.id).replace('{status}',this.checkStatus).replace('{type}','old')
+      }).then(res => {
+        if (res.code === '200') {
+          this.$message.success(this.modal.title+'成功！')
+          // this.modal.show=false
+          this.getList()
+        } else {
+          this.$message.error(res.msg)
+        }
       })
-        .then(res => {
-          if (res.code === '200') {
-            this.$message.success(this.modal.title+'成功！')
-            this.modal.show=false
-            this.getList()
-          } else {
-            this.$message.error(res.msg)
-          }
-        })
     },
     // 确认重置
     handleResetOk() {

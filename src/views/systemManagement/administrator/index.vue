@@ -1,5 +1,5 @@
 <template>
-	<a-card class="layoutMargin" :bordered="false">
+	<div class="layoutMargin layoutPadding" >
 		<a-tabs :animated="false" :activeKey="key" @change="callback">
 			<a-tab-pane tab="待分配权限" key="1">
 				<PendingPermissions />
@@ -11,7 +11,7 @@
 				<NewUser :roleList="roleList" />
 			</a-tab-pane>
 		</a-tabs>
-	</a-card>
+	</div>
 </template>
 <script>
 import PendingPermissions from './pending-permissions'
