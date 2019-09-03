@@ -49,144 +49,144 @@
 	</a-layout>
 </template>
 <script>
-	import SideMenu from '@/components/Layout/sidemenu'
-	import NavBar from '@/components/Layout/navbar'
-	import Loader from '@/components/Loader/loader'
-	import zh_CN from 'ant-design-vue/lib/locale-provider/zh_CN'
-	import {
-		permission,
-	} from '@/util/mixins'
-	import {
-		MicConfigs
-	} from '@/config/mic'
-	import Login from '@/views/login/login'
+import SideMenu from '@/components/Layout/sidemenu'
+import NavBar from '@/components/Layout/navbar'
+import Loader from '@/components/Loader/loader'
+import zh_CN from 'ant-design-vue/lib/locale-provider/zh_CN'
+import {
+  permission,
+} from '@/util/mixins'
+import {
+  MicConfigs
+} from '@/config/mic'
+import Login from '@/views/login/login'
 
-	export default {
-		name: 'Layout',
-		mixins: [permission],
-		components: {
-			NavBar,
-			Loader,
-			SideMenu,
-			Login,
-		},
-		data() {
-			return {
-				zh_CN,
-				collapsed: false,
-				username: '',
-				showPurePage: false,
-				tidingsCount: 0,
-				showSpaContent: false,
-			}
-		},
-		created() {
-			let token = this.$cookie.get('token')
-			if (token != undefined && token != null) {
-				this.$ajax.post({
-					url: this.$api.CHECKTOKEN_POST,
-					params: {}
-				}).then(res => {
-					this.getInfo()
-				})
-			} else {
-				this.plogout(true)
-			}
+export default {
+  name: 'Layout',
+  mixins: [permission],
+  components: {
+    NavBar,
+    Loader,
+    SideMenu,
+    Login,
+  },
+  data() {
+    return {
+      zh_CN,
+      collapsed: false,
+      username: '',
+      showPurePage: false,
+      tidingsCount: 0,
+      showSpaContent: false,
+    }
+  },
+  created() {
+    let token = this.$cookie.get('token')
+    if (token != undefined && token != null) {
+      this.$ajax.post({
+        url: this.$api.CHECKTOKEN_POST,
+        params: {}
+      }).then(res => {
+        this.getInfo()
+      })
+    } else {
+      this.plogout(true)
+    }
 
-			/** 持久化存储vuex 使其页面刷新后数据不丢失 */
-			//在页面加载时读取sessionStorage里的状态信息
-			if (sessionStorage.getItem('VuexStore')) {
-				this.$store.replaceState(Object.assign({}, this.$store.state, JSON.parse(sessionStorage.getItem('VuexStore'))))
-			}
-			//在页面刷新时将vuex里的信息保存到sessionStorage里
-			window.addEventListener('beforeunload', () => {
-				sessionStorage.setItem('VuexStore', JSON.stringify(this.$store.state))
-			})
-		},
-		watch: {
-			'$store.state.userName': {
-				handler: function(val) {
-					this.username = val
-				},
-				deep: true
-			},
-			$route(to, from) {
-				if (MicConfigs.length > 0) {
-					// 根据配置文件的子项目路由前缀自动识别state.showSpaContent应该是true还是false
-					this.showSpaContent = MicConfigs.some(item => to.path.startsWith(item.pathPrefix))
-				}
+    /** 持久化存储vuex 使其页面刷新后数据不丢失 */
+    //在页面加载时读取sessionStorage里的状态信息
+    if (sessionStorage.getItem('VuexStore')) {
+      this.$store.replaceState(Object.assign({}, this.$store.state, JSON.parse(sessionStorage.getItem('VuexStore'))))
+    }
+    //在页面刷新时将vuex里的信息保存到sessionStorage里
+    window.addEventListener('beforeunload', () => {
+      sessionStorage.setItem('VuexStore', JSON.stringify(this.$store.state))
+    })
+  },
+  watch: {
+    '$store.state.userName': {
+      handler: function(val) {
+        this.username = val
+      },
+      deep: true
+    },
+    $route(to, from) {
+      if (MicConfigs.length > 0) {
+        // 根据配置文件的子项目路由前缀自动识别state.showSpaContent应该是true还是false
+        this.showSpaContent = MicConfigs.some(item => to.path.startsWith(item.pathPrefix))
+      }
 
-				if (!to.name) {
-					this.showPurePage = false
-					return
-				}
-				// 监听路由，只要是没有parent的路由就独立显示而不是嵌套在layout中显示
-				if (to.matched && to.matched.length > 0 && !to.matched[to.matched.length - 1].parent) {
-					this.showPurePage = true
-				} else {
-					this.showPurePage = false
-				}
-			},
-		},
-		computed: {
-			menuMode() {
-				return this.collapsed ? 'vertical' : 'inline'
-			},
-		},
-		methods: {
-			/**
+      if (!to.name) {
+        this.showPurePage = false
+        return
+      }
+      // 监听路由，只要是没有parent的路由就独立显示而不是嵌套在layout中显示
+      if (to.matched && to.matched.length > 0 && !to.matched[to.matched.length - 1].parent) {
+        this.showPurePage = true
+      } else {
+        this.showPurePage = false
+      }
+    },
+  },
+  computed: {
+    menuMode() {
+      return this.collapsed ? 'vertical' : 'inline'
+    },
+  },
+  methods: {
+    /**
 			 * @param {boolean} isOnlyClear 是否需要调用接口登出 ； false，不需要；
 			 */
-			plogout(isOnlyClear) {
-				isOnlyClear = (isOnlyClear != undefined && isOnlyClear != null) ? isOnlyClear : false
-				if (isOnlyClear) {
-					this.$store.commit('SET_CLEAR')
-					this.$cookie.remove('token')
-					this.$cookie.remove('refresh_token')
-					// this.$cookie.remove('userInfo')
-					this.$cookie.remove('redirectUrl')
-					this.$cookie.remove('url')
-					this.$cookie.remove('systemLists')
-					this.$cookie.remove('canEnterBind')
-					this.$cookie.remove('NavbarList')
-				} else {
-					this.$ajax.post({
-						url: this.$api.POST_LOGOUT,
-						params: {}
-					}).then(res => {
-						this.$store.commit('SET_CLEAR')
-						this.$cookie.remove('KeepLogin')
-						this.$cookie.remove('token')
-						this.$cookie.remove('refresh_token')
-						// this.$cookie.remove('userInfo')
-						this.$cookie.remove('redirectUrl')
-						this.$cookie.remove('url')
-						this.$cookie.remove('systemLists')
-						this.$cookie.remove('canEnterBind')
-						this.$cookie.remove('NavbarList')
-						this.$router.push({
-							name: 'login'
-						})
-					})
-				}
-			},
-			toggleSideCollapsed() {
-				this.collapsed = !this.collapsed
-			},
-			handleClick({
-				key
-			}) {
-				if (key == 'person') {
-					this.$router.push({
-						name: 'person'
-					})
-				}
-				if (key == 'logout') {
-					this.plogout()
-				}
-			}
-		}
-	}
+    plogout(isOnlyClear) {
+      isOnlyClear = (isOnlyClear != undefined && isOnlyClear != null) ? isOnlyClear : false
+      if (isOnlyClear) {
+        this.$store.commit('SET_CLEAR')
+        this.$cookie.remove('token')
+        this.$cookie.remove('refresh_token')
+        // this.$cookie.remove('userInfo')
+        this.$cookie.remove('redirectUrl')
+        this.$cookie.remove('url')
+        this.$cookie.remove('systemLists')
+        this.$cookie.remove('canEnterBind')
+        this.$cookie.remove('NavbarList')
+      } else {
+        this.$ajax.post({
+          url: this.$api.POST_LOGOUT,
+          params: {}
+        }).then(res => {
+          this.$store.commit('SET_CLEAR')
+          this.$cookie.remove('KeepLogin')
+          this.$cookie.remove('token')
+          this.$cookie.remove('refresh_token')
+          // this.$cookie.remove('userInfo')
+          this.$cookie.remove('redirectUrl')
+          this.$cookie.remove('url')
+          this.$cookie.remove('systemLists')
+          this.$cookie.remove('canEnterBind')
+          this.$cookie.remove('NavbarList')
+          this.$router.push({
+            name: 'login'
+          })
+        })
+      }
+    },
+    toggleSideCollapsed() {
+      this.collapsed = !this.collapsed
+    },
+    handleClick({
+      key
+    }) {
+      if (key == 'person') {
+        this.$router.push({
+          name: 'person'
+        })
+      }
+      if (key == 'logout') {
+        this.plogout()
+      }
+    }
+  }
+}
 </script>
 
 <style scoped>

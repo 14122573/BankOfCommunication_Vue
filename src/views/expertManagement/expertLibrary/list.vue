@@ -14,12 +14,12 @@
 				</a-col>
 				<a-col span="6">
 					<a-form-item label="所属系统：" v-bind="colSpe">
-						<a-select v-decorator="['sysId']" allowClear placeholder="请选择" :options="options.sysList" allowClear></a-select>
+						<a-select v-decorator="['sysId']"  placeholder="请选择" :options="options.sysList" allowClear></a-select>
 					</a-form-item>
 				</a-col>
 				<a-col span="6">
 					<a-form-item label="职称：" v-bind="colSpe">
-						<a-select v-decorator="['jobId']" allowClear placeholder="请选择" :options="options.jobList" allowClear></a-select>
+						<a-select v-decorator="['jobId']"  placeholder="请选择" :options="options.jobList" allowClear></a-select>
 					</a-form-item>
 				</a-col>
 				<a-col span="6">
