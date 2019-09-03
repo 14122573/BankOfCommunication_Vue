@@ -27,8 +27,8 @@ export default {
     }
   },
   methods:{
-      back(){},
-      save(){}
+    back(){},
+    save(){}
   }
 }
 </script>

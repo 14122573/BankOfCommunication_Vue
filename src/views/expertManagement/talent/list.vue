@@ -78,20 +78,20 @@
     </a-card>
 </template>
 <script>
-import userStatus from "../../systemManagement/components/user-status";
-import testStrong from "@/components/testPwd";
+import userStatus from '../../systemManagement/components/user-status'
+import testStrong from '@/components/testPwd'
 export default {
-  name: "Talent",
+  name: 'Talent',
   components: { userStatus, testStrong },
   data() {
     return {
       searchForm: this.$form.createForm(this),
       options: {
-        proList: [{ label: "是", value: "1" }, { label: "否", value: "0" }],
-        levList: [{ label: "是", value: "1" }, { label: "否", value: "0" }],
+        proList: [{ label: '是', value: '1' }, { label: '否', value: '0' }],
+        levList: [{ label: '是', value: '1' }, { label: '否', value: '0' }],
         statusList: [
-          { label: "正常", value: "1" },
-          { label: "已注销", value: "8" }
+          { label: '正常', value: '1' },
+          { label: '已注销', value: '8' }
         ]
       },
       labelCol: { span: 8 },
@@ -100,27 +100,27 @@ export default {
       total: 0,
       data: [],
       columns: [
-        { title: "姓名", dataIndex: "name", key: "name" },
-        { title: "账号", dataIndex: "phone", key: "phone" },
-        { title: "工作单位", dataIndex: "dept", key: "dept" },
-        { title: "所属系统", dataIndex: "sysId", key: "sysId" },
-        { title: "职称", dataIndex: "job", key: "job" },
-        { title: "省级认定", dataIndex: "isPro", key: "isPro" },
-        { title: "部级认定", dataIndex: "isLev", key: "isLev" },
+        { title: '姓名', dataIndex: 'name', key: 'name' },
+        { title: '账号', dataIndex: 'phone', key: 'phone' },
+        { title: '工作单位', dataIndex: 'dept', key: 'dept' },
+        { title: '所属系统', dataIndex: 'sysId', key: 'sysId' },
+        { title: '职称', dataIndex: 'job', key: 'job' },
+        { title: '省级认定', dataIndex: 'isPro', key: 'isPro' },
+        { title: '部级认定', dataIndex: 'isLev', key: 'isLev' },
         {
-          title: "用户状态",
-          dataIndex: "userStatus",
-          key: "userStatus",
-          scopedSlots: { customRender: "status" }
+          title: '用户状态',
+          dataIndex: 'userStatus',
+          key: 'userStatus',
+          scopedSlots: { customRender: 'status' }
         },
         {
-          title: "操作",
-          dataIndex: "action",
-          key: "action",
-          scopedSlots: { customRender: "action" }
+          title: '操作',
+          dataIndex: 'action',
+          key: 'action',
+          scopedSlots: { customRender: 'action' }
         }
       ]
-    };
+    }
   },
   methods: {
     // 查询
@@ -130,20 +130,20 @@ export default {
     // 新增
     add() {
       this.$router.push({
-        name: "/expertManagement/talent/create"
-      });
+        name: '/expertManagement/talent/create'
+      })
     },
     // 导入
     upload() {
       this.$router.push({
-        name: "/expertManagement/talent/upload"
-      });
+        name: '/expertManagement/talent/upload'
+      })
     },
     viewBtn(item) {},
     editBtn(item) {},
     showOpeations(key, item) {}
   }
-};
+}
 </script>
 <style scoped>
 .table {
