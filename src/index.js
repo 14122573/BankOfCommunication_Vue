@@ -46,7 +46,8 @@ import {
   TreeSelect,
   Radio,
   Cascader,
-  LocaleProvider
+  LocaleProvider,
+  Steps
 } from 'ant-design-vue'
 import ActiveForm from '@/components/ActiveForm'
 import singleSpaVue from 'single-spa-vue'
@@ -88,6 +89,7 @@ Vue.use(Radio)
 Vue.use(Cascader)
 Vue.use(LocaleProvider)
 Vue.use(ActiveForm)
+Vue.use(Steps)
 Vue.prototype.$ajax = ajax
 Vue.prototype.$api = api
 Vue.prototype.$cookie = cookie
