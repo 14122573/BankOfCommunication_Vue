@@ -1,5 +1,5 @@
 <template>
-	<a-card :style="{margin:'0px 0 0 14px'}">
+	<a-card class="layoutMargin">
 		<a-form :form="searchForm">
 			<a-row type="flex" justify="space-between">
 				<a-col span="6">

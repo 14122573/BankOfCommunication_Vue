@@ -1,14 +1,11 @@
 <template>
-	<a-card :bordered='false' :style="{margin:'0 0 0 14px'}">
+	<a-card :bordered='false' class="layoutMargin">
 		<a-row type="flex" justify="space-between" slot="title" align="middle">
 			<a-col>组织机构</a-col>
 			<a-col>
 				<a-button type="primary" ghost @click="$router.back()">
 					返回
 				</a-button>
-				<!-- <a-button type="primary" @click="$router.push({name: '/systemManagement/organization/edit',query:{id:$route.query.id}})">
-					修改
-				</a-button> -->
 				<a-button type="primary"  @click="handleDel">
 					删除
 				</a-button>

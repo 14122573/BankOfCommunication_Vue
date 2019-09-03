@@ -1,5 +1,5 @@
 <template>
-	<a-card :bordered='false' :style="{margin:'0 0 0 14px'}">
+	<a-card :bordered='false' class="layoutMargin">
 		<a-row type="flex" justify="space-between" slot='title'>
 			<a-col>
 				{{$route.meta.title}}
