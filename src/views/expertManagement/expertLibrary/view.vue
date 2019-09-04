@@ -34,41 +34,41 @@
 							<a-row type="flex" justify="start" class="detailsPartLine">
 								<a-col span="24">
 									<DetailsItem :labelSpan='7' :textSpan="17" :label='"姓名"' :text='detail.name'></DetailsItem>
-									
+
 								</a-col>
 							</a-row>
 							<a-row type="flex" justify="start" class="detailsPartLine">
 								<a-col span="24">
 
-								<DetailsItem :labelSpan='7' :textSpan="17" :label='"民族"' :text='detail.minorityName'></DetailsItem>
-								</a-col>
-
-							</a-row>
-							<a-row type="flex" justify="start" class="detailsPartLine">
-								<a-col span="24">
-
-								<DetailsItem :labelSpan='7' :textSpan="17" :label='"工作单位"' :text='detail.workCompany'></DetailsItem>
+									<DetailsItem :labelSpan='7' :textSpan="17" :label='"民族"' :text='detail.minorityName'></DetailsItem>
 								</a-col>
 
 							</a-row>
 							<a-row type="flex" justify="start" class="detailsPartLine">
 								<a-col span="24">
 
-								<DetailsItem :labelSpan='7' :textSpan="17" :label='"单位性质"' :text='detail.companyNatureName'></DetailsItem>
+									<DetailsItem :labelSpan='7' :textSpan="17" :label='"工作单位"' :text='detail.workCompany'></DetailsItem>
 								</a-col>
 
 							</a-row>
 							<a-row type="flex" justify="start" class="detailsPartLine">
 								<a-col span="24">
 
-								<DetailsItem :labelSpan='7' :textSpan="17" :label='"单位性质"' :text='detail.positionName'></DetailsItem>
+									<DetailsItem :labelSpan='7' :textSpan="17" :label='"单位性质"' :text='detail.companyNatureName'></DetailsItem>
 								</a-col>
 
 							</a-row>
 							<a-row type="flex" justify="start" class="detailsPartLine">
 								<a-col span="24">
 
-								<DetailsItem :labelSpan='7' :textSpan="17" :label='"主要社会兼职"' :text='detail.partTime'></DetailsItem>
+									<DetailsItem :labelSpan='7' :textSpan="17" :label='"单位性质"' :text='detail.positionName'></DetailsItem>
+								</a-col>
+
+							</a-row>
+							<a-row type="flex" justify="start" class="detailsPartLine">
+								<a-col span="24">
+
+									<DetailsItem :labelSpan='7' :textSpan="17" :label='"主要社会兼职"' :text='detail.partTime'></DetailsItem>
 								</a-col>
 
 							</a-row>
@@ -77,35 +77,35 @@
 							<a-row type="flex" justify="start" class="detailsPartLine">
 								<a-col span="24">
 
-								<DetailsItem :labelSpan='7' :textSpan="17" :label='"登录密码"' :text='"***********"'></DetailsItem>
+									<DetailsItem :labelSpan='7' :textSpan="17" :label='"登录密码"' :text='"***********"'></DetailsItem>
 								</a-col>
 
 							</a-row>
 							<a-row type="flex" justify="start" class="detailsPartLine">
 								<a-col span="24">
 
-								<DetailsItem :labelSpan='7' :textSpan="17" :label='"性别"' :text='detail.sex'></DetailsItem>
+									<DetailsItem :labelSpan='7' :textSpan="17" :label='"性别"' :text='detail.sex'></DetailsItem>
 								</a-col>
 
 							</a-row>
 							<a-row type="flex" justify="start" class="detailsPartLine">
 								<a-col span="24">
 
-								<DetailsItem :labelSpan='7' :textSpan="17" :label='"身份证号"' :text='detail.identity'></DetailsItem>
+									<DetailsItem :labelSpan='7' :textSpan="17" :label='"身份证号"' :text='detail.identity'></DetailsItem>
 								</a-col>
 
 							</a-row>
 							<a-row type="flex" justify="start" class="detailsPartLine">
 								<a-col span="24">
 
-								<DetailsItem :labelSpan='7' :textSpan="17" :label='"单位所在地"' :text='detail.mailingAddress'></DetailsItem>
+									<DetailsItem :labelSpan='7' :textSpan="17" :label='"单位所在地"' :text='detail.mailingAddress'></DetailsItem>
 								</a-col>
 
 							</a-row>
 							<a-row type="flex" justify="start" class="detailsPartLine">
 								<a-col span="24">
 
-								<DetailsItem :labelSpan='7' :textSpan="17" :label='"所属系统"' :text='detail.belongSystem'></DetailsItem>
+									<DetailsItem :labelSpan='7' :textSpan="17" :label='"所属系统"' :text='detail.belongSystem'></DetailsItem>
 								</a-col>
 
 
@@ -113,7 +113,7 @@
 							<a-row type="flex" justify="start" class="detailsPartLine">
 								<a-col span="24">
 
-								<DetailsItem :labelSpan='7' :textSpan="17" :label='"职称"' :text='detail.jobTitleName'></DetailsItem>
+									<DetailsItem :labelSpan='7' :textSpan="17" :label='"职称"' :text='detail.jobTitleName'></DetailsItem>
 								</a-col>
 
 							</a-row>
@@ -130,7 +130,7 @@
 							<a-row type="flex" justify="start" class="detailsPartLine">
 								<a-col span="24">
 
-								<DetailsItem :labelSpan='7' :textSpan="17" :label='"所在部门"' :text='detail.belongDepartment'></DetailsItem>
+									<DetailsItem :labelSpan='7' :textSpan="17" :label='"所在部门"' :text='detail.belongDepartment'></DetailsItem>
 								</a-col>
 
 							</a-row>
@@ -144,28 +144,22 @@
 						<a-col span="8">
 							<a-row type="flex" justify="start" class="detailsPartLine">
 								<a-col span="24">
-
-								<DetailsItem :labelSpan='7' :textSpan="17" :label='"毕业院校"' :text='detail.graduatedSchool'></DetailsItem>
+									<DetailsItem :labelSpan='7' :textSpan="17" :label='"毕业院校"' :text='detail.graduatedSchool'></DetailsItem>
 								</a-col>
-
 							</a-row>
 						</a-col>
 						<a-col span="8">
 							<a-row type="flex" justify="start" class="detailsPartLine">
 								<a-col span="24">
-
-								<DetailsItem :labelSpan='7' :textSpan="17" :label='"学历"' :text='detail.educationName'></DetailsItem>
+									<DetailsItem :labelSpan='7' :textSpan="17" :label='"学历"' :text='detail.educationName'></DetailsItem>
 								</a-col>
-
 							</a-row>
 						</a-col>
 						<a-col span="8">
 							<a-row type="flex" justify="start" class="detailsPartLine">
 								<a-col span="24">
-
-								<DetailsItem :labelSpan='7' :textSpan="17" :label='"学位"' :text='detail.bachelorName'></DetailsItem>
+									<DetailsItem :labelSpan='7' :textSpan="17" :label='"学位"' :text='detail.bachelorName'></DetailsItem>
 								</a-col>
-
 							</a-row>
 						</a-col>
 					</a-row>
@@ -173,10 +167,8 @@
 						<a-col span="8">
 							<a-row type="flex" justify="start" class="detailsPartLine">
 								<a-col span="24">
-
-								<DetailsItem :labelSpan='7' :textSpan="17" :label='"所学专业"' :text='detail.profession'></DetailsItem>
+									<DetailsItem :labelSpan='7' :textSpan="17" :label='"所学专业"' :text='detail.profession'></DetailsItem>
 								</a-col>
-
 							</a-row>
 						</a-col>
 					</a-row>
@@ -184,10 +176,8 @@
 						<a-col span="8">
 							<a-row type="flex" justify="start" class="detailsPartLine">
 								<a-col span="24">
-
-								<DetailsItem :labelSpan='7' :textSpan="17" :label='"工作经历"' :text='detail.workExperience'></DetailsItem>
+									<DetailsItem :labelSpan='7' :textSpan="17" :label='"工作经历"' :text='detail.workExperience'></DetailsItem>
 								</a-col>
-
 							</a-row>
 						</a-col>
 					</a-row>
@@ -199,31 +189,24 @@
 						<a-col span="8">
 							<a-row type="flex" justify="start" class="detailsPartLine">
 								<a-col span="24">
-
-								<DetailsItem :labelSpan='7' :textSpan="17" :label='"通讯地址"' :text='detail.mailingAddress'></DetailsItem>
+									<DetailsItem :labelSpan='7' :textSpan="17" :label='"通讯地址"' :text='detail.mailingAddress'></DetailsItem>
 								</a-col>
-
 							</a-row>
 						</a-col>
 						<a-col span="8">
 							<a-row type="flex" justify="start" class="detailsPartLine">
 								<a-col span="24">
-
-								<DetailsItem :labelSpan='7' :textSpan="17" :label='"联系电话"' :text='detail.phone'></DetailsItem>
+									<DetailsItem :labelSpan='7' :textSpan="17" :label='"联系电话"' :text='detail.phone'></DetailsItem>
 								</a-col>
-
 							</a-row>
 						</a-col>
 						<a-col span="8">
 							<a-row type="flex" justify="start" class="detailsPartLine">
 								<a-col span="24">
-
-								<DetailsItem :labelSpan='7' :textSpan="17" :label='"电子邮箱"' :text='detail.email'></DetailsItem>
+									<DetailsItem :labelSpan='7' :textSpan="17" :label='"电子邮箱"' :text='detail.email'></DetailsItem>
 								</a-col>
-
 							</a-row>
 						</a-col>
-						
 					</a-row>
 				</a-card>
 			</div>
@@ -231,21 +214,18 @@
 				<a-card :bordered='false' title="工作领域信息" id="workArea">
 					<a-row type="flex" justify="start" class="detailsPartLine">
 						<a-col span="24">
-						<DetailsItem :labelSpan='3' :textSpan="21" :label='"主要相关研究方向"' :text='detail.researchDirectionName'></DetailsItem>
-					</a-col>
-
+							<DetailsItem :labelSpan='3' :textSpan="21" :label='"主要相关研究方向"' :text='detail.researchDirectionName'></DetailsItem>
+						</a-col>
 					</a-row>
 					<a-row type="flex" justify="start" class="detailsPartLine">
 						<a-col span="24">
-						<DetailsItem :labelSpan='3' :textSpan="21" :label='"主要工作业绩"' :text='detail.performance'></DetailsItem>
+							<DetailsItem :labelSpan='3' :textSpan="21" :label='"主要工作业绩"' :text='detail.performance'></DetailsItem>
 						</a-col>
-
 					</a-row>
 					<a-row type="flex" justify="start" class="detailsPartLine">
 						<a-col span="24">
-						<DetailsItem :labelSpan='3' :textSpan="21" :label='"获奖成果"' :text='detail.achievements'></DetailsItem>
+							<DetailsItem :labelSpan='3' :textSpan="21" :label='"获奖成果"' :text='detail.achievements'></DetailsItem>
 						</a-col>
-
 					</a-row>
 				</a-card>
 			</div>
@@ -255,33 +235,33 @@
 						<a-col span="8">
 							<a-row type="flex" justify="start" class="detailsPartLine">
 								<a-col span="24">
-								<DetailsItem :labelSpan='4' :textSpan="20" :label='"工作领域"' :text='detail.achievements'></DetailsItem>
+									<DetailsItem :labelSpan='9' :textSpan="15" :label='"工作领域"' :text='detail.achievements'></DetailsItem>
 								</a-col>
 							</a-row>
 						</a-col>
 						<a-col span="8">
 							<a-row type="flex" justify="start" class="detailsPartLine">
 								<a-col span="24">
-								 <DetailsItem :labelSpan='4' :textSpan="20" :label='"专业组别"' :text='detail.professionGroupName'></DetailsItem>
-								 </a-col>
+									<DetailsItem :labelSpan='9' :textSpan="15" :label='"专业组别"' :text='detail.professionGroupName'></DetailsItem>
+								</a-col>
 							</a-row>
 						</a-col>
 						<a-col span="8">
 							<a-row type="flex" justify="start" class="detailsPartLine">
 								<a-col span="24">
-								<DetailsItem :labelSpan='4' :textSpan="20" :label='"省级认定"' :text='detail.provinceConfirm'></DetailsItem>
+									<DetailsItem :labelSpan='9' :textSpan="15" :label='"省级认定"' :text='detail.provinceConfirm'></DetailsItem>
 								</a-col>
 							</a-row>
 						</a-col>
 					</a-row>
 					<a-row type="flex" justify="start" class="detailsPartLine">
 						<a-col span="24">
-						   <DetailsItem :labelSpan='4' :textSpan="20" :label='"部级认定"' :text='detail.unitConfirm'></DetailsItem>
+							<DetailsItem :labelSpan='3' :textSpan="21" :label='"部级认定"' :text='detail.unitConfirm'></DetailsItem>
 						</a-col>
 					</a-row>
 					<a-row type="flex" justify="start" class="detailsPartLine">
 						<a-col span="24">
-						<DetailsItem :labelSpan='4' :textSpan="20" :label='"入库以来参与工作"' :text='detail.historyWork'></DetailsItem>
+							<DetailsItem :labelSpan='3' :textSpan="21" :label='"入库以来参与工作"' :text='detail.historyWork'></DetailsItem>
 						</a-col>
 					</a-row>
 				</a-card>
