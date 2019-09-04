@@ -49,10 +49,10 @@
             <DetailsItem :labelSpan='8' :textSpan="16" :label='"角色名称"' :text='!detail.roleNames?"暂无":detail.roleNames'></DetailsItem>
           </a-col>
           <a-col span="8">
-            <DetailsItem :labelSpan='8' :textSpan="16" :label='"组织机构名称"' :text='(!detail.area||!detail.area.areaName)?"暂无":detail.area.areaName'></DetailsItem>
+            <DetailsItem :labelSpan='8' :textSpan="16" :label='"组织机构名称"' :text='(!detail.group||!detail.group.groupName)?"暂无":detail.group.groupName'></DetailsItem>
           </a-col>
           <a-col span="8">
-            <DetailsItem :labelSpan='8' :textSpan="16" :label='"所属行政区域"' :text='(!detail.group||!detail.group.groupName)?"暂无":detail.group.groupName'></DetailsItem>
+            <DetailsItem :labelSpan='8' :textSpan="16" :label='"所属行政区域"' :text='(!detail.area||!detail.area.areaName)?"暂无":detail.area.areaName'></DetailsItem>
           </a-col>
         </a-row>
         <div class="layoutMargin detailsPartLine">
