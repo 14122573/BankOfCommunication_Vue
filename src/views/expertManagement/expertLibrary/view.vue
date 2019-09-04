@@ -335,27 +335,27 @@
 </template>
 
 <script>
-	export default {
-		data() {
-			return {
-				dom: ''
-			}
-		},
-		mounted(){
-			this.dom=document.getElementById('InfoExpert');
-		},
-		methods: {
-			handleReturn() {
+export default {
+  data() {
+    return {
+      dom: ''
+    }
+  },
+  mounted(){
+    this.dom=document.getElementById('InfoExpert')
+  },
+  methods: {
+    handleReturn() {
 
-			},
-			handleSave() {
+    },
+    handleSave() {
 
-			},
-			getContainer(){
-				this.dom
-			}
-		}
-	}
+    },
+    getContainer(){
+      this.dom
+    }
+  }
+}
 </script>
 
 <style scoped>
