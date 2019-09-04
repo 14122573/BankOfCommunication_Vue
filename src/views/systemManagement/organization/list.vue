@@ -36,7 +36,7 @@
 					<a-button icon='plus' type="primary" @click="handleAdd">新建组织机构</a-button>
 					<a-button icon='download' @click="toUpload">批量导入组织机构</a-button>
 				</div>
-				<a-table class="portalTable" size='small' :columns="columns" rowKey="groupName" :dataSource="dataSource" :pagination="false">
+				<a-table class="portalTable" size='small' :columns="columns" rowKey="groupName" :dataSource="dataSource" :pagination="pagination">
 					<span slot="action" slot-scope="text, record">
 						<span class="actionBtn" @click="$router.push({name:'/systemManagement/organization/view',query:{id:record.id}})">查看</span>
 						<a-divider type="vertical" />
@@ -49,11 +49,6 @@
 						联系电话:&nbsp;{{record.contactPhone || "暂无"}}
 					</span>
 				</a-table>
-				<a-row type="flex" justify="end">
-					<a-col>
-						<a-pagination showQuickJumper :defaultCurrent="1" :total="total" @change="pageChange" />
-					</a-col>
-				</a-row>
 			</a-col>
 		</a-row>
 	</div>
@@ -116,14 +111,19 @@ export default {
         }
       }
       ],
-      pageNo: 1,
-      pageSize: 10,
       areaCode: '',
-      total: 0,
       opeationItem: {},
       treeData: [],
       defaultSelectedKeys: [],
-      transData: {}
+      transData: {},
+      pagination:{
+        pageNo: 1,
+        pageSize: 10,
+        total: 0,
+        defaultCurrent: 1,
+        showQuickJumper: true,
+        onChange:this.pageChange
+      }
     }
   },
   mounted() {
@@ -169,15 +169,15 @@ export default {
       const options = { ...this.searchForm
       }
       const params = Object.assign(options, {
-        pageSize: this.pageSize,
-        pageNo: this.pageNo,
+        pageSize: this.pagination.pageSize,
+        pageNo: this.pagination.pageNo,
         areaCode: this.areaCode
       })
       this.$ajax.get({
         url: this.$api.GET_ORGANIZATION_LIST,
         params: params
       }).then(res => {
-        this.total = this.$com.confirm(res, 'data.totalRows', 0)
+        this.pagination.total = this.$com.confirm(res, 'data.totalRows', 0)
         this.dataSource = this.$com.confirm(res, 'data.content', [])
       })
     },
@@ -231,7 +231,7 @@ export default {
       })
     },
     onSelect(selectedKeys, info) {
-      this.pageNo = 1
+      this.pagination.pageNo = 1
       this.areaCode = selectedKeys[0]
       this.transData.area = info.node.dataRef
       this.getLists()
@@ -247,7 +247,7 @@ export default {
     },
     //分页
     pageChange(val) {
-      this.pageNo = val
+      this.pagination.pageNo = val
       this.getLists()
     },
     handleAdd() {

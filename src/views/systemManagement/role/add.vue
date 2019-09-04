@@ -36,16 +36,7 @@
               </a-col>
           </a-row>
         </a-form>
-        <a-tree
-          class="roleTree"
-          v-if="showTree"
-          checkable
-          :treeData="treeData"
-          :defaultExpandedKeys='expandedKeys'
-          v-model="checkedKeys"
-          :disabled="$route.query.type === 'view'"
-          showLine
-        />
+        <a-tree class="portalRoleTree" v-if="showTree" checkable :treeData="treeData" :defaultExpandedKeys='expandedKeys' v-model="checkedKeys" :disabled="$route.query.type === 'view'" />
       </div>
     </div>
 </template>

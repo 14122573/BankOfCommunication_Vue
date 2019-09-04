@@ -1,5 +1,5 @@
 <template>
-	<div>
+	<div ref='InfoExpert' id="InfoExpert">
 		<a-card :bordered='false'>
 			<a-row type="flex" justify="space-between" align="middle" slot="title">
 				<a-col>查看专家账号
@@ -14,16 +14,16 @@
 				</a-col>
 			</a-row>
 		</a-card>
-		<a-anchor class="target" showInkInFixed :getContainer="getContainer()">
+		<a-anchor class="target" :getContainer="()=> this.$refs['InfoExpert']" :offsetTop="260">
 			<a-anchor-link href="#basic" title="基本信息" />
 			<a-anchor-link href="#experience" title="工作学习经历" />
 			<a-anchor-link href="#contact" title="联系信息" />
 			<a-anchor-link href="#workArea" title="工作领域信息" />
 			<a-anchor-link href="#relatedManagement" title="相关管理信息" />
 		</a-anchor>
-		<div id='InfoExpert' style="{height:'100px',overflow:'auto'}">
-			<div class="content" id="basic">
-				<a-card :bordered='false' title="基本信息">
+		<div>
+			<div class="content" >
+				<a-card :bordered='false' title="基本信息" id="basic">
 					<a-row type="flex" justify="start">
 						<a-col span="8">
 							<a-row type="flex" justify="start" class="colMargin">
@@ -154,8 +154,8 @@
 					</a-row>
 				</a-card>
 			</div>
-			<div class="content" id="experience">
-				<a-card :bordered='false' title="工作学习经历">
+			<div class="content">
+				<a-card :bordered='false' title="工作学习经历"  id="experience">
 					<a-row type="flex" justify="start">
 						<a-col span="8">
 							<a-row type="flex" justify="start" class="colMargin">
@@ -214,8 +214,8 @@
 					</a-row>
 				</a-card>
 			</div>
-			<div class="content" id="contact">
-				<a-card :bordered='false' title="联系信息">
+			<div class="content" >
+				<a-card :bordered='false' title="联系信息" id="contact">
 					<a-row type="flex" justify="start">
 						<a-col span="8">
 							<a-row type="flex" justify="start" class="colMargin">
@@ -250,8 +250,8 @@
 					</a-row>
 				</a-card>
 			</div>
-			<div class="content" id="workArea">
-				<a-card :bordered='false' title="工作领域信息">
+			<div class="content" >
+				<a-card :bordered='false' title="工作领域信息" id="workArea">
 					<a-row type="flex" justify="start" class="colMargin">
 						<a-col span="3" class="colLabel">
 							主要相关研究方向：
@@ -278,8 +278,8 @@
 					</a-row>
 				</a-card>
 			</div>
-			<div class="content" id="relatedManagement">
-				<a-card :bordered='false' title="相关管理信息">
+			<div class="content" >
+				<a-card :bordered='false' title="相关管理信息" id="relatedManagement">
 					<a-row type="flex" justify="start">
 						<a-col span="8">
 							<a-row type="flex" justify="start" class="colMargin">
@@ -372,13 +372,18 @@ export default {
 	}
 
 	.target {
-		width: 300px;
-		height: 150px;
-		position: fixed;
-		top: 100px;
-		right: 0px;
+		/* width: 300px; */
+		/* height: 150px; */
+		position: absolute;
+		top: 260px;
+		right: 21px;
 		z-index: 1000;
 		background: transparent;
-		
+	}
+
+	#InfoExpert {
+		position: relative;
+		overflow: auto;
+		height: 100%;
 	}
 </style>

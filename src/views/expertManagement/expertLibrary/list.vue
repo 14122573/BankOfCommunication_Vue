@@ -1,52 +1,46 @@
 <template>
-	<a-card class="layoutMargin">
-		<a-form :form="searchForm">
-			<a-row type="flex" justify="space-between">
+	<div class="layoutMargin layoutPadding">
+		<a-form :form="searchForm" class="protalForm">
+			<a-row type="flex" justify="space-between" class="formItemLine">
 				<a-col span="6">
-					<a-form-item label="姓名：" v-bind="colSpe">
+					<a-form-item label="姓名：" class="formItem" v-bind="colSpe">
 						<a-input v-decorator="['name']" placeholder="请输入"></a-input>
 					</a-form-item>
 				</a-col>
 				<a-col span="6">
-					<a-form-item label="账号：" v-bind="colSpe">
+					<a-form-item label="账号：" class="formItem" v-bind="colSpe">
 						<a-input v-decorator="['phone']" placeholder="请输入"></a-input>
 					</a-form-item>
 				</a-col>
 				<a-col span="6">
-					<a-form-item label="所属系统：" v-bind="colSpe">
-						<a-select v-decorator="['sysId']"  placeholder="请选择" :options="options.sysList" allowClear></a-select>
+					<a-form-item label="职称：" class="formItem" v-bind="colSpe">
+						<a-select v-decorator="['jobId']" placeholder="请选择" :options="options.jobList" allowClear></a-select>
 					</a-form-item>
 				</a-col>
 				<a-col span="6">
-					<a-form-item label="职称：" v-bind="colSpe">
-						<a-select v-decorator="['jobId']"  placeholder="请选择" :options="options.jobList" allowClear></a-select>
-					</a-form-item>
-				</a-col>
-				<a-col span="6">
-					<a-form-item label="用户状态："  v-bind="colSpe">
+					<a-form-item label="用户状态：" class="formItem" v-bind="colSpe">
 						<a-checkbox-group v-decorator="['userStatus']" :options="options.statusList"></a-checkbox-group>
 					</a-form-item>
 				</a-col>
-				<a-col span="12">
-					<a-form-item label="级别认定：" :label-col="{span:4}" :wrapper-col="{span:12}">
+			</a-row>
+			<a-row type="flex" justify="space-between" class="formItemLine">
+				<a-col span="18">
+					<a-form-item label="级别认定：" class="formItem" :label-col="{span:3}" :wrapper-col="{span:12}">
 						<a-checkbox-group v-decorator="['userStatus']" :options="options.proList"></a-checkbox-group>
 					</a-form-item>
 				</a-col>
-				<a-col span="6">
-					<a-row type="flex" justify="end">
-						<a-col>
-							<a-button type="primary" @click="reset" ghost>重置</a-button>
-							<a-button type="primary" @click="search">搜索</a-button>
-						</a-col>
-					</a-row>
+				<a-col span="6" class="algin-right">
+					<a-button type="primary" @click="reset" ghost>重置</a-button>
+					<a-button type="primary" @click="search">搜索</a-button>
 				</a-col>
 			</a-row>
 		</a-form>
-		<a-row>
-			<a-button type="primary" @click="add">新增</a-button>
-			<a-button type="primary" @click="upload">导入</a-button>
+		 <p class="gayLine"></p>
+		<a-row class="portalTableOperates">
+			<a-button type="primary" icon='plus' @click="add">新增</a-button>
+			<a-button icon='download' @click="upload">导入</a-button>
 		</a-row>
-		<a-table class="table" :dataSource="dataSource" :rowKey="name" :pagination="pagination" :columns="columns">
+		<a-table class="portalTable" size="small" :dataSource="dataSource" rowKey="name" :pagination="pagination" :columns="columns">
 			<span slot="status" slot-scope="text, record">
 				<userStatus :status="record.status" />
 			</span>
@@ -56,34 +50,37 @@
 				<a @click="editBtn(record)">修改</a>
 				<a-divider type="vertical" />
 				<a-dropdown>
-					<a class="ant-dropdown-link" href="#">
+					<span class="actionBtn">
 						更多
 						<a-icon type="down" />
-					</a>
+					</span>
 					<a-menu slot="overlay" @click='(event)=>{showOpeations(event.key,record)}'>
-						<a-menu-item key="2">
+						<a-menu-item key="1">
 							重置密码
 						</a-menu-item>
-						<a-menu-item key="1">
-							启用
-						</a-menu-item>
-						<a-menu-item key="3">
+						<a-menu-item key="2">
 							注销
 						</a-menu-item>
 					</a-menu>
 				</a-dropdown>
 			</span>
 		</a-table>
-	</a-card>
+		<ResetModal :resetPwdShow="resetPwdShow" @on-ok="handleSave" @on-cancel="handleCancel" ref="reset"></ResetModal>
+	</div>
 </template>
 <script>
 import userStatus from '../../systemManagement/components/user-status'
 import testStrong from '@/components/testPwd'
+import ResetModal from '../components/resetPassword'
+import {
+  encryptDes
+} from '@/util/des-cryptojs'
 export default {
   name: 'Talent',
   components: {
     userStatus,
-    testStrong
+    testStrong,
+    ResetModal
   },
   data() {
     return {
@@ -126,27 +123,7 @@ export default {
         }
       },
       params: {},
-      dataSource: [{
-        name:'1111',
-        phone:'222',
-        dept:'212121'
-      },{
-        name:'222',
-        phone:'222',
-        dept:'212121'
-      },{
-        name:'333',
-        phone:'222',
-        dept:'212121'
-      },{
-        name:'444',
-        phone:'222',
-        dept:'212121'
-      },{
-        name:'5555',
-        phone:'222',
-        dept:'212121'
-      }],
+      dataSource: [],
       columns: [{
         title: '姓名',
         dataIndex: 'name',
@@ -154,44 +131,40 @@ export default {
       },
       {
         title: '账号',
-        dataIndex: 'phone',
-        key: 'phone'
+        dataIndex: 'loginPhone',
+        key: 'loginPhone'
       },
       {
         title: '工作单位',
-        dataIndex: 'dept',
-        key: 'dept'
-      },
-      {
-        title: '所属系统',
-        dataIndex: 'sysId',
-        key: 'sysId'
+        dataIndex: 'workCompany',
+        key: 'workCompany'
       },
       {
         title: '职称',
-        dataIndex: 'job',
-        key: 'job'
+        dataIndex: 'jobTitleName',
+        key: 'jobTitleName'
       },
       {
         title: '省级认定',
-        dataIndex: 'isPro',
-        key: 'isPro'
+        dataIndex: 'provinceConfirm',
+        key: 'provinceConfirm'
       },
       {
         title: '部级认定',
-        dataIndex: 'isLev',
-        key: 'isLev'
+        dataIndex: 'unitConfirm',
+        key: 'unitConfirm'
       },
       {
         title: '用户状态',
-        dataIndex: 'userStatus',
-        key: 'userStatus',
+        dataIndex: 'status',
+        key: 'status',
         scopedSlots: {
           customRender: 'status'
         }
       },
       {
         title: '操作',
+        width: 200,
         dataIndex: 'action',
         key: 'action',
         scopedSlots: {
@@ -199,16 +172,29 @@ export default {
         }
       }
       ],
-      pagination:{
-        pageNo:1,
-        pageSize:10,
-        total:0,
-        defaultCurrent:1,
-        showQuickJumper :true
-      }
+      pagination: {
+        pageNo: 1,
+        pageSize: 10,
+        total: 0,
+        defaultCurrent: 1,
+        showQuickJumper: true
+      },
+      resetPwdShow: false,
+      opeationItem: {}
     }
   },
+  mounted() {
+    this.getLists()
+  },
   methods: {
+    getLists() {
+      this.$ajax.get({
+        url: this.$api.GET_EXPERT_LIST
+      }).then(res => {
+        //         this.dataSource =
+        // 						console.log(res)
+      })
+    },
     // 查询
     search() {
 
@@ -227,12 +213,55 @@ export default {
     },
     viewBtn(item) {},
     editBtn(item) {},
-    showOpeations(key, item) {}
+    showOpeations(key, item) {
+      switch (key) {
+      case '1':
+        this.resetPwdShow = true
+        this.opeationItem = item
+        break
+      case '2':
+        let vm = this
+        this.$model.confirm({
+          title: '注销',
+          content: '注销后，该账号将被使用，您确认要注销该账号吗？',
+          okText: '确认',
+          okType: 'danger',
+          cancelText: '取消',
+          onOk() {
+            vm.handleOk()
+          }
+        })
+        break
+      default:
+        break
+      }
+    },
+    handleSave(values) {
+      this.$ajax.put({
+        url: this.$api.USER_UPDATE_PWD,
+        params: {
+          id: this.opeationItem.id,
+          type: 'old',
+          newPwd: encryptDes(values.newPwd)
+        }
+      }).then(res => {
+        if (res.code === '200') {
+          this.$message.success('重置密码成功')
+          this.resetPwdShow = false
+          this.$refs.reset.resetForm()
+          this.getList()
+        } else {
+          this.$message.error(res.msg)
+        }
+      })
+    },
+    handleCancel() {
+      this.resetPwdShow = false
+      this.$refs.reset.resetForm()
+    }
   }
 }
 </script>
 <style scoped>
-	.table {
-		margin-top: 10px;
-	}
+
 </style>

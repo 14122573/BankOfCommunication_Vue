@@ -165,7 +165,7 @@ export default {
 .content .name{ font-size: 16px;font-weight: bold;}
 .content .name-num{ margin-left: 5px;font-weight: bold;}
 .operate { border-top: 1px solid #e8eaec; height: 40px; text-align: center; line-height: 40px; padding:0px 20px; }
-.operate span { cursor: pointer; }
+.operate span { cursor: pointer; color: #1890ff}
 .inner.add-btn { background: #e8eaec; border: none; }
 .inner.add-btn > button {  width: 100%; height: 100%; font-size: 16px; color: #1890ff;}
 .center-p{ text-align: center;}
