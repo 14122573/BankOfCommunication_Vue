@@ -87,7 +87,7 @@
 </template>
 <script>
 import {encryptDes} from '@/util/des-cryptojs'
-import userStatus from '../components/user-status'
+import userStatus from '@/views/systemManagement/components/user-status'
 import testStrong from '@/components/testPwd'
 export default {
   name: 'old-user',
@@ -116,35 +116,11 @@ export default {
       total: 0,
       data: [],
       columns: [
-        {
-          title: '账号',
-          dataIndex: 'username',
-          key: 'username'
-        },
-        {
-          title: '所属老系统',
-          dataIndex: 'sysDic',
-          key: 'sysDic',
-          scopedSlots: { customRender: 'sysDic' }
-        },
-        {
-          title: '关联手机号',
-          dataIndex: 'phone',
-          key: 'phone',
-          scopedSlots: { customRender: 'phone' }
-        },
-        {
-          title: '用户状态',
-          dataIndex: 'status',
-          key: 'status',
-          scopedSlots: { customRender: 'status' }
-        },
-        {
-          title: '操作',
-          dataIndex: 'action',
-          key: 'action',
-          scopedSlots: { customRender: 'action' }
-        }
+        { title: '账号', dataIndex: 'username', key: 'username' },
+        { title: '所属老系统', dataIndex: 'sysDic', key: 'sysDic', scopedSlots: { customRender: 'sysDic' } },
+        { title: '关联手机号', dataIndex: 'phone', key: 'phone', scopedSlots: { customRender: 'phone' } },
+        { title: '用户状态', dataIndex: 'status', key: 'status',width:80, scopedSlots: { customRender: 'status' } },
+        { title: '操作', dataIndex: 'action', key: 'action', width:200, scopedSlots: { customRender: 'action' } }
       ],
       plainOptions: [
         { text: '正常', value: '1' },
