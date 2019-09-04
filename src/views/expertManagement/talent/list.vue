@@ -1,5 +1,5 @@
 <template>
-    <a-card :style="{margin:'0px 0 0 14px'}">
+    <div class="layoutMargin layoutPadding">
         <a-form :form="searchForm">
             <a-row type="flex" justify="space-between">
                 <a-col span="6">
@@ -43,11 +43,11 @@
                 </a-col>
             </a-row>
         </a-form>
-        <a-row>
+        <a-row class="portalTableOperates">
             <a-button type="primary" @click="add">新增</a-button>
             <a-button type="primary" @click="upload">导入</a-button>
         </a-row>
-        <a-table class="table" :dataSource="data" :columns="columns">
+        <a-table size="small" :dataSource="data" :columns="columns">
             <span slot="status" slot-scope="text, record">
                 <userStatus :status="record.status"/>
             </span>
@@ -75,7 +75,7 @@
 				</a-dropdown>
             </span>
         </a-table>
-    </a-card>
+    </div>
 </template>
 <script>
 import userStatus from '../../systemManagement/components/user-status'

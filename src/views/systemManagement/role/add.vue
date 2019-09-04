@@ -36,16 +36,7 @@
               </a-col>
           </a-row>
         </a-form>
-        <a-tree
-          class="roleTree"
-          v-if="showTree"
-          checkable
-          :treeData="treeData"
-          :defaultExpandedKeys='expandedKeys'
-          v-model="checkedKeys"
-          :disabled="$route.query.type === 'view'"
-          showLine
-        />
+        <a-tree class="portalRoleTree" v-if="showTree" checkable :treeData="treeData" :defaultExpandedKeys='expandedKeys' v-model="checkedKeys" :disabled="$route.query.type === 'view'" />
       </div>
     </div>
 </template>
@@ -76,6 +67,16 @@ export default {
         data.forEach((item,index)=>{
           this.treeData.push(this.getTreeNode(item,index))
         })
+        if(this.$route.query.type === 'edit'){
+          this.title='修改角色'
+          this.getRoleInfo(this.$route.query.id)
+        }else if(this.$route.query.type === 'view'){
+          this.title=this.$route.query.roleName
+          this.getRoleInfo(this.$route.query.id)
+        }else{
+          this.title='新增角色'
+          this.showTree=true
+        }
       })
     },
     // 整理权限树
@@ -200,16 +201,6 @@ export default {
   },
   mounted() {
     this.getTree()
-    if(this.$route.query.type === 'edit'){
-      this.title='修改角色'
-      this.getRoleInfo(this.$route.query.id)
-    }else if(this.$route.query.type === 'view'){
-      this.title=this.$route.query.roleName
-      this.getRoleInfo(this.$route.query.id)
-    }else{
-      this.title='新增角色'
-      this.showTree=true
-    }
   },
   beforeCreate() {
     this.formData = this.$form.createForm(this)

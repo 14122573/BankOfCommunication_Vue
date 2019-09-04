@@ -84,7 +84,7 @@
           </a-col>
         </a-row>
         <div class="layoutMargin detailsPartLine">
-          <a-tree showLine checkable disabled :treeData="treeData" v-model="checkedKeys" />
+          <a-tree class="portalRoleTree" checkable disabled :treeData="treeData" v-model="checkedKeys" />
         </div>
       </div>
     </a-form>
