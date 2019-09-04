@@ -1,5 +1,5 @@
 <template>
-	<a-card class="layoutMargin">
+	<div class="layoutMargin layoutPadding">
 		<a-form :form="searchForm">
 			<a-row type="flex" justify="space-between">
 				<a-col span="6">
@@ -14,16 +14,16 @@
 				</a-col>
 				<a-col span="6">
 					<a-form-item label="所属系统：" v-bind="colSpe">
-						<a-select v-decorator="['sysId']"  placeholder="请选择" :options="options.sysList" allowClear></a-select>
+						<a-select v-decorator="['sysId']" placeholder="请选择" :options="options.sysList" allowClear></a-select>
 					</a-form-item>
 				</a-col>
 				<a-col span="6">
 					<a-form-item label="职称：" v-bind="colSpe">
-						<a-select v-decorator="['jobId']"  placeholder="请选择" :options="options.jobList" allowClear></a-select>
+						<a-select v-decorator="['jobId']" placeholder="请选择" :options="options.jobList" allowClear></a-select>
 					</a-form-item>
 				</a-col>
 				<a-col span="6">
-					<a-form-item label="用户状态："  v-bind="colSpe">
+					<a-form-item label="用户状态：" v-bind="colSpe">
 						<a-checkbox-group v-decorator="['userStatus']" :options="options.statusList"></a-checkbox-group>
 					</a-form-item>
 				</a-col>
@@ -42,11 +42,11 @@
 				</a-col>
 			</a-row>
 		</a-form>
-		<a-row>
+		<a-row class="portalTableOperates">
 			<a-button type="primary" @click="add">新增</a-button>
 			<a-button type="primary" @click="upload">导入</a-button>
 		</a-row>
-		<a-table class="table" :dataSource="dataSource" :rowKey="name" :pagination="pagination" :columns="columns">
+		<a-table class="portalTable" size="small" :dataSource="dataSource" rowKey="name" :pagination="pagination" :columns="columns">
 			<span slot="status" slot-scope="text, record">
 				<userStatus :status="record.status" />
 			</span>
@@ -56,10 +56,10 @@
 				<a @click="editBtn(record)">修改</a>
 				<a-divider type="vertical" />
 				<a-dropdown>
-					<a class="ant-dropdown-link" href="#">
+					<span class="actionBtn">
 						更多
 						<a-icon type="down" />
-					</a>
+					</span>
 					<a-menu slot="overlay" @click='(event)=>{showOpeations(event.key,record)}'>
 						<a-menu-item key="2">
 							重置密码
@@ -74,16 +74,22 @@
 				</a-dropdown>
 			</span>
 		</a-table>
-	</a-card>
+		<ResetModal :resetPwdShow="resetPwdShow" @on-ok="handleSave" @on-cancel="handleCancel" ref="reset"></ResetModal>
+	</div>
 </template>
 <script>
 import userStatus from '../../systemManagement/components/user-status'
 import testStrong from '@/components/testPwd'
+import ResetModal from '../components/resetPassword'
+import {
+  encryptDes
+} from '@/util/des-cryptojs'
 export default {
   name: 'Talent',
   components: {
     userStatus,
-    testStrong
+    testStrong,
+    ResetModal
   },
   data() {
     return {
@@ -127,25 +133,30 @@ export default {
       },
       params: {},
       dataSource: [{
-        name:'1111',
-        phone:'222',
-        dept:'212121'
-      },{
-        name:'222',
-        phone:'222',
-        dept:'212121'
-      },{
-        name:'333',
-        phone:'222',
-        dept:'212121'
-      },{
-        name:'444',
-        phone:'222',
-        dept:'212121'
-      },{
-        name:'5555',
-        phone:'222',
-        dept:'212121'
+        name: '1111',
+        phone: '222',
+        dept: '212121',
+        status: '1'
+      }, {
+        name: '222',
+        phone: '222',
+        dept: '212121',
+        status: '1'
+      }, {
+        name: '333',
+        phone: '222',
+        dept: '212121',
+        status: '1'
+      }, {
+        name: '444',
+        phone: '222',
+        dept: '212121',
+        status: '1'
+      }, {
+        name: '5555',
+        phone: '222',
+        dept: '212121',
+        status: '1'
       }],
       columns: [{
         title: '姓名',
@@ -192,6 +203,7 @@ export default {
       },
       {
         title: '操作',
+        width: 200,
         dataIndex: 'action',
         key: 'action',
         scopedSlots: {
@@ -199,13 +211,15 @@ export default {
         }
       }
       ],
-      pagination:{
-        pageNo:1,
-        pageSize:10,
-        total:0,
-        defaultCurrent:1,
-        showQuickJumper :true
-      }
+      pagination: {
+        pageNo: 1,
+        pageSize: 10,
+        total: 0,
+        defaultCurrent: 1,
+        showQuickJumper: true
+      },
+      resetPwdShow: false,
+      opeationItem: {}
     }
   },
   methods: {
@@ -227,12 +241,46 @@ export default {
     },
     viewBtn(item) {},
     editBtn(item) {},
-    showOpeations(key, item) {}
+    showOpeations(key, item) {
+      switch (key) {
+      case '1':
+        break
+      case '2':
+        this.resetPwdShow = true
+        this.opeationItem = item
+        break
+      case '3':
+        break
+      default:
+        break
+      }
+    },
+    handleSave(values) {
+      this.$ajax.put({
+        url: this.$api.USER_UPDATE_PWD,
+        params: {
+          id: this.opeationItem.id,
+          type: 'old',
+          newPwd: encryptDes(values.newPwd)
+        }
+      }).then(res => {
+        if (res.code === '200') {
+          this.$message.success('重置密码成功')
+          this.resetPwdShow = false
+          this.$refs.reset.resetForm()
+          this.getList()
+        } else {
+          this.$message.error(res.msg)
+        }
+      })
+    },
+    handleCancel() {
+      this.resetPwdShow = false
+      this.$refs.reset.resetForm()
+    }
   }
 }
 </script>
 <style scoped>
-	.table {
-		margin-top: 10px;
-	}
+
 </style>

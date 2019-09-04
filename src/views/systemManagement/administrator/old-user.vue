@@ -62,19 +62,18 @@
         <a-form :form="resetData">
           <a-row>
             <a-col span="24">
-              <a-form-item label="新密码" :label-col="{span:8}" :wrapper-col="{span:16}" >
+              <a-form-item label="新密码" :label-col="{span:6}" :wrapper-col="{span:16}" >
               <a-input :type="pswType" @focus='pasBlur' placeholder="新密码需大于6位且含字母和数字" autocomplete="off" v-decorator="['newPwd',
-                    { validateTrigger:'blur',rules: [{ required: true,whitespace:true,  message: '请输入新密码!' }, { validator: validateToNextPassword, }] }
+                    { validateTrigger:'blur',rules: [{ required: true, validator: validateToNextPassword }] }
                   ]">
-                  <!-- <a-icon slot="prefix" type="lock" style="color: rgba(0,0,0,.25)" /> -->
                 </a-input>
               </a-form-item>
             </a-col>
-            <a-col offset='8' span="16">
-              <testStrong id="strong" :width="90" :pwd='resetData.getFieldValue("newPwd")'  v-if='passwordStrength'></testStrong>
+            <a-col offset='6' span="16">
+              <testStrong id="strong" :width="90" :pwd='resetData.getFieldValue("newPwd")'  v-show='passwordStrength'></testStrong>
             </a-col>
             <a-col span="24">
-              <a-form-item label="重复密码" :label-col="{span:8}" :wrapper-col="{span:16}">
+              <a-form-item label="重复密码" :label-col="{span:6}" :wrapper-col="{span:16}">
                 <a-input :type="pswType" placeholder="再次输入新密码" @blur="handleConfirmBlur" autocomplete="off" @focus='pasBlur' v-decorator="[ 'rePassword',
                           {validateTrigger:'blur', rules: [{ required: true,whitespace:true,  message: '请再次输入新密码!' }, { validator: compareToFirstPassword, }] }
                     ]">
@@ -169,7 +168,7 @@ export default {
     validateToNextPassword(rule, value, callback) {
       const form = this.resetData
       if (!value || value == undefined ||value.split(' ').join('').length === 0) {
-        callback('请输入密码！')
+        callback('请输入新密码！')
         this.passwordStrength = false
       } else {
         if(!this.$com.checkPassword(value)){
@@ -308,16 +307,15 @@ export default {
               type:'old',
               newPwd:encryptDes(this.resetData.getFieldValue('newPwd'))
             }
+          }).then(res => {
+            if (res.code === '200') {
+              this.$message.success('重置密码成功')
+              this.hadnleCancel()
+              this.getList()
+            } else {
+              this.$message.error(res.msg)
+            }
           })
-            .then(res => {
-              if (res.code === '200') {
-                this.$message.success('重置密码成功')
-                this.hadnleCancel()
-                this.getList()
-              } else {
-                this.$message.error(res.msg)
-              }
-            })
         }
       })
     },
