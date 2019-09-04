@@ -1,19 +1,16 @@
 <template>
 	<div ref='InfoExpert' id="InfoExpert" class="portalDetailContentWapper">
-		<a-card :bordered='false'>
-			<a-row type="flex" justify="space-between" align="middle" slot="title">
-				<a-col>查看专家账号
-				</a-col>
-				<a-col>
-					<a-button type="primary" ghost @click="handleReturn">
-						取消
-					</a-button>
-					<a-button type="primary" @click="handleSave" html-type="submit">
-						保存
-					</a-button>
-				</a-col>
-			</a-row>
-		</a-card>
+		<div class="portalDetailTitle">
+			<span class="title">查看专家账号</span>
+			<div class="detailOperations">
+				<a-button type="primary" ghost @click="handleReturn">
+					取消
+				</a-button>
+				<a-button type="primary" @click="handleSave" html-type="submit">
+					保存
+				</a-button>
+			</div>
+		</div>
 		<a-anchor class="target" :getContainer="()=> this.$refs['InfoExpert']" :offsetTop="260">
 			<a-anchor-link href="#basic" title="基本信息" />
 			<a-anchor-link href="#experience" title="工作学习经历" />
@@ -23,7 +20,8 @@
 		</a-anchor>
 		<div>
 			<div class="content">
-				<a-card :bordered='false' title="基本信息" id="basic">
+				<div id="basic" class="portalDetailContentBody">
+					<p class="detailsPartTitle">账户信息</p>
 					<a-row type="flex" justify="start">
 						<a-col span="8">
 							<a-row type="flex" justify="start" class="detailsPartLine">
@@ -34,88 +32,64 @@
 							<a-row type="flex" justify="start" class="detailsPartLine">
 								<a-col span="24">
 									<DetailsItem :labelSpan='7' :textSpan="17" :label='"姓名"' :text='detail.name'></DetailsItem>
-
 								</a-col>
 							</a-row>
 							<a-row type="flex" justify="start" class="detailsPartLine">
 								<a-col span="24">
-
 									<DetailsItem :labelSpan='7' :textSpan="17" :label='"民族"' :text='detail.minorityName'></DetailsItem>
 								</a-col>
-
 							</a-row>
 							<a-row type="flex" justify="start" class="detailsPartLine">
 								<a-col span="24">
-
 									<DetailsItem :labelSpan='7' :textSpan="17" :label='"工作单位"' :text='detail.workCompany'></DetailsItem>
 								</a-col>
-
 							</a-row>
 							<a-row type="flex" justify="start" class="detailsPartLine">
 								<a-col span="24">
-
 									<DetailsItem :labelSpan='7' :textSpan="17" :label='"单位性质"' :text='detail.companyNatureName'></DetailsItem>
 								</a-col>
-
 							</a-row>
 							<a-row type="flex" justify="start" class="detailsPartLine">
 								<a-col span="24">
-
-									<DetailsItem :labelSpan='7' :textSpan="17" :label='"单位性质"' :text='detail.positionName'></DetailsItem>
+									<DetailsItem :labelSpan='7' :textSpan="17" :label='"职务"' :text='detail.positionName'></DetailsItem>
 								</a-col>
-
 							</a-row>
 							<a-row type="flex" justify="start" class="detailsPartLine">
 								<a-col span="24">
-
 									<DetailsItem :labelSpan='7' :textSpan="17" :label='"主要社会兼职"' :text='detail.partTime'></DetailsItem>
 								</a-col>
-
 							</a-row>
 						</a-col>
 						<a-col span="8">
 							<a-row type="flex" justify="start" class="detailsPartLine">
 								<a-col span="24">
-
 									<DetailsItem :labelSpan='7' :textSpan="17" :label='"登录密码"' :text='"***********"'></DetailsItem>
 								</a-col>
-
 							</a-row>
 							<a-row type="flex" justify="start" class="detailsPartLine">
 								<a-col span="24">
-
 									<DetailsItem :labelSpan='7' :textSpan="17" :label='"性别"' :text='detail.sex'></DetailsItem>
 								</a-col>
-
 							</a-row>
 							<a-row type="flex" justify="start" class="detailsPartLine">
 								<a-col span="24">
-
 									<DetailsItem :labelSpan='7' :textSpan="17" :label='"身份证号"' :text='detail.identity'></DetailsItem>
 								</a-col>
-
 							</a-row>
 							<a-row type="flex" justify="start" class="detailsPartLine">
 								<a-col span="24">
-
 									<DetailsItem :labelSpan='7' :textSpan="17" :label='"单位所在地"' :text='detail.mailingAddress'></DetailsItem>
 								</a-col>
-
 							</a-row>
 							<a-row type="flex" justify="start" class="detailsPartLine">
 								<a-col span="24">
-
-									<DetailsItem :labelSpan='7' :textSpan="17" :label='"所属系统"' :text='detail.belongSystem'></DetailsItem>
-								</a-col>
-
-
-							</a-row>
-							<a-row type="flex" justify="start" class="detailsPartLine">
-								<a-col span="24">
-
 									<DetailsItem :labelSpan='7' :textSpan="17" :label='"职称"' :text='detail.jobTitleName'></DetailsItem>
 								</a-col>
-
+							</a-row>
+							<a-row type="flex" justify="start" class="detailsPartLine">
+								<a-col span="24">
+									<DetailsItem :labelSpan='7' :textSpan="17" :label='"所在部门"' :text='detail.belongDepartment'></DetailsItem>
+								</a-col>
 							</a-row>
 						</a-col>
 						<a-col span="8">
@@ -127,16 +101,9 @@
 									<img style="width:165px;height:185px" src="../../../assets/images/pic.jpg" alt="">
 								</a-col>
 							</a-row>
-							<a-row type="flex" justify="start" class="detailsPartLine">
-								<a-col span="24">
-
-									<DetailsItem :labelSpan='7' :textSpan="17" :label='"所在部门"' :text='detail.belongDepartment'></DetailsItem>
-								</a-col>
-
-							</a-row>
 						</a-col>
 					</a-row>
-				</a-card>
+				</div>
 			</div>
 			<div class="content">
 				<a-card :bordered='false' title="工作学习经历" id="experience">
@@ -235,7 +202,7 @@
 						<a-col span="8">
 							<a-row type="flex" justify="start" class="detailsPartLine">
 								<a-col span="24">
-									<DetailsItem :labelSpan='9' :textSpan="15" :label='"工作领域"' :text='detail.achievements'></DetailsItem>
+									<DetailsItem :labelSpan='9' :textSpan="15" :label='"工作领域"' :text='detail.workAreaName'></DetailsItem>
 								</a-col>
 							</a-row>
 						</a-col>
@@ -271,35 +238,35 @@
 </template>
 
 <script>
-import DetailsItem from '@/components/detail/detailItem'
-export default {
-  components: {
-    DetailsItem
-  },
-  data() {
-    return {
-      detail: {}
-    }
-  },
-  mounted() {
-    this.getDetail()
-  },
-  methods: {
-    getDetail() {
-      this.$ajax.get({
-        url: this.$api.GET_EXPERT_DETAIL.replace('{experId}', this.$route.query.id)
-      }).then(res => {
-        this.detail = this.$com.confirm(res, 'data.content', {})
-      })
-    },
-    handleReturn() {
+	import DetailsItem from '@/components/detail/detailItem'
+	export default {
+		components: {
+			DetailsItem
+		},
+		data() {
+			return {
+				detail: {}
+			}
+		},
+		mounted() {
+			this.getDetail()
+		},
+		methods: {
+			getDetail() {
+				this.$ajax.get({
+					url: this.$api.GET_EXPERT_DETAIL.replace('{experId}', this.$route.query.id)
+				}).then(res => {
+					this.detail = this.$com.confirm(res, 'data.content', {})
+				})
+			},
+			handleReturn() {
 
-    },
-    handleSave() {
+			},
+			handleSave() {
 
-    }
-  }
-}
+			}
+		}
+	}
 </script>
 
 <style scoped>
