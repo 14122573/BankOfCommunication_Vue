@@ -4,7 +4,7 @@
     <span class="title">查看新用户信息</span>
     <div class="detailOperations">
         <a-button type="primary" ghost @click='handleReturn'>返回</a-button>
-    <a-button type="primary" @click='handleEdit'>修改</a-button>
+        <a-button type="primary" @click='handleEdit'>修改</a-button>
     </div>
   </div>
   <div class="portalDetailContentWapper">

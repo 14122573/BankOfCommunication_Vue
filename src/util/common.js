@@ -293,12 +293,6 @@ export default {
         color: 'default'
       }
       break
-      // case '2':
-      //   return {
-      //     txt: '已冻结',
-      //     color: 'warning'
-      //   }
-      //   break
     default:
       return {
         txt: '-',

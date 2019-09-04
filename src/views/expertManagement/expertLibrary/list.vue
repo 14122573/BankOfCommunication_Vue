@@ -9,12 +9,12 @@
 				</a-col>
 				<a-col span="6">
 					<a-form-item label="账号：" class="formItem" v-bind="colSpe">
-						<a-input v-decorator="['phone']" placeholder="请输入"></a-input>
+						<a-input v-decorator="['loginPhone']" placeholder="请输入"></a-input>
 					</a-form-item>
 				</a-col>
 				<a-col span="6">
 					<a-form-item label="职称：" class="formItem" v-bind="colSpe">
-						<a-select v-decorator="['jobId']" placeholder="请选择" :options="options.jobList" allowClear></a-select>
+						<a-select v-decorator="['jobTitleName']" placeholder="请选择" :options="options.jobList" allowClear></a-select>
 					</a-form-item>
 				</a-col>
 				<a-col span="6">
@@ -35,7 +35,7 @@
 				</a-col>
 			</a-row>
 		</a-form>
-		 <p class="gayLine"></p>
+		<p class="gayLine"></p>
 		<a-row class="portalTableOperates">
 			<a-button type="primary" icon='plus' @click="add">新增</a-button>
 			<a-button icon='download' @click="upload">导入</a-button>
@@ -45,7 +45,7 @@
 				<userStatus :status="record.status" />
 			</span>
 			<span slot="action" slot-scope="text, record">
-				<a @click="$router.push({name:'/expertManagement/expertLibrary/view',query:{id:record.id}})">查看</a>
+				<a @click="$router.push({name:'/expertManagement/expertLibrary/view',query:{id:record.expertId}})">查看</a>
 				<a-divider type="vertical" />
 				<a @click="editBtn(record)">修改</a>
 				<a-divider type="vertical" />
@@ -127,32 +127,32 @@ export default {
       columns: [{
         title: '姓名',
         dataIndex: 'name',
-        key: 'name'
+        key: 'id'
       },
       {
         title: '账号',
         dataIndex: 'loginPhone',
-        key: 'loginPhone'
+        key: 'id'
       },
       {
         title: '工作单位',
         dataIndex: 'workCompany',
-        key: 'workCompany'
+        key: 'id'
       },
       {
         title: '职称',
         dataIndex: 'jobTitleName',
-        key: 'jobTitleName'
+        key: 'id'
       },
       {
         title: '省级认定',
         dataIndex: 'provinceConfirm',
-        key: 'provinceConfirm'
+        key: 'id'
       },
       {
         title: '部级认定',
         dataIndex: 'unitConfirm',
-        key: 'unitConfirm'
+        key: 'id'
       },
       {
         title: '用户状态',
@@ -191,13 +191,12 @@ export default {
       this.$ajax.get({
         url: this.$api.GET_EXPERT_LIST
       }).then(res => {
-        //         this.dataSource =
-        // 						console.log(res)
+        this.dataSource = this.$com.confirm(res, 'data.content',[])
       })
     },
     // 查询
     search() {
-
+				 console.log( this.formBind.getFieldsValue())
     },
     // 重置
     reset() {

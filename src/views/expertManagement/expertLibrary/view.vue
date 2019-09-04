@@ -1,5 +1,5 @@
 <template>
-	<div ref='InfoExpert' id="InfoExpert">
+	<div ref='InfoExpert' id="InfoExpert" class="portalDetailContentWapper">
 		<a-card :bordered='false'>
 			<a-row type="flex" justify="space-between" align="middle" slot="title">
 				<a-col>查看专家账号
@@ -22,119 +22,104 @@
 			<a-anchor-link href="#relatedManagement" title="相关管理信息" />
 		</a-anchor>
 		<div>
-			<div class="content" >
+			<div class="content">
 				<a-card :bordered='false' title="基本信息" id="basic">
 					<a-row type="flex" justify="start">
 						<a-col span="8">
-							<a-row type="flex" justify="start" class="colMargin">
-								<a-col span="7" class="colLabel">
-									登录手机账号：
-								</a-col>
-								<a-col span="17">
-									登录手机账号
+							<a-row type="flex" justify="start" class="detailsPartLine">
+								<a-col span="24">
+									<DetailsItem :labelSpan='7' :textSpan="12" :label='"登录手机账号"' :text='detail.loginPhone'></DetailsItem>
 								</a-col>
 							</a-row>
-							<a-row type="flex" justify="start" class="colMargin">
-								<a-col span="7" class="colLabel">
-									姓名：
-								</a-col>
-								<a-col span="17">
-									姓名
+							<a-row type="flex" justify="start" class="detailsPartLine">
+								<a-col span="24">
+									<DetailsItem :labelSpan='7' :textSpan="17" :label='"姓名"' :text='detail.name'></DetailsItem>
+									
 								</a-col>
 							</a-row>
-							<a-row type="flex" justify="start" class="colMargin">
-								<a-col span="7" class="colLabel">
-									民族：
+							<a-row type="flex" justify="start" class="detailsPartLine">
+								<a-col span="24">
+
+								<DetailsItem :labelSpan='7' :textSpan="17" :label='"民族"' :text='detail.minorityName'></DetailsItem>
 								</a-col>
-								<a-col span="17">
-									民族
-								</a-col>
+
 							</a-row>
-							<a-row type="flex" justify="start" class="colMargin">
-								<a-col span="7" class="colLabel">
-									工作单位：
+							<a-row type="flex" justify="start" class="detailsPartLine">
+								<a-col span="24">
+
+								<DetailsItem :labelSpan='7' :textSpan="17" :label='"工作单位"' :text='detail.workCompany'></DetailsItem>
 								</a-col>
-								<a-col span="17">
-									工作单位
-								</a-col>
+
 							</a-row>
-							<a-row type="flex" justify="start" class="colMargin">
-								<a-col span="7" class="colLabel">
-									单位性质：
+							<a-row type="flex" justify="start" class="detailsPartLine">
+								<a-col span="24">
+
+								<DetailsItem :labelSpan='7' :textSpan="17" :label='"单位性质"' :text='detail.companyNatureName'></DetailsItem>
 								</a-col>
-								<a-col span="17">
-									单位性质
-								</a-col>
+
 							</a-row>
-							<a-row type="flex" justify="start" class="colMargin">
-								<a-col span="7" class="colLabel">
-									职位：
+							<a-row type="flex" justify="start" class="detailsPartLine">
+								<a-col span="24">
+
+								<DetailsItem :labelSpan='7' :textSpan="17" :label='"单位性质"' :text='detail.positionName'></DetailsItem>
 								</a-col>
-								<a-col span="17">
-									职位
-								</a-col>
+
 							</a-row>
-							<a-row type="flex" justify="start" class="colMargin">
-								<a-col span="7" class="colLabel">
-									主要社会兼职：
+							<a-row type="flex" justify="start" class="detailsPartLine">
+								<a-col span="24">
+
+								<DetailsItem :labelSpan='7' :textSpan="17" :label='"主要社会兼职"' :text='detail.partTime'></DetailsItem>
 								</a-col>
-								<a-col span="17">
-									主要社会兼职
-								</a-col>
+
 							</a-row>
 						</a-col>
 						<a-col span="8">
-							<a-row type="flex" justify="start" class="colMargin">
-								<a-col span="7" class="colLabel">
-									登录密码：
+							<a-row type="flex" justify="start" class="detailsPartLine">
+								<a-col span="24">
+
+								<DetailsItem :labelSpan='7' :textSpan="17" :label='"登录密码"' :text='"***********"'></DetailsItem>
 								</a-col>
-								<a-col span="17">
-									*************
-								</a-col>
+
 							</a-row>
-							<a-row type="flex" justify="start" class="colMargin">
-								<a-col span="7" class="colLabel">
-									性别：
+							<a-row type="flex" justify="start" class="detailsPartLine">
+								<a-col span="24">
+
+								<DetailsItem :labelSpan='7' :textSpan="17" :label='"性别"' :text='detail.sex'></DetailsItem>
 								</a-col>
-								<a-col span="17">
-									性别
-								</a-col>
+
 							</a-row>
-							<a-row type="flex" justify="start" class="colMargin">
-								<a-col span="7" class="colLabel">
-									身份证号：
+							<a-row type="flex" justify="start" class="detailsPartLine">
+								<a-col span="24">
+
+								<DetailsItem :labelSpan='7' :textSpan="17" :label='"身份证号"' :text='detail.identity'></DetailsItem>
 								</a-col>
-								<a-col span="17">
-									身份证号
-								</a-col>
+
 							</a-row>
-							<a-row type="flex" justify="start" class="colMargin">
-								<a-col span="7" class="colLabel">
-									单位所在地：
+							<a-row type="flex" justify="start" class="detailsPartLine">
+								<a-col span="24">
+
+								<DetailsItem :labelSpan='7' :textSpan="17" :label='"单位所在地"' :text='detail.mailingAddress'></DetailsItem>
 								</a-col>
-								<a-col span="17">
-									单位所在地
-								</a-col>
+
 							</a-row>
-							<a-row type="flex" justify="start" class="colMargin">
-								<a-col span="7" class="colLabel">
-									所属系统：
+							<a-row type="flex" justify="start" class="detailsPartLine">
+								<a-col span="24">
+
+								<DetailsItem :labelSpan='7' :textSpan="17" :label='"所属系统"' :text='detail.belongSystem'></DetailsItem>
 								</a-col>
-								<a-col span="17">
-									所属系统
-								</a-col>
+
+
 							</a-row>
-							<a-row type="flex" justify="start" class="colMargin">
-								<a-col span="7" class="colLabel">
-									职称：
+							<a-row type="flex" justify="start" class="detailsPartLine">
+								<a-col span="24">
+
+								<DetailsItem :labelSpan='7' :textSpan="17" :label='"职称"' :text='detail.jobTitleName'></DetailsItem>
 								</a-col>
-								<a-col span="17">
-									职称
-								</a-col>
+
 							</a-row>
 						</a-col>
 						<a-col span="8">
-							<a-row type="flex" justify="start" class="colMargin">
+							<a-row type="flex" justify="start" class="detailsPartLine">
 								<a-col span="7" class="colLabel">
 									一寸照：
 								</a-col>
@@ -142,190 +127,161 @@
 									<img style="width:165px;height:185px" src="../../../assets/images/pic.jpg" alt="">
 								</a-col>
 							</a-row>
-							<a-row type="flex" justify="start" class="colMargin">
-								<a-col span="7" class="colLabel">
-									所在部门：
+							<a-row type="flex" justify="start" class="detailsPartLine">
+								<a-col span="24">
+
+								<DetailsItem :labelSpan='7' :textSpan="17" :label='"所在部门"' :text='detail.belongDepartment'></DetailsItem>
 								</a-col>
-								<a-col span="17">
-									所在部门
-								</a-col>
+
 							</a-row>
 						</a-col>
 					</a-row>
 				</a-card>
 			</div>
 			<div class="content">
-				<a-card :bordered='false' title="工作学习经历"  id="experience">
+				<a-card :bordered='false' title="工作学习经历" id="experience">
 					<a-row type="flex" justify="start">
 						<a-col span="8">
-							<a-row type="flex" justify="start" class="colMargin">
-								<a-col span="7" class="colLabel">
-									毕业院校：
+							<a-row type="flex" justify="start" class="detailsPartLine">
+								<a-col span="24">
+
+								<DetailsItem :labelSpan='7' :textSpan="17" :label='"毕业院校"' :text='detail.graduatedSchool'></DetailsItem>
 								</a-col>
-								<a-col span="17">
-									毕业院校
-								</a-col>
+
 							</a-row>
 						</a-col>
 						<a-col span="8">
-							<a-row type="flex" justify="start" class="colMargin">
-								<a-col span="7" class="colLabel">
-									学历：
+							<a-row type="flex" justify="start" class="detailsPartLine">
+								<a-col span="24">
+
+								<DetailsItem :labelSpan='7' :textSpan="17" :label='"学历"' :text='detail.educationName'></DetailsItem>
 								</a-col>
-								<a-col span="17">
-									学历
-								</a-col>
+
 							</a-row>
 						</a-col>
 						<a-col span="8">
-							<a-row type="flex" justify="start" class="colMargin">
-								<a-col span="7" class="colLabel">
-									学位：
+							<a-row type="flex" justify="start" class="detailsPartLine">
+								<a-col span="24">
+
+								<DetailsItem :labelSpan='7' :textSpan="17" :label='"学位"' :text='detail.bachelorName'></DetailsItem>
 								</a-col>
-								<a-col span="17">
-									学位
-								</a-col>
+
 							</a-row>
 						</a-col>
 					</a-row>
 					<a-row type="flex" justify="start">
 						<a-col span="8">
-							<a-row type="flex" justify="start" class="colMargin">
-								<a-col span="7" class="colLabel">
-									所学专业：
+							<a-row type="flex" justify="start" class="detailsPartLine">
+								<a-col span="24">
+
+								<DetailsItem :labelSpan='7' :textSpan="17" :label='"所学专业"' :text='detail.profession'></DetailsItem>
 								</a-col>
-								<a-col span="17">
-									所学专业
-								</a-col>
+
 							</a-row>
 						</a-col>
 					</a-row>
 					<a-row type="flex" justify="start">
 						<a-col span="8">
-							<a-row type="flex" justify="start" class="colMargin">
-								<a-col span="7" class="colLabel">
-									工作经历：
+							<a-row type="flex" justify="start" class="detailsPartLine">
+								<a-col span="24">
+
+								<DetailsItem :labelSpan='7' :textSpan="17" :label='"工作经历"' :text='detail.workExperience'></DetailsItem>
 								</a-col>
-								<a-col span="17">
-									工作经历
-								</a-col>
+
 							</a-row>
 						</a-col>
 					</a-row>
 				</a-card>
 			</div>
-			<div class="content" >
+			<div class="content">
 				<a-card :bordered='false' title="联系信息" id="contact">
 					<a-row type="flex" justify="start">
 						<a-col span="8">
-							<a-row type="flex" justify="start" class="colMargin">
-								<a-col span="7" class="colLabel">
-									通讯地址：
+							<a-row type="flex" justify="start" class="detailsPartLine">
+								<a-col span="24">
+
+								<DetailsItem :labelSpan='7' :textSpan="17" :label='"通讯地址"' :text='detail.mailingAddress'></DetailsItem>
 								</a-col>
-								<a-col span="17">
-									通讯地址
-								</a-col>
+
 							</a-row>
 						</a-col>
 						<a-col span="8">
-							<a-row type="flex" justify="start" class="colMargin">
-								<a-col span="7" class="colLabel">
-									联系电话：
+							<a-row type="flex" justify="start" class="detailsPartLine">
+								<a-col span="24">
+
+								<DetailsItem :labelSpan='7' :textSpan="17" :label='"联系电话"' :text='detail.phone'></DetailsItem>
 								</a-col>
-								<a-col span="17">
-									联系电话
-								</a-col>
+
 							</a-row>
 						</a-col>
 						<a-col span="8">
-							<a-row type="flex" justify="start" class="colMargin">
-								<a-col span="7" class="colLabel">
-									电子邮箱：
+							<a-row type="flex" justify="start" class="detailsPartLine">
+								<a-col span="24">
+
+								<DetailsItem :labelSpan='7' :textSpan="17" :label='"电子邮箱"' :text='detail.email'></DetailsItem>
 								</a-col>
-								<a-col span="17">
-									电子邮箱
-								</a-col>
+
 							</a-row>
 						</a-col>
+						
 					</a-row>
 				</a-card>
 			</div>
-			<div class="content" >
+			<div class="content">
 				<a-card :bordered='false' title="工作领域信息" id="workArea">
-					<a-row type="flex" justify="start" class="colMargin">
-						<a-col span="3" class="colLabel">
-							主要相关研究方向：
-						</a-col>
-						<a-col span="21">
-							主要相关研究方向
-						</a-col>
+					<a-row type="flex" justify="start" class="detailsPartLine">
+						<a-col span="24">
+						<DetailsItem :labelSpan='3' :textSpan="21" :label='"主要相关研究方向"' :text='detail.researchDirectionName'></DetailsItem>
+					</a-col>
+
 					</a-row>
-					<a-row type="flex" justify="start" class="colMargin">
-						<a-col span="3" class="colLabel">
-							主要工作业绩：
+					<a-row type="flex" justify="start" class="detailsPartLine">
+						<a-col span="24">
+						<DetailsItem :labelSpan='3' :textSpan="21" :label='"主要工作业绩"' :text='detail.performance'></DetailsItem>
 						</a-col>
-						<a-col span="21">
-							主要工作业绩
-						</a-col>
+
 					</a-row>
-					<a-row type="flex" justify="start" class="colMargin">
-						<a-col span="3" class="colLabel">
-							获奖成果：
+					<a-row type="flex" justify="start" class="detailsPartLine">
+						<a-col span="24">
+						<DetailsItem :labelSpan='3' :textSpan="21" :label='"获奖成果"' :text='detail.achievements'></DetailsItem>
 						</a-col>
-						<a-col span="21">
-							获奖成果
-						</a-col>
+
 					</a-row>
 				</a-card>
 			</div>
-			<div class="content" >
+			<div class="content">
 				<a-card :bordered='false' title="相关管理信息" id="relatedManagement">
 					<a-row type="flex" justify="start">
 						<a-col span="8">
-							<a-row type="flex" justify="start" class="colMargin">
-								<a-col span="9" class="colLabel">
-									工作领域：
-								</a-col>
-								<a-col span="15">
-									工作领域
+							<a-row type="flex" justify="start" class="detailsPartLine">
+								<a-col span="24">
+								<DetailsItem :labelSpan='4' :textSpan="20" :label='"工作领域"' :text='detail.achievements'></DetailsItem>
 								</a-col>
 							</a-row>
 						</a-col>
 						<a-col span="8">
-							<a-row type="flex" justify="start" class="colMargin">
-								<a-col span="9" class="colLabel">
-									专业组别：
-								</a-col>
-								<a-col span="15">
-									专业组别
-								</a-col>
+							<a-row type="flex" justify="start" class="detailsPartLine">
+								<a-col span="24">
+								 <DetailsItem :labelSpan='4' :textSpan="20" :label='"专业组别"' :text='detail.professionGroupName'></DetailsItem>
+								 </a-col>
 							</a-row>
 						</a-col>
 						<a-col span="8">
-							<a-row type="flex" justify="start" class="colMargin">
-								<a-col span="9" class="colLabel">
-									省级认定：
-								</a-col>
-								<a-col span="15">
-									省级认定
+							<a-row type="flex" justify="start" class="detailsPartLine">
+								<a-col span="24">
+								<DetailsItem :labelSpan='4' :textSpan="20" :label='"省级认定"' :text='detail.provinceConfirm'></DetailsItem>
 								</a-col>
 							</a-row>
 						</a-col>
 					</a-row>
-					<a-row type="flex" justify="start" class="colMargin">
-						<a-col span="3" class="colLabel">
-							部级认定：
-						</a-col>
-						<a-col span="21">
-							部级认定
+					<a-row type="flex" justify="start" class="detailsPartLine">
+						<a-col span="24">
+						   <DetailsItem :labelSpan='4' :textSpan="20" :label='"部级认定"' :text='detail.unitConfirm'></DetailsItem>
 						</a-col>
 					</a-row>
-					<a-row type="flex" justify="start" class="colMargin">
-						<a-col span="3" class="colLabel">
-							入库以来参与工作：
-						</a-col>
-						<a-col span="21">
-							部级认定
+					<a-row type="flex" justify="start" class="detailsPartLine">
+						<a-col span="24">
+						<DetailsItem :labelSpan='4' :textSpan="20" :label='"入库以来参与工作"' :text='detail.historyWork'></DetailsItem>
 						</a-col>
 					</a-row>
 				</a-card>
@@ -335,24 +291,32 @@
 </template>
 
 <script>
+import DetailsItem from '@/components/detail/detailItem'
 export default {
+  components: {
+    DetailsItem
+  },
   data() {
     return {
-      dom: ''
+      detail: {}
     }
   },
   mounted() {
-    this.dom = document.getElementById('appContent')
+    this.getDetail()
   },
   methods: {
+    getDetail() {
+      this.$ajax.get({
+        url: this.$api.GET_EXPERT_DETAIL.replace('{experId}', this.$route.query.id)
+      }).then(res => {
+        this.detail = this.$com.confirm(res, 'data.content', {})
+      })
+    },
     handleReturn() {
 
     },
     handleSave() {
 
-    },
-    getContainer() {
-      this.dom
     }
   }
 }

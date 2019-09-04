@@ -59,6 +59,7 @@ export default {
   PUT_EDIT_ORGANIZATION_LIST: '/service-permission/perm/group/{id}', //修改组织机构
   DELETE_ORGANIZATION_LIST: '/service-permission/perm/group/{id}', //删除组织机构
   GET_ORGANIZATION_LIST_DETAIL: '/service-permission/perm/group/{id}', //组织机构详情
-  GET_EXPERT_LIST:'http://47.100.45.230:30000/mock/185/expert',//专家库列表
+  GET_EXPERT_LIST:'/service-expert/expert/expert',//专家库列表
+  GET_EXPERT_DETAIL:'/service-expert/expert/expert/{experId}',//专家库明细
 	
 }
