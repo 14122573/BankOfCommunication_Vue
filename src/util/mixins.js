@@ -1,6 +1,4 @@
-import {
-  routes
-} from '@/router/routes.js'
+import { routes } from '@/router/routes.js'
 import common from '@/util/common'
 
 export const permission = {
@@ -19,7 +17,6 @@ export const permission = {
           name = ''
           oldSysAuthCode = []
         }else{
-
           userInfo = res.data.content
           name = userInfo.username = res.data.content.name||res.data.content.phone
           this.$store.commit('SET_USERINFO',userInfo)

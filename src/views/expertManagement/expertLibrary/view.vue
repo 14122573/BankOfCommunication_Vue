@@ -238,35 +238,35 @@
 </template>
 
 <script>
-	import DetailsItem from '@/components/detail/detailItem'
-	export default {
-		components: {
-			DetailsItem
-		},
-		data() {
-			return {
-				detail: {}
-			}
-		},
-		mounted() {
-			this.getDetail()
-		},
-		methods: {
-			getDetail() {
-				this.$ajax.get({
-					url: this.$api.GET_EXPERT_DETAIL.replace('{experId}', this.$route.query.id)
-				}).then(res => {
-					this.detail = this.$com.confirm(res, 'data.content', {})
-				})
-			},
-			handleReturn() {
+import DetailsItem from '@/components/detail/detailItem'
+export default {
+  components: {
+    DetailsItem
+  },
+  data() {
+    return {
+      detail: {}
+    }
+  },
+  mounted() {
+    this.getDetail()
+  },
+  methods: {
+    getDetail() {
+      this.$ajax.get({
+        url: this.$api.GET_EXPERT_DETAIL.replace('{experId}', this.$route.query.id)
+      }).then(res => {
+        this.detail = this.$com.confirm(res, 'data.content', {})
+      })
+    },
+    handleReturn() {
 
-			},
-			handleSave() {
+    },
+    handleSave() {
 
-			}
-		}
-	}
+    }
+  }
+}
 </script>
 
 <style scoped>
