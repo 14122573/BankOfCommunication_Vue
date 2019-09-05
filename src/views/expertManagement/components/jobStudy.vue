@@ -1,14 +1,10 @@
 <template>
     <span>
         <a-form :form="formJob">
-         <!-- 工作学习经历 -->
-            <a-card class="margin-card">
-                <a-row id="job" type="flex" slot="title" justify="space-between" align="middle">
-                    <a-col>
-                        工作学习经历
-                    </a-col>
-                </a-row>
-                <a-row>
+          <div class="layoutMargin detailsPartSection">
+            <!-- 工作学习经历 -->
+            <p class="detailsPartTitle" id="job">工作学习经历</p>
+                <a-row class="formItemLine">
                     <a-col span="8">
                         <a-form-item label="毕业院校" v-bind="colSpa">
                             <a-input v-decorator="['graduatedSchool',{rules:rules.graduatedSchool}]" placeholder="请输入"></a-input>
@@ -25,29 +21,25 @@
                         </a-form-item>
                     </a-col>
                 </a-row>
-                <a-row>
+                <a-row class="formItemLine">
                     <a-col span="8">
                         <a-form-item label="所学专业" v-bind="colSpa">
                             <a-input v-decorator="['profession',{rules:rules.profession}]" placeholder="请输入"></a-input>
                         </a-form-item>
                     </a-col>
                 </a-row>
-                <a-row>
+                <a-row class="formItemLine">
                     <a-col span="16">
                         <a-form-item label="工作经历" v-bind="textSpa">
                             <a-textarea v-decorator="['workExperience']" placeholder="请输入"></a-textarea>
                         </a-form-item>
                     </a-col>
                 </a-row>
-            </a-card>
-            <!-- 联系信息 -->
-            <a-card class="margin-card">
-                <a-row id="message" type="flex" slot="title" justify="space-between" align="middle">
-                    <a-col>
-                        联系信息
-                    </a-col>
-                </a-row>
-                <a-row>
+          </div>
+          <div class="layoutMargin detailsPartSection">
+              <!-- 联系信息 -->
+              <p class="detailsPartTitle" id="message">联系信息</p>
+                <a-row class="formItemLine">
                     <a-col span="8">
                         <a-form-item label="通讯地址" v-bind="colSpa">
                             <a-input v-decorator="['mailingAddress',{rules:rules.mailingAddress}]" placeholder="请输入"></a-input>
@@ -64,7 +56,7 @@
                         </a-form-item>
                     </a-col>
                 </a-row>
-            </a-card>
+          </div>
         </a-form>
     </span>
 </template>

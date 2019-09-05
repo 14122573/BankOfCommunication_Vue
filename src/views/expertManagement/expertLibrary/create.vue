@@ -1,16 +1,5 @@
 <template>
     <div class="portalDetailWapper create-talent-root">
-        <!-- <a-card>
-            <a-row type="flex" slot="title" justify="space-between" align="middle">
-                <a-col>
-                    新增专家账号
-                </a-col>
-                <a-col>
-                    <a-button type="primary" @click="back" ghost>取消</a-button>
-                    <a-button type="primary" @click="save">保存</a-button>
-                </a-col>
-            </a-row>
-        </a-card> -->
 		<div class="portalDetailTitle">
 			<span class="title">{{$route.meta.title}}</span>
 			<div class="detailOperations">
@@ -18,18 +7,13 @@
 				<a-button type="primary" @click='save' html-type="submit">保存</a-button>
 			</div>
 		</div>
-        <div ref="create-talent"  class="content create-talent portalDetailContentWapper">
-				<a-form :form="form">
-            
-            <a-card>
-                <a-row type="flex" id="basic" slot="title" justify="space-between" align="middle">
-                    <a-col>
-                        基本信息
-                    </a-col>
-                </a-row>
-                <a-row>
+        <div ref="create-talent" class="portalDetailContentWapper create-talent">
+			<a-form :form="form">
+            <div class="layoutMargin detailsPartSection">
+				<p class="detailsPartTitle" id="basic">基本信息</p>       
+                <a-row class="formItemLine">
                     <a-col span="16">
-                        <a-row>
+                        <a-row class="formItemLine">
                             <a-col span="12">
                                 <a-form-item label="姓名" v-bind="colSpa">
                                     <a-input v-decorator="['name',{rules:rules.name}]" placeholder="请输入"></a-input>
@@ -41,7 +25,7 @@
                                 </a-form-item>
                             </a-col>
                         </a-row>
-                        <a-row>
+                        <a-row class="formItemLine">
                             
                             <a-col span="12">
                                 <a-form-item label="民族" v-bind="colSpa">
@@ -55,7 +39,7 @@
                             </a-col>
 							
                         </a-row>
-                        <a-row>
+                        <a-row class="formItemLine">
                             <a-col span="12">
                                 <a-form-item label="工作单位" v-bind="colSpa">
                                     <a-input v-decorator="['workCompany',{rules:rules.workCompany}]" placeholder="请输入"></a-input>
@@ -67,7 +51,7 @@
                                 </a-form-item>
                             </a-col>
                         </a-row>
-						<a-row>
+						<a-row class="formItemLine">
 							<a-col span="12">
 								<a-form-item label="单位所在地" v-bind="colSpa">
 									<a-input v-decorator="['companyAddress',{rules:rules.companyAddress}]" placeholder="请输入"></a-input>
@@ -101,7 +85,7 @@
                         </a-form-item>
                     </a-col>
                 </a-row>
-                <a-row>
+                <a-row class="formItemLine">
 					
                     <a-col span="8">
                         <a-form-item label="职称" v-bind="colSpa">
@@ -114,26 +98,25 @@
                         </a-form-item>
                     </a-col>
                 </a-row>
-                <a-row>
+                <a-row class="formItemLine">
                     <a-col span="16">
                         <a-form-item label="主要社会兼职" v-bind="textSpa">
                             <a-textarea  v-decorator="['partTime']" placeholder="请输入"></a-textarea>
                         </a-form-item>
                     </a-col>
                 </a-row>
-            </a-card>
+			</div>
 			</a-form>
 			<jobStudy ref="jobStudy" class="marginRef" :options="options" :colSpa="colSpa" :textSpa="textSpa"/>
 			<jobSpace ref="jobSpace" class="marginRef" :options="options" :colSpa="colSpa" :textSpa="textSpa" />
-			<a-anchor :offsetTop="240" :getContainer="()=> this.$refs['create-talent']" class="talent-anchor" >
-				<a-anchor-link href="#basic" title="基本信息" />
-				<a-anchor-link href="#job" title="工作学习经历" />
-				<a-anchor-link href="#message" title="联系信息" />
-				<a-anchor-link href="#space" title="工作领域信息" />
-				<a-anchor-link href="#management" title="相关管理信息" />
-			</a-anchor>
-            
         </div>
+		<a-anchor :offsetTop="240" :getContainer="()=> this.$refs['create-talent']" class="talent-anchor">
+			<a-anchor-link href="#basic" title="基本信息" />
+			<a-anchor-link href="#job" title="工作学习经历" />
+			<a-anchor-link href="#message" title="联系信息" />
+			<a-anchor-link href="#space" title="工作领域信息" />
+			<a-anchor-link href="#management" title="相关管理信息" />
+		</a-anchor>
 		<a-modal :visible="previewVisible" style="text-align:center" :width="600" :footer="null" @cancel="previewVisible = false">
 			<img alt="一寸照" style="width: 80%;height:auto" :src="previewImage" />
 		</a-modal>
@@ -204,11 +187,11 @@ export default {
       fileList: [],
       colSpa: {
         labelCol: { span: 10 },
-        wrapperCol: { span: 14 }
+        wrapperCol: { span: 12 }
       },
       textSpa: {
         labelCol: { span: 5 },
-        wrapperCol: { span: 19 }
+        wrapperCol: { span: 18 }
       },
       previewVisible: false,
       previewImage: '',
@@ -456,13 +439,15 @@ export default {
               unitConfirm,
               historyWork
             })
-            this.form.setFieldsValue({ portraitImg: portraitImg })
-            this.fileList.push({
-              uid: -1,
-              name: portraitImg,
-              status: 'done',
-              url: portraitImg
-            })
+            if(portraitImg != null){
+              this.form.setFieldsValue({ portraitImg: portraitImg })
+              this.fileList.push({
+                uid: -1,
+                name: portraitImg,
+                status: 'done',
+                url: portraitImg
+              })
+            }
           })
         })
     },
@@ -504,22 +489,18 @@ export default {
 }
 </script>
 <style scoped>
-.content {
-  padding: 20px;
-}
 .margin-card {
   margin-top: 20px;
 }
 .talent-anchor {
   position: absolute;
-  right: 21px;
+  right: 40px;
   top: 240px;
-  z-index: 999;
+  z-index: 2;
 }
 .create-talent {
   position: relative;
   overflow: auto;
-  height: 100%;
 }
 .marginRef{
 	margin-top: 20px;

@@ -258,6 +258,14 @@ export default {
         })
       }
     },
+    editBtn(item){
+      this.$router.push({
+        name:'/expertManagement/expertLibrary/edit',
+        query:{
+          id:item.expertId
+        }
+      })
+    },
     handleCancel() {},
     getJobLists() {
       this.$ajax.get({

@@ -1,44 +1,35 @@
 <template>
     <span>
-        <a-form :form="formSpace">
-			
+        <a-form :form="formSpace" class="space-form">
+			<div class="layoutMargin detailsPartSection">
             <!-- 工作领域信息 -->
-            <a-card class="margin-card">
-                <a-row id="space" type="flex" slot="title" justify="space-between" align="middle">
-                    <a-col>
-                        工作领域信息
-                    </a-col>
-                </a-row>
-                <a-row>
+            <p class="detailsPartTitle" id="space">工作领域信息</p>
+                <a-row class="formItemLine">
                     <a-col span="8">
                         <a-form-item label="主要相关研究方向" v-bind="colSpa">
                             <a-select v-decorator="['researchDirection']" :options="options.researchDirectionList" placeholder="请选择"></a-select>
                         </a-form-item>
                     </a-col>
                 </a-row>
-                <a-row>
+                <a-row class="formItemLine">
                     <a-col span="16">
                         <a-form-item label="主要工作业绩" v-bind="textSpa">
                             <a-textarea v-decorator="['performance']" placeholder="请输入"></a-textarea>
                         </a-form-item>
                     </a-col>
                 </a-row>
-                <a-row>
+                <a-row class="formItemLine">
                     <a-col span="16">
                         <a-form-item label="获奖成果" v-bind="textSpa">
                             <a-textarea v-decorator="['achievements']" placeholder="请输入"></a-textarea>
                         </a-form-item>
                     </a-col>
                 </a-row>
-            </a-card>
+			</div>
+            <div class="layoutMargin detailsPartSection">
             <!-- 相关管理信息 -->
-            <a-card class="margin-card">
-                <a-row id="management" type="flex" slot="title" justify="space-between" align="middle">
-                    <a-col>
-                        相关管理信息
-                    </a-col>
-                </a-row>
-                <a-row>
+            <p class="detailsPartTitle" id="management">相关管理信息</p>
+                <a-row class="formItemLine">
                     <a-col span="8">
                         <a-form-item label="工作领域" v-bind="colSpa">
                             <a-select v-decorator="['workArea',{rules:rules.workArea}]" :options="options.workAreaList" placeholder="请选择"></a-select>
@@ -55,22 +46,22 @@
                         </a-form-item>
                     </a-col>
                 </a-row>
-                <a-row>
+                <a-row class="formItemLine">
                     <a-col span="8">
                         <a-form-item label="部级认定" v-bind="colSpa">
                             <a-radio-group v-decorator="['unitConfirm',{rules:rules.unitConfirm}]" :options="options.unitConfirmList"/>
                         </a-form-item>
                     </a-col>
                 </a-row>
-                <a-row>
+                <a-row class="formItemLine">
                     <a-col span="16">
                         <a-form-item label="入库以来参加工作" v-bind="textSpa">
                             <a-textarea v-decorator="['historyWork']" placeholder="请输入"></a-textarea>
                         </a-form-item>
                     </a-col>
                 </a-row>
-            </a-card>
-				</a-form>
+            </div>
+		</a-form>
     </span>
 </template>
 <script>
@@ -119,3 +110,8 @@ export default {
   },
 }
 </script>
+<style scoped>
+    .space-form{
+        padding-bottom: 20px;
+    }
+</style>
