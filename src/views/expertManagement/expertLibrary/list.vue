@@ -210,14 +210,17 @@ export default {
       this.searchForm.setFieldsValue({})
       this.getLists()
     },
+    // 新增
+    add() {
+      this.$router.push({
+        name:'/expertManagement/expertLibrary/create'
+      })
+    },
     // 导入
     upload() {
       this.$router.push({
         name: '/expertManagement/talent/upload',
       })
-    },
-    add() {
-
     },
     getJobLists() {
       this.$ajax.get({

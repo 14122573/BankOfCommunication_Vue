@@ -60,6 +60,7 @@ export default {
       params:{
         pageNo:1,
         pageSize:20,
+        createTime_desc:'1'
       },
       total:0,
       groups:require('@/assets/images/group.png'),
