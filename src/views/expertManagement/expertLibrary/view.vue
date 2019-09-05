@@ -239,11 +239,7 @@
 </template>
 
 <script>
-import DetailsItem from '@/components/detail/detailItem'
 export default {
-  components: {
-    DetailsItem
-  },
   data() {
     return {
       detail: {}

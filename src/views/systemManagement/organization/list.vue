@@ -57,9 +57,9 @@
   </div>
 </template>
 <style scoped>
-.institutionalTreeWapper { height:90%; overflow: hidden; padding-right: 16px; border-right: 1px solid #e0e0e0}
-.institutionalTreeTitle { padding-top: 10px;}
-.institutionalTreeWapper>div { height: 100%; padding: 10px; overflow-y: auto}
+.institutionalTreeWapper { height:90%;  width: 100%; overflow: hidden; padding-right: 16px; border-right: 1px solid #e0e0e0}
+.institutionalTreeTitle { padding-top: 10px;  width: 100%;}
+.institutionalTreeWapper>div { height: calc(100% - 50px); width: calc(100% - 20px); padding: 5px; overflow-y: auto; overflow-x:scroll}
 </style>
 
 <script>

@@ -6,7 +6,7 @@
 					权限分配
 				</a-col>
 				<a-col>
-					<a-button type="primary" @click="$router.back();" ghost>返回</a-button>
+					<a-button @click="$router.back();">返回</a-button>
 					<a-button type="primary" @click="save">保存</a-button>
 				</a-col>
 			</a-row>

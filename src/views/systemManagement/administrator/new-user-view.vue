@@ -73,12 +73,10 @@
 
 <script>
 import BMapComponent from '@/components/BaiduMap/BMapComponent'
-import DetailsItem from '@/components/detail/detailItem'
 
 export default {
   components: {
-    BMapComponent,
-    DetailsItem
+    BMapComponent
   },
   data() {
     return {
