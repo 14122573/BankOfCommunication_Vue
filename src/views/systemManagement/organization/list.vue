@@ -1,65 +1,69 @@
 <template>
-	<div class="layoutMargin layoutPadding" style="height:96%">
-		<a-row :gutter="20" style="height:100%">
-			<a-col :span="6" style="height:100%;">
-        <div class="institutionalTreeWapper">
-          <h2 class="institutionalTreeTitle">行政区域</h2>
-          <div class="institutionalTree">
-            <a-tree showLine @select="onSelect" v-if="defaultSelectedKeys.length>0" :treeData="treeData" :defaultSelectedKeys="defaultSelectedKeys"
-              :loadData="onLoadData">
-            </a-tree>
+  <div class="routerWapper">
+    <div v-if="$route.name == '/systemManagement/organization'"  class="layoutMargin layoutPadding" style="height:96%">
+      <a-row :gutter="20" style="height:100%">
+        <a-col :span="6" style="height:100%;">
+          <div class="institutionalTreeWapper">
+            <h2 class="institutionalTreeTitle">行政区域</h2>
+            <div class="institutionalTree">
+              <a-tree showLine @select="onSelect" v-if="defaultSelectedKeys.length>0" :treeData="treeData" :defaultSelectedKeys="defaultSelectedKeys"
+                :loadData="onLoadData">
+              </a-tree>
+            </div>
           </div>
-        </div>
-			</a-col>
-			<a-col :span="18">
-				<a-form class="protalForm" :form="searchForm">
-					<a-row type="flex" justify="center" align="middle">
-						<a-col span="8">
-							<a-form-item class="formItem" label="组织机构名" :label-col="labelCol" :wrapper-col="wrapperCol">
-								<a-input placeholder="请输入" v-model="searchForm.groupName_l" />
-								<!-- <a-select placeholder="请选择" v-model="searchForm.groupName_l" :options='options.nameOptions' /> -->
-							</a-form-item>
-						</a-col>
-						<a-col span="8">
-							<a-form-item class="formItem" label="联系人" :label-col="labelCol" :wrapper-col="wrapperCol">
-								<a-input placeholder="请输入" v-model="searchForm.contact_l" />
-							</a-form-item>
-						</a-col>
-						<a-col span="8" class="algin-right">
-							<a-button type="primary" ghost @click="handleReset">重置</a-button>
-							<a-button type="primary" @click="handleSearch">搜索</a-button>
-						</a-col>
-					</a-row>
-				</a-form>
-        <p class="gayLine"></p>
-				<div class="portalTableOperates">
-					<a-button icon='plus' type="primary" @click="handleAdd">新建组织机构</a-button>
-					<a-button icon='download' @click="toUpload">批量导入组织机构</a-button>
-				</div>
-				<a-table class="portalTable" size='small' :columns="columns" rowKey="groupName" :dataSource="dataSource" :pagination="pagination">
-					<span slot="action" slot-scope="text, record">
-						<span class="actionBtn" @click="$router.push({name:'/systemManagement/organization/view',query:{id:record.id}})">查看</span>
-						<a-divider type="vertical" />
-						<span class="actionBtn" @click="$router.push({name:'/systemManagement/organization/edit',query:{id:record.id,data:JSON.stringify(transData)}})">修改</span>
-						<a-divider type="vertical" />
-						<span class="actionBtn" @click="deleteBtn(text,record)">删除</span>
-					</span>
-					<span slot="contact" slot-scope="text, record">
-						联系人:&nbsp;{{record.contact || "暂无"}}<br/>
-						联系电话:&nbsp;{{record.contactPhone || "暂无"}}
-					</span>
-				</a-table>
-			</a-col>
-		</a-row>
-	</div>
+        </a-col>
+        <a-col :span="18">
+          <a-form class="protalForm" :form="searchForm">
+            <a-row type="flex" justify="center" align="middle">
+              <a-col span="8">
+                <a-form-item class="formItem" label="组织机构名" :label-col="labelCol" :wrapper-col="wrapperCol">
+                  <a-input placeholder="请输入" v-model="searchForm.groupName_l" />
+                  <!-- <a-select placeholder="请选择" v-model="searchForm.groupName_l" :options='options.nameOptions' /> -->
+                </a-form-item>
+              </a-col>
+              <a-col span="8">
+                <a-form-item class="formItem" label="联系人" :label-col="labelCol" :wrapper-col="wrapperCol">
+                  <a-input placeholder="请输入" v-model="searchForm.contact_l" />
+                </a-form-item>
+              </a-col>
+              <a-col span="8" class="algin-right">
+                <a-button type="primary" ghost @click="handleReset">重置</a-button>
+                <a-button type="primary" @click="handleSearch">搜索</a-button>
+              </a-col>
+            </a-row>
+          </a-form>
+          <p class="gayLine"></p>
+          <div class="portalTableOperates">
+            <a-button icon='plus' type="primary" @click="handleAdd">新建组织机构</a-button>
+            <a-button icon='download' @click="toUpload">批量导入组织机构</a-button>
+          </div>
+          <a-table class="portalTable" size='small' :columns="columns" rowKey="groupName" :dataSource="dataSource" :pagination="pagination">
+            <span slot="action" slot-scope="text, record">
+              <span class="actionBtn" @click="$router.push({name:'/systemManagement/organization/view',query:{id:record.id}})">查看</span>
+              <a-divider type="vertical" />
+              <span class="actionBtn" @click="$router.push({name:'/systemManagement/organization/edit',query:{id:record.id,data:JSON.stringify(transData)}})">修改</span>
+              <a-divider type="vertical" />
+              <span class="actionBtn" @click="deleteBtn(text,record)">删除</span>
+            </span>
+            <span slot="contact" slot-scope="text, record">
+              联系人:&nbsp;{{record.contact || "暂无"}}<br/>
+              联系电话:&nbsp;{{record.contactPhone || "暂无"}}
+            </span>
+          </a-table>
+        </a-col>
+      </a-row>
+    </div>
+    <RouterWapper v-else></RouterWapper>
+  </div>
 </template>
 <style scoped>
-.institutionalTreeWapper { height:90%; overflow: hidden; padding-right: 16px; border-right: 1px solid #e0e0e0}
-.institutionalTreeTitle { padding-top: 10px;}
-.institutionalTreeWapper>div { height: 100%; padding: 10px; overflow-y: auto}
+.institutionalTreeWapper { height:90%;  width: 100%; overflow: hidden; padding-right: 16px; border-right: 1px solid #e0e0e0}
+.institutionalTreeTitle { padding-top: 10px;  width: 100%;}
+.institutionalTreeWapper>div { height: calc(100% - 50px); width: calc(100% - 20px); padding: 5px; overflow-y: auto; overflow-x:scroll}
 </style>
 
 <script>
+
 export default {
   name: 'organization',
   data() {
@@ -177,8 +181,8 @@ export default {
         url: this.$api.GET_ORGANIZATION_LIST,
         params: params
       }).then(res => {
-        this.pagination.total = this.$com.confirm(res, 'data.totalRows', 0)
         this.dataSource = this.$com.confirm(res, 'data.content', [])
+        this.pagination.total = this.$com.confirm(res, 'data.totalRows', 0)
       })
     },
     getArea() {

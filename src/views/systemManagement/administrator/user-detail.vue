@@ -1,78 +1,33 @@
 <template>
-    <span >
-        <a-row type="flex" justify="start" >
-            <a-col span="8">
-                <a-row type="flex" justify="start" class="colMargin">
-                    <a-col span="6" class="colLabel">
-                        姓名：
-                    </a-col>
-                    <a-col span="18">
-                        {{detail.name | txt}}
-                    </a-col>
-                </a-row>
-            </a-col>
-            <a-col span="8">
-                <a-row type="flex" justify="start" class="colMargin">
-                    <a-col span="6" class="colLabel">
-                        账号：
-                    </a-col>
-                    <a-col span="18">
-                        {{detail.phone | txt}}
-                    </a-col>
-                </a-row>
-            </a-col>
-            <a-col span="8">
-                <a-row type="flex" justify="start" class="colMargin">
-                    <a-col span="6" class="colLabel">
-                        邮箱：
-                    </a-col>
-                    <a-col span="18">
-                        {{detail.mail | txt}}
-                    </a-col>
-                </a-row>
-            </a-col>
-            <a-col span="8">
-                <a-row type="flex" justify="start" class="colMargin">
-                    <a-col span="6" class="colLabel">
-                        邮编：
-                    </a-col>
-                    <a-col span="18">
-                        {{detail.zipCode | txt}}
-                    </a-col>
-                </a-row>
-            </a-col>
-            <a-col span="8">
-                <a-row type="flex" justify="start" class="colMargin">
-                    <a-col span="6" class="colLabel">
-                        注册时间：
-                    </a-col>
-                    <a-col span="18">
-                        {{$com.strTime(detail.createTime) | txt}}
-                    </a-col>
-                </a-row>
-            </a-col>
-            <a-col span="8">
-                <a-row type="flex" justify="start" class="colMargin">
-                    <a-col span="6" class="colLabel">
-                        单位：
-                    </a-col>
-                    <a-col span="18">
-                        {{detail.dept | txt}}
-                    </a-col>
-                </a-row>
-            </a-col>
-            <a-col span="8">
-                <a-row type="flex" justify="start" class="colMargin">
-                    <a-col span="6" class="colLabel">
-                        地址：
-                    </a-col>
-                    <a-col span="18">
-                        {{detail.addr | txt}}
-                    </a-col>
-                </a-row>
-            </a-col>
-        </a-row>
-    </span>
+  <div class="portalDetailContentWapper">
+    <a-row class="detailsPartLine">
+      <a-col span="8">
+        <DetailsItem :labelSpan='8' :textSpan="16" :label='"姓名"' :text='!detail.name?"暂无":detail.name'></DetailsItem>
+      </a-col>
+      <a-col span="8">
+        <DetailsItem :labelSpan='8' :textSpan="16" :label='"账号"' :text='!detail.phone?"暂无":detail.phone'></DetailsItem>
+      </a-col>
+      <a-col span="8">
+        <DetailsItem :labelSpan='8' :textSpan="16" :label='"邮箱"' :text='!detail.mail?"暂无":detail.mail'></DetailsItem>
+      </a-col>
+    </a-row>
+    <a-row class="detailsPartLine">
+      <a-col span="8">
+        <DetailsItem :labelSpan='8' :textSpan="16" :label='"单位名称"' :text='!detail.dept?"暂无":detail.dept'></DetailsItem>
+      </a-col>
+      <a-col span="8">
+        <DetailsItem :labelSpan='8' :textSpan="16" :label='"邮编"' :text='!detail.zipCode?"暂无":detail.zipCode'></DetailsItem>
+      </a-col>
+      <a-col span="8">
+        <DetailsItem :labelSpan='8' :textSpan="16" :label='"注册时间"' :text='!$com.strTime(detail.createTime)?"暂无":$com.strTime(detail.createTime)'></DetailsItem>
+      </a-col>
+    </a-row>
+    <a-row class="detailsPartLine">
+      <a-col span="16">
+        <DetailsItem :labelSpan='4' :textSpan="20" :label='"地址"' :text='!detail.addr?"暂无":detail.addr'></DetailsItem>
+      </a-col>
+    </a-row>
+  </div>
 </template>
 <script>
 export default {

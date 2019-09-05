@@ -1,102 +1,102 @@
 <template>
-<div class="portalDetailWapper">
-  <div class="portalDetailTitle">
-    <span class="title">{{$route.meta.title}}</span>
-    <div class="detailOperations">
-      <a-button @click='handleReturn'>返回</a-button>
-      <a-button type="primary" @click='handleAdd' html-type="submit">保存</a-button>
-    </div>
-  </div>
-  <div class="portalDetailContentWapper">
-    <a-form class="protalForm portalDetailContentBody" :form="searchForm">
-      <div class="layoutMargin detailsPartSection">
-        <p class="detailsPartTitle">账户信息</p>
-        <a-row class="formItemLine">
-          <a-col span="8">
-            <a-form-item class="formItem" label="姓名" v-bind="colSpe">
-              <a-input placeholder="请输入" v-decorator="['name',searchFormRules.name]" />
-            </a-form-item>
-          </a-col>
-          <a-col span="8">
-            <a-form-item class="formItem" label="登录手机号" v-bind="colSpe">
-              <a-input placeholder="请输入" :disabled="!!$route.query.id" v-decorator="['phone',searchFormRules.phone]" />
-            </a-form-item>
-          </a-col>
-          <a-col span="8">
-            <a-form-item class="formItem" label="邮箱" v-bind="colSpe">
-              <a-input placeholder="请输入" v-decorator="['mail',searchFormRules.mail]" />
-            </a-form-item>
-          </a-col>
-        </a-row>
-        <a-row class="formItemLine">
-          <a-col span="8">
-            <a-form-item class="formItem" label="邮编" v-bind="colSpe">
-              <a-input placeholder="请输入" v-decorator="['zipCode',searchFormRules.zipCode]" />
-            </a-form-item>
-          </a-col>
-          <a-col span="16">
-            <a-form-item class="formItem" label="单位名称" :label-col="{span:3}" :wrapper-col="{span:15}" v-bind="colSpe">
-              <a-input placeholder="请输入" v-decorator="['dept',searchFormRules.dept]" />
-            </a-form-item>
-          </a-col>
-        </a-row>
-        <a-row class="formItemLine">
-          <a-col span="16">
-            <a-form-item class="formItem" label="地址" :label-col="{span:3}" :wrapper-col="{span:15}">
-              <a-input placeholder="请输入" v-decorator="['addr',searchFormRules.addr]" />
-            </a-form-item>
-          </a-col>
-          <a-col span="6" pull="4">
-            <a-form-item>
-              <div class="position" @click="showModal">
-                <a-icon type="environment" />&nbsp;查看地图定位</div>
-            </a-form-item>
-          </a-col>
-        </a-row>
-      </div>
-      <div class="layoutMargin detailsPartSection">
-        <p class="detailsPartTitle">账户信息</p>
-        <a-row class="formItemLine">
-          <a-col span="8">
-            <a-form-item label="角色名称" v-bind="colSpe">
-              <a-select placeholder="请选择" @change="roleChange" allowClear mode="multiple" labelInValue v-decorator="['notes', searchFormRules.notes]">
-                <a-select-option v-for="(item,index) in roleList" :key="index" :value="item.id">{{item.roleName}}</a-select-option>
-              </a-select>
-            </a-form-item>
-          </a-col>
-          <a-col span="8">
-            <a-form-item label="所属区域" v-bind="colSpe">
-              <a-select v-if="isAdminator !== true" placeholder="请选择" labelInValue @change="onChangeTree" showSearch
-              v-decorator="['area',searchFormRules.area]">
-                <a-select-option v-for="(item,index) in administrativeRegions" :key="index" :value="item.id">{{item.title}}</a-select-option>
-              </a-select>
-              <a-tree-select v-else :treeData="administrativeRegions" v-decorator="['area',searchFormRules.area]" :loadData="onLoadData"
-              :dropdownStyle="{ maxHeight: '200px', overflow: 'auto' }" placeholder='请选择' allowClear @change="onChangeTree">
-              </a-tree-select>
-            </a-form-item>
-          </a-col>
-          <a-col span="8">
-            <a-form-item label="组织机构" v-bind="colSpe">
-              <a-select v-decorator="['group',searchFormRules.group]" allowClear placeholder='请选择'>
-                <a-select-option v-for="(item,index) in groupLists" :key="index" :value="item.id">{{item.groupName}}</a-select-option>
-              </a-select>
-            </a-form-item>
-          </a-col>
-        </a-row>
-        <div class="layoutMargin detailsPartLine">
-          <a-tree class="portalRoleTree" checkable disabled :treeData="treeData" v-model="checkedKeys" />
-        </div>
-      </div>
-    </a-form>
-    <a-modal title="查看地图定位" :width='880' :bodyStyle="{'text-align':'center'}" :visible="map" :closable='false'>
-			<template slot="footer">
-				<a-button @click="map=false" ghost type="primary">取消</a-button>
-				<a-button @click="map=false" type="primary">确认</a-button>
-			</template>
-			<BMapComponent :height="250" :width="830"  ref="bdMap"  :keyWords="position"/>
-		</a-modal>
-  </div>
-</div>
+	<div class="portalDetailWapper">
+		<div class="portalDetailTitle">
+			<span class="title">{{$route.meta.title}}</span>
+			<div class="detailOperations">
+				<a-button @click='handleReturn'>返回</a-button>
+				<a-button type="primary" @click='handleAdd' html-type="submit">保存</a-button>
+			</div>
+		</div>
+		<div class="portalDetailContentWapper">
+			<a-form class="protalForm portalDetailContentBody" :form="searchForm">
+				<div class="layoutMargin detailsPartSection">
+					<p class="detailsPartTitle">账户信息</p>
+					<a-row class="formItemLine">
+						<a-col span="8">
+							<a-form-item class="formItem" label="姓名" v-bind="colSpe">
+								<a-input placeholder="请输入" v-decorator="['name',searchFormRules.name]" />
+							</a-form-item>
+						</a-col>
+						<a-col span="8">
+							<a-form-item class="formItem" label="登录手机号" v-bind="colSpe">
+								<a-input placeholder="请输入" :disabled="!!$route.query.id" v-decorator="['phone',searchFormRules.phone]" />
+							</a-form-item>
+						</a-col>
+						<a-col span="8">
+							<a-form-item class="formItem" label="邮箱" v-bind="colSpe">
+								<a-input placeholder="请输入" v-decorator="['mail',searchFormRules.mail]" />
+							</a-form-item>
+						</a-col>
+					</a-row>
+					<a-row class="formItemLine">
+						<a-col span="8">
+							<a-form-item class="formItem" label="邮编" v-bind="colSpe">
+								<a-input placeholder="请输入" v-decorator="['zipCode',searchFormRules.zipCode]" />
+							</a-form-item>
+						</a-col>
+						<a-col span="16">
+							<a-form-item class="formItem" label="单位名称" :label-col="{span:3}" :wrapper-col="{span:15}" v-bind="colSpe">
+								<a-input placeholder="请输入" v-decorator="['dept',searchFormRules.dept]" />
+							</a-form-item>
+						</a-col>
+					</a-row>
+					<a-row class="formItemLine">
+						<a-col span="16">
+							<a-form-item class="formItem" label="地址" :label-col="{span:3}" :wrapper-col="{span:15}">
+								<a-input placeholder="请输入" v-decorator="['addr',searchFormRules.addr]" />
+							</a-form-item>
+						</a-col>
+						<a-col span="6" pull="4">
+							<a-form-item>
+								<div class="position" @click="showModal">
+									<a-icon type="environment" />&nbsp;查看地图定位</div>
+							</a-form-item>
+						</a-col>
+					</a-row>
+				</div>
+				<div class="layoutMargin detailsPartSection">
+					<p class="detailsPartTitle">账户信息</p>
+					<a-row class="formItemLine">
+						<a-col span="8">
+							<a-form-item label="角色名称" v-bind="colSpe">
+								<a-select placeholder="请选择" @change="roleChange" allowClear mode="multiple" labelInValue v-decorator="['notes', searchFormRules.notes]">
+									<a-select-option v-for="(item,index) in roleList" :key="index" :value="item.id">{{item.roleName}}</a-select-option>
+								</a-select>
+							</a-form-item>
+						</a-col>
+						<a-col span="8">
+							<a-form-item label="所属区域" v-bind="colSpe">
+								<a-select v-if="isAdminator !== true" placeholder="请选择" labelInValue @change="onChangeTree" showSearch
+								 v-decorator="['area',searchFormRules.area]">
+									<a-select-option v-for="(item,index) in administrativeRegions" :key="index" :value="item.id">{{item.title}}</a-select-option>
+								</a-select>
+								<a-tree-select v-else :treeData="administrativeRegions" v-decorator="['area',searchFormRules.area]" :loadData="onLoadData"
+								 :dropdownStyle="{ maxHeight: '200px', overflow: 'auto' }" placeholder='请选择' allowClear @change="onChangeTree">
+								</a-tree-select>
+							</a-form-item>
+						</a-col>
+						<a-col span="8">
+							<a-form-item label="组织机构" v-bind="colSpe">
+								<a-select v-decorator="['group',searchFormRules.group]" allowClear placeholder='请选择'>
+									<a-select-option v-for="(item,index) in groupLists" :key="index" :value="item.id">{{item.groupName}}</a-select-option>
+								</a-select>
+							</a-form-item>
+						</a-col>
+					</a-row>
+					<div class="layoutMargin detailsPartLine">
+						<a-tree class="portalRoleTree" checkable disabled :treeData="treeData" v-model="checkedKeys" />
+					</div>
+				</div>
+			</a-form>
+			<a-modal title="查看地图定位" :width='880' :bodyStyle="{'text-align':'center'}" :visible="map" :closable='false'>
+				<template slot="footer">
+					<a-button @click="map=false" ghost type="primary">取消</a-button>
+					<a-button @click="map=false" type="primary">确认</a-button>
+				</template>
+				<BMapComponent :height="250" :width="830" ref="bdMap" :keyWords="position" />
+			</a-modal>
+		</div>
+	</div>
 </template>
 
 <script>
@@ -134,15 +134,11 @@ export default {
           }]
         },
         phone: {
-          validateTrigger: 'blur',
+          validateTrigger: 'change',
           rules: [{
             required: true,
-            message: '请输入账号'
-          },
-          {
             validator: this.validatePhone
-          }
-          ]
+          }]
         },
         mail: {
           validateTrigger: 'blur',
@@ -216,9 +212,9 @@ export default {
         })
       })
     },
-    showModal(){
-      this.map=true
-      this.position=this.searchForm.getFieldValue('addr')
+    showModal() {
+      this.map = true
+      this.position = this.searchForm.getFieldValue('addr')
     },
     // 整理权限树
     getTreeData(item, index) {
@@ -248,7 +244,7 @@ export default {
           }
           let isSelect = this.searchForm.isFieldTouched('group')
           if (isSelect) {
-            if (values.group != ''&&values.group != undefined) {
+            if (values.group != '' && values.group != undefined) {
               let groupId = JSON.parse(JSON.stringify(values.group))
               let data = this.groupLists.find(ele => ele.id == groupId)
               values.group = {
@@ -259,13 +255,13 @@ export default {
               delete values.group
             }
           } else {
-            if(this.detail.group!=null){
+            if (this.detail && this.detail.group != null) {
               values.group = {
                 id: this.detail.group.id,
                 name: this.detail.group.groupName
               }
-            }else{
-              values.group=null
+            } else {
+              values.group = null
             }
           }
           values.roleIds = (this.roles.map(ele => {
@@ -424,15 +420,15 @@ export default {
         url: this.$api.GET_USER_DETAIL.replace('{id}', this.$route.query.id)
       }).then(res => {
         this.detail = res.data.content
-        if(this.detail.area!=null){
+        if (this.detail.area != null) {
           if (!this.isAdminator) {
-					  let obj = {
-					    key: this.detail.area.id,
-					    label: this.detail.area.areaName
-					  }
-					  this.onChangeTree(obj)
+            let obj = {
+              key: this.detail.area.id,
+              label: this.detail.area.areaName
+            }
+            this.onChangeTree(obj)
           } else {
-					  this.onChangeTree(this.detail.area.id, [this.detail.area.areaName])
+            this.onChangeTree(this.detail.area.id, [this.detail.area.areaName])
           }
         }
         const {
@@ -460,11 +456,14 @@ export default {
           addr,
           zipCode,
         }
-        setDatas.group = this.detail.group!=null?this.detail.group.id:''
-        if(this.isAdminator){
-          setDatas.area = this.detail.area!=null?this.detail.area.areaName:''
-        }else{
-          setDatas.area = {label:this.detail.area.areaName,key:this.detail.area.id}
+        setDatas.group = this.detail.group != null ? this.detail.group.id : ''
+        if (this.isAdminator) {
+          setDatas.area = this.detail.area != null ? this.detail.area.areaName : ''
+        } else {
+          setDatas.area = {
+            label: this.detail.area.areaName,
+            key: this.detail.area.id
+          }
         }
         setDatas.notes = datas
         this.roles = datas
@@ -473,7 +472,9 @@ export default {
       })
     },
     validatePhone(rule, value, callback) {
-      if (value && value != undefined) {
+      if (!value || value == undefined || value.split(' ').join('').length === 0) {
+        callback('请输入登录手机号！')
+      } else {
         if (!this.$route.query.id) {
           if (!this.$com.checkPhone(value)) {
             callback('登录手机号码不合法!')
@@ -490,8 +491,6 @@ export default {
               })
             }
           }
-        } else {
-          callback()
         }
       }
     }
@@ -500,9 +499,13 @@ export default {
 </script>
 
 <style scoped>
-.position { margin-left: 5px; color: #1890ff; cursor: pointer; }
+	.position {
+		margin-left: 5px;
+		color: #1890ff;
+		cursor: pointer;
+		display: inline;
+	}
 </style>
 <style>
-/* .tree>li { background: rgba(247, 247, 247); }
-.tree li ul { 	background: white; } */
+
 </style>

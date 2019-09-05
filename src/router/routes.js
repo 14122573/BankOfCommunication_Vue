@@ -21,8 +21,6 @@ const PersonCenter = () =>
     import ('@/views/person-center')
     // 系统管理
     // 组织机构
-const contentSystemManagement = () =>
-    import ('@/views/systemManagement/content-systemManagement')
 const Organization = () =>
     import ('@/views/systemManagement/organization/list')
 const OrganizationUpload = () =>
@@ -48,8 +46,6 @@ const CreateNewUser = () =>
 const NewUserView = () =>
     import ('@/views/systemManagement/administrator/new-user-view')
     // 专家管理人员
-const ContentExpertManagement = () =>
-    import ('@/views/expertManagement/content-expertManagement')
 const Talent = () =>
     import ('@/views/expertManagement/talent/list')
 const TalentUpload = () =>
@@ -94,240 +90,126 @@ const appRoutes = [{
     path: '/home',
     name: 'home',
     component: HomePage,
-    meta: {
-      title: '首页'
-    },
+    meta: { title: '首页' },
   },
   {
     path: '/noauth',
     name: 'noautherr',
     component: TipsNoAuth,
-    meta: {
-      title: '没有权限',
-    },
+    meta: { title: '没有权限', },
   },
   {
     path: '/person',
     name: 'person',
     component: PersonCenter,
-    meta: {
-      title: '个人中心'
-    },
+    meta: { title: '个人中心' },
   },
   {
     path: '/systemManagement',
     name: 'systemManagement',
-    component: contentSystemManagement,
-    meta: {
-      title: '系统管理',
-      menuPath: true,
-      authCode: 'P00000',
-      menuIcon: 'setting',
-      hideInBread: true
-    },
+    component: contentWrapper,
+    meta: { title: '系统管理', menuPath: true, authCode: 'P00000', menuIcon: 'setting', hideInBread: true },
     children: [{
       path: '/systemManagement/organization',
       name: '/systemManagement/organization',
       component: Organization,
-      meta: {
-        title: '组织机构管理',
-        menuPath: true,
-        authCode: 'P01000',
-        menuIcon: 'cluster',
-        hideInBread: false,
-        openMode: 'normal'
+      meta: { title: '组织机构管理', menuPath: true, authCode: 'P01000', menuIcon: 'cluster', hideInBread: false, openMode: 'normal' },
+      children: [{
+        path: '/systemManagement/organization/upload',
+        name: '/systemManagement/organization/upload',
+        component: OrganizationUpload,
+        meta: { title: '导入', menuPath: false, authCode: 'P01005', menuIcon: 'setting', hideInBread: false, openMode: 'normal' }
       },
-    },
-    {
-      path: '/systemManagement/organization/upload',
-      name: '/systemManagement/organization/upload',
-      component: OrganizationUpload,
-      meta: {
-        title: '导入',
-        menuPath: false,
-        authCode: 'P01005',
-        menuIcon: 'setting',
-        hideInBread: false,
-        openMode: 'normal'
-      }
-    },
-    {
-      path: '/systemManagement/organization/create',
-      name: '/systemManagement/organization/create',
-      component: OrganizationCreate,
-      meta: {
-        title: '组织机构创建',
-        menuPath: false,
-        authCode: 'P01001',
-        menuIcon: 'cluster',
-        hideInBread: false,
-        openMode: 'normal'
-      }
-    },
-    {
-      path: '/systemManagement/organization/view',
-      name: '/systemManagement/organization/view',
-      component: OrganizationView,
-      meta: {
-        title: '组织机构查看',
-        menuPath: false,
-        authCode: 'P01002',
-        menuIcon: 'cluster',
-        hideInBread: false,
-        openMode: 'normal'
-      }
-    },
-    {
-      path: '/systemManagement/organization/edit',
-      name: '/systemManagement/organization/edit',
-      component: OrganizationCreate,
-      meta: {
-        title: '组织机构编辑',
-        menuPath: false,
-        authCode: 'P01003',
-        menuIcon: 'cluster',
-        hideInBread: false,
-        openMode: 'normal'
-      }
+      {
+        path: '/systemManagement/organization/create',
+        name: '/systemManagement/organization/create',
+        component: OrganizationCreate,
+        meta: { title: '组织机构创建', menuPath: false, authCode: 'P01001', menuIcon: 'cluster', hideInBread: false, openMode: 'normal' }
+      },
+      {
+        path: '/systemManagement/organization/view',
+        name: '/systemManagement/organization/view',
+        component: OrganizationView,
+        meta: { title: '组织机构查看', menuPath: false, uthCode: 'P01002', menuIcon: 'cluster', hideInBread: false, openMode: 'normal' }
+      },
+      {
+        path: '/systemManagement/organization/edit',
+        name: '/systemManagement/organization/edit',
+        component: OrganizationCreate,
+        meta: { title: '组织机构编辑', menuPath: false, authCode: 'P01003', menuIcon: 'cluster', hideInBread: false, openMode: 'normal' }
+      },
+      ]
     },
       // RoleManagement角色管理
     {
       path: '/systemManagement/role',
       name: '/systemManagement/role',
       component: RoleManagement,
-      meta: {
-        title: '角色管理',
-        menuPath: true,
-        authCode: 'P02000',
-        menuIcon: 'cluster',
-        hideInBread: false,
-        openMode: 'normal'
+      meta: { title: '角色管理', menuPath: true, authCode: 'P02000', menuIcon: 'cluster', hideInBread: false, openMode: 'normal' },
+      children: [{
+        path: '/systemManagement/role/create',
+        name: '/systemManagement/role/create',
+        component: RoleCreate,
+        meta: { title: '角色创建', menuPath: false, authCode: 'P02001', menuIcon: 'cluster', hideInBread: false, openMode: 'normal' }
       },
-    },
-    {
-      path: '/systemManagement/role/create',
-      name: '/systemManagement/role/create',
-      component: RoleCreate,
-      meta: {
-        title: '角色创建',
-        menuPath: false,
-        authCode: 'P02001',
-        menuIcon: 'cluster',
-        hideInBread: false,
-        openMode: 'normal'
-      }
-    },
-    {
-      path: '/systemManagement/role/edit',
-      name: '/systemManagement/role/edit',
-      component: RoleCreate,
-      meta: {
-        title: '角色修改',
-        menuPath: false,
-        authCode: 'P02003',
-        menuIcon: 'cluster',
-        hideInBread: false,
-        openMode: 'normal'
-      }
-    },
-    {
-      path: '/systemManagement/role/view',
-      name: '/systemManagement/role/view',
-      component: RoleCreate,
-      meta: {
-        title: '角色查看',
-        menuPath: false,
-        authCode: 'P02002',
-        menuIcon: 'cluster',
-        hideInBread: false,
-        openMode: 'normal'
-      }
+      {
+        path: '/systemManagement/role/edit',
+        name: '/systemManagement/role/edit',
+        component: RoleCreate,
+        meta: { title: '角色修改', menuPath: false, authCode: 'P02003', menuIcon: 'cluster', hideInBread: false, openMode: 'normal' }
+      },
+      {
+        path: '/systemManagement/role/view',
+        name: '/systemManagement/role/view',
+        component: RoleCreate,
+        meta: { title: '角色查看', menuPath: false, authCode: 'P02002', menuIcon: 'cluster', hideInBread: false, openMode: 'normal' }
+      },
+      ]
     },
       // AdministratorManagement管理员管理
     {
       path: '/systemManagement/administrator',
       name: '/systemManagement/administrator',
       component: AdministratorManagement,
-      meta: {
-        title: '管理员管理',
-        menuPath: true,
-        authCode: 'P03000',
-        menuIcon: 'cluster',
-        hideInBread: false,
-        openMode: 'normal'
+      meta: { title: '管理员管理', menuPath: true, authCode: 'P03000', menuIcon: 'cluster', hideInBread: false, openMode: 'normal' },
+      children: [{
+        path: '/systemManagement/administrator/createNewUser',
+        name: '/systemManagement/administrator/createNewUser',
+        component: CreateNewUser,
+        meta: { title: '新增用户信息', menuPath: false, authCode: 'P03303', menuIcon: 'cluster', hideInBread: false, openMode: 'normal' },
       },
-    },
-    {
-      path: '/systemManagement/administrator/createNewUser',
-      name: '/systemManagement/administrator/createNewUser',
-      component: CreateNewUser,
-      meta: {
-        title: '新增用户信息',
-        menuPath: false,
-        authCode: 'P03303',
-        menuIcon: 'cluster',
-        hideInBread: false,
-        openMode: 'normal'
+      {
+        path: '/systemManagement/administrator/editNewUser',
+        name: '/systemManagement/administrator/editNewUser',
+        component: CreateNewUser,
+        meta: { title: '新增用户信息修改', menuPath: false, authCode: 'P03302', menuIcon: 'cluster', hideInBread: false, openMode: 'normal' },
       },
-    },
-    {
-      path: '/systemManagement/administrator/editNewUser',
-      name: '/systemManagement/administrator/editNewUser',
-      component: CreateNewUser,
-      meta: {
-        title: '新增用户信息修改',
-        menuPath: false,
-        authCode: 'P03302',
-        menuIcon: 'cluster',
-        hideInBread: false,
-        openMode: 'normal'
+      {
+        path: '/systemManagement/administrator/newUserView',
+        name: '/systemManagement/administrator/newUserView',
+        component: NewUserView,
+        meta: { title: '查看新用户信息', menuPath: false, authCode: 'P03301', menuIcon: 'cluster', hideInBread: false, openMode: 'normal' },
       },
-    },
-    {
-      path: '/systemManagement/administrator/newUserView',
-      name: '/systemManagement/administrator/newUserView',
-      component: NewUserView,
-      meta: {
-        title: '查看新用户信息',
-        menuPath: false,
-        authCode: 'P03301',
-        menuIcon: 'cluster',
-        hideInBread: false,
-        openMode: 'normal'
+      {
+        path: '/systemManagement/administrator/pendingView',
+        name: '/systemManagement/administrator/pendingView',
+        component: PendingView,
+        meta: { title: '待分配权限查看', menuPath: false, authCode: 'P03101', menuIcon: 'cluster', hideInBread: false, openMode: 'normal' },
       },
-    },
-    {
-      path: '/systemManagement/administrator/pendingView',
-      name: '/systemManagement/administrator/pendingView',
-      component: PendingView,
-      meta: {
-        title: '待分配权限查看',
-        menuPath: false,
-        authCode: 'P03101',
-        menuIcon: 'cluster',
-        hideInBread: false,
-        openMode: 'normal'
+      {
+        path: '/systemManagement/administrator/distribution',
+        name: '/systemManagement/administrator/distribution',
+        component: Distribution,
+        meta: { title: '权限分配', menuPath: false, authCode: 'P03102', menuIcon: 'cluster', hideInBread: false, openMode: 'normal' },
       },
-    },
-    {
-      path: '/systemManagement/administrator/distribution',
-      name: '/systemManagement/administrator/distribution',
-      component: Distribution,
-      meta: {
-        title: '权限分配',
-        menuPath: false,
-        authCode: 'P03102',
-        menuIcon: 'cluster',
-        hideInBread: false,
-        openMode: 'normal'
-      },
+      ]
     },
     ]
   },
   {
     path: '/expertManagement',
     name: 'expertManagement',
-    component: ContentExpertManagement,
+    component: contentWrapper,
     meta: {
       title: '专家人员管理',
       menuPath: true,
