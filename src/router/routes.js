@@ -17,10 +17,11 @@ const OldSysLogout = () =>
     import ('@/views/login/oldSysLogout')
 const BindPhone = () =>
     import ('@/views/login/bindPhone')
-const PersonCenter = () =>
-    import ('@/views/person-center')
-    // 系统管理
-    // 组织机构
+// 个人信息
+const PersonCenter = () => import ('@/views/personal/person-center')
+const PersonExpert = () => import ('@/views/personal/expert')
+// 系统管理
+// 组织机构
 const Organization = () =>
     import ('@/views/systemManagement/organization/list')
 const OrganizationUpload = () =>
@@ -94,7 +95,10 @@ const appRoutes = [{
       meta: { title: '没有权限', },
     },
     { path: '/person', name: 'person', component: PersonCenter,
-      meta: { title: '个人中心' },
+      meta: { title: '账户信息' },
+    },
+    { path: '/person/expert', name: '/person/expert', component: PersonExpert,
+      meta: { title: '专家个人信息维护' },
     },
     {
       path: '/systemManagement', name: 'systemManagement', component: contentWrapper,
@@ -247,7 +251,7 @@ const appRoutes = [{
       ]
     },
     { path: '/kpjd', name: 'kpjd', component: contentWrapper,
-      meta: { title: '水产新品种审定', menuPath: true, authCode: 'S0101', menuIcon: 'barcode', hideInBread: true },
+      meta: { title: '科普教育基地申报管理', menuPath: true, authCode: 'S0101', menuIcon: 'barcode', hideInBread: true },
       children: [
         { path: '/kpjd/declare/Declare', name: '/kpjd/declare/Declare',
           meta: { title: '提交基地申报', menuPath:true, authCode:'S010101', menuIcon: 'appstore', hideInBread: false, openMode: 'spa'}
