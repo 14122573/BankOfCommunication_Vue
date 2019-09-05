@@ -63,4 +63,5 @@ export default {
   GET_EXPERT_DETAIL: '/service-expert/expert/expert/{experId}', //专家库明细
   DICTIONARY_TYPE_GET: '/service-expert/expert/dictionary/{type}', //字典
   EXPORT_TYPE: '/service-expert/expert/expert', //新增专家人员
+	PUT_CHANGE_EXPERT:'/service-user/user/become/expert',//成为专家
 }
