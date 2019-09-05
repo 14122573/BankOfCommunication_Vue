@@ -1,5 +1,6 @@
 <template>
-	<div class="layoutMargin layoutPadding">
+<div class="routerWapper">
+	<div v-if="$route.name == '/expertManagement/expertLibrary'" class="layoutMargin layoutPadding">
 		<a-form :form="searchForm" class="protalForm">
 			<a-row type="flex" justify="space-between" class="formItemLine">
 				<a-col span="6">
@@ -78,6 +79,8 @@
 			</a-row>
 		</a-modal>
 	</div>
+  <RouterWapper v-else></RouterWapper>
+</div>
 </template>
 <script>
 import userStatus from '../../systemManagement/components/user-status'
