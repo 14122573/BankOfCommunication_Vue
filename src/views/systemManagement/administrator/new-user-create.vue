@@ -134,7 +134,7 @@ export default {
           }]
         },
         phone: {
-          validateTrigger: 'change',
+          validateTrigger: 'blur',
           rules: [{
             required: true,
             validator: this.validatePhone
@@ -491,6 +491,8 @@ export default {
               })
             }
           }
+        } else {
+          callback()
         }
       }
     }
