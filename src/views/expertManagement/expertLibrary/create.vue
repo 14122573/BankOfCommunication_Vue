@@ -1,6 +1,6 @@
 <template>
-    <div ref="create-talent" class="create-talent">
-        <a-card>
+    <div class="portalDetailWapper create-talent-root">
+        <!-- <a-card>
             <a-row type="flex" slot="title" justify="space-between" align="middle">
                 <a-col>
                     新增专家账号
@@ -10,8 +10,15 @@
                     <a-button type="primary" @click="save">保存</a-button>
                 </a-col>
             </a-row>
-        </a-card>
-        <div class="content">
+        </a-card> -->
+		<div class="portalDetailTitle">
+			<span class="title">{{$route.meta.title}}</span>
+			<div class="detailOperations">
+				<a-button @click='back'>取消</a-button>
+				<a-button type="primary" @click='save' html-type="submit">保存</a-button>
+			</div>
+		</div>
+        <div ref="create-talent"  class="content create-talent portalDetailContentWapper">
 				<a-form :form="form">
             
             <a-card>
@@ -116,20 +123,21 @@
                 </a-row>
             </a-card>
 			</a-form>
-				<jobStudy ref="jobStudy" class="marginRef" :options="options" :colSpa="colSpa" :textSpa="textSpa"/>
-				<jobSpace ref="jobSpace" class="marginRef" :options="options" :colSpa="colSpa" :textSpa="textSpa" />
+			<jobStudy ref="jobStudy" class="marginRef" :options="options" :colSpa="colSpa" :textSpa="textSpa"/>
+			<jobSpace ref="jobSpace" class="marginRef" :options="options" :colSpa="colSpa" :textSpa="textSpa" />
+			<a-anchor :offsetTop="240" :getContainer="()=> this.$refs['create-talent']" class="talent-anchor" >
+				<a-anchor-link href="#basic" title="基本信息" />
+				<a-anchor-link href="#job" title="工作学习经历" />
+				<a-anchor-link href="#message" title="联系信息" />
+				<a-anchor-link href="#space" title="工作领域信息" />
+				<a-anchor-link href="#management" title="相关管理信息" />
+			</a-anchor>
             
         </div>
 		<a-modal :visible="previewVisible" style="text-align:center" :width="600" :footer="null" @cancel="previewVisible = false">
 			<img alt="一寸照" style="width: 80%;height:auto" :src="previewImage" />
 		</a-modal>
-        <a-anchor :offsetTop="260" :getContainer="()=> this.$refs['create-talent']" class="talent-anchor" >
-            <a-anchor-link href="#basic" title="基本信息" />
-            <a-anchor-link href="#job" title="工作学习经历" />
-            <a-anchor-link href="#message" title="联系信息" />
-            <a-anchor-link href="#space" title="工作领域信息" />
-            <a-anchor-link href="#management" title="相关管理信息" />
-        </a-anchor>
+        
     </div>
             
 </template>
@@ -505,7 +513,8 @@ export default {
 .talent-anchor {
   position: absolute;
   right: 21px;
-  top: 260px;
+  top: 240px;
+  z-index: 999;
 }
 .create-talent {
   position: relative;
@@ -514,6 +523,9 @@ export default {
 }
 .marginRef{
 	margin-top: 20px;
+}
+.create-talent-root{
+	overflow: hidden;
 }
 </style>
 <style>

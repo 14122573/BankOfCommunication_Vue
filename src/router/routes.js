@@ -228,46 +228,46 @@ const appRoutes = [{
         menuIcon: 'user',
         hideInBread: false,
         openMode: 'normal'
-      }
-    }, {
-      path: '/expertManagement/talent/upload',
-      name: '/expertManagement/talent/upload',
-      component: TalentUpload,
-      meta: {
-        title: '导入人才库',
-        menuPath: false,
-        authCode: 'P10000',
-        menuIcon: 'user',
-        hideInBread: false,
-        openMode: 'normal'
-      }
+      },
+      children: [{
+        path: '/expertManagement/talent/upload',
+        name: '/expertManagement/talent/upload',
+        component: TalentUpload,
+        meta: {
+          title: '导入人才库',
+          menuPath: false,
+          authCode: 'P10000',
+          menuIcon: 'user',
+          hideInBread: false,
+          openMode: 'normal'
+        }
+      }, {
+        path: '/expertManagement/talent/create',
+        name: '/expertManagement/talent/create',
+        component: TalentCreate,
+        meta: {
+          title: '新增人才账号',
+          menuPath: false,
+          authCode: 'P10000',
+          menuIcon: 'user',
+          hideInBread: false,
+          openMode: 'normal'
+        }
+      }, {
+        path: '/expertManagement/talent/view',
+        name: '/expertManagement/talent/view',
+        component: TalentView,
+        meta: {
+          title: '查看人才账号',
+          menuPath: false,
+          authCode: 'P10000',
+          menuIcon: 'user',
+          hideInBread: false,
+          openMode: 'normal'
+        }
+      }, ]
     },
-    {
-      path: '/expertManagement/talent/create',
-      name: '/expertManagement/talent/create',
-      component: TalentCreate,
-      meta: {
-        title: '新增人才账号',
-        menuPath: false,
-        authCode: 'P10000',
-        menuIcon: 'user',
-        hideInBread: false,
-        openMode: 'normal'
-      }
-    },
-    {
-      path: '/expertManagement/talent/view',
-      name: '/expertManagement/talent/view',
-      component: TalentView,
-      meta: {
-        title: '查看人才账号',
-        menuPath: false,
-        authCode: 'P10000',
-        menuIcon: 'user',
-        hideInBread: false,
-        openMode: 'normal'
-      }
-    },
+
     {
       path: '/expertManagement/expertLibrary',
       name: '/expertManagement/expertLibrary',
@@ -279,68 +279,69 @@ const appRoutes = [{
         menuIcon: 'user',
         hideInBread: false,
         openMode: 'normal'
-      }
-    }, {
-      path: '/expertManagement/expertLibrary/create',
-      name: '/expertManagement/expertLibrary/create',
-      component: ExpertLibraryCreate,
-      meta: {
-        title: '新增专家账号',
-        menuPath: false,
-        authCode: 'P10000',
-        menuIcon: 'user',
-        hideInBread: false,
-        openMode: 'normal'
-      }
-    }, {
-      path: '/expertManagement/expertLibrary/edit',
-      name: '/expertManagement/expertLibrary/edit',
-      component: ExpertLibraryCreate,
-      meta: {
-        title: '修改专家账号',
-        menuPath: false,
-        authCode: 'P10000',
-        menuIcon: 'user',
-        hideInBread: false,
-        openMode: 'normal'
-      }
-    }, {
-      path: '/expertManagement/expertLibrary/view',
-      name: '/expertManagement/expertLibrary/view',
-      component: ExpertLibraryView,
-      meta: {
-        title: '查看专家账号',
-        menuPath: false,
-        authCode: 'P10000',
-        menuIcon: 'user',
-        hideInBread: false,
-        openMode: 'normal'
-      }
-    }, {
-      path: '/expertManagement/expertLibrary/select',
-      name: '/expertManagement/expertLibrary/select',
-      component: ExpertLibrarySelect,
-      meta: {
-        title: '选择专家账号',
-        menuPath: false,
-        authCode: 'P10000',
-        menuIcon: 'user',
-        hideInBread: false,
-        openMode: 'normal'
-      }
-    }, {
-      path: '/expertManagement/expertLibrary/upload',
-      name: '/expertManagement/expertLibrary/upload',
-      component: ExpertLibraryUpload,
-      meta: {
-        title: '导入专家账号',
-        menuPath: false,
-        authCode: 'P10000',
-        menuIcon: 'user',
-        hideInBread: false,
-        openMode: 'normal'
-      }
-    }
+      },
+      children: [{
+        path: '/expertManagement/expertLibrary/create',
+        name: '/expertManagement/expertLibrary/create',
+        component: ExpertLibraryCreate,
+        meta: {
+          title: '新增专家账号',
+          menuPath: false,
+          authCode: 'P10000',
+          menuIcon: 'user',
+          hideInBread: false,
+          openMode: 'normal'
+        }
+      }, {
+        path: '/expertManagement/expertLibrary/edit',
+        name: '/expertManagement/expertLibrary/edit',
+        component: ExpertLibraryCreate,
+        meta: {
+          title: '修改专家账号',
+          menuPath: false,
+          authCode: 'P10000',
+          menuIcon: 'user',
+          hideInBread: false,
+          openMode: 'normal'
+        }
+      }, {
+        path: '/expertManagement/expertLibrary/view',
+        name: '/expertManagement/expertLibrary/view',
+        component: ExpertLibraryView,
+        meta: {
+          title: '查看专家账号',
+          menuPath: false,
+          authCode: 'P10000',
+          menuIcon: 'user',
+          hideInBread: false,
+          openMode: 'normal'
+        }
+      }, {
+        path: '/expertManagement/expertLibrary/select',
+        name: '/expertManagement/expertLibrary/select',
+        component: ExpertLibrarySelect,
+        meta: {
+          title: '选择专家账号',
+          menuPath: false,
+          authCode: 'P10000',
+          menuIcon: 'user',
+          hideInBread: false,
+          openMode: 'normal'
+        }
+      }, {
+        path: '/expertManagement/expertLibrary/upload',
+        name: '/expertManagement/expertLibrary/upload',
+        component: ExpertLibraryUpload,
+        meta: {
+          title: '导入专家账号',
+          menuPath: false,
+          authCode: 'P10000',
+          menuIcon: 'user',
+          hideInBread: false,
+          openMode: 'normal'
+        }
+      }]
+    },
     ]
   },
   {
