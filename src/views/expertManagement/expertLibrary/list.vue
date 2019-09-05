@@ -40,7 +40,7 @@
 			<a-button type="primary" icon='plus' @click="add">新增</a-button>
 			<a-button icon='download' @click="upload">导入</a-button>
 		</a-row>
-		<a-table class="portalTable" size="small" :dataSource="dataSource" rowKey="name" :pagination="pagination" :columns="columns">
+		<a-table class="portalTable" size="small" :dataSource="dataSource" rowKey="id" :pagination="pagination" :columns="columns">
 			<span slot="status" slot-scope="text, record">
 				<userStatus :status="record.status" />
 			</span>
@@ -203,7 +203,11 @@ export default {
 
     },
     // 新增
-    add() {},
+    add() {
+      this.$router.push({
+        name:'/expertManagement/expertLibrary/create'
+      })
+    },
     // 导入
     upload() {
       this.$router.push({
@@ -211,7 +215,14 @@ export default {
       })
     },
     viewBtn(item) {},
-    editBtn(item) {},
+    editBtn(item) {
+      this.$router.push({
+        name:'/expertManagement/expertLibrary/edit',
+        query:{
+          id:item.expertId
+        }
+      })
+    },
     showOpeations(key, item) {
       switch (key) {
       case '1':

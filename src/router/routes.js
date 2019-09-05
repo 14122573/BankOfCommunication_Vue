@@ -411,6 +411,18 @@ const appRoutes = [{
         openMode: 'normal'
       }
     }, {
+      path: '/expertManagement/expertLibrary/edit',
+      name: '/expertManagement/expertLibrary/edit',
+      component: ExpertLibraryCreate,
+      meta: {
+        title: '修改专家账号',
+        menuPath: false,
+        authCode: 'P10000',
+        menuIcon: 'user',
+        hideInBread: false,
+        openMode: 'normal'
+      }
+    }, {
       path: '/expertManagement/expertLibrary/view',
       name: '/expertManagement/expertLibrary/view',
       component: ExpertLibraryView,
