@@ -257,7 +257,7 @@ const appRoutes = [{
       ]
     },
     { path: '/kpjd', name: 'kpjd', component: contentWrapper,
-      meta: { title: '水产新品种审定', menuPath: true, authCode: 'S0101', menuIcon: 'barcode', hideInBread: true },
+      meta: { title: '科普教育基地申报管理', menuPath: true, authCode: 'S0101', menuIcon: 'barcode', hideInBread: true },
       children: [
         { path: '/kpjd/declare/Declare', name: '/kpjd/declare/Declare',
           meta: { title: '科普教育基地申报管理', menuPath:true, authCode:'S010101', menuIcon: 'appstore', hideInBread: false, openMode: 'spa'}
