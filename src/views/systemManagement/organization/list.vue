@@ -177,8 +177,8 @@ export default {
         url: this.$api.GET_ORGANIZATION_LIST,
         params: params
       }).then(res => {
-        this.pagination.total = this.$com.confirm(res, 'data.totalRows', 0)
         this.dataSource = this.$com.confirm(res, 'data.content', [])
+        this.pagination.total = this.$com.confirm(res, 'data.totalRows', 0)
       })
     },
     getArea() {
