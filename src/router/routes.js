@@ -21,8 +21,6 @@ const PersonCenter = () =>
     import ('@/views/person-center')
     // 系统管理
     // 组织机构
-const contentSystemManagement = () =>
-    import ('@/views/systemManagement/content-systemManagement')
 const Organization = () =>
     import ('@/views/systemManagement/organization/list')
 const OrganizationUpload = () =>
@@ -48,8 +46,6 @@ const CreateNewUser = () =>
 const NewUserView = () =>
     import ('@/views/systemManagement/administrator/new-user-view')
     // 专家管理人员
-const ContentExpertManagement = () =>
-    import ('@/views/expertManagement/content-expertManagement')
 const Talent = () =>
     import ('@/views/expertManagement/talent/list')
 const TalentUpload = () =>
@@ -117,7 +113,7 @@ const appRoutes = [{
   {
     path: '/systemManagement',
     name: 'systemManagement',
-    component: contentSystemManagement,
+    component: contentWrapper,
     meta: {
       title: '系统管理',
       menuPath: true,
@@ -327,7 +323,7 @@ const appRoutes = [{
   {
     path: '/expertManagement',
     name: 'expertManagement',
-    component: ContentExpertManagement,
+    component: contentWrapper,
     meta: {
       title: '专家人员管理',
       menuPath: true,
