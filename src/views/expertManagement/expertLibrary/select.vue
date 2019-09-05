@@ -70,238 +70,238 @@
 	</div>
 </template>
 <script>
-	export default {
-		name: 'select',
-		data() {
-			return {
-				roleList: [],
-				colSpe: {
-					labelCol: {
-						span: 8
-					},
-					wrapperCol: {
-						span: 16
-					},
-				},
-				params: {
-					'ui.createTime_desc': 1,
-				},
-				pagination: {
-					pageNo: 1,
-					pageSize: 10,
-					total: 0,
-					defaultCurrent: 1,
-					showQuickJumper: true,
-					onChange: this.pageChange
-				},
-				searchForm: {
+export default {
+  name: 'select',
+  data() {
+    return {
+      roleList: [],
+      colSpe: {
+        labelCol: {
+          span: 8
+        },
+        wrapperCol: {
+          span: 16
+        },
+      },
+      params: {
+        'ui.createTime_desc': 1,
+      },
+      pagination: {
+        pageNo: 1,
+        pageSize: 10,
+        total: 0,
+        defaultCurrent: 1,
+        showQuickJumper: true,
+        onChange: this.pageChange
+      },
+      searchForm: {
 
-				},
-				dataTable: [],
-				columns: [{
-						title: '姓名',
-						dataIndex: 'name'
-					},
-					{
-						title: '账号',
-						dataIndex: 'phone'
-					},
-					{
-						title: '账户角色',
-						dataIndex: 'roleNames',
-						scopedSlots: {
-							customRender: 'roleNames'
-						}
-					},
-					{
-						title: '组织机构',
-						dataIndex: 'group',
-						scopedSlots: {
-							customRender: 'group'
-						}
-					},
-					{
-						title: '行政区域',
-						dataIndex: 'area',
-						scopedSlots: {
-							customRender: 'area'
-						}
-					}
-				],
-				opeation: {
-					title: '',
-					tips: '',
-					type: '',
-					item: null
-				},
-				treeData: [],
-				isAdminator: '',
-				areaCode: '',
-				groupLists: [],
-				rowSelection: {
-					onChange: this.tableSelectChange
-				},
-				selectedRowKeys: []
-			}
-		},
-		mounted() {
-			this.getList()
-			this.isAdminator = this.$store.state.userInfos.isAllPerm
-			this.getArea()
-			this.getRoleList()
-		},
-		methods: {
-			pageChange(current) {
-				this.pagination.pageNo = current
-				this.getList()
-			},
-			// 查询按钮
-			search() {
-				this.pagination.pageNo = 1
-				this.getList()
-			},
-			// 重置按钮
-			reset() {
-				this.pagination.pageNo = 1
-				delete this.searchForm.name_l
-				delete this.searchForm['ui.phone_l']
-				delete this.searchForm['ui.roleIds']
-				delete this.searchForm['ui.areaId']
-				delete this.searchForm['ui.groupId']
-				this.getList()
-			},
-			// 查询列表
-			getList() {
-				let options = JSON.parse(JSON.stringify(this.searchForm))
-				const params = Object.assign(options, {
-					pageNo: this.pagination.pageNo,
-					pageSize: this.pagination.pageSize,
-					'oa.status_in': "1",
-					'ui.createTime_desc': "1"
-				})
-				this.$ajax.get({
-					url: this.$api.USER_LIST_TYPE_GET.replace('{type}', 'new'),
-					params: params
-				}).then(res => {
-					this.dataTable = res.data.content
-					this.pagination.total = res.data.totalRows
-				})
-			},
-			getArea() {
-				this.$ajax.get({
-					url: this.$api.GET_AREA_NEXT,
-					params: {
-						parentId: this.isAdminator ? '999999' : this.$store.state.userInfos.area.id
-					}
-				}).then(res => {
-					let datas = this.$com.confirm(res, 'data.content', [])
-					datas.forEach((ele, index) => {
-						this.treeData.push(this.getTreeNode(ele, index))
-					})
-				})
-			},
-			getTreeNode(item, index) {
-				let childrenNode = {
-					title: item.areaName,
-					value: item.id,
-					id: item.id,
-					key: item.id,
-					parentId: item.parentId,
-					children: item.childList
-				}
-				return childrenNode
-			},
-			onLoadData(treeNode) {
-				return new Promise((resolve) => {
-					if (treeNode.dataRef.children) {
-						resolve()
-						return
-					}
-					this.$ajax.get({
-						url: this.$api.GET_AREA_NEXT,
-						params: {
-							parentId: treeNode.dataRef.id
-						}
-					}).then(res => {
-						let datas = this.$com.confirm(res, 'data.content', [])
-						let array = []
-						datas.forEach((ele, index) => {
-							array.push(this.getTreeNode(ele, index))
-						})
-						treeNode.dataRef.children = array
-						this.treeData = [...this.treeData]
-						resolve()
-					})
-				})
-			},
-			onChangeTree(value, label, extra) {
-				this.areaCode = value
-				delete this.searchForm['ui.groupId']
-				this.getListGroup()
-			},
-			getListGroup() {
-				const params = {
-					pageSize: 10000,
-					pageNo: 1,
-					areaCode: this.areaCode
-				}
-				if (!this.isAdminator) {
-					params.parentId = this.$store.state.userInfos.group.id
-				}
-				this.$ajax.get({
-					url: this.$api.GET_ORGANIZATION_LIST,
-					params: params
-				}).then(res => {
-					this.groupLists = this.$com.confirm(res, 'data.content', [])
-				})
-			},
-			// 查询角色列表
-			getRoleList() {
-				this.$ajax.get({
-					url: this.$api.GET_ROLE_LIST,
-					params: {
-						pageNo: 1,
-						pageSize: 10000
-					}
-				}).then(res => {
-					if (res.code === '200') {
-						let data = res.data.content
-						this.roleList = data.map(item => {
-							return {
-								label: item.roleName,
-								value: item.id
-							}
-						})
-					} else {
-						this.$message.error(res.msg)
-					}
-				})
-			},
-			tableSelectChange(selectedRowKeys, selectedRows) {
-				this.selectedRowKeys = selectedRowKeys;
-			},
-			handleAdd() {
-				if (this.selectedRowKeys.length > 0) {
-					this.$ajax.put({
-						url: this.$api.PUT_CHANGE_EXPERT,
-						params: this.selectedRowKeys
-					}).then(res => {
-						console.log(res, "-=-=-=-=")
-					})
-				} else {
-					this.$model.warning({
-						title: '提示',
-						content: '请至少选择一条数据！',
-					});
-				}
-			},
-			handleReturn() {
-				this.$router.push({
-					name: '/expertManagement/expertLibrary'
-				})
-			}
-		}
-	}
+      },
+      dataTable: [],
+      columns: [{
+        title: '姓名',
+        dataIndex: 'name'
+      },
+      {
+        title: '账号',
+        dataIndex: 'phone'
+      },
+      {
+        title: '账户角色',
+        dataIndex: 'roleNames',
+        scopedSlots: {
+          customRender: 'roleNames'
+        }
+      },
+      {
+        title: '组织机构',
+        dataIndex: 'group',
+        scopedSlots: {
+          customRender: 'group'
+        }
+      },
+      {
+        title: '行政区域',
+        dataIndex: 'area',
+        scopedSlots: {
+          customRender: 'area'
+        }
+      }
+      ],
+      opeation: {
+        title: '',
+        tips: '',
+        type: '',
+        item: null
+      },
+      treeData: [],
+      isAdminator: '',
+      areaCode: '',
+      groupLists: [],
+      rowSelection: {
+        onChange: this.tableSelectChange
+      },
+      selectedRowKeys: []
+    }
+  },
+  mounted() {
+    this.getList()
+    this.isAdminator = this.$store.state.userInfos.isAllPerm
+    this.getArea()
+    this.getRoleList()
+  },
+  methods: {
+    pageChange(current) {
+      this.pagination.pageNo = current
+      this.getList()
+    },
+    // 查询按钮
+    search() {
+      this.pagination.pageNo = 1
+      this.getList()
+    },
+    // 重置按钮
+    reset() {
+      this.pagination.pageNo = 1
+      delete this.searchForm.name_l
+      delete this.searchForm['ui.phone_l']
+      delete this.searchForm['ui.roleIds']
+      delete this.searchForm['ui.areaId']
+      delete this.searchForm['ui.groupId']
+      this.getList()
+    },
+    // 查询列表
+    getList() {
+      let options = JSON.parse(JSON.stringify(this.searchForm))
+      const params = Object.assign(options, {
+        pageNo: this.pagination.pageNo,
+        pageSize: this.pagination.pageSize,
+        'oa.status_in': '1',
+        'ui.createTime_desc': '1'
+      })
+      this.$ajax.get({
+        url: this.$api.USER_LIST_TYPE_GET.replace('{type}', 'new'),
+        params: params
+      }).then(res => {
+        this.dataTable = res.data.content
+        this.pagination.total = res.data.totalRows
+      })
+    },
+    getArea() {
+      this.$ajax.get({
+        url: this.$api.GET_AREA_NEXT,
+        params: {
+          parentId: this.isAdminator ? '999999' : this.$store.state.userInfos.area.id
+        }
+      }).then(res => {
+        let datas = this.$com.confirm(res, 'data.content', [])
+        datas.forEach((ele, index) => {
+          this.treeData.push(this.getTreeNode(ele, index))
+        })
+      })
+    },
+    getTreeNode(item, index) {
+      let childrenNode = {
+        title: item.areaName,
+        value: item.id,
+        id: item.id,
+        key: item.id,
+        parentId: item.parentId,
+        children: item.childList
+      }
+      return childrenNode
+    },
+    onLoadData(treeNode) {
+      return new Promise((resolve) => {
+        if (treeNode.dataRef.children) {
+          resolve()
+          return
+        }
+        this.$ajax.get({
+          url: this.$api.GET_AREA_NEXT,
+          params: {
+            parentId: treeNode.dataRef.id
+          }
+        }).then(res => {
+          let datas = this.$com.confirm(res, 'data.content', [])
+          let array = []
+          datas.forEach((ele, index) => {
+            array.push(this.getTreeNode(ele, index))
+          })
+          treeNode.dataRef.children = array
+          this.treeData = [...this.treeData]
+          resolve()
+        })
+      })
+    },
+    onChangeTree(value, label, extra) {
+      this.areaCode = value
+      delete this.searchForm['ui.groupId']
+      this.getListGroup()
+    },
+    getListGroup() {
+      const params = {
+        pageSize: 10000,
+        pageNo: 1,
+        areaCode: this.areaCode
+      }
+      if (!this.isAdminator) {
+        params.parentId = this.$store.state.userInfos.group.id
+      }
+      this.$ajax.get({
+        url: this.$api.GET_ORGANIZATION_LIST,
+        params: params
+      }).then(res => {
+        this.groupLists = this.$com.confirm(res, 'data.content', [])
+      })
+    },
+    // 查询角色列表
+    getRoleList() {
+      this.$ajax.get({
+        url: this.$api.GET_ROLE_LIST,
+        params: {
+          pageNo: 1,
+          pageSize: 10000
+        }
+      }).then(res => {
+        if (res.code === '200') {
+          let data = res.data.content
+          this.roleList = data.map(item => {
+            return {
+              label: item.roleName,
+              value: item.id
+            }
+          })
+        } else {
+          this.$message.error(res.msg)
+        }
+      })
+    },
+    tableSelectChange(selectedRowKeys, selectedRows) {
+      this.selectedRowKeys = selectedRowKeys
+    },
+    handleAdd() {
+      if (this.selectedRowKeys.length > 0) {
+        this.$ajax.put({
+          url: this.$api.PUT_CHANGE_EXPERT,
+          params: this.selectedRowKeys
+        }).then(res => {
+          console.log(res, '-=-=-=-=')
+        })
+      } else {
+        this.$model.warning({
+          title: '提示',
+          content: '请至少选择一条数据！',
+        })
+      }
+    },
+    handleReturn() {
+      this.$router.push({
+        name: '/expertManagement/expertLibrary'
+      })
+    }
+  }
+}
 </script>
 <style scoped>
 </style>
