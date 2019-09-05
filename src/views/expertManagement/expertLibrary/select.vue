@@ -1,6 +1,5 @@
 <template>
-	<div  ref="portalDetailWapper">
-		<a-affix :offsetTop="1" :target="() => this.$refs.portalDetailWapper">
+	<div class="portalDetailWapper">
 		<div class="portalDetailTitle">
 			<span class="title">新增专家账号</span>
 			<div class="detailOperations">
@@ -8,64 +7,67 @@
 				<a-button type="primary" @click='handleAdd'>保存</a-button>
 			</div>
 		</div>
-		</a-affix>
-		<div class="layoutMargin layoutPadding">
-			<a-form class="protalForm" :form="searchForm">
-				<a-row type="flex" justify="space-between" class="formItemLine">
-					<a-col span="6">
-						<a-form-item label="姓名" v-bind="colSpe">
-							<a-input placeholder="请输入" v-model="searchForm.name_l" />
-						</a-form-item>
-					</a-col>
-					<a-col span="6">
-						<a-form-item label="手机号" v-bind="colSpe">
-							<a-input placeholder="请输入" v-model="searchForm['ui.phone_l']" />
-						</a-form-item>
-					</a-col>
-					<a-col span="6">
-						<a-form-item label="账户角色" v-bind="colSpe">
-							<a-select placeholder="请选择" :options="roleList" allowClear v-model="searchForm['ui.roleIds']" />
-						</a-form-item>
-					</a-col>
-					<a-col span="6">
-						<a-form-item label="行政区域" v-bind="colSpe">
-							<a-select v-model="searchForm['ui.areaId']" allowClear v-if="isAdminator !== true" placeholder="请选择" @change="onChangeTree"
-							 showSearch>
-								<a-select-option v-for="(item,index) in treeData" :key="index" :value="item.id">{{item.title}}</a-select-option>
-							</a-select>
-							<a-tree-select v-else :treeData="treeData" :loadData="onLoadData" v-model="searchForm['ui.areaId']"
-							 :dropdownStyle="{ maxHeight: '200px', overflow: 'auto' }" placeholder='请选择' allowClear @change="onChangeTree">
-							</a-tree-select>
-						</a-form-item>
-					</a-col>
-				</a-row>
-				<a-row type="flex" justify="space-between" align='middle' class="formItemLine">
-					<a-col span="6">
-						<a-form-item label="组织机构" v-bind="colSpe">
-							<a-select v-model="searchForm['ui.groupId']" allowClear placeholder='请选择'>
-								<a-select-option v-for="(item,index) in groupLists" :key="index" :value="item.id">{{item.groupName}}</a-select-option>
-							</a-select>
-						</a-form-item>
-					</a-col>
-					<a-col span="6" class="algin-right">
-						<a-button @click="reset" html-type="submit">重置</a-button>
-						<a-button type="primary" @click="search" html-type="submit">搜索</a-button>
-					</a-col>
-				</a-row>
-			</a-form>
-			<p class="gayLine"></p>
-			<a-table size='small' class="portalTable" :rowSelection="rowSelection" :columns="columns" :dataSource="dataTable"
-			 rowKey='id' :pagination='pagination'>
-				<span slot="group" slot-scope="text, record">
-					{{record.group!=null?record.group.groupName: "暂无"}}
-				</span>
-				<span slot="area" slot-scope="text, record">
-					{{record.area!=null?record.area.areaName: "暂无"}}
-				</span>
-				<span slot="roleNames" slot-scope="text, record">
-					{{record.roleNames!=null?record.roleNames: "暂无"}}
-				</span>
-			</a-table>
+		<div class="portalDetailContentWapper">
+			<div class="portalDetailContentBody">
+				<div class="layoutMargin layoutPadding">
+					<a-form class="protalForm" :form="searchForm">
+						<a-row type="flex" justify="space-between" class="formItemLine">
+							<a-col span="6">
+								<a-form-item label="姓名" v-bind="colSpe">
+									<a-input placeholder="请输入" v-model="searchForm.name_l" />
+								</a-form-item>
+							</a-col>
+							<a-col span="6">
+								<a-form-item label="手机号" v-bind="colSpe">
+									<a-input placeholder="请输入" v-model="searchForm['ui.phone_l']" />
+								</a-form-item>
+							</a-col>
+							<a-col span="6">
+								<a-form-item label="账户角色" v-bind="colSpe">
+									<a-select placeholder="请选择" :options="roleList" allowClear v-model="searchForm['ui.roleIds']" />
+								</a-form-item>
+							</a-col>
+							<a-col span="6">
+								<a-form-item label="行政区域" v-bind="colSpe">
+									<a-select v-model="searchForm['ui.areaId']" allowClear v-if="isAdminator !== true" placeholder="请选择" @change="onChangeTree"
+									 showSearch>
+										<a-select-option v-for="(item,index) in treeData" :key="index" :value="item.id">{{item.title}}</a-select-option>
+									</a-select>
+									<a-tree-select v-else :treeData="treeData" :loadData="onLoadData" v-model="searchForm['ui.areaId']"
+									 :dropdownStyle="{ maxHeight: '200px', overflow: 'auto' }" placeholder='请选择' allowClear @change="onChangeTree">
+									</a-tree-select>
+								</a-form-item>
+							</a-col>
+						</a-row>
+						<a-row type="flex" justify="space-between" align='middle' class="formItemLine">
+							<a-col span="6">
+								<a-form-item label="组织机构" v-bind="colSpe">
+									<a-select v-model="searchForm['ui.groupId']" allowClear placeholder='请选择'>
+										<a-select-option v-for="(item,index) in groupLists" :key="index" :value="item.id">{{item.groupName}}</a-select-option>
+									</a-select>
+								</a-form-item>
+							</a-col>
+							<a-col span="6" class="algin-right">
+								<a-button @click="reset" html-type="submit">重置</a-button>
+								<a-button type="primary" @click="search" html-type="submit">搜索</a-button>
+							</a-col>
+						</a-row>
+					</a-form>
+					<p class="gayLine"></p>
+					<a-table size='small' class="portalTable" :rowSelection="rowSelection" :columns="columns" :dataSource="dataTable"
+					 rowKey='id' :pagination='pagination'>
+						<span slot="group" slot-scope="text, record">
+							{{record.group!=null?record.group.groupName: "暂无"}}
+						</span>
+						<span slot="area" slot-scope="text, record">
+							{{record.area!=null?record.area.areaName: "暂无"}}
+						</span>
+						<span slot="roleNames" slot-scope="text, record">
+							{{record.roleNames!=null?record.roleNames: "暂无"}}
+						</span>
+					</a-table>
+				</div>
+			</div>
 		</div>
 	</div>
 </template>
@@ -180,7 +182,7 @@ export default {
         'ui.createTime_desc': '1'
       })
       this.$ajax.get({
-        url: this.$api.USER_LIST_TYPE_GET.replace('{type}', 'new'),
+        url: this.$api.GET_USER_EXPERT_LIST,
         params: params
       }).then(res => {
         this.dataTable = res.data.content

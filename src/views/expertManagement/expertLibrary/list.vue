@@ -8,8 +8,8 @@
 					</a-form-item>
 				</a-col>
 				<a-col span="6">
-					<a-form-item label="账号：" class="formItem" v-bind="colSpe">
-						<a-input v-decorator="['loginPhone_l']" placeholder="请输入"></a-input>
+					<a-form-item label="联系电话：" class="formItem" v-bind="colSpe">
+						<a-input v-decorator="['phone_l']" placeholder="请输入"></a-input>
 					</a-form-item>
 				</a-col>
 				<a-col span="6">
@@ -273,9 +273,7 @@ export default {
 <style scoped>
 	.block {
 		height: 70px;
-		border: 1px solid #e8e8e8;
-		box-sizing: content-box;
-		/* border-color: #e8e8e8; */
+		outline: 1px solid #e8e8e8;
 		font-size: 12px;
 		color: black;
 		cursor: pointer;
@@ -287,6 +285,6 @@ export default {
 	}
 
 	.active {
-		border: 1px solid #40a9ff;
+		outline: 1px solid #40a9ff;
 	}
 </style>
