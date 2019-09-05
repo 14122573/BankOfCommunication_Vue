@@ -1,5 +1,6 @@
 <template>
-    <div class="layoutMargin layoutPadding">
+  <div class="routerWapper">
+    <div v-if="$route.name == '/systemManagement/role'" class="layoutMargin layoutPadding">
       <a-form class="protalForm" :form="searchForm">
         <a-row type="flex" justify="space-between" align="middle">
           <a-col span="8">
@@ -7,7 +8,7 @@
               <a-input placeholder="请输入" v-model="searchForm.roleName_l" />
             </a-form-item>
           </a-col>
-          <a-col span="6" class="algin-right">
+          <a-col span="6" class="algin-right" style="padding-right:8px">
             <a-button @click="reset">重置</a-button>
             <a-button type="primary" @click="search">搜索</a-button>
           </a-col>
@@ -44,6 +45,8 @@
           </a-col>
         </a-row>
     </div>
+    <RouterWapper v-else></RouterWapper>
+  </div>
 </template>
 <script>
 export default {
@@ -57,6 +60,7 @@ export default {
       params:{
         pageNo:1,
         pageSize:20,
+        createTime_desc:'1'
       },
       total:0,
       groups:require('@/assets/images/group.png'),
@@ -159,12 +163,12 @@ export default {
 </script>
 <style scoped>
 .wrapper-roles { display: flex; flex-wrap: wrap;}
-.box { width: 20%; padding: 0 16px 16px 0;}
+.box { width: 20%; padding: 0 8px 16px 8px;}
 .inner {height: 140px; display: flex; flex-direction: column; border: 1px solid #e8eaec;}
 .content { display: flex; flex: 1; flex-direction: column; justify-content: center; align-items: start; padding:0px 20px;}
 .content .name{ font-size: 16px;font-weight: bold;}
 .content .name-num{ margin-left: 5px;font-weight: bold;}
-.operate { border-top: 1px solid #e8eaec; height: 40px; text-align: center; line-height: 40px; padding:0px 20px; }
+.operate { border-top: 1px solid #e8eaec; height: 40px; text-align: center; line-height: 40px; }
 .operate span { cursor: pointer; color: #1890ff}
 .inner.add-btn { background: #e8eaec; border: none; }
 .inner.add-btn > button {  width: 100%; height: 100%; font-size: 16px; color: #1890ff;}

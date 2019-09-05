@@ -64,4 +64,6 @@ export default {
   DICTIONARY_TYPE_GET: '/service-expert/expert/dictionary/{type}', //字典
   EXPORT_TYPE: '/service-expert/expert/expert', //新增专家人员
 	PUT_CHANGE_EXPERT:'/service-user/user/become/expert',//成为专家
+  EXPORT_TYPE_EDIT: '/service-expert/expert/expert/{experId}',
+  UPLOAD_TEMP: BASE_URL + '/zuul/service-file/file/upload/1/temp', //上传图片
 }

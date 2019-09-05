@@ -6,7 +6,7 @@
 					权限分配
 				</a-col>
 				<a-col>
-					<a-button type="primary" @click="$router.back();" ghost>返回</a-button>
+					<a-button @click="$router.back();">返回</a-button>
 					<a-button type="primary" @click="save">保存</a-button>
 				</a-col>
 			</a-row>
@@ -17,41 +17,30 @@
 			<a-form :form="formData">
 				<a-row>
 					<a-col span="8">
-						<a-form-item label="角色名称：" :label-col="labelCol" :wrapper-col="wrapperCol">
+						<a-form-item label="角色名称" :label-col="labelCol" :wrapper-col="wrapperCol">
 							<a-select placeholder="请选择" :options='options.roleList' @change="roleChange" allowClear mode="multiple"
-							 labelInValue v-decorator="[
-                          'role',
-                          {rules: [rules.required],validateTrigger:'change'}
-                        ]" />
+							 labelInValue v-decorator="['role', {rules: [rules.required],validateTrigger:'change'}]" />
 						</a-form-item>
 					</a-col>
 					<a-col span="8">
-						<a-form-item label="所属行政区域：" :label-col="labelCol" :wrapper-col="wrapperCol">
+						<a-form-item label="所属行政区域" :label-col="labelCol" :wrapper-col="wrapperCol">
 							<a-select v-if="isAdminator !== true" placeholder="请选择" :options="options.areaList" @change="areaChange"
-							 :filterOption="filterOption" v-decorator="[
-                          'area',
-                          {rules: [rules.required],validateTrigger:'change'}
-                        ]"
+							 :filterOption="filterOption" v-decorator="['area',{rules: [rules.required],validateTrigger:'change'}]"
 							 showSearch allowClear />
 							<a-tree-select v-else :treeData="organData" :loadData="onLoadData" showLine :dropdownStyle="{ maxHeight: '200px', overflow: 'auto' }"
-							 placeholder='请选择' allowClear v-decorator="[
-                        'area',
-                        {rules: [rules.required],validateTrigger:'change'}
-                      ]"
+							 placeholder='请选择' allowClear v-decorator="['area',{rules: [rules.required],validateTrigger:'change'} ]"
 							 @change="onChangeTree">
 							</a-tree-select>
 						</a-form-item>
 					</a-col>
 					<a-col span="8">
-						<a-form-item label="组织机构：" :label-col="labelCol" :wrapper-col="wrapperCol" allowClear>
-							<a-select placeholder="请选择" :options="options.organList" v-decorator="[
-                          'organ'
-                        ]" />
+						<a-form-item label="组织机构" :label-col="labelCol" :wrapper-col="wrapperCol" allowClear>
+							<a-select placeholder="请选择" :options="options.organList" v-decorator="['organ']" />
 						</a-form-item>
 					</a-col>
 				</a-row>
 			</a-form>
-			<a-tree checkable :treeData="treeData" v-model="checkedKeys" showLine disabled />
+			<a-tree class="portalRoleTree" checkable :treeData="treeData" v-model="checkedKeys" disabled />
 		</a-card>
 	</span>
 </template>

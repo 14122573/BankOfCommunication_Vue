@@ -62,14 +62,10 @@
 .tag {margin:5px}
 </style>
 <script>
-import DetailsItem from '@/components/detail/detailItem'
 import { permission, } from '@/util/mixins'
 export default {
   name: 'PersonCenter',
   mixins: [permission],
-  components: {
-    DetailsItem
-  },
   data() {
     return {
       userInfo:null

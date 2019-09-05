@@ -93,6 +93,12 @@ Vue.use(LocaleProvider)
 Vue.use(ActiveForm)
 Vue.use(Steps)
 Vue.use(Anchor)
+
+import RouterWapper from '@/components/Layout/content-wrapper'
+import DetailsItem from '@/components/detail/detailItem'
+Vue.component('RouterWapper',RouterWapper)
+Vue.component('DetailsItem',DetailsItem)
+
 Vue.prototype.$ajax = ajax
 Vue.prototype.$api = api
 Vue.prototype.$cookie = cookie

@@ -1,0 +1,144 @@
+<template>
+    <span>
+        <a-form :form="formJob">
+         <!-- 工作学习经历 -->
+            <a-card class="margin-card">
+                <a-row id="job" type="flex" slot="title" justify="space-between" align="middle">
+                    <a-col>
+                        工作学习经历
+                    </a-col>
+                </a-row>
+                <a-row>
+                    <a-col span="8">
+                        <a-form-item label="毕业院校" v-bind="colSpa">
+                            <a-input v-decorator="['graduatedSchool',{rules:rules.graduatedSchool}]" placeholder="请输入"></a-input>
+                        </a-form-item>
+                    </a-col>
+                    <a-col span="8">
+                        <a-form-item label="学历" v-bind="colSpa">
+                            <a-select v-decorator="['education',{rules:rules.education}]" :options="options.educationList" placeholder="请选择"></a-select>
+                        </a-form-item>
+                    </a-col>
+                    <a-col span="8">
+                        <a-form-item label="学位" v-bind="colSpa">
+                            <a-select v-decorator="['bachelor',{rules:rules.bachelor}]" :options="options.bachelorList" placeholder="请选择"></a-select>
+                        </a-form-item>
+                    </a-col>
+                </a-row>
+                <a-row>
+                    <a-col span="8">
+                        <a-form-item label="所学专业" v-bind="colSpa">
+                            <a-input v-decorator="['profession',{rules:rules.profession}]" placeholder="请输入"></a-input>
+                        </a-form-item>
+                    </a-col>
+                </a-row>
+                <a-row>
+                    <a-col span="16">
+                        <a-form-item label="工作经历" v-bind="textSpa">
+                            <a-textarea v-decorator="['workExperience']" placeholder="请输入"></a-textarea>
+                        </a-form-item>
+                    </a-col>
+                </a-row>
+            </a-card>
+            <!-- 联系信息 -->
+            <a-card class="margin-card">
+                <a-row id="message" type="flex" slot="title" justify="space-between" align="middle">
+                    <a-col>
+                        联系信息
+                    </a-col>
+                </a-row>
+                <a-row>
+                    <a-col span="8">
+                        <a-form-item label="通讯地址" v-bind="colSpa">
+                            <a-input v-decorator="['mailingAddress',{rules:rules.mailingAddress}]" placeholder="请输入"></a-input>
+                        </a-form-item>
+                    </a-col>
+                    <a-col span="8">
+                        <a-form-item label="联系电话" v-bind="colSpa">
+                            <a-input v-decorator="['phone',{rules:rules.phone}]" placeholder="请输入"></a-input>
+                        </a-form-item>
+                    </a-col>
+                    <a-col span="8">
+                        <a-form-item label="电子邮箱" v-bind="colSpa">
+                            <a-input v-decorator="['email',{rules:rules.email}]" placeholder="请输入"></a-input>
+                        </a-form-item>
+                    </a-col>
+                </a-row>
+            </a-card>
+        </a-form>
+    </span>
+</template>
+<script>
+export default {
+  props:{
+    colSpa:{
+      type:Object,
+      default:()=>{
+        return {}
+      }
+    },
+    textSpa:{
+      type:Object,
+      default:()=>{
+        return {}
+      }
+    },
+    options:{
+      type:Object,
+      default:()=>{
+        return {}
+      }
+    }
+  },
+  data() {
+    const validatePhoneOrTel = (rule, value, callback) => {
+      if (!value) {
+        callback()
+      } else {
+        if (!this.$com.checkPhone(value) && !this.$com.checkTel(value)) {
+          callback('联系电话不合法!')
+        } else {
+          callback()
+        }
+      }
+    }
+    return {
+      rules: {
+        // 工作学习经历
+        graduatedSchool: [
+          { required: true, whitespace: true, message: '请输入毕业院校!' }
+        ],
+        education: [
+          { required: true, whitespace: true, message: '请选择学历!' }
+        ],
+        bachelor: [
+          { required: true, whitespace: true, message: '请选择学位!' }
+        ],
+        profession: [
+          { required: true, whitespace: true, message: '请输入所学专业!' }
+        ],
+        // 联系信息
+        mailingAddress: [
+          { required: true, whitespace: true, message: '请输入通讯地址!' }
+        ],
+        phone: [
+          { required: true, whitespace: true, message: '请输入联系电话!' },
+          { validator: validatePhoneOrTel }
+        ],
+        email: [
+          {
+            required: true,
+            type: 'email',
+            whitespace: true,
+            message: '请输入电子邮箱!'
+          }
+        ]
+      }
+    }
+  },
+  beforeCreate() {
+    this.formJob = this.$form.createForm(this)
+  },
+}
+</script>
+
