@@ -11,7 +11,7 @@
 <template>
     <div class="layoutMargin">
       <a-row class="roleTitleSeation" type="flex" justify="space-between" align="middle">
-        <a-col span='6'><span class="roleName">{{roleName}} </span></a-col>
+        <a-col span='6'><span class="roleName">{{roleName || '创建新角色'}}</span></a-col>
         <a-col span='8' class="algin-right" v-if="$route.query.type === 'view'">
           <a-button @click="$router.back();" >返回</a-button>
           <a-button @click="edit" >修改</a-button>

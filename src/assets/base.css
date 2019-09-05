@@ -1,5 +1,6 @@
 .layoutMargin { background-color:#fff; margin: 16px 16px 0 16px; }
 .layoutPadding { padding: 20px;}
+.routerWapper { height: 100%;}
 /* 全局table设置 */
 .portalTableOperates { margin-bottom: 10px;}
 .portalTable { margin-bottom: 16px;}

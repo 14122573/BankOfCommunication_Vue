@@ -1,5 +1,6 @@
 <template>
-    <div class="layoutMargin layoutPadding">
+  <div class="routerWapper">
+    <div v-if="$route.name == '/systemManagement/role'" class="layoutMargin layoutPadding">
       <a-form class="protalForm" :form="searchForm">
         <a-row type="flex" justify="space-between" align="middle">
           <a-col span="8">
@@ -44,6 +45,8 @@
           </a-col>
         </a-row>
     </div>
+    <RouterWapper v-else></RouterWapper>
+  </div>
 </template>
 <script>
 export default {

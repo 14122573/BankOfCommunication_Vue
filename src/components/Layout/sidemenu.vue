@@ -157,12 +157,18 @@ export default {
   watch: {
     $route(to) {
       if (!to.name) return
-      if (this.defaultSelectedKeys.indexOf(to.name) < 0) {
+      // if (this.defaultSelectedKeys.indexOf(to.name) < 0) {
+      if (to.name.indexOf(this.defaultSelectedKeys[0]) < 0){ // 当当前路由不为选定路由或选定路由的子集，则清空设置
         this.defaultSelectedKeys = []
         this.defaultOpenKeys = []
         this.$store.commit('SET_DEFAULTMENU_STATUS', {
           defaultSelectedKeys: [],
           defaultOpenKeys: [],
+        })
+      }else{ // 否则就保存现有的菜单展开设置
+        this.$store.commit('SET_DEFAULTMENU_STATUS', {
+          defaultSelectedKeys: this.defaultSelectedKeys,
+          defaultOpenKeys: this.defaultOpenKeys,
         })
       }
     },

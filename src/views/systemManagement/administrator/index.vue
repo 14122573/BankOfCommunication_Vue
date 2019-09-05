@@ -1,5 +1,6 @@
 <template>
-	<div class="layoutMargin layoutPadding" >
+<div class="routerWapper">
+	<div v-if="$route.name == '/systemManagement/administrator'" class="layoutMargin layoutPadding" >
 		<a-tabs :animated="false" :activeKey="key" @change="callback">
 			<a-tab-pane tab="待分配权限" key="1">
 				<PendingPermissions />
@@ -12,6 +13,8 @@
 			</a-tab-pane>
 		</a-tabs>
 	</div>
+  <RouterWapper v-else></RouterWapper>
+</div>
 </template>
 <script>
 import PendingPermissions from './pending-permissions'
