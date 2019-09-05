@@ -31,7 +31,8 @@
 									<a-icon type="down" />
 								</span>
 								<a-menu slot="overlay" @click="handleClick">
-									<a-menu-item key="person">个人中心</a-menu-item>
+									<a-menu-item key="person">账户信息</a-menu-item>
+									<a-menu-item key="expert">专家个人信息</a-menu-item>
 									<a-menu-item key="logout">退出登录</a-menu-item>
 								</a-menu>
 							</a-dropdown>
@@ -171,17 +172,19 @@ export default {
     toggleSideCollapsed() {
       this.collapsed = !this.collapsed
     },
-    handleClick({
-      key
-    }) {
-      if (key == 'person') {
-        this.$router.push({
-          name: 'person'
-        })
-      }
-      if (key == 'logout') {
+    handleClick({ key }) {
+      switch(key){
+      case 'person':
+        this.$router.push({ name: 'person' })
+        break
+      case 'expert':
+        this.$router.push({ name: '/person/expert' })
+        break
+      case 'logout':
         this.plogout()
+        break
       }
+
     }
   }
 }
