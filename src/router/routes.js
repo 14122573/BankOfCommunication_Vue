@@ -276,208 +276,93 @@ const appRoutes = [
         }
         ]
       },
-      {
-        path: '/scsd',
-        name: 'scsd',
-        component: contentWrapper,
-        meta: {
-          title: '水产新品种审定',
-          menuPath: true,
-          authCode: 'S0501',
-          menuIcon: 'barcode',
-          hideInBread: true
-        },
-        children: [{
-          path: '/scsd/post/scsdPost',
-          name: '/scsd/post/scsdPost',
-          meta: {
-            title: '新品申报',
-            menuPath: true,
-            authCode: 'S050101',
-            menuIcon: 'exception',
-            hideInBread: false,
-            openMode: 'spa'
+      { path: '/kpjd', name: 'kpjd', component: contentWrapper,
+        meta: { title: '水产新品种审定', menuPath: true, authCode: 'S0101', menuIcon: 'barcode', hideInBread: true },
+        children: [
+          { path: '/kpjd/declare/Declare', name: '/kpjd/declare/Declare',
+            meta: { title: '提交基地申报', menuPath:true, authCode:'S010101', menuIcon: 'appstore', hideInBread: false, openMode: 'spa'}
           },
-        },
-        {
-          path: '/scsd/expert/scsdOrgaExpert',
-          name: '/scsd/expert/scsdOrgaExpert',
-          meta: {
-            title: '组织专家',
-            menuPath: true,
-            authCode: 'S050102',
-            menuIcon: 'usergroup-add',
-            hideInBread: false,
-            openMode: 'spa'
+          { path: '/kpjd/declare/DeclareReview', name: '/kpjd/declare/DeclareReview',
+            meta: { title: '提交基地申报', menuPath:true, authCode:'S010102', menuIcon: 'appstore', hideInBread: false, openMode: 'spa'}
           },
-        },
-        {
-          path: '/scsd/forma/scsdForma',
-          name: '/scsd/forma/scsdForma',
-          meta: {
-            title: '形式审查信息',
-            menuPath: true,
-            authCode: 'S050103',
-            menuIcon: 'file-protect',
-            hideInBread: false,
-            openMode: 'spa'
+          { path: '/kpjd/declare/Trial', name: '/kpjd/declare/Trial',
+            meta: { title: '提交基地申报', menuPath:true, authCode:'S010103', menuIcon: 'appstore', hideInBread: false, openMode: 'spa'}
           },
-        },
-        {
-          path: '/scsd/exam/scsdExam',
-          name: '/scsd/exam/scsdExam',
-          meta: {
-            title: '函审信息',
-            menuPath: true,
-            authCode: 'S050104',
-            menuIcon: 'reconciliation',
-            hideInBread: false,
-            openMode: 'spa'
+          { path: '/kpjd/declare/organizationExpert', name: '/kpjd/declare/organizationExpert',
+            meta: { title: '基地申报专家评审', menuPath:true, authCode:'S010104', menuIcon: 'appstore', hideInBread: false, openMode: 'spa'}
           },
-        },
-        {
-          path: '/scsd/localexam/scsdLocalExam',
-          name: '/scsd/localexam/scsdLocalExam',
-          meta: {
-            title: '现场审定专家意见',
-            menuPath: true,
-            authCode: 'S050105',
-            menuIcon: 'solution',
-            hideInBread: false,
-            openMode: 'spa'
+          { path: '/kpjd/judge/judgeTable', name: '/kpjd/judge/judgeTable',
+            meta: { title: '评判标准', menuPath:true, authCode:'S010105', menuIcon: 'appstore', hideInBread: false, openMode: 'spa'}
           },
-        },
-        {
-          path: '/scsd/local/scsdLocal',
-          name: '/scsd/local/scsdLocal',
-          meta: {
-            title: '现场审定确认',
-            menuPath: true,
-            authCode: 'S050106',
-            menuIcon: 'solution',
-            hideInBread: false,
-            openMode: 'spa'
+          { path: '/kpjd/declare/Notice', name: '/kpjd/declare/Notice',
+            meta: { title: '基地申报评审结果', menuPath:true, authCode:'S010105', menuIcon: 'appstore', hideInBread: false, openMode: 'spa'}
           },
-        },
-        {
-          path: '/scsd/review/scsdReview',
-          name: '/scsd/review/scsdReview',
-          meta: {
-            title: '评审结果信息',
-            menuPath: true,
-            authCode: 'S050107',
-            menuIcon: 'audit',
-            hideInBread: false,
-            openMode: 'spa'
+          { path: '/kpjd/declare/Submission', name: '/kpjd/declare/Submission',
+            meta: { title: '提交考核材料', menuPath:true, authCode:'S010106', menuIcon: 'appstore', hideInBread: false, openMode: 'spa'}
           },
-        },
-        {
-          path: '/scsd/selectPost',
-          name: '/scsd/selectPost',
-          meta: {
-            title: '查看申报记录',
-            menuPath: true,
-            authCode: 'S050108',
-            menuIcon: 'exception',
-            hideInBread: false,
-            menuIcon: 'appstore'
+          { path: '/kpjd/declare/AssessResult', name: '/kpjd/declare/AssessResult',
+            meta: { title: '考核结果', menuPath:true, authCode:'S01017', menuIcon: 'appstore', hideInBread: false, openMode: 'spa'}
           }
-        }
         ]
       },
-      {
-        path: '/SCYJ/:sysname',
-        name: 'SCYJ',
-        component: TipsOutsite,
-        meta: {
-          title: '国家水生动物疫情预警系统',
-          menuPath: true,
-          authCode: 'SCYJ',
-          menuIcon: 'alert',
-          hideInBread: false,
-          openMode: 'outsite'
-        },
+      //水产新品种审定子项目菜单配置
+      { path: '/scsd', name: 'scsd', component: contentWrapper,
+        meta: { title: '水产新品种审定', menuPath: true, authCode: 'S0501', menuIcon: 'barcode', hideInBread: true },
+        children: [
+          { path: '/scsd/post/scsdPost', name: '/scsd/post/scsdPost',
+            meta: { title: '新品申报', menuPath: true, authCode: 'S050101', menuIcon: 'exception', hideInBread: false, openMode: 'spa' },
+          },
+          { path: '/scsd/expert/scsdOrgaExpert', name: '/scsd/expert/scsdOrgaExpert',
+            meta: { title: '组织专家', menuPath: true, authCode: 'S050102', menuIcon: 'usergroup-add', hideInBread: false, openMode: 'spa' },
+          },
+          { path: '/scsd/forma/scsdForma', name: '/scsd/forma/scsdForma',
+            meta: { title: '形式审查信息', menuPath: true, authCode: 'S050103', menuIcon: 'file-protect', hideInBread: false, openMode: 'spa' },
+          },
+          { path: '/scsd/exam/scsdExam', name: '/scsd/exam/scsdExam',
+            meta: { title: '函审信息', menuPath: true, authCode: 'S050104', menuIcon: 'reconciliation', hideInBread: false, openMode: 'spa' },
+          },
+          { path: '/scsd/localexam/scsdLocalExam', name: '/scsd/localexam/scsdLocalExam',
+            meta: { title: '现场审定专家意见', menuPath: true, authCode: 'S050105', menuIcon: 'solution', hideInBread: false, openMode: 'spa' },
+          },
+          { path: '/scsd/local/scsdLocal', name: '/scsd/local/scsdLocal',
+            meta: { title: '现场审定确认', menuPath: true, authCode: 'S050106', menuIcon: 'solution', hideInBread: false, openMode: 'spa' },
+          },
+          { path: '/scsd/review/scsdReview', name: '/scsd/review/scsdReview',
+            meta: { title: '评审结果信息', menuPath: true, authCode: 'S050107', menuIcon: 'audit', hideInBread: false, openMode: 'spa' },
+          },
+          { path: '/scsd/selectPost', name: '/scsd/selectPost',
+            meta: { title: '查看申报记录', menuPath: true, authCode: 'S050108', menuIcon: 'exception', hideInBread: false, menuIcon: 'appstore' }
+          }
+        ]
       },
-      {
-        path: '/YQCB/:sysname',
-        name: 'YQCB',
-        component: TipsOutsite,
-        meta: {
-          title: '全国水产养殖动植物病情测报系统',
-          menuPath: true,
-          menuIcon: 'cloud-upload',
-          authCode: 'YQCB',
-          hideInBread: false,
-          openMode: 'outsite'
-        },
+      { path: '/SCYJ/:sysname', name: 'SCYJ', component: TipsOutsite,
+        meta: { title: '国家水生动物疫情预警系统', menuPath: true, authCode: 'SCYJ', menuIcon: 'alert', hideInBread: false, openMode: 'outsite' },
       },
-      {
-        path: '/ZXJC/:sysname',
-        name: 'ZXJC',
-        component: TipsOutsite,
-        meta: {
-          title: '国家水生动物疫病监测信息管理系统',
-          menuPath: true,
-          menuIcon: 'hdd',
-          authCode: 'ZXJC',
-          hideInBread: false,
-          openMode: 'outsite'
-        },
+      { path: '/YQCB/:sysname', name: 'YQCB', component: TipsOutsite,
+        meta: { title: '全国水产养殖动植物病情测报系统', menuPath: true, menuIcon: 'cloud-upload', authCode: 'YQCB', hideInBread: false, openMode: 'outsite' },
       },
-      {
-        path: '/NYPC/:sysname',
-        name: 'NYPC',
-        component: TipsOutsite,
-        meta: {
-          title: '水产养殖动物病原菌耐药性普查数据分析系统',
-          menuPath: true,
-          menuIcon: 'experiment',
-          authCode: 'NYPC',
-          hideInBread: false,
-          openMode: 'outsite'
-        }
+      { path: '/ZXJC/:sysname', name: 'ZXJC', component: TipsOutsite,
+        meta: { title: '国家水生动物疫病监测信息管理系统', menuPath: true, menuIcon: 'hdd', authCode: 'ZXJC', hideInBread: false, openMode: 'outsite' },
+      },
+      { path: '/NYPC/:sysname', name: 'NYPC', component: TipsOutsite,
+        meta: { title: '水产养殖动物病原菌耐药性普查数据分析系统', menuPath: true, menuIcon: 'experiment', authCode: 'NYPC', hideInBread: false, openMode: 'outsite' }
       },
     ],
   },
-  {
-    path: '/login',
-    name: 'login',
-    component: LoginPage,
-    meta: {
-      title: '登录'
-    },
+  { path: '/login', name: 'login', component: LoginPage,
+    meta: { title: '登录' },
   },
-  {
-    path: '/register',
-    name: 'register',
-    component: RegisterPage,
-    meta: {
-      title: '注册'
-    },
+  { path: '/register', name: 'register', component: RegisterPage,
+    meta: { title: '注册' },
   },
-  {
-    path: '/bindPhone',
-    name: 'bindPhone',
-    component: BindPhone,
-    meta: {
-      title: '选择系统绑定手机号',
-    },
+  { path: '/bindPhone', name: 'bindPhone', component: BindPhone,
+    meta: { title: '选择系统绑定手机号', },
   },
-  {
-    path: '/oldSysLogout',
-    name: 'oldSysLogout',
-    component: OldSysLogout,
-    meta: {
-      title: '老系统安全登出',
-    },
+  { path: '/oldSysLogout', name: 'oldSysLogout', component: OldSysLogout,
+    meta: { title: '老系统安全登出', },
   },
-  {
-    path: '/networkerr',
-    name: 'networkerr',
-    component: TipsNetworkErr,
-    meta: {
-      title: '网络错误',
-    },
+  { path: '/networkerr', name: 'networkerr', component: TipsNetworkErr,
+    meta: { title: '网络错误', },
   },
 ]
 
