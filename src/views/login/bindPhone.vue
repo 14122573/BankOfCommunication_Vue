@@ -28,7 +28,7 @@
 							<a-form-item>
 								<a-input v-decorator="[
 									  'phone',
-									  { validateTrigger:'change',
+									  { validateTrigger:'blur',
 										 rules: [
 									  { validator: validatePhone}] }
 									]"
@@ -216,6 +216,9 @@ import {
   permission
 } from '@/util/mixins'
 import testStrong from '@/components/testPwd'
+import {
+  encryptDes
+} from '@/util/des-cryptojs'
 export default {
   name: 'bindPhone',
   components: {
@@ -302,7 +305,7 @@ export default {
         if (!err) {
           let params = {
             userId: this.userId,
-            pwd: values.password,
+            pwd: encryptDes(values.password),
             code: values.code,
             userInfo: {
               'phone': values.phone,
@@ -472,7 +475,7 @@ export default {
     },
     validatePhone(rule, value, callback) {
       if (value && value != undefined) {
-        if (!/^1[3456789]\d{9}$/.test(value)) {
+        if (!this.$com.checkPhone(value)) {
           callback('手机号码不合法!')
         } else {
           if (value.length == '11') {
@@ -502,7 +505,7 @@ export default {
     },
     checkZipCode(rule, value, callback) {
       if (value && value != undefined) {
-        if (!/^[0-9]{6}$/.test(value)) {
+        if (!this.$com.checkZipCode(value)) {
           callback('邮编格式不合法!')
         } else {
           callback()
@@ -517,7 +520,7 @@ export default {
         callback('请输入密码！')
         this.passwordStrength = false
       } else {
-        if (!/^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{6,}$/.test(value)) {
+        if (!this.$com.checkPassword(value)) {
           callback('请输入6位以上的数字字母组合！')
           this.passwordStrength = false
         } else {
@@ -674,7 +677,6 @@ export default {
 	}
 
 	.bindPhone {
-		/* width: 700px; */
 		margin: 0 auto;
 		height: 400px;
 		font-size: 14px;
@@ -683,28 +685,6 @@ export default {
 		overflow: hidden;
 		overflow-y: auto;
 		padding: 0 10px;
-	}
-
-	.bindPhone::-webkit-scrollbar {
-		/*滚动条整体样式*/
-		width: 4px;
-		/*高宽分别对应横竖滚动条的尺寸*/
-		height: 4px;
-	}
-
-	.bindPhone::-webkit-scrollbar-thumb {
-		/*滚动条里面小方块*/
-		border-radius: 5px;
-		-webkit-box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.3);
-		background: #e8eaec;
-		/* display: none; */
-	}
-
-	.bindPhone::-webkit-scrollbar-track {
-		/*滚动条里面轨道*/
-		-webkit-box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2);
-		border-radius: 0;
-		background: white;
 	}
 
 	.bindPhoneTitle {

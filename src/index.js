@@ -11,6 +11,7 @@ import ajax from './server/ajax'
 import api from './server/api'
 import cookie from './util/local-cookie'
 import common from './util/common'
+import './assets/base.css' // 引入全局样式
 import PermissionControl from './util/permission-control.js' // 权限自定义指令 v-permission="code"
 import { PermissionFilter } from './util/permission-filter.js' // 权限全局方法 v-if="$permission('code')"
 import {
@@ -41,10 +42,22 @@ import {
   skeleton,
   pagination,
   Tag,
-  Badge
+  Badge,
+  TreeSelect,
+  Radio,
+  Cascader,
+  LocaleProvider,
+  Steps,
+  Anchor
 } from 'ant-design-vue'
-
+import './assets/reset-ant.css' // 重置ant-design样式
+import ActiveForm from '@/components/ActiveForm'
 import singleSpaVue from 'single-spa-vue'
+
+// 由于日期组件默认是英文的，需要本地化
+import moment from 'moment'
+import 'moment/locale/zh-cn'
+moment.locale('zh-cn')
 
 Vue.use(Button)
 Vue.use(Spin)
@@ -73,13 +86,28 @@ Vue.use(DatePicker)
 Vue.use(pagination)
 Vue.use(Tag)
 Vue.use(Badge)
+Vue.use(TreeSelect)
+Vue.use(Radio)
+Vue.use(Cascader)
+Vue.use(LocaleProvider)
+Vue.use(ActiveForm)
+Vue.use(Steps)
+Vue.use(Anchor)
+
+import RouterWapper from '@/components/Layout/content-wrapper'
+import DetailsItem from '@/components/detail/detailItem'
+Vue.component('RouterWapper',RouterWapper)
+Vue.component('DetailsItem',DetailsItem)
+
 Vue.prototype.$ajax = ajax
 Vue.prototype.$api = api
 Vue.prototype.$cookie = cookie
 Vue.prototype.$com = common
 Vue.prototype.$permission = PermissionFilter
 Vue.prototype.$message = message
+Vue.prototype.$model = Modal
 Vue.prototype.$store = store
+Vue.prototype.$moment = moment
 
 Vue.config.productionTip = false
 const vueLifecycles = singleSpaVue({

@@ -18,7 +18,7 @@
             <a-row type="flex" justify="start" align="middle" :gutter="10">
               <a-col :span="7">
                 <a-form-item>
-                  <a-input v-decorator="[ 'phone', { validateTrigger:'change', rules: [ { validator: validatePhone}] } ]" placeholder="手机号">
+                  <a-input v-decorator="[ 'phone', { validateTrigger:'blur', rules: [ { validator: validatePhone}] } ]" placeholder="手机号">
                     <a-icon slot="prefix" type="mobile" style="color: rgba(0,0,0,.25)" />
                   </a-input>
                 </a-form-item>
@@ -142,6 +142,7 @@
 <script>
 import testStrong from '@/components/testPwd'
 import Loader from '@/components/Loader/loader'
+import {encryptDes} from '@/util/des-cryptojs'
 export default {
   name: 'Register',
   components: {
@@ -258,7 +259,7 @@ export default {
         callback('请输入密码！')
         this.passwordStrength=false
       }else{
-        if(!/^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{6,}$/.test(value)){
+        if(!this.$com.checkPassword(value)){
           callback('请输入6位以上的数字字母组合！')
           this.passwordStrength=false
         }else{
@@ -289,7 +290,7 @@ export default {
      */
     checkZipCode(rule, value, callback) {
       if (value && value != undefined) {
-        if (!/^[0-9]{6}$/.test(value)) {
+        if (!this.$com.checkZipCode(value)) {
           callback('邮编格式不合法!')
         } else {
           callback()
@@ -315,7 +316,7 @@ export default {
         if (!err) {
           let params = {
             'username':values.phone,
-            'pwd':values.password,
+            'pwd':encryptDes(values.password),
             'code':values.code,
             'userInfo':{
               'mail':values.mail,

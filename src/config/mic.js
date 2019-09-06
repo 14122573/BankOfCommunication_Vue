@@ -16,6 +16,12 @@ case 'devol': // 本地线上部署环境下
       resourceName:'scsd',
       micId:'mic:scsd',
       pathPrefix:'/scsd'
+    },
+    {
+      baseUrl:'http://txc.tao.com',
+      resourceName:'kpjd',
+      micId:'mic:kpjd',
+      pathPrefix:'/kpjd'
     }
   ]
   break
@@ -30,7 +36,14 @@ case 'sit': // sit环境下
   ]
   break
 case 'uat': // uat环境下
-  MicConfig = []
+  MicConfig = [
+    {
+      baseUrl:'http://scsd.szjoin.net',
+      resourceName:'scsd',
+      micId:'mic:scsd',
+      pathPrefix:'/scsd'
+    }
+  ]
   break
 case 'production': // 生产环境下
   MicConfig = []
@@ -54,6 +67,12 @@ default: // 默认环境下（开发环境）
       resourceName:'scsd',
       micId:'mic:scsd',
       pathPrefix:'/scsd'
+    },
+    {
+      baseUrl:'http://txc.tao.com',
+      resourceName:'kpjd',
+      micId:'mic:kpjd',
+      pathPrefix:'/kpjd'
     }
   ]
   break

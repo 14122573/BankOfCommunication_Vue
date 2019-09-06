@@ -7,9 +7,6 @@ export default {
     state.permissionCodeList = authCodeList // 保存权限code数组
     state.hasAllRight = isAllPerm // 保存是否拥有全部权限
   },
-  SET_SHOWSPACONTENT(state, data) {
-    state.showSpaContent = data
-  },
   SET_USERNAME(state, name) {
     state.userName = name
   },
@@ -22,8 +19,13 @@ export default {
     state.menuList=[]
     state.permissionCodeList=[]
     state.hasAllRight=false
-    state.showSpaContent=false
     state.userName=''
     state.userInfos = null
   },
+  SET_DEFAULTMENU_STATUS(state, data) { // 菜单的默认展开、选中状态
+    state.defaultMenuStatus = data
+  },
+  SET_TABNAME(state,data){
+    state.tabName = data
+  }
 }

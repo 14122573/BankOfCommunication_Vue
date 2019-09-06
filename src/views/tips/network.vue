@@ -5,8 +5,11 @@
     <p class="tips">网络错误</p>
     <p class="subtips">程序员正在处理中</p>
   </div>
-
+  <div>
     <a-button class="moreOperations" type="primary" @click="toHome">返回工作台</a-button>
+    <a-button class="moreOperations" type="primary" @click="toLogin">重新登录</a-button>
+  </div>
+
 </div>
 </template>
 
@@ -18,6 +21,9 @@ export default {
   methods: {
     toHome(){
       this.$router.push({name:'home'})
+    },
+    toLogin(){
+      this.$com.handleLogOut()
     }
   }
 }
