@@ -2,13 +2,13 @@
 <div class="routerWapper">
 	<div v-if="$route.name == '/systemManagement/administrator'" class="layoutMargin layoutPadding" >
 		<a-tabs :animated="false" :activeKey="key" @change="callback">
-			<a-tab-pane v-if="permission('P03100')" tab="待分配权限" key="1">
-				<PendingPermissions />
+			<a-tab-pane v-if="$permission('P03100')" tab="待分配权限" key="1">
+				<Pendingpermissions />
 			</a-tab-pane>
-			<a-tab-pane v-if="permission('P03200')" tab="老用户管理" key="2">
+			<a-tab-pane v-if="$permission('P03200')" tab="老用户管理" key="2">
 				<OldUser :roleList="roleList" />
 			</a-tab-pane>
-			<a-tab-pane v-if="permission('P03300')" tab="新用户管理" key="3">
+			<a-tab-pane v-if="$permission('P03300')" tab="新用户管理" key="3">
 				<NewUser :roleList="roleList" />
 			</a-tab-pane>
 		</a-tabs>
@@ -17,13 +17,13 @@
 </div>
 </template>
 <script>
-import PendingPermissions from './pending-permissions'
+import Pendingpermissions from './pending-permissions'
 import OldUser from './old-user'
 import NewUser from './new-user'
 export default {
   name: 'Administrator',
   components: {
-    PendingPermissions,
+    Pendingpermissions,
     OldUser,
     NewUser
   },

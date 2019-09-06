@@ -18,7 +18,7 @@
         <div class="wrapper-roles">
             <div class="box">
               <div class="inner add-btn">
-                <a-button icon="plus" v-if="permission('P02001')" @click="addBtn" class="add-btn" type="default" >新增角色</a-button>
+                <a-button icon="plus" v-if="$permission('P02001')" @click="addBtn" class="add-btn" type="default" >新增角色</a-button>
               </div>
             </div>
             <div class="box" v-for="(item,index) in roleList" :key="index">
@@ -28,11 +28,11 @@
                   <p> <img :src="groups" class="group-icon" alt="人数"><span class="name-num">{{item.userCount || '0'}}人</span> </p>
                 </div>
                 <div class="operate">
-                  <span v-if="permission('P02002')" @click="view(item)">查看</span>
-                  <a-divider v-if="permission('P02002')" type="vertical" />
-                  <span v-if="permission('P02003')" @click="edit(item)">修改</span>
-                  <a-divider v-if="permission('P02003')" type="vertical" />
-                  <span v-if="permission('P02004')"  @click="deleteBtn(item)">删除</span>
+                  <span v-if="$permission('P02002')" @click="view(item)">查看</span>
+                  <a-divider v-if="$permission('P02002')" type="vertical" />
+                  <span v-if="$permission('P02003')" @click="edit(item)">修改</span>
+                  <a-divider v-if="$permission('P02003')" type="vertical" />
+                  <span v-if="$permission('P02004')"  @click="deleteBtn(item)">删除</span>
                 </div>
               </div>
             </div>

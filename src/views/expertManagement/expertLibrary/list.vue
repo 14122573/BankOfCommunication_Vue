@@ -83,208 +83,208 @@
 	</div>
 </template>
 <script>
-	import userStatus from '../../systemManagement/components/user-status'
-	import testStrong from '@/components/testPwd'
-	import ResetModal from '../components/resetPassword'
-	import {
-		encryptDes
-	} from '@/util/des-cryptojs'
-	export default {
-		name: 'Talent',
-		components: {
-			userStatus,
-			testStrong,
-			ResetModal
-		},
-		data() {
-			return {
-				searchForm: this.$form.createForm(this),
-				options: {
-					proList: [{
-							label: '省级认定',
-							value: '1'
-						},
-						{
-							label: '部级认定',
-							value: '0'
-						}
-					],
-					levList: [{
-							label: '是',
-							value: '1'
-						},
-						{
-							label: '否',
-							value: '0'
-						}
-					],
-					statusList: [{
-							label: '正常',
-							value: '1'
-						},
-						{
-							label: '已注销',
-							value: '8'
-						}
-					],
-					jobList: []
-				},
-				colSpe: {
-					labelCol: {
-						span: 8
-					},
-					wrapperCol: {
-						span: 16
-					}
-				},
-				dataSource: [],
-				columns: [{
-						title: '姓名',
-						dataIndex: 'name'
-					},
-					{
-						title: '账号',
-						dataIndex: 'loginPhone'
-					},
-					{
-						title: '工作单位',
-						dataIndex: 'workCompany'
-					},
-					{
-						title: '职称',
-						dataIndex: 'jobTitleName'
-					},
-					{
-						title: '省级认定',
-						dataIndex: 'provinceConfirm'
-					},
-					{
-						title: '部级认定',
-						dataIndex: 'unitConfirm'
-					},
-					{
-						title: '用户状态',
-						dataIndex: 'status',
-						scopedSlots: {
-							customRender: 'status'
-						}
-					},
-					{
-						title: '操作',
-						width: 140,
-						dataIndex: 'action',
-						scopedSlots: {
-							customRender: 'action'
-						}
-					}
-				],
-				pagination: {
-					pageNo: 1,
-					pageSize: 10,
-					total: 0,
-					current: 1,
-					defaultCurrent: 1,
-					showQuickJumper: true,
-					onChange: this.onChange
-				},
-				opeationItem: {},
-				addExpertUser: false,
-				chooseIndex: 1
-			}
-		},
-		mounted() {
-			this.getLists()
-			this.getJobLists()
-		},
-		methods: {
-			getLists() {
-				const options = this.$com.dealObjectValue(this.searchForm.getFieldsValue())
-				if (options.status) options.status = options.status.join(',')
-				if (options.proStatus && options.proStatus.length > 1) {
-					options.provinceConfirm = '是'
-					options.unitConfirm = '是'
-				} else {
-					if (options.proStatus) {
-						if (options.proStatus[0] === '0') {
-							options.unitConfirm = '是'
-							options.provinceConfirm = '否'
-						} else {
-							options.unitConfirm = '否'
-							options.provinceConfirm = '是'
-						}
-					} else {
-						options.provinceConfirm = '否'
-						options.unitConfirm = '否'
-					}
-				}
-				delete options.proStatus
-				const params = Object.assign(options, {
-					pageSize: this.pagination.pageSize,
-					pageNo: this.pagination.pageNo
-				})
-				this.$ajax.get({
-					url: this.$api.GET_EXPERT_LIST,
-					params: params
-				}).then(res => {
-					this.dataSource = this.$com.confirm(res, 'data.content', [])
-					this.pagination.total = this.$com.confirm(res, 'data.totalRows', 0)
-				})
-			},
-			// 查询
-			search() {
-				this.pagination.current = 1
-				this.pagination.pageNo = 1
-				this.getLists()
-			},
-			// 重置
-			reset() {
-				this.pagination.current = 1
-				this.pagination.pageNo = 1
-				this.searchForm.setFieldsValue({
-					jobTitle: undefined,
-					loginPhone_l: undefined,
-					name_l: undefined,
-					proStatus: [],
-					status: []
-				})
-				this.getLists()
-			},
-			handleJump() {
-				if (this.chooseIndex == 1) {
-					//转换
-					this.$router.push({
-						name: '/expertManagement/expertLibrary/select'
-					})
-				} else {
-					//直接新增
-					this.$router.push({
-						name: '/expertManagement/expertLibrary/create'
-					})
-				}
-			},
-			editBtn(item) {
-				this.$router.push({
-					name: '/expertManagement/expertLibrary/edit',
-					query: {
-						id: item.expertId
-					}
-				})
-			},
-			handleCancel() {},
-			getJobLists() {
-				this.$ajax.get({
-					url: this.$api.DICTIONARY_TYPE_GET.replace('{type}', '3')
-				}).then(res => {
-					this.options.jobList = this.$com.confirm(res, 'data.content', [])
-				})
-			},
-			onChange(val) {
-				this.pagination.pageNo = val
-				this.pagination.current = val
-				this.getLists()
-			}
-		}
-	}
+import userStatus from '../../systemManagement/components/user-status'
+import testStrong from '@/components/testPwd'
+import ResetModal from '../components/resetPassword'
+import {
+  encryptDes
+} from '@/util/des-cryptojs'
+export default {
+  name: 'Talent',
+  components: {
+    userStatus,
+    testStrong,
+    ResetModal
+  },
+  data() {
+    return {
+      searchForm: this.$form.createForm(this),
+      options: {
+        proList: [{
+          label: '省级认定',
+          value: '1'
+        },
+        {
+          label: '部级认定',
+          value: '0'
+        }
+        ],
+        levList: [{
+          label: '是',
+          value: '1'
+        },
+        {
+          label: '否',
+          value: '0'
+        }
+        ],
+        statusList: [{
+          label: '正常',
+          value: '1'
+        },
+        {
+          label: '已注销',
+          value: '8'
+        }
+        ],
+        jobList: []
+      },
+      colSpe: {
+        labelCol: {
+          span: 8
+        },
+        wrapperCol: {
+          span: 16
+        }
+      },
+      dataSource: [],
+      columns: [{
+        title: '姓名',
+        dataIndex: 'name'
+      },
+      {
+        title: '账号',
+        dataIndex: 'loginPhone'
+      },
+      {
+        title: '工作单位',
+        dataIndex: 'workCompany'
+      },
+      {
+        title: '职称',
+        dataIndex: 'jobTitleName'
+      },
+      {
+        title: '省级认定',
+        dataIndex: 'provinceConfirm'
+      },
+      {
+        title: '部级认定',
+        dataIndex: 'unitConfirm'
+      },
+      {
+        title: '用户状态',
+        dataIndex: 'status',
+        scopedSlots: {
+          customRender: 'status'
+        }
+      },
+      {
+        title: '操作',
+        width: 140,
+        dataIndex: 'action',
+        scopedSlots: {
+          customRender: 'action'
+        }
+      }
+      ],
+      pagination: {
+        pageNo: 1,
+        pageSize: 10,
+        total: 0,
+        current: 1,
+        defaultCurrent: 1,
+        showQuickJumper: true,
+        onChange: this.onChange
+      },
+      opeationItem: {},
+      addExpertUser: false,
+      chooseIndex: 1
+    }
+  },
+  mounted() {
+    this.getLists()
+    this.getJobLists()
+  },
+  methods: {
+    getLists() {
+      const options = this.$com.dealObjectValue(this.searchForm.getFieldsValue())
+      if (options.status) options.status = options.status.join(',')
+      if (options.proStatus && options.proStatus.length > 1) {
+        options.provinceConfirm = '是'
+        options.unitConfirm = '是'
+      } else {
+        if (options.proStatus) {
+          if (options.proStatus[0] === '0') {
+            options.unitConfirm = '是'
+            options.provinceConfirm = '否'
+          } else {
+            options.unitConfirm = '否'
+            options.provinceConfirm = '是'
+          }
+        } else {
+          options.provinceConfirm = '否'
+          options.unitConfirm = '否'
+        }
+      }
+      delete options.proStatus
+      const params = Object.assign(options, {
+        pageSize: this.pagination.pageSize,
+        pageNo: this.pagination.pageNo
+      })
+      this.$ajax.get({
+        url: this.$api.GET_EXPERT_LIST,
+        params: params
+      }).then(res => {
+        this.dataSource = this.$com.confirm(res, 'data.content', [])
+        this.pagination.total = this.$com.confirm(res, 'data.totalRows', 0)
+      })
+    },
+    // 查询
+    search() {
+      this.pagination.current = 1
+      this.pagination.pageNo = 1
+      this.getLists()
+    },
+    // 重置
+    reset() {
+      this.pagination.current = 1
+      this.pagination.pageNo = 1
+      this.searchForm.setFieldsValue({
+        jobTitle: undefined,
+        loginPhone_l: undefined,
+        name_l: undefined,
+        proStatus: [],
+        status: []
+      })
+      this.getLists()
+    },
+    handleJump() {
+      if (this.chooseIndex == 1) {
+        //转换
+        this.$router.push({
+          name: '/expertManagement/expertLibrary/select'
+        })
+      } else {
+        //直接新增
+        this.$router.push({
+          name: '/expertManagement/expertLibrary/create'
+        })
+      }
+    },
+    editBtn(item) {
+      this.$router.push({
+        name: '/expertManagement/expertLibrary/edit',
+        query: {
+          id: item.expertId
+        }
+      })
+    },
+    handleCancel() {},
+    getJobLists() {
+      this.$ajax.get({
+        url: this.$api.DICTIONARY_TYPE_GET.replace('{type}', '3')
+      }).then(res => {
+        this.options.jobList = this.$com.confirm(res, 'data.content', [])
+      })
+    },
+    onChange(val) {
+      this.pagination.pageNo = val
+      this.pagination.current = val
+      this.getLists()
+    }
+  }
+}
 </script>
 <style scoped>
 	.block {

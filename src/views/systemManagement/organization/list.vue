@@ -33,17 +33,17 @@
 					</a-form>
 					<p class="gayLine"></p>
 				<div class="portalTableOperates">
-            <a-button icon='plus' v-if="permission('P01001')" type="primary" @click="handleAdd">新建组织机构</a-button>
-            <a-button icon='download' v-if="permission('P01005')" @click="toUpload">批量导入组织机构</a-button>
+            <a-button icon='plus' v-if="$permission('P01001')" type="primary" @click="handleAdd">新建组织机构</a-button>
+            <a-button icon='download' v-if="$permission('P01005')" @click="toUpload">批量导入组织机构</a-button>
         </div>
 					<a-table class="portalTable" size='small' :columns="columns" rowKey="groupName" :dataSource="dataSource"
 					 :pagination="pagination">
 						<span slot="action" slot-scope="text, record">
-            <span class="actionBtn" v-if="permission('P01002')" @click="$router.push({name:'/systemManagement/organization/view',query:{id:record.id}})">查看</span>
-            <a-divider v-if="permission('P01002')" type="vertical" />
-            <span class="actionBtn" v-if="permission('P01003')" @click="$router.push({name:'/systemManagement/organization/edit',query:{id:record.id,data:JSON.stringify(transData)}})">修改</span>
-            <a-divider v-if="permission('P01003')" type="vertical" />
-            <span class="actionBtn" v-if="permission('P01004')" @click="deleteBtn(text,record)">删除</span>
+            <span class="actionBtn" v-if="$permission('P01002')" @click="$router.push({name:'/systemManagement/organization/view',query:{id:record.id}})">查看</span>
+            <a-divider v-if="$permission('P01002')" type="vertical" />
+            <span class="actionBtn" v-if="$permission('P01003')" @click="$router.push({name:'/systemManagement/organization/edit',query:{id:record.id,data:JSON.stringify(transData)}})">修改</span>
+            <a-divider v-if="$permission('P01003')" type="vertical" />
+            <span class="actionBtn" v-if="$permission('P01004')" @click="deleteBtn(text,record)">删除</span>
             </span>
 						<span slot="contact" slot-scope="text, record">
 							联系人:&nbsp;{{record.contact || "暂无"}}<br />
@@ -81,7 +81,7 @@
 
 <script>
 export default {
-  name: "organization",
+  name: 'organization',
   data() {
     return {
       searchForm: {},
@@ -94,49 +94,49 @@ export default {
       options: {
         nameOptions: [
           {
-            label: "1",
-            value: "1"
+            label: '1',
+            value: '1'
           }
         ],
         spaceOptions: [
           {
-            label: "1",
-            value: "1"
+            label: '1',
+            value: '1'
           }
         ]
       },
       dataSource: [],
       columns: [
         {
-          title: "组织机构",
-          dataIndex: "groupName",
-          key: "groupName"
+          title: '组织机构',
+          dataIndex: 'groupName',
+          key: 'groupName'
         },
         {
-          title: "联系人",
-          dataIndex: "contact",
+          title: '联系人',
+          dataIndex: 'contact',
           width: 180,
-          key: "contact",
+          key: 'contact',
           scopedSlots: {
-            customRender: "contact"
+            customRender: 'contact'
           }
         },
         {
-          title: "地址",
+          title: '地址',
           width: 180,
-          dataIndex: "addr",
-          key: "addr"
+          dataIndex: 'addr',
+          key: 'addr'
         },
         {
-          title: "操作",
-          dataIndex: "action",
+          title: '操作',
+          dataIndex: 'action',
           width: 160,
           scopedSlots: {
-            customRender: "action"
+            customRender: 'action'
           }
         }
       ],
-      areaCode: "",
+      areaCode: '',
       opeationItem: {},
       treeData: [],
       defaultSelectedKeys: [],
@@ -150,70 +150,70 @@ export default {
         showQuickJumper: true,
         onChange: this.pageChange
       }
-    };
+    }
   },
   mounted() {
-    this.getArea();
+    this.getArea()
   },
   methods: {
     //导入
     toUpload() {
       this.$router.push({
-        name: "/systemManagement/organization/upload"
-      });
+        name: '/systemManagement/organization/upload'
+      })
     },
     //删除按钮
     deleteBtn(text, record) {
-      let vm = this;
-      this.opeationItem = record;
+      let vm = this
+      this.opeationItem = record
       this.$model.confirm({
-        title: "是否确认删除此组织机构？",
-        content: "此操作不可撤销",
-        okText: "确认删除",
-        okType: "danger",
-        cancelText: "取消",
+        title: '是否确认删除此组织机构？',
+        content: '此操作不可撤销',
+        okText: '确认删除',
+        okType: 'danger',
+        cancelText: '取消',
         onOk() {
-          vm.handleOk();
+          vm.handleOk()
         }
-      });
+      })
     },
     //确认删除
     handleOk() {
       this.$ajax
         .delete({
           url: this.$api.DELETE_ORGANIZATION_LIST.replace(
-            "{id}",
+            '{id}',
             this.opeationItem.id
           )
         })
         .then(res => {
-          if (res.code == "200") {
-            this.$message.success("删除成功！");
-            this.getLists();
+          if (res.code == '200') {
+            this.$message.success('删除成功！')
+            this.getLists()
           } else {
-            this.$message.success("删除失败！");
+            this.$message.success('删除失败！')
           }
-        });
+        })
     },
     //列表
     getLists() {
       const options = {
         ...this.searchForm
-      };
+      }
       const params = Object.assign(options, {
         pageSize: this.pagination.pageSize,
         pageNo: this.pagination.pageNo,
         areaCode: this.areaCode
-      });
+      })
       this.$ajax
         .get({
           url: this.$api.GET_ORGANIZATION_LIST,
           params: params
         })
         .then(res => {
-          this.dataSource = this.$com.confirm(res, "data.content", []);
-          this.pagination.total = this.$com.confirm(res, "data.totalRows", 0);
-        });
+          this.dataSource = this.$com.confirm(res, 'data.content', [])
+          this.pagination.total = this.$com.confirm(res, 'data.totalRows', 0)
+        })
     },
     getArea() {
       this.$ajax
@@ -224,15 +224,15 @@ export default {
           }
         })
         .then(res => {
-          let datas = this.$com.confirm(res, "data.content", []);
+          let datas = this.$com.confirm(res, 'data.content', [])
           datas.forEach((ele, index) => {
-            this.treeData.push(this.getTreeNode(ele, index));
-          });
-          this.areaCode = this.treeData[0].id;
-          this.transData.area = this.treeData[0];
-          this.defaultSelectedKeys = [this.areaCode];
-          this.getLists();
-        });
+            this.treeData.push(this.getTreeNode(ele, index))
+          })
+          this.areaCode = this.treeData[0].id
+          this.transData.area = this.treeData[0]
+          this.defaultSelectedKeys = [this.areaCode]
+          this.getLists()
+        })
     },
     getTreeNode(item, index) {
       let childrenNode = {
@@ -240,14 +240,14 @@ export default {
         id: item.id,
         key: item.id,
         parentId: item.parentId
-      };
-      return childrenNode;
+      }
+      return childrenNode
     },
     onLoadData(treeNode) {
       return new Promise(resolve => {
         if (treeNode.dataRef.children) {
-          resolve();
-          return;
+          resolve()
+          return
         }
         this.$ajax
           .get({
@@ -257,55 +257,55 @@ export default {
             }
           })
           .then(res => {
-            let datas = this.$com.confirm(res, "data.content", []);
-            let array = [];
+            let datas = this.$com.confirm(res, 'data.content', [])
+            let array = []
             datas.forEach((ele, index) => {
-              array.push(this.getTreeNode(ele, index));
-            });
-            treeNode.dataRef.children = array;
-            this.treeData = [...this.treeData];
-            resolve();
-          });
-      });
+              array.push(this.getTreeNode(ele, index))
+            })
+            treeNode.dataRef.children = array
+            this.treeData = [...this.treeData]
+            resolve()
+          })
+      })
     },
     onSelect(selectedKeys, info) {
-      this.pagination.pageNo = 1;
-      this.pagination.current = 1;
-      this.areaCode = selectedKeys[0];
-      this.transData.area = info.node.dataRef;
-      this.getLists();
+      this.pagination.pageNo = 1
+      this.pagination.current = 1
+      this.areaCode = selectedKeys[0]
+      this.transData.area = info.node.dataRef
+      this.getLists()
     },
     //搜索
     handleSearch() {
-      this.pagination.current = 1;
-      this.pagination.pageNo = 1;
-      this.getLists();
+      this.pagination.current = 1
+      this.pagination.pageNo = 1
+      this.getLists()
     },
     //重置
     handleReset() {
-      this.pagination.current = 1;
-      this.pagination.pageNo = 1;
-      this.searchForm = {};
-      this.getLists();
+      this.pagination.current = 1
+      this.pagination.pageNo = 1
+      this.searchForm = {}
+      this.getLists()
     },
     //分页
     pageChange(val) {
-      this.pagination.pageNo = val;
-      this.pagination.current = val;
-      this.getLists();
+      this.pagination.pageNo = val
+      this.pagination.current = val
+      this.getLists()
     },
     handleAdd() {
       if (this.areaCode == undefined) {
-        this.$message.error("请先选择行政区域节点再去新增！");
+        this.$message.error('请先选择行政区域节点再去新增！')
       } else {
         this.$router.push({
-          name: "/systemManagement/organization/create",
+          name: '/systemManagement/organization/create',
           query: {
             data: JSON.stringify(this.transData)
           }
-        });
+        })
       }
     }
   }
-};
+}
 </script>

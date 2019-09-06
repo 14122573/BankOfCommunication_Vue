@@ -4,7 +4,7 @@
 			<a-col>组织机构</a-col>
 			<a-col>
 				<a-button @click="$router.back()"> 返回 </a-button>
-				<a-button type="danger" v-if="permission('P01004')" ghost @click="handleDel"> 删除 </a-button>
+				<a-button type="danger" v-if="$permission('P01004')" ghost @click="handleDel"> 删除 </a-button>
 			</a-col>
 		</a-row>
 		<!-- <a-skeleton :loading="loading" :rows="30"> -->

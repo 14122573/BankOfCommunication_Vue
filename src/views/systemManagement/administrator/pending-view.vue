@@ -6,7 +6,7 @@
             </a-col>
             <a-col >
                 <a-button type="primary" @click="$router.back()" ghost>返回</a-button>
-                <a-button type="primary" v-if="permission('P03102')" @click="toDistribution">权限分配</a-button>
+                <a-button type="primary" v-if="$permission('P03102')" @click="toDistribution">权限分配</a-button>
             </a-col>
         </a-row>
         <UserDetail :id="$route.query.id" />
