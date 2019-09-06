@@ -46,11 +46,11 @@
 			<span slot="createTime" slot-scope="text, record">
 				{{$com.strTime(record.createTime)}}
 			</span>
-			<span slot="action" slot-scope="text, record">
-				<span class="actionBtn" @click="viewBtn(record)">查看</span>
-				<a-divider type="vertical" />
-				<span class="actionBtn" @click="distributionBtn(record)">权限分配</span>
-			</span>
+		  <span slot="action" slot-scope="text, record">
+        <span class="actionBtn" v-if="permission('P03101')" @click="viewBtn(record)">查看</span>
+        <a-divider v-if="permission('P03101')" type="vertical" />
+        <span v-if="permission('P03102')" class="actionBtn" @click="distributionBtn(record)">权限分配</span>
+      </span>
 		</a-table>
 	</div>
 </template>
