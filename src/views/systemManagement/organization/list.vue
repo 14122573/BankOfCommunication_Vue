@@ -1,206 +1,299 @@
 <template>
-     <a-card :bordered="false">
-         <a-row>
-             <a-form :form="searchForm">
-                <a-col span="6">
-                    <a-form-item
-                        label="单位类型："
-                        :label-col="labelCol"
-                        :wrapper-col="wrapperCol"
-                    >
-                    <a-input
-                        placeholder="请输入"
-                        v-model="searchForm.type"
-                    />
-                    </a-form-item>
-                </a-col>
-                <a-col span="6">
-                    <a-form-item
-                        label="组织机构："
-                        :label-col="labelCol"
-                        :wrapper-col="wrapperCol"
-                    >
-                    <a-select 
-                        placeholder="请选择"
-                        v-model="searchForm.name"
-                        :options='options.nameOptions'
-                    />
-                    </a-form-item>
-                </a-col>
-                <a-col span="6">
-                    <a-form-item
-                        label="行政区域："
-                        :label-col="labelCol"
-                        :wrapper-col="wrapperCol"
-                    >
-                    <a-select 
-                        placeholder="请选择"
-                        v-model="searchForm.space"
-                        :options='options.spaceOptions'
-                    />
-                    </a-form-item>
-                </a-col>
-                <a-col span="6" class="algin-right">
-                    <a-button type="primary" ghost>重置</a-button>
-                    <a-button type="primary">搜索</a-button>
-                </a-col>
-             </a-form>
-         </a-row>
-         <a-row>
-            <a-button type="primary">新建单位</a-button>
-            <a-button type="primary" @click="toUpload">导入</a-button>
-         </a-row>
-         <a-table :columns="columns" class="table-margin" :dataSource="data">
-             <span slot="action" slot-scope="text, record">
-                <a href="javascript:;">查看</a>
-                <a-divider type="vertical" />
-                <a href="javascript:;">修改</a>
-                <a-divider type="vertical" />
-                <a @click="deleteBtn(text,record)">删除</a>
-             </span>
-         </a-table>
-         <!-- 删除确认 -->
-         <a-modal
-            title="操作确认"
-            v-model="visible"
-            @ok="handleOk"
-            cancelText="取消"
-            okText="删除"
-            >
-        <p>是否确认删除此组织机构？</p>
-        <p>此操作不可撤销</p>
-        </a-modal>
-     </a-card>
+	<div class="routerWapper">
+		<div v-if="$route.name == '/systemManagement/organization'" class="layoutMargin layoutPadding" style="height:96%">
+			<a-row :gutter="20" style="height:100%">
+				<a-col :span="6" style="height:100%;">
+					<div class="institutionalTreeWapper">
+						<h2 class="institutionalTreeTitle">行政区域</h2>
+						<div class="institutionalTree">
+							<a-tree showLine @select="onSelect" v-if="defaultSelectedKeys.length>0" :treeData="treeData"
+							 :defaultSelectedKeys="defaultSelectedKeys" :loadData="onLoadData">
+							</a-tree>
+						</div>
+					</div>
+				</a-col>
+				<a-col :span="18">
+					<a-form class="protalForm" :form="searchForm">
+						<a-row type="flex" justify="center" align="middle">
+							<a-col span="8">
+								<a-form-item class="formItem" label="组织机构名" :label-col="labelCol" :wrapper-col="wrapperCol">
+									<a-input placeholder="请输入" v-model="searchForm.groupName_l" />
+								</a-form-item>
+							</a-col>
+							<a-col span="8">
+								<a-form-item class="formItem" label="联系人" :label-col="labelCol" :wrapper-col="wrapperCol">
+									<a-input placeholder="请输入" v-model="searchForm.contact_l" />
+								</a-form-item>
+							</a-col>
+							<a-col span="8" class="algin-right">
+								<a-button type="primary" ghost @click="handleReset">重置</a-button>
+								<a-button type="primary" @click="handleSearch">搜索</a-button>
+							</a-col>
+						</a-row>
+					</a-form>
+					<p class="gayLine"></p>
+					<div class="portalTableOperates">
+						<a-button icon='plus' v-if="$permission('P01001')" type="primary" @click="handleAdd">新建组织机构</a-button>
+						<a-button icon='download' v-if="$permission('P01005')" @click="toUpload">批量导入组织机构</a-button>
+					</div>
+					<a-table class="portalTable" size='small' :columns="columns" rowKey="groupName" :dataSource="dataSource"
+					 :pagination="pagination">
+						<span slot="action" slot-scope="text, record">
+							<span class="actionBtn" v-if="$permission('P01002')" @click="$router.push({name:'/systemManagement/organization/view',query:{id:record.id}})">查看</span>
+							<a-divider v-if="$permission('P01002')" type="vertical" />
+							<span class="actionBtn" v-if="$permission('P01003')" @click="$router.push({name:'/systemManagement/organization/edit',query:{id:record.id,data:JSON.stringify(transData)}})">修改</span>
+							<a-divider v-if="$permission('P01003')" type="vertical" />
+							<span class="actionBtn" v-if="$permission('P01004')" @click="deleteBtn(text,record)">删除</span>
+						</span>
+						<span slot="contact" slot-scope="text, record">
+							联系人:&nbsp;{{record.contact || "暂无"}}<br />
+							联系电话:&nbsp;{{record.contactPhone || "暂无"}}
+						</span>
+					</a-table>
+				</a-col>
+			</a-row>
+		</div>
+		<RouterWapper v-else></RouterWapper>
+	</div>
 </template>
+<style scoped>
+	.institutionalTreeWapper {
+		height: 90%;
+		width: 100%;
+		overflow: hidden;
+		padding-right: 16px;
+		border-right: 1px solid #e0e0e0;
+	}
+
+	.institutionalTreeTitle {
+		padding-top: 10px;
+		width: 100%;
+	}
+
+	.institutionalTreeWapper>div {
+		height: calc(100% - 50px);
+		width: calc(100% - 20px);
+		padding: 5px;
+		overflow-y: auto;
+		overflow-x: scroll;
+	}
+</style>
+
 <script>
 export default {
   name: 'organization',
   data() {
-    const columns = [
-      {
-        title: '组织机构',
-        dataIndex: 'name',
-        key: 'name'
-      },
-      {
-        title: '单位类型',
-        dataIndex: 'age',
-        key: 'age',
-      },
-      {
-        title: '所属行政区域',
-        dataIndex: 'address',
-        key: 'address'
-      },
-      {
-        title:'操作',
-        dataIndex:'action',
-        scopedSlots: { customRender: 'action' }
-      }
-    ]
-
-    const data = [
-      {
-        key: 1,
-        name: 'John Brown sr.',
-        age: 60,
-        address: 'New York No. 1 Lake Park',
-        children: [
-          {
-            key: 11,
-            name: 'John Brown',
-            age: 42,
-            address: 'New York No. 2 Lake Park'
-          },
-          {
-            key: 12,
-            name: 'John Brown jr.',
-            age: 30,
-            address: 'New York No. 3 Lake Park',
-            children: [
-              {
-                key: 121,
-                name: 'Jimmy Brown',
-                age: 16,
-                address: 'New York No. 3 Lake Park'
-              }
-            ]
-          },
-          {
-            key: 13,
-            name: 'Jim Green sr.',
-            age: 72,
-            address: 'London No. 1 Lake Park',
-            children: [
-              {
-                key: 131,
-                name: 'Jim Green',
-                age: 42,
-                address: 'London No. 2 Lake Park',
-                children: [
-                  {
-                    key: 1311,
-                    name: 'Jim Green jr.',
-                    age: 25,
-                    address: 'London No. 3 Lake Park'
-                  },
-                  {
-                    key: 1312,
-                    name: 'Jimmy Green sr.',
-                    age: 18,
-                    address: 'London No. 4 Lake Park'
-                  }
-                ]
-              }
-            ]
-          }
-        ]
-      },
-      {
-        key: 2,
-        name: 'Joe Black',
-        age: 32,
-        address: 'Sidney No. 1 Lake Park'
-      }
-    ]
-
     return {
       searchForm: {},
-      labelCol:{ span: 10 },
-      wrapperCol:{span: 14 },
-      options:{
-        nameOptions: [{ label: '1', value: '1' }],
-        spaceOptions: [{ label: '1', value: '1' }],
+      labelCol: {
+        span: 8
       },
-      data:data,
-      columns,
-      visible:false,
+      wrapperCol: {
+        span: 16
+      },
+      options: {
+        nameOptions: [{
+          label: '1',
+          value: '1'
+        }],
+        spaceOptions: [{
+          label: '1',
+          value: '1'
+        }]
+      },
+      dataSource: [],
+      columns: [{
+        title: '组织机构',
+        dataIndex: 'groupName',
+        key: 'groupName'
+      },
+      {
+        title: '联系人',
+        dataIndex: 'contact',
+        width: 180,
+        key: 'contact',
+        scopedSlots: {
+          customRender: 'contact'
+        }
+      },
+      {
+        title: '地址',
+        width: 180,
+        dataIndex: 'addr',
+        key: 'addr'
+      },
+      {
+        title: '操作',
+        dataIndex: 'action',
+        width: 160,
+        scopedSlots: {
+          customRender: 'action'
+        }
+      }
+      ],
+      areaCode: '',
+      opeationItem: {},
+      treeData: [],
+      defaultSelectedKeys: [],
+      transData: {},
+      pagination: {
+        pageNo: 1,
+        pageSize: 10,
+        total: 0,
+        current: 1,
+        defaultCurrent: 1,
+        showQuickJumper: true,
+        onChange: this.pageChange
+      }
     }
   },
-  methods:{
-    toUpload(){
+  mounted() {
+    this.getArea()
+  },
+  methods: {
+    //导入
+    toUpload() {
       this.$router.push({
-        name:'/systemManagement/organization/upload'
+        name: '/systemManagement/organization/upload'
       })
     },
-    //   删除按钮
-    deleteBtn(text,record){
-      console.log(text,record)
-      this.visible=true
+    //删除按钮
+    deleteBtn(text, record) {
+      let vm = this
+      this.opeationItem = record
+      this.$model.confirm({
+        title: '是否确认删除此组织机构？',
+        content: '此操作不可撤销',
+        okText: '确认删除',
+        okType: 'danger',
+        cancelText: '取消',
+        onOk() {
+          vm.handleOk()
+        }
+      })
     },
-    //   确认删除
-    handleOk(){
-
+    //确认删除
+    handleOk() {
+      this.$ajax.delete({
+        url: this.$api.DELETE_ORGANIZATION_LIST.replace(
+          '{id}',
+          this.opeationItem.id
+        )
+      }).then(res => {
+        if (res.code == '200') {
+          this.$message.success('删除成功！')
+          this.getLists()
+        } else {
+          this.$message.success('删除失败！')
+        }
+      })
+    },
+    //列表
+    getLists() {
+      const options = {
+        ...this.searchForm
+      }
+      const params = Object.assign(options, {
+        pageSize: this.pagination.pageSize,
+        pageNo: this.pagination.pageNo,
+        areaCode: this.areaCode
+      })
+      this.$ajax.get({
+        url: this.$api.GET_ORGANIZATION_LIST,
+        params: params
+      }).then(res => {
+        this.dataSource = this.$com.confirm(res, 'data.content', [])
+        this.pagination.total = this.$com.confirm(res, 'data.totalRows', 0)
+      })
+    },
+    getArea() {
+      this.$ajax.get({
+        url: this.$api.GET_AREA_NEXT,
+        params: {
+          parentId: 999999
+        }
+      }).then(res => {
+        let datas = this.$com.confirm(res, 'data.content', [])
+        datas.forEach((ele, index) => {
+          this.treeData.push(this.getTreeNode(ele, index))
+        })
+        this.areaCode = this.treeData[0].id
+        this.transData.area = this.treeData[0]
+        this.defaultSelectedKeys = [this.areaCode]
+        this.getLists()
+      })
+    },
+    getTreeNode(item, index) {
+      let childrenNode = {
+        title: item.areaName,
+        id: item.id,
+        key: item.id,
+        parentId: item.parentId
+      }
+      return childrenNode
+    },
+    onLoadData(treeNode) {
+      return new Promise(resolve => {
+        if (treeNode.dataRef.children) {
+          resolve()
+          return
+        }
+        this.$ajax.get({
+          url: this.$api.GET_AREA_NEXT,
+          params: {
+            parentId: treeNode.dataRef.id
+          }
+        }).then(res => {
+          let datas = this.$com.confirm(res, 'data.content', [])
+          let array = []
+          datas.forEach((ele, index) => {
+            array.push(this.getTreeNode(ele, index))
+          })
+          treeNode.dataRef.children = array
+          this.treeData = [...this.treeData]
+          resolve()
+        })
+      })
+    },
+    onSelect(selectedKeys, info) {
+      this.pagination.pageNo = 1
+      this.pagination.current = 1
+      this.areaCode = selectedKeys[0]
+      this.defaultSelectedKeys = [selectedKeys[0]]
+      this.transData.area = info.node.dataRef
+      this.getLists()
+    },
+    //搜索
+    handleSearch() {
+      this.pagination.current = 1
+      this.pagination.pageNo = 1
+      this.getLists()
+    },
+    //重置
+    handleReset() {
+      this.pagination.current = 1
+      this.pagination.pageNo = 1
+      this.searchForm = {}
+      this.getLists()
+    },
+    //分页
+    pageChange(val) {
+      this.pagination.pageNo = val
+      this.pagination.current = val
+      this.getLists()
+    },
+    handleAdd() {
+      if (this.areaCode == undefined) {
+        this.$message.error('请先选择行政区域节点再去新增！')
+      } else {
+        this.$router.push({
+          name: '/systemManagement/organization/create',
+          query: {
+            data: JSON.stringify(this.transData)
+          }
+        })
+      }
     }
   }
 }
 </script>
-<style scoped>
-    .algin-right{
-        text-align: right;
-    }
-    .table-margin{
-        margin-top:20px;
-    }
-</style>
-

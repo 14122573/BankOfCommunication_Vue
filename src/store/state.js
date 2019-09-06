@@ -4,7 +4,11 @@ export default {
   menuList: [],
   permissionCodeList: [],
   hasAllRight: false,
-  showSpaContent: false,
   userName: '',
-  userInfos:null
+  userInfos:null,
+  defaultMenuStatus: {
+    defaultSelectedKeys: [],
+    defaultOpenKeys: [],
+  },
+  tabName:''
 }

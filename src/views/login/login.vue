@@ -75,12 +75,11 @@
 	</div>
 </template>
 <script>
-import {
-  permission
-} from '@/util/mixins'
+import { permission } from '@/util/mixins'
 import testStrong from '@/components/testPwd'
 import ResetPassword from '@/views/login/ResetPassword'
 import opeationSuccess from '@/views/login/success'
+import {encryptDes} from '@/util/des-cryptojs'
 export default {
   name: 'Login',
   components: {
@@ -159,11 +158,15 @@ export default {
       this.visibleError = false
       this.formLogin.validateFields((err, values) => {
         if (!err) {
-          let params = values
+          let params ={
+            'username':values.username,
+            'pwd':encryptDes(values.pwd)
+          }
           if (this.redirectUrlPrefix != 'null') {
             params.redirectUrl = this.$cookie.get('redirectUrl')
           }
           if (values.captcha) {
+            params.captcha=values.captcha
             params.reqId = this.figure
           }
           this.$ajax.post({
@@ -175,7 +178,7 @@ export default {
               this.jumpOpeation(res)
               this.visibleError = false
             } else {
-              this.loginFailMsg = res.data.msg
+              this.loginFailMsg = res.msg
               this.visibleError = true
               this.threeTimesShowCode(values.username)
             }

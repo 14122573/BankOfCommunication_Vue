@@ -1,80 +1,215 @@
+<style scoped>
+  .roleTitleSeation { border-bottom: 1px solid #e0e0e0; padding:10px}
+  .roleTitleSeation .roleName { font-size: 20px; line-height: 40px; color:#232323; font-weight: bold}
+  .roleTree { margin-top: 10px;}
+  .role-edit{padding-top:20px;}
+  /*
+  .role-ope li.ant-tree-treenode-disabled > span:not(.ant-tree-switcher), li.ant-tree-treenode-disabled > .ant-tree-node-content-wrapper, li.ant-tree-treenode-disabled > .ant-tree-node-content-wrapper span{
+    color:rgba(0, 0, 0,1);
+  } */
+</style>
+
 <template>
-    <a-card :bordered="false">
-        <a-row type="flex" slot="title" justify="space-between" align="middle">
-            <a-col>
-                新增角色
-            </a-col>
-            <a-col >
-                <a-button type="primary" @click="$router.back();" ghost>取消</a-button>
-                <a-button type="primary">保存</a-button>
-            </a-col>
-        </a-row>
-        <a-form :form="formData">
-            <a-row>
-                <a-col span="6">
-                    <a-form-item
-                        label="角色名称："
-                        :label-col="labelCol"
-                        :wrapper-col="wrapperCol"
-                    >
-                    <a-input
-                        placeholder="请输入"
-                        v-model="formData.name"
-                    />
-                    </a-form-item>
+    <div class="portalDetailWapper">
+      <div class="portalDetailTitle">
+        <span class="title">{{roleName || '创建新角色'}}</span>
+        <div class="detailOperations" v-if="$route.query.type === 'view'">
+          <a-button @click="$router.back();" >返回</a-button>
+          <a-button @click="edit" >修改</a-button>
+          <a-button type="danger" @click="deleteBtn" ghost>删除</a-button>
+        </div>
+        <div class="detailOperations" v-else>
+          <a-button @click="$router.back();">取消</a-button>
+          <a-button type="primary" @click="save">保存</a-button>
+        </div>
+      </div>
+      <div class="portalDetailContentWapper">
+        <a-form class="portalDetailContentBody" :form="formData">
+          <div class="layoutMargin detailsPartSection role-edit">
+            <a-row class="formItemLine" v-if="$route.query.type !== 'view'">
+                <a-col span="8">
+                  <a-form-item label="角色名称" class="formItem" :label-col="labelCol" :wrapper-col="wrapperCol" >
+                    <a-input placeholder="请输入"
+                        v-decorator="[
+                          'roleName',
+                          {rules: [{ required: true, message: '请输入10字以内的角色名称！' ,whitespace:true,max:10 }],validateTrigger:'blur'}
+                        ]" />
+                  </a-form-item>
                 </a-col>
             </a-row>
+            <a-tree class="portalRoleTree" v-if="showTree" checkable :treeData="treeData" :defaultExpandedKeys='expandedKeys' v-model="checkedKeys" :disabled="$route.query.type === 'view'" />
+          </div>
         </a-form>
-        <a-tree
-                checkable
-                :treeData="treeData"
-                v-model="checkedKeys"
-                @select="onSelect"
-                @check="onCheck"
-            />
-    </a-card>
+        
+      </div>
+    </div>
 </template>
 <script>
 export default {
   data() {
     return {
-      formData: {},
-      labelCol: { span: 10 },
-      wrapperCol: { span: 14 },
-      treeData: [
-        {
-          title: 'parent 1',
-          key: '0-0',
-          children: [
-            {
-              title: 'parent 1-0',
-              key: '0-0-0',
-              children: [
-                { title: 'leaf', key: '0-0-0-0'},
-                { title: 'leaf', key: '0-0-0-1' }
-              ]
-            },
-            {
-              title: 'parent 1-1',
-              key: '0-0-1',
-              children: [{ key: '0-0-1-0' }]
-            }
-          ]
-        }
-      ],
-      checkedKeys: []
+      title:'新增角色',
+      labelCol: { span: 8 },
+      wrapperCol: { span: 16 },
+      checkedKeys: [],//选择的数组
+      treeData:[],
+      // 默认展开的数组
+      expandedKeys:[],
+      deleteData:{},
+      showTree:false,
+      roleName:null,
+      userCount:null
     }
   },
   methods: {
-    onSelect(selectedKeys, info) {
-      console.log('selected', selectedKeys, info)
+    // 查询权限树
+    getTree(){
+      this.$ajax.get({
+        url:this.$api.GET_ALL_ROLE + '?isTree=true'
+      }).then(res=>{
+        let data=res.data.content
+        data.forEach((item,index)=>{
+          this.treeData.push(this.getTreeNode(item,index))
+        })
+        if(this.$route.query.type === 'edit'){
+          this.title='修改角色'
+          this.getRoleInfo(this.$route.query.id)
+        }else if(this.$route.query.type === 'view'){
+          this.title=this.$route.query.roleName
+          this.getRoleInfo(this.$route.query.id)
+        }else{
+          this.title='新增角色'
+          this.showTree=true
+        }
+      })
     },
-    onCheck(checkedKeys, info) {
-      console.log('onCheck', checkedKeys, info)
-    }
+    // 整理权限树
+    getTreeNode(item,index){
+      let childrenNode={
+        title:item.permName,
+        key:item.id
+      }
+      if(item.childList && item.childList.length){
+        childrenNode.children = []
+        item.childList.forEach((subItem,subIndex) =>{
+          let subkey = subItem.id
+          childrenNode.children.push(this.getTreeNode(subItem,subkey))
+        })
+      }
+      return childrenNode
+    },
+    // 查询角色详情
+    getRoleInfo(id){
+      this.$ajax.get({
+        url:this.$api.PUT_CHARACTER.replace('{id}',id)
+      }).then(res=>{
+        if(res.code === '200'){
+          let data=res.data.content
+          this.roleName=data.roleName
+          this.userCount=data.userCount
+          if(this.$route.query.type !== 'view'){
+            this.formData.setFieldsValue({
+              roleName:data.roleName
+            })
+          }
+          this.checkedKeys=data.perm.map((item)=>{
+            return item.id
+          })
+
+          this.expandedKeys=JSON.parse(JSON.stringify(this.checkedKeys))
+          this.showTree=true
+        }else{
+          this.$message.error(res.msg)
+        }
+      })
+    },
+    // 保存按钮
+    save(){
+      this.formData.validateFields((err)=>{
+        if(!err){
+          let msg,link, methods
+          if(this.$route.query.id){
+            link=this.$api.PUT_CHARACTER.replace('{id}',this.$route.query.id)
+            methods='put'
+            msg='修改成功'
+          }else{
+            link=this.$api.ADD_ROLE_POST
+            methods='post'
+            msg='新增成功'
+          }
+          this.$ajax[methods](
+            {
+              url:link,
+              params:{
+                roleName:this.formData.getFieldValue('roleName'),
+                permIds:this.checkedKeys.join(',')
+              }
+            }
+          ).then(res=>{
+            if(res.code === '200'){
+              this.$message.success(msg)
+              this.$router.back()
+            }else{
+              this.$message.error(res.msg)
+            }
+          })
+        }
+      })
+    },
+    // 修改按钮
+    edit(){
+      this.$router.push({
+        name:'/systemManagement/role/edit',
+        query:{
+          type:'edit',
+          id:this.$route.query.id,
+          roleName:this.$route.query.roleName
+        }
+      })
+    },
+    // 删除按钮
+    deleteBtn(){
+      let vm = this
+      if(this.userCount !== null && this.userCount !== '' && this.userCount != 0){
+        this.$model.warning({
+          title: '无法删除此角色',
+          content: '此角色还有员工未被分配，请先处理该角色下所有员工的调岗操作'
+        })
+      }else{
+        this.$model.confirm({
+          title: '是否确认删除此角色？',
+          content: '此操作不可撤销',
+          okText: '确认',
+          okType: 'danger',
+          cancelText: '取消',
+          onOk() {
+            vm.handleOkDelete()
+          }
+        })
+      }
+    },
+    handleOkDelete(){
+      this.$ajax.delete({
+        url:this.$api.DELETE_CHARACTER.replace('{id}',this.$route.query.id),
+      }).then(res=>{
+        if(res.code === '200'){
+          this.$message.success('删除成功')
+          this.$router.push({
+            name:'/systemManagement/role'
+          })
+        }else{
+          this.$message.error(res.msg)
+        }
+      })
+    },
   },
   mounted() {
-    console.log(this.$route)
-  }
+    this.getTree()
+  },
+  beforeCreate() {
+    this.formData = this.$form.createForm(this)
+  },
 }
 </script>
+
+

@@ -121,6 +121,9 @@ export default {
   },
   mounted() {
     this.showMap()
+    if(this.keyWords){
+			 this.searchKeyWords(this.keyWords)
+    }
   },
   computed: {
     mapStyle() {

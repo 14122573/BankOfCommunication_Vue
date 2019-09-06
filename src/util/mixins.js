@@ -1,6 +1,4 @@
-import {
-  routes
-} from '@/router/routes.js'
+import { routes } from '@/router/routes.js'
 import common from '@/util/common'
 
 export const permission = {
@@ -13,34 +11,33 @@ export const permission = {
         url: this.$api.GET_USER_INFO
       }).then(res => {
         // 本地存储用户基本信息
-        let userInfo = res.data.content ,name ,oldSysAuthCode
+        let userInfo = res.data.content ,name ,oldSysAuthCode,isAllPerm = false
         if(!res.data || !res.data.content){
           userInfo = {}
           name = ''
           oldSysAuthCode = []
         }else{
           userInfo = res.data.content
-          let name = userInfo.username = res.data.content.name||res.data.content.phone
+          name = userInfo.username = res.data.content.name||res.data.content.phone
           this.$store.commit('SET_USERINFO',userInfo)
           this.$cookie.set('userName', name)
           this.$store.commit('SET_USERNAME', name)
           oldSysAuthCode = getOldSysAuthCode(userInfo.sysDicSet)
+          isAllPerm = userInfo.isAllPerm
         }
 
-        const isAllPerm = false
         // 此处应API获取用户权限信息，先暂写死权限信息
+        // 预设用户权限菜单
+        let authCodeList = [],authMenuAll = []
         this.$ajax.get({
           url: this.$api.GET_USER_PEIMISSION
         }).then(res=>{
           // 当前用户全部权限编码，包含菜单及功能操作
-          let authCodeList = []
           if(res.data!=undefined && res.data!=null && res.data.content!=undefined && res.data.content!=null){
             authCodeList = res.data.content.concat(oldSysAuthCode)
           }else{
             authCodeList = oldSysAuthCode
           }
-          // 预设用户权限菜单
-          let authMenuAll = []
           // 写入vuex
           this.$store.commit('SET_MENU', {authMenuAll , authCodeList, isAllPerm})
           // 根据获取的权限信息，从router中获取左侧菜单信息，并重新赋值vuex
@@ -58,16 +55,15 @@ export const permission = {
       if (this.$store.state.menuList && this.$store.state.menuList.length > 0) return
 
       // vuex中不存在，需重新获取
-      let authMenuAll = []
+      let authMenuAll = [],authCodeList=[]
 
       if(isAllPerm){ //有全部权限
-
-        authMenuAll = getSideMenu(routes)
+        authMenuAll = getAllSideMenu(routes)
         this.$store.commit('SET_MENU', {authMenuAll, authCodeList, isAllPerm})
       }else { // 只有部分权限，需根据权限码组装菜单
 
         // 从vuex中取出存入的权限码，若不存在重新声明
-        let authCodeList = this.$store.state.permissionCodeList.length>0 ? this.$store.state.permissionCodeList:[]
+        authCodeList = this.$store.state.permissionCodeList.length>0 ? this.$store.state.permissionCodeList:[]
 
         if(authCodeList.length>0){ //vuex中存有权限码信息
           authMenuAll = getSideMenu(routes,authCodeList)
@@ -78,8 +74,9 @@ export const permission = {
             params: {}
           }).then(res=>{
             // 当前用户全部权限编码，包含菜单及功能操作
-            let oldSysDatas = this.$store.state.userInfos.sysDicSet
+            let oldSysDatas = !this.$store.state.userInfos ? []: this.$store.state.userInfos.sysDicSet
             let authCodeList = [],oldSysAuthCode = getOldSysAuthCode(oldSysDatas)
+
             if(res.data!=undefined && res.data!=null && res.data.content!=undefined && res.data.content!=null){
               authCodeList = res.data.content.concat(oldSysAuthCode)
             }else{
@@ -169,6 +166,38 @@ function findRouerByName(allRouter, routerName) {
     }
   })
   return targetRouter
+}
+/**
+ * 递归遍历所有router，获取所有左侧菜单，不分权限
+ * @param {Array} allRouter 某一层级的route节点,必传
+ * @returns {Array} 根据当前传入节点，组装的左侧菜单数组
+ */
+function getAllSideMenu(allRouter) {
+  let authMenu = []
+
+  allRouter.forEach((router) => {
+    let menu = {}
+    if (router.meta && router.meta.menuPath && 'outsite'!=router.meta.openMode) { // 超级管理员无老系统权限
+      menu = {
+        name: router.name,
+        meta: router.meta
+      }
+    }
+    if (router.children && router.children.length > 0) {
+      let children = getAllSideMenu(router.children)
+      if (children.length > 0) {
+        menu.children = children
+        if (!menu.name) {
+          authMenu = children
+          return authMenu
+        }
+      }
+    }
+    if (menu.name) {
+      authMenu.push(menu)
+    }
+  })
+  return authMenu
 }
 /**
  * 递归遍历所有router，根据权限code，组装左侧菜单需展示router数据

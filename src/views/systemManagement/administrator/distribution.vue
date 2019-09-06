@@ -1,121 +1,331 @@
 <template>
-    <span class="distribution-span">
-        <a-card :bordered="false">
-            <a-row type="flex" slot="title" justify="space-between" align="middle">
-                <a-col>
-                    权限分配
-                </a-col>
-                <a-col >
-                    <a-button type="primary" @click="$router.back();" ghost>返回</a-button>
-                    <a-button type="primary">保存</a-button>
-                </a-col>
-            </a-row>
-            <UserDetail/>
-        </a-card>
-        <a-divider style="margin-top:0px;"  dashed />
-        <a-card :bordered="false">
-            <a-form :form="formData">
-            <a-row>
-                <a-col span="8">
-                    <a-form-item
-                        label="角色名称："
-                        :label-col="labelCol"
-                        :wrapper-col="wrapperCol"
-                    >
-                    <a-select 
-                        placeholder="请选择"
-                        v-model="formData.space"
-                        :options='[]'
-                    />
-                    </a-form-item>
-                </a-col>
-                <a-col span="8">
-                    <a-form-item
-                        label="组织机构："
-                        :label-col="labelCol"
-                        :wrapper-col="wrapperCol"
-                    >
-                    <a-select 
-                        placeholder="请选择"
-                        v-model="formData.space"
-                        :options='[]'
-                    />
-                    </a-form-item>
-                </a-col>
-                <a-col span="8">
-                    <a-form-item
-                        label="所属行政区域："
-                        :label-col="labelCol"
-                        :wrapper-col="wrapperCol"
-                    >
-                    <a-input
-                        placeholder="请输入"
-                        v-model="formData.name"
-                    />
-                    </a-form-item>
-                </a-col>
-            </a-row>
-        </a-form>
-        <a-tree
-            checkable
-            :treeData="treeData"
-            v-model="checkedKeys"
-            @select="onSelect"
-            @check="onCheck"
-        />
-        </a-card>
-    </span>
+	<div class="portalDetailWapper">
+    <div class="portalDetailTitle">
+			<span class="title">权限分配</span>
+			<div class="detailOperations">
+				<a-button @click="$router.back();">返回</a-button>
+					<a-button type="primary" html-type="submit" @click="save">保存</a-button>
+			</div>
+		</div>
+
+    <div class="portalDetailContentWapper">
+      <a-form class="portalDetailContentBody" :form="formData">
+        <div class="layoutMargin detailsPartSection dis-edit">
+          <UserDetail :id="$route.query.id" />
+          <a-divider style="margin-top:0px;" dashed />
+          <a-row class="formItemLine">
+            <a-col span="8">
+              <a-form-item label="角色名称" :label-col="labelCol" :wrapper-col="wrapperCol">
+                <a-select placeholder="请选择" :options='options.roleList' @change="roleChange" allowClear mode="multiple"
+                labelInValue v-decorator="['role', {rules: [rules.required],validateTrigger:'change'}]" />
+              </a-form-item>
+            </a-col>
+            <a-col span="8">
+              <a-form-item label="所属行政区域" :label-col="labelCol" :wrapper-col="wrapperCol">
+                <a-select v-if="isAdminator !== true" placeholder="请选择" :options="options.areaList" @change="areaChange"
+                :filterOption="filterOption" v-decorator="['area',{rules: [rules.required],validateTrigger:'change'}]"
+                showSearch allowClear />
+                <a-tree-select v-else :treeData="organData" :loadData="onLoadData" showLine :dropdownStyle="{ maxHeight: '200px', overflow: 'auto' }"
+                placeholder='请选择' allowClear v-decorator="['area',{rules: [rules.required],validateTrigger:'change'} ]"
+                @change="onChangeTree">
+                </a-tree-select>
+              </a-form-item>
+            </a-col>
+            <a-col span="8">
+              <a-form-item label="组织机构" :label-col="labelCol" :wrapper-col="wrapperCol" allowClear>
+                <a-select placeholder="请选择" :options="options.organList" v-decorator="['organ']" />
+              </a-form-item>
+            </a-col>
+          </a-row>
+          <a-tree class="portalRoleTree" checkable :treeData="treeData" v-model="checkedKeys" disabled />
+        </div>
+			</a-form>
+    </div>
+			
+	</div>
 </template>
 <script>
 import UserDetail from './user-detail'
 export default {
   name: 'pendingPermissions-distribution',
-  components:{UserDetail},
-  data(){
-    return{
-      formData:{},
-      labelCol: { span: 8 },
-      wrapperCol: { span: 16 },
-      treeData: [
-        {
-          title: 'parent 1',
-          key: '0-0',
-          children: [
-            {
-              title: 'parent 1-0',
-              key: '0-0-0',
-              children: [
-                { title: 'leaf', key: '0-0-0-0'},
-                { title: 'leaf', key: '0-0-0-1' }
-              ]
-            },
-            {
-              title: 'parent 1-1',
-              key: '0-0-1',
-              children: [{ key: '0-0-1-0' }]
-            }
-          ]
+  components: {
+    UserDetail
+  },
+  data() {
+    return {
+      formData: this.$form.createForm(this),
+      labelCol: {
+        span: 8
+      },
+      wrapperCol: {
+        span: 14
+      },
+      rules: {
+        required: {
+          required: true,
+          message: '请选择'
         }
-      ],
-      checkedKeys: []
+      },
+      options: {
+        roleList: [],
+        areaList: [],
+        organList: []
+      },
+      checkedKeys: [], //选择的数组
+      treeData: [],
+      // 默认展开的数组
+      roles: [],
+      // 行政区域
+      organData: [],
+      isAdminator: ''
     }
   },
-  methods:{
-    onSelect(selectedKeys, info) {
-      console.log('selected', selectedKeys, info)
+  methods: {
+    // 角色切换
+    roleChange(item) {
+      this.roles = item
+      if (item.length === 0) {
+        this.checkedKeys = []
+      } else {
+        let params = item.map((it) => {
+          return it.key
+        })
+        this.$ajax.get({
+          url: this.$api.ROLE_DETAIL.replace('{id}', params)
+        })
+          .then(res => {
+            if (res.code === '200') {
+              let data = this.$com.confirm(res, 'data.content', [])
+              this.checkedKeys = data.map((item) => {
+                return item.id
+              })
+            } else {
+              this.$message.error(res.msg)
+            }
+          })
+      }
     },
-    onCheck(checkedKeys, info) {
-      console.log('onCheck', checkedKeys, info)
+    filterOption(input, option) {
+      return option.componentOptions.children[0].text.indexOf(input) >= 0
+    },
+    // 行政区域改变
+    areaChange(value) {
+      this.options.organList = []
+      this.formData.resetFields('organ')
+      this.getOrganList(value)
+    },
+    // 查询组织机构
+    getOrganList(value) {
+      let info = this.$store.state.userInfos
+      let params = {
+        pageSize: 10000,
+        pageNo: 1,
+        areaCode: value,
+      }
+      if (!this.isAdminator && info.group.id) {
+        params.parentId = info.group.id
+      }
+      if (value !== '') {
+        this.$ajax.get({
+          url: this.$api.GET_ORGANIZATION_LIST,
+          params: params,
+          hideLoading: true
+        })
+          .then(res => {
+            if (res.code === '200') {
+              let data = this.$com.confirm(res, 'data.content', [])
+              this.options.organList = data.map((item) => {
+                return {
+                  label: item.groupName,
+                  value: item.id
+                }
+              })
+            } else {
+              this.$message.error(res.msg)
+            }
+          })
+      }
+    },
+    //   查询options
+    getOptions() {
+      let info = this.$store.state.userInfos
+      let optionList = [{
+        url: this.$api.GET_ROLE_LIST,
+        name: 'roleList',
+        params: {
+          pageNo: 1,
+          pageSize: 10000
+        }
+      }]
+      if (info.area && this.isAdminator !== true) {
+        optionList.push({
+          url: this.$api.GET_AREA_NEXT,
+          name: 'areaList',
+          params: {
+            parentId: info.area.id
+          }
+        })
+      } else {
+        this.getArea()
+      }
+      optionList.forEach(item => {
+        this.$ajax.get({
+          url: item.url,
+          params: item.params
+        })
+          .then(res => {
+            if (res.code === '200') {
+              let data = this.$com.confirm(res, 'data.content', [])
+              this.options[item.name] = data.map(item => {
+                return {
+                  label: item.roleName || item.areaName,
+                  value: item.id
+                }
+              })
+            } else {
+              this.$message.error(res.msg)
+            }
+          })
+      })
+    },
+    // // 查询权限树
+    getTree() {
+      this.$ajax.get({
+        url: this.$api.GET_ALL_ROLE + '?isTree=true'
+      }).then(res => {
+        let data = this.$com.confirm(res, 'data.content', [])
+        this.allData = data
+
+        data.forEach((item, index) => {
+          this.treeData.push(this.getTreeNode(item, index))
+        })
+      })
+    },
+    // 整理权限树
+    getTreeNode(item, index) {
+      let childrenNode = {
+        title: item.permName,
+        key: item.id,
+        value: item.permName,
+      }
+      if (item.childList && item.childList.length) {
+        childrenNode.children = []
+        item.childList.forEach((subItem, subIndex) => {
+          let subkey = subItem.id
+          childrenNode.children.push(this.getTreeNode(subItem, subkey))
+        })
+      }
+      return childrenNode
+    },
+    // 行政区域修改---
+    onLoadData(treeNode) {
+      return new Promise((resolve) => {
+        if (treeNode.dataRef.children) {
+          resolve()
+          return
+        }
+        this.$ajax.get({
+          url: this.$api.GET_AREA_NEXT,
+          params: {
+            parentId: treeNode.dataRef.id
+          }
+        }).then(res => {
+          let datas = this.$com.confirm(res, 'data.content', [])
+          let array = []
+          datas.forEach((ele, index) => {
+            array.push(this.getOrganTree(ele, index))
+          })
+          treeNode.dataRef.children = array
+          this.organData = [...this.organData]
+          resolve()
+        })
+      })
+    },
+    onChangeTree(value, label, extra) {
+      this.options.organList = []
+      this.formData.resetFields('organ')
+      this.getOrganList(value)
+    },
+    getArea() {
+      this.$ajax.get({
+        url: this.$api.GET_AREA_NEXT,
+        params: {
+          parentId: this.isAdminator ? '999999' : this.$store.state.userInfos.area.id
+        }
+      }).then(res => {
+        let datas = this.$com.confirm(res, 'data.content', [])
+        datas.forEach((ele, index) => {
+          this.organData.push(this.getOrganTree(ele, index))
+        })
+      })
+    },
+    getOrganTree(item, index) {
+      let childrenNode = {
+        title: item.areaName,
+        value: item.id,
+        id: item.id,
+        key: item.id,
+        parentId: item.parentId,
+        children: item.childList
+      }
+      return childrenNode
+    },
+    // 保存按钮
+    save() {
+      this.formData.validateFields((err) => {
+        if (!err) {
+          let formData = this.formData.getFieldsValue()
+          let params = {}
+          if (formData.organ) {
+            params.group = {
+              id: formData.organ
+            }
+          }
+          params.area = {
+            id: formData.area
+          }
+          params.roleIds = formData.role.map((item) => {
+            return item.key
+          })
+          params.roleIds = params.roleIds.join(',')
+          params.roleNames = formData.role.map((item) => {
+            return item.label
+          })
+          params.roleNames = params.roleNames.join(',')
+          params.id = this.$route.query.id
+          this.$ajax.put({
+            url: this.$api.CONFIG_ROLES_TO_USER,
+            params: params
+          })
+            .then((res) => {
+              if (res.code === '200') {
+                this.$message.success('分配成功')
+                this.$router.push({
+                  name: '/systemManagement/administrator'
+                })
+              } else {
+                this.$message.error(res.msg)
+              }
+            })
+        }
+      })
     }
+  },
+  mounted() {
+    this.isAdminator = this.$store.state.userInfos.isAllPerm
+    this.$ajax.all(this.getOptions(), this.getTree())
   }
 }
 </script>
 <style scoped>
-    .distribution-span{
-        background: #fff;
-        display: block;
-    }
+	.dis-edit{
+    padding-top:20px;
+  }
 </style>
-
-
-
+<style>
+	.distribution-span li.ant-tree-treenode-disabled>span:not(.ant-tree-switcher),
+	li.ant-tree-treenode-disabled>.ant-tree-node-content-wrapper,
+	li.ant-tree-treenode-disabled>.ant-tree-node-content-wrapper span {
+		color: rgba(0, 0, 0, 1);
+	}
+</style>

@@ -1,5 +1,4 @@
 import store from '@/store'
-import api from '@/server/api'
 
 export const PermissionFilter = (value, vnode) => {
   value = value + ''

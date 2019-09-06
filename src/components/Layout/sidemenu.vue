@@ -1,29 +1,29 @@
 <template>
-  <a-menu :mode="menuMode" class="sideMenu" theme="dark" style="text-align:left;">
+  <a-menu :mode="menuMode" @openChange="onOpenChange" :openKeys="defaultOpenKeys" v-model="defaultSelectedKeys" class="sideMenu" theme="dark" style="text-align:left;">
     <template v-for="menu in menus">
       <template v-if="menu.children && menu.children.length > 0">
-      <a-sub-menu :key="menu.name">
-        <span slot="title">
-          <template v-if="menu.meta.menuIcon">
-            <a-icon :type="menu.meta.menuIcon" />
-          </template>
-          <template v-else>
-            <a-icon type="bars" />
-          </template>
-          <span>{{menu.meta.title}}</span>
-        </span>
-        <template v-for="child in menu.children">
-          <a-menu-item :key="child.name" @click="({item, key}) => {navigateTo({item, key},child)}">
-            <template v-if="child.meta.menuIcon">
-              <a-icon :type="child.meta.menuIcon" />
+        <a-sub-menu :key="menu.name">
+          <span slot="title">
+            <template v-if="menu.meta.menuIcon">
+              <a-icon :type="menu.meta.menuIcon" />
             </template>
             <template v-else>
               <a-icon type="bars" />
             </template>
-            <span>{{child.meta.title}}</span>
-          </a-menu-item>
-        </template>
-      </a-sub-menu>
+            <span>{{menu.meta.title}}</span>
+          </span>
+          <template v-for="child in menu.children">
+            <a-menu-item :key="child.name" @click="({item, key}) => {navigateTo({item, key},child)}">
+              <template v-if="child.meta.menuIcon">
+                <a-icon :type="child.meta.menuIcon" />
+              </template>
+              <template v-else>
+                <a-icon type="bars" />
+              </template>
+              <span>{{child.meta.title}}</span>
+            </a-menu-item>
+          </template>
+        </a-sub-menu>
       </template>
 
       <template v-else-if="!menu.children">
@@ -58,11 +58,16 @@ export default {
   },
   data(){
     return{
-      userInfo:null
+      userInfo:null,
+      openKeys: [],
+      defaultSelectedKeys: [],
+      defaultOpenKeys: [],
     }
   },
   created() {
-
+    const {defaultSelectedKeys, defaultOpenKeys} = this.$store.state.defaultMenuStatus
+    this.defaultSelectedKeys = defaultSelectedKeys || []
+    this.defaultOpenKeys = (defaultOpenKeys.length <= 0 || !defaultOpenKeys[0]) ? [] : defaultOpenKeys
   },
   computed: {
     menus() {
@@ -70,9 +75,6 @@ export default {
     }
   },
   methods: {
-    isSpaMenu(menu){
-      return 'spa'===menu.meta.openMode?true:false
-    },
     /**
      * 组装需要跳转的外部地址
      * @param {String} sysCode 当前点击的外部系统的系统code
@@ -111,7 +113,6 @@ export default {
         let openMode = menu.meta.openMode?menu.meta.openMode:'normal'
         switch (openMode) {
         case 'outsite':
-          this.$store.commit('SET_SHOWSPACONTENT', false)
           if(!this.$cookie.get('token')){
             this.$com.handleLogOut()
           }else{
@@ -129,28 +130,56 @@ export default {
           }
           break
         case 'normal':
-          this.$store.commit('SET_SHOWSPACONTENT', false)
           this.$router.push({name: menu.name})
           break
         case 'spa':
-          this.$store.commit('SET_SHOWSPACONTENT', true)
           navigateToUrl(key)
           break
         default:
-          this.$store.commit('SET_SHOWSPACONTENT', false)
           this.$router.push({name: menu.name})
           break
         }
       }else{
-        this.$store.commit('SET_SHOWSPACONTENT', false)
         this.$router.push({name: menu.name})
       }
     },
-
-  }
+    // 点击菜单，收起其他展开的所有菜单
+    onOpenChange (openKeys) {
+      const menuKeys = this.menus.map(item => item.name)
+      const latestOpenKey = openKeys.find(key => this.defaultOpenKeys.indexOf(key) === -1)
+      if (menuKeys.indexOf(latestOpenKey) === -1) {
+        this.defaultOpenKeys = openKeys
+      } else {
+        this.defaultOpenKeys = latestOpenKey ? [latestOpenKey] : []
+      }
+    },
+  },
+  watch: {
+    $route(to) {
+      if (!to.name) return
+      // if (this.defaultSelectedKeys.indexOf(to.name) < 0) {
+      if (to.name.indexOf(this.defaultSelectedKeys[0]) < 0){ // 当当前路由不为选定路由或选定路由的子集，则清空设置
+        this.defaultSelectedKeys = []
+        this.defaultOpenKeys = []
+        this.$store.commit('SET_DEFAULTMENU_STATUS', {
+          defaultSelectedKeys: [],
+          defaultOpenKeys: [],
+        })
+      }else{ // 否则就保存现有的菜单展开设置
+        this.$store.commit('SET_DEFAULTMENU_STATUS', {
+          defaultSelectedKeys: this.defaultSelectedKeys,
+          defaultOpenKeys: this.defaultOpenKeys,
+        })
+      }
+    },
+  },
 }
 </script>
 
 <style>
-.sideMenu { padding-top: 10px;}
+.sideMenu {
+  padding-top: 10px;
+  height: 90%;
+  overflow-y: auto;
+}
 </style>

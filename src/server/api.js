@@ -7,14 +7,14 @@ case 'sit': // sit环境下
   BASE_URL = 'http://iftp.omniview.pro/api'
   break
 case 'uat': // uat环境下
-  BASE_URL = 'http://fish.omniview.pro/api'
+  BASE_URL = 'http://fish.szjoin.net/api'
   break
 case 'production': // 生产环境下
   BASE_URL = 'http://iftp.omniview.pro/api'
   break
 default: // 默认环境下（开发环境）
-  // BASE_URL = 'http://fish.omniview.pro/api'
-  BASE_URL = 'http://iftp.omniview.pro/api'
+  BASE_URL = 'http://fish.omniview.pro/api'
+  // BASE_URL = 'http://iftp.omniview.pro/api'
   break
 };
 
@@ -38,4 +38,34 @@ export default {
   GET_CHECK_PHONE_EXIST: '/service-user/user/public/check/phone/exist', //判断手机是否存在
   GET_PHONE_CODE: '/service-user/user/public/send/{type}/{phone}', // 发送验证码 （用于注册、忘记密码）
   POST_CHECK_PHONE_CODE: '/service-user/user/public/check/{type}/{phone}/{code}', // 验证手机验证码 （用于注册、忘记密码）
+  GET_ROLE_LIST: '/service-permission/perm/roles', //获取角色列表
+  GET_ALL_ROLE: '/service-permission/perm/menu/tree', //获取权限
+  ADD_ROLE_POST: '/service-permission/perm/role', // 新增角色
+  ROLE_DETAIL: '/service-permission/perm/roles/{id}', // 查询角色权限
+  PUT_CHARACTER: '/service-permission/perm/role/{id}', //编辑角色
+  DELETE_CHARACTER: '/service-permission/perm/role/{id}', //删除角色
+  USER_LIST_TYPE_GET: '/service-user/user/accounts/{type}', // 用户{type} old老用户列表   new-新用户列表
+  SYSTEM_LIST_ALL_GET: '/service-user/user/systems', //查询系统列表
+  CHECK_USER_STATUS: '/service-user/user/acct/{id}/status/{status}/{type}', //切换用户状态
+  GET_AREA_NEXT: '/service-user/user/area/next', //获取下级地区
+  USER_ACCOUNT_DETAIL: '/service-user/user/account/{id}', //待分配权限详情
+  GET_ORGANIZATION_LIST: '/service-permission/perm/groups', //组织机构列表
+  CONFIG_ROLES_TO_USER: '/service-user/user/config/roles', //给用户分配权限
+  USER_UPDATE_PWD: '/service-user/user/update/pwd', //管理员修改密码
+  POST_ADD_USER: '/service-user/user/account', //管理员新增用户
+  GET_USER_DETAIL: '/service-user/user/account/{id}', //新用户详情
+  PUT_USER_LIST: '/service-user/user/account/{id}', //新用户修改
+  POST_ADD_ORGANIZATION_LIST: '/service-permission/perm/group', //新增组织机构
+  PUT_EDIT_ORGANIZATION_LIST: '/service-permission/perm/group/{id}', //修改组织机构
+  DELETE_ORGANIZATION_LIST: '/service-permission/perm/group/{id}', //删除组织机构
+  GET_ORGANIZATION_LIST_DETAIL: '/service-permission/perm/group/{id}', //组织机构详情
+  GET_EXPERT_LIST: '/service-expert/expert/expert', //专家库列表
+  GET_EXPERT_DETAIL: '/service-expert/expert/expert/{experId}', //专家库明细
+  DICTIONARY_TYPE_GET: '/service-expert/expert/dictionary/{type}', //字典
+  EXPORT_TYPE: '/service-expert/expert/expert', //新增专家人员
+  PUT_CHANGE_EXPERT:'/service-user/user/become/expert',//成为专家
+  GET_USER_EXPERT_LIST: '/service-user/user/accounts/new/expert', 
+  EXPORT_TYPE_EDIT: '/service-expert/expert/expert/{experId}',
+  UPLOAD_TEMP: BASE_URL + '/zuul/service-file/file/upload/1/temp', //上传图片
+	
 }

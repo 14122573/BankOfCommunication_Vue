@@ -7,56 +7,57 @@
 		</template>
 		<template v-else>
 			<a-layout>
-				<a-layout-sider :collapsed="collapsed" breakpoint="lg" collapsedWidth="80" width="16%" :style="{ overflow: 'auto', height: '100vh', position: 'fixed', left: 0,zIndex:2 }">
+				<a-layout-sider id="sideMenu" v-model="collapsed" breakpoint="lg">
 					<div id="portalLogo">
-            <a-row class="portalLogoWapper" type="flex" justify="center" align="middle" :gutter="10">
-              <a-col :span='collapsed?24:5' :style="collapsed?'text-align:center':'text-align:right'"><span class="logo-img"></span></a-col>
-              <a-col v-if="!collapsed" span=11><span class="logo-name">智能渔技</span></a-col>
-            </a-row>
+						<img class="logo-img" src="@/assets/images/logo.png" alt="logo" />
+						<span v-show="!collapsed" class="logo-name">智能渔技</span>
 					</div>
-					<SideMenu :menuMode="menuMode" :collapsed="collapsed"></SideMenu>
+					<SideMenu :menuMode="menuMode" />
 				</a-layout-sider>
-				<a-layout-header id="portalHeader" :style="handleStyle">
-					<div class="wrapper">
-						<a-icon class="trigger" :type="collapsed ? 'menu-unfold' : 'menu-fold'" @click="toggleSideCollapsed" />
-						<NavBar class="navbar" />
-						<a-dropdown class="navdropmenu">
-							<span>
-								<a-icon type="user" /> <span class="name">{{username}}</span>
-								<a-icon type="down" />
-							</span>
-							<a-menu slot="overlay" @click="handleClick">
-								<a-menu-item key="person">个人中心</a-menu-item>
-								<a-menu-item key="logout">退出登录</a-menu-item>
-							</a-menu>
-						</a-dropdown>
-						<a-badge class="navTidings" :count="tidingsCount" showZero>
-							<a href="#" class="head-example">
-								<a-icon type="bell" /></a>
-						</a-badge>
-					</div>
-				</a-layout-header>
-				<a-layout-content id="AppContent">
-					<div v-show="!showSpaContent" class="wrapper">
-						<router-view :key="$route.path"></router-view>
-					</div>
-					<div v-show="showSpaContent">
-						<div id="content"></div>
-					</div>
-				</a-layout-content>
+				<a-layout style="overflow:hidden">
+					<a-layout-header id="portalHeader">
+						<div>
+							<a-icon class="trigger" :type="collapsed ? 'menu-unfold' : 'menu-fold'" @click="toggleSideCollapsed" />
+							<NavBar />
+						</div>
+						<div>
+							<a-badge class="navTidings" :count="tidingsCount" showZero>
+								<a href="#">
+									<a-icon type="bell" /></a>
+							</a-badge>
+							<a-dropdown class="navdropmenu">
+								<span>
+									<a-icon type="user" /> <span class="name">{{username}}</span>
+									<a-icon type="down" />
+								</span>
+								<a-menu slot="overlay" @click="handleClick">
+									<a-menu-item key="person">账户信息</a-menu-item>
+									<a-menu-item key="expert">专家个人信息</a-menu-item>
+									<a-menu-item key="logout">退出登录</a-menu-item>
+								</a-menu>
+							</a-dropdown>
+						</div>
+					</a-layout-header>
+					<a-layout-content id="appContent">
+						<a-locale-provider :locale="zh_CN">
+							<router-view v-show="!showSpaContent" :key="$route.path" />
+						</a-locale-provider>
+						<div v-show="showSpaContent" id="content" />
+					</a-layout-content>
+				</a-layout>
 			</a-layout>
 		</template>
 	</a-layout>
-
 </template>
 <script>
 import SideMenu from '@/components/Layout/sidemenu'
 import NavBar from '@/components/Layout/navbar'
 import Loader from '@/components/Loader/loader'
+import zh_CN from 'ant-design-vue/lib/locale-provider/zh_CN'
+import { permission, } from '@/util/mixins'
 import {
-  permission,
-} from '@/util/mixins'
-
+  MicConfigs
+} from '@/config/mic'
 import Login from '@/views/login/login'
 
 export default {
@@ -70,10 +71,12 @@ export default {
   },
   data() {
     return {
+      zh_CN,
       collapsed: false,
       username: '',
       showPurePage: false,
       tidingsCount: 0,
+      showSpaContent: false,
     }
   },
   created() {
@@ -88,6 +91,16 @@ export default {
     } else {
       this.plogout(true)
     }
+
+    /** 持久化存储vuex 使其页面刷新后数据不丢失 */
+    //在页面加载时读取sessionStorage里的状态信息
+    if (sessionStorage.getItem('VuexStore')) {
+      this.$store.replaceState(Object.assign({}, this.$store.state, JSON.parse(sessionStorage.getItem('VuexStore'))))
+    }
+    //在页面刷新时将vuex里的信息保存到sessionStorage里
+    window.addEventListener('beforeunload', () => {
+      sessionStorage.setItem('VuexStore', JSON.stringify(this.$store.state))
+    })
   },
   watch: {
     '$store.state.userName': {
@@ -97,39 +110,26 @@ export default {
       deep: true
     },
     $route(to, from) {
+      if (MicConfigs.length > 0) {
+        // 根据配置文件的子项目路由前缀自动识别state.showSpaContent应该是true还是false
+        this.showSpaContent = MicConfigs.some(item => to.path.startsWith(item.pathPrefix))
+      }
+
+      if (!to.name) {
+        this.showPurePage = false
+        return
+      }
       // 监听路由，只要是没有parent的路由就独立显示而不是嵌套在layout中显示
       if (to.matched && to.matched.length > 0 && !to.matched[to.matched.length - 1].parent) {
         this.showPurePage = true
       } else {
         this.showPurePage = false
       }
-    }
-
+    },
   },
   computed: {
     menuMode() {
       return this.collapsed ? 'vertical' : 'inline'
-    },
-    showSpaContent() {
-      return this.$store.state.showSpaContent
-    },
-    handleStyle() {
-      if (this.collapsed === true) {
-        return {
-          position: 'fixed',
-          zIndex: 1,
-          width: 'calc(100% - 80px)',
-          marginLeft: '80px'
-        }
-      } else {
-        return {
-          position: 'fixed',
-          zIndex: 1,
-          width:'84%',
-          marginLeft: '16%'
-        }
-      }
-
     },
   },
   methods: {
@@ -147,6 +147,7 @@ export default {
         this.$cookie.remove('url')
         this.$cookie.remove('systemLists')
         this.$cookie.remove('canEnterBind')
+        this.$cookie.remove('NavbarList')
       } else {
         this.$ajax.post({
           url: this.$api.POST_LOGOUT,
@@ -161,6 +162,7 @@ export default {
           this.$cookie.remove('url')
           this.$cookie.remove('systemLists')
           this.$cookie.remove('canEnterBind')
+          this.$cookie.remove('NavbarList')
           this.$router.push({
             name: 'login'
           })
@@ -170,26 +172,86 @@ export default {
     toggleSideCollapsed() {
       this.collapsed = !this.collapsed
     },
-    handleClick({
-      key
-    }) {
-      if (key == 'person') {
-        this.$router.push({
-          name: 'person'
-        })
-      }
-      if (key == 'logout') {
+    handleClick({ key }) {
+      switch(key){
+      case 'person':
+        this.$router.push({ name: 'person' })
+        break
+      case 'expert':
+        this.$router.push({ name: '/person/expert' })
+        break
+      case 'logout':
         this.plogout()
+        break
       }
+
     }
   }
 }
 </script>
 
 <style scoped>
+	#sideMenu {
+		z-index: 1;
+		box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.5);
+	}
+
 	#portalHeader {
 		background: #fff;
-		padding: 0
+		padding: 0;
+		box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.5);
+		z-index: 1;
+	}
+
+	#portalLogo {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		height: 64px;
+		background: #00284e;
+		width: 100%;
+	}
+
+	#portalLogo .logo-img {
+		width: 40px;
+		height: 40px;
+	}
+
+	#portalLogo .logo-name {
+		color: #fff;
+		font-size: 20px;
+		margin-left: 10px;
+	}
+
+	#portalHeader {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		padding: 0 2rem;
+	}
+
+	#portalHeader>div {
+		display: flex;
+		align-items: center;
+	}
+
+	#portalHeader .trigger {
+		font-size: 18px;
+		cursor: pointer;
+		margin-right: 20px;
+	}
+
+	#portalHeader .navdropmenu {
+		cursor: pointer;
+	}
+
+	#portalHeader .navdropmenu .name {
+		padding: 0 5px
+	}
+
+	#portalHeader .navTidings {
+		cursor: pointer;
+		margin-right: 30px;
 	}
 </style>
 
@@ -205,82 +267,15 @@ export default {
 		/* overflow: hidden; */
 	}
 
-	#portalLogo {
-		height: 64px;
-		background: #00284e;
-		width: 100%;
-	}
-  #portalLogo .portalLogoWapper{ height: 64px; padding-top:7px;}
-
-	#portalLogo .logo-img {
-		display: inline-block;
-		width: 40px;
-		height: 40px;
-		background: url('../../assets/images/logo.png');
-		background-size: 100%
-	}
-
-	#portalLogo .logo-name {
-		color: #fff;
-		font-size: 20px;
-    line-height:20px;
-    height: 20px;
-    text-align:left;
-	}
-
-	#portalHeader .wrapper {
-		padding: 0 2rem
-	}
-
-	#portalHeader .trigger {
-		float: left;
-		font-size: 18px;
-		line-height: 20px;
-		margin: 20px 16px 0 0;
-		cursor: pointer;
-	}
-
-	#portalHeader .navbar {
-		float: left;
-		line-height: 20px;
-		margin-top: 22px
-	}
-    #portalHeader  .trigger{
-		margin-top: 24px
-	}
-	#portalHeader .navdropmenu {
-		float: right;
-		cursor: pointer;
-	}
-
-	#portalHeader .navdropmenu .name {
-		padding: 0 10px 0 5px
-	}
-
-	#portalHeader .navTidings {
-		float: right;
-		margin-right: 40px;
-		margin-top: 30px;
-		cursor: pointer;
-	}
-
-	#AppContent {
-		width: 84%;
-		margin: 78px 16px 0 230px;
-		background: url('../../assets/images/content-bg.png') no-repeat top right;
+	#appContent {
+		overflow-y: auto;
+		padding: 0 0 14px 0;
+		background: url('../../assets/images/content-bg.png') no-repeat;
+		background-position: 95% 10%;
 		background-size: 20%;
-	}
+		height: 100%;
 
-	#AppContent .contentbg {
-		position: absolute;
-		top: 10px;
-		right: 10px;
-		z-index: 1;
-		width: 20%
 	}
-
-	#AppContent .wrapper {
-		padding: 1px;
-		min-height: 98%
-	}
+	#appContent #content { 	height: 100%; }
+	#appContent #content>div { overflow-y: auto; }
 </style>
