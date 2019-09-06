@@ -103,29 +103,29 @@
 </template>
 <script>
 export default {
-    data(){
-        return{
-            searchForm:{},
-            sysList:[],
-            dateFormat: 'YYYY-MM-DD',
-            time:[],
-            colSpe: {
-                labelCol: {
-                    span: 8
-                },
-                wrapperCol: {
-                    span: 16
-                }
-            },
+  data(){
+    return{
+      searchForm:{},
+      sysList:[],
+      dateFormat: 'YYYY-MM-DD',
+      time:[],
+      colSpe: {
+        labelCol: {
+          span: 8
+        },
+        wrapperCol: {
+          span: 16
         }
-    },
-    methods:{
-        reset(){},
-        search(){},
-        onDateChange(date, dateString) {
-            this.searchForm.createTime_desc = dateString
-        }
+      },
     }
+  },
+  methods:{
+    reset(){},
+    search(){},
+    onDateChange(date, dateString) {
+      this.searchForm.createTime_desc = dateString
+    }
+  }
 }
 </script>
 <style scoped>
