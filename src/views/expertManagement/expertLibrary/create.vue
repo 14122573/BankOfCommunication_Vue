@@ -175,14 +175,8 @@ export default {
         researchDirectionList: [],
         educationList: [],
         bachelorList: [],
-        provinceConfirmList: [
-          { label: '是', value: '是' },
-          { label: '否', value: '否' }
-        ],
-        unitConfirmList: [
-          { label: '是', value: '是' },
-          { label: '否', value: '否' }
-        ]
+        provinceConfirmList: [{ label: '是', value: '是' },{ label: '否', value: '否' }],
+        unitConfirmList: [{ label: '是', value: '是' },{ label: '否', value: '否' }]
       },
       fileList: [],
       colSpa: {
@@ -232,7 +226,6 @@ export default {
     //   查询options
     getOptions() {
       let api = this.$api.DICTIONARY_TYPE_GET
-      // let api='http://47.100.45.230:30000/mock/185/dictionary/{type}';
       const items = [
         { type: '0', name: 'minorityList' }, //民族
         { type: '1', name: 'companyNatureList' }, //单位性质
@@ -272,7 +265,6 @@ export default {
       this.form.validateFields(['portraitImg'])
     },
     beforeUpload(file) {
-      // console.log(file);
       let fileList = [...this.fileList, file]
       this.handleUpload(fileList)
       return false

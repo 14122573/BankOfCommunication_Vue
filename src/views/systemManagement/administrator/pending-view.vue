@@ -1,16 +1,20 @@
 <template>
-    <a-card class="layoutMargin" :bordered="false">
-        <a-row type="flex" slot="title" justify="space-between" align="middle">
-            <a-col>
-                查看
-            </a-col>
-            <a-col >
-                <a-button type="primary" @click="$router.back()" ghost>返回</a-button>
-                <a-button type="primary" v-if="$permission('P03102')" @click="toDistribution">权限分配</a-button>
-            </a-col>
-        </a-row>
-        <UserDetail :id="$route.query.id" />
-    </a-card>
+    <div class="portalDetailWapper">
+      <div class="portalDetailTitle">
+        <span class="title">查看</span>
+        <div class="detailOperations">
+          <a-button @click="$router.back()">返回</a-button>
+          <a-button type="primary" v-if="$permission('P03102')" @click="toDistribution">权限分配</a-button>
+        </div>
+      </div>
+      <div class="portalDetailContentWapper">
+        <div class="portalDetailContentBody">
+          <div class="layoutMargin detailsPartSection pending-view">
+            <UserDetail :id="$route.query.id" />
+          </div>
+        </div>
+      </div>
+    </div>
 </template>
 <script>
 import UserDetail from './user-detail'
@@ -29,4 +33,9 @@ export default {
   }
 }
 </script>
+<style scoped>
+  .pending-view{
+    padding-top: 20px;
+  }
+</style>
 

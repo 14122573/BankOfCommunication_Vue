@@ -73,7 +73,7 @@
 </template>
 <script>
 export default {
-  name: 'select',
+  name: 'expertLibrary-select',
   data() {
     return {
       roleList: [],

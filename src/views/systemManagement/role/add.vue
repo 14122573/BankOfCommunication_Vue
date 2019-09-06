@@ -2,6 +2,7 @@
   .roleTitleSeation { border-bottom: 1px solid #e0e0e0; padding:10px}
   .roleTitleSeation .roleName { font-size: 20px; line-height: 40px; color:#232323; font-weight: bold}
   .roleTree { margin-top: 10px;}
+  .role-edit{padding-top:20px;}
   /*
   .role-ope li.ant-tree-treenode-disabled > span:not(.ant-tree-switcher), li.ant-tree-treenode-disabled > .ant-tree-node-content-wrapper, li.ant-tree-treenode-disabled > .ant-tree-node-content-wrapper span{
     color:rgba(0, 0, 0,1);
@@ -9,34 +10,37 @@
 </style>
 
 <template>
-    <div class="layoutMargin">
-      <a-row class="roleTitleSeation" type="flex" justify="space-between" align="middle">
-        <a-col span='6'><span class="roleName">{{roleName || '创建新角色'}}</span></a-col>
-        <a-col span='8' class="algin-right" v-if="$route.query.type === 'view'">
+    <div class="portalDetailWapper">
+      <div class="portalDetailTitle">
+        <span class="title">{{roleName || '创建新角色'}}</span>
+        <div class="detailOperations" v-if="$route.query.type === 'view'">
           <a-button @click="$router.back();" >返回</a-button>
           <a-button @click="edit" >修改</a-button>
           <a-button type="danger" @click="deleteBtn" ghost>删除</a-button>
-        </a-col>
-        <a-col span='8' class="algin-right" v-else>
+        </div>
+        <div class="detailOperations" v-else>
           <a-button @click="$router.back();">取消</a-button>
           <a-button type="primary" @click="save">保存</a-button>
-        </a-col>
-      </a-row>
-      <div class="layoutPadding">
-        <a-form class="protalForm" :form="formData" v-if="$route.query.type !== 'view'">
-          <a-row type="flex" justify="start">
-              <a-col span="8">
-                <a-form-item label="角色名称" class="formItem" :label-col="labelCol" :wrapper-col="wrapperCol" >
-                  <a-input placeholder="请输入"
-                      v-decorator="[
-                        'roleName',
-                        {rules: [{ required: true, message: '请输入10字以内的角色名称！' ,whitespace:true,max:10 }],validateTrigger:'blur'}
-                      ]" />
-                </a-form-item>
-              </a-col>
-          </a-row>
+        </div>
+      </div>
+      <div class="portalDetailContentWapper">
+        <a-form class="portalDetailContentBody" :form="formData">
+          <div class="layoutMargin detailsPartSection role-edit">
+            <a-row class="formItemLine" v-if="$route.query.type !== 'view'">
+                <a-col span="8">
+                  <a-form-item label="角色名称" class="formItem" :label-col="labelCol" :wrapper-col="wrapperCol" >
+                    <a-input placeholder="请输入"
+                        v-decorator="[
+                          'roleName',
+                          {rules: [{ required: true, message: '请输入10字以内的角色名称！' ,whitespace:true,max:10 }],validateTrigger:'blur'}
+                        ]" />
+                  </a-form-item>
+                </a-col>
+            </a-row>
+            <a-tree class="portalRoleTree" v-if="showTree" checkable :treeData="treeData" :defaultExpandedKeys='expandedKeys' v-model="checkedKeys" :disabled="$route.query.type === 'view'" />
+          </div>
         </a-form>
-        <a-tree class="portalRoleTree" v-if="showTree" checkable :treeData="treeData" :defaultExpandedKeys='expandedKeys' v-model="checkedKeys" :disabled="$route.query.type === 'view'" />
+        
       </div>
     </div>
 </template>

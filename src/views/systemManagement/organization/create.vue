@@ -1,64 +1,64 @@
 <template>
-	<a-card :bordered='false' class="layoutMargin">
-		<a-row type="flex" justify="space-between" slot="title" align="middle">
-			<a-col>{{$route.meta.title}}</a-col>
-			<a-col>
-				<a-button type="primary" ghost @click="handleReturn">
-					取消
-				</a-button>
-				<a-button type="primary" @click="handleSave" html-type="submit">
-					保存
-				</a-button>
-			</a-col>
-		</a-row>
-		<a-form :form="organizationForm">
-			<a-row type="flex" justify="start" align="middle">
-				<a-col :span="8">
-					<a-form-item label="组织机构名称" v-bind="formItemLayout">
-						<a-input v-decorator="['groupName', rules.groupName]" placeholder="组织机构名称" />
-					</a-form-item>
-				</a-col>
-				<a-col :span="8">
-					<a-form-item label="联系人" v-bind="formItemLayout">
-						<a-input v-decorator="['contact',rules.contact]" placeholder="联系人" />
-					</a-form-item>
-				</a-col>
-				<a-col :span="8">
-					<a-form-item label="联系电话" v-bind="formItemLayout">
-						<a-input v-decorator="['contactPhone',rules.contactPhone]" placeholder="联系电话" />
-					</a-form-item>
-				</a-col>
-			</a-row>
-			<a-row type="flex" justify="start" align="middle">
-				<a-col :span="8">
-					<a-form-item label="所属行政区域" v-bind="formItemLayout">
-						<a-select placeholder="请选择" :options='options.areaLists' v-decorator="['areaCode',rules.areaCode]" />
-					</a-form-item>
-				</a-col>
-				<a-col :span="8">
-					<a-form-item label="上级机构" v-bind="formItemLayout">
-						<a-select placeholder="请选择" v-decorator="['parentId']">
-							<a-select-option v-for="(item,index) in options.upLists" :key="index" :value="item.id">{{item.groupName}}</a-select-option>
-						</a-select>
-					</a-form-item>
-				</a-col>
-			</a-row>
-			<a-row type="flex" justify="start" align="middle">
-				<a-col :span="16">
-					<a-form-item label="地址" v-bind="formItemSingle">
-						<a-input v-decorator="['addr',rules.addr]" placeholder="请输入地址信息(格式要求:XX省XX市XX县XX乡镇XX路XX号)" @blur="handleSearchPoint" />
-					</a-form-item>
-				</a-col>
-			</a-row>
-			<a-row type="flex" justify="start" align="middle">
-				<a-col :span="16">
-					<a-form-item label="地址微调" v-bind="formItemSingle">
-						<BMapComponent :height="250" :width="830" :keyWords="position" @on-change="getNewAddress" />
-					</a-form-item>
-				</a-col>
-			</a-row>
-		</a-form>
-	</a-card>
+	<div class="portalDetailWapper">
+    <div class="portalDetailTitle">
+			<span class="title">{{$route.meta.title}}</span>
+			<div class="detailOperations">
+				<a-button @click='handleReturn'>取消</a-button>
+				<a-button type="primary" @click='handleSave' html-type="submit">保存</a-button>
+			</div>
+		</div>
+    <div class="portalDetailContentWapper">
+      <a-form class="portalDetailContentBody" :form="organizationForm">
+        <div class="layoutMargin detailsPartSection organization-edit">
+        <a-row class="formItemLine">
+          <a-col :span="8">
+            <a-form-item label="组织机构名称" v-bind="formItemLayout">
+              <a-input v-decorator="['groupName', rules.groupName]" placeholder="组织机构名称" />
+            </a-form-item>
+          </a-col>
+          <a-col :span="8">
+            <a-form-item label="联系人" v-bind="formItemLayout">
+              <a-input v-decorator="['contact',rules.contact]" placeholder="联系人" />
+            </a-form-item>
+          </a-col>
+          <a-col :span="8">
+            <a-form-item label="联系电话" v-bind="formItemLayout">
+              <a-input v-decorator="['contactPhone',rules.contactPhone]" placeholder="联系电话" />
+            </a-form-item>
+          </a-col>
+        </a-row>
+        <a-row class="formItemLine">
+          <a-col :span="8">
+            <a-form-item label="所属行政区域" v-bind="formItemLayout">
+              <a-select placeholder="请选择" :options='options.areaLists' v-decorator="['areaCode',rules.areaCode]" />
+            </a-form-item>
+          </a-col>
+          <a-col :span="8">
+            <a-form-item label="上级机构" v-bind="formItemLayout">
+              <a-select placeholder="请选择" v-decorator="['parentId']">
+                <a-select-option v-for="(item,index) in options.upLists" :key="index" :value="item.id">{{item.groupName}}</a-select-option>
+              </a-select>
+            </a-form-item>
+          </a-col>
+        </a-row>
+        <a-row class="formItemLine">
+          <a-col :span="16">
+            <a-form-item label="地址" v-bind="formItemSingle">
+              <a-input v-decorator="['addr',rules.addr]" placeholder="请输入地址信息(格式要求:XX省XX市XX县XX乡镇XX路XX号)" @blur="handleSearchPoint" />
+            </a-form-item>
+          </a-col>
+        </a-row>
+        <a-row class="formItemLine">
+          <a-col :span="16">
+            <a-form-item label="地址微调" v-bind="formItemSingle">
+              <BMapComponent :height="250" :width="830" :keyWords="position" @on-change="getNewAddress" />
+            </a-form-item>
+          </a-col>
+        </a-row>
+        </div>
+      </a-form>
+    </div>
+	</div>
 </template>
 
 <script>
@@ -270,5 +270,7 @@ export default {
 </script>
 
 <style scoped>
-
+  .organization-edit{
+    padding-top:20px;
+  }
 </style>

@@ -143,8 +143,8 @@ export default {
         dataIndex: 'name'
       },
       {
-        title: '账号',
-        dataIndex: 'loginPhone'
+        title: '联系电话',
+        dataIndex: 'phone'
       },
       {
         title: '工作单位',
@@ -266,11 +266,10 @@ export default {
       this.$router.push({
         name: '/expertManagement/expertLibrary/edit',
         query: {
-          id: item.expertId
+          id: item.id
         }
       })
     },
-    handleCancel() {},
     getJobLists() {
       this.$ajax.get({
         url: this.$api.DICTIONARY_TYPE_GET.replace('{type}', '3')

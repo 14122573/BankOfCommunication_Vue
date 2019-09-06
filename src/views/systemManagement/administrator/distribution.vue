@@ -1,48 +1,48 @@
 <template>
-	<span class="layoutMargin distribution-span">
-		<a-card :bordered="false">
-			<a-row type="flex" slot="title" justify="space-between" align="middle">
-				<a-col>
-					权限分配
-				</a-col>
-				<a-col>
-					<a-button @click="$router.back();">返回</a-button>
-					<a-button type="primary" @click="save">保存</a-button>
-				</a-col>
-			</a-row>
-			<UserDetail :id="$route.query.id" />
-		</a-card>
-		<a-divider style="margin-top:0px;" dashed />
-		<a-card :bordered="false">
-			<a-form :form="formData">
-				<a-row>
-					<a-col span="8">
-						<a-form-item label="角色名称" :label-col="labelCol" :wrapper-col="wrapperCol">
-							<a-select placeholder="请选择" :options='options.roleList' @change="roleChange" allowClear mode="multiple"
-							 labelInValue v-decorator="['role', {rules: [rules.required],validateTrigger:'change'}]" />
-						</a-form-item>
-					</a-col>
-					<a-col span="8">
-						<a-form-item label="所属行政区域" :label-col="labelCol" :wrapper-col="wrapperCol">
-							<a-select v-if="isAdminator !== true" placeholder="请选择" :options="options.areaList" @change="areaChange"
-							 :filterOption="filterOption" v-decorator="['area',{rules: [rules.required],validateTrigger:'change'}]"
-							 showSearch allowClear />
-							<a-tree-select v-else :treeData="organData" :loadData="onLoadData" showLine :dropdownStyle="{ maxHeight: '200px', overflow: 'auto' }"
-							 placeholder='请选择' allowClear v-decorator="['area',{rules: [rules.required],validateTrigger:'change'} ]"
-							 @change="onChangeTree">
-							</a-tree-select>
-						</a-form-item>
-					</a-col>
-					<a-col span="8">
-						<a-form-item label="组织机构" :label-col="labelCol" :wrapper-col="wrapperCol" allowClear>
-							<a-select placeholder="请选择" :options="options.organList" v-decorator="['organ']" />
-						</a-form-item>
-					</a-col>
-				</a-row>
+	<div class="portalDetailWapper">
+    <div class="portalDetailTitle">
+			<span class="title">权限分配</span>
+			<div class="detailOperations">
+				<a-button @click="$router.back();">返回</a-button>
+					<a-button type="primary" html-type="submit" @click="save">保存</a-button>
+			</div>
+		</div>
+
+    <div class="portalDetailContentWapper">
+      <a-form class="portalDetailContentBody" :form="formData">
+        <div class="layoutMargin detailsPartSection dis-edit">
+          <UserDetail :id="$route.query.id" />
+          <a-divider style="margin-top:0px;" dashed />
+          <a-row class="formItemLine">
+            <a-col span="8">
+              <a-form-item label="角色名称" :label-col="labelCol" :wrapper-col="wrapperCol">
+                <a-select placeholder="请选择" :options='options.roleList' @change="roleChange" allowClear mode="multiple"
+                labelInValue v-decorator="['role', {rules: [rules.required],validateTrigger:'change'}]" />
+              </a-form-item>
+            </a-col>
+            <a-col span="8">
+              <a-form-item label="所属行政区域" :label-col="labelCol" :wrapper-col="wrapperCol">
+                <a-select v-if="isAdminator !== true" placeholder="请选择" :options="options.areaList" @change="areaChange"
+                :filterOption="filterOption" v-decorator="['area',{rules: [rules.required],validateTrigger:'change'}]"
+                showSearch allowClear />
+                <a-tree-select v-else :treeData="organData" :loadData="onLoadData" showLine :dropdownStyle="{ maxHeight: '200px', overflow: 'auto' }"
+                placeholder='请选择' allowClear v-decorator="['area',{rules: [rules.required],validateTrigger:'change'} ]"
+                @change="onChangeTree">
+                </a-tree-select>
+              </a-form-item>
+            </a-col>
+            <a-col span="8">
+              <a-form-item label="组织机构" :label-col="labelCol" :wrapper-col="wrapperCol" allowClear>
+                <a-select placeholder="请选择" :options="options.organList" v-decorator="['organ']" />
+              </a-form-item>
+            </a-col>
+          </a-row>
+          <a-tree class="portalRoleTree" checkable :treeData="treeData" v-model="checkedKeys" disabled />
+        </div>
 			</a-form>
-			<a-tree class="portalRoleTree" checkable :treeData="treeData" v-model="checkedKeys" disabled />
-		</a-card>
-	</span>
+    </div>
+			
+	</div>
 </template>
 <script>
 import UserDetail from './user-detail'
@@ -58,7 +58,7 @@ export default {
         span: 8
       },
       wrapperCol: {
-        span: 16
+        span: 14
       },
       rules: {
         required: {
@@ -318,10 +318,9 @@ export default {
 }
 </script>
 <style scoped>
-	.distribution-span {
-		background: #fff;
-		display: block;
-	}
+	.dis-edit{
+    padding-top:20px;
+  }
 </style>
 <style>
 	.distribution-span li.ant-tree-treenode-disabled>span:not(.ant-tree-switcher),

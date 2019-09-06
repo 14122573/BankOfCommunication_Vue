@@ -7,7 +7,7 @@
 					返回
 				</a-button>
 				<a-button type="primary"  @click="handleEdit">
-					编辑
+					修改
 				</a-button>
 			</div>
 		</div>
