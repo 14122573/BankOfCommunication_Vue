@@ -1,13 +1,13 @@
 <template>
 	<div class="routerWapper">
-		<div v-if="$route.name == '/systemManagement/organization'" class="layoutMargin layoutPadding" style="height:96%">
-			<a-row :gutter="20" style="height:100%">
-				<a-col :span="6" style="height:100%;">
+		<div v-if="$route.name == '/systemManagement/organization'" class="layoutMargin layoutPadding">
+			<a-row :gutter="20">
+				<a-col :span="6">
 					<div class="institutionalTreeWapper">
 						<h2 class="institutionalTreeTitle">行政区域</h2>
-						<div class="institutionalTree">
-							<a-tree showLine @select="onSelect" v-if="defaultSelectedKeys.length>0" :treeData="treeData"
-							 :defaultSelectedKeys="defaultSelectedKeys" :loadData="onLoadData">
+						<div class="institutionalTree" style="height:450px">
+							<a-tree showLine @select="onSelect" @expand="expand" :expandedKeys="expandedKeys"  v-if="selectedKeys.length>0" :treeData="treeData" :selectedKeys="selectedKeys"
+							 :loadData="onLoadData">
 							</a-tree>
 						</div>
 					</div>
@@ -32,19 +32,19 @@
 						</a-row>
 					</a-form>
 					<p class="gayLine"></p>
-				<div class="portalTableOperates">
-            <a-button icon='plus' v-if="$permission('P01001')" type="primary" @click="handleAdd">新建组织机构</a-button>
-            <a-button icon='download' v-if="$permission('P01005')" @click="toUpload">批量导入组织机构</a-button>
-        </div>
+					<div class="portalTableOperates">
+						<a-button icon='plus' v-if="$permission('P01001')" type="primary" @click="handleAdd">新建组织机构</a-button>
+						<a-button icon='download' v-if="$permission('P01005')" @click="toUpload">批量导入组织机构</a-button>
+					</div>
 					<a-table class="portalTable" size='small' :columns="columns" rowKey="groupName" :dataSource="dataSource"
 					 :pagination="pagination">
 						<span slot="action" slot-scope="text, record">
-            <span class="actionBtn" v-if="$permission('P01002')" @click="$router.push({name:'/systemManagement/organization/view',query:{id:record.id}})">查看</span>
-            <a-divider v-if="$permission('P01002')" type="vertical" />
-            <span class="actionBtn" v-if="$permission('P01003')" @click="$router.push({name:'/systemManagement/organization/edit',query:{id:record.id,data:JSON.stringify(transData)}})">修改</span>
-            <a-divider v-if="$permission('P01003')" type="vertical" />
-            <span class="actionBtn" v-if="$permission('P01004')" @click="deleteBtn(text,record)">删除</span>
-            </span>
+							<span class="actionBtn" v-if="$permission('P01002')" @click="$router.push({name:'/systemManagement/organization/view',query:{id:record.id}})">查看</span>
+							<a-divider v-if="$permission('P01002')" type="vertical" />
+							<span class="actionBtn" v-if="$permission('P01003')" @click="$router.push({name:'/systemManagement/organization/edit',query:{id:record.id,data:JSON.stringify(transData)}})">修改</span>
+							<a-divider v-if="$permission('P01003')" type="vertical" />
+							<span class="actionBtn" v-if="$permission('P01004')" @click="deleteBtn(text,record)">删除</span>
+						</span>
 						<span slot="contact" slot-scope="text, record">
 							联系人:&nbsp;{{record.contact || "暂无"}}<br />
 							联系电话:&nbsp;{{record.contactPhone || "暂无"}}
@@ -57,26 +57,26 @@
 	</div>
 </template>
 <style scoped>
-.institutionalTreeWapper {
-  height: 90%;
-  width: 100%;
-  overflow: hidden;
-  padding-right: 16px;
-  border-right: 1px solid #e0e0e0;
-}
+	.institutionalTreeWapper {
+		height: 90%;
+		width: 100%;
+		overflow: hidden;
+		padding-right: 16px;
+		border-right: 1px solid #e0e0e0;
+	}
 
-.institutionalTreeTitle {
-  padding-top: 10px;
-  width: 100%;
-}
+	.institutionalTreeTitle {
+		padding-top: 10px;
+		width: 100%;
+	}
 
-.institutionalTreeWapper > div {
-  height: calc(100% - 50px);
-  width: calc(100% - 20px);
-  padding: 5px;
-  overflow-y: auto;
-  overflow-x: scroll;
-}
+	.institutionalTreeWapper>div {
+		height: calc(100% - 50px);
+		width: calc(100% - 10px);
+		padding: 5px;
+		overflow-y: auto;
+		overflow-x: scroll;
+	}
 </style>
 
 <script>
@@ -92,54 +92,50 @@ export default {
         span: 16
       },
       options: {
-        nameOptions: [
-          {
-            label: '1',
-            value: '1'
-          }
-        ],
-        spaceOptions: [
-          {
-            label: '1',
-            value: '1'
-          }
-        ]
+        nameOptions: [{
+          label: '1',
+          value: '1'
+        }],
+        spaceOptions: [{
+          label: '1',
+          value: '1'
+        }]
       },
       dataSource: [],
-      columns: [
-        {
-          title: '组织机构',
-          dataIndex: 'groupName',
-          key: 'groupName'
-        },
-        {
-          title: '联系人',
-          dataIndex: 'contact',
-          width: 180,
-          key: 'contact',
-          scopedSlots: {
-            customRender: 'contact'
-          }
-        },
-        {
-          title: '地址',
-          width: 180,
-          dataIndex: 'addr',
-          key: 'addr'
-        },
-        {
-          title: '操作',
-          dataIndex: 'action',
-          width: 160,
-          scopedSlots: {
-            customRender: 'action'
-          }
+      columns: [{
+        title: '组织机构',
+        dataIndex: 'groupName',
+        key: 'groupName'
+      },
+      {
+        title: '联系人',
+        dataIndex: 'contact',
+        width: 180,
+        key: 'contact',
+        scopedSlots: {
+          customRender: 'contact'
         }
+      },
+      {
+        title: '地址',
+        width: 180,
+        dataIndex: 'addr',
+        key: 'addr'
+      },
+      {
+        title: '操作',
+        dataIndex: 'action',
+        width: 160,
+        scopedSlots: {
+          customRender: 'action'
+        }
+      }
       ],
       areaCode: '',
       opeationItem: {},
       treeData: [],
-      defaultSelectedKeys: [],
+      selectedKeys: [],
+      expandedKeys:['all'],
       transData: {},
       pagination: {
         pageNo: 1,
@@ -154,6 +150,11 @@ export default {
   },
   mounted() {
     this.getArea()
+  },
+  watch: {
+    areaCode() {
+      this.selectedKeys = [String(this.areaCode)]
+    }
   },
   methods: {
     //导入
@@ -179,21 +180,19 @@ export default {
     },
     //确认删除
     handleOk() {
-      this.$ajax
-        .delete({
-          url: this.$api.DELETE_ORGANIZATION_LIST.replace(
-            '{id}',
-            this.opeationItem.id
-          )
-        })
-        .then(res => {
-          if (res.code == '200') {
-            this.$message.success('删除成功！')
-            this.getLists()
-          } else {
-            this.$message.success('删除失败！')
-          }
-        })
+      this.$ajax.delete({
+        url: this.$api.DELETE_ORGANIZATION_LIST.replace(
+          '{id}',
+          this.opeationItem.id
+        )
+      }).then(res => {
+        if (res.code == '200') {
+          this.$message.success('删除成功！')
+          this.getLists()
+        } else {
+          this.$message.success('删除失败！')
+        }
+      })
     },
     //列表
     getLists() {
@@ -203,36 +202,36 @@ export default {
       const params = Object.assign(options, {
         pageSize: this.pagination.pageSize,
         pageNo: this.pagination.pageNo,
-        areaCode: this.areaCode
+        areaCode: this.areaCode == 'all' ? '' : this.areaCode
       })
-      this.$ajax
-        .get({
-          url: this.$api.GET_ORGANIZATION_LIST,
-          params: params
-        })
-        .then(res => {
-          this.dataSource = this.$com.confirm(res, 'data.content', [])
-          this.pagination.total = this.$com.confirm(res, 'data.totalRows', 0)
-        })
+      this.$ajax.get({
+        url: this.$api.GET_ORGANIZATION_LIST,
+        params: params
+      }).then(res => {
+        this.dataSource = this.$com.confirm(res, 'data.content', [])
+        this.pagination.total = this.$com.confirm(res, 'data.totalRows', 0)
+      })
     },
     getArea() {
-      this.$ajax
-        .get({
-          url: this.$api.GET_AREA_NEXT,
-          params: {
-            parentId: 999999
-          }
+      this.$ajax.get({
+        url: this.$api.GET_AREA_NEXT,
+        params: {
+          parentId: 999999
+        }
+      }).then(res => {
+        let datas = this.$com.confirm(res, 'data.content', [])
+        let trees = []
+        datas.forEach((ele, index) => {
+          trees.push(this.getTreeNode(ele, index))
         })
-        .then(res => {
-          let datas = this.$com.confirm(res, 'data.content', [])
-          datas.forEach((ele, index) => {
-            this.treeData.push(this.getTreeNode(ele, index))
-          })
-          this.areaCode = this.treeData[0].id
-          this.transData.area = this.treeData[0]
-          this.defaultSelectedKeys = [this.areaCode]
-          this.getLists()
-        })
+        this.treeData = [{
+          title: '全部',
+          key: 'all',
+          children: trees
+        }]
+        this.areaCode = 'all'
+        this.getLists()
+      })
     },
     getTreeNode(item, index) {
       let childrenNode = {
@@ -240,6 +239,9 @@ export default {
         id: item.id,
         key: item.id,
         parentId: item.parentId
+      }
+      if(item.id.length=='9'){
+        childrenNode.isLeaf=true
       }
       return childrenNode
     },
@@ -249,23 +251,21 @@ export default {
           resolve()
           return
         }
-        this.$ajax
-          .get({
-            url: this.$api.GET_AREA_NEXT,
-            params: {
-              parentId: treeNode.dataRef.id
-            }
+        this.$ajax.get({
+          url: this.$api.GET_AREA_NEXT,
+          params: {
+            parentId: treeNode.dataRef.id
+          }
+        }).then(res => {
+          let datas = this.$com.confirm(res, 'data.content', [])
+          let array = []
+          datas.forEach((ele, index) => {
+            array.push(this.getTreeNode(ele, index))
           })
-          .then(res => {
-            let datas = this.$com.confirm(res, 'data.content', [])
-            let array = []
-            datas.forEach((ele, index) => {
-              array.push(this.getTreeNode(ele, index))
-            })
-            treeNode.dataRef.children = array
-            this.treeData = [...this.treeData]
-            resolve()
-          })
+          treeNode.dataRef.children = array
+          this.treeData = [...this.treeData]
+          resolve()
+        })
       })
     },
     onSelect(selectedKeys, info) {
@@ -273,7 +273,12 @@ export default {
       this.pagination.current = 1
       this.areaCode = selectedKeys[0]
       this.transData.area = info.node.dataRef
-      this.getLists()
+      if (!this.areaCode) {
+        this.areaCode = 'all'
+        this.getLists()
+      } else {
+        this.getLists()
+      }
     },
     //搜索
     handleSearch() {
@@ -295,16 +300,22 @@ export default {
       this.getLists()
     },
     handleAdd() {
-      if (this.areaCode == undefined) {
-        this.$message.error('请先选择行政区域节点再去新增！')
-      } else {
+      if (this.areaCode && this.areaCode !== 'all') {
         this.$router.push({
           name: '/systemManagement/organization/create',
           query: {
             data: JSON.stringify(this.transData)
           }
         })
+      } else {
+        this.$model.warning({
+          title: '提示',
+          content: '请先选择具体的行政区域节点再去新增！'
+        })
       }
+    },
+    expand(expandedKeys){
+      this.expandedKeys=expandedKeys
     }
   }
 }
