@@ -67,7 +67,7 @@ export default {
   created() {
     const {defaultSelectedKeys, defaultOpenKeys} = this.$store.state.defaultMenuStatus
     this.defaultSelectedKeys = defaultSelectedKeys || []
-    this.defaultOpenKeys = defaultOpenKeys || []
+    this.defaultOpenKeys = (defaultOpenKeys.length <= 0 || !defaultOpenKeys[0]) ? [] : defaultOpenKeys
   },
   computed: {
     menus() {
