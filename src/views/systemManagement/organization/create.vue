@@ -157,19 +157,19 @@ export default {
               params: values
             }).then(res => {
               if (res.code == '200') {
-								this.$model.success({
-									title:'提示',
-									content:'新增成功!'
-								})
+                this.$model.success({
+                  title:'提示',
+                  content:'新增成功!'
+                })
                 this.$router.push({
                   name: '/systemManagement/organization'
                 })
               }else{
-								this.$model.error({
-									title:'提示',
-									content:res.msg
-								})
-							}
+                this.$model.error({
+                  title:'提示',
+                  content:res.msg
+                })
+              }
             })
           } else {
             this.$ajax.put({
