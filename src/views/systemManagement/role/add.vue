@@ -2,7 +2,6 @@
   .roleTitleSeation { border-bottom: 1px solid #e0e0e0; padding:10px}
   .roleTitleSeation .roleName { font-size: 20px; line-height: 40px; color:#232323; font-weight: bold}
   .roleTree { margin-top: 10px;}
-  .role-edit{padding-top:20px;}
   /*
   .role-ope li.ant-tree-treenode-disabled > span:not(.ant-tree-switcher), li.ant-tree-treenode-disabled > .ant-tree-node-content-wrapper, li.ant-tree-treenode-disabled > .ant-tree-node-content-wrapper span{
     color:rgba(0, 0, 0,1);
@@ -25,7 +24,7 @@
       </div>
       <div class="portalDetailContentWapper">
         <a-form class="portalDetailContentBody" :form="formData">
-          <div class="layoutMargin detailsPartSection role-edit">
+          <div class="layoutMargin detailsPartSection contentPadding">
             <a-row class="formItemLine" v-if="$route.query.type !== 'view'">
                 <a-col span="8">
                   <a-form-item label="角色名称" class="formItem" :label-col="labelCol" :wrapper-col="wrapperCol" >
