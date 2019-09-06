@@ -58,9 +58,9 @@
 			<!-- 查看 v-if="$permission('P03301')" P03301  权限分配P03102  重置密码P03306  禁用P03305 注销P03307   新增P03303-->
 			<span slot="action" slot-scope="text, record">
 				<span class="actionBtn" v-if="permission('P03301')" @click="viewBtn(record)">查看</span>
-				<a-divider type="vertical" v-if="record.status!=8 && permission('P03302')" />
+				<a-divider type="vertical" v-if="permission('P03301')"  />
 				<span class="actionBtn" v-if="record.status!=8 && permission('P03302')" @click="$router.push({name: '/systemManagement/administrator/editNewUser',query:{id:record.id}})">修改</span>
-				<a-divider type="vertical" />
+				<a-divider type="vertical" v-if="record.status!=8 && permission('P03302')" />
 				<a-dropdown>
 					<span class="actionBtn" > 更多 <a-icon type="down" /> </span>
 					<a-menu slot="overlay" @click='(event)=>{showOpeations(event.key,record)}'>
