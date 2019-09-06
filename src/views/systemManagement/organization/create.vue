@@ -9,7 +9,7 @@
 		</div>
     <div class="portalDetailContentWapper">
       <a-form class="portalDetailContentBody" :form="organizationForm">
-        <div class="layoutMargin detailsPartSection organization-edit">
+        <div class="layoutMargin detailsPartSection contentPadding">
         <a-row class="formItemLine">
           <a-col :span="8">
             <a-form-item label="组织机构名称" v-bind="formItemLayout">
@@ -77,7 +77,7 @@ export default {
           span: 8
         },
         wrapperCol: {
-          span: 14
+          span: 16
         },
       },
       formItemSingle: {
@@ -157,11 +157,19 @@ export default {
               params: values
             }).then(res => {
               if (res.code == '200') {
-                this.$message.success('新增成功！')
+								this.$model.success({
+									title:'提示',
+									content:'新增成功!'
+								})
                 this.$router.push({
                   name: '/systemManagement/organization'
                 })
-              }
+              }else{
+								this.$model.error({
+									title:'提示',
+									content:res.msg
+								})
+							}
             })
           } else {
             this.$ajax.put({
