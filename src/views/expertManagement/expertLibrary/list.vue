@@ -1,6 +1,6 @@
 <template>
 	<div class="routerWapper">
-		<div v-if="$route.name == '/expertManagement/expertLibrary'" class="layoutMargin layoutPadding">
+		<div v-if="$route.name =='/expertManagement/expertLibrary'" class="layoutMargin layoutPadding">
 			<a-form :form="searchForm" class="protalForm">
 				<a-row type="flex" justify="space-between" class="formItemLine">
 					<a-col span="6">
@@ -84,17 +84,10 @@
 </template>
 <script>
 import userStatus from '../../systemManagement/components/user-status'
-import testStrong from '@/components/testPwd'
-import ResetModal from '../components/resetPassword'
-import {
-  encryptDes
-} from '@/util/des-cryptojs'
 export default {
   name: 'Talent',
   components: {
-    userStatus,
-    testStrong,
-    ResetModal
+    userStatus
   },
   data() {
     return {
