@@ -40,13 +40,13 @@
             <userStatus :status="record.status"/>
         </span>
         <span slot="action" slot-scope="text, record">
-          <span class="actionBtn" v-if="record.status != '8'" @click="resetBtn(record)">重置密码</span>
-          <a-divider v-if="record.status != '8'" type="vertical" />
-          <span class="actionBtn" v-if="record.status == '9'" @click="viewModal('0',record,'1')">启用</span>
-          <a-divider v-if="record.status == '9'" type="vertical" />
-          <span class="actionBtn" v-if="record.status == '1'" @click="viewModal('1',record,'9')">禁用</span>
-          <a-divider v-if="record.status == '1'" type="vertical" />
-          <span class="actionBtn" v-if="record.status != '8'" @click="viewModal('2',record,'8')">注销</span>
+          <span class="actionBtn" v-if="record.status != '8' && permission('P03202')" @click="resetBtn(record)">重置密码</span>
+          <a-divider v-if="record.status != '8' && permission('P03202') " type="vertical" />
+          <span class="actionBtn" v-if="record.status == '9' && permission('P03201')" @click="viewModal('0',record,'1')">启用</span>
+          <a-divider v-if="record.status == '9' && permission('P03201') " type="vertical" />
+          <span class="actionBtn" v-if="record.status == '1' && permission('P03201')" @click="viewModal('1',record,'9')">禁用</span>
+          <a-divider v-if="record.status == '1' && permission('P03201')" type="vertical" />
+          <span class="actionBtn" v-if="record.status != '8' && permission('P03203')" @click="viewModal('2',record,'8')">注销</span>
             <!-- <a-divider type="vertical" />
             <a @click="viewModal('3',record,'1')">解冻</a> -->
         </span>

@@ -34,16 +34,16 @@
           </a-form>
           <p class="gayLine"></p>
           <div class="portalTableOperates">
-            <a-button icon='plus' type="primary" @click="handleAdd">新建组织机构</a-button>
-            <a-button icon='download' @click="toUpload">批量导入组织机构</a-button>
+            <a-button icon='plus' v-if="permission('P01001')" type="primary" @click="handleAdd">新建组织机构</a-button>
+            <a-button icon='download' v-if="permission('P01005')" @click="toUpload">批量导入组织机构</a-button>
           </div>
           <a-table class="portalTable" size='small' :columns="columns" rowKey="groupName" :dataSource="dataSource" :pagination="pagination">
             <span slot="action" slot-scope="text, record">
-              <span class="actionBtn" @click="$router.push({name:'/systemManagement/organization/view',query:{id:record.id}})">查看</span>
-              <a-divider type="vertical" />
-              <span class="actionBtn" @click="$router.push({name:'/systemManagement/organization/edit',query:{id:record.id,data:JSON.stringify(transData)}})">修改</span>
-              <a-divider type="vertical" />
-              <span class="actionBtn" @click="deleteBtn(text,record)">删除</span>
+              <span class="actionBtn" v-if="permission('P01002')" @click="$router.push({name:'/systemManagement/organization/view',query:{id:record.id}})">查看</span>
+              <a-divider v-if="permission('P01002')" type="vertical" />
+              <span class="actionBtn" v-if="permission('P01003')" @click="$router.push({name:'/systemManagement/organization/edit',query:{id:record.id,data:JSON.stringify(transData)}})">修改</span>
+              <a-divider v-if="permission('P01003')" type="vertical" />
+              <span class="actionBtn" v-if="permission('P01004')" @click="deleteBtn(text,record)">删除</span>
             </span>
             <span slot="contact" slot-scope="text, record">
               联系人:&nbsp;{{record.contact || "暂无"}}<br/>
