@@ -85,7 +85,7 @@
     </a-button>
 
     <span v-if="item.type == 'text'" v-decorator="validate">
-      {{model[entry]}}
+      {{item.formatter ? item.formatter(model[entry]) : model[entry]}}
     </span>
 
     <template v-if="item.render">

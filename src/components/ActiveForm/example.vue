@@ -132,6 +132,7 @@ export default {
             label: '文字',
             type: 'text',
             width: 8,
+            formatter: (val) => val += '(进行格式化处理)'
           },
           example11: {
             label: 'test',
