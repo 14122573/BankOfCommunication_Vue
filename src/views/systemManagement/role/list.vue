@@ -40,7 +40,7 @@
         <!-- 分页 -->
         <a-row type="flex" justify="end">
           <a-col>
-              <a-pagination :defaultPageSize="20" showQuickJumper @change="onChange" :current="params.pageNo" :total="total" >
+              <a-pagination size="small"  :defaultPageSize="20" showQuickJumper @change="onChange" :current="params.pageNo" :total="total" >
               </a-pagination>
           </a-col>
         </a-row>
