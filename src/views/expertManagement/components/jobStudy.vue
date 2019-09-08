@@ -64,6 +64,7 @@
 </template>
 <script>
 export default {
+  name:'jobStudy',
   props:{
     colSpa:{
       type:Object,
