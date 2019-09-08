@@ -1,37 +1,36 @@
 <template>
     <div class="routerWapper">
         <div v-if="$route.name == '/expertManagement/reiview'" class="layoutMargin layoutPadding">
-            <a-form :form="searchForm">
-                <a-row type="flex" justify="space-between" class="formItemLine">
-                    <a-col span="6">
-                        <a-form-item class='formItem' label="系统名称" v-bind="colSpe">
-                            <a-select placeholder="请选择" :options="sysList" v-model="searchForm.sysId" />
-                        </a-form-item>
-                    </a-col>
-                    <a-col span="6">
-                        <a-form-item class='formItem' label="项目名称" v-bind="colSpe">
-                            <a-input placeholder="请输入" v-model="searchForm.name_l" />
-                        </a-form-item>
-                    </a-col>
-                    <a-col span="12" class="align-right">
-                        <a-button @click="reset" html-type="submit">重置</a-button>
-                        <a-button type="primary" @click="search" html-type="submit">搜索</a-button>
-                    </a-col>
-                </a-row>
+            <a-form class="protalForm" :form="searchForm">
+              <a-row type="flex" justify="space-between" class="formItemLine">
+                <a-col span="6">
+                  <a-form-item class='formItem' label="系统名称" v-bind="colSpe">
+                    <a-select placeholder="请选择" :options="sysList" v-model="searchForm.sysId" />
+                  </a-form-item>
+                </a-col>
+                <a-col span="6">
+                  <a-form-item class='formItem' label="项目名称" v-bind="colSpe">
+                    <a-input placeholder="请输入" v-model="searchForm.name_l" />
+                  </a-form-item>
+                </a-col>
+                <a-col span="12" class="align-right">
+                  <a-button @click="reset" html-type="submit">重置</a-button>
+                  <a-button type="primary" @click="search" html-type="submit">搜索</a-button>
+                </a-col>
+              </a-row>
             </a-form>
             <p class="gayLine"></p>
-            <a-row class="portalTableOperates">
-                <a-button @click="$router.push({name:'/expertManagement/reiview/history'})" type="primary">评审历史查询</a-button>
-            </a-row>
+            <div class="portalTableOperates">
+              <a-button @click="$router.push({name:'/expertManagement/reiview/history'})" type="primary">评审历史查询</a-button>
+            </div>
             <div class="review-table">
-                <div class="review-title">
-                    <span class="review-project-name">项目名称</span>
-                    <span class="review-sys-name">系统名称</span>
-                    <span class="review-sup">
-                        共有<span class="span-green">35</span>个待评审项，剩余
-                        <span class="span-red">1</span>个
-                    </span>
-                </div>
+              <div class="review-title">
+                <span class="review-project-name">项目名称</span>
+                <span class="review-sys-name">系统名称</span>
+                <span class="review-sup">
+                  共有<span class="span-green">35</span>个待评审项，剩余 <span class="span-red">1</span>个
+                </span>
+              </div>
                 <a-row class="review-content" :gutter="16">
                     <a-col span="6" class="content-card">
                         <div class="content-view">
@@ -137,7 +136,7 @@
                     </a-col>
                 </a-row>
             </div>
-            
+
         </div>
         <RouterWapper v-else></RouterWapper>
     </div>

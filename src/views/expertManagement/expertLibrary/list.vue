@@ -4,53 +4,53 @@
 			<a-form :form="searchForm" class="protalForm">
 				<a-row type="flex" justify="space-between" class="formItemLine">
 					<a-col span="6">
-						<a-form-item label="姓名：" class="formItem" v-bind="colSpe">
+						<a-form-item label="姓名" class="formItem" v-bind="colSpe">
 							<a-input v-decorator="['name_l']" placeholder="请输入"></a-input>
 						</a-form-item>
 					</a-col>
 					<a-col span="6">
-						<a-form-item label="联系电话：" class="formItem" v-bind="colSpe">
+						<a-form-item label="联系电话" class="formItem" v-bind="colSpe">
 							<a-input v-decorator="['phone_l']" placeholder="请输入"></a-input>
 						</a-form-item>
 					</a-col>
 					<a-col span="6">
-						<a-form-item label="职称：" class="formItem" v-bind="colSpe">
+						<a-form-item label="职称" class="formItem" v-bind="colSpe">
 							<a-select v-decorator="['jobTitle']" placeholder="请选择" allowClear>
 								<a-select-option v-for="(item,index) in options.jobList" :key="index" :value="item.id">{{item.name}}</a-select-option>
 							</a-select>
 						</a-form-item>
 					</a-col>
 					<a-col span="6">
-						<a-form-item label="用户状态：" class="formItem" v-bind="colSpe">
+						<a-form-item label="用户状态" class="formItem" v-bind="colSpe">
 							<a-checkbox-group v-decorator="['status']" :options="options.statusList"></a-checkbox-group>
 						</a-form-item>
 					</a-col>
 				</a-row>
 				<a-row type="flex" justify="space-between" class="formItemLine">
 					<a-col span="18">
-						<a-form-item label="级别认定：" class="formItem" :label-col="{span:3}" :wrapper-col="{span:12}">
+						<a-form-item label="级别认定" class="formItem" :label-col="{span:3}" :wrapper-col="{span:12}">
 							<a-checkbox-group v-decorator="['proStatus']" :options="options.proList"></a-checkbox-group>
 						</a-form-item>
 					</a-col>
 					<a-col span="6" class="algin-right">
-						<a-button type="primary" @click="reset" ghost>重置</a-button>
+						<a-button @click="reset">重置</a-button>
 						<a-button type="primary" @click="search">搜索</a-button>
 					</a-col>
 				</a-row>
 			</a-form>
 			<p class="gayLine"></p>
 			<a-row class="portalTableOperates">
-				<a-button type="primary" icon='plus' @click="addExpertUser=true">新增</a-button>
-				<a-button icon='download' @click="$router.push({name: '/expertManagement/talent/upload'})">导入</a-button>
+				<a-button type="primary" icon='plus' @click="addExpertUser=true">新增专家</a-button>
+				<a-button icon='download' @click="$router.push({name: '/expertManagement/talent/upload'})">批量导入专家</a-button>
 			</a-row>
 			<a-table class="portalTable" size="small" :dataSource="dataSource" rowKey="id" :pagination="pagination" :columns="columns">
 				<span slot="status" slot-scope="text, record">
 					<userStatus :status="record.status" />
 				</span>
 				<span slot="action" slot-scope="text, record">
-					<a @click="$router.push({name:'/expertManagement/expertLibrary/view',query:{id:record.expertId}})">查看</a>
+					<span class="actionBtn" @click="$router.push({name:'/expertManagement/expertLibrary/view',query:{id:record.expertId}})">查看</span>
 					<a-divider type="vertical" />
-					<a @click="editBtn(record)">修改</a>
+					<span class="actionBtn" @click="editBtn(record)">修改</span>
 				</span>
 			</a-table>
 			<a-modal :maskClosable="false" okText="确认" @ok="handleJump" @cancel="addExpertUser=false" :width="480" title="新增专家用户"
