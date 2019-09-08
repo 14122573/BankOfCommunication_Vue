@@ -338,4 +338,20 @@ export default {
     }
     return param
   },
+  /**
+   * 将当前列表搜索条件，以及分页存储vuex
+   * @param {String} routeName 要存储搜索条件的列表页面路由名称
+   * @param {Object} page 分页信息
+   * @param {Object} param 搜索参数
+   */
+  storeSearchParams(routeName,page,param){
+    if(!!routeName && !!page && !!param){
+      let searchParams = {
+        'routeName':routeName,
+        'params':param,
+        'pagination':page
+      }
+      Store.commit('SET_SEARCHPARAMS',searchParams)
+    }
+  },
 }

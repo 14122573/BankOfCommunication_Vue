@@ -10,5 +10,6 @@ export default {
     defaultSelectedKeys: [],
     defaultOpenKeys: [],
   },
-  tabName:''
+  tabName:'',
+  listSearchParams:null
 }

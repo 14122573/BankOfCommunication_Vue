@@ -27,5 +27,8 @@ export default {
   },
   SET_TABNAME(state,data){
     state.tabName = data
-  }
+  },
+  SET_SEARCHPARAMS(state,searchParams) {
+    state.listSearchParams = JSON.parse(JSON.stringify(searchParams))
+  },
 }
