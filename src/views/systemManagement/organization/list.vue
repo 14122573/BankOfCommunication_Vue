@@ -149,6 +149,7 @@ export default {
     }
   },
   mounted() {
+		 this.getSearchParams()
     this.getArea()
   },
   watch: {
@@ -210,7 +211,24 @@ export default {
       }).then(res => {
         this.dataSource = this.$com.confirm(res, 'data.content', [])
         this.pagination.total = this.$com.confirm(res, 'data.totalRows', 0)
+        //存储当前列表的展示条件，包括分页信息、搜索条件
+        this.$com.storeSearchParams(this.$route.name,this.pagination,params)
       })
+    },
+		    /**
+		 * 从vuex中或已存储的搜索条件，判断此条件是否为当前路由的 。如果是则使用
+		 */
+    getSearchParams(){
+		  let searchParams = this.$store.state.listSearchParams
+		  if(!!searchParams && !!searchParams.routeName && (this.$route.name == searchParams.routeName)){
+		    if(searchParams.params){
+		      this.searchForm=searchParams.params
+          this.areaCode=this.searchForm.areaCode!=''?this.searchForm.areaCode:'all'
+		    }
+		    if(searchParams.pagination){
+		      this.pagination=searchParams.pagination
+		    }
+		  }
     },
     getArea() {
       this.$ajax.get({
@@ -229,7 +247,7 @@ export default {
           key: 'all',
           children: trees
         }]
-        this.areaCode = 'all'
+        // this.areaCode = 'all'
         this.getLists()
       })
     },
