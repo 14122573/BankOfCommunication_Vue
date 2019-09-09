@@ -37,7 +37,9 @@ const RoleManagement = () =>
     import ('@/views/systemManagement/role/list')
 const RoleCreate = () =>
     import ('@/views/systemManagement/role/add')
-    // 管理员管理
+const RolePermissionConfig = () =>
+        import ('@/views/systemManagement/role/permissionConfig')
+// 管理员管理
 const AdministratorManagement = () =>
     import ('@/views/systemManagement/administrator/index')
 const PendingView = () =>
@@ -127,7 +129,7 @@ const appRoutes = [{
       path: '/systemManagement/organization',
       name: '/systemManagement/organization',
       component: Organization,
-      meta: { title: '组织机构管理', menuPath: true, authCode: 'P01000', menuIcon: 'cluster', hideInBread: false, openMode: 'normal' },
+      meta: { title: '组织机构管理', menuPath: true, authCode: 'super', menuIcon: 'cluster', hideInBread: false, openMode: 'normal' },
       children: [{
         path: '/systemManagement/organization/upload',
         name: '/systemManagement/organization/upload',
@@ -177,6 +179,12 @@ const appRoutes = [{
         name: '/systemManagement/role/view',
         component: RoleCreate,
         meta: { title: '角色查看', menuPath: false, authCode: 'P02002', menuIcon: 'cluster', hideInBread: false, openMode: 'normal' }
+      },
+      {
+        path: '/systemManagement/role/config',
+        name: '/systemManagement/role/config',
+        component: RolePermissionConfig,
+        meta: { title: '角色权限配置', menuPath: false, menuIcon: 'cluster', hideInBread: false, openMode: 'normal' }
       },
       ]
     },
