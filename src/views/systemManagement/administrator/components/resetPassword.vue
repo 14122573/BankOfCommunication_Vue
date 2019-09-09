@@ -28,105 +28,105 @@
 </template>
 
 <script>
-	import testStrong from '@/components/testPwd'
-	export default {
-		components: {
-			testStrong
-		},
-		props: ['resetPwdShow'],
-		beforeCreate() {
-			this.resetData = this.$form.createForm(this)
-		},
-		data() {
-			return {
-				passwordStrength: false,
-				pswType: 'text',
-				isShow: false,
-				colSpe: {
-					labelCol: {
-						span: 6
-					},
-					wrapperCol: {
-						span: 16
-					}
-				},
-				confirmDirty: false,
-				rules: {
-					newPwd: {
-						validateTrigger: 'blur',
-						rules: [{
-							required: true,
-							validator: this.validateToNextPassword,
-						}]
-					},
-					rePassword: {
-						validateTrigger: 'blur',
-						rules: [{
-							required: true,
-							whitespace: true,
-							message: '请再次输入新密码!'
-						}, {
-							validator: this.compareToFirstPassword,
-						}]
-					}
-				}
-			}
-		},
-		watch: {
-			resetPwdShow() {
-				this.isShow = this.resetPwdShow
-			}
-		},
-		methods: {
-			handleResetOk() {
-				this.resetData.validateFields((err, values) => {
-					if (!err) {
-						this.$emit('on-ok', values)
-					}
-				})
-			},
-			//密码重复密码校验
-			validateToNextPassword(rule, value, callback) {
-				if (!value || value == undefined || value.split(' ').join('').length === 0) {
-					callback('请输入新密码！')
-					this.passwordStrength = false
-				} else {
-					if (!this.$com.checkPassword(value)) {
-						callback('请输入6位以上的数字字母组合！')
-						this.passwordStrength = false
-					} else {
-						if (value && this.confirmDirty) {
-							form.validateFields(['rePassword'], {
-								force: true
-							})
-						}
-						callback()
-						this.passwordStrength = true
-					}
-				}
-			},
-			compareToFirstPassword(rule, value, callback) {
-				const form = this.resetData
-				if (value && value !== form.getFieldValue('newPwd')) {
-					callback('密码输入不一致!')
-				} else {
-					callback()
-				}
-			},
-			handleConfirmBlur(e) {
-				const value = e.target.value
-				this.confirmDirty = this.confirmDirty || !!value
-			},
-			handleCancel() {
-				this.$emit('on-cancel')
-			},
-			resetForm() {
-				this.confirmDirty=false;
-				this.passwordStrength=false;
-				this.resetData.resetFields()
-			}
-		}
-	}
+import testStrong from '@/components/testPwd'
+export default {
+  components: {
+    testStrong
+  },
+  props: ['resetPwdShow'],
+  beforeCreate() {
+    this.resetData = this.$form.createForm(this)
+  },
+  data() {
+    return {
+      passwordStrength: false,
+      pswType: 'text',
+      isShow: false,
+      colSpe: {
+        labelCol: {
+          span: 6
+        },
+        wrapperCol: {
+          span: 16
+        }
+      },
+      confirmDirty: false,
+      rules: {
+        newPwd: {
+          validateTrigger: 'blur',
+          rules: [{
+            required: true,
+            validator: this.validateToNextPassword,
+          }]
+        },
+        rePassword: {
+          validateTrigger: 'blur',
+          rules: [{
+            required: true,
+            whitespace: true,
+            message: '请再次输入新密码!'
+          }, {
+            validator: this.compareToFirstPassword,
+          }]
+        }
+      }
+    }
+  },
+  watch: {
+    resetPwdShow() {
+      this.isShow = this.resetPwdShow
+    }
+  },
+  methods: {
+    handleResetOk() {
+      this.resetData.validateFields((err, values) => {
+        if (!err) {
+          this.$emit('on-ok', values)
+        }
+      })
+    },
+    //密码重复密码校验
+    validateToNextPassword(rule, value, callback) {
+      if (!value || value == undefined || value.split(' ').join('').length === 0) {
+        callback('请输入新密码！')
+        this.passwordStrength = false
+      } else {
+        if (!this.$com.checkPassword(value)) {
+          callback('请输入6位以上的数字字母组合！')
+          this.passwordStrength = false
+        } else {
+          if (value && this.confirmDirty) {
+            form.validateFields(['rePassword'], {
+              force: true
+            })
+          }
+          callback()
+          this.passwordStrength = true
+        }
+      }
+    },
+    compareToFirstPassword(rule, value, callback) {
+      const form = this.resetData
+      if (value && value !== form.getFieldValue('newPwd')) {
+        callback('密码输入不一致!')
+      } else {
+        callback()
+      }
+    },
+    handleConfirmBlur(e) {
+      const value = e.target.value
+      this.confirmDirty = this.confirmDirty || !!value
+    },
+    handleCancel() {
+      this.$emit('on-cancel')
+    },
+    resetForm() {
+      this.confirmDirty=false
+      this.passwordStrength=false
+      this.resetData.resetFields()
+    }
+  }
+}
 </script>
 
 <style>

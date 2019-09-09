@@ -91,376 +91,376 @@
 	</div>
 </template>
 <script>
-	import userStatus from '@/views/systemManagement/components/user-status'
-	import resetPassword from '@/views/systemManagement/administrator/components/resetPassword'
-	import {
-		encryptDes
-	} from '@/util/des-cryptojs'
-	export default {
-		name: 'new-user',
-		components: {
-			userStatus,
-			resetPassword
-		},
-		props: {
-			roleList: {
-				type: Array,
-				default: () => {
-					return []
-				}
-			}
-		},
-		data() {
-			return {
-				dateFormat: 'YYYY-MM-DD',
-				colSpe: {
-					labelCol: {
-						span: 8
-					},
-					wrapperCol: {
-						span: 16
-					},
-				},
-				params: {
-					'ui.createTime_desc': 1,
-				},
-				pagination: {
-					pageNo: 1,
-					pageSize: 10,
-					total: 0,
-					current: 1,
-					defaultCurrent: 1,
-					showQuickJumper: true,
-					onChange: this.pageChange
-				},
-				searchForm: {
-					checkedList: ['1']
-				},
-				defaultValue:"",
-				dataTable: [],
-				columns: [{
-						title: '姓名',
-						dataIndex: 'name',
-						key: 'name'
-					},
-					{
-						title: '账号',
-						dataIndex: 'phone',
-						key: 'phone'
-					},
-					{
-						title: '角色名称',
-						dataIndex: 'roleNames',
-						key: 'roleNames',
-						scopedSlots: {
-							customRender: 'roleNames'
-						}
-					},
-					{
-						title: '所属组织机构',
-						dataIndex: 'group',
-						key: 'group',
-						scopedSlots: {
-							customRender: 'group'
-						}
-					},
-					{
-						title: '所属行政区域',
-						dataIndex: 'area',
-						key: 'area',
-						scopedSlots: {
-							customRender: 'area'
-						}
-					},
-					{
-						title: '用户状态',
-						dataIndex: 'status',
-						key: 'status',
-						width: 80,
-						scopedSlots: {
-							customRender: 'status'
-						}
-					},
-					{
-						title: '操作',
-						key: 'operation',
-						width: 200,
-						scopedSlots: {
-							customRender: 'action'
-						}
-					}
-				],
-				plainOptions: [{
-						text: '正常',
-						value: '1'
-					},
-					{
-						text: '禁用',
-						value: '9'
-					},
-					{
-						text: '已注销',
-						value: '8'
-					}
-				],
-				opeation: {
-					title: '',
-					tips: '',
-					type: '',
-					item: null
-				},
-				treeData: [],
-				isAdminator: '',
-				areaCode: '',
-				groupLists: [],
-				resetPwdShow: false
-			}
-		},
-		mounted() {
-			this.isAdminator = this.$store.state.userInfos.isAllPerm
-			this.getSearchParams()
-			this.getList()
-			this.getArea()
-		},
-		methods: {
-			pageChange(current) {
-				this.pagination.current = current
-				this.pagination.pageNo = current
-				this.getList()
-			},
-			// 查询按钮
-			search() {
-				this.pagination.current = 1
-				this.pagination.pageNo = 1
-				this.getList()
-			},
-			// 重置按钮
-			reset() {
-				this.pagination.current = 1
-				this.pagination.pageNo = 1
-				delete this.searchForm.name_l
-				delete this.searchForm['ui.phone_l']
-				delete this.searchForm['ui.roleIds']
-				delete this.searchForm['ui.areaId']
-				delete this.searchForm['ui.groupId']
-				this.searchForm.checkedList = ['1']
-				this.getList()
-			},
-			// 查询列表
-			getList() {
-				let options = JSON.parse(JSON.stringify(this.searchForm))
-				options['oa.status_in'] = options.checkedList && options.checkedList.length > 0 ? options.checkedList.join(',') :
-					'1'
-				if (options.checkedList) delete options.checkedList
-				const params = Object.assign(options, this.params, {
-					pageNo: this.pagination.pageNo,
-					pageSize: this.pagination.pageSize
-				})
-				this.$ajax.get({
-					url: this.$api.USER_LIST_TYPE_GET.replace('{type}', '/new'),
-					params: params
-				}).then(res => {
-					this.dataTable = this.$com.confirm(res, 'data.content', [])
-					this.pagination.total = this.$com.confirm(res, 'data.totalRows', 0)
-					//存储当前列表的展示条件，包括分页信息、搜索条件
-					if(this.defaultValue!=''){
-							this.searchForm.defaultValue=this.defaultValue;
-					}
-					this.$com.storeSearchParams(this.$route.name + "/new", this.pagination, this.searchForm)
-				})
-			},
-			/**
+import userStatus from '@/views/systemManagement/components/user-status'
+import resetPassword from '@/views/systemManagement/administrator/components/resetPassword'
+import {
+  encryptDes
+} from '@/util/des-cryptojs'
+export default {
+  name: 'new-user',
+  components: {
+    userStatus,
+    resetPassword
+  },
+  props: {
+    roleList: {
+      type: Array,
+      default: () => {
+        return []
+      }
+    }
+  },
+  data() {
+    return {
+      dateFormat: 'YYYY-MM-DD',
+      colSpe: {
+        labelCol: {
+          span: 8
+        },
+        wrapperCol: {
+          span: 16
+        },
+      },
+      params: {
+        'ui.createTime_desc': 1,
+      },
+      pagination: {
+        pageNo: 1,
+        pageSize: 10,
+        total: 0,
+        current: 1,
+        defaultCurrent: 1,
+        showQuickJumper: true,
+        onChange: this.pageChange
+      },
+      searchForm: {
+        checkedList: ['1']
+      },
+      defaultValue:'',
+      dataTable: [],
+      columns: [{
+        title: '姓名',
+        dataIndex: 'name',
+        key: 'name'
+      },
+      {
+        title: '账号',
+        dataIndex: 'phone',
+        key: 'phone'
+      },
+      {
+        title: '角色名称',
+        dataIndex: 'roleNames',
+        key: 'roleNames',
+        scopedSlots: {
+          customRender: 'roleNames'
+        }
+      },
+      {
+        title: '所属组织机构',
+        dataIndex: 'group',
+        key: 'group',
+        scopedSlots: {
+          customRender: 'group'
+        }
+      },
+      {
+        title: '所属行政区域',
+        dataIndex: 'area',
+        key: 'area',
+        scopedSlots: {
+          customRender: 'area'
+        }
+      },
+      {
+        title: '用户状态',
+        dataIndex: 'status',
+        key: 'status',
+        width: 80,
+        scopedSlots: {
+          customRender: 'status'
+        }
+      },
+      {
+        title: '操作',
+        key: 'operation',
+        width: 200,
+        scopedSlots: {
+          customRender: 'action'
+        }
+      }
+      ],
+      plainOptions: [{
+        text: '正常',
+        value: '1'
+      },
+      {
+        text: '禁用',
+        value: '9'
+      },
+      {
+        text: '已注销',
+        value: '8'
+      }
+      ],
+      opeation: {
+        title: '',
+        tips: '',
+        type: '',
+        item: null
+      },
+      treeData: [],
+      isAdminator: '',
+      areaCode: '',
+      groupLists: [],
+      resetPwdShow: false
+    }
+  },
+  mounted() {
+    this.isAdminator = this.$store.state.userInfos.isAllPerm
+    this.getSearchParams()
+    this.getList()
+    this.getArea()
+  },
+  methods: {
+    pageChange(current) {
+      this.pagination.current = current
+      this.pagination.pageNo = current
+      this.getList()
+    },
+    // 查询按钮
+    search() {
+      this.pagination.current = 1
+      this.pagination.pageNo = 1
+      this.getList()
+    },
+    // 重置按钮
+    reset() {
+      this.pagination.current = 1
+      this.pagination.pageNo = 1
+      delete this.searchForm.name_l
+      delete this.searchForm['ui.phone_l']
+      delete this.searchForm['ui.roleIds']
+      delete this.searchForm['ui.areaId']
+      delete this.searchForm['ui.groupId']
+      this.searchForm.checkedList = ['1']
+      this.getList()
+    },
+    // 查询列表
+    getList() {
+      let options = JSON.parse(JSON.stringify(this.searchForm))
+      options['oa.status_in'] = options.checkedList && options.checkedList.length > 0 ? options.checkedList.join(',') :
+        '1'
+      if (options.checkedList) delete options.checkedList
+      const params = Object.assign(options, this.params, {
+        pageNo: this.pagination.pageNo,
+        pageSize: this.pagination.pageSize
+      })
+      this.$ajax.get({
+        url: this.$api.USER_LIST_TYPE_GET.replace('{type}', '/new'),
+        params: params
+      }).then(res => {
+        this.dataTable = this.$com.confirm(res, 'data.content', [])
+        this.pagination.total = this.$com.confirm(res, 'data.totalRows', 0)
+        //存储当前列表的展示条件，包括分页信息、搜索条件
+        if(this.defaultValue!=''){
+          this.searchForm.defaultValue=this.defaultValue
+        }
+        this.$com.storeSearchParams(this.$route.name + '/new', this.pagination, this.searchForm)
+      })
+    },
+    /**
 			 * 从vuex中或已存储的搜索条件，判断此条件是否为当前路由的 。如果是则使用
 			 */
-			getSearchParams() {
-				let searchParams = this.$store.state.listSearchParams[this.$route.name + "/new"]
-				if (!!searchParams && !!searchParams.routeName && (this.$route.name + "/new" == searchParams.routeName)) {
-					if (searchParams.params) {
-						this.searchForm = searchParams.params
-						if (searchParams.params['ui.areaId']) {
-							this.areaCode = searchParams.params['ui.areaId'] ? searchParams.params['ui.areaId'] : '';
-							// this.defaultValue=searchParams.params['defaultValue']?searchParams.params['defaultValue']:'';
-							this.getListGroup();
-						}
-					}
-					if (searchParams.pagination) {
-						this.pagination = searchParams.pagination
-					}
-				}
-			},
-			handleAdd() {
-				this.$router.push({
-					name: '/systemManagement/administrator/createNewUser'
-				})
-			},
-			viewBtn(record) {
-				this.$router.push({
-					name: '/systemManagement/administrator/newUserView',
-					query: {
-						id: record.id
-					}
-				})
-			},
-			showOpeations(key, item) {
-				this.opeation.type = key
-				this.opeation.item = item
-				let vm = this
-				switch (key) {
-					case '1':
-						this.opeation.title = '您确认要启用该账号吗?'
-						this.opeation.tips = '启用后，该账号将被允许登录平台'
-						break
-					case '2':
-						this.opeation.title = '您确定要禁用吗？'
-						this.opeation.tips = '禁用后，该账号将不被允许登录平台直到再次启用'
-						break
-					case '3':
-						this.opeation.title = '您确认要注销该账号吗？'
-						this.opeation.tips = '注销后，该账号将被使用'
-						break
-					case '4':
-						this.opeation.title = '您确认要注销该账号吗？'
-						this.opeation.tips = '注销后，该账号将被使用'
-						break
-					default:
-						break
-				}
-				if (key != 4) {
-					this.$model.confirm({
-						title: this.opeation.title,
-						content: this.opeation.tips,
-						okText: '确认',
-						okType: 'danger',
-						cancelText: '取消',
-						onOk() {
-							vm.handleOk()
-						},
-					})
-				} else {
-					this.resetPwdShow = true;
-				}
-			},
-			handleOk() {
-				let key = this.opeation.type
-				let apiUrl = ''
-				switch (key) {
-					case '1': //启用操作
-						apiUrl = this.$api.CHECK_USER_STATUS.replace('{type}', 'new').replace('{id}', this.opeation.item.id).replace(
-							'{status}', '1')
-						break
-					case '2': //禁用操作
-						apiUrl = this.$api.CHECK_USER_STATUS.replace('{type}', 'new').replace('{id}', this.opeation.item.id).replace(
-							'{status}', '9')
-						break
-					case '3': //注销操作
-						apiUrl = this.$api.CHECK_USER_STATUS.replace('{type}', 'new').replace('{id}', this.opeation.item.id).replace(
-							'{status}', '8')
-						break
-				}
-				this.$ajax.put({
-					url: apiUrl
-				}).then(res => {
-					if (res.code == '200') {
-						this.$message.success('操作成功！')
-						this.getList()
-					} else {
-						this.$message.error('操作失败！')
-					}
-				})
-			},
-			getArea() {
-				this.$ajax.get({
-					url: this.$api.GET_AREA_NEXT,
-					params: {
-						parentId: this.isAdminator ? '999999' : this.$store.state.userInfos.area.id
-					}
-				}).then(res => {
-					let datas = this.$com.confirm(res, 'data.content', [])
-					datas.forEach((ele, index) => {
-						this.treeData.push(this.getTreeNode(ele, index))
-					})
-				})
-			},
-			getTreeNode(item, index) {
-				let childrenNode = {
-					title: item.areaName,
-					value: item.id,
-					id: item.id,
-					key: item.id,
-					parentId: item.parentId,
-					children: item.childList
-				}
-				return childrenNode
-			},
-			onLoadData(treeNode) {
-				return new Promise((resolve) => {
-					if (treeNode.dataRef.children) {
-						resolve()
-						return
-					}
-					this.$ajax.get({
-						url: this.$api.GET_AREA_NEXT,
-						params: {
-							parentId: treeNode.dataRef.id
-						}
-					}).then(res => {
-						let datas = this.$com.confirm(res, 'data.content', [])
-						let array = []
-						datas.forEach((ele, index) => {
-							array.push(this.getTreeNode(ele, index))
-						})
-						treeNode.dataRef.children = array
-						this.treeData = [...this.treeData]
-						resolve()
-					})
-				})
-			},
-			onChangeTree(value, label, extra) {
-				this.defaultValue=label;
-				this.areaCode = value
-				delete this.searchForm['ui.groupId']
-				this.getListGroup()
-			},
-			getListGroup() {
-				const params = {
-					pageSize: 10000,
-					pageNo: 1,
-					areaCode: this.areaCode
-				}
-				if (!this.isAdminator) {
-					params.parentId = this.$store.state.userInfos.group.id
-				}
-				this.$ajax.get({
-					url: this.$api.GET_ORGANIZATION_LIST,
-					params: params
-				}).then(res => {
-					this.groupLists = this.$com.confirm(res, 'data.content', [])
-				})
-			},
-			handleCancel() {
-				this.resetPwdShow = false
-				this.$refs.reset.resetForm();
-			},
-			handleResetOk(values) {
-				this.$ajax.put({
-					url: this.$api.USER_UPDATE_PWD,
-					params: {
-						id: this.opeation.item.id,
-						type: 'new',
-						newPwd: encryptDes(values.newPwd)
-					}
-				}).then(res => {
-					if (res.code === '200') {
-						this.$message.success('重置密码成功')
-						this.handleCancel()
-						this.getList()
-					} else {
-						this.$message.error(res.msg)
-					}
-				})
-			}
-		}
-	}
+    getSearchParams() {
+      let searchParams = this.$store.state.listSearchParams[this.$route.name + '/new']
+      if (!!searchParams && !!searchParams.routeName && (this.$route.name + '/new' == searchParams.routeName)) {
+        if (searchParams.params) {
+          this.searchForm = searchParams.params
+          if (searchParams.params['ui.areaId']) {
+            this.areaCode = searchParams.params['ui.areaId'] ? searchParams.params['ui.areaId'] : ''
+            // this.defaultValue=searchParams.params['defaultValue']?searchParams.params['defaultValue']:'';
+            this.getListGroup()
+          }
+        }
+        if (searchParams.pagination) {
+          this.pagination = searchParams.pagination
+        }
+      }
+    },
+    handleAdd() {
+      this.$router.push({
+        name: '/systemManagement/administrator/createNewUser'
+      })
+    },
+    viewBtn(record) {
+      this.$router.push({
+        name: '/systemManagement/administrator/newUserView',
+        query: {
+          id: record.id
+        }
+      })
+    },
+    showOpeations(key, item) {
+      this.opeation.type = key
+      this.opeation.item = item
+      let vm = this
+      switch (key) {
+      case '1':
+        this.opeation.title = '您确认要启用该账号吗?'
+        this.opeation.tips = '启用后，该账号将被允许登录平台'
+        break
+      case '2':
+        this.opeation.title = '您确定要禁用吗？'
+        this.opeation.tips = '禁用后，该账号将不被允许登录平台直到再次启用'
+        break
+      case '3':
+        this.opeation.title = '您确认要注销该账号吗？'
+        this.opeation.tips = '注销后，该账号将被使用'
+        break
+      case '4':
+        this.opeation.title = '您确认要注销该账号吗？'
+        this.opeation.tips = '注销后，该账号将被使用'
+        break
+      default:
+        break
+      }
+      if (key != 4) {
+        this.$model.confirm({
+          title: this.opeation.title,
+          content: this.opeation.tips,
+          okText: '确认',
+          okType: 'danger',
+          cancelText: '取消',
+          onOk() {
+            vm.handleOk()
+          },
+        })
+      } else {
+        this.resetPwdShow = true
+      }
+    },
+    handleOk() {
+      let key = this.opeation.type
+      let apiUrl = ''
+      switch (key) {
+      case '1': //启用操作
+        apiUrl = this.$api.CHECK_USER_STATUS.replace('{type}', 'new').replace('{id}', this.opeation.item.id).replace(
+          '{status}', '1')
+        break
+      case '2': //禁用操作
+        apiUrl = this.$api.CHECK_USER_STATUS.replace('{type}', 'new').replace('{id}', this.opeation.item.id).replace(
+          '{status}', '9')
+        break
+      case '3': //注销操作
+        apiUrl = this.$api.CHECK_USER_STATUS.replace('{type}', 'new').replace('{id}', this.opeation.item.id).replace(
+          '{status}', '8')
+        break
+      }
+      this.$ajax.put({
+        url: apiUrl
+      }).then(res => {
+        if (res.code == '200') {
+          this.$message.success('操作成功！')
+          this.getList()
+        } else {
+          this.$message.error('操作失败！')
+        }
+      })
+    },
+    getArea() {
+      this.$ajax.get({
+        url: this.$api.GET_AREA_NEXT,
+        params: {
+          parentId: this.isAdminator ? '999999' : this.$store.state.userInfos.area.id
+        }
+      }).then(res => {
+        let datas = this.$com.confirm(res, 'data.content', [])
+        datas.forEach((ele, index) => {
+          this.treeData.push(this.getTreeNode(ele, index))
+        })
+      })
+    },
+    getTreeNode(item, index) {
+      let childrenNode = {
+        title: item.areaName,
+        value: item.id,
+        id: item.id,
+        key: item.id,
+        parentId: item.parentId,
+        children: item.childList
+      }
+      return childrenNode
+    },
+    onLoadData(treeNode) {
+      return new Promise((resolve) => {
+        if (treeNode.dataRef.children) {
+          resolve()
+          return
+        }
+        this.$ajax.get({
+          url: this.$api.GET_AREA_NEXT,
+          params: {
+            parentId: treeNode.dataRef.id
+          }
+        }).then(res => {
+          let datas = this.$com.confirm(res, 'data.content', [])
+          let array = []
+          datas.forEach((ele, index) => {
+            array.push(this.getTreeNode(ele, index))
+          })
+          treeNode.dataRef.children = array
+          this.treeData = [...this.treeData]
+          resolve()
+        })
+      })
+    },
+    onChangeTree(value, label, extra) {
+      this.defaultValue=label
+      this.areaCode = value
+      delete this.searchForm['ui.groupId']
+      this.getListGroup()
+    },
+    getListGroup() {
+      const params = {
+        pageSize: 10000,
+        pageNo: 1,
+        areaCode: this.areaCode
+      }
+      if (!this.isAdminator) {
+        params.parentId = this.$store.state.userInfos.group.id
+      }
+      this.$ajax.get({
+        url: this.$api.GET_ORGANIZATION_LIST,
+        params: params
+      }).then(res => {
+        this.groupLists = this.$com.confirm(res, 'data.content', [])
+      })
+    },
+    handleCancel() {
+      this.resetPwdShow = false
+      this.$refs.reset.resetForm()
+    },
+    handleResetOk(values) {
+      this.$ajax.put({
+        url: this.$api.USER_UPDATE_PWD,
+        params: {
+          id: this.opeation.item.id,
+          type: 'new',
+          newPwd: encryptDes(values.newPwd)
+        }
+      }).then(res => {
+        if (res.code === '200') {
+          this.$message.success('重置密码成功')
+          this.handleCancel()
+          this.getList()
+        } else {
+          this.$message.error(res.msg)
+        }
+      })
+    }
+  }
+}
 </script>
 <style scoped>
 	.opeationTable {

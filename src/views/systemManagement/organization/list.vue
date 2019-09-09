@@ -149,10 +149,10 @@ export default {
     }
   },
   mounted() {
-		if(this.$route.name == '/systemManagement/organization'){
-			this.getSearchParams()
-			this.getArea()
-		}
+    if(this.$route.name == '/systemManagement/organization'){
+      this.getSearchParams()
+      this.getArea()
+    }
   },
   watch: {
     areaCode() {
@@ -225,7 +225,7 @@ export default {
 		  if(!!searchParams && !!searchParams.routeName && (this.$route.name == searchParams.routeName)){
 		    if(searchParams.params){
 		      this.searchForm=searchParams.params
-					this.areaCode=searchParams.params.areaCode;
+          this.areaCode=searchParams.params.areaCode
 		    }
 		    if(searchParams.pagination){
 		      this.pagination=searchParams.pagination
