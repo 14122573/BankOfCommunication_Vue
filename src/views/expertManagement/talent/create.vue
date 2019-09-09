@@ -16,50 +16,50 @@
               <a-row>
                 <a-col span="16">
                   <a-row>
+                    <a-col span="12" v-if="!$route.query.id">
+                      <a-form-item label="登录手机号" v-bind="colSpa">
+                        <a-input v-decorator="['loginPhone',{rules:rules.loginPhone}]" placeholder="请输入"></a-input>
+                      </a-form-item>
+                    </a-col>
                     <a-col span="12">
                       <a-form-item label="姓名" v-bind="colSpa">
                         <a-input v-decorator="['name',{rules:rules.name}]" placeholder="请输入"></a-input>
                       </a-form-item>
                     </a-col>
+                  </a-row>
+                  <a-row>
                     <a-col span="12">
                       <a-form-item label="性别" v-bind="colSpa">
                         <a-radio-group v-decorator="['sex',{rules:rules.sex}]" :options="options.sexList"/>
                       </a-form-item>
                     </a-col>
-                  </a-row>
-                  <a-row>
                     <a-col span="12">
                       <a-form-item label="民族" v-bind="colSpa">
                         <a-select v-decorator="['minority',{rules:rules.minority}]" :options="options.minorityList" placeholder="请选择"></a-select>
                       </a-form-item>
                     </a-col>
+                  </a-row>
+                  <a-row>
                     <a-col span="12">
                       <a-form-item label="身份证号" v-bind="colSpa">
                         <a-input v-decorator="['identity',{rules:rules.identity}]" placeholder="请输入"></a-input>
                       </a-form-item>
                     </a-col>
-                  </a-row>
-                  <a-row>
                     <a-col span="12">
                       <a-form-item label="工作单位" v-bind="colSpa">
                         <a-input v-decorator="['workCompany',{rules:rules.workCompany}]" placeholder="请输入"></a-input>
                       </a-form-item>
                     </a-col>
+                  </a-row>
+                  <a-row>
                     <a-col span="12">
                       <a-form-item label="单位性质" v-bind="colSpa">
                         <a-select v-decorator="['companyNature',{rules:rules.companyNature}]" :options="options.companyNatureList" placeholder="请选择"></a-select>
                       </a-form-item>
                     </a-col>
-                  </a-row>
-                  <a-row >
                     <a-col span="12">
                       <a-form-item label="单位所在地" v-bind="colSpa">
                         <a-input v-decorator="['companyAddress',{rules:rules.companyAddress}]" placeholder="请输入"></a-input>
-                      </a-form-item>
-                    </a-col>
-                    <a-col span="12">
-                      <a-form-item label="所在部门" v-bind="colSpa">
-                        <a-input v-decorator="['belongDepartment',{rules:rules.belongDepartment}]" placeholder="请输入"></a-input>
                       </a-form-item>
                     </a-col>
                   </a-row>
@@ -85,6 +85,11 @@
               </a-row>
               <a-row >
                 <a-col span="8">
+                    <a-form-item label="所在部门" v-bind="colSpa">
+                      <a-input v-decorator="['belongDepartment',{rules:rules.belongDepartment}]" placeholder="请输入"></a-input>
+                    </a-form-item>
+                </a-col>
+                <a-col span="8">
                   <a-form-item label="职称" v-bind="colSpa">
                     <a-select v-decorator="['jobTitle',{rules:rules.jobTitle}]" :options="options.jobTitleList" placeholder="请选择"></a-select>
                   </a-form-item>
@@ -105,8 +110,8 @@
             </div>
           </div>
         </a-form>
-        <jobStudy ref="jobStudy" class="marginRef" :options="options" :colSpa="colSpa" :textSpa="textSpa"/>
-        <jobSpace ref="jobSpace" :type="'talent'" class="marginRef" :options="options" :colSpa="colSpa" :textSpa="textSpa" />
+        <jobStudy type="talent" ref="jobStudy" class="marginRef" :options="options" :colSpa="colSpa" :textSpa="textSpa"/>
+        <jobSpace type="talent" ref="jobSpace" class="marginRef" :options="options" :colSpa="colSpa" :textSpa="textSpa" />
       </div>
       <a-anchor :offsetTop="240" :getContainer="()=> this.$refs['create-talent']" class="talent-anchor">
         <a-anchor-link href="#basic" title="基本信息" />
@@ -133,14 +138,24 @@ export default {
     this.form = this.$form.createForm(this)
   },
   data() {
-    const validatePhoneOrTel = (rule, value, callback) => {
+    const validatePhone = (rule, value, callback) => {
       if (!value) {
         callback()
       } else {
-        if (!this.$com.checkPhone(value) && !this.$com.checkTel(value)) {
-          callback('联系电话不合法!')
+        if (!this.$com.checkPhone(value)) {
+          callback('登录手机号不合法!')
         } else {
-          callback()
+          let links='?phone=' + value
+          this.$ajax.get({
+            url: this.$api.GET_CHECK_PHONE_EXIST + links
+          }).then(res => {
+            if (res.data.content === false) {
+              callback()
+              this.$refs.jobStudy.formJob.setFieldsValue({phone:value})
+            } else {
+              callback('已存在此用户!')
+            }
+          })
         }
       }
     }
@@ -174,8 +189,6 @@ export default {
         researchDirectionList: [],
         educationList: [],
         bachelorList: [],
-        provinceConfirmList: [{ label: '是', value: '是' },{ label: '否', value: '否' }],
-        unitConfirmList: [{ label: '是', value: '是' },{ label: '否', value: '否' }]
       },
       fileList: [],
       colSpa: {
@@ -189,6 +202,10 @@ export default {
       previewVisible: false,
       previewImage: '',
       rules: {
+        loginPhone:[
+          { required: true, whitespace: true, message: '请输入联系电话!' },
+          { validator: validatePhone }
+        ],
         name: [{ required: true, whitespace: true, message: '请输入姓名!' }],
         sex: [{ required: true, whitespace: true, message: '请选择性别!' }],
         minority: [
@@ -344,6 +361,7 @@ export default {
         methods = 'post'
         msg = '新增成功！'
       }
+      data.type='1'
       this.$ajax[methods]({
         url: link,
         params: data
@@ -367,6 +385,7 @@ export default {
         })
         .then(res => {
           let {
+            loginPhone,
             name,
             sex,
             minority,
@@ -391,13 +410,12 @@ export default {
             achievements,
             workArea,
             professionGroup,
-            provinceConfirm,
-            unitConfirm,
             historyWork,
             portraitImg
           } = this.$com.confirm(res, 'data.content', {})
           this.$nextTick(() => {
             this.form.setFieldsValue({
+              loginPhone,
               name,
               sex,
               minority,
@@ -426,8 +444,6 @@ export default {
               achievements,
               workArea,
               professionGroup,
-              provinceConfirm,
-              unitConfirm,
               historyWork
             })
             if(portraitImg != null){

@@ -41,7 +41,7 @@
 			<p class="gayLine"></p>
 			<a-row class="portalTableOperates">
 				<a-button type="primary" icon='plus' @click="addExpertUser=true">新增专家</a-button>
-				<a-button icon='download' @click="$router.push({name: '/expertManagement/talent/upload'})">批量导入专家</a-button>
+				<a-button icon='download' @click="$router.push({name: '/expertManagement/expertLibrary/upload'})">导入专家</a-button>
 			</a-row>
 			<a-table class="portalTable" size="small" :dataSource="dataSource" rowKey="id" :pagination="pagination" :columns="columns">
 				<span slot="status" slot-scope="text, record">
