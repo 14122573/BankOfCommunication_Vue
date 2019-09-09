@@ -49,8 +49,8 @@
         <a-alert class="margin" message="您是超级管理员，将不详细展示权限内子系统清单" type="info" showIcon />
       </template>
       <template v-else>
-        <div class="margin" v-for="(item,index) in authSysList" :key="index">
-          <a-tag class="tag" color="blue" >{{item}}</a-tag>
+        <div class="margin">
+          <a-tag class="tag" color="blue" v-for="(item,index) in authSysList" :key="index">{{item}}</a-tag>
         </div>
       </template>
     </div>
