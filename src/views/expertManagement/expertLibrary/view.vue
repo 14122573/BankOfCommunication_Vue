@@ -239,47 +239,47 @@
 		</div>
 	</div>
 </template>
-
+	
 <script>
-	export default {
-		data() {
-			return {
-				detail: {},
-				changeSmall:false
-			}
-		},
-		mounted() {
-			this.getDetail()
-		},
-		methods: {
-			getDetail() {
-				this.$ajax.get({
-					url: this.$api.GET_EXPERT_DETAIL.replace('{experId}', this.$route.query.id)
-				}).then(res => {
-					let data = this.$com.confirm(res, 'data.content', {})
-					for (let i in data) {
-						if (data[i] == null || data[i] == undefined) {
-							data[i] = '暂无'
-						}
-					}
-					this.detail = data
-				})
-			},
-			handleReturn() {
-				this.$router.push({
-					name: '/expertManagement/expertLibrary'
-				})
-			},
-			handleEdit() {
-				this.$router.push({
-					name: '/expertManagement/expertLibrary/edit',
-					query: {
-						id: this.$route.query.id
-					}
-				})
-			}
-		}
-	}
+export default {
+  data() {
+    return {
+      detail: {},
+      changeSmall:false
+    }
+  },
+  mounted() {
+    this.getDetail()
+  },
+  methods: {
+    getDetail() {
+      this.$ajax.get({
+        url: this.$api.GET_EXPERT_DETAIL.replace('{experId}', this.$route.query.id)
+      }).then(res => {
+        let data = this.$com.confirm(res, 'data.content', {})
+        for (let i in data) {
+          if (data[i] == null || data[i] == undefined) {
+            data[i] = '暂无'
+          }
+        }
+        this.detail = data
+      })
+    },
+    handleReturn() {
+      this.$router.push({
+        name: '/expertManagement/expertLibrary'
+      })
+    },
+    handleEdit() {
+      this.$router.push({
+        name: '/expertManagement/expertLibrary/edit',
+        query: {
+          id: this.$route.query.id
+        }
+      })
+    }
+  }
+}
 </script>
 
 <style scoped>
