@@ -68,6 +68,7 @@
 </template>
 <script>
 export default {
+  name:'jobSpace',
   beforeCreate() {
     this.formSpace = this.$form.createForm(this)
   },
