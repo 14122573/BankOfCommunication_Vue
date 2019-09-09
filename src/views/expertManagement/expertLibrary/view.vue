@@ -4,10 +4,10 @@
 			<span class="title">查看专家账号</span>
 			<div class="detailOperations">
 				<a-button @click="handleReturn"> 返回 </a-button>
-				<a-button type="primary"  @click="handleEdit"> 修改 </a-button>
+				<a-button type="primary" @click="handleEdit"> 修改 </a-button>
 			</div>
 		</div>
-		<div class="portalDetailContentWapper" >
+		<div class="portalDetailContentWapper">
 			<div class="portalDetailContentBody" ref='portalDetailContentBody'>
 				<template v-if="detail.name">
 					<div class="layoutMargin detailsPartSection">
@@ -221,56 +221,84 @@
 					</div>
 				</template>
 			</div>
-      <a-anchor :offsetTop="260" class="target" :getContainer="()=> this.$refs['portalDetailContentBody']" >
-        <a-anchor-link href="#basic" title="基本信息" />
-        <a-anchor-link href="#experience" title="工作学习经历" />
-        <a-anchor-link href="#contact" title="联系信息" />
-        <a-anchor-link href="#workArea" title="工作领域信息" />
-        <a-anchor-link href="#relatedManagement" title="相关管理信息" />
-      </a-anchor>
+			<div class="target">
+				<div class="icon" v-show="changeSmall">
+					<a-icon type="environment" @click="changeSmall=false"/>
+				</div>
+				<div class="icon" v-show="!changeSmall">
+					<a-icon type="double-right" @click="changeSmall=true"/>
+				</div>
+				<a-anchor v-show="!changeSmall"  :offsetTop="260" :getContainer="()=> this.$refs['portalDetailContentBody']">
+					<a-anchor-link href="#basic" title="基本信息" />
+					<a-anchor-link href="#experience" title="工作学习经历" />
+					<a-anchor-link href="#contact" title="联系信息" />
+					<a-anchor-link href="#workArea" title="工作领域信息" />
+					<a-anchor-link href="#relatedManagement" title="相关管理信息" />
+				</a-anchor>
+			</div>
 		</div>
 	</div>
 </template>
 
 <script>
-export default {
-  data() {
-    return {
-      detail: {}
-    }
-  },
-  mounted() {
-    this.getDetail()
-  },
-  methods: {
-    getDetail() {
-      this.$ajax.get({
-        url: this.$api.GET_EXPERT_DETAIL.replace('{experId}', this.$route.query.id)
-      }).then(res => {
-        let data = this.$com.confirm(res, 'data.content', {})
-        for (let i in data) {
-          if (data[i] == null || data[i] == undefined) {
-            data[i] = '暂无'
-          }
-        }
-        this.detail = data
-      })
-    },
-    handleReturn() {
-      this.$router.push({
-        name: '/expertManagement/expertLibrary'
-      })
-    },
-    handleEdit(){
-      this.$router.push({
-        name: '/expertManagement/expertLibrary/edit',
-        query:{id:this.$route.query.id}
-      })
-    }
-  }
-}
+	export default {
+		data() {
+			return {
+				detail: {},
+				changeSmall:false
+			}
+		},
+		mounted() {
+			this.getDetail()
+		},
+		methods: {
+			getDetail() {
+				this.$ajax.get({
+					url: this.$api.GET_EXPERT_DETAIL.replace('{experId}', this.$route.query.id)
+				}).then(res => {
+					let data = this.$com.confirm(res, 'data.content', {})
+					for (let i in data) {
+						if (data[i] == null || data[i] == undefined) {
+							data[i] = '暂无'
+						}
+					}
+					this.detail = data
+				})
+			},
+			handleReturn() {
+				this.$router.push({
+					name: '/expertManagement/expertLibrary'
+				})
+			},
+			handleEdit() {
+				this.$router.push({
+					name: '/expertManagement/expertLibrary/edit',
+					query: {
+						id: this.$route.query.id
+					}
+				})
+			}
+		}
+	}
 </script>
 
 <style scoped>
-	.target {  position: absolute; box-shadow: 2px 2px 5px #e0e0e0;  z-index: 10; right: 0px; top: 260px;  }
+	.target {
+		position: absolute;
+		z-index: 10;
+		right: 33px;
+		top: 260px;
+		padding: 10px 8px;
+		border-radius: 2px;
+		background: white;
+		-moz-box-shadow: -1px 0px 5px #878787;
+		-webkit-box-shadow: -1px 0px 5px #878787;
+		box-shadow: -1px 0px 5px #878787;
+	}
+
+	.target .icon {
+		text-align: right;
+		cursor: pointer;
+		color: #1890ff;
+	}
 </style>
