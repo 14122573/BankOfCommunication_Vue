@@ -218,7 +218,6 @@ export default {
   },
   mounted() {
     this.isAdminator = this.$store.state.userInfos.isAllPerm
-    this.getSearchParams()
     this.getList()
     this.getArea()
   },
@@ -262,31 +261,7 @@ export default {
       }).then(res => {
         this.dataTable = this.$com.confirm(res, 'data.content', [])
         this.pagination.total = this.$com.confirm(res, 'data.totalRows', 0)
-        //存储当前列表的展示条件，包括分页信息、搜索条件
-        if(this.defaultValue!=''){
-          this.searchForm.defaultValue=this.defaultValue
-        }
-        this.$com.storeSearchParams(this.$route.name + '/new', this.pagination, this.searchForm)
       })
-    },
-    /**
-			 * 从vuex中或已存储的搜索条件，判断此条件是否为当前路由的 。如果是则使用
-			 */
-    getSearchParams() {
-      let searchParams = this.$store.state.listSearchParams[this.$route.name + '/new']
-      if (!!searchParams && !!searchParams.routeName && (this.$route.name + '/new' == searchParams.routeName)) {
-        if (searchParams.params) {
-          this.searchForm = searchParams.params
-          if (searchParams.params['ui.areaId']) {
-            this.areaCode = searchParams.params['ui.areaId'] ? searchParams.params['ui.areaId'] : ''
-            // this.defaultValue=searchParams.params['defaultValue']?searchParams.params['defaultValue']:'';
-            this.getListGroup()
-          }
-        }
-        if (searchParams.pagination) {
-          this.pagination = searchParams.pagination
-        }
-      }
     },
     handleAdd() {
       this.$router.push({
