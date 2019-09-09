@@ -93,7 +93,7 @@
 					<a-button @click="map=false" ghost type="primary">取消</a-button>
 					<a-button @click="map=false" type="primary">确认</a-button>
 				</template>
-				<BMapComponent :height="250" :width="830" ref="bdMap" :keyWords="position" />
+				<!-- <BMapComponent :height="250" :width="830" ref="bdMap" :keyWords="position" /> -->
 			</a-modal>
 		</div>
 	</div>

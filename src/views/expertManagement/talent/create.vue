@@ -7,8 +7,8 @@
 				<a-button type="primary" @click='save' html-type="submit">保存</a-button>
 			</div>
 		</div>
-    <div ref="create-talent" class="portalDetailContentWapper">
-      <div class="portalDetailContentBody">
+    <div  class="portalDetailContentWapper">
+      <div class="portalDetailContentBody create-talent" ref="create-talent">
         <a-form :form="form">
           <div class="layoutMargin detailsPartSection">
             <p class="detailsPartTitle" id="basic">基本信息</p>
@@ -113,16 +113,25 @@
         <jobStudy type="talent" ref="jobStudy" class="marginRef" :options="options" :colSpa="colSpa" :textSpa="textSpa"/>
         <jobSpace type="talent" ref="jobSpace" class="marginRef" :options="options" :colSpa="colSpa" :textSpa="textSpa" />
       </div>
-      <a-anchor :offsetTop="240" :getContainer="()=> this.$refs['create-talent']" class="talent-anchor">
-        <a-anchor-link href="#basic" title="基本信息" />
-        <a-anchor-link href="#job" title="工作学习经历" />
-        <a-anchor-link href="#message" title="联系信息" />
-        <a-anchor-link href="#space" title="工作领域信息" />
-        <a-anchor-link href="#management" title="相关管理信息" />
-      </a-anchor>
+      <div class="target">
+        <div class="icon" v-show="changeSmall">
+					<a-icon type="environment" @click="changeSmall=false"/>
+				</div>
+				<div class="icon" v-show="!changeSmall">
+					<a-icon type="double-right" @click="changeSmall=true"/>
+				</div>
+        <a-anchor v-show="!changeSmall" :offsetTop="240" :getContainer="()=> this.$refs['create-talent']" class="talent-anchor">
+          <a-anchor-link href="#basic" title="基本信息" />
+          <a-anchor-link href="#job" title="工作学习经历" />
+          <a-anchor-link href="#message" title="联系信息" />
+          <a-anchor-link href="#space" title="工作领域信息" />
+          <a-anchor-link href="#management" title="相关管理信息" />
+        </a-anchor>
+      </div>
+      
     </div>
 
-		<a-modal :visible="previewVisible" style="text-align:center" :width="600" :footer="null" @cancel="previewVisible = false">
+		<a-modal :visible="previewVisible"  style="text-align:center" :width="600" :footer="null" @cancel="previewVisible = false">
 			<img alt="一寸照" style="width: 80%;height:auto" :src="previewImage" />
 		</a-modal>
   </div>
@@ -178,6 +187,7 @@ export default {
       }
     }
     return {
+      changeSmall:false,
       options: {
         sexList: [{ label: '男', value: '男' }, { label: '女', value: '女' }],
         minorityList: [],
@@ -361,7 +371,6 @@ export default {
         methods = 'post'
         msg = '新增成功！'
       }
-      data.type='1'
       this.$ajax[methods]({
         url: link,
         params: data
@@ -496,7 +505,27 @@ export default {
 }
 </script>
 <style scoped>
-.talent-anchor {  position: absolute; box-shadow: 2px 2px 5px #e0e0e0;  z-index: 10; right: 0px; top: 260px; }
+.target {
+  position: absolute;
+  z-index: 10;
+  right: 33px;
+  top: 240px;
+  padding: 10px 8px;
+  border-radius: 2px;
+  background: white;
+  -moz-box-shadow: -1px 0px 5px #878787;
+  -webkit-box-shadow: -1px 0px 5px #878787;
+  box-shadow: -1px 0px 5px #878787;
+}
+.target .icon {
+  text-align: right;
+  cursor: pointer;
+  color: #1890ff;
+}
+.create-talent {
+  overflow: auto;
+}
+/* .talent-anchor {  position: absolute; box-shadow: 2px 2px 5px #e0e0e0;  z-index: 10; right: 0px; top: 240px; } */
 </style>
 <style>
 .avatar-uploader > .ant-upload {

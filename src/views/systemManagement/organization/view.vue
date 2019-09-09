@@ -34,7 +34,7 @@
               <a-row type="flex" justify="start" class="colMargin">
                 <a-col span="4" class="colLabel" style="color:rgba(0, 0, 0, 0.45)"> 地图定位： </a-col>
                 <a-col span="17">
-                  <BMapComponent :height="250" :width="830" :keyWords="position" />
+                  <!-- <BMapComponent :height="250" :width="830" :keyWords="position" /> -->
                 </a-col>
               </a-row>
             </a-col>
