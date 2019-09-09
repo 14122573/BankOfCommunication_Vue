@@ -107,7 +107,12 @@ export default {
     filterDataModel (model) {
       const keys = Object.keys(model)
       if (keys.length <= 0) return {}
-      const list = Object.keys(this.layout[0])
+      const list = []
+      if (this.layout.length > 0) {
+        this.layout.forEach(item => {
+          list.push(...Object.keys(item))
+        })
+      }
       const result = {}
       keys.forEach(key => {
         if (list.indexOf(key) >= 0) {
