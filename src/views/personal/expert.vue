@@ -115,7 +115,9 @@
         <a-anchor-link href="#management" title="相关管理信息" />
       </a-anchor>
     </div>
-
+    <a-modal :visible="previewVisible" style="text-align:center" :width="600" :footer="null" @cancel="previewVisible = false">
+			<img alt="一寸照" style="width: 80%;height:auto" :src="previewImage" />
+		</a-modal>
   </div>
 </template>
 
@@ -232,7 +234,7 @@ export default {
       this.getInfo()
     }
     this.expertId = this.$store.state.userInfos.id
-
+    console.log(this.$store.state.userInfos.id)
     this.$ajax.all(this.getOptions()).then(() => {
       if (this.expertId!='' && !!this.expertId) {
         this.getDetail()
@@ -383,16 +385,42 @@ export default {
       })
     },
     getDetail() {
-      this.$ajax
-        .get({
-          url: this.$api.GET_EXPERT_DETAIL.replace(
-            '{experId}',
-            this.$route.query.id
-          ),
-          hideLoading: false
-        })
-        .then(res => {
-          let {
+      this.$ajax.get({
+        url: this.$api.GET_EXPERT_DETAIL.replace('{experId}',this.expertId),
+        hideLoading: false
+      }).then(res => {
+        let {
+          name,
+          sex,
+          minority,
+          workCompany,
+          identity,
+          companyNature,
+          companyAddress,
+          belongDepartment,
+          jobTitle,
+          position,
+          partTime,
+          graduatedSchool,
+          education,
+          bachelor,
+          profession,
+          workExperience,
+          mailingAddress,
+          phone,
+          email,
+          researchDirection,
+          performance,
+          achievements,
+          workArea,
+          professionGroup,
+          provinceConfirm,
+          unitConfirm,
+          historyWork,
+          portraitImg
+        } = this.$com.confirm(res, 'data.content', {})
+        this.$nextTick(() => {
+          this.form.setFieldsValue({
             name,
             sex,
             minority,
@@ -403,7 +431,9 @@ export default {
             belongDepartment,
             jobTitle,
             position,
-            partTime,
+            partTime
+          })
+          this.$refs.jobStudy.formJob.setFieldsValue({
             graduatedSchool,
             education,
             bachelor,
@@ -411,7 +441,9 @@ export default {
             workExperience,
             mailingAddress,
             phone,
-            email,
+            email
+          })
+          this.$refs.jobSpace.formSpace.setFieldsValue({
             researchDirection,
             performance,
             achievements,
@@ -419,54 +451,19 @@ export default {
             professionGroup,
             provinceConfirm,
             unitConfirm,
-            historyWork,
-            portraitImg
-          } = this.$com.confirm(res, 'data.content', {})
-          this.$nextTick(() => {
-            this.form.setFieldsValue({
-              name,
-              sex,
-              minority,
-              workCompany,
-              identity,
-              companyNature,
-              companyAddress,
-              belongDepartment,
-              jobTitle,
-              position,
-              partTime
-            })
-            this.$refs.jobStudy.formJob.setFieldsValue({
-              graduatedSchool,
-              education,
-              bachelor,
-              profession,
-              workExperience,
-              mailingAddress,
-              phone,
-              email
-            })
-            this.$refs.jobSpace.formSpace.setFieldsValue({
-              researchDirection,
-              performance,
-              achievements,
-              workArea,
-              professionGroup,
-              provinceConfirm,
-              unitConfirm,
-              historyWork
-            })
-            if(portraitImg != null){
-              this.form.setFieldsValue({ portraitImg: portraitImg })
-              this.fileList.push({
-                uid: -1,
-                name: portraitImg,
-                status: 'done',
-                url: portraitImg
-              })
-            }
+            historyWork
           })
+          if(portraitImg != null){
+            this.form.setFieldsValue({ portraitImg: portraitImg })
+            this.fileList.push({
+              uid: -1,
+              name: portraitImg,
+              status: 'done',
+              url: portraitImg
+            })
+          }
         })
+      })
     },
   }
 }
