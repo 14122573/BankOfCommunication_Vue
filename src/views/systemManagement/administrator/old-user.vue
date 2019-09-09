@@ -289,6 +289,12 @@ export default {
         } else {
           this.$message.error(res.msg)
         }
+        // 存储当前页面列表的搜索添加和分页信息
+        this.$com.storeSearchParams(
+          this.$route.name+'/old',
+          this.params,
+          this.searchForm
+        )
       })
     },
     // 重置密码按钮
@@ -381,11 +387,32 @@ export default {
       this.resetPwdShow = false
       this.passwordStrength = false
       this.resetData.resetFields()
-    }
+    },
+    /**
+     * 从vuex中或已存储的搜索条件，判断此条件是否为当前路由的 。如果是则使用
+     */
+    getSearchParams(){
+      let searchParams = this.$store.state.listSearchParams[this.$route.name+'/old']
+      if(!!searchParams && !!searchParams.routeName && (this.$route.name+'/old' == searchParams.routeName)){
+        if(!!searchParams.params){
+          Object.keys(searchParams.params).forEach(elem=>{
+            this.searchForm[elem] = searchParams.params[elem]
+          })
+        }
+        if(!!searchParams.pagination){
+          if(!!searchParams.pagination.pageNo && searchParams.pagination.pageNo!=1){
+            this.pagination.pageNo = searchParams.pagination.pageNo
+          }
+        }
+      }
+      this.getList()
+    },
   },
   mounted() {
-    this.getList()
-    this.getSystemList()
+    if(this.$route.name == '/systemManagement/administrator'){
+      this.getSystemList()
+      this.getSearchParams()
+    }
   }
 }
 </script>

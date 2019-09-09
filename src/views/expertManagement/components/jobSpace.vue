@@ -42,13 +42,13 @@
               <a-select v-decorator="['professionGroup',{rules:rules.professionGroup}]" :options="options.professionGroupList" placeholder="请选择"></a-select>
             </a-form-item>
           </a-col>
-          <a-col span="8">
+          <a-col span="8" v-if="this.type != 'talent'">
             <a-form-item label="省级认定" v-bind="colSpa">
               <a-radio-group v-decorator="['provinceConfirm',{rules:rules.provinceConfirm}]" :options="options.provinceConfirmList"/>
             </a-form-item>
           </a-col>
         </a-row>
-        <a-row>
+        <a-row v-if="this.type != 'talent'">
           <a-col span="8">
             <a-form-item label="部级认定" v-bind="colSpa">
               <a-radio-group v-decorator="['unitConfirm',{rules:rules.unitConfirm}]" :options="options.unitConfirmList"/>
@@ -90,6 +90,10 @@ export default {
       default:()=>{
         return {}
       }
+    },
+    type:{
+      type:String,
+      default:null
     }
   },
   data(){

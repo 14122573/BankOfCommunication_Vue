@@ -22,14 +22,14 @@
 					</a-col>
 					<a-col span="6">
 						<a-form-item label="用户状态" class="formItem" v-bind="colSpe">
-							<a-checkbox-group v-decorator="['status']" :options="options.statusList"></a-checkbox-group>
+							<a-checkbox-group v-decorator="['status',{initialValue: ['1']}]" :options="options.statusList"></a-checkbox-group>
 						</a-form-item>
 					</a-col>
 				</a-row>
 				<a-row type="flex" justify="space-between" class="formItemLine">
 					<a-col span="18">
 						<a-form-item label="级别认定" class="formItem" :label-col="{span:3}" :wrapper-col="{span:12}">
-							<a-checkbox-group v-decorator="['proStatus']" :options="options.proList"></a-checkbox-group>
+							<a-checkbox-group v-decorator="['proStatus',{initialValue: []}]" :options="options.proList"></a-checkbox-group>
 						</a-form-item>
 					</a-col>
 					<a-col span="6" class="algin-right">
@@ -186,10 +186,32 @@ export default {
     }
   },
   mounted() {
-    this.getLists()
-    this.getJobLists()
+    if(this.$route.name == '/expertManagement/expertLibrary'){
+      this.getSearchParams()
+      this.getJobLists()
+    }
   },
   methods: {
+    /**
+     * 从vuex中或已存储的搜索条件，判断此条件是否为当前路由的 。如果是则使用
+     */
+    getSearchParams(){
+      let searchParams = this.$store.state.listSearchParams[this.$route.name]
+      if(!!searchParams && !!searchParams.routeName && (this.$route.name == searchParams.routeName)){
+        if(!!searchParams.params){
+          this.searchForm.setFieldsValue(searchParams.params)
+          // Object.keys(searchParams.params).forEach(elem=>{
+          //   this.searchForm[elem] = searchParams.params[elem]
+          // })
+        }
+        if(!!searchParams.pagination){
+          if(!!searchParams.pagination.pageNo && searchParams.pagination.pageNo!=1){
+            this.pagination.pageNo = searchParams.pagination.pageNo
+          }
+        }
+      }
+      this.getLists()
+    },
     getLists() {
       const options = this.$com.dealObjectValue(this.searchForm.getFieldsValue())
       if (options.status) options.status = options.status.join(',')
@@ -221,6 +243,12 @@ export default {
       }).then(res => {
         this.dataSource = this.$com.confirm(res, 'data.content', [])
         this.pagination.total = this.$com.confirm(res, 'data.totalRows', 0)
+        // 存储当前页面列表的搜索添加和分页信息
+        this.$com.storeSearchParams(
+          this.$route.name,
+          this.pagination,
+          this.searchForm.getFieldsValue()
+        )
       })
     },
     // 查询
@@ -233,13 +261,14 @@ export default {
     reset() {
       this.pagination.current = 1
       this.pagination.pageNo = 1
-      this.searchForm.setFieldsValue({
-        jobTitle: undefined,
-        loginPhone_l: undefined,
-        name_l: undefined,
-        proStatus: [],
-        status: []
-      })
+      this.searchForm.resetFields()
+      // this.searchForm.setFieldsValue({
+      //   jobTitle: undefined,
+      //   loginPhone_l: undefined,
+      //   name_l: undefined,
+      //   proStatus: [],
+      //   status: []
+      // })
       this.getLists()
     },
     handleJump() {
