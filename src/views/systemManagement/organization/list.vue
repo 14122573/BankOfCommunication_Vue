@@ -6,8 +6,8 @@
 					<div class="institutionalTreeWapper">
 						<h2 class="institutionalTreeTitle">行政区域</h2>
 						<div class="institutionalTree" style="height:450px">
-							<a-tree showLine @select="onSelect" @expand="expand" :expandedKeys="expandedKeys"  v-if="selectedKeys.length>0" :treeData="treeData" :selectedKeys="selectedKeys"
-							 :loadData="onLoadData">
+							<a-tree showLine @select="onSelect" @expand="expand" :expandedKeys="expandedKeys" v-if="selectedKeys.length>0"
+							 :treeData="treeData" :selectedKeys="selectedKeys" :loadData="onLoadData">
 							</a-tree>
 						</div>
 					</div>
@@ -41,7 +41,7 @@
 						<span slot="action" slot-scope="text, record">
 							<span class="actionBtn" v-if="$permission('P01002')" @click="$router.push({name:'/systemManagement/organization/view',query:{id:record.id}})">查看</span>
 							<a-divider v-if="$permission('P01002')" type="vertical" />
-							<span class="actionBtn" v-if="$permission('P01003')" @click="$router.push({name:'/systemManagement/organization/edit',query:{id:record.id,data:JSON.stringify(transData)}})">修改</span>
+							<span class="actionBtn" v-if="$permission('P01003')" @click="handleEdit(record)">修改</span>
 							<a-divider v-if="$permission('P01003')" type="vertical" />
 							<span class="actionBtn" v-if="$permission('P01004')" @click="deleteBtn(text,record)">删除</span>
 						</span>
@@ -135,7 +135,7 @@ export default {
       opeationItem: {},
       treeData: [],
       selectedKeys: [],
-      expandedKeys:['all'],
+      expandedKeys: ['all'],
       transData: {},
       pagination: {
         pageNo: 1,
@@ -149,7 +149,9 @@ export default {
     }
   },
   mounted() {
-    this.getArea()
+    if (this.$route.name == '/systemManagement/organization') {
+      this.getArea()
+    }
   },
   watch: {
     areaCode() {
@@ -240,8 +242,8 @@ export default {
         key: item.id,
         parentId: item.parentId
       }
-      if(item.id.length=='9'){
-        childrenNode.isLeaf=true
+      if (item.id.length == '9') {
+        childrenNode.isLeaf = true
       }
       return childrenNode
     },
@@ -314,8 +316,24 @@ export default {
         })
       }
     },
-    expand(expandedKeys){
-      this.expandedKeys=expandedKeys
+    expand(expandedKeys) {
+      this.expandedKeys = expandedKeys
+    },
+    handleEdit(record) {
+      if (this.areaCode && this.areaCode !== 'all') {
+        this.$router.push({
+          name: '/systemManagement/organization/edit',
+          query: {
+            id: record.id,
+            data: JSON.stringify(this.transData)
+          }
+        })
+      } else {
+        this.$model.warning({
+          title: '提示',
+          content: '请先选择具体的行政区域节点再去修改！'
+        })
+      }
     }
   }
 }

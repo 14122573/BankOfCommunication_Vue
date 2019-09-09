@@ -22,14 +22,14 @@
 					</a-col>
 					<a-col span="6">
 						<a-form-item label="用户状态" class="formItem" v-bind="colSpe">
-							<a-checkbox-group v-decorator="['status',{initialValue: ['1']}]" :options="options.statusList"></a-checkbox-group>
+							<a-checkbox-group v-decorator="['status_in',{initialValue: []}]" :options="options.statusList"></a-checkbox-group>
 						</a-form-item>
 					</a-col>
 				</a-row>
 				<a-row type="flex" justify="space-between" class="formItemLine">
 					<a-col span="18">
 						<a-form-item label="级别认定" class="formItem" :label-col="{span:3}" :wrapper-col="{span:12}">
-							<a-checkbox-group v-decorator="['proStatus',{initialValue: []}]" :options="options.proList"></a-checkbox-group>
+							<a-checkbox-group v-decorator="['proStatus',{initialValue: ['all']}]" :options="options.proList"></a-checkbox-group>
 						</a-form-item>
 					</a-col>
 					<a-col span="6" class="algin-right">
@@ -59,7 +59,8 @@
 					<a-col span="11">
 						<div @click="chooseIndex=1" :class='{"active":chooseIndex==1}'>
 							<a-row type="flex" align="middle" class='block'>
-								<a-col span='8' class="algin-right"><img src="@/assets/images/head1.png" alt=""></a-col>
+								<img src="@/assets/images/bgResetPwd.png" alt="" class="bgImage">
+								<a-col span='8' class="algin-right"><img src="@/assets/images/head1.png" alt="" class="icon1"></a-col>
 								<a-col span='16'>
 									<div>将已有的账户中心用户<br />添加为专家用户</div>
 								</a-col>
@@ -69,7 +70,8 @@
 					<a-col span="11">
 						<div @click="chooseIndex=2" :class='{"active":chooseIndex==2}'>
 							<a-row type="flex" align="middle" class='block'>
-								<a-col span='8' class="algin-right"><img src="@/assets/images/head2.png" alt=""></a-col>
+								<img src="@/assets/images/bgResetPwd.png" alt="" class="bgImage">
+								<a-col span='8' class="algin-right"><img src="@/assets/images/head3.png" alt="" class="icon2"></a-col>
 								<a-col span='16'>
 									<div>直接新增专家用户</div>
 								</a-col>
@@ -94,6 +96,9 @@ export default {
       searchForm: this.$form.createForm(this),
       options: {
         proList: [{
+          label: '全部',
+          value: 'all'
+        }, {
           label: '省级认定',
           value: '1'
         },
@@ -186,50 +191,35 @@ export default {
     }
   },
   mounted() {
-    if(this.$route.name == '/expertManagement/expertLibrary'){
-      this.getSearchParams()
+    if (this.$route.name == '/expertManagement/expertLibrary') {
+      this.searchForm.setFieldsValue({
+        proStatus: ['all']
+      })
       this.getJobLists()
+      this.getSearchParams()
     }
   },
   methods: {
-    /**
-     * 从vuex中或已存储的搜索条件，判断此条件是否为当前路由的 。如果是则使用
-     */
-    getSearchParams(){
-      let searchParams = this.$store.state.listSearchParams[this.$route.name]
-      if(!!searchParams && !!searchParams.routeName && (this.$route.name == searchParams.routeName)){
-        if(!!searchParams.params){
-          this.searchForm.setFieldsValue(searchParams.params)
-          // Object.keys(searchParams.params).forEach(elem=>{
-          //   this.searchForm[elem] = searchParams.params[elem]
-          // })
-        }
-        if(!!searchParams.pagination){
-          if(!!searchParams.pagination.pageNo && searchParams.pagination.pageNo!=1){
-            this.pagination.pageNo = searchParams.pagination.pageNo
-          }
-        }
-      }
-      this.getLists()
-    },
     getLists() {
       const options = this.$com.dealObjectValue(this.searchForm.getFieldsValue())
-      if (options.status) options.status = options.status.join(',')
-      if (options.proStatus && options.proStatus.length > 1) {
-        options.provinceConfirm = '是'
-        options.unitConfirm = '是'
-      } else {
-        if (options.proStatus) {
-          if (options.proStatus[0] === '0') {
-            options.unitConfirm = '是'
-            options.provinceConfirm = '否'
-          } else {
-            options.unitConfirm = '否'
-            options.provinceConfirm = '是'
-          }
+      if (options.status_in) options.status_in = options.status_in.join(',')
+      if (options.proStatus && options.proStatus.indexOf('all') == -1) {
+        if (options.proStatus && options.proStatus.length > 1) {
+          options.provinceConfirm = '是'
+          options.unitConfirm = '是'
         } else {
-          options.provinceConfirm = '否'
-          options.unitConfirm = '否'
+          if (options.proStatus) {
+            if (options.proStatus[0] === '0') {
+              options.unitConfirm = '是'
+              options.provinceConfirm = '否'
+            } else {
+              options.unitConfirm = '否'
+              options.provinceConfirm = '是'
+            }
+          } else {
+            options.provinceConfirm = '否'
+            options.unitConfirm = '否'
+          }
         }
       }
       delete options.proStatus
@@ -251,6 +241,21 @@ export default {
         )
       })
     },
+    /**
+			 * 从vuex中或已存储的搜索条件，判断此条件是否为当前路由的 。如果是则使用
+			 */
+    getSearchParams() {
+      let searchParams = this.$store.state.listSearchParams[this.$route.name]
+      if (!!searchParams && !!searchParams.routeName && (this.$route.name == searchParams.routeName)) {
+        if (!!searchParams.params) {
+          this.searchForm.setFieldsValue(searchParams.params)
+        }
+        if (!!searchParams.pagination) {
+          this.pagination = searchParams.pagination
+        }
+      }
+      this.getLists()
+    },
     // 查询
     search() {
       this.pagination.current = 1
@@ -262,13 +267,6 @@ export default {
       this.pagination.current = 1
       this.pagination.pageNo = 1
       this.searchForm.resetFields()
-      // this.searchForm.setFieldsValue({
-      //   jobTitle: undefined,
-      //   loginPhone_l: undefined,
-      //   name_l: undefined,
-      //   proStatus: [],
-      //   status: []
-      // })
       this.getLists()
     },
     handleJump() {
@@ -314,14 +312,28 @@ export default {
 		font-size: 12px;
 		color: black;
 		cursor: pointer;
+		position: relative;
 	}
 
-	.block img {
+	.block .algin-right .icon1 {
 		width: 45px;
 		margin-right: 10px;
 	}
 
+	.block .algin-right .icon2 {
+		width: 60px;
+		margin-right: 10px;
+	}
+
+	.bgImage {
+		position: absolute;
+		top: 0px;
+		left: 0px;
+		height: 70px;
+		width: 100%;
+	}
+
 	.active {
-		outline: 1px solid #40a9ff;
+		outline: 2px solid #40a9ff;
 	}
 </style>
