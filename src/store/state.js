@@ -5,11 +5,11 @@ export default {
   permissionCodeList: [],
   hasAllRight: false,
   userName: '',
-  userInfos:null,
+  userInfos: null,
   defaultMenuStatus: {
     defaultSelectedKeys: [],
     defaultOpenKeys: [],
   },
-  tabName:'',
-  listSearchParams:null
+  tabName: '',
+  listSearchParams: {}
 }

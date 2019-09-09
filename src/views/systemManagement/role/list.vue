@@ -162,7 +162,7 @@ export default {
      * 从vuex中或已存储的搜索条件，判断此条件是否为当前路由的 。如果是则使用
      */
     getSearchParams(){
-      let searchParams = this.$store.state.listSearchParams
+      let searchParams = this.$store.state.listSearchParams[this.$route.name]
       if(!!searchParams && !!searchParams.routeName && (this.$route.name == searchParams.routeName)){
         if(!!searchParams.params){
           Object.keys(this.searchForm).forEach(elem=>{
@@ -175,6 +175,7 @@ export default {
           }
         }
       }
+      this.getList()
     },
     handleOkDelete(){
       this.$ajax.delete({
@@ -192,7 +193,6 @@ export default {
   mounted(){
     if(this.$route.name == '/systemManagement/role'){
       this.getSearchParams()
-      this.getList()
     }
   }
 }
