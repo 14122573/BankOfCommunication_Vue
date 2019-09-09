@@ -345,14 +345,12 @@ export default {
    * @param {Object} param 搜索参数
    */
   storeSearchParams(routeName,page,param){
-    console.log('hahha')
     if(!!routeName && !!page && !!param){
       let searchParams = {
         'routeName':routeName,
         'params':param,
         'pagination':page
       }
-      console.log(searchParams,'111111')
       Store.commit('SET_SEARCHPARAMS',searchParams)
     }
   },
