@@ -1,47 +1,36 @@
 <template>
-    <div ref="create-talent" class="portalDetailWapper">
-      <div class="portalDetailTitle">
-        <span class="title">新增人才账号</span>
-        <div class="detailOperations">
-          <a-button @click="back">取消</a-button>
-          <a-button type="primary" @click="save">保存</a-button>
-        </div>
-      </div>
-      <div class="portalDetailContentWapper">
-        <a-form class="portalDetailContentBody" :form="form">
+  <div class="portalDetailWapper">
+		<div class="portalDetailTitle">
+			<span class="title">{{$route.meta.title}}</span>
+			<div class="detailOperations">
+				<a-button @click='back'>取消</a-button>
+				<a-button type="primary" @click='save' html-type="submit">保存</a-button>
+			</div>
+		</div>
+    <div ref="create-talent" class="portalDetailContentWapper">
+      <div class="portalDetailContentBody">
+        <a-form :form="form">
           <div class="layoutMargin detailsPartSection">
-            <p id="basic" class="detailsPartTitle">基本信息</p>
+            <p class="detailsPartTitle" id="basic">基本信息</p>
             <div style="margin:0 16px;">
               <a-row>
                 <a-col span="16">
                   <a-row>
                     <a-col span="12">
-                      <a-form-item label="登录手机号" v-bind="colSpa">
-                        <a-input v-decorator="['loginPhone',{rules:rules.loginPhone}]" placeholder="请输入"></a-input>
-                      </a-form-item>
-                    </a-col>
-                    <a-col span="12">
                       <a-form-item label="姓名" v-bind="colSpa">
                         <a-input v-decorator="['name',{rules:rules.name}]" placeholder="请输入"></a-input>
                       </a-form-item>
                     </a-col>
-                  </a-row>
-                  <a-row>
                     <a-col span="12">
                       <a-form-item label="性别" v-bind="colSpa">
                         <a-radio-group v-decorator="['sex',{rules:rules.sex}]" :options="options.sexList"/>
                       </a-form-item>
                     </a-col>
-                    <a-col span="12">
-                      <a-form-item label="民族" v-bind="colSpa">
-                        <a-select v-decorator="['minority',{rules:rules.minority}]" :options="options.minorityList" placeholder="请选择"></a-select>
-                      </a-form-item>
-                    </a-col>
                   </a-row>
                   <a-row>
                     <a-col span="12">
-                      <a-form-item label="工作单位" v-bind="colSpa">
-                        <a-input v-decorator="['workCompany',{rules:rules.workCompany}]" placeholder="请输入"></a-input>
+                      <a-form-item label="民族" v-bind="colSpa">
+                        <a-select v-decorator="['minority',{rules:rules.minority}]" :options="options.minorityList" placeholder="请选择"></a-select>
                       </a-form-item>
                     </a-col>
                     <a-col span="12">
@@ -52,52 +41,49 @@
                   </a-row>
                   <a-row>
                     <a-col span="12">
+                      <a-form-item label="工作单位" v-bind="colSpa">
+                        <a-input v-decorator="['workCompany',{rules:rules.workCompany}]" placeholder="请输入"></a-input>
+                      </a-form-item>
+                    </a-col>
+                    <a-col span="12">
                       <a-form-item label="单位性质" v-bind="colSpa">
                         <a-select v-decorator="['companyNature',{rules:rules.companyNature}]" :options="options.companyNatureList" placeholder="请选择"></a-select>
                       </a-form-item>
                     </a-col>
-                    <!-- <a-col span="12">
-                        <a-form-item label="登录密码" v-bind="colSpa">
-                            <a-input v-decorator="['loginPwd',{rules:rules.loginPwd}]" placeholder="请输入"></a-input>
-                        </a-form-item>
-                    </a-col> -->
+                  </a-row>
+                  <a-row >
                     <a-col span="12">
                       <a-form-item label="单位所在地" v-bind="colSpa">
                         <a-input v-decorator="['companyAddress',{rules:rules.companyAddress}]" placeholder="请输入"></a-input>
                       </a-form-item>
                     </a-col>
+                    <a-col span="12">
+                      <a-form-item label="所在部门" v-bind="colSpa">
+                        <a-input v-decorator="['belongDepartment',{rules:rules.belongDepartment}]" placeholder="请输入"></a-input>
+                      </a-form-item>
+                    </a-col>
                   </a-row>
                 </a-col>
                 <a-col span="8">
-                  <a-form-item label="一寸照" v-bind="colSpa">
-                    <a-upload
-                        listType="picture-card"
-                        :fileList="fileList"
-                        @preview="handlePreview"
-                        @change="handleChange"
-                        class="avatar-uploader"
-                        v-decorator="['portraitImg']"
-                        >
-                        <div v-if="fileList.length < 1">
-                          <a-icon type="cloud-upload" style="fontSize:24px" />
-                          <div class="ant-upload-text">上传照片</div>
-                          <div class="ant-upload-text">仅支持jpg格式</div>
-                        </div>
+                  <a-form-item label="一寸照" required v-bind="colSpa">
+                    <a-upload listType="picture-card" :fileList="fileList"
+                      @preview="handlePreview"
+                      :remove="handleRemove"
+                      :beforeUpload="beforeUpload"
+                      class="avatar-uploader"
+                      accept=".jpg"
+                      v-decorator="['portraitImg',{rules:rules.portraitImg}]"
+                      >
+                      <div v-if="fileList.length < 1">
+                        <a-icon type="cloud-upload" style="fontSize:24px" />
+                        <div class="ant-upload-text">上传照片</div>
+                        <div class="ant-upload-text">仅支持jpg格式</div>
+                      </div>
                     </a-upload>
                   </a-form-item>
                 </a-col>
               </a-row>
-              <a-row>
-                <a-col span="8">
-                  <a-form-item label="所在部门" v-bind="colSpa">
-                    <a-input v-decorator="['belongDepartment',{rules:rules.belongDepartment}]" placeholder="请输入"></a-input>
-                  </a-form-item>
-                </a-col>
-                  <!-- <a-col span="8">
-                      <a-form-item label="所在系统" v-bind="colSpa">
-                          <a-input v-decorator="['belongSystem',{rules:rules.belongSystem}]" placeholder="请输入"></a-input>
-                      </a-form-item>
-                  </a-col> -->
+              <a-row >
                 <a-col span="8">
                   <a-form-item label="职称" v-bind="colSpa">
                     <a-select v-decorator="['jobTitle',{rules:rules.jobTitle}]" :options="options.jobTitleList" placeholder="请选择"></a-select>
@@ -109,177 +95,46 @@
                   </a-form-item>
                 </a-col>
               </a-row>
-              <a-row>
+              <a-row >
                 <a-col span="16">
                   <a-form-item label="主要社会兼职" v-bind="textSpa">
-                    <a-textarea rows="2" v-decorator="['partTime']" placeholder="请输入"></a-textarea>
-                  </a-form-item>
-                </a-col>
-              </a-row>
-            </div>
-          </div>
-          <!-- 工作学习经历 -->
-          <div class="layoutMargin detailsPartSection">
-            <p id='job' class="detailsPartTitle">工作学习经历</p>
-            <div style="margin:0 16px;">
-              <a-row>
-                <a-col span="8">
-                  <a-form-item label="毕业院校" v-bind="colSpa">
-                    <a-input v-decorator="['graduatedSchool',{rules:rules.graduatedSchool}]" placeholder="请输入"></a-input>
-                  </a-form-item>
-                </a-col>
-                <a-col span="8">
-                  <a-form-item label="学历" v-bind="colSpa">
-                    <a-select v-decorator="['education',{rules:rules.education}]" :options="options.educationList" placeholder="请选择"></a-select>
-                  </a-form-item>
-                </a-col>
-                <a-col span="8">
-                  <a-form-item label="学位" v-bind="colSpa">
-                    <a-select v-decorator="['bachelor',{rules:rules.bachelor}]" :options="options.bachelorList" placeholder="请选择"></a-select>
-                  </a-form-item>
-                </a-col>
-              </a-row>
-              <a-row>
-                <a-col span="8">
-                  <a-form-item label="所学专业" v-bind="colSpa">
-                      <a-input v-decorator="['profession',{rules:rules.profession}]" placeholder="请输入"></a-input>
-                  </a-form-item>
-                </a-col>
-              </a-row>
-              <a-row>
-                <a-col span="16">
-                  <a-form-item label="工作经历" v-bind="textSpa">
-                      <a-textarea rows="2" v-decorator="['workExperience']" placeholder="请输入"></a-textarea>
-                  </a-form-item>
-                </a-col>
-              </a-row>
-            </div>
-          </div>
-          <!-- 联系信息 -->
-          <div class="layoutMargin detailsPartSection">
-            <p id='message' class="detailsPartTitle">联系信息</p>
-            <div style="margin:0 16px;">
-              <a-row>
-                <a-col span="8">
-                  <a-form-item label="通讯地址" v-bind="colSpa">
-                    <a-input v-decorator="['mailingAddress',{rules:rules.mailingAddress}]" placeholder="请输入"></a-input>
-                  </a-form-item>
-                </a-col>
-                <a-col span="8">
-                  <a-form-item label="联系电话" v-bind="colSpa">
-                    <a-input v-decorator="['phone',{rules:rules.phone}]" placeholder="请输入"></a-input>
-                  </a-form-item>
-                </a-col>
-                <a-col span="8">
-                  <a-form-item label="电子邮箱" v-bind="colSpa">
-                    <a-input v-decorator="['email',{rules:rules.email}]" placeholder="请输入"></a-input>
-                  </a-form-item>
-                </a-col>
-              </a-row>
-            </div>
-          </div>
-          <!-- 工作领域信息 -->
-          <div class="layoutMargin detailsPartSection">
-            <p id="space" class="detailsPartTitle">工作领域信息</p>
-            <div style="margin:0 16px;">
-              <a-row>
-                <a-col span="8">
-                  <a-form-item label="主要相关研究方向" v-bind="colSpa">
-                    <a-select v-decorator="['researchDirection']" :options="options.researchDirectionList" placeholder="请选择"></a-select>
-                  </a-form-item>
-                </a-col>
-              </a-row>
-              <a-row>
-                <a-col span="16">
-                  <a-form-item label="主要工作业绩" v-bind="textSpa">
-                    <a-textarea rows="2" v-decorator="['performance']" placeholder="请输入"></a-textarea>
-                  </a-form-item>
-                </a-col>
-              </a-row>
-              <a-row>
-                <a-col span="16">
-                  <a-form-item label="获奖成果" v-bind="textSpa">
-                    <a-textarea rows="2" v-decorator="['achievements']" placeholder="请输入"></a-textarea>
-                  </a-form-item>
-                </a-col>
-              </a-row>
-            </div>
-          </div>
-          <!-- 相关管理信息 -->
-          <div class="layoutMargin detailsPartSection">
-            <p id="management" class="detailsPartTitle">相关管理信息</p>
-            <div style="margin:0 16px;">
-              <a-row>
-                <a-col span="8">
-                  <a-form-item label="工作领域" v-bind="colSpa">
-                    <a-select v-decorator="['workArea',{rules:rules.workArea}]" :options="options.workAreaList" placeholder="请选择"></a-select>
-                  </a-form-item>
-                </a-col>
-                <a-col span="8">
-                  <a-form-item label="专业组别" v-bind="colSpa">
-                    <a-select v-decorator="['professionGroup',{rules:rules.professionGroup}]" :options="options.professionGroupList" placeholder="请选择"></a-select>
-                  </a-form-item>
-                </a-col>
-                <a-col span="8">
-                  <a-form-item label="省级认定" v-bind="colSpa">
-                    <a-radio-group v-decorator="['provinceConfirm',{rules:rules.provinceConfirm}]" :options="options.provinceConfirmList"/>
-                  </a-form-item>
-                </a-col>
-              </a-row>
-              <a-row>
-                <a-col span="8">
-                  <a-form-item label="部级认定" v-bind="colSpa">
-                    <a-radio-group v-decorator="['unitConfirm',{rules:rules.unitConfirm}]" :options="options.unitConfirmList"/>
-                  </a-form-item>
-                </a-col>
-              </a-row>
-              <a-row>
-                <a-col span="16">
-                  <a-form-item label="入库以来参加工作" v-bind="textSpa">
-                    <a-input v-decorator="['historyWork']" placeholder="请输入"></a-input>
+                    <a-textarea rows="2"  v-decorator="['partTime']" placeholder="请输入"></a-textarea>
                   </a-form-item>
                 </a-col>
               </a-row>
             </div>
           </div>
         </a-form>
-        <a-anchor :offsetTop="260" :getContainer="()=> this.$refs['create-talent']" class="talent-anchor" >
-          <a-anchor-link href="#basic" title="基本信息" />
-          <a-anchor-link href="#job" title="工作学习经历" />
-          <a-anchor-link href="#message" title="联系信息" />
-          <a-anchor-link href="#space" title="工作领域信息" />
-          <a-anchor-link href="#management" title="相关管理信息" />
-        </a-anchor>
+        <jobStudy ref="jobStudy" class="marginRef" :options="options" :colSpa="colSpa" :textSpa="textSpa"/>
+        <jobSpace ref="jobSpace" :type="'talent'" class="marginRef" :options="options" :colSpa="colSpa" :textSpa="textSpa" />
       </div>
+      <a-anchor :offsetTop="240" :getContainer="()=> this.$refs['create-talent']" class="talent-anchor">
+        <a-anchor-link href="#basic" title="基本信息" />
+        <a-anchor-link href="#job" title="工作学习经历" />
+        <a-anchor-link href="#message" title="联系信息" />
+        <a-anchor-link href="#space" title="工作领域信息" />
+        <a-anchor-link href="#management" title="相关管理信息" />
+      </a-anchor>
     </div>
-</template>
 
-<style scoped>
-.talent-anchor {  position: absolute; box-shadow: 2px 2px 5px #e0e0e0;  z-index: 10; right: 0px; top: 260px; }
-</style>
-<style>
-.avatar-uploader > .ant-upload {
-  width: 90%;
-  height: 220px;
-}
-</style>
+		<a-modal :visible="previewVisible" style="text-align:center" :width="600" :footer="null" @cancel="previewVisible = false">
+			<img alt="一寸照" style="width: 80%;height:auto" :src="previewImage" />
+		</a-modal>
+  </div>
+
+</template>
 <script>
+import jobStudy from '../components/jobStudy'
+import jobSpace from '../components/jobSpace'
 export default {
   name: 'talent-create',
+  components: { jobStudy, jobSpace },
+  beforeCreate() {
+    this.form = this.$form.createForm(this)
+  },
   data() {
-    const validatePhone = (rule, value, callback) => {
-      if (value === null || value === '') {
-        callback()
-      } else {
-        if (!this.$com.checkPhone(value)) {
-          callback('手机号码不合法!')
-        } else {
-          callback()
-        }
-      }
-    }
     const validatePhoneOrTel = (rule, value, callback) => {
-      if (value === null || value === '') {
+      if (!value) {
         callback()
       } else {
         if (!this.$com.checkPhone(value) && !this.$com.checkTel(value)) {
@@ -290,50 +145,50 @@ export default {
       }
     }
     const validateIdentity = (rule, value, callback) => {
-      if (!this.$com.checkID(value)) {
-        callback('身份证号不正确!')
+      if (!value) {
+        callback()
+      } else {
+        if (!this.$com.checkID(value)) {
+          callback('身份证号不正确!')
+        } else {
+          callback()
+        }
+      }
+    }
+    const validateImg = (rule, value, callback) => {
+      if (this.fileList.length === 0) {
+        callback('请上传一寸照!')
       } else {
         callback()
       }
     }
     return {
-      form: this.$form.createForm(this),
       options: {
         sexList: [{ label: '男', value: '男' }, { label: '女', value: '女' }],
-        provinceConfirmList: [
-          { label: '是', value: '是' },
-          { label: '否', value: '否' }
-        ],
-        unitConfirmList: [
-          { label: '是', value: '是' },
-          { label: '否', value: '否' }
-        ],
         minorityList: [],
         companyNatureList: [],
         positionList: [],
         jobTitleList: [],
-        educationList: [],
-        bachelorList: [],
         workAreaList: [],
         professionGroupList: [],
-        researchDirectionList: []
+        researchDirectionList: [],
+        educationList: [],
+        bachelorList: [],
+        provinceConfirmList: [{ label: '是', value: '是' },{ label: '否', value: '否' }],
+        unitConfirmList: [{ label: '是', value: '是' },{ label: '否', value: '否' }]
       },
       fileList: [],
       colSpa: {
         labelCol: { span: 10 },
-        wrapperCol: { span: 14 }
+        wrapperCol: { span: 12 }
       },
       textSpa: {
         labelCol: { span: 5 },
-        wrapperCol: { span: 19 }
+        wrapperCol: { span: 18 }
       },
       previewVisible: false,
       previewImage: '',
       rules: {
-        loginPhone: [
-          { required: true, whitespace: true, message: '请输入登录手机号!' },
-          { validator: validatePhone }
-        ],
         name: [{ required: true, whitespace: true, message: '请输入姓名!' }],
         sex: [{ required: true, whitespace: true, message: '请选择性别!' }],
         minority: [
@@ -361,48 +216,8 @@ export default {
         position: [
           { required: true, whitespace: true, message: '请选择职务!' }
         ],
-        // 工作学习经历
-        graduatedSchool: [
-          { required: true, whitespace: true, message: '请输入毕业院校!' }
-        ],
-        education: [
-          { required: true, whitespace: true, message: '请选择学历!' }
-        ],
-        bachelor: [
-          { required: true, whitespace: true, message: '请选择学位!' }
-        ],
-        profession: [
-          { required: true, whitespace: true, message: '请输入所学专业!' }
-        ],
-        // 联系信息
-        mailingAddress: [
-          { required: true, whitespace: true, message: '请输入通讯地址!' }
-        ],
-        phone: [
-          { required: true, whitespace: true, message: '请输入联系电话!' },
-          { validator: validatePhoneOrTel }
-        ],
-        email: [
-          {
-            required: true,
-            type: 'email',
-            whitespace: true,
-            message: '请输入电子邮箱!'
-          }
-        ],
-        // 相关管理信息
-        workArea: [
-          { required: true, whitespace: true, message: '请选择工作领域!' }
-        ],
-        professionGroup: [
-          { required: true, whitespace: true, message: '请选择专业组别!' }
-        ],
-        provinceConfirm: [
-          { required: true, whitespace: true, message: '请选择省级认定!' }
-        ],
-        unitConfirm: [
-          { required: true, whitespace: true, message: '请选择部级认定!' }
-        ]
+        // 一寸照
+        portraitImg: [{ validator: validateImg }]
       }
     }
   },
@@ -410,7 +225,6 @@ export default {
     //   查询options
     getOptions() {
       let api = this.$api.DICTIONARY_TYPE_GET
-      // let api='http://47.100.45.230:30000/mock/185/dictionary/{type}';
       const items = [
         { type: '0', name: 'minorityList' }, //民族
         { type: '1', name: 'companyNatureList' }, //单位性质
@@ -425,7 +239,8 @@ export default {
       return items.map(item => {
         this.$ajax
           .get({
-            url: api.replace('{type}', item.type)
+            url: api.replace('{type}', item.type),
+            hideLoading: false
           })
           .then(res => {
             let data = this.$com.confirm(res, 'data.content', [])
@@ -443,12 +258,46 @@ export default {
       this.previewImage = file.url || file.thumbUrl
       this.previewVisible = true
     },
-    handleChange({ fileList }) {
-      this.fileList = fileList
+    handleRemove(file) {
+      this.fileList = []
+      this.form.setFieldsValue({ portraitImg: null })
+      this.form.validateFields(['portraitImg'])
+    },
+    beforeUpload(file) {
+      let fileList = [...this.fileList, file]
+      this.handleUpload(fileList)
+      return false
+    },
+    handleUpload(fileList) {
+      const formData = new FormData()
+      fileList.forEach(file => {
+        formData.append('file', file)
+      })
+      this.$ajax
+        .post({
+          url: this.$api.UPLOAD_TEMP,
+          params: formData
+        })
+        .then(res => {
+          if (res.code === '200') {
+            let data = this.$com.confirm(res, 'data.content', {})
+            this.fileList = []
+            this.fileList.push({
+              uid: data.id,
+              name: data.name,
+              status: 'done',
+              url: data.path
+            })
+            this.form.setFieldsValue({ portraitImg: data.path })
+            this.form.validateFields(['portraitImg'])
+          } else {
+            this.$message.error(res.msg)
+          }
+        })
     },
     // 取消
     back() {
-      this.$router.push({name:'/expertManagement/expertLibrary'})
+      this.$router.back()
     },
     // 整理数据
     forMat(data) {
@@ -482,36 +331,169 @@ export default {
           }
         })
       })
-      let link,msg,methods
-      if(this.$route.query.id){
-
-      }else{
-        link=this.$api.EXPORT_TYPE
-        methods='post'
-        msg='新增成功！'
+      let link, msg, methods
+      if (this.$route.query.id) {
+        link = this.$api.EXPORT_TYPE_EDIT.replace(
+          '{experId}',
+          this.$route.query.id
+        )
+        methods = 'put'
+        msg = '修改成功！'
+      } else {
+        link = this.$api.EXPORT_TYPE
+        methods = 'post'
+        msg = '新增成功！'
       }
       this.$ajax[methods]({
         url: link,
-        params:data
+        params: data
+      }).then(res => {
+        if (res.code === '200') {
+          this.$message.success(msg)
+          this.back()
+        } else {
+          this.$message.error(res.msg)
+        }
       })
+    },
+    getDetail() {
+      this.$ajax
+        .get({
+          url: this.$api.GET_EXPERT_DETAIL.replace(
+            '{experId}',
+            this.$route.query.id
+          ),
+          hideLoading: false
+        })
         .then(res => {
-          console.log(res)
+          let {
+            name,
+            sex,
+            minority,
+            workCompany,
+            identity,
+            companyNature,
+            companyAddress,
+            belongDepartment,
+            jobTitle,
+            position,
+            partTime,
+            graduatedSchool,
+            education,
+            bachelor,
+            profession,
+            workExperience,
+            mailingAddress,
+            phone,
+            email,
+            researchDirection,
+            performance,
+            achievements,
+            workArea,
+            professionGroup,
+            provinceConfirm,
+            unitConfirm,
+            historyWork,
+            portraitImg
+          } = this.$com.confirm(res, 'data.content', {})
+          this.$nextTick(() => {
+            this.form.setFieldsValue({
+              name,
+              sex,
+              minority,
+              workCompany,
+              identity,
+              companyNature,
+              companyAddress,
+              belongDepartment,
+              jobTitle,
+              position,
+              partTime
+            })
+            this.$refs.jobStudy.formJob.setFieldsValue({
+              graduatedSchool,
+              education,
+              bachelor,
+              profession,
+              workExperience,
+              mailingAddress,
+              phone,
+              email
+            })
+            this.$refs.jobSpace.formSpace.setFieldsValue({
+              researchDirection,
+              performance,
+              achievements,
+              workArea,
+              professionGroup,
+              provinceConfirm,
+              unitConfirm,
+              historyWork
+            })
+            if(portraitImg != null){
+              this.form.setFieldsValue({ portraitImg: portraitImg })
+              this.fileList.push({
+                uid: -1,
+                name: portraitImg,
+                status: 'done',
+                url: portraitImg
+              })
+            }
+          })
         })
     },
     // 保存按钮
     save() {
-      this.form.validateFields(err => {
-        if (!err) {
-          let data = JSON.parse(JSON.stringify(this.form.getFieldsValue()))
-          this.forMat(data)
-        }
+      let forms = [
+        this.$refs.jobStudy.formJob,
+        this.$refs.jobSpace.formSpace,
+        this.form
+      ]
+      let formsAll = true
+      forms.forEach(form => {
+        form.validateFields(err => {
+          if (err) {
+            formsAll = false
+          }
+        })
       })
+
+      if (formsAll) {
+        let data = Object.assign(
+          this.$refs.jobStudy.formJob.getFieldsValue(),
+          this.$refs.jobSpace.formSpace.getFieldsValue(),
+          this.form.getFieldsValue()
+        )
+        this.forMat(data)
+      } else {
+        this.$message.error('请检查输入!')
+      }
     }
   },
   mounted() {
-    this.$ajax.all(this.getOptions()).then(() => {})
+    this.$ajax.all(this.getOptions()).then(() => {
+      if (this.$route.query.id) {
+        this.getDetail()
+      }
+    })
   }
 }
 </script>
+<style scoped>
+.talent-anchor {  position: absolute; box-shadow: 2px 2px 5px #e0e0e0;  z-index: 10; right: 0px; top: 260px; }
+</style>
+<style>
+.avatar-uploader > .ant-upload {
+  width: 90%;
+  height: 220px;
+}
+.avatar-uploader .ant-upload-list {
+  width: 100%;
+}
+.avatar-uploader .ant-upload-list-picture-card .ant-upload-list-item {
+  width: 90%;
+  height: 220px;
+}
+</style>
 
 

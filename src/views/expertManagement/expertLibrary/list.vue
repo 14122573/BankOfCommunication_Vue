@@ -22,14 +22,14 @@
 					</a-col>
 					<a-col span="6">
 						<a-form-item label="用户状态" class="formItem" v-bind="colSpe">
-							<a-checkbox-group v-decorator="['status_in']" :options="options.statusList"></a-checkbox-group>
+							<a-checkbox-group v-decorator="['status_in',{initialValue: ['1']}]" :options="options.statusList"></a-checkbox-group>
 						</a-form-item>
 					</a-col>
 				</a-row>
 				<a-row type="flex" justify="space-between" class="formItemLine">
 					<a-col span="18">
 						<a-form-item label="级别认定" class="formItem" :label-col="{span:3}" :wrapper-col="{span:12}">
-							<a-checkbox-group v-decorator="['proStatus']" :options="options.proList"></a-checkbox-group>
+							<a-checkbox-group v-decorator="['proStatus',{initialValue: []}]" :options="options.proList"></a-checkbox-group>
 						</a-form-item>
 					</a-col>
 					<a-col span="6" class="algin-right">
@@ -241,6 +241,7 @@
 			reset() {
 				this.pagination.current = 1
 				this.pagination.pageNo = 1
+        // this.searchForm.setFieldsValue()
 				this.searchForm.setFieldsValue({
 					jobTitle: undefined,
 					loginPhone_l: undefined,
