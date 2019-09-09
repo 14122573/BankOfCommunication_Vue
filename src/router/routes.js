@@ -26,8 +26,6 @@ const PersonExpert = () =>
     // 组织机构
 const Organization = () =>
     import ('@/views/systemManagement/organization/list')
-const OrganizationUpload = () =>
-    import ('@/views/systemManagement/organization/upload')
 const OrganizationCreate = () =>
     import ('@/views/systemManagement/organization/create')
 const OrganizationView = () =>
@@ -131,12 +129,6 @@ const appRoutes = [{
       component: Organization,
       meta: { title: '组织机构管理', menuPath: true, authCode: 'super', menuIcon: 'cluster', hideInBread: false, openMode: 'normal' },
       children: [{
-        path: '/systemManagement/organization/upload',
-        name: '/systemManagement/organization/upload',
-        component: OrganizationUpload,
-        meta: { title: '导入', menuPath: false, authCode: 'P01005', menuIcon: 'setting', hideInBread: false, openMode: 'normal' }
-      },
-      {
         path: '/systemManagement/organization/create',
         name: '/systemManagement/organization/create',
         component: OrganizationCreate,

@@ -24,8 +24,8 @@
 						</a-form-item>
 						<input type="password" style="display: none;">
 						<a-form-item class="login-form-password">
-							<a-input v-decorator="[ 'pwd', { validateTrigger:'blur', rules: [{ required: true,whitespace:true, message: '请输入密码!' }] } ]"
-							 :type="isType" id="pwds" placeholder="密码" autocomplete="off" @focus='pasBlur'>
+							<a-input v-decorator="[ 'pwd', { validateTrigger:'blur', rules: [{ validator: validatePassword }] } ]" :type="isType"
+							 id="pwds" placeholder="密码" autocomplete="off" @focus='pasBlur' >
 								<a-icon slot="prefix" type="lock" style="color: rgba(0,0,0,.25)" />
 							</a-input>
 						</a-form-item>
@@ -75,11 +75,15 @@
 	</div>
 </template>
 <script>
-import { permission } from '@/util/mixins'
+import {
+  permission
+} from '@/util/mixins'
 import testStrong from '@/components/testPwd'
 import ResetPassword from '@/views/login/ResetPassword'
 import opeationSuccess from '@/views/login/success'
-import {encryptDes} from '@/util/des-cryptojs'
+import {
+  encryptDes
+} from '@/util/des-cryptojs'
 export default {
   name: 'Login',
   components: {
@@ -155,18 +159,17 @@ export default {
     },
     //登录操作
     handleLogin(e) {
-      this.visibleError = false
       this.formLogin.validateFields((err, values) => {
         if (!err) {
-          let params ={
-            'username':values.username,
-            'pwd':encryptDes(values.pwd)
+          let params = {
+            'username': values.username,
+            'pwd': encryptDes(values.pwd)
           }
           if (this.redirectUrlPrefix != 'null') {
             params.redirectUrl = this.$cookie.get('redirectUrl')
           }
           if (values.captcha) {
-            params.captcha=values.captcha
+            params.captcha = values.captcha
             params.reqId = this.figure
           }
           this.$ajax.post({
@@ -183,6 +186,8 @@ export default {
               this.threeTimesShowCode(values.username)
             }
           })
+        } else {
+          this.visibleError = false
         }
       })
     },
@@ -292,6 +297,14 @@ export default {
           }
           this.setTime(lists)
         }
+        callback()
+      }
+    },
+    validatePassword(rule, value, callback) {
+      if (!value || value == undefined || value.split(' ').join('').length === 0) {
+        this.visibleError = false
+        callback('请输入密码!')
+      }else{
         callback()
       }
     },

@@ -12,7 +12,6 @@
 					</a-form-item>
 				</a-col>
 				<a-col offset='6' span="16" v-if="isShow">
-					{{isShow}}{{passwordStrength}}
 					<testStrong id="strong" :width="90" :pwd='resetData.getFieldValue("newPwd")' v-show='passwordStrength'></testStrong>
 				</a-col>
 				<a-col span="24">

@@ -6,8 +6,8 @@
 					<div class="institutionalTreeWapper">
 						<h2 class="institutionalTreeTitle">行政区域</h2>
 						<div class="institutionalTree" style="height:450px">
-							<a-tree showLine @select="onSelect" @expand="expand" :expandedKeys="expandedKeys"  v-if="selectedKeys.length>0" :treeData="treeData" :selectedKeys="selectedKeys"
-							 :loadData="onLoadData">
+							<a-tree showLine @select="onSelect" @expand="expand" :expandedKeys="expandedKeys" v-if="selectedKeys.length>0"
+							 :treeData="treeData" :selectedKeys="selectedKeys" :loadData="onLoadData">
 							</a-tree>
 						</div>
 					</div>
@@ -34,14 +34,14 @@
 					<p class="gayLine"></p>
 					<div class="portalTableOperates">
 						<a-button icon='plus' v-if="$permission('P01001')" type="primary" @click="handleAdd">新建组织机构</a-button>
-						<a-button icon='download' v-if="$permission('P01005')" @click="toUpload">批量导入组织机构</a-button>
+						<!-- <a-button icon='download' v-if="$permission('P01005')" @click="toUpload">批量导入组织机构</a-button> -->
 					</div>
 					<a-table class="portalTable" size='small' :columns="columns" rowKey="groupName" :dataSource="dataSource"
 					 :pagination="pagination">
 						<span slot="action" slot-scope="text, record">
 							<span class="actionBtn" v-if="$permission('P01002')" @click="$router.push({name:'/systemManagement/organization/view',query:{id:record.id}})">查看</span>
 							<a-divider v-if="$permission('P01002')" type="vertical" />
-							<span class="actionBtn" v-if="$permission('P01003')" @click="$router.push({name:'/systemManagement/organization/edit',query:{id:record.id,data:JSON.stringify(transData)}})">修改</span>
+							<span class="actionBtn" v-if="$permission('P01003')" @click="handleEdit(record)">修改</span>
 							<a-divider v-if="$permission('P01003')" type="vertical" />
 							<span class="actionBtn" v-if="$permission('P01004')" @click="deleteBtn(text,record)">删除</span>
 						</span>
@@ -135,7 +135,7 @@ export default {
       opeationItem: {},
       treeData: [],
       selectedKeys: [],
-      expandedKeys:['all'],
+      expandedKeys: ['all'],
       transData: {},
       pagination: {
         pageNo: 1,
@@ -149,8 +149,7 @@ export default {
     }
   },
   mounted() {
-    if(this.$route.name == '/systemManagement/organization'){
-      this.getSearchParams()
+    if (this.$route.name == '/systemManagement/organization') {
       this.getArea()
     }
   },
@@ -213,24 +212,7 @@ export default {
       }).then(res => {
         this.dataSource = this.$com.confirm(res, 'data.content', [])
         this.pagination.total = this.$com.confirm(res, 'data.totalRows', 0)
-        //存储当前列表的展示条件，包括分页信息、搜索条件
-        this.$com.storeSearchParams(this.$route.name,this.pagination,params)
       })
-    },
-		    /**
-		 * 从vuex中或已存储的搜索条件，判断此条件是否为当前路由的 。如果是则使用
-		 */
-    getSearchParams(){
-		  let searchParams = this.$store.state.listSearchParams[this.$route.name]
-		  if(!!searchParams && !!searchParams.routeName && (this.$route.name == searchParams.routeName)){
-		    if(searchParams.params){
-		      this.searchForm=searchParams.params
-          this.areaCode=searchParams.params.areaCode
-		    }
-		    if(searchParams.pagination){
-		      this.pagination=searchParams.pagination
-		    }
-		  }
     },
     getArea() {
       this.$ajax.get({
@@ -260,8 +242,8 @@ export default {
         key: item.id,
         parentId: item.parentId
       }
-      if(item.id.length=='9'){
-        childrenNode.isLeaf=true
+      if (item.id.length == '9') {
+        childrenNode.isLeaf = true
       }
       return childrenNode
     },
@@ -334,8 +316,24 @@ export default {
         })
       }
     },
-    expand(expandedKeys){
-      this.expandedKeys=expandedKeys
+    expand(expandedKeys) {
+      this.expandedKeys = expandedKeys
+    },
+    handleEdit(record) {
+      if (this.areaCode && this.areaCode !== 'all') {
+        this.$router.push({
+          name: '/systemManagement/organization/edit',
+          query: {
+            id: record.id,
+            data: JSON.stringify(this.transData)
+          }
+        })
+      } else {
+        this.$model.warning({
+          title: '提示',
+          content: '请先选择具体的行政区域节点再去修改！'
+        })
+      }
     }
   }
 }
