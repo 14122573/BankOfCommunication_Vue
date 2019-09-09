@@ -3,14 +3,29 @@
 </style>
 
 <template>
-  <div class="layoutMargin layoutPadding">
-    <a-tree class="portalRoleTree" :treeData="tree.roleTreeData" defaultExpandAll @select="onSelect" ></a-tree>
-    <p class="gayLine"></p>
-    <div class="portalTableOperates">
-      <a-button :disabled='disAddRoleNode' icon='plus' type="primary" ghost @click="handleAddRoleNode">添加子集</a-button>
+<div class="portalDetailWapper">
+  <div class="portalDetailTitle">
+    <span class="title">维护权限基础划分</span>
+    <div class="detailOperations">
+      <a-button :disabled='disAddfistRoleNode' icon='plus' type="primary" ghost @click="handleAddFirstRoleNode">添加一级权限</a-button>
+      <a-button :disabled='disAddRoleNode' icon='plus' type="primary" ghost @click="handleAddRoleNode">添加子集权限</a-button>
       <a-button :disabled='disDelRoleNode' icon='delete' type="danger" ghost @click="handleDelRoleNode">删除权限</a-button>
     </div>
   </div>
+  <div class="portalDetailContentWapper">
+    <div class="portalDetailContentBody">
+      <div class="layoutMargin detailsPartSection contentPadding">
+        <template v-if="tree.roleTreeDataArranged.length==0">
+          <a-skeleton active />
+        </template>
+        <template v-else>
+          <a-tree class="portalRoleTree" :treeData="tree.roleTreeDataArranged" defaultExpandAll @select="onSelect" ></a-tree>
+        </template>
+      </div>
+    </div>
+  </div>
+</div>
+
 </template>
 <script>
 import { OldSysCodes } from '@/config/outside-config'
@@ -19,11 +34,12 @@ export default {
     return {
       tree:{
         roleTreeData:[],
-
+        roleTreeDataArranged:[]
       },
       selectedNode:{
         key:'',
-        node:null
+        node:null,
+        parent:null
       }
     }
   },
@@ -33,7 +49,11 @@ export default {
         if(this.$com.oneOf(this.selectedNode.node.permKey,OldSysCodes)){
           return true
         }else{
-          return false
+          if(!this.selectedNode.parent){
+            return false
+          }else{
+            return true
+          }
         }
       }else{
         return true
@@ -45,11 +65,37 @@ export default {
       }else{
         return true
       }
+    },
+    disAddfistRoleNode(){
+      if(!!this.selectedNode.node){
+        return true
+      }else{
+        return false
+      }
     }
   },
   methods: {
+    findRoleNode(){
+      let roleNode = null
+
+    },
+    handleDelRoleNode(){
+      this.$model.confirm({
+        title: '是否确认删除’'+this.selectedNode.node.title+'‘？',
+        content: '此操作不可撤销',
+        okText: '确认删除',
+        okType: 'danger',
+        cancelText: '取消',
+        onOk() {
+          vm.confirmDelRoleNode()
+        }
+      })
+    },
+    confirmDelRoleNode(){
+
+    },
+    handleAddFirstRoleNode(){},
     handleAddRoleNode(){},
-    handleDelRoleNode(){},
     /**
      * 查询权限树
      */
@@ -61,6 +107,24 @@ export default {
           let data=res.data.content
           data.forEach((item,index)=>{
             this.tree.roleTreeData.push(this.initRoleTreeNode(item))
+          })
+
+          // 过滤获得老系统
+          let oldSysPermissions = [],vm = this
+          this.tree.roleTreeData.forEach((item,index)=>{
+            if(this.$com.oneOf(item.permKey,OldSysCodes)){
+              oldSysPermissions.push(item)
+            }else{
+              let node = Object.assign({}, item)
+              this.tree.roleTreeDataArranged.push(node)
+            }
+          })
+          this.tree.roleTreeDataArranged.push({
+            'title':'老系统权限',
+            'key':'0',
+            'permKey':'',
+            'isOldSys':true,
+            'children':[].concat(oldSysPermissions)
           })
         }
       })
@@ -100,7 +164,7 @@ export default {
         'permKey':selectedNodes[0].data.props.permKey,
         'key':selectedKeys[0]
       }
-      console.log('selected', this.selectedNode)
+      this.selectedNode.parent = !node.$parent.dataRef?null:Object.assign({},node.$parent.dataRef)
     },
     onCheck (checkedKeys, info) {
       console.log('onCheck', checkedKeys, info)
