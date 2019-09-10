@@ -50,18 +50,6 @@ case 'production': // 生产环境下
   break
 default: // 默认环境下（开发环境）
   MicConfig = [
-  // {
-  //   baseUrl:'http://sub1.tao.com',
-  //   resourceName:'spaone',
-  //   micId:'mic:spaone',
-  //   pathPrefix:'/spaone'
-  // },
-  // {
-  //   baseUrl:'http://sub2.tao.com',
-  //   resourceName:'management',
-  //   micId:'mic:management',
-  //   pathPrefix:'/management'
-  // },
     {
       baseUrl:'http://scsd.tao.com',
       resourceName:'scsd',

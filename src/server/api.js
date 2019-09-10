@@ -60,6 +60,11 @@ export default {
   PUT_EDIT_ORGANIZATION_LIST: '/service-permission/perm/group/{id}', //修改组织机构
   DELETE_ORGANIZATION_LIST: '/service-permission/perm/group/{id}', //删除组织机构
   GET_ORGANIZATION_LIST_DETAIL: '/service-permission/perm/group/{id}', //组织机构详情
+  // 专家管理
+  GET_EXPERT_BASE_LIST: '/service-expert/expert/dictionary/{type}', //专家字典信息列表接口，type: 0-民族 1-单位性质 2-职务 3-职称 4-学历 5-学位 6-工作领域 7-专业组别 8-研究方向
+  POST_EXPERT_BASE: '/service-expert/expert/dictionary', //新增专家字典信息列表接口，
+  PUT_EXPERT_BASE: '/service-expert/expert/dictionary/{id}', //修改专家字典信息列表接口，
+  DELETE_EXPERT_BASE: '/service-expert/expert/dictionary/{id}', //删除专家字典信息列表接口，
   GET_EXPERT_LIST: '/service-expert/expert/expert', //专家库列表
   GET_EXPERT_DETAIL: '/service-expert/expert/expert/{experId}', //专家库明细
   DICTIONARY_TYPE_GET: '/service-expert/expert/dictionary/{type}', //字典
