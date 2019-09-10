@@ -49,6 +49,7 @@ const CreateNewUser = () =>
 const NewUserView = () =>
     import ('@/views/systemManagement/administrator/new-user-view')
     // 专家管理人员
+const ExpertBase = () => import ('@/views/expertManagement/base/index')
 const Talent = () =>
     import ('@/views/expertManagement/talent/list')
 const TalentUpload = () =>
@@ -304,6 +305,12 @@ const appRoutes = [{
         component: ProjectReviewHistory,
         meta: { title: '历史评审', menuPath: false, authCode: 'P10000', menuIcon: 'user', hideInBread: false, openMode: 'normal' }
       }]
+    },
+    {
+      path: '/expertManagement/base',
+      name: '/expertManagement/base',
+      component: ExpertBase,
+      meta: { title: '专家基础信息维护', menuPath: true, authCode: 'P14000', menuIcon: 'edit', hideInBread: false, openMode: 'normal' }
     }
     ]
   },
