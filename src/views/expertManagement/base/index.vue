@@ -35,7 +35,7 @@
 </div>
 </template>
 <script>
-import ProfessionalTitle from './professionalTitle/list'
+import ProfessionalTitle from './components/list'
 export default {
   name: 'ExpertBase',
   components: {
