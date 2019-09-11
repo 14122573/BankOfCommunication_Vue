@@ -204,7 +204,7 @@ export default {
      * 从vuex中或已存储的搜索条件，判断此条件是否为当前路由的 。如果是则使用
      */
     getSearchParams(){
-      let searchParams = this.$store.state.listSearchParams[this.$route.name+'/pending']
+      let searchParams = !this.$store.state.listSearchParams?null:this.$store.state.listSearchParams[this.$route.name+'/pending']
       if(!!searchParams && !!searchParams.routeName && (this.$route.name+'/pending' == searchParams.routeName)){
         if(!!searchParams.params){
           Object.keys(searchParams.params).forEach(elem=>{

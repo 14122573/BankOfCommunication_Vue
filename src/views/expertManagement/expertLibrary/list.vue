@@ -245,7 +245,7 @@ export default {
 			 * 从vuex中或已存储的搜索条件，判断此条件是否为当前路由的 。如果是则使用
 			 */
     getSearchParams() {
-      let searchParams = this.$store.state.listSearchParams[this.$route.name]
+      let searchParams = !this.$store.state.listSearchParams?null:this.$store.state.listSearchParams[this.$route.name]
       if (!!searchParams && !!searchParams.routeName && (this.$route.name == searchParams.routeName)) {
         if (!!searchParams.params) {
           this.searchForm.setFieldsValue(searchParams.params)
