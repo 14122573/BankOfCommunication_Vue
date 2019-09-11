@@ -65,14 +65,13 @@
                   </a-row>
                 </a-col>
                 <a-col span="8">
-                  <a-form-item label="一寸照" required v-bind="colSpa">
+                  <a-form-item label="一寸照" v-bind="colSpa">
                     <a-upload listType="picture-card" :fileList="fileList"
                       @preview="handlePreview"
                       :remove="handleRemove"
                       :beforeUpload="beforeUpload"
                       class="avatar-uploader"
                       accept=".jpg,.jpeg"
-                      v-decorator="['portraitImg',{rules:rules.portraitImg}]"
                       >
                       <div v-if="fileList.length < 1">
                         <a-icon type="cloud-upload" style="fontSize:24px" />
@@ -244,7 +243,6 @@ export default {
           { required: true, whitespace: true, message: '请选择职务!' }
         ],
         // 一寸照
-        portraitImg: [{ validator: validateImg }]
       }
     }
   },
@@ -287,8 +285,6 @@ export default {
     },
     handleRemove(file) {
       this.fileList = []
-      this.form.setFieldsValue({ portraitImg: null })
-      this.form.validateFields(['portraitImg'])
     },
     beforeUpload(file) {
       const isLt5M = file.size / 1024 / 1024 < 5
@@ -320,8 +316,6 @@ export default {
               status: 'done',
               url: data.path
             })
-            this.form.setFieldsValue({ portraitImg: data.path })
-            this.form.validateFields(['portraitImg'])
           } else {
             this.$message.error(res.msg)
           }
@@ -461,7 +455,6 @@ export default {
               historyWork
             })
             if(portraitImg != null){
-              this.form.setFieldsValue({ portraitImg: portraitImg })
               this.fileList.push({
                 uid: -1,
                 name: portraitImg,
