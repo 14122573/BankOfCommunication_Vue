@@ -288,7 +288,7 @@ export default {
           url: this.$api.PUT_CHANGE_EXPERT,
           params: this.selectedRowKeys
         }).then(res => {
-           this.$router.push({
+          this.$router.push({
 						 name:'/expertManagement/expertLibrary'
 					 })
         })
