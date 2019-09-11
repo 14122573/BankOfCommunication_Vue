@@ -22,7 +22,7 @@
 					</a-col>
 					<a-col span="6">
 						<a-form-item label="用户状态" class="formItem" v-bind="colSpe">
-							<a-checkbox-group v-decorator="['status',{initialValue: ['1']}]" :options="options.statusList"></a-checkbox-group>
+							<a-checkbox-group v-decorator="['status_in',{initialValue: []}]" :options="options.statusList"></a-checkbox-group>
 						</a-form-item>
 					</a-col>
 				</a-row>
@@ -36,7 +36,7 @@
 			<p class="gayLine"></p>
 			<a-row class="portalTableOperates">
 				<a-button type="primary" icon='plus' @click="$router.push({name: '/expertManagement/talent/create'})">新增人才</a-button>
-				<a-button icon='download' @click="$router.push({name: '/expertManagement/talent/upload'})">批量导入人才</a-button>
+				<a-button icon='download' @click="$router.push({name: '/expertManagement/talent/upload'})">导入人才</a-button>
 			</a-row>
 			<a-table class="portalTable" size="small" :dataSource="dataSource" rowKey="id" :pagination="pagination" :columns="columns">
 				<span slot="status" slot-scope="text, record">
@@ -83,7 +83,7 @@ export default {
         ],
         statusList: [{
           label: '正常',
-          value: '1'
+          value: '0,1'
         },
         {
           label: '已注销',
@@ -166,7 +166,7 @@ export default {
      * 从vuex中或已存储的搜索条件，判断此条件是否为当前路由的 。如果是则使用
      */
     getSearchParams(){
-      let searchParams = this.$store.state.listSearchParams[this.$route.name]
+      let searchParams = !this.$store.state.listSearchParams?null:this.$store.state.listSearchParams[this.$route.name]
       if(!!searchParams && !!searchParams.routeName && (this.$route.name == searchParams.routeName)){
         if(!!searchParams.params){
           this.searchForm.setFieldsValue(searchParams.params)
@@ -184,10 +184,11 @@ export default {
     },
     getLists() {
       const options = this.$com.dealObjectValue(this.searchForm.getFieldsValue())
-      if (options.status) options.status = options.status.join(',')
+      if (options.status_in) options.status_in = options.status_in.join(',')
       const params = Object.assign(options, {
         pageSize: this.pagination.pageSize,
-        pageNo: this.pagination.pageNo
+        pageNo: this.pagination.pageNo,
+        type:'1'
       })
       this.$ajax.get({
         url: this.$api.GET_EXPERT_LIST,

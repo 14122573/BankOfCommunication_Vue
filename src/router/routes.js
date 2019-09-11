@@ -26,8 +26,6 @@ const PersonExpert = () =>
     // 组织机构
 const Organization = () =>
     import ('@/views/systemManagement/organization/list')
-const OrganizationUpload = () =>
-    import ('@/views/systemManagement/organization/upload')
 const OrganizationCreate = () =>
     import ('@/views/systemManagement/organization/create')
 const OrganizationView = () =>
@@ -49,6 +47,7 @@ const CreateNewUser = () =>
 const NewUserView = () =>
     import ('@/views/systemManagement/administrator/new-user-view')
     // 专家管理人员
+const ExpertBase = () => import ('@/views/expertManagement/base/index')
 const Talent = () =>
     import ('@/views/expertManagement/talent/list')
 const TalentUpload = () =>
@@ -129,12 +128,6 @@ const appRoutes = [{
       component: Organization,
       meta: { title: '组织机构管理', menuPath: true, authCode: 'P01000', menuIcon: 'cluster', hideInBread: false, openMode: 'normal' },
       children: [{
-        path: '/systemManagement/organization/upload',
-        name: '/systemManagement/organization/upload',
-        component: OrganizationUpload,
-        meta: { title: '导入', menuPath: false, authCode: 'P01005', menuIcon: 'setting', hideInBread: false, openMode: 'normal' }
-      },
-      {
         path: '/systemManagement/organization/create',
         name: '/systemManagement/organization/create',
         component: OrganizationCreate,
@@ -304,6 +297,12 @@ const appRoutes = [{
         component: ProjectReviewHistory,
         meta: { title: '历史评审', menuPath: false, authCode: 'P10000', menuIcon: 'user', hideInBread: false, openMode: 'normal' }
       }]
+    },
+    {
+      path: '/expertManagement/base',
+      name: '/expertManagement/base',
+      component: ExpertBase,
+      meta: { title: '专家基础信息维护', menuPath: true, authCode: 'P14000', menuIcon: 'edit', hideInBread: false, openMode: 'normal' }
     }
     ]
   },

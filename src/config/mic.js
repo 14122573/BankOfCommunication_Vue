@@ -17,12 +17,12 @@ case 'devol': // 本地线上部署环境下
       micId:'mic:scsd',
       pathPrefix:'/scsd'
     },
-    {
-      baseUrl:'http://txc.tao.com',
-      resourceName:'kpjd',
-      micId:'mic:kpjd',
-      pathPrefix:'/kpjd'
-    }
+    // {
+    //   baseUrl:'http://txc.tao.com',
+    //   resourceName:'kpjd',
+    //   micId:'mic:kpjd',
+    //   pathPrefix:'/kpjd'
+    // }
   ]
   break
 case 'sit': // sit环境下
@@ -50,30 +50,18 @@ case 'production': // 生产环境下
   break
 default: // 默认环境下（开发环境）
   MicConfig = [
-  // {
-  //   baseUrl:'http://sub1.tao.com',
-  //   resourceName:'spaone',
-  //   micId:'mic:spaone',
-  //   pathPrefix:'/spaone'
-  // },
-  // {
-  //   baseUrl:'http://sub2.tao.com',
-  //   resourceName:'management',
-  //   micId:'mic:management',
-  //   pathPrefix:'/management'
-  // },
     {
       baseUrl:'http://scsd.tao.com',
       resourceName:'scsd',
       micId:'mic:scsd',
       pathPrefix:'/scsd'
     },
-    {
-      baseUrl:'http://txc.tao.com',
-      resourceName:'kpjd',
-      micId:'mic:kpjd',
-      pathPrefix:'/kpjd'
-    }
+    // {
+    //   baseUrl:'http://txc.tao.com',
+    //   resourceName:'kpjd',
+    //   micId:'mic:kpjd',
+    //   pathPrefix:'/kpjd'
+    // }
   ]
   break
 };

@@ -51,7 +51,7 @@
         <a-row class="formItemLine">
           <a-col :span="16">
             <a-form-item label="地址微调" v-bind="formItemSingle">
-              <BMapComponent :height="250" :width="830" :keyWords="position" @on-change="getNewAddress" />
+              <!-- <BMapComponent :height="250" :width="830" :keyWords="position" @on-change="getNewAddress" /> -->
             </a-form-item>
           </a-col>
         </a-row>

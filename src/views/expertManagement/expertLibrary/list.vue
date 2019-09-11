@@ -41,7 +41,7 @@
 			<p class="gayLine"></p>
 			<a-row class="portalTableOperates">
 				<a-button type="primary" icon='plus' @click="addExpertUser=true">新增专家</a-button>
-				<a-button icon='download' @click="$router.push({name: '/expertManagement/talent/upload'})">批量导入专家</a-button>
+				<a-button icon='download' @click="$router.push({name: '/expertManagement/expertLibrary/upload'})">导入专家</a-button>
 			</a-row>
 			<a-table class="portalTable" size="small" :dataSource="dataSource" rowKey="id" :pagination="pagination" :columns="columns">
 				<span slot="status" slot-scope="text, record">
@@ -245,7 +245,7 @@ export default {
 			 * 从vuex中或已存储的搜索条件，判断此条件是否为当前路由的 。如果是则使用
 			 */
     getSearchParams() {
-      let searchParams = this.$store.state.listSearchParams[this.$route.name]
+      let searchParams = !this.$store.state.listSearchParams?null:this.$store.state.listSearchParams[this.$route.name]
       if (!!searchParams && !!searchParams.routeName && (this.$route.name == searchParams.routeName)) {
         if (!!searchParams.params) {
           this.searchForm.setFieldsValue(searchParams.params)

@@ -34,7 +34,7 @@
 					<p class="gayLine"></p>
 					<div class="portalTableOperates">
 						<a-button icon='plus' v-if="$permission('P01001')" type="primary" @click="handleAdd">新建组织机构</a-button>
-						<a-button icon='download' v-if="$permission('P01005')" @click="toUpload">批量导入组织机构</a-button>
+						<!-- <a-button icon='download' v-if="$permission('P01005')" @click="toUpload">批量导入组织机构</a-button> -->
 					</div>
 					<a-table class="portalTable" size='small' :columns="columns" rowKey="groupName" :dataSource="dataSource"
 					 :pagination="pagination">

@@ -38,6 +38,7 @@ export default {
   GET_CHECK_PHONE_EXIST: '/service-user/user/public/check/phone/exist', //判断手机是否存在
   GET_PHONE_CODE: '/service-user/user/public/send/{type}/{phone}', // 发送验证码 （用于注册、忘记密码）
   POST_CHECK_PHONE_CODE: '/service-user/user/public/check/{type}/{phone}/{code}', // 验证手机验证码 （用于注册、忘记密码）
+  PUT_PERSONAL_RESET_PWD:'service-user/user/pwd',// 个人中心重置密码
   GET_ROLE_LIST: '/service-permission/perm/roles', //获取角色列表
   GET_ALL_ROLE: '/service-permission/perm/menu/tree', //获取权限
   ADD_ROLE_POST: '/service-permission/perm/role', // 新增角色
@@ -59,13 +60,19 @@ export default {
   PUT_EDIT_ORGANIZATION_LIST: '/service-permission/perm/group/{id}', //修改组织机构
   DELETE_ORGANIZATION_LIST: '/service-permission/perm/group/{id}', //删除组织机构
   GET_ORGANIZATION_LIST_DETAIL: '/service-permission/perm/group/{id}', //组织机构详情
+  // 专家管理
+  GET_EXPERT_BASE_LIST: '/service-expert/expert/dictionary/{type}', //专家字典信息列表接口，type: 0-民族 1-单位性质 2-职务 3-职称 4-学历 5-学位 6-工作领域 7-专业组别 8-研究方向
+  POST_EXPERT_BASE: '/service-expert/expert/dictionary', //新增专家字典信息列表接口，
+  PUT_EXPERT_BASE: '/service-expert/expert/dictionary/{id}', //修改专家字典信息列表接口，
+  DELETE_EXPERT_BASE: '/service-expert/expert/dictionary/{id}', //删除专家字典信息列表接口，
   GET_EXPERT_LIST: '/service-expert/expert/expert', //专家库列表
   GET_EXPERT_DETAIL: '/service-expert/expert/expert/{experId}', //专家库明细
   DICTIONARY_TYPE_GET: '/service-expert/expert/dictionary/{type}', //字典
   EXPORT_TYPE: '/service-expert/expert/expert', //新增专家人员
-  PUT_CHANGE_EXPERT:'/service-user/user/become/expert',//成为专家
-  GET_USER_EXPERT_LIST: '/service-user/user/accounts/new/expert', 
+  PUT_CHANGE_EXPERT: '/service-user/user/become/expert', //成为专家
+  GET_USER_EXPERT_LIST: '/service-user/user/accounts/new/expert',
+  IMPORT_EXPERT_ALL: '/service-expert/expert/expert/import', //专家库导入
   EXPORT_TYPE_EDIT: '/service-expert/expert/expert/{experId}',
   UPLOAD_TEMP: BASE_URL + '/zuul/service-file/file/upload/1/temp', //上传图片
-	
+
 }
