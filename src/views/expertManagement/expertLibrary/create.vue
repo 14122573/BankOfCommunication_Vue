@@ -71,7 +71,7 @@
                       :remove="handleRemove"
                       :beforeUpload="beforeUpload"
                       class="avatar-uploader"
-                      accept=".jpg"
+                      accept=".jpg,.jpeg"
                       v-decorator="['portraitImg',{rules:rules.portraitImg}]"
                       >
                       <div v-if="fileList.length < 1">
@@ -293,6 +293,11 @@ export default {
       this.form.validateFields(['portraitImg'])
     },
     beforeUpload(file) {
+      const isLt5M = file.size / 1024 / 1024 < 5
+      if (!isLt5M) {
+        this.$message.error('一寸照最大不能超过5M!')
+        return false
+      }
       let fileList = [...this.fileList, file]
       this.handleUpload(fileList)
       return false
