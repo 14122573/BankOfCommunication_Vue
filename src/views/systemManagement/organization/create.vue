@@ -244,8 +244,8 @@ export default {
       })
     },
     validatePhone(rule, value, callback) {
-      if (value && !this.$com.checkPhone(value)) {
-        callback('手机号码不合法!')
+      if (value && !this.$com.checkPhone(value) && !this.$com.checkTel(value)) {
+        callback('联系电话不合法!')
       } else {
         callback()
       }
