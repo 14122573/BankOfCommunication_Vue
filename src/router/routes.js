@@ -401,6 +401,32 @@ const appRoutes = [{
     }
     ]
   },
+  //水产原良种验收
+  {
+    path: '/scylzc',
+    name: 'scylzc',
+    component: contentWrapper,
+    meta: { title: '水产原良种场验收审定', menuPath: true, authCode: 'S0503', menuIcon: 'barcode', hideInBread: true },
+    children: [{
+      path: '/scylzc/acceptance/list',
+      name: '/scylzc/acceptance/list',
+      meta: { title: '验收申请填写', menuPath: true, authCode: 'S050301', menuIcon: 'exception', hideInBread: false, openMode: 'spa' },
+    }
+    ]
+  },
+  //水产原良种复查
+  {
+    path: '/ylzcre',
+    name: 'ylzcre',
+    component: contentWrapper,
+    meta: { title: '水产原良种场复查审定', menuPath: true, authCode: 'S0502', menuIcon: 'barcode', hideInBread: true },
+    children: [{
+      path: '/ylzcre/review/information',
+      name: '/ylzcre/review/information',
+      meta: { title: '监测数据管理', menuPath: true, authCode: 'S050201', menuIcon: 'exception', hideInBread: false, openMode: 'spa' },
+    }
+    ]
+  },
   {
     path: '/SCYJ/:sysname',
     name: 'SCYJ',
