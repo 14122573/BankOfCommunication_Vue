@@ -22,8 +22,9 @@ const PersonCenter = () =>
     import ('@/views/personal/person-center')
 const PersonExpert = () =>
     import ('@/views/personal/expert')
-    // 系统管理
-    // 组织机构
+// 系统管理
+const SysBasicInfo = () => import ('@/views/systemManagement/basicInformation/index')
+// 组织机构
 const Organization = () =>
     import ('@/views/systemManagement/organization/list')
 const OrganizationCreate = () =>
@@ -149,7 +150,7 @@ const appRoutes = [{
       },
       ]
     },
-      // RoleManagement角色管理
+    // RoleManagement角色管理
     {
       path: '/systemManagement/role',
       name: '/systemManagement/role',
@@ -181,7 +182,7 @@ const appRoutes = [{
       },
       ]
     },
-      // AdministratorManagement管理员管理
+    // AdministratorManagement管理员管理
     {
       path: '/systemManagement/administrator',
       name: '/systemManagement/administrator',
@@ -218,6 +219,14 @@ const appRoutes = [{
         meta: { title: '权限分配', menuPath: false, authCode: 'P03102', menuIcon: 'cluster', hideInBread: false, openMode: 'normal' },
       },
       ]
+    },
+    // 公共基础信息维护
+    {
+      path: '/systemManagement/basic',
+      name: '/systemManagement/basic',
+      component: SysBasicInfo,
+      meta: { title: '基础信息维护', menuPath: true, authCode: 'P04000', menuIcon: 'cluster', hideInBread: false, openMode: 'normal' },
+      children: []
     },
     ]
   },
@@ -314,6 +323,7 @@ const appRoutes = [{
     }
     ]
   },
+  //科普教育基地申报管理
   {
     path: '/kpjd',
     name: 'kpjd',
@@ -406,6 +416,32 @@ const appRoutes = [{
       path: '/scsd/selectPost',
       name: '/scsd/selectPost',
       meta: { title: '查看申报记录', menuPath: true, authCode: 'S050108', menuIcon: 'exception', hideInBread: false, menuIcon: 'appstore' }
+    }
+    ]
+  },
+  //水产原良种验收
+  {
+    path: '/scylzc',
+    name: 'scylzc',
+    component: contentWrapper,
+    meta: { title: '水产原良种场验收审定', menuPath: true, authCode: 'S0503', menuIcon: 'barcode', hideInBread: true },
+    children: [{
+      path: '/scylzc/acceptance/list',
+      name: '/scylzc/acceptance/list',
+      meta: { title: '验收申请填写', menuPath: true, authCode: 'S050301', menuIcon: 'exception', hideInBread: false, openMode: 'spa' },
+    }
+    ]
+  },
+  //水产原良种复查
+  {
+    path: '/ylzcre',
+    name: 'ylzcre',
+    component: contentWrapper,
+    meta: { title: '水产原良种场复查审定', menuPath: true, authCode: 'S0502', menuIcon: 'barcode', hideInBread: true },
+    children: [{
+      path: '/ylzcre/review/information',
+      name: '/ylzcre/review/information',
+      meta: { title: '监测数据管理', menuPath: true, authCode: 'S050201', menuIcon: 'exception', hideInBread: false, openMode: 'spa' },
     }
     ]
   },
