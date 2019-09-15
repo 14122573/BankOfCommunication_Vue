@@ -22,8 +22,9 @@ const PersonCenter = () =>
     import ('@/views/personal/person-center')
 const PersonExpert = () =>
     import ('@/views/personal/expert')
-    // 系统管理
-    // 组织机构
+// 系统管理
+const SysBasicInfo = () => import ('@/views/systemManagement/basicInformation/index')
+// 组织机构
 const Organization = () =>
     import ('@/views/systemManagement/organization/list')
 const OrganizationCreate = () =>
@@ -147,7 +148,7 @@ const appRoutes = [{
       },
       ]
     },
-      // RoleManagement角色管理
+    // RoleManagement角色管理
     {
       path: '/systemManagement/role',
       name: '/systemManagement/role',
@@ -173,7 +174,7 @@ const appRoutes = [{
       },
       ]
     },
-      // AdministratorManagement管理员管理
+    // AdministratorManagement管理员管理
     {
       path: '/systemManagement/administrator',
       name: '/systemManagement/administrator',
@@ -210,6 +211,14 @@ const appRoutes = [{
         meta: { title: '权限分配', menuPath: false, authCode: 'P03102', menuIcon: 'cluster', hideInBread: false, openMode: 'normal' },
       },
       ]
+    },
+    // 公共基础信息维护
+    {
+      path: '/systemManagement/basic',
+      name: '/systemManagement/basic',
+      component: SysBasicInfo,
+      meta: { title: '基础信息维护', menuPath: true, authCode: 'P04000', menuIcon: 'cluster', hideInBread: false, openMode: 'normal' },
+      children: []
     },
     ]
   },
@@ -306,6 +315,7 @@ const appRoutes = [{
     }
     ]
   },
+  //科普教育基地申报管理
   {
     path: '/kpjd',
     name: 'kpjd',

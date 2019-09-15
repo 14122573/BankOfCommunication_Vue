@@ -39,6 +39,8 @@ export default {
   GET_PHONE_CODE: '/service-user/user/public/send/{type}/{phone}', // 发送验证码 （用于注册、忘记密码）
   POST_CHECK_PHONE_CODE: '/service-user/user/public/check/{type}/{phone}/{code}', // 验证手机验证码 （用于注册、忘记密码）
   PUT_PERSONAL_RESET_PWD:'service-user/user/pwd',// 个人中心重置密码
+
+  // 系统配置
   GET_ROLE_LIST: '/service-permission/perm/roles', //获取角色列表
   GET_ALL_ROLE: '/service-permission/perm/menu/tree', //获取权限
   ADD_ROLE_POST: '/service-permission/perm/role', // 新增角色
@@ -60,6 +62,11 @@ export default {
   PUT_EDIT_ORGANIZATION_LIST: '/service-permission/perm/group/{id}', //修改组织机构
   DELETE_ORGANIZATION_LIST: '/service-permission/perm/group/{id}', //删除组织机构
   GET_ORGANIZATION_LIST_DETAIL: '/service-permission/perm/group/{id}', //组织机构详情
+  // 系统配置 --- 基础信息
+  GET_SYSBASICINFO_BREED_LIST: '/service-expert/expert/breed', // 获取水产品种大类列表
+  POST_SYSBASICINFO_BREED: '/service-expert/expert/breed', //新增水产品种大类
+  PUT_SYSBASICINFO_BREED: '/service-expert/expert/breed/{id}', //修改水产品种大类
+  DELETE_SYSBASICINFO_BREED: '/service-expert/expert/breed/{id}', //删除水产品种大类
   // 专家管理
   GET_EXPERT_BASE_LIST: '/service-expert/expert/dictionary/{type}', //专家字典信息列表接口，type: 0-民族 1-单位性质 2-职务 3-职称 4-学历 5-学位 6-工作领域 7-专业组别 8-研究方向
   POST_EXPERT_BASE: '/service-expert/expert/dictionary', //新增专家字典信息列表接口，
