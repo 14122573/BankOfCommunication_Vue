@@ -103,7 +103,6 @@ export default {
     },
     //   删除按钮
     handleDelete(item){
-      console.log(item)
       if(!!item) {
         let vm = this
         this.deleteData = item
@@ -131,38 +130,6 @@ export default {
           this.$message.success('删除成功')
           this.getList()
         } else {
-          this.$message.error(res.msg)
-        }
-      })
-    },
-    // 修改按钮
-    edit(item){
-      // this.$router.push({
-      //   name:'/systemManagement/role/edit',
-      //   query:{
-      //     type:'edit',
-      //     id:item.id,
-      //   }
-      // })
-    },
-    // 查看按钮
-    view(item){
-      // this.$router.push({
-      //   name:'/systemManagement/role/view',
-      //   query:{
-      //     type:'view',
-      //     id:item.id,
-      //   }
-      // })
-    },
-    handleOkDelete(){
-      this.$ajax.delete({
-        url:this.$api.DELETE_CHARACTER.replace('{id}',this.deleteData.id),
-      }).then(res=>{
-        if(res.code === '200'){
-          this.$message.success('删除成功')
-          this.getList()
-        }else{
           this.$message.error(res.msg)
         }
       })

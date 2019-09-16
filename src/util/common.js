@@ -3,6 +3,7 @@ import Cookie from '@/util/local-cookie'
 import Store from '@/store'
 import Router from '@/router'
 import Md5 from 'js-md5'
+import moment from 'moment'
 
 export default {
   /**
@@ -353,6 +354,15 @@ export default {
         'pagination': page
       }
       Store.commit('SET_SEARCHPARAMS', searchParams)
+    }
+  },
+  /**
+   * 格式化日期
+   * @param {Date} value 日期
+   */
+  formatDate(value) {
+    if(value){
+      return moment(value).format('YYYY-MM-DD')
     }
   },
 }
