@@ -13,8 +13,8 @@ case 'production': // 生产环境下
   BASE_URL = 'http://iftp.omniview.pro/api'
   break
 default: // 默认环境下（开发环境）
-  BASE_URL = 'http://fish.omniview.pro/api'
-  // BASE_URL = 'http://iftp.omniview.pro/api'
+  // BASE_URL = 'http://fish.omniview.pro/api'
+  BASE_URL = 'http://iftp.omniview.pro/api'
   break
 };
 
@@ -81,5 +81,6 @@ export default {
   IMPORT_EXPERT_ALL: '/service-expert/expert/expert/import', //专家库导入
   EXPORT_TYPE_EDIT: '/service-expert/expert/expert/{experId}',
   UPLOAD_TEMP: BASE_URL + '/zuul/service-file/file/upload/1/temp', //上传图片
-
+  // 专家管理--项目评审
+  GET_EXPERT_REVIEW_TODO_LIST: '/service-expert/expert/extract/{expertId}', //获取当前接口传参专家需要评审的数据,? status:0-未完成 1-完成 null/""-全部
 }
