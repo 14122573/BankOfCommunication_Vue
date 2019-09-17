@@ -429,11 +429,52 @@ const appRoutes = [{
     name: 'scylzc',
     component: contentWrapper,
     meta: { title: '水产原良种场验收审定', menuPath: true, authCode: 'S0503', menuIcon: 'barcode', hideInBread: true },
-    children: [{
-      path: '/scylzc/acceptance/list',
-      name: '/scylzc/acceptance/list',
-      meta: { title: '验收申请填写', menuPath: true, authCode: 'S050301', menuIcon: 'exception', hideInBread: false, openMode: 'spa' },
-    }
+    children: [
+      {
+        path: '/scylzc/account/list',
+        name: '/scylzc/account/list',
+        meta: { title: '申报单位管理', menuPath: true, authCode: 'S050307', menuIcon: 'cluster', hideInBread: false, openMode: 'spa' },
+      },
+      {
+        path: '/scylzc/acceptance/list',
+        name: '/scylzc/acceptance/list',
+        meta: { title: '验收申请填写', menuPath: true, authCode: 'S050301', menuIcon: 'exception', hideInBread: false, openMode: 'spa' },
+      },
+      {
+        path: '/scylzc/afApply/list',
+        name: '/scylzc/afApply/list',
+        meta: { title: '验收审查管理', menuPath: true, authCode: 'S050302', menuIcon: 'barcode', hideInBread: false, openMode: 'spa'  },
+      },
+      {
+        path: '/scylzc/afReview/list',
+        name: '/scylzc/afReview/list',
+        meta: { title: '验收初审管理', menuPath: true, authCode: 'S050303', menuIcon: 'exception', hideInBread: false, openMode: 'spa' },
+      },
+      {
+        path: '/scylzc/afOrgaExpert/list',
+        name: '/scylzc/afOrgaExpert/list',
+        meta: { title: '组织专家评审', menuPath: true, authCode: 'S050304',  menuIcon: 'database', hideInBread: false, openMode: 'spa' }
+      },
+      {
+        path: '/scylzc/afVerification/list',
+        name: '/scylzc/afVerification/list',
+        meta: { title: '专家评审', menuPath: true, authCode: 'S050305', menuIcon: 'team', hideInBread: false, openMode: 'spa' },
+        children: [{
+          path: '/scylzc/afVerification/check',
+          name: '/scylzc/afVerification/check',
+          meta: { title: '评审', menuPath: false, authCode: 'S05030501', menuIcon: 'appstore', hideInBread: false, openMode: 'normal', openMode: 'spa' }
+        },
+        {
+          path: '/scylzc/afVerification/view',
+          name: '/scylzc/afVerification/view',
+          meta: { title: '查看申请', menuPath: false, authCode: 'S05030103', menuIcon: 'appstore', hideInBread: false, openMode: 'spa' }
+        }]
+      },
+      {
+        path: '/scylzc/allApplyInfo/list',
+        name: '/scylzc/allApplyInfo/list',
+        meta: { title: '查看全部申报信息', menuPath: true, authCode: '', menuIcon: 'team', hideInBread: false, openMode: 'spa'},
+      }
     ]
   },
   //水产原良种复查
