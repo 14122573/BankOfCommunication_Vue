@@ -18,10 +18,16 @@ case 'devol': // 本地线上部署环境下
       pathPrefix:'/scsd'
     },
     {
-      baseUrl:'http://txc.tao.com',
-      resourceName:'kpjd',
-      micId:'mic:kpjd',
-      pathPrefix:'/kpjd'
+      baseUrl:'http://scylzc.tao.com', // 原良种验收
+      resourceName:'scylzc',
+      micId:'mic:scylzc',
+      pathPrefix:'/scylzc'
+    },
+    {
+      baseUrl:'http://ylzcre.tao.com', // 原良种复查
+      resourceName:'ylzcre',
+      micId:'mic:ylzcre',
+      pathPrefix:'/ylzcre'
     }
   ]
   break
@@ -50,18 +56,6 @@ case 'production': // 生产环境下
   break
 default: // 默认环境下（开发环境）
   MicConfig = [
-  // {
-  //   baseUrl:'http://sub1.tao.com',
-  //   resourceName:'spaone',
-  //   micId:'mic:spaone',
-  //   pathPrefix:'/spaone'
-  // },
-  // {
-  //   baseUrl:'http://sub2.tao.com',
-  //   resourceName:'management',
-  //   micId:'mic:management',
-  //   pathPrefix:'/management'
-  // },
     {
       baseUrl:'http://scsd.tao.com',
       resourceName:'scsd',
@@ -69,10 +63,16 @@ default: // 默认环境下（开发环境）
       pathPrefix:'/scsd'
     },
     {
-      baseUrl:'http://txc.tao.com',
-      resourceName:'kpjd',
-      micId:'mic:kpjd',
-      pathPrefix:'/kpjd'
+      baseUrl:'http://scylzc.tao.com', // 原良种验收
+      resourceName:'scylzc',
+      micId:'mic:scylzc',
+      pathPrefix:'/scylzc'
+    },
+    {
+      baseUrl:'http://ylzcre.tao.com', // 原良种复查
+      resourceName:'ylzcre',
+      micId:'mic:ylzcre',
+      pathPrefix:'/ylzcre'
     }
   ]
   break

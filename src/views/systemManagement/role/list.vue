@@ -28,10 +28,14 @@
                   <p> <img :src="groups" class="group-icon" alt="人数"><span class="name-num">{{item.userCount || '0'}}人</span> </p>
                 </div>
                 <div class="operate">
-                  <span v-if="$permission('P02002')" @click="view(item)">查看</span>
-                  <a-divider v-if="$permission('P02002')" type="vertical" />
-                  <span v-if="$permission('P02003')" @click="edit(item)">修改</span>
-                  <a-divider v-if="$permission('P02003')" type="vertical" />
+                  <template v-if="$permission('P02002')">
+                    <span @click="view(item)">查看</span>
+                    <a-divider type="vertical" />
+                  </template>
+                  <template v-if="$permission('P02003')">
+                    <span @click="edit(item)">修改</span>
+                    <a-divider type="vertical" />
+                  </template>
                   <span v-if="$permission('P02004')"  @click="deleteBtn(item)">删除</span>
                 </div>
               </div>
@@ -52,7 +56,9 @@
 export default {
   data() {
     return {
-      searchForm: {},
+      searchForm: {
+        roleName_l:''
+      },
       labelCol: { span: 10 },
       wrapperCol: { span: 14 },
       roleList:[],
@@ -94,6 +100,15 @@ export default {
         }else{
           this.$message.error(res.msg)
         }
+        //存储当前列表的展示条件，包括分页信息、搜索条件
+        this.$com.storeSearchParams(
+          this.$route.name,
+          this.params,
+          {
+            'roleName_l':!this.searchForm.roleName_l ? '':this.searchForm.roleName_l
+          }
+        )
+
       })
     },
     addBtn(){
@@ -143,6 +158,25 @@ export default {
         }
       })
     },
+    /**
+     * 从vuex中或已存储的搜索条件，判断此条件是否为当前路由的 。如果是则使用
+     */
+    getSearchParams(){
+      let searchParams = !this.$store.state.listSearchParams?null:this.$store.state.listSearchParams[this.$route.name]
+      if(!!searchParams && !!searchParams.routeName && (this.$route.name == searchParams.routeName)){
+        if(!!searchParams.params){
+          Object.keys(this.searchForm).forEach(elem=>{
+            this.searchForm[elem] = searchParams.params[elem]
+          })
+        }
+        if(!!searchParams.pagination){
+          if(!!searchParams.pagination.pageNo && searchParams.pagination.pageNo!=1){
+            this.params.pageNo = searchParams.pagination.pageNo
+          }
+        }
+      }
+      this.getList()
+    },
     handleOkDelete(){
       this.$ajax.delete({
         url:this.$api.DELETE_CHARACTER.replace('{id}',this.deleteData.id),
@@ -157,7 +191,9 @@ export default {
     },
   },
   mounted(){
-    this.getList()
+    if(this.$route.name == '/systemManagement/role'){
+      this.getSearchParams()
+    }
   }
 }
 </script>

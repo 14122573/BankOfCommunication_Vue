@@ -1,43 +1,51 @@
 <template>
-	<a-card :bordered='false' class="layoutMargin">
-		<a-row type="flex" justify="space-between" slot="title" align="middle">
-			<a-col>组织机构</a-col>
-			<a-col>
+	<div class="portalDetailWapper">
+    <div class="portalDetailTitle">
+			<span class="title">组织机构</span>
+			<div class="detailOperations">
 				<a-button @click="$router.back()"> 返回 </a-button>
 				<a-button type="danger" v-if="$permission('P01004')" ghost @click="handleDel"> 删除 </a-button>
-			</a-col>
-		</a-row>
+			</div>
+		</div>
+    <div class="portalDetailContentWapper">
+      <div class="portalDetailContentBody">
+        <div class="layoutMargin detailsPartSection contentPadding">
+          <a-row type="flex" justify="start" class="formItemLine" style="margin-bottom:16px;">
+            <a-col span="8">
+              <DetailsItem :labelSpan='8' :textSpan="16" :label='"组织机构名称"' :text='!detail.groupName?"暂无":detail.groupName'></DetailsItem>
+            </a-col>
+            <a-col span="8">
+              <DetailsItem :labelSpan='8' :textSpan="16" :label='"联系人"' :text='!detail.contact?"暂无":detail.contact'></DetailsItem>
+            </a-col>
+            <a-col span="8">
+              <DetailsItem :labelSpan='8' :textSpan="16" :label='"联系电话"' :text='!detail.contactPhone?"暂无":detail.contactPhone'></DetailsItem>
+            </a-col>
+          </a-row>
+          <a-row type="flex" justify="start" class="formItemLine" style="margin-bottom:16px;">
+            <a-col span="8">
+              <DetailsItem :labelSpan='8' :textSpan="16" :label='"所属行政区域"' :text='!detail.areaName?"暂无":detail.areaName'></DetailsItem>
+            </a-col>
+            <a-col span="16">
+              <DetailsItem :labelSpan='2' :textSpan="18" :label='"地址"' :text='!detail.addr?"暂无":detail.addr'></DetailsItem>
+            </a-col>
+          </a-row>
+          <a-row type="flex" justify="start" class="formItemLine" style="margin-bottom:16px;">
+            <a-col span="16">
+              <a-row type="flex" justify="start" class="colMargin">
+                <a-col span="4" class="colLabel" style="color:rgba(0, 0, 0, 0.45)"> 地图定位： </a-col>
+                <a-col span="17">
+                  <!-- <BMapComponent :height="250" :width="830" :keyWords="position" /> -->
+                </a-col>
+              </a-row>
+            </a-col>
+          </a-row>
+        </div>
+      </div>
+      
+    </div>
 		<!-- <a-skeleton :loading="loading" :rows="30"> -->
-		<a-row type="flex" justify="start" style="margin-bottom:16px;">
-			<a-col span="8">
-        <DetailsItem :labelSpan='8' :textSpan="16" :label='"组织机构名称"' :text='!detail.groupName?"暂无":detail.groupName'></DetailsItem>
-			</a-col>
-			<a-col span="8">
-        <DetailsItem :labelSpan='8' :textSpan="16" :label='"联系人"' :text='!detail.contact?"暂无":detail.contact'></DetailsItem>
-			</a-col>
-			<a-col span="8">
-        <DetailsItem :labelSpan='8' :textSpan="16" :label='"联系电话"' :text='!detail.contactPhone?"暂无":detail.contactPhone'></DetailsItem>
-			</a-col>
-		</a-row>
-		<a-row type="flex" justify="start" style="margin-bottom:16px;">
-      <a-col span="8">
-        <DetailsItem :labelSpan='8' :textSpan="16" :label='"所属行政区域"' :text='!detail.areaName?"暂无":detail.areaName'></DetailsItem>
-			</a-col>
-      <a-col span="16">
-        <DetailsItem :labelSpan='2' :textSpan="18" :label='"地址"' :text='!detail.addr?"暂无":detail.addr'></DetailsItem>
-			</a-col>
-		</a-row>
-		<a-row type="flex" justify="start" style="margin-bottom:16px;">
-			<a-col span="16">
-				<a-row type="flex" justify="start" class="colMargin">
-					<a-col span="4" class="colLabel"> 地图定位： </a-col>
-					<a-col span="17">
-						<BMapComponent :height="250" :width="830" :keyWords="position" />
-					</a-col>
-				</a-row>
-			</a-col>
-		</a-row>
-	</a-card>
+		
+	</div>
 </template>
 <script>
 import BMapComponent from '@/components/BaiduMap/BMapComponent'

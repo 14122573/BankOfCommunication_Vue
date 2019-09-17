@@ -9,7 +9,7 @@
 		</div>
     <div class="portalDetailContentWapper">
       <a-form class="portalDetailContentBody" :form="organizationForm">
-        <div class="layoutMargin detailsPartSection organization-edit">
+        <div class="layoutMargin detailsPartSection contentPadding">
         <a-row class="formItemLine">
           <a-col :span="8">
             <a-form-item label="组织机构名称" v-bind="formItemLayout">
@@ -51,7 +51,7 @@
         <a-row class="formItemLine">
           <a-col :span="16">
             <a-form-item label="地址微调" v-bind="formItemSingle">
-              <BMapComponent :height="250" :width="830" :keyWords="position" @on-change="getNewAddress" />
+              <!-- <BMapComponent :height="250" :width="830" :keyWords="position" @on-change="getNewAddress" /> -->
             </a-form-item>
           </a-col>
         </a-row>
@@ -77,7 +77,7 @@ export default {
           span: 8
         },
         wrapperCol: {
-          span: 14
+          span: 16
         },
       },
       formItemSingle: {
@@ -157,9 +157,17 @@ export default {
               params: values
             }).then(res => {
               if (res.code == '200') {
-                this.$message.success('新增成功！')
+                this.$model.success({
+                  title:'提示',
+                  content:'新增成功!'
+                })
                 this.$router.push({
                   name: '/systemManagement/organization'
+                })
+              }else{
+                this.$model.error({
+                  title:'提示',
+                  content:res.msg
                 })
               }
             })
@@ -236,8 +244,8 @@ export default {
       })
     },
     validatePhone(rule, value, callback) {
-      if (value && !this.$com.checkPhone(value)) {
-        callback('手机号码不合法!')
+      if (value && !this.$com.checkPhone(value) && !this.$com.checkTel(value)) {
+        callback('联系电话不合法!')
       } else {
         callback()
       }

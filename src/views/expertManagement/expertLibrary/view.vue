@@ -3,27 +3,16 @@
 		<div class="portalDetailTitle">
 			<span class="title">查看专家账号</span>
 			<div class="detailOperations">
-				<a-button type="primary" ghost @click="handleReturn">
-					返回
-				</a-button>
-				<a-button type="primary"  @click="handleEdit">
-					修改
-				</a-button>
+				<a-button @click="handleReturn"> 返回 </a-button>
+				<a-button type="primary" @click="handleEdit"> 修改 </a-button>
 			</div>
 		</div>
-		<a-anchor class="target" :getContainer="()=> this.$refs['portalDetailContentBody']" >
-			<a-anchor-link href="#basic" title="基本信息" />
-			<a-anchor-link href="#experience" title="工作学习经历" />
-			<a-anchor-link href="#contact" title="联系信息" />
-			<a-anchor-link href="#workArea" title="工作领域信息" />
-			<a-anchor-link href="#relatedManagement" title="相关管理信息" />
-		</a-anchor>
-		<div class="portalDetailContentWapper" >
+		<div class="portalDetailContentWapper">
 			<div class="portalDetailContentBody" ref='portalDetailContentBody'>
-				<div v-if="detail.name">
-					<div class="content detailsPartSection">
-						<div id="basic">
-							<p class="detailsPartTitle">基本信息</p>
+				<template v-if="detail.name">
+					<div class="layoutMargin detailsPartSection">
+						<p id="basic" class="detailsPartTitle">基本信息</p>
+						<div style="margin:0 16px;">
 							<a-row type="flex" justify="start">
 								<a-col span="8">
 									<a-row type="flex" justify="start" class="detailsPartLine">
@@ -98,9 +87,9 @@
 							</a-row>
 						</div>
 					</div>
-					<div class="content detailsPartSection">
-						<div id="experience">
-							<p class="detailsPartTitle">工作学习经历</p>
+					<div class="layoutMargin detailsPartSection">
+						<p id="experience" class="detailsPartTitle">工作学习经历</p>
+						<div style="margin:0 16px;">
 							<a-row type="flex" justify="start">
 								<a-col span="8">
 									<a-row type="flex" justify="start" class="detailsPartLine">
@@ -144,9 +133,9 @@
 							</a-row>
 						</div>
 					</div>
-					<div class="content detailsPartSection">
-						<div id="contact">
-							<p class="detailsPartTitle">联系信息</p>
+					<div class="layoutMargin detailsPartSection">
+						<p id="contact" class="detailsPartTitle">联系信息</p>
+						<div style="margin:0 16px;">
 							<a-row type="flex" justify="start">
 								<a-col span="8">
 									<a-row type="flex" justify="start" class="detailsPartLine">
@@ -172,9 +161,9 @@
 							</a-row>
 						</div>
 					</div>
-					<div class="content detailsPartSection">
-						<div id="workArea">
-							<p class="detailsPartTitle">工作领域信息</p>
+					<div class="layoutMargin detailsPartSection">
+						<p id="workArea" class="detailsPartTitle">工作领域信息</p>
+						<div style="margin:0 16px;">
 							<a-row type="flex" justify="start" class="detailsPartLine">
 								<a-col span="24">
 									<DetailsItem :labelSpan='4' :textSpan="20" :label='"主要相关研究方向"' :text='detail.researchDirectionName'></DetailsItem>
@@ -192,9 +181,9 @@
 							</a-row>
 						</div>
 					</div>
-					<div class="content detailsPartSection">
-						<div id="relatedManagement">
-							<p class="detailsPartTitle">相关管理信息</p>
+					<div class="layoutMargin detailsPartSection">
+						<p id="relatedManagement" class="detailsPartTitle">相关管理信息</p>
+						<div style="margin:0 16px;">
 							<a-row type="flex" justify="start">
 								<a-col span="8">
 									<a-row type="flex" justify="start" class="detailsPartLine">
@@ -230,17 +219,33 @@
 							</a-row>
 						</div>
 					</div>
+				</template>
+			</div>
+			<div class="target">
+				<div class="icon" v-show="changeSmall">
+					<a-icon type="environment" @click="changeSmall=false"/>
 				</div>
+				<div class="icon" v-show="!changeSmall">
+					<a-icon type="double-right" @click="changeSmall=true"/>
+				</div>
+				<a-anchor v-show="!changeSmall"  :offsetTop="260" :getContainer="()=> this.$refs['portalDetailContentBody']">
+					<a-anchor-link href="#basic" title="基本信息" />
+					<a-anchor-link href="#experience" title="工作学习经历" />
+					<a-anchor-link href="#contact" title="联系信息" />
+					<a-anchor-link href="#workArea" title="工作领域信息" />
+					<a-anchor-link href="#relatedManagement" title="相关管理信息" />
+				</a-anchor>
 			</div>
 		</div>
 	</div>
 </template>
-
+	
 <script>
 export default {
   data() {
     return {
-      detail: {}
+      detail: {},
+      changeSmall:false
     }
   },
   mounted() {
@@ -265,10 +270,12 @@ export default {
         name: '/expertManagement/expertLibrary'
       })
     },
-    handleEdit(){
+    handleEdit() {
       this.$router.push({
         name: '/expertManagement/expertLibrary/edit',
-        query:{id:this.$route.query.id}
+        query: {
+          id: this.$route.query.id
+        }
       })
     }
   }
@@ -276,23 +283,22 @@ export default {
 </script>
 
 <style scoped>
-	.content {
-		margin: 20px;
+	.target {
+		position: absolute;
+		z-index: 10;
+		right: 33px;
+		top: 260px;
+		padding: 10px 8px;
+		border-radius: 2px;
 		background: white;
-		padding-bottom: 20px;
+		-moz-box-shadow: -1px 0px 5px #878787;
+		-webkit-box-shadow: -1px 0px 5px #878787;
+		box-shadow: -1px 0px 5px #878787;
 	}
 
-	.target {
-		width: 120px;
-		position: absolute;
-		top: 300px;
-		right: 21px;
-		z-index: 1000;
-		background: transparent;
-	}
-</style>
-<style>
-	.target .ant-anchor-wrapper {
-		background: transparent !important;
+	.target .icon {
+		text-align: right;
+		cursor: pointer;
+		color: #1890ff;
 	}
 </style>
