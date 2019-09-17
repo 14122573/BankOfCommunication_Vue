@@ -8,18 +8,49 @@
  */
 
 let expertReviewRouter = {
-  'S0501':[
+  'S0501':[ // 水产新品种
     {
-      reviewTypeCode:'',
+      type:'review',
+      reviewTypeCode:'SCSDWritten',
       routerName:'/scsd/post/scsdPost/view',
       authCode: 'S050104',
-      title:'函审信息'
     },
     {
-      reviewTypeCode:'',
+      type:'review',
+      reviewTypeCode:'SCSDScene',
       routerName:'/scsd/post/scsdPost/view',
       authCode: 'S050105',
-      title:'现场审定专家意见'
+    },
+    {
+      type:'detail',
+      routerName:'/scsd/post/scsdPost/view',
+      authCode: 'S05010106',
+    },
+  ],
+  'S0502':[ //水产原良种复查
+    {
+      type:'review',
+      reviewTypeCode:'YLZCREWritten',
+      routerName:'/ylzcre/review/information',
+      authCode: 'S050201',
+    },
+    {
+      type:'detail',
+      routerName:'/ylzcre/review/information',
+      authCode: 'S05010106',
+    },
+  ],
+  'S0503':[ //水产原良种场验收审定
+    {
+      type:'review',
+      reviewTypeCode:'SCYLZCWritten',
+      routerName:'/scylzc/acceptance/list',
+      authCode: 'S050301',
+    },
+    {
+      type:'detail',
+      routerName:'/scylzc/acceptance/list',
+      authCode: 'S05010106',
     },
   ]
 }

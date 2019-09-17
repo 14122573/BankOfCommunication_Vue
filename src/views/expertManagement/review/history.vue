@@ -4,7 +4,7 @@
       <a-row type="flex" justify="space-between" class="formItemLine">
         <a-col span="6">
           <a-form-item class='formItem' label="业务系统名称"  :label-col="{span:8}" :wrapper-col="{span:16}">
-          <a-select placeholder="请选择" :options="sysListForSearch" v-model="searchForm.sysId" />
+          <a-select placeholder="请选择" :options="sysListForSearch" v-model="searchForm.systemCode" />
           </a-form-item>
         </a-col>
         <a-col span="8">
@@ -103,26 +103,32 @@ export default {
      * @param {String} taskCode 申报材料ID
      */
     goMicReview(sysCode,reviewTypeCode,taskCode){
-      console.log('ExpertReviewRouters',ExpertReviewRouters)
-      console.log('goMicReview',sysCode,taskCode)
       let micSysRouters = ExpertReviewRouters[sysCode]
       // 写死
-      let nextRouter = '/scsd/post/scsdPost/view'
-      taskCode = '7eb50a9e071b494292570fe10184f190'
+      let nextRouter = ''
       for(let i=0;i<micSysRouters.length;i++){
         let micSysRouter = micSysRouters[i]
-        if(reviewTypeCode == micSysRouter.reviewTypeCode){
-          // todo
+        if( micSysRouter.type=='review'){
+          nextRouter = micSysRouter.routerName
         }
       }
-      this.$router.push({
-        name:nextRouter,
-        params:{id:taskCode},
-        query:{
-          sourceRoutePath:this.$route.path,
-          sourceRouteType:'portal'
-        }
-      })
+      // 根据系统判断跳转子系统方式
+      switch (sysCode) {
+      case 'S0501':
+        this.$router.push({
+          name:nextRouter,
+          params:{id:taskCode},
+          query:{
+            sourceRoutePath:this.$route.path,
+            sourceRouteType:'portal'
+          }
+        })
+        break
+
+      default:
+        break
+      }
+
     },
     /**
     /**
@@ -229,7 +235,7 @@ export default {
       this.searchForm['finishTime_lt'] = dateString[1]
     },
     reset(){
-      this.searchForm.sysId = null
+      this.searchForm.systemCode = null
       this.reviewHisSearchForm.resetFields()
     }
   }

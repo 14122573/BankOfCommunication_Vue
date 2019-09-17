@@ -5,7 +5,7 @@
         <a-row type="flex" justify="space-between" class="formItemLine">
           <a-col span="8">
             <a-form-item class='formItem' label="业务系统名称" :label-col="{span:6}" :wrapper-col="{span:18}">
-              <a-select placeholder="请选择业务系统" :options="sysListForSearch" v-model="searchForm.sysId" />
+              <a-select placeholder="请选择业务系统" :options="sysListForSearch" v-model="searchForm.systemCode" />
             </a-form-item>
           </a-col>
           <a-col span="6" class="algin-right">
@@ -120,26 +120,31 @@ export default {
      * @param {String} taskCode 申报材料ID
      */
     goMicReview(sysCode,reviewTypeCode,taskCode){
-      console.log('ExpertReviewRouters',ExpertReviewRouters)
-      console.log('goMicReview',sysCode,taskCode)
       let micSysRouters = ExpertReviewRouters[sysCode]
-      // 写死
-      let nextRouter = '/scsd/post/scsdPost/view'
-      taskCode = '7eb50a9e071b494292570fe10184f190'
+      let nextRouter = ''
       for(let i=0;i<micSysRouters.length;i++){
         let micSysRouter = micSysRouters[i]
-        if(reviewTypeCode == micSysRouter.reviewTypeCode){
-          // todo
+        if( micSysRouter.type=='review' && reviewTypeCode == micSysRouter.reviewTypeCode){
+          nextRouter = micSysRouter.routerName
         }
       }
-      this.$router.push({
-        name:nextRouter,
-        params:{id:taskCode},
-        query:{
-          sourceRoutePath:this.$route.path,
-          sourceRouteType:'portal'
-        }
-      })
+      // 根据系统判断跳转子系统方式
+      switch (sysCode) {
+      case 'S0501':
+        this.$router.push({
+          name:nextRouter,
+          params:{id:taskCode},
+          query:{
+            showType:'check',
+            sourceRoutePath:this.$route.path,
+            sourceRouteType:'portal'
+          }
+        })
+        break
+
+      default:
+        break
+      }
     },
     /**
      * 获取折叠面板默认展开的key值
@@ -209,7 +214,9 @@ export default {
       })
     },
     // 重置
-    reset(){},
+    reset(){
+      this.searchForm.systemCode = null
+    },
     // 查询
     search(){
 
