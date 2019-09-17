@@ -1,212 +1,241 @@
 <template>
-    <div class="routerWapper">
-        <div v-if="$route.name == '/expertManagement/reiview'" class="layoutMargin layoutPadding">
-            <a-form class="protalForm" :form="searchForm">
-              <a-row type="flex" justify="space-between" class="formItemLine">
-                <a-col span="6">
-                  <a-form-item class='formItem' label="系统名称" v-bind="colSpe">
-                    <a-select placeholder="请选择" :options="sysList" v-model="searchForm.sysId" />
-                  </a-form-item>
-                </a-col>
-                <a-col span="6">
-                  <a-form-item class='formItem' label="项目名称" v-bind="colSpe">
-                    <a-input placeholder="请输入" v-model="searchForm.name_l" />
-                  </a-form-item>
-                </a-col>
-                <a-col span="12" class="align-right">
-                  <a-button @click="reset" html-type="submit">重置</a-button>
-                  <a-button type="primary" @click="search" html-type="submit">搜索</a-button>
-                </a-col>
-              </a-row>
-            </a-form>
-            <p class="gayLine"></p>
-            <div class="portalTableOperates">
-              <a-button @click="$router.push({name:'/expertManagement/reiview/history'})" type="primary">评审历史查询</a-button>
-            </div>
-            <div class="review-table">
-              <div class="review-title">
-                <span class="review-project-name">项目名称</span>
-                <span class="review-sys-name">系统名称</span>
-                <span class="review-sup">
-                  共有<span class="span-green">35</span>个待评审项，剩余 <span class="span-red">1</span>个
-                </span>
-              </div>
-                <a-row class="review-content" :gutter="16">
-                    <a-col span="6" class="content-card">
-                        <div class="content-view">
-                            <div class="view-title">申报名称</div>
-                            <div class="view-des">单位名称单位名称</div>
-                        </div>
-                        <div class="content-ope">
-                            <span>去评审</span>
-                        </div>
-                    </a-col>
-                    <a-col span="6" class="content-card">
-                        <div class="content-view">
-                            <div class="view-title">申报名称</div>
-                            <div class="view-des">单位名称单位名称</div>
-                        </div>
-                        <div class="content-ope">
-                            <span>去评审</span>
-                        </div>
-                    </a-col>
-                    <a-col span="6" class="content-card">
-                        <div class="content-view">
-                            <div class="view-title">申报名称</div>
-                            <div class="view-des">单位名称单位名称</div>
-                        </div>
-                        <div class="content-ope">
-                            <span>去评审</span>
-                        </div>
-                    </a-col>
-                    <a-col span="6" class="content-card">
-                        <div class="content-view">
-                            <div class="view-title">申报名称</div>
-                            <div class="view-des">单位名称单位名称</div>
-                        </div>
-                        <div class="content-ope">
-                            <span>去评审</span>
-                        </div>
-                    </a-col>
-                    <a-col span="6" class="content-card">
-                        <div class="content-view">
-                            <div class="view-title">申报名称</div>
-                            <div class="view-des">单位名称单位名称</div>
-                        </div>
-                        <div class="content-ope">
-                            <span>去评审</span>
-                        </div>
-                    </a-col>
-                </a-row>
-            </div>
-            <div class="review-table">
-                <div class="review-title">
-                    <span class="review-project-name">项目名称</span>
-                    <span class="review-sys-name">系统名称</span>
-                    <span class="review-sup">
-                        共有<span class="span-green">35</span>个待评审项，剩余
-                        <span class="span-red">1</span>个
-                    </span>
+  <div class="routerWapper">
+    <div v-if='$route.name=="/expertManagement/reiview"' class="layoutMargin layoutPadding">
+      <a-form class="protalForm" :form="searchForm">
+        <a-row type="flex" justify="space-between" class="formItemLine">
+          <a-col span="8">
+            <a-form-item class='formItem' label="业务系统名称" :label-col="{span:6}" :wrapper-col="{span:18}">
+              <a-select placeholder="请选择业务系统" :options="sysListForSearch" v-model="searchForm.systemCode" />
+            </a-form-item>
+          </a-col>
+          <a-col span="6" class="algin-right">
+            <a-button @click="reset" html-type="submit">重置</a-button>
+            <a-button type="primary" @click="getReviewList" html-type="submit">搜索</a-button>
+          </a-col>
+        </a-row>
+      </a-form>
+      <p class="gayLine"></p>
+      <div class="portalTableOperates">
+        <a-button icon='database' @click="$router.push({name:'/expertManagement/reiview/history'})">评审历史查询</a-button>
+      </div>
+      <template v-if="sysListForSearch.length>0 && reviewTypeList.length>0 && preparate.isReady">
+        <a-collapse v-if='reviewList.length>0' class='reviewSeationGroup' :defaultActiveKey="preparate.defaultActiveKey" :bordered="false">
+          <template v-for="(reviewGroup) in reviewList">
+            <a-collapse-panel :key='reviewGroup.systemCode+"-"+reviewGroup.busCode' class='reviewSeation' >
+              <template slot="header">
+                <div class="reviewSeationTitle">
+                  <span class="sysName">{{systemName(reviewGroup.systemCode)}}</span>
+                  <span class="projectName">{{reviewTypeName(reviewGroup.busCode)}}</span>
                 </div>
-                <a-row class="review-content" :gutter="16">
-                    <a-col span="6" class="content-card">
-                        <div class="content-view">
-                            <div class="view-title">申报名称</div>
-                            <div class="view-des">单位名称单位名称</div>
-                        </div>
-                        <div class="content-ope">
-                            <span>去评审</span>
-                        </div>
-                    </a-col>
-                    <a-col span="6" class="content-card">
-                        <div class="content-view">
-                            <div class="view-title">申报名称</div>
-                            <div class="view-des">单位名称单位名称</div>
-                        </div>
-                        <div class="content-ope">
-                            <span>去评审</span>
-                        </div>
-                    </a-col>
-                    <a-col span="6" class="content-card">
-                        <div class="content-view">
-                            <div class="view-title">申报名称</div>
-                            <div class="view-des">单位名称单位名称</div>
-                        </div>
-                        <div class="content-ope">
-                            <span>去评审</span>
-                        </div>
-                    </a-col>
-                    <a-col span="6" class="content-card">
-                        <div class="content-view">
-                            <div class="view-title">申报名称</div>
-                            <div class="view-des">单位名称单位名称</div>
-                        </div>
-                        <div class="content-ope">
-                            <span>去评审</span>
-                        </div>
-                    </a-col>
-                    <a-col span="6" class="content-card">
-                        <div class="content-view">
-                            <div class="view-title">申报名称</div>
-                            <div class="view-des">单位名称单位名称</div>
-                        </div>
-                        <div class="content-ope">
-                            <span>去评审</span>
-                        </div>
-                    </a-col>
-                </a-row>
-            </div>
-
-        </div>
-        <RouterWapper v-else></RouterWapper>
+              </template>
+              <a-row class="reviewSeationContent" :gutter="16">
+                <template v-for="(review,index) in reviewGroup.list">
+                  <a-col span="6" class="reviewCard" :key="index">
+                    <div class="contentBody">
+                      <div class="title">{{review.taskName}}</div>
+                      <div class="des">{{review.companyCode}}</div>
+                    </div>
+                    <div class="contentOperate">
+                      <span @click="goMicReview(reviewGroup.systemCode,reviewGroup.busCode,review.taskCode)">去评审</span>
+                    </div>
+                  </a-col>
+                </template>
+              </a-row>
+            </a-collapse-panel>
+          </template>
+        </a-collapse>
+        <template v-else>
+          <a-alert message="暂无数据" type="info" >
+            <p slot="description"> 您暂无需要审核的数据 </p>
+          </a-alert>
+        </template>
+      </template>
+      <template v-else>
+        <a-skeleton active />
+      </template>
     </div>
+    <RouterWapper v-else></RouterWapper>
+  </div>
 </template>
 <script>
+import {navigateToUrl} from 'single-spa'
+import { ExpertReviewRouters } from '@/config/expert-review-router'
 export default {
   data(){
     return{
-      searchForm:{},
-      sysList:[],
-      colSpe: {
-        labelCol: {
-          span: 8
-        },
-        wrapperCol: {
-          span: 16
-        }
+      expertId:!this.$store.state.userInfos?'':this.$store.state.userInfos.id,
+      preparate:{
+        isReady:0,
+        defaultActiveKey:''
       },
+      searchForm:{},
+      sysListForSearch:[],
+      reviewTypeList:[],
+      reviewDatas:[],
+      reviewList:[]
+    }
+  },
+  mounted(){
+    if(this.$route.name=='/expertManagement/reiview'){
+      this.getReviewTypeList()
+      this.getSysCodOptions()
+      this.getReviewList(this.expertId)
     }
   },
   methods:{
+    /**
+     * 根据syscode获取系统名称
+     * @param {String} code 系统code
+     * @returns name 业务系统名称
+     */
+    systemName(code){
+      let name = ''
+      for(let i=0;i<this.sysListForSearch.length;i++){
+        let item = this.sysListForSearch[i]
+        if(code ==item.value) {
+          name = item.label
+        }
+      }
+      return name
+    },
+    /**
+     * 根据syscode获取系统名称
+     * @param {String} code 系统code
+     * @returns name 业务系统名称
+     */
+    reviewTypeName(code){
+      let name = ''
+      for(let i=0;i<this.reviewTypeList.length;i++){
+        let item = this.reviewTypeList[i]
+        if(code ==item.code) {
+          name = item.name
+        }
+      }
+      return name
+    },
+    /**
+     * 根据子系统code及申报材料ID，跳转至对应子系统申报材料详情页
+     * @param {String} sysCode 子系统code
+     * @param {String} reviewTypeCode 评审类型code
+     * @param {String} taskCode 申报材料ID
+     */
+    goMicReview(sysCode,reviewTypeCode,taskCode){
+      let micSysRouters = ExpertReviewRouters[sysCode]
+      let nextRouter = ''
+      for(let i=0;i<micSysRouters.length;i++){
+        let micSysRouter = micSysRouters[i]
+        if( micSysRouter.type=='review' && reviewTypeCode == micSysRouter.reviewTypeCode){
+          nextRouter = micSysRouter.routerName
+        }
+      }
+      // 根据系统判断跳转子系统方式
+      switch (sysCode) {
+      case 'S0501':
+        this.$router.push({
+          name:nextRouter,
+          params:{id:taskCode},
+          query:{
+            showType:'check',
+            sourceRoutePath:this.$route.path,
+            sourceRouteType:'portal'
+          }
+        })
+        break
+
+      default:
+        break
+      }
+    },
+    /**
+     * 获取折叠面板默认展开的key值
+     */
+    initCollapseDefaultKey(){
+      let defaultKey = ''
+      if(Array.isArray(this.reviewList) && this.reviewList.length>0){
+        this.preparate.defaultActiveKey = this.reviewList[0].systemCode+'-'+this.reviewList[0].busCode
+      }
+    },
+    /**
+     * 获取专家抽取业务类型清单
+     */
+    getReviewTypeList(){
+      this.$ajax.get({
+        url:this.$api.GET_EXPERT_BASE_LIST.replace('{type}', '9')
+      }).then(res=>{
+        if(res.code === '200'){
+          let data = this.$com.confirm(res, 'data.content', [])
+          this.reviewTypeList = data.map((item) => {
+            return {
+              name: item.name,
+              code: item.id
+            }
+          })
+        }else{
+          this.$message.error(res.msg)
+        }
+      })
+    },
+    /**
+     * 获取可选的子系统清单
+     */
+    getSysCodOptions(){
+      this.$ajax.get({
+        url: this.$api.SYSTEM_LIST_ALL_GET
+      }).then(res=>{
+        if(res.code === '200'){
+          let data = this.$com.confirm(res, 'data.content', [])
+          this.sysListForSearch = data.map((item) => {
+            return {
+              label: item.sysName,
+              value: item.sysCode
+            }
+          })
+        }else{
+          this.$message.error(res.msg)
+        }
+      })
+    },
+    /**
+     * 根据专家id，获取待评审数据
+     */
+    getReviewList(){
+      let params = Object.assign({status:0},this.searchForm)
+      this.$ajax.get({
+        url: this.$api.GET_EXPERT_REVIEW_TODO_LIST.replace('{expertId}', this.expertId),
+        params: params
+      }).then(res=>{
+        if(res.code === '200'){
+          this.reviewList = this.$com.confirm(res, 'data.content', [])
+          this.initCollapseDefaultKey()
+        }else{
+          this.$message.error(res.msg)
+        }
+        this.preparate.isReady =true
+      })
+    },
     // 重置
-    reset(){},
+    reset(){
+      this.searchForm.systemCode = null
+    },
     // 查询
-    search(){}
+    search(){
+
+    }
   }
 }
 </script>
 <style scoped>
-    .align-right{
-        text-align: right;
-    }
-    .review-title{
-        background-color: rgb(247, 247, 247);
-        border-bottom:1px solid #e0e0e0;
-        padding-left:20px;height: 50px;
-        margin-bottom:20px;
-    }
-    .review-title>span{
-        display: inline-block;
-        margin-right:10px;
-        line-height: 50px;
-    }
-    .review-project-name{
-        color: #000;
-        font-weight: bold;
-    }
-    .review-sys-name,.review-sup{
-        font-size: 12px;
-    }
-    .review-sup span{display: inline-block;margin:0px 5px;}
-    .span-green{color:green}
-    .span-red{color:#f00}
-    .review-content{padding:0px 0px;margin:0px;}
-    .content-card{height:120px;margin-bottom:20px;}
-    .content-view{
-        height:80px;padding:20px 10px;
-        vertical-align: middle;
-        border-bottom:1px solid #e0e0e0;
-        border:1px solid #e0e0e0
-    }
-    .content-ope{
-        border:1px solid #e0e0e0;border-top: none;
-        height: 38px;background-color: rgb(234, 244, 254);
-        padding-right:20px;text-align: right;line-height: 38px;
-    }
-    .content-ope span{
-         color:#1890ff; cursor: pointer;display: inline-block;
-    }
-    .view-title{color:#000;font-weight:bold;}
+.reviewSeationGroup { padding-bottom:16px; }
+.reviewSeationTitle span{  padding-right:10px; font-size: 12px; color:rgb(0, 0, 0,0.6);}
+.reviewSeationTitle .sysName{ color:rgb(0, 0, 0,0.8); font-weight: bold; font-size: 14px;}
+.reviewSeationContent { padding:0; margin:0;}
+.reviewCard { height:120px; margin-bottom:20px;}
+.reviewCard .contentBody{ height:80px; padding:10px 10px; vertical-align: middle; background: #fff;  border-radius: 2px; border-bottom:1px solid #e0e0e0; border:1px solid #e0e0e0 }
+.reviewCard .contentBody .title, .reviewCard .contentBody .des {line-height: 20px; font-size: 12px; color:rgb(0, 0, 0,0.6)}
+.reviewCard .contentBody .title { font-size: 14px; font-weight: bold; color:rgb(0, 0, 0,0.8)}
+.reviewCard .contentOperate{ border:1px solid #e0e0e0; border-top: none; height: 38px;background-color: rgb(234, 244, 254); padding-right:20px;text-align: right;line-height: 38px;}
+.contentOperate span{ color:#1890ff; cursor: pointer;display: inline-block; }
+.contentOperate .title{color:#000;font-weight:bold;}
 </style>
 
 

@@ -71,7 +71,9 @@ export default {
     resetShow() {
       this.isShow = this.resetShow
       if(this.isShow){
-        this.editForm.setFieldsValue({ title: !this.item.name?'': this.item.name })
+        this.$nextTick(function () {
+          this.editForm.setFieldsValue({ title: !this.item.name?'': this.item.name })
+        })
       }
     }
   },
@@ -129,6 +131,9 @@ export default {
       default:
         break
       }
+      this.$nextTick(function () {
+        this.editForm.setFieldsValue({ title: !this.item.name?'': this.item.name })
+      })
     },
     handleOk() {
       this.editForm.validateFields(err => {

@@ -245,24 +245,24 @@ const appRoutes = [{
       path: '/expertManagement/talent',
       name: '/expertManagement/talent',
       component: Talent,
-      meta: { title: '人才库', menuPath: true, authCode: 'P10000', menuIcon: 'user', hideInBread: false, openMode: 'normal' },
+      meta: { title: '人才库', menuPath: true, authCode: 'P12000', menuIcon: 'user', hideInBread: false, openMode: 'normal' },
       children: [{
         path: '/expertManagement/talent/upload',
         name: '/expertManagement/talent/upload',
         component: TalentUpload,
-        meta: { title: '导入人才库', menuPath: false, authCode: 'P10000', menuIcon: 'user', hideInBread: false, openMode: 'normal' }
+        meta: { title: '导入人才库', menuPath: false, authCode: 'P12001', menuIcon: 'user', hideInBread: false, openMode: 'normal' }
       },
       {
         path: '/expertManagement/talent/create',
         name: '/expertManagement/talent/create',
         component: TalentCreate,
-        meta: { title: '新增人才账号', menuPath: false, authCode: 'P10000', menuIcon: 'user', hideInBread: false, openMode: 'normal' }
+        meta: { title: '新增人才账号', menuPath: false, authCode: 'P12001', menuIcon: 'user', hideInBread: false, openMode: 'normal' }
       },
       {
         path: '/expertManagement/talent/view',
         name: '/expertManagement/talent/view',
         component: TalentView,
-        meta: { title: '查看人才账号', menuPath: false, authCode: 'P10000', menuIcon: 'user', hideInBread: false, openMode: 'normal' }
+        meta: { title: '查看人才账号', menuPath: false, authCode: 'P12002', menuIcon: 'user', hideInBread: false, openMode: 'normal' }
       },
       ]
     },
@@ -270,36 +270,36 @@ const appRoutes = [{
       path: '/expertManagement/expertLibrary',
       name: '/expertManagement/expertLibrary',
       component: ExpertLibrary,
-      meta: { title: '专家库', menuPath: true, authCode: 'P10000', menuIcon: 'user', hideInBread: false, openMode: 'normal' },
+      meta: { title: '专家库', menuPath: true, authCode: 'P11000', menuIcon: 'user', hideInBread: false, openMode: 'normal' },
       children: [{
         path: '/expertManagement/expertLibrary/create',
         name: '/expertManagement/expertLibrary/create',
         component: ExpertLibraryCreate,
-        meta: { title: '新增专家账号', menuPath: false, authCode: 'P10000', menuIcon: 'user', hideInBread: false, openMode: 'normal' }
+        meta: { title: '新增专家账号', menuPath: false, authCode: 'P11001', menuIcon: 'user', hideInBread: false, openMode: 'normal' }
       },
       {
         path: '/expertManagement/expertLibrary/edit',
         name: '/expertManagement/expertLibrary/edit',
         component: ExpertLibraryCreate,
-        meta: { title: '修改专家账号', menuPath: false, authCode: 'P10000', menuIcon: 'user', hideInBread: false, openMode: 'normal' }
+        meta: { title: '修改专家账号', menuPath: false, authCode: 'P11003', menuIcon: 'user', hideInBread: false, openMode: 'normal' }
       },
       {
         path: '/expertManagement/expertLibrary/view',
         name: '/expertManagement/expertLibrary/view',
         component: ExpertLibraryView,
-        meta: { title: '查看专家账号', menuPath: false, authCode: 'P10000', menuIcon: 'user', hideInBread: false, openMode: 'normal' }
+        meta: { title: '查看专家账号', menuPath: false, authCode: 'P11002', menuIcon: 'user', hideInBread: false, openMode: 'normal' }
       },
       {
         path: '/expertManagement/expertLibrary/select',
         name: '/expertManagement/expertLibrary/select',
         component: ExpertLibrarySelect,
-        meta: { title: '选择专家账号', menuPath: false, authCode: 'P10000', menuIcon: 'user', hideInBread: false, openMode: 'normal' }
+        meta: { title: '选择专家账号', menuPath: false, authCode: 'P11001', menuIcon: 'user', hideInBread: false, openMode: 'normal' }
       },
       {
         path: '/expertManagement/expertLibrary/upload',
         name: '/expertManagement/expertLibrary/upload',
         component: ExpertLibraryUpload,
-        meta: { title: '导入专家账号', menuPath: false, authCode: 'P10000', menuIcon: 'user', hideInBread: false, openMode: 'normal' }
+        meta: { title: '导入专家账号', menuPath: false, authCode: 'P11001', menuIcon: 'user', hideInBread: false, openMode: 'normal' }
       }
       ]
     },
@@ -307,12 +307,12 @@ const appRoutes = [{
       path: '/expertManagement/reiview',
       name: '/expertManagement/reiview',
       component: ProjectReview,
-      meta: { title: '项目评审', menuPath: true, authCode: 'P10000', menuIcon: 'edit', hideInBread: false, openMode: 'normal' },
+      meta: { title: '项目评审', menuPath: true, authCode: 'P13000', menuIcon: 'edit', hideInBread: false, openMode: 'normal' },
       children: [{
         path: '/expertManagement/reiview/history',
         name: '/expertManagement/reiview/history',
         component: ProjectReviewHistory,
-        meta: { title: '历史评审', menuPath: false, authCode: 'P10000', menuIcon: 'user', hideInBread: false, openMode: 'normal' }
+        meta: { title: '历史评审', menuPath: false, authCode: 'P13000', menuIcon: 'user', hideInBread: false, openMode: 'normal' }
       }]
     },
     {
@@ -381,6 +381,10 @@ const appRoutes = [{
       path: '/scsd/post/scsdPost',
       name: '/scsd/post/scsdPost',
       meta: { title: '新品申报', menuPath: true, authCode: 'S050101', menuIcon: 'exception', hideInBread: false, openMode: 'spa' },
+    },
+    {
+      path: '/scsd/post/scsdPost/view/:id', name: '/scsd/post/scsdPost/view',
+      meta: { title: '查看申报信息', menuPath:false, authCode:'S05010106', hideInBread:false, openMode: 'spa'},
     },
     {
       path: '/scsd/forma/scsdForma',
