@@ -79,7 +79,7 @@ import {
   permission
 } from '@/util/mixins'
 import testStrong from '@/components/testPwd'
-import ResetPassword from '@/views/login/ResetPassword'
+import ResetPassword from '@/views/login/resetPassword'
 import opeationSuccess from '@/views/login/success'
 import {
   encryptDes
