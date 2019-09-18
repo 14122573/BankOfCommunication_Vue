@@ -155,7 +155,7 @@ const appRoutes = [{
       path: '/systemManagement/role',
       name: '/systemManagement/role',
       component: RoleManagement,
-      meta: { title: '角色管理', menuPath: true, authCode: 'P02000', menuIcon: 'cluster', hideInBread: false, openMode: 'normal' },
+      meta: { title: '角色管理', menuPath: true, authCode: 'super', menuIcon: 'cluster', hideInBread: false, openMode: 'normal' },
       children: [{
         path: '/systemManagement/role/create',
         name: '/systemManagement/role/create',
