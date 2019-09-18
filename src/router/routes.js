@@ -507,12 +507,54 @@ const appRoutes = [{
     path: '/ylzcre',
     name: 'ylzcre',
     component: contentWrapper,
-    meta: { title: '水产原良种场复查审定', menuPath: true, authCode: 'S0502', menuIcon: 'barcode', hideInBread: true },
-    children: [{
-      path: '/ylzcre/review/information',
-      name: '/ylzcre/review/information',
-      meta: { title: '监测数据管理', menuPath: true, authCode: 'S050201', menuIcon: 'exception', hideInBread: false, openMode: 'spa' },
-    }
+    meta: { title: '水产原良种场复查审定', menuPath: true, authCode: 'S0502', menuIcon: 'barcode', hideInBread: true, openMode: 'spa' },
+    children: [
+      {
+        path: '/ylzcre/review/information',
+        name: '/ylzcre/review/information',
+        meta: { title: '监测数据管理', menuPath: true, authCode: 'S050201', menuIcon: 'exception', hideInBread: false, openMode: 'spa' },
+      },
+      {
+        path: '/ylzcre/acceptance/list',
+        name: '/ylzcre/acceptance/list',
+        meta: { title: '复查申请填写', menuPath: true, authCode: 'S050202', menuIcon: 'profile', hideInBread: false, openMode: 'spa' },
+      },
+      {
+        path: '/ylzcre/afApply/list',
+        name: '/ylzcre/afApply/list',
+        meta: { title: '复查申请审查', menuPath: true, authCode: 'S050203', menuIcon: 'barcode', hideInBread: false, openMode: 'spa'},
+      },
+      {
+        path: '/ylzcre/afReview/list',
+        name: '/ylzcre/afReview/list',
+        meta: { title: '复查申请初审', menuPath: true, authCode: 'S050204', menuIcon: 'exception', hideInBread: false, openMode: 'spa'},
+      },
+      {
+        path: '/ylzcre/afOrgaExpert/list',
+        name: '/ylzcre/afOrgaExpert/list',
+        meta: { title: '组织专家管理', menuPath: true, authCode: 'S050205', menuIcon: 'database', hideInBread: false, openMode: 'spa' }
+      },
+      {
+        path: '/ylzcre/afVerification/list',
+        name: '/ylzcre/afVerification/list',
+        meta: { title: '专家评审', menuPath: true, authCode: ' S050206', menuIcon: 'team', hideInBread: false, openMode: 'spa'},
+        children: [
+          {
+            path: '/ylzcre/afVerification/check',
+            name: '/ylzcre/afVerification/check',
+            meta: { title: '评审', menuPath: false, authCode: 'S05020601', menuIcon: 'appstore', hideInBread: false, openMode: 'spa' }
+          },
+          {
+            path: '/ylzcre/afVerification/view',
+            name: '/ylzcre/afVerification/view',
+            meta: { title: '查看申请', menuPath: false, authCode: 'S05020203', menuIcon: 'appstore', hideInBread: false, openMode: 'spa'}
+          }
+        ]
+      },
+      {
+        path: '/ylzcre/allApplyInfo/list',
+        name: '/ylzcre/allApplyInfo/list',
+        meta: { title: '查看全部申报信息', menuPath: true, authCode: 'S050207', menuIcon: 'team', hideInBread: false}, openMode: 'spa'}
     ]
   },
   {

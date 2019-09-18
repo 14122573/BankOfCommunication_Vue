@@ -49,6 +49,7 @@ export default {
   POST_PREMSPOINT: '/service-permission/perm/point', //添加功能点
   PUT_PREMSPOINT: '/service-permission/perm/point/{id}', //修改功能点
   DELETE_PREMSPOINT: '/service-permission/perm/point/{id}', //删除功能点
+  GET_CHECK_POINTCODE_EXIT: '/service-permission/perm/pointKey/repeat', //确认功能码是否已存在
   // 系统配置 -- 角色管理
   GET_ROLE_LIST: '/service-permission/perm/roles', //获取角色列表
   GET_ALL_ROLE: '/service-permission/perm/menu/tree', //获取权限
