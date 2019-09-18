@@ -22,7 +22,7 @@
               <a-skeleton active />
             </template>
             <template v-else>
-              <a-tree class="portalRoleTree" :treeData="tree.roleTreeDataArranged" defaultExpandAll @select="onSelect" ></a-tree>
+              <a-tree showLine class="portalRoleTree" :treeData="tree.roleTreeDataArranged" defaultExpandAll @select="onSelect" ></a-tree>
             </template>
           </div>
         </div>
@@ -208,7 +208,7 @@ export default {
      */
     getRoleTree(){
       this.$ajax.get({
-        url:this.$api.GET_ALL_ROLE + '?isTree=true'
+        url:this.$api.GET_ALL_ROLE + '?isTree=true&isAll=true'
       }).then(res=>{
         if(!!res.data && !!res.data.content){
           let data=res.data.content
