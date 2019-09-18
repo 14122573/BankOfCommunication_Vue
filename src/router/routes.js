@@ -557,6 +557,20 @@ const appRoutes = [{
         meta: { title: '查看全部申报信息', menuPath: true, authCode: 'S050207', menuIcon: 'team', hideInBread: false}, openMode: 'spa'}
     ]
   },
+  //智慧报表管理
+  {
+    path: '/bbgl',
+    name: 'bbgl',
+    component: contentWrapper,
+    meta: { title: '智慧报表管理', menuPath: true, authCode: 'super', menuIcon: 'barcode', hideInBread: true, openMode: 'spa' },
+    children:[
+      {
+        path: '/bbgl/report/rmReportInfo',
+        name: '/bbgl/report/rmReportInfo',
+        meta: { title: '报表文件管理', menuPath:true, authCode:'super', menuIcon: 'appstore', hideInBread:false,  openMode: 'spa'},
+      }
+    ]
+  },
   {
     path: '/SCYJ/:sysname',
     name: 'SCYJ',
