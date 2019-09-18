@@ -66,7 +66,6 @@ export const permission = {
         authCodeList = this.$store.state.permissionCodeList.length>0 ? this.$store.state.permissionCodeList:[]
 
         if(authCodeList.length>0){ //vuex中存有权限码信息
-          console.log(1)
           authMenuAll = getSideMenu(routes,authCodeList)
           this.$store.commit('SET_MENU', {authMenuAll, authCodeList, isAllPerm})
         }else{ // vuex中不存在权限码信息，需重新调用接口再获取
