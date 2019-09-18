@@ -43,6 +43,11 @@ default: // 默认环境下（开发环境）
   break
 };
 
+let oldSysCodes = ['SCYJ','YQCB','ZXJC','NYPC']
+
 export const OutsideUrls = {
   ...outsideUrl,
 }
+export const OldSysCodes = [
+  ...oldSysCodes
+]
