@@ -53,6 +53,21 @@
 import { OldSysCodes } from '@/config/outside-config'
 export default {
   data() {
+    const validatePointCode = (rule, value, callback) => {
+      if (!value) {
+        callback()
+      } else {
+        this.$ajax.get({
+          url: this.$api.GET_CHECK_POINTCODE_EXIT + '?pointKey=' + value
+        }).then(res => {
+          if (res.data.content === false) {
+            callback()
+          } else {
+            callback('功能点编码已存在!')
+          }
+        })
+      }
+    }
     return {
       isReady:false,
       createForm :{
@@ -65,7 +80,8 @@ export default {
           { required: true, whitespace: true, message: '请选择功能点名称' }
         ],
         pointCode: [
-          { required: true, whitespace: true, message: '请选择功能点编码' }
+          { required: true, whitespace: true, message: '请选择功能点编码' },
+          { validator: validatePointCode }
         ],
       },
       tree:{
