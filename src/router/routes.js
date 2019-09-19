@@ -1,12 +1,9 @@
 // const Layout = () => import('@/components/Layout/main')
-const contentWrapper = () =>
-    import ('@/components/Layout/content-wrapper')
-const TipsNetworkErr = () =>
-    import ('@/views/tips/network')
-const TipsNoAuth = () =>
-    import ('@/views/tips/auth')
-const TipsOutsite = () =>
-    import ('@/views/tips/outsite')
+const contentWrapper = () => import ('@/components/Layout/content-wrapper')
+const TipsUpperLimitErr = () => import ('@/views/tips/upperlimit')
+const TipsNetworkErr = () => import ('@/views/tips/network')
+const TipsNoAuth = () => import ('@/views/tips/auth')
+const TipsOutsite = () => import ('@/views/tips/outsite')
 const HomePage = () =>
     import ('@/views/home')
 const LoginPage = () =>
@@ -212,7 +209,7 @@ const appRoutes = [{
         path: '/systemManagement/administrator',
         name: '/systemManagement/administrator',
         component: AdministratorManagement,
-        meta: { title: '管理员管理', menuPath: true, authCode: 'P03000', menuIcon: 'cluster', hideInBread: false, openMode: 'normal' },
+        meta: { title: '用户管理', menuPath: true, authCode: 'P03000', menuIcon: 'cluster', hideInBread: false, openMode: 'normal' },
         children: [{
           path: '/systemManagement/administrator/createNewUser',
           name: '/systemManagement/administrator/createNewUser',
@@ -557,17 +554,44 @@ const appRoutes = [{
         meta: { title: '查看全部申报信息', menuPath: true, authCode: 'S050207', menuIcon: 'team', hideInBread: false}, openMode: 'spa'}
     ]
   },
+  //质量追述
+  {
+    path: '/zlzs',
+    name: 'zlzs',
+    component: contentWrapper,
+    meta: { title: '质量追溯', menuPath: true, authCode: 'S0703', menuIcon: 'barcode', hideInBread: true, openMode: 'spa' },
+    children:[{
+      path: '/zlzs/company/zlzsCompany', name: '/zlzs/company/zlzsCompany',
+      meta: { title: '企业信息管理', menuPath:true, authCode:'S070301', hideInBread:false, menuIcon: 'appstore', openMode: 'spa' }
+    },{
+      path: '/zlzs/seedingout/zlzsSeedingout', name: '/zlzs/seedingout/zlzsSeedingout',
+      meta: { title: '苗种投放管理', menuPath:true, authCode:'S070302', hideInBread:false, menuIcon: 'appstore', openMode: 'spa'}
+    },{
+      path: '/zlzs/fodderout/zlzsFodderout', name: '/zlzs/fodderout/zlzsFodderout',
+      meta: { title: '饲料投入管理', menuPath:true, authCode:'S070303', hideInBread:false, menuIcon: 'appstore', openMode: 'spa'}
+    },{
+      path: '/zlzs/drugout/zlzsDrugout', name: '/zlzs/drugout/zlzsDrugout',
+      meta: { title: '渔药投入管理', menuPath:true, authCode:'S070304', hideInBread:false, menuIcon: 'appstore', openMode: 'spa'}
+    },{
+      path: '/zlzs/sale/zlzsSale', name: '/zlzs/sale/zlzsSale',
+      meta: { title: '销售信息管理', menuPath:true, authCode:'S070305', hideInBread:false, menuIcon: 'appstore', openMode: 'spa'}
+    },{
+      path: '/zlzs/review/zlzsReview', name: '/zlzs/review/zlzsReview',
+      meta: { title: '追溯信息管理', menuPath:true, authCode:'S070306', hideInBread:false, menuIcon: 'appstore', openMode: 'spa'}
+    },
+    ]
+  },
   //智慧报表管理
   {
     path: '/bbgl',
     name: 'bbgl',
     component: contentWrapper,
-    meta: { title: '智慧报表管理', menuPath: true, authCode: 'super', menuIcon: 'barcode', hideInBread: true, openMode: 'spa' },
+    meta: { title: '智慧报表管理', menuPath: true, authCode: 'S0804', menuIcon: 'barcode', hideInBread: true, openMode: 'spa' },
     children:[
       {
         path: '/bbgl/report/rmReportInfo',
         name: '/bbgl/report/rmReportInfo',
-        meta: { title: '报表文件管理', menuPath:true, authCode:'super', menuIcon: 'appstore', hideInBread:false,  openMode: 'spa'},
+        meta: { title: '报表文件管理', menuPath:true, authCode:'S080401', menuIcon: 'appstore', hideInBread:false,  openMode: 'spa'},
       }
     ]
   },
@@ -626,6 +650,12 @@ const appRoutes = [{
   name: 'networkerr',
   component: TipsNetworkErr,
   meta: { title: '网络错误', },
+},
+{
+  path: '/upperLimitErr',
+  name: 'upperLimitErr',
+  component: TipsUpperLimitErr,
+  meta: { title: '访问频繁', },
 },
 ]
 

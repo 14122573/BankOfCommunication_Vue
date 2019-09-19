@@ -15,7 +15,7 @@
             <a-row type="flex" justify="space-between" align="middle">
               <a-col span="16">
                 <a-form-item class='formItem' label="业务系统名称" :label-col="{span:4}" :wrapper-col="{span:16}">
-                  <a-select placeholder="请选择业务系统" :options="sysListForSearch" v-model="createForm.type" @change="onSysChange" />
+                  <a-select allowClear placeholder="请选择业务系统" :options="sysListForSearch" v-model="createForm.type" @change="onSysChange" />
                 </a-form-item>
               </a-col>
             </a-row>
@@ -27,7 +27,7 @@
               </a-col>
               <a-col span="8">
                 <a-form-item label="功能点编码" :label-col="{span:8}" :wrapper-col="{span:16}">
-                  <a-input :addonBefore="createForm.type?createForm.type:''" v-decorator="['pointKey',{validateTrigger:'blur',rules:formRules.pointCode}]" placeholder="请输入"></a-input>
+                  <a-input :addonBefore="createForm.type?createForm.type:''" v-decorator="['pointKey',{rules:formRules.pointCode}]" placeholder="请输入"></a-input>
                 </a-form-item>
               </a-col>
             </a-row>
@@ -54,14 +54,15 @@ import { OldSysCodes } from '@/config/outside-config'
 export default {
   data() {
     const validatePointCode = (rule, value, callback) => {
-      if (!value) {
-        callback()
-      } else {
-        if (!this.$com.checkNumber(value)) {
+      let code = (!this.createForm.type?'':this.createForm.type)+(!value?'':value)
+      if(!code){
+        callback('请填写功能点编码')
+      }else{
+        if (!!value && value.length>0 && !!this.createForm.type && !this.$com.checkNumber(value)) {
           callback('功能编码仅能填写数字')
         } else {
           this.$ajax.get({
-            url: this.$api.GET_CHECK_POINTCODE_EXIT + '?pointKey=' + this.createForm.type+value
+            url: this.$api.GET_CHECK_POINTCODE_EXIT + '?pointKey=' +  code
           }).then(res => {
             if (res.data.content === false) {
               callback()
@@ -71,6 +72,23 @@ export default {
           })
         }
       }
+      // if (!value) {
+      //   callback()
+      // } else {
+      //   if (!this.$com.checkNumber(value)) {
+      //     callback('功能编码仅能填写数字')
+      //   } else {
+      //     this.$ajax.get({
+      //       url: this.$api.GET_CHECK_POINTCODE_EXIT + '?pointKey=' + this.createForm.type+value
+      //     }).then(res => {
+      //       if (res.data.content === false) {
+      //         callback()
+      //       } else {
+      //         callback('功能点编码已存在!')
+      //       }
+      //     })
+      //   }
+      // }
     }
     return {
       isReady:false,
@@ -84,7 +102,7 @@ export default {
           { required: true, whitespace: true, message: '请填写功能点名称' }
         ],
         pointCode: [
-          { required: true, whitespace: true, message: '请填写功能点编码' },
+          // { required: true, whitespace: true, message: '请填写功能点编码' },
           { validator: validatePointCode }
         ],
       },
