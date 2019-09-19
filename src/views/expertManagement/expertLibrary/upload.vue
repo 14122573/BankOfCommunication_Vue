@@ -111,20 +111,20 @@ export default {
       fileList.forEach(file => {
         formData.append('file', file)
       })
-    this.uploading = true
-    this.result={}
+      this.uploading = true
+      this.result={}
 	  this.$ajax.post(
 		  {
 			  url:this.$api.IMPORT_EXPERT_ALL,
 			  params:formData
 		  }
 	  ).then((res)=>{
-      if(res.code == '200'){
-        this.result=res.data.content
-        this.uploading=false
-        this.fileList=[]
-        this.fileName=''
-      }
+        if(res.code == '200'){
+          this.result=res.data.content
+          this.uploading=false
+          this.fileList=[]
+          this.fileName=''
+        }
 	  })
     },
     handleRemove(index) {
