@@ -5,7 +5,6 @@ import Vue from 'vue'
 
 // import App from './App'
 import App from '@/components/Layout/main'
-
 import router from './router'
 import store from './store'
 import ajax from './server/ajax'
@@ -101,8 +100,8 @@ Vue.use(Collapse)
 
 import RouterWapper from '@/components/Layout/content-wrapper'
 import DetailsItem from '@/components/detail/detailItem'
-Vue.component('RouterWapper',RouterWapper)
-Vue.component('DetailsItem',DetailsItem)
+Vue.component('RouterWapper', RouterWapper)
+Vue.component('DetailsItem', DetailsItem)
 
 Vue.prototype.$ajax = ajax
 Vue.prototype.$api = api

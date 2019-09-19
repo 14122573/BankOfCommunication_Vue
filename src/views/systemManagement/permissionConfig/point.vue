@@ -24,25 +24,28 @@
       <a-button icon='plus' @click="goToAddPoint">添加功能点</a-button>
       <a-button icon='rollback' @click="$router.push({name:'/systemManagement/permissionConfig'})">返回权限配置</a-button>
     </div>
-    <a-collapse v-if='pointsArray.length>0' class='reviewSeationGroup' :bordered="false">
+    <a-collapse v-if='pointsArray.length>0' defaultActiveKey="0" class='reviewSeationGroup' :bordered="false">
       <template v-for="(pointGroup,index) in pointsArray">
         <a-collapse-panel :key='index' class='reviewSeation' >
           <template slot="header">
             <div class="reviewSeationTitle">
-              <span class="sysName">{{pointGroup.name}}</span>
+              <span class="sysName">{{pointGroup.name}}<span class="points">已有功能点<span class="pointNum">{{pointGroup.children.length}}</span>个</span></span>
             </div>
           </template>
           <a-row class="reviewSeationContent" :gutter="16">
             <template v-for="(point) in pointGroup.children">
               <a-col span="4" class="reviewCard" :key="point.id">
                 <div class="contentBody">
-                  <div class="title">{{point.pointName}}</div>
-                  <div class="des">{{point.pointKey}}</div>
+                  <p class="title">{{point.pointName}}</p>
+                  <p class="des">{{point.pointKey}}</p>
+                  <p class="perm"> <img :src="permIcon" class="group-icon" alt="人数"><span>已归属权限<span class="permNum">{{point.permSet.length || '0'}}</span>个</span> </p>
                 </div>
                 <div class="contentOperate">
                   <span @click="goToEditPoint(point)">修改</span>
-                  <a-divider type="vertical" />
-                  <span @click="confirmDeletePoint(point)">删除</span>
+                  <template v-if="point.permSet.length==0">
+                    <a-divider type="vertical" />
+                    <span @click="confirmDeletePoint(point)">删除</span>
+                  </template>
                 </div>
               </a-col>
             </template>
@@ -65,7 +68,8 @@ export default {
       sysListForSearch:[],
       pointsArray:[],
       pointsList:null,
-      deleteData:null
+      deleteData:null,
+      permIcon:require('@/assets/images/group.png'),
     }
   },
   watch: {
@@ -116,6 +120,7 @@ export default {
       }).then(res=>{
         if(res.code === '200'){
           this.pointsList = this.$com.confirm(res, 'data.content', [])
+          console.log('pointsList',this.pointsList)
         }else{
           this.$message.error(res.msg)
         }
@@ -198,12 +203,18 @@ export default {
 .reviewSeationGroup { padding-bottom:16px; }
 .reviewSeationTitle span{  padding-right:10px; font-size: 12px; color:rgb(0, 0, 0,0.6);}
 .reviewSeationTitle .sysName{ color:rgb(0, 0, 0,0.8); font-weight: bold; font-size: 14px;}
+.reviewSeationTitle .points{ padding-left: 10px;}
+.reviewSeationTitle .pointNum{ padding:0 4px; color: rgb(255, 0, 0,0.6); font-weight: bold }
 .reviewSeationContent { padding:0; margin:0;}
-.reviewCard { height:100px; margin-bottom:20px;}
-.reviewCard .contentBody{ height:60px; padding:10px 10px; vertical-align: middle; background: #fff;  border-radius: 2px; border:1px solid #e0e0e0; }
+.reviewCard { height:120px; margin-bottom:20px;}
+.reviewCard .contentBody{ height:80px; padding:10px 10px; vertical-align: middle; background: #fff;  border-radius: 2px; border:1px solid #e0e0e0; }
+.reviewCard .contentBody p{ margin: 0}
 .reviewCard .contentBody .title, .reviewCard .contentBody .des {line-height: 20px; font-size: 12px; color:rgb(0, 0, 0,0.6)}
 .reviewCard .contentBody .title { font-size: 14px; font-weight: bold; color:rgb(0, 0, 0,0.8)}
 .reviewCard .contentOperate{ border:1px solid #e0e0e0; border-top: none; height: 38px;background-color: rgb(234, 244, 254,0.4); padding-right:20px;text-align: right;line-height: 38px;}
+.reviewCard .perm{ font-size: 12px}
+.reviewCard .group-icon{ width: 16px; position: relative; top: -2px; margin-right: 5px}
+.reviewCard .permNum{ padding: 0 4px; color: rgb(255, 0, 0,0.6); font-weight: bold }
 .contentOperate span{ color:#1890ff; cursor: pointer;display: inline-block; }
 .contentOperate .title{color:#000;font-weight:bold;}
 </style>
