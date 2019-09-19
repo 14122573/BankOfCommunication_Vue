@@ -38,13 +38,13 @@ export default {
   GET_CHECK_PHONE_EXIST: '/service-user/user/public/check/phone/exist', //判断手机是否存在
   GET_PHONE_CODE: '/service-user/user/public/send/{type}/{phone}', // 发送验证码 （用于注册、忘记密码）
   POST_CHECK_PHONE_CODE: '/service-user/user/public/check/{type}/{phone}/{code}', // 验证手机验证码 （用于注册、忘记密码）
-  PUT_PERSONAL_RESET_PWD:'service-user/user/pwd',// 个人中心重置密码
+  PUT_PERSONAL_RESET_PWD: 'service-user/user/pwd', // 个人中心重置密码
 
   // 系统配置
   // 系统配置 -- 权限配置管理
-  POST_PREMSBRANCH:'/service-permission/perm/perm',//新增权限分支
-  PUT_PREMSBRANCH:'/service-permission/perm/perm/{id}',//修改权限分支
-  DELETE_PREMSBRANCH:'/service-permission/perm/perm/{id}',//删除权限分支
+  POST_PREMSBRANCH: '/service-permission/perm/perm', //新增权限分支
+  PUT_PREMSBRANCH: '/service-permission/perm/perm/{id}', //修改权限分支
+  DELETE_PREMSBRANCH: '/service-permission/perm/perm/{id}', //删除权限分支
   GET_PREMSPOINT_LIST: '/service-permission/perm/points', //获取功能点清单
   POST_PREMSPOINT: '/service-permission/perm/point', //添加功能点
   PUT_PREMSPOINT: '/service-permission/perm/point/{id}', //修改功能点
@@ -91,6 +91,7 @@ export default {
   IMPORT_EXPERT_ALL: '/service-expert/expert/expert/import', //专家库导入
   EXPORT_TYPE_EDIT: '/service-expert/expert/expert/{experId}',
   UPLOAD_TEMP: BASE_URL + '/zuul/service-file/file/upload/1/temp', //上传图片
+  TEMPLAT_DOWNLOAD_EXPERT_AND_TALENT: BASE_URL + '/template/导入模版.xlsx', //专家库人才库导入模板下载
   // 专家管理--项目评审
   GET_EXPERT_REVIEW_TODO_LIST: '/service-expert/expert/extract/{expertId}', //获取当前接口传参专家需要评审的数据,? status:0-未完成 1-完成 null/""-全部
 }

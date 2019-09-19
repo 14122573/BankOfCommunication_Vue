@@ -20,7 +20,6 @@
                                 style="width:20%;" 
                                 name="file" 
                                 :multiple="true" 
-                                action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
                                 :headers="headers" 
                                 :beforeUpload="beforeUpload"
                             >
@@ -47,22 +46,22 @@
                         <a-tag v-for="(item,index) in  fileList" :key="index" closable @close="handleRemove(index)">{{item.name}}</a-tag>
                     </a-col>
                 </a-row> -->
-                <a-row :style="{'margin-top':'20px'}" v-if="result === 'success'">
+                <a-row :style="{'margin-top':'20px'}" v-if="result.error === 0">
                     <a-col span="11">
                         <a-alert type="info" showIcon closable class="successTips">
                             <a-icon slot="icon" type="check-circle" :size="16" />
                             <div slot="message">
-                                导入成功,共导入数据125条
+                                导入成功,共导入数据{{result.success}}条
                             </div>
                         </a-alert>
                     </a-col>
                 </a-row>
-                <a-row :style="{marginTop:'20px'}" v-if="result === 'error'">
+                <a-row :style="{marginTop:'20px'}" v-if="result.error > 0">
                     <a-col span="14">
                         <a-alert type="error" showIcon closable class="errorTips">
                             <div slot="message">
-                                导入失败,共导入数据125条,成功导入数据125条,导入失败25条,<a @click="downloadErrorDatas">下载导入失败数据&nbsp;<a-icon type="link" /></a>
-                                <p>失败数据：</p>
+                                导入失败,共导入数据{{result.success + result.error}}条,成功导入数据{{result.success}}条,导入失败{{result.error}}条,<a @click="downloadErrorDatas">下载导入失败数据&nbsp;<a-icon type="link" /></a>
+                                <!-- <p>失败数据：</p> -->
                             </div>
                         </a-alert>
                     </a-col>
@@ -90,15 +89,15 @@ export default {
       headers: {},
       fileList: [],
       uploading: false,
-	  fileName: '',
-	  result:null
+      fileName: '',
+      result:{},
     }
   },
   methods: {
     beforeUpload(file) {
-      const isLt2M = file.size / 1024 / 1024 < 2
-      if (!isLt2M) {
-        this.$message.error('Image must smaller than 2MB!')
+      const isLt200M = file.size / 1024 / 1024 < 200
+      if (!isLt200M) {
+        this.$message.error('上传文件不能大于200M')
       }else{
         this.fileList=[]
         this.fileList = [...this.fileList, file]
@@ -112,38 +111,32 @@ export default {
       fileList.forEach(file => {
         formData.append('file', file)
       })
-	  this.uploading = true
+      this.uploading = true
+      this.result={}
 	  this.$ajax.post(
 		  {
 			  url:this.$api.IMPORT_EXPERT_ALL,
 			  params:formData
 		  }
 	  ).then((res)=>{
-		  console.log(res)
+        if(res.code == '200'){
+          this.result=res.data.content
+          this.uploading=false
+          this.fileList=[]
+          this.fileName=''
+        }
 	  })
-    //   reqwest({
-    //     url: 'https://www.mocky.io/v2/5cc8019d300000980a055e76',
-    //     method: 'post',
-    //     processData: false,
-    //     data: formData,
-    //     success: () => {
-    //       this.fileList = []
-    //       this.uploading = false
-    //       this.$message.success('upload successfully.')
-    //     },
-    //     error: () => {
-    //       this.uploading = false
-    //       this.$message.error('upload failed.')
-    //     }
-    //   })
     },
     handleRemove(index) {
       this.fileList.splice(index, 1)
-      console.log(this.fileList, '232')
     },
     //下载错误数据
-    downloadErrorDatas() {},
-    downloadTemplate() {}
+    downloadErrorDatas() {
+      window.open(this.result.path)
+    },
+    downloadTemplate() {
+      window.open(this.$api.TEMPLAT_DOWNLOAD_EXPERT_AND_TALENT.replace('/api',''))
+    }
   }
 }
 </script>

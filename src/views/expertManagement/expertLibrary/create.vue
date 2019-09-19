@@ -18,7 +18,7 @@
                   <a-row>
                     <a-col span="12" v-if="!$route.query.id">
                       <a-form-item label="登录手机号" v-bind="colSpa">
-                        <a-input v-decorator="['loginPhone',{rules:rules.loginPhone}]" placeholder="请输入"></a-input>
+                        <a-input v-decorator="['loginPhone',{validateTrigger: 'blur',rules:rules.loginPhone}]" placeholder="请输入"></a-input>
                       </a-form-item>
                     </a-col>
                     <a-col span="12">
@@ -42,7 +42,7 @@
                   <a-row>
                     <a-col span="12">
                       <a-form-item label="身份证号" v-bind="colSpa">
-                        <a-input v-decorator="['identity',{rules:rules.identity}]" placeholder="请输入"></a-input>
+                        <a-input v-decorator="['identity',{validateTrigger: 'blur',rules:rules.identity}]" placeholder="请输入"></a-input>
                       </a-form-item>
                     </a-col>
                     <a-col span="12">

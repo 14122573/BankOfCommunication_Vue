@@ -44,14 +44,7 @@
         <a-row class="formItemLine">
           <a-col :span="16">
             <a-form-item label="地址" v-bind="formItemSingle">
-              <a-input v-decorator="['addr',rules.addr]" placeholder="请输入地址信息(格式要求:XX省XX市XX县XX乡镇XX路XX号)" @blur="handleSearchPoint" />
-            </a-form-item>
-          </a-col>
-        </a-row>
-        <a-row class="formItemLine">
-          <a-col :span="16">
-            <a-form-item label="地址微调" v-bind="formItemSingle">
-              <!-- <BMapComponent :height="250" :width="830" :keyWords="position" @on-change="getNewAddress" /> -->
+              <a-input v-decorator="['addr',rules.addr]" placeholder="请输入地址信息(格式要求:XX省XX市XX县XX乡镇XX路XX号)"  />
             </a-form-item>
           </a-col>
         </a-row>
@@ -60,13 +53,8 @@
     </div>
 	</div>
 </template>
-
 <script>
-import BMapComponent from '@/components/BaiduMap/BMapComponent.vue'
 export default {
-  components: {
-    BMapComponent
-  },
   beforeCreate() {
     this.organizationForm = this.$form.createForm(this)
   },
@@ -88,7 +76,6 @@ export default {
           span: 19
         },
       },
-      position: '',
       options: {
         areaLists: [],
         upLists: [],
@@ -193,56 +180,6 @@ export default {
         name: '/systemManagement/organization'
       })
     },
-    handleSearchPoint(e) {
-      const value = e.target.value
-      this.position = value
-    },
-    //拖拽或点击获取新的地址
-    getNewAddress(data, addressTemp) {
-      let address = addressTemp
-      let province = '',
-        city = '',
-        district = ''
-      if (data.province) {
-        province = data.province
-      }
-      if (data.city) {
-        city = data.city
-      }
-      if (data.district) {
-        district = data.district
-      }
-      if (province == city) {
-        if (address.indexOf(province) == -1) {
-          if (district != '') {
-            address = district + address
-          }
-          if (province != '') {
-            address = province + address
-          }
-        }
-      } else {
-        if (address.indexOf(district) != -1) {
-          if (district != '') {
-            address = district + address
-          }
-        }
-        if (address.indexOf(city) == -1) {
-          if (city != '') {
-            address = city + address
-          }
-        }
-
-        if (address.indexOf(province) == -1) {
-          if (province != '') {
-            address = province + address
-          }
-        }
-      }
-      this.organizationForm.setFieldsValue({
-        addr: address
-      })
-    },
     validatePhone(rule, value, callback) {
       if (value && !this.$com.checkPhone(value) && !this.$com.checkTel(value)) {
         callback('联系电话不合法!')
@@ -270,7 +207,6 @@ export default {
         let {addr,contact,contactPhone,areaCode,groupName}=this.$com.confirm(res, 'data.content', {})
         let parentId=this.$com.confirm(res, 'data.content.parentId', '0')=='0'?'':this.$com.confirm(res, 'data.content.parentId', '0')
         this.organizationForm.setFieldsValue({addr,contact,contactPhone,areaCode,parentId,groupName})
-        this.position = this.$com.confirm(res, 'data.content.addr', '上海市')
       })
     }
   }
