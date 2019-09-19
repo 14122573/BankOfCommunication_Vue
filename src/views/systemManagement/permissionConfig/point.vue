@@ -34,7 +34,7 @@
           </template>
           <a-row class="reviewSeationContent" :gutter="16">
             <template v-for="(point) in pointGroup.children">
-              <a-col span="6" class="reviewCard" :key="point.id">
+              <a-col span="4" class="reviewCard" :key="point.id">
                 <div class="contentBody">
                   <div class="title">{{point.pointName}}</div>
                   <div class="des">{{point.pointKey}}</div>
@@ -200,10 +200,10 @@ export default {
 .reviewSeationTitle .sysName{ color:rgb(0, 0, 0,0.8); font-weight: bold; font-size: 14px;}
 .reviewSeationContent { padding:0; margin:0;}
 .reviewCard { height:100px; margin-bottom:20px;}
-.reviewCard .contentBody{ height:60px; padding:10px 10px; vertical-align: middle; background: #fff;  border-radius: 2px; border-bottom:1px solid #e0e0e0; border:1px solid #e0e0e0 }
+.reviewCard .contentBody{ height:60px; padding:10px 10px; vertical-align: middle; background: #fff;  border-radius: 2px; border:1px solid #e0e0e0; }
 .reviewCard .contentBody .title, .reviewCard .contentBody .des {line-height: 20px; font-size: 12px; color:rgb(0, 0, 0,0.6)}
 .reviewCard .contentBody .title { font-size: 14px; font-weight: bold; color:rgb(0, 0, 0,0.8)}
-.reviewCard .contentOperate{ border:1px solid #e0e0e0; border-top: none; height: 38px;background-color: rgb(234, 244, 254); padding-right:20px;text-align: right;line-height: 38px;}
+.reviewCard .contentOperate{ border:1px solid #e0e0e0; border-top: none; height: 38px;background-color: rgb(234, 244, 254,0.4); padding-right:20px;text-align: right;line-height: 38px;}
 .contentOperate span{ color:#1890ff; cursor: pointer;display: inline-block; }
 .contentOperate .title{color:#000;font-weight:bold;}
 </style>

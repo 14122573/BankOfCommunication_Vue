@@ -12,7 +12,7 @@
       <a-row type="flex" justify="start" align="middle">
         <a-col span="24">
           <a-form-item label="是否不可分配" :label-col="{span:7}" :wrapper-col="{span:17}">
-            <a-radio-group v-decorator="['isHide',{validateTrigger:'blur',rules:formRules.isHide}]">
+            <a-radio-group :disabled="isDisabaleDistribution" v-decorator="['isHide',{validateTrigger:'blur',rules:formRules.isHide}]">
               <a-radio-button value="0">可分配</a-radio-button>
               <a-radio-button value="1">不可分配</a-radio-button>
             </a-radio-group>
@@ -39,15 +39,9 @@
 export default {
   name:'CreatePermBranch',
   props: {
-    parentId:{
-      type:String,
+    parentNode:{
+      type:Object,
       required:true,
-      default: '0'
-    },
-    parentName:{
-      type:String,
-      required:true,
-      default: '根节点'
     },
     timestamp:{
       type:Number,
@@ -78,6 +72,22 @@ export default {
   },
   beforeCreate() {
     this.permCreateForm = this.$form.createForm(this)
+  },
+  computed:{
+    /**
+     * 当父级权限是不可分配的（isHide==true）,则子集权限也不可分配。并默认初始化子集权限是否可分配表单值
+     * @returns {Boolean}
+     */
+    isDisabaleDistribution(){
+      this.$nextTick(function () {
+        this.permCreateForm.setFieldsValue({isHide:this.parentNode.isHide?'1':'0'})
+      })
+      if(this.parentNode.isHide){
+        return true // 不可用
+      }else{
+        return false // 可用
+      }
+    }
   },
   watch: {
     timestamp(){
@@ -131,7 +141,7 @@ export default {
     handleOk() {
       this.permCreateForm.validateFields(err => {
         if (!err) {
-          let postParams = Object.assign({parentId:this.parentId},this.createForm ,{
+          let postParams = Object.assign({parentId:this.parentNode.key},this.createForm ,{
             'permName':this.permCreateForm.getFieldValue('permName'),
             'isHide':this.permCreateForm.getFieldValue('isHide')=='0'?false:true
           })

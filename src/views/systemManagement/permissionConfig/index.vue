@@ -1,7 +1,5 @@
 <style scoped>
-
 </style>
-
 <template>
 	<div class="routerWapper">
     <div class="portalDetailWapper" v-if="$route.name == '/systemManagement/permissionConfig'">
@@ -11,7 +9,7 @@
           <a-button icon='plus' @click="goToPointMeg">功能点管理</a-button>
           <a-button icon='plus' type="primary" ghost @click="handleAddRoleNode(true)">添加一级权限</a-button>
           <a-button :disabled='disAddRoleNode' icon='plus' type="primary" ghost @click="handleAddRoleNode(false)">添加子集权限</a-button>
-          <a-button :disabled='disEditRoleNode' icon='plus' type="primary" ghost @click="handleEditRoleNode">修改子集权限</a-button>
+          <a-button :disabled='disDelRoleNode' icon='plus' type="primary" ghost @click="handleEditRoleNode">修改权限信息</a-button>
           <a-button :disabled='disDelRoleNode' icon='delete' type="danger" ghost @click="handleDelRoleNode">删除权限</a-button>
         </div>
       </div>
@@ -22,15 +20,15 @@
               <a-skeleton active />
             </template>
             <template v-else>
-              <a-tree showLine class="portalRoleTree" :treeData="tree.roleTreeDataArranged" defaultExpandAll @select="onSelect" ></a-tree>
+              <a-tree  class="portalRoleConfigTree" :treeData="tree.roleTreeDataArranged" defaultExpandAll @select="onSelect" ></a-tree>
             </template>
           </div>
         </div>
       </div>
     </div>
 		<RouterWapper v-else></RouterWapper>
-    <CreatePermBranch @on-success='closeCreateModal' :parentId='createPerm.parentId' :parentName='createPerm.parentName' :timestamp='Date.now()' :resetShow='createPerm.showModal'></CreatePermBranch>
-    <EditPermBranch @on-success='closeEditModal' :parentId='editPerm.parentId' :parentName='editPerm.parentName' :perm='!editPerm.permDetail?{}:editPerm.permDetail' :timestamp='Date.now()' :resetShow='editPerm.showModal'></EditPermBranch>
+    <CreatePermBranch @on-success='closeCreateModal' :parentNode='createPerm.parentDetail' :timestamp='Date.now()' :resetShow='createPerm.showModal'></CreatePermBranch>
+    <EditPermBranch @on-success='closeEditModal' :parentNode='editPerm.parentDetail' :perm='!editPerm.permDetail?{}:editPerm.permDetail' :timestamp='Date.now()' :resetShow='editPerm.showModal'></EditPermBranch>
   </div>
 </template>
 <script>
@@ -53,11 +51,19 @@ export default {
         parent:null
       },
       createPerm:{
-        parentId:'0',
-        parentName:'根节点',
+        parentDetail:{
+          key:'0',
+          name:'根节点',
+          isHide:false //默认可分配
+        },
         showModal:false
       },
       editPerm:{
+        parentDetail:{
+          key:'0',
+          name:'根节点',
+          isHide:false //默认可分配
+        },
         permDetail:null,
         parentId:'0',
         parentName:'根节点',
@@ -132,31 +138,37 @@ export default {
       }else{
         return true
       }
-    },
-    disAddfistRoleNode(){
-      if(!!this.selectedNode.node){
-        return true
-      }else{
-        return false
-      }
     }
   },
   methods: {
     closeEditModal(isReload){
       this.editPerm.showModal = false
+      // if(isReload){
       this.editPerm.permDetail = null
-      this.editPerm.parentId='0'
-      this.editPerm.parentName='根节点'
-      if(isReload){
-        this.getRoleTree()
-      }},
+      this.editPerm.parentDetail.key='0'
+      this.editPerm.parentDetail.name='根节点'
+      this.editPerm.parentDetail.isHide = false
+      this.selectedNode = {
+        key:'',
+        node:null,
+        parent:null
+      }
+      this.getRoleTree()
+      // }
+    },
     closeCreateModal(isReload){
       this.createPerm.showModal = false
-      this.createPerm.parentId='0'
-      this.createPerm.parentName='根节点'
-      if(isReload){
-        this.getRoleTree()
+      // if(isReload){
+      this.createPerm.parentDetail.key='0'
+      this.createPerm.parentDetail.name ='根节点'
+      this.createPerm.parentDetail.isHide = false
+      this.selectedNode = {
+        key:'',
+        node:null,
+        parent:null
       }
+      this.getRoleTree()
+      // }
     },
     goToPointMeg(){
       this.$router.push({name:'/systemManagement/permissionConfig/point'})
@@ -167,15 +179,18 @@ export default {
     handleEditRoleNode(){
       this.editPerm.showModal = true
       this.editPerm.permDetail = this.selectedNode.node
-      this.editPerm.parentId = this.selectedNode.parent.key
-      this.editPerm.parentName = this.selectedNode.parent.title
-      // console.log(this.selectedNode,this.editPerm)
+      this.editPerm.parentDetail = {
+        key:!this.selectedNode.parent?'0':this.selectedNode.parent.key,
+        name:!this.selectedNode.parent?'根节点':this.selectedNode.parent.title,
+        isHide:!this.selectedNode.parent?false:this.selectedNode.parent.isHide
+      }
     },
     handleAddRoleNode(isFirst){
       this.createPerm.showModal = true
       if(!isFirst){
-        this.createPerm.parentId = this.selectedNode.key
-        this.createPerm.parentName = this.selectedNode.node.title
+        this.createPerm.parentDetail.key = this.selectedNode.key
+        this.createPerm.parentDetail.name = this.selectedNode.node.title
+        this.createPerm.parentDetail.isHide = this.selectedNode.node.isHide
       }
     },
     handleDelRoleNode(){
@@ -220,10 +235,10 @@ export default {
         }
       })
     },
-    getPointsIds(pointSet){
+    getPointsIds(points){
       let ids = []
-      for(let i=0;i<pointSet.length;i++){
-        ids.push(pointSet[i].id)
+      for(let i=0;i<points.length;i++){
+        ids.push(points[i].id)
       }
       return ids
     },
@@ -238,7 +253,7 @@ export default {
         'title':item.permName,
         'key':item.id,
         'permKey':!item.permKey?'':item.permKey,
-        'pointSet':this.getPointsIds(item.pointSet),
+        'pointSet':this.getPointsIds(!item.points?[]:item.points),
         'isOldSys':isOldSys,
         'isHide':item.isHide
       }
@@ -257,21 +272,25 @@ export default {
      * @param {Object} node 选中节点对象
      */
     onSelect (selectedKeys, {selected, selectedNodes, node, event}) {
-      // console.log('onSelect',selectedNodes)
-      this.selectedNode.key = selectedKeys[0]
-      this.selectedNode.node = {
-        'title':selectedNodes[0].data.props.title,
-        'isOldSys':selectedNodes[0].data.props.isOldSys,
-        'permKey':selectedNodes[0].data.props.permKey,
-        'pointSet':selectedNodes[0].data.props.pointSet,
-        'key':selectedNodes[0].data.key,
-        'isHide':selectedNodes[0].data.props.isHide
+      if(selectedKeys.length>0){
+        this.selectedNode['key'] = selectedKeys[0]
+        this.selectedNode['node'] = {
+          'title':selectedNodes[0].data.props.title,
+          'isOldSys':selectedNodes[0].data.props.isOldSys,
+          'permKey':selectedNodes[0].data.props.permKey,
+          'pointSet':selectedNodes[0].data.props.pointSet,
+          'key':selectedNodes[0].data.key,
+          'isHide':selectedNodes[0].data.props.isHide
+        }
+        this.selectedNode['parent'] = !node.$parent.dataRef?null:Object.assign({},node.$parent.dataRef)
+      }else{
+        this.selectedNode = {
+          key:'',
+          node:null,
+          parent:null
+        }
       }
-      this.selectedNode.parent = !node.$parent.dataRef?null:Object.assign({},node.$parent.dataRef)
-    },
-    // onCheck (checkedKeys, info) {
-    //   console.log('onCheck', checkedKeys, info)
-    // },
+    }
   },
 }
 </script>

@@ -12,7 +12,7 @@
       <a-row type="flex" justify="start" align="middle">
         <a-col span="24">
           <a-form-item label="是否不可分配" :label-col="{span:7}" :wrapper-col="{span:17}">
-            <a-radio-group v-decorator="['isHide',{validateTrigger:'blur',rules:formRules.isHide}]">
+            <a-radio-group :disabled="isDisabaleDistribution" v-decorator="['isHide',{validateTrigger:'blur',rules:formRules.isHide}]">
               <a-radio-button value="0">可分配</a-radio-button>
               <a-radio-button value="1">不可分配</a-radio-button>
             </a-radio-group>
@@ -39,15 +39,9 @@
 export default {
   name:'EditPermBranch',
   props: {
-    parentId:{
-      type:String,
+    parentNode:{
+      type:Object,
       required:true,
-      default: '0'
-    },
-    parentName:{
-      type:String,
-      required:true,
-      default: '根节点'
     },
     perm:{
       type:Object,
@@ -83,8 +77,22 @@ export default {
   beforeCreate() {
     this.permEditForm = this.$form.createForm(this)
   },
+  computed:{
+    /**
+     * 当父级权限是不可分配的（isHide==true）,则子集权限也不可分配。
+     * @returns {Boolean}
+     */
+    isDisabaleDistribution(){
+      if(this.parentNode.isHide){
+        return true // 不可用
+      }else{
+        return false // 可用
+      }
+    }
+  },
   watch: {
     timestamp(){
+      this.getPointList()
       this.resetForm()
     },
     resetShow() {
@@ -163,7 +171,7 @@ export default {
     handleOk() {
       this.permEditForm.validateFields(err => {
         if (!err) {
-          let putParams = Object.assign({parentId:this.parentId},{
+          let putParams = Object.assign({parentId:this.parentNode.key},{
             'permName':this.permEditForm.getFieldValue('permName'),
             'isHide':this.permEditForm.getFieldValue('isHide')=='0'?false:true,
             'pointSet':this.getSelectPointSetObject(this.permEditForm.getFieldValue('pointIds'))
@@ -188,7 +196,7 @@ export default {
      * 取消创建权限分支
      */
     handleCancel() {
-      this.resetForm()
+      // this.resetForm()
       this.$emit('on-success',false)
     },
     resetForm() {

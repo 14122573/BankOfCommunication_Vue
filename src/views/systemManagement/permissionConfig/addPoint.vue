@@ -15,7 +15,7 @@
             <a-row type="flex" justify="space-between" align="middle">
               <a-col span="16">
                 <a-form-item class='formItem' label="业务系统名称" :label-col="{span:4}" :wrapper-col="{span:16}">
-                  <a-select placeholder="请选择业务系统" :options="sysListForSearch" v-model="createForm .type" @change="onSysChange" />
+                  <a-select placeholder="请选择业务系统" :options="sysListForSearch" v-model="createForm.type" @change="onSysChange" />
                 </a-form-item>
               </a-col>
             </a-row>
@@ -27,7 +27,7 @@
               </a-col>
               <a-col span="8">
                 <a-form-item label="功能点编码" :label-col="{span:8}" :wrapper-col="{span:16}">
-                  <a-input v-decorator="['pointKey',{validateTrigger:'blur',rules:formRules.pointCode}]" placeholder="请输入"></a-input>
+                  <a-input :addonBefore="createForm.type?createForm.type:''" v-decorator="['pointKey',{validateTrigger:'blur',rules:formRules.pointCode}]" placeholder="请输入"></a-input>
                 </a-form-item>
               </a-col>
             </a-row>
@@ -57,15 +57,19 @@ export default {
       if (!value) {
         callback()
       } else {
-        this.$ajax.get({
-          url: this.$api.GET_CHECK_POINTCODE_EXIT + '?pointKey=' + value
-        }).then(res => {
-          if (res.data.content === false) {
-            callback()
-          } else {
-            callback('功能点编码已存在!')
-          }
-        })
+        if (!this.$com.checkNumber(value)) {
+          callback('功能编码仅能填写数字')
+        } else {
+          this.$ajax.get({
+            url: this.$api.GET_CHECK_POINTCODE_EXIT + '?pointKey=' + this.createForm.type+value
+          }).then(res => {
+            if (res.data.content === false) {
+              callback()
+            } else {
+              callback('功能点编码已存在!')
+            }
+          })
+        }
       }
     }
     return {
@@ -77,10 +81,10 @@ export default {
       formRules:{
         // 相关管理信息
         pointName:[
-          { required: true, whitespace: true, message: '请选择功能点名称' }
+          { required: true, whitespace: true, message: '请填写功能点名称' }
         ],
         pointCode: [
-          { required: true, whitespace: true, message: '请选择功能点编码' },
+          { required: true, whitespace: true, message: '请填写功能点编码' },
           { validator: validatePointCode }
         ],
       },
@@ -125,7 +129,7 @@ export default {
         if (!err) {
           let postParams = Object.assign({},this.createForm ,{
             'pointName':this.porintCreateForm.getFieldValue('pointName'),
-            'pointKey':this.porintCreateForm.getFieldValue('pointKey')
+            'pointKey':this.createForm.type+this.porintCreateForm.getFieldValue('pointKey')
           })
           this.$ajax.post({
             url: this.$api.POST_PREMSPOINT,
