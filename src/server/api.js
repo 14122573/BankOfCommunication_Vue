@@ -13,8 +13,8 @@ case 'production': // 生产环境下
   BASE_URL = 'http://iftp.omniview.pro/api'
   break
 default: // 默认环境下（开发环境）
-  BASE_URL = 'http://fish.omniview.pro/api'
-  // BASE_URL = 'http://iftp.omniview.pro/api'
+  // BASE_URL = 'http://fish.omniview.pro/api'
+  BASE_URL = 'http://iftp.omniview.pro/api'
   break
 };
 
@@ -41,6 +41,16 @@ export default {
   PUT_PERSONAL_RESET_PWD:'service-user/user/pwd',// 个人中心重置密码
 
   // 系统配置
+  // 系统配置 -- 权限配置管理
+  POST_PREMSBRANCH:'/service-permission/perm/perm',//新增权限分支
+  PUT_PREMSBRANCH:'/service-permission/perm/perm/{id}',//修改权限分支
+  DELETE_PREMSBRANCH:'/service-permission/perm/perm/{id}',//删除权限分支
+  GET_PREMSPOINT_LIST: '/service-permission/perm/points', //获取功能点清单
+  POST_PREMSPOINT: '/service-permission/perm/point', //添加功能点
+  PUT_PREMSPOINT: '/service-permission/perm/point/{id}', //修改功能点
+  DELETE_PREMSPOINT: '/service-permission/perm/point/{id}', //删除功能点
+  GET_CHECK_POINTCODE_EXIT: '/service-permission/perm/pointKey/repeat', //确认功能码是否已存在
+  // 系统配置 -- 角色管理
   GET_ROLE_LIST: '/service-permission/perm/roles', //获取角色列表
   GET_ALL_ROLE: '/service-permission/perm/menu/tree', //获取权限
   ADD_ROLE_POST: '/service-permission/perm/role', // 新增角色

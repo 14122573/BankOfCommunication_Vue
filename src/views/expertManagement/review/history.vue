@@ -223,7 +223,6 @@ export default {
       })
     },
     onPageChange(val) {
-      console.log('onPageChange',val)
       this.pagination.pageNo = val
       this.pagination.current = val
       this.getFinishReviewList()

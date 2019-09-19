@@ -31,26 +31,26 @@ let expertReviewRouter = {
     {
       type:'review',
       reviewTypeCode:'YLZCREWritten',
-      routerName:'/ylzcre/review/information',
-      authCode: 'S050201',
+      routerName:'/ylzcre/afVerification/check',
+      authCode: 'S05020601',
     },
     {
       type:'detail',
-      routerName:'/ylzcre/review/information',
-      authCode: 'S05010106',
+      routerName:'/ylzcre/afVerification/view',
+      authCode: 'S05020203',
     },
   ],
   'S0503':[ //水产原良种场验收审定
     {
       type:'review',
       reviewTypeCode:'SCYLZCWritten',
-      routerName:'/scylzc/acceptance/list',
-      authCode: 'S050301',
+      routerName:'/scylzc/afVerification/check',
+      authCode: 'S05030501',
     },
     {
       type:'detail',
-      routerName:'/scylzc/acceptance/list',
-      authCode: 'S05010106',
+      routerName:'/scylzc/afVerification/view',
+      authCode: 'S05030103',
     },
   ]
 }
