@@ -46,12 +46,6 @@
 								<a-input placeholder="请输入" v-decorator="['addr',searchFormRules.addr]" />
 							</a-form-item>
 						</a-col>
-						<a-col span="6" pull="4">
-							<a-form-item>
-								<div class="position" @click="showModal">
-									<a-icon type="environment" />&nbsp;查看地图定位</div>
-							</a-form-item>
-						</a-col>
 					</a-row>
 				</div>
 				<div class="layoutMargin detailsPartSection">
@@ -88,23 +82,12 @@
 					</div>
 				</div>
 			</a-form>
-			<a-modal title="查看地图定位" :width='880' :bodyStyle="{'text-align':'center'}" :visible="map" :closable='false'>
-				<template slot="footer">
-					<a-button @click="map=false" ghost type="primary">取消</a-button>
-					<a-button @click="map=false" type="primary">确认</a-button>
-				</template>
-				<!-- <BMapComponent :height="250" :width="830" ref="bdMap" :keyWords="position" /> -->
-			</a-modal>
 		</div>
 	</div>
 </template>
 
 <script>
-import BMapComponent from '@/components/BaiduMap/BMapComponent.vue'
 export default {
-  components: {
-    BMapComponent
-  },
   beforeCreate() {
     this.searchForm = this.$form.createForm(this)
   },
@@ -123,8 +106,6 @@ export default {
       checkedKeys: [],
       selectedKeys: [],
       treeData: [],
-      map: false,
-      position: '',
       searchFormRules: {
         name: {
           validateTrigger: 'blur',
@@ -211,10 +192,6 @@ export default {
           this.treeData.push(this.getTreeData(item, index))
         })
       })
-    },
-    showModal() {
-      this.map = true
-      this.position = this.searchForm.getFieldValue('addr')
     },
     // 整理权限树
     getTreeData(item, index) {

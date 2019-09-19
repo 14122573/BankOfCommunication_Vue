@@ -25,38 +25,21 @@
             <a-col span="8">
               <DetailsItem :labelSpan='8' :textSpan="16" :label='"所属行政区域"' :text='!detail.areaName?"暂无":detail.areaName'></DetailsItem>
             </a-col>
-            <a-col span="16">
-              <DetailsItem :labelSpan='2' :textSpan="18" :label='"地址"' :text='!detail.addr?"暂无":detail.addr'></DetailsItem>
-            </a-col>
           </a-row>
-          <a-row type="flex" justify="start" class="formItemLine" style="margin-bottom:16px;">
-            <a-col span="16">
-              <a-row type="flex" justify="start" class="colMargin">
-                <a-col span="4" class="colLabel" style="color:rgba(0, 0, 0, 0.45)"> 地图定位： </a-col>
-                <a-col span="17">
-                  <!-- <BMapComponent :height="250" :width="830" :keyWords="position" /> -->
-                </a-col>
-              </a-row>
-            </a-col>
-          </a-row>
+					 <a-row type="flex" justify="start" class="formItemLine" style="margin-bottom:16px;">
+					   <a-col span="16">
+					    <DetailsItem :labelSpan='2' :textSpan="18" :label='"地址"' :text='!detail.addr?"暂无":detail.addr'></DetailsItem>
+					  </a-col>
+					</a-row>
         </div>
       </div>
-      
-    </div>
-		<!-- <a-skeleton :loading="loading" :rows="30"> -->
-		
+    </div>	
 	</div>
 </template>
 <script>
-import BMapComponent from '@/components/BaiduMap/BMapComponent'
-
 export default {
-  components: {
-    BMapComponent
-  },
   data() {
     return {
-      position: '',
       detail: {},
       loading: true
     }
@@ -82,7 +65,6 @@ export default {
       }).then(res => {
         this.loading = false
         this.detail = this.$com.confirm(res, 'data.content', {})
-        this.position = this.$com.confirm(res, 'data.content.addr', '上海市')
       })
     }
   },
