@@ -31,12 +31,12 @@ let expertReviewRouter = {
     {
       type:'review',
       reviewTypeCode:'YLZCREWritten',
-      routerName:'/ylzcre/afVerification/check',
+      routerName:'/ylzcre/afVerification/list/check',
       authCode: 'S05020601',
     },
     {
       type:'detail',
-      routerName:'/ylzcre/afVerification/view',
+      routerName:'/ylzcre/afVerification/list/view',
       authCode: 'S05020203',
     },
   ],
@@ -44,12 +44,12 @@ let expertReviewRouter = {
     {
       type:'review',
       reviewTypeCode:'SCYLZCWritten',
-      routerName:'/scylzc/afVerification/check',
+      routerName:'/scylzc/afVerification/list/check',
       authCode: 'S05030501',
     },
     {
       type:'detail',
-      routerName:'/scylzc/afVerification/view',
+      routerName:'/scylzc/afVerification/list/view',
       authCode: 'S05030103',
     },
   ]
