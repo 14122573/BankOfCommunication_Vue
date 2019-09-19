@@ -1,12 +1,9 @@
 // const Layout = () => import('@/components/Layout/main')
-const contentWrapper = () =>
-    import ('@/components/Layout/content-wrapper')
-const TipsNetworkErr = () =>
-    import ('@/views/tips/network')
-const TipsNoAuth = () =>
-    import ('@/views/tips/auth')
-const TipsOutsite = () =>
-    import ('@/views/tips/outsite')
+const contentWrapper = () => import ('@/components/Layout/content-wrapper')
+const TipsUpperLimitErr = () => import ('@/views/tips/upperlimit')
+const TipsNetworkErr = () => import ('@/views/tips/network')
+const TipsNoAuth = () => import ('@/views/tips/auth')
+const TipsOutsite = () => import ('@/views/tips/outsite')
 const HomePage = () =>
     import ('@/views/home')
 const LoginPage = () =>
@@ -626,6 +623,12 @@ const appRoutes = [{
   name: 'networkerr',
   component: TipsNetworkErr,
   meta: { title: '网络错误', },
+},
+{
+  path: '/upperLimitErr',
+  name: 'upperLimitErr',
+  component: TipsUpperLimitErr,
+  meta: { title: '访问频繁', },
 },
 ]
 
