@@ -482,20 +482,20 @@ const appRoutes = [{
         name: '/scylzc/afVerification/list',
         meta: { title: '专家评审', menuPath: true, authCode: 'S050305', menuIcon: 'team', hideInBread: false, openMode: 'spa' },
         children: [{
-          path: '/scylzc/afVerification/check',
-          name: '/scylzc/afVerification/check',
+          path: '/scylzc/afVerification/list/check',
+          name: '/scylzc/afVerification/list/check',
           meta: { title: '评审', menuPath: false, authCode: 'S05030501', menuIcon: 'appstore', hideInBread: false, openMode: 'normal', openMode: 'spa' }
         },
         {
-          path: '/scylzc/afVerification/view',
-          name: '/scylzc/afVerification/view',
+          path: '/scylzc/afVerification/list/view',
+          name: '/scylzc/afVerification/list/view',
           meta: { title: '查看申请', menuPath: false, authCode: 'S05030103', menuIcon: 'appstore', hideInBread: false, openMode: 'spa' }
         }]
       },
       {
         path: '/scylzc/allApplyInfo/list',
         name: '/scylzc/allApplyInfo/list',
-        meta: { title: '查看全部申报信息', menuPath: true, authCode: '', menuIcon: 'team', hideInBread: false, openMode: 'spa'},
+        meta: { title: '查看全部申报信息', menuPath: true, authCode: 'S050306', menuIcon: 'team', hideInBread: false, openMode: 'spa'},
       }
     ]
   },
@@ -537,13 +537,13 @@ const appRoutes = [{
         meta: { title: '专家评审', menuPath: true, authCode: ' S050206', menuIcon: 'team', hideInBread: false, openMode: 'spa'},
         children: [
           {
-            path: '/ylzcre/afVerification/check',
-            name: '/ylzcre/afVerification/check',
+            path: '/ylzcre/afVerification/list/check',
+            name: '/ylzcre/afVerification/list/check',
             meta: { title: '评审', menuPath: false, authCode: 'S05020601', menuIcon: 'appstore', hideInBread: false, openMode: 'spa' }
           },
           {
-            path: '/ylzcre/afVerification/view',
-            name: '/ylzcre/afVerification/view',
+            path: '/ylzcre/afVerification/list/view',
+            name: '/ylzcre/afVerification/list/view',
             meta: { title: '查看申请', menuPath: false, authCode: 'S05020203', menuIcon: 'appstore', hideInBread: false, openMode: 'spa'}
           }
         ]

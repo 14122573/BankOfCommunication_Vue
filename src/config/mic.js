@@ -63,7 +63,7 @@ case 'production': // 生产环境下
 default: // 默认环境下（开发环境）
   MicConfig = [
     {
-      baseUrl:'http://scsd.tao.com',
+      baseUrl:'http://scsd.omniview.pro',
       resourceName:'scsd',
       micId:'mic:scsd',
       pathPrefix:'/scsd'
