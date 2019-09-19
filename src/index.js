@@ -5,7 +5,6 @@ import Vue from 'vue'
 
 // import App from './App'
 import App from '@/components/Layout/main'
-import BaiduMap from 'vue-baidu-map'
 import router from './router'
 import store from './store'
 import ajax from './server/ajax'
@@ -15,42 +14,42 @@ import common from './util/common'
 import PermissionControl from './util/permission-control.js' // 权限自定义指令 v-permission="code"
 import { PermissionFilter } from './util/permission-filter.js' // 权限全局方法 v-if="$permission('code')"
 import {
-    Button,
-    message,
-    Spin,
-    Layout,
-    Menu,
-    Icon,
-    Breadcrumb,
-    Form,
-    Input,
-    Card,
-    Dropdown,
-    Row,
-    Col,
-    Checkbox,
-    Select,
-    Alert,
-    Table,
-    Divider,
-    Upload,
-    Modal,
-    badge,
-    Tree,
-    Tabs,
-    DatePicker,
-    skeleton,
-    pagination,
-    Tag,
-    Badge,
-    TreeSelect,
-    Radio,
-    Cascader,
-    LocaleProvider,
-    Steps,
-    Anchor,
-    Collapse,
-    // CollapsePanel
+  Button,
+  message,
+  Spin,
+  Layout,
+  Menu,
+  Icon,
+  Breadcrumb,
+  Form,
+  Input,
+  Card,
+  Dropdown,
+  Row,
+  Col,
+  Checkbox,
+  Select,
+  Alert,
+  Table,
+  Divider,
+  Upload,
+  Modal,
+  badge,
+  Tree,
+  Tabs,
+  DatePicker,
+  skeleton,
+  pagination,
+  Tag,
+  Badge,
+  TreeSelect,
+  Radio,
+  Cascader,
+  LocaleProvider,
+  Steps,
+  Anchor,
+  Collapse,
+  // CollapsePanel
 } from 'ant-design-vue'
 import './assets/base.css' // 引入全局样式
 import './assets/reset-ant.css' // 重置ant-design样式
@@ -97,7 +96,7 @@ Vue.use(ActiveForm)
 Vue.use(Steps)
 Vue.use(Anchor)
 Vue.use(Collapse)
-    // Vue.use(Collapse-panel)
+// Vue.use(Collapse-panel)
 
 import RouterWapper from '@/components/Layout/content-wrapper'
 import DetailsItem from '@/components/detail/detailItem'
@@ -116,25 +115,25 @@ Vue.prototype.$moment = moment
 
 Vue.config.productionTip = false
 const vueLifecycles = singleSpaVue({
-    Vue,
-    appOptions: {
-        el: '#portal',
-        router,
-        store,
-        render: h => h('div', {
-            attrs: { id: 'Layout' }
-        }, [h(App)]),
-    },
+  Vue,
+  appOptions: {
+    el: '#portal',
+    router,
+    store,
+    render: h => h('div', {
+      attrs: { id: 'Layout' }
+    }, [h(App)]),
+  },
 })
 
 export const bootstrap = [
-    vueLifecycles.bootstrap,
+  vueLifecycles.bootstrap,
 ]
 
 export const mount = [
-    vueLifecycles.mount,
+  vueLifecycles.mount,
 ]
 
 export const unmount = [
-    vueLifecycles.unmount,
+  vueLifecycles.unmount,
 ]

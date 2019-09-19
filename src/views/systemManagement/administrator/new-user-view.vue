@@ -36,7 +36,6 @@
               <a-col span="4" style="text-align:right;color:#999">地址：</a-col>
               <a-col span="18">
                 {{detail.addr || "暂无"}}
-                <span class="position" @click="map=true;position=detail.addr"> <a-icon type="environment" />&nbsp;查看地图定位</span>
               </a-col>
             </a-row>
           </a-col>
@@ -61,29 +60,14 @@
       </div>
     </div>
   </div>
-	<a-modal title="查看地图定位"  :width='880' :bodyStyle="{'text-align':'center'}" :visible="map" :closable='false'>
-    <template slot="footer">
-      <a-button @click="map=false" ghost type="primary">取消</a-button>
-      <a-button @click="map=false" type="primary">确认</a-button>
-    </template>
-    <!-- <BMapComponent refs="bdMap" :height="250" :width="830" :keyWords="position" /> -->
-  </a-modal>
   </div>
 </template>
-
 <script>
-import BMapComponent from '@/components/BaiduMap/BMapComponent'
-
 export default {
-  components: {
-    BMapComponent
-  },
   data() {
     return {
       defaultExpandedKeys: [],
       checkedKeys: [],
-      map: false,
-      position: '',
       detail: {},
       treeData: []
     }
@@ -156,8 +140,4 @@ export default {
 </script>
 <style scoped>
 	.position { margin-left: 5px; color: #1890ff; cursor: pointer; }
-</style>
-<style>
-	/* .tree>li { background: rgba(247, 247, 247); }
-	.tree li ul { background: white; } */
 </style>
