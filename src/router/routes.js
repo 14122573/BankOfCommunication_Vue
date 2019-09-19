@@ -209,7 +209,7 @@ const appRoutes = [{
         path: '/systemManagement/administrator',
         name: '/systemManagement/administrator',
         component: AdministratorManagement,
-        meta: { title: '管理员管理', menuPath: true, authCode: 'P03000', menuIcon: 'cluster', hideInBread: false, openMode: 'normal' },
+        meta: { title: '用户管理', menuPath: true, authCode: 'P03000', menuIcon: 'cluster', hideInBread: false, openMode: 'normal' },
         children: [{
           path: '/systemManagement/administrator/createNewUser',
           name: '/systemManagement/administrator/createNewUser',
