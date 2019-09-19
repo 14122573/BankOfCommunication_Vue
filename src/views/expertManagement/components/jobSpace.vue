@@ -7,7 +7,7 @@
         <a-row>
           <a-col span="8">
             <a-form-item label="主要相关研究方向" v-bind="colSpa">
-              <a-select v-decorator="['researchDirection']" :options="options.researchDirectionList" placeholder="请选择"></a-select>
+              <a-select v-decorator="['researchDirection',{rules:rules.researchDirection}]" :options="options.researchDirectionList" placeholder="请选择"></a-select>
             </a-form-item>
           </a-col>
         </a-row>
@@ -100,6 +100,9 @@ export default {
     return{
       rules:{
         // 相关管理信息
+        researchDirection:[
+          { required: true, whitespace: true, message: '请选择主要相关研究方向!' }
+        ],
         workArea: [
           { required: true, whitespace: true, message: '请选择工作领域!' }
         ],

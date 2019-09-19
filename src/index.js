@@ -1,5 +1,6 @@
 // The Vue build version to load with the `import` command
 // (runtime-only or standalone) has been set in webpack.base.conf with an alias.
+import 'babel-polyfill'
 import Vue from 'vue'
 
 // import App from './App'
@@ -11,45 +12,47 @@ import ajax from './server/ajax'
 import api from './server/api'
 import cookie from './util/local-cookie'
 import common from './util/common'
-import './assets/base.css' // 引入全局样式
 import PermissionControl from './util/permission-control.js' // 权限自定义指令 v-permission="code"
 import { PermissionFilter } from './util/permission-filter.js' // 权限全局方法 v-if="$permission('code')"
 import {
-  Button,
-  message,
-  Spin,
-  Layout,
-  Menu,
-  Icon,
-  Breadcrumb,
-  Form,
-  Input,
-  Card,
-  Dropdown,
-  Row,
-  Col,
-  Checkbox,
-  Select,
-  Alert,
-  Table,
-  Divider,
-  Upload,
-  Modal,
-  badge,
-  Tree,
-  Tabs,
-  DatePicker,
-  skeleton,
-  pagination,
-  Tag,
-  Badge,
-  TreeSelect,
-  Radio,
-  Cascader,
-  LocaleProvider,
-  Steps,
-  Anchor
+    Button,
+    message,
+    Spin,
+    Layout,
+    Menu,
+    Icon,
+    Breadcrumb,
+    Form,
+    Input,
+    Card,
+    Dropdown,
+    Row,
+    Col,
+    Checkbox,
+    Select,
+    Alert,
+    Table,
+    Divider,
+    Upload,
+    Modal,
+    badge,
+    Tree,
+    Tabs,
+    DatePicker,
+    skeleton,
+    pagination,
+    Tag,
+    Badge,
+    TreeSelect,
+    Radio,
+    Cascader,
+    LocaleProvider,
+    Steps,
+    Anchor,
+    Collapse,
+    // CollapsePanel
 } from 'ant-design-vue'
+import './assets/base.css' // 引入全局样式
 import './assets/reset-ant.css' // 重置ant-design样式
 import ActiveForm from '@/components/ActiveForm'
 import singleSpaVue from 'single-spa-vue'
@@ -93,15 +96,13 @@ Vue.use(LocaleProvider)
 Vue.use(ActiveForm)
 Vue.use(Steps)
 Vue.use(Anchor)
-Vue.use(BaiduMap, {
-  // ak 是在百度地图开发者平台申请的密钥
-  ak: 'MvCb6BWu4jHR9TD0svHfO4bWlx9pA9HG'
-})
+Vue.use(Collapse)
+    // Vue.use(Collapse-panel)
 
 import RouterWapper from '@/components/Layout/content-wrapper'
 import DetailsItem from '@/components/detail/detailItem'
-Vue.component('RouterWapper',RouterWapper)
-Vue.component('DetailsItem',DetailsItem)
+Vue.component('RouterWapper', RouterWapper)
+Vue.component('DetailsItem', DetailsItem)
 
 Vue.prototype.$ajax = ajax
 Vue.prototype.$api = api
@@ -115,25 +116,25 @@ Vue.prototype.$moment = moment
 
 Vue.config.productionTip = false
 const vueLifecycles = singleSpaVue({
-  Vue,
-  appOptions: {
-    el: '#portal',
-    router,
-    store,
-    render: h => h('div', {
-      attrs: { id: 'Layout' }
-    }, [h(App)]),
-  },
+    Vue,
+    appOptions: {
+        el: '#portal',
+        router,
+        store,
+        render: h => h('div', {
+            attrs: { id: 'Layout' }
+        }, [h(App)]),
+    },
 })
 
 export const bootstrap = [
-  vueLifecycles.bootstrap,
+    vueLifecycles.bootstrap,
 ]
 
 export const mount = [
-  vueLifecycles.mount,
+    vueLifecycles.mount,
 ]
 
 export const unmount = [
-  vueLifecycles.unmount,
+    vueLifecycles.unmount,
 ]

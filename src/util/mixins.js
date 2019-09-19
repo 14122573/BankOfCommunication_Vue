@@ -82,7 +82,6 @@ export const permission = {
             }else{
               authCodeList = oldSysAuthCode
             }
-
             authMenuAll = getSideMenu(routes,authCodeList)
             this.$store.commit('SET_MENU', {authMenuAll, authCodeList, isAllPerm})
           })
@@ -212,7 +211,7 @@ function getSideMenu(allRouter, authCodeList) {
   allRouter.forEach((router) => {
     let menu = {}
     if (router.meta && router.meta.menuPath) {
-      if (router.meta.authCode) {
+      if (!!router.meta.authCode) {
         if (common.oneOf(router.meta.authCode, authCodeList)) {
           menu = {
             name: router.name,
@@ -229,10 +228,11 @@ function getSideMenu(allRouter, authCodeList) {
     if (router.children && router.children.length > 0) {
       let children = getSideMenu(router.children, authCodeList)
       if (children.length > 0) {
-        menu.children = children
         if (!menu.name) {
-          authMenu = children
+          authMenu = authMenu.concat(children)
           return authMenu
+        }else{
+          menu.children = [].concat(children)
         }
       }
     }

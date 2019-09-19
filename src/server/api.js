@@ -13,8 +13,8 @@ case 'production': // 生产环境下
   BASE_URL = 'http://iftp.omniview.pro/api'
   break
 default: // 默认环境下（开发环境）
-  BASE_URL = 'http://fish.omniview.pro/api'
-  // BASE_URL = 'http://iftp.omniview.pro/api'
+  // BASE_URL = 'http://fish.omniview.pro/api'
+  BASE_URL = 'http://iftp.omniview.pro/api'
   break
 };
 
@@ -39,6 +39,18 @@ export default {
   GET_PHONE_CODE: '/service-user/user/public/send/{type}/{phone}', // 发送验证码 （用于注册、忘记密码）
   POST_CHECK_PHONE_CODE: '/service-user/user/public/check/{type}/{phone}/{code}', // 验证手机验证码 （用于注册、忘记密码）
   PUT_PERSONAL_RESET_PWD:'service-user/user/pwd',// 个人中心重置密码
+
+  // 系统配置
+  // 系统配置 -- 权限配置管理
+  POST_PREMSBRANCH:'/service-permission/perm/perm',//新增权限分支
+  PUT_PREMSBRANCH:'/service-permission/perm/perm/{id}',//修改权限分支
+  DELETE_PREMSBRANCH:'/service-permission/perm/perm/{id}',//删除权限分支
+  GET_PREMSPOINT_LIST: '/service-permission/perm/points', //获取功能点清单
+  POST_PREMSPOINT: '/service-permission/perm/point', //添加功能点
+  PUT_PREMSPOINT: '/service-permission/perm/point/{id}', //修改功能点
+  DELETE_PREMSPOINT: '/service-permission/perm/point/{id}', //删除功能点
+  GET_CHECK_POINTCODE_EXIT: '/service-permission/perm/pointKey/repeat', //确认功能码是否已存在
+  // 系统配置 -- 角色管理
   GET_ROLE_LIST: '/service-permission/perm/roles', //获取角色列表
   GET_ALL_ROLE: '/service-permission/perm/menu/tree', //获取权限
   ADD_ROLE_POST: '/service-permission/perm/role', // 新增角色
@@ -60,6 +72,11 @@ export default {
   PUT_EDIT_ORGANIZATION_LIST: '/service-permission/perm/group/{id}', //修改组织机构
   DELETE_ORGANIZATION_LIST: '/service-permission/perm/group/{id}', //删除组织机构
   GET_ORGANIZATION_LIST_DETAIL: '/service-permission/perm/group/{id}', //组织机构详情
+  // 系统配置 --- 基础信息
+  GET_SYSBASICINFO_BREED_LIST: '/service-expert/expert/breed', // 获取水产品种大类列表
+  POST_SYSBASICINFO_BREED: '/service-expert/expert/breed', //新增水产品种大类
+  PUT_SYSBASICINFO_BREED: '/service-expert/expert/breed/{id}', //修改水产品种大类
+  DELETE_SYSBASICINFO_BREED: '/service-expert/expert/breed/{id}', //删除水产品种大类
   // 专家管理
   GET_EXPERT_BASE_LIST: '/service-expert/expert/dictionary/{type}', //专家字典信息列表接口，type: 0-民族 1-单位性质 2-职务 3-职称 4-学历 5-学位 6-工作领域 7-专业组别 8-研究方向
   POST_EXPERT_BASE: '/service-expert/expert/dictionary', //新增专家字典信息列表接口，
@@ -74,5 +91,6 @@ export default {
   IMPORT_EXPERT_ALL: '/service-expert/expert/expert/import', //专家库导入
   EXPORT_TYPE_EDIT: '/service-expert/expert/expert/{experId}',
   UPLOAD_TEMP: BASE_URL + '/zuul/service-file/file/upload/1/temp', //上传图片
-
+  // 专家管理--项目评审
+  GET_EXPERT_REVIEW_TODO_LIST: '/service-expert/expert/extract/{expertId}', //获取当前接口传参专家需要评审的数据,? status:0-未完成 1-完成 null/""-全部
 }

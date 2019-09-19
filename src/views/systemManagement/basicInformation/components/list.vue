@@ -29,7 +29,6 @@
 </div>
 </template>
 <script>
-import common from '@/util/common'
 import CreatBase from './add'
 import EditBase from './edit'
 export default {
@@ -37,11 +36,7 @@ export default {
   props: {
     baseType:{
       type:String,
-      required:true,
-      validator (value) {
-        // 0-民族 1-单位性质 2-职务 3-职称 4-学历 5-学位 6-工作领域 7-专业组别 8-研究方向
-        return common.oneOf(value, ['0', '1', '2', '3', '4', '5', '6', '7', '8'])
-      }
+      required:true
     }
   },
   components: {
@@ -49,6 +44,10 @@ export default {
   },
   data() {
     return {
+      apis:{
+        list:'',
+        delete:'',
+      },
       isReady:false,
       list:[],
       deleteData:null,
@@ -61,13 +60,24 @@ export default {
   },
   watch: {
     baseType(){
-      this.getList()
+      this.preparate()
     }
   },
   mounted(){
-    this.getList()
+    this.preparate()
   },
   methods:{
+    preparate(){
+      switch(this.baseType){
+      case 'breed':
+        this.apis.list = this.$api.GET_SYSBASICINFO_BREED_LIST
+        this.apis.delete = this.$api.DELETE_SYSBASICINFO_BREED
+        break
+      default:
+        break
+      }
+      this.getList()
+    },
     showEditModal(item){
       this.editData = item
       this.isShow.editModal = true
@@ -91,7 +101,7 @@ export default {
     //   查询列表
     getList(){
       this.$ajax.get({
-        url:this.$api.GET_EXPERT_BASE_LIST.replace('{type}', this.baseType)
+        url:this.apis.list
       }).then(res=>{
         if(res.code === '200'){
           this.list= this.$com.confirm(res, 'data.content', [])
@@ -121,10 +131,7 @@ export default {
     },
     confirmDelete(){
       this.$ajax.delete({
-        url: this.$api.DELETE_EXPERT_BASE.replace('{id}', this.deleteData.id),
-        params: {
-          type: this.baseType
-        }
+        url: this.apis.delete.replace('{id}', this.deleteData.id)
       }).then(res => {
         if (res.code === '200') {
           this.$message.success('删除成功')

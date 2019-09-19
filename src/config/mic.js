@@ -17,12 +17,18 @@ case 'devol': // 本地线上部署环境下
       micId:'mic:scsd',
       pathPrefix:'/scsd'
     },
-    // {
-    //   baseUrl:'http://txc.tao.com',
-    //   resourceName:'kpjd',
-    //   micId:'mic:kpjd',
-    //   pathPrefix:'/kpjd'
-    // }
+    {
+      baseUrl:'http://scylzc.tao.com', // 原良种验收
+      resourceName:'scylzc',
+      micId:'mic:scylzc',
+      pathPrefix:'/scylzc'
+    },
+    {
+      baseUrl:'http://ylzcre.tao.com', // 原良种复查
+      resourceName:'ylzcre',
+      micId:'mic:ylzcre',
+      pathPrefix:'/ylzcre'
+    }
   ]
   break
 case 'sit': // sit环境下
@@ -32,7 +38,13 @@ case 'sit': // sit环境下
       resourceName:'scsd',
       micId:'mic:scsd',
       pathPrefix:'/scsd'
-    }
+    },
+    // {
+    //   baseUrl:'http://bbgl.omniview.pro',
+    //   resourceName:'bbgl',
+    //   micId:'mic:bbgl',
+    //   pathPrefix:'/bbgl'
+    // }
   ]
   break
 case 'uat': // uat环境下
@@ -57,10 +69,16 @@ default: // 默认环境下（开发环境）
       pathPrefix:'/scsd'
     },
     // {
-    //   baseUrl:'http://txc.tao.com',
-    //   resourceName:'kpjd',
-    //   micId:'mic:kpjd',
-    //   pathPrefix:'/kpjd'
+    //   baseUrl:'http://scylzc.tao.com', // 原良种验收
+    //   resourceName:'scylzc',
+    //   micId:'mic:scylzc',
+    //   pathPrefix:'/scylzc'
+    // },
+    // {
+    //   baseUrl:'http://ylzcre.tao.com', // 原良种复查
+    //   resourceName:'ylzcre',
+    //   micId:'mic:ylzcre',
+    //   pathPrefix:'/ylzcre'
     // }
   ]
   break

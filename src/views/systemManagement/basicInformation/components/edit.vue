@@ -15,7 +15,6 @@
 </template>
 
 <script>
-import common from '@/util/common'
 export default {
   name:'changePassword',
   props: {
@@ -25,11 +24,7 @@ export default {
     },
     baseType:{
       type:String,
-      required:true,
-      validator (value) {
-        // 0-民族 1-单位性质 2-职务 3-职称 4-学历 5-学位 6-工作领域 7-专业组别 8-研究方向
-        return common.oneOf(value, ['0', '1', '2', '3', '4', '5', '6', '7', '8'])
-      }
+      required:true
     },
     resetShow:{
       type:Boolean,
@@ -38,10 +33,14 @@ export default {
   },
   data() {
     return {
+      apis:{
+        put:'',
+        detail:''
+      },
       isShow: false,
       colSpe: {
         labelCol: {
-          span: 6
+          span: 8
         },
         wrapperCol: {
           span: 16
@@ -83,50 +82,11 @@ export default {
   methods: {
     initModalTitle(){
       switch (this.baseType) {
-      case '0':
-        this.name.modalTitle = '编辑民族'
-        this.name.formLabel = '民族'
-        this.name.formPlaceHolder = '请输入民族'
-        break
-      case '1':
-        this.name.modalTitle = '编辑单位性质'
-        this.name.formLabel = '单位性质'
-        this.name.formPlaceHolder = '请输入单位性质'
-        break
-      case '2':
-        this.name.modalTitle = '编辑职务'
-        this.name.formLabel = '职务'
-        this.name.formPlaceHolder = '请输入职务'
-        break
-      case '3':
-        this.name.modalTitle = '编辑职称'
-        this.name.formLabel = '职称'
-        this.name.formPlaceHolder = '请输入职称'
-        break
-      case '4':
-        this.name.modalTitle = '编辑学历'
-        this.name.formLabel = '学历'
-        this.name.formPlaceHolder = '请输入学历'
-        break
-      case '5':
-        this.name.modalTitle = '编辑学位'
-        this.name.formLabel = '学位'
-        this.name.formPlaceHolder = '请输入学位'
-        break
-      case '6':
-        this.name.modalTitle = '编辑工作领域'
-        this.name.formLabel = '工作领域'
-        this.name.formPlaceHolder = '请输入工作领域'
-        break
-      case '7':
-        this.name.modalTitle = '编辑专业组别'
-        this.name.formLabel = '专业组别'
-        this.name.formPlaceHolder = '请输入专业组别'
-        break
-      case '8':
-        this.name.modalTitle = '编辑研究方向'
-        this.name.formLabel = '研究方向'
-        this.name.formPlaceHolder = '请输入研究方向'
+      case 'breed':
+        this.name.modalTitle = '编辑水产品种大类'
+        this.name.formLabel = '水产品种大类名称'
+        this.name.formPlaceHolder = '请输入名称'
+        this.apis.put = this.$api.PUT_SYSBASICINFO_BREED
         break
       default:
         break
@@ -139,9 +99,8 @@ export default {
       this.editForm.validateFields(err => {
         if (!err) {
           this.$ajax.put({
-            url: this.$api.PUT_EXPERT_BASE.replace('{id}', this.item.id),
+            url: this.apis.put.replace('{id}', this.item.id),
             params: {
-              type: this.baseType,
               name: this.editForm.getFieldValue('title')
             }
           }).then(res => {

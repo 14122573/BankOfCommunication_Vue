@@ -1,12 +1,9 @@
 // const Layout = () => import('@/components/Layout/main')
-const contentWrapper = () =>
-    import ('@/components/Layout/content-wrapper')
-const TipsNetworkErr = () =>
-    import ('@/views/tips/network')
-const TipsNoAuth = () =>
-    import ('@/views/tips/auth')
-const TipsOutsite = () =>
-    import ('@/views/tips/outsite')
+const contentWrapper = () => import ('@/components/Layout/content-wrapper')
+const TipsUpperLimitErr = () => import ('@/views/tips/upperlimit')
+const TipsNetworkErr = () => import ('@/views/tips/network')
+const TipsNoAuth = () => import ('@/views/tips/auth')
+const TipsOutsite = () => import ('@/views/tips/outsite')
 const HomePage = () =>
     import ('@/views/home')
 const LoginPage = () =>
@@ -22,8 +19,9 @@ const PersonCenter = () =>
     import ('@/views/personal/person-center')
 const PersonExpert = () =>
     import ('@/views/personal/expert')
-    // 系统管理
-    // 组织机构
+// 系统管理
+const SysBasicInfo = () => import ('@/views/systemManagement/basicInformation/index')
+// 组织机构
 const Organization = () =>
     import ('@/views/systemManagement/organization/list')
 const OrganizationCreate = () =>
@@ -35,7 +33,12 @@ const RoleManagement = () =>
     import ('@/views/systemManagement/role/list')
 const RoleCreate = () =>
     import ('@/views/systemManagement/role/add')
-    // 管理员管理
+// 权限功能点配置管理
+const RolePermissionConfig = () => import ('@/views/systemManagement/permissionConfig/index')
+const RolePermissionPoint = () => import ('@/views/systemManagement/permissionConfig/point')
+const RolePermissionAddPoint = () => import ('@/views/systemManagement/permissionConfig/addPoint')
+const RolePermissionEditPoint = () => import ('@/views/systemManagement/permissionConfig/editPoint')
+// 管理员管理
 const AdministratorManagement = () =>
     import ('@/views/systemManagement/administrator/index')
 const PendingView = () =>
@@ -122,95 +125,131 @@ const appRoutes = [{
     name: 'systemManagement',
     component: contentWrapper,
     meta: { title: '系统管理', menuPath: true, authCode: 'P00000', menuIcon: 'setting', hideInBread: true },
-    children: [{
-      path: '/systemManagement/organization',
-      name: '/systemManagement/organization',
-      component: Organization,
-      meta: { title: '组织机构管理', menuPath: true, authCode: 'P01000', menuIcon: 'cluster', hideInBread: false, openMode: 'normal' },
-      children: [{
-        path: '/systemManagement/organization/create',
-        name: '/systemManagement/organization/create',
-        component: OrganizationCreate,
-        meta: { title: '组织机构创建', menuPath: false, authCode: 'P01001', menuIcon: 'cluster', hideInBread: false, openMode: 'normal' }
+    children: [
+      //角色权限配置
+      {
+        path: '/systemManagement/permissionConfig',
+        name: '/systemManagement/permissionConfig',
+        component: RolePermissionConfig,
+        meta: { title: '角色权限配置', menuPath: true, authCode: 'super', menuIcon: 'cluster', hideInBread: false, openMode: 'normal' },
+        children:[
+          {
+            path: '/systemManagement/permissionConfig/point',
+            name: '/systemManagement/permissionConfig/point',
+            component: RolePermissionPoint,
+            meta: { title: '功能点管理', menuPath: false, authCode: 'super', menuIcon: 'cluster', hideInBread: false, openMode: 'normal' },
+          },
+          {
+            path: '/systemManagement/permissionConfig/point/add',
+            name: '/systemManagement/permissionConfig/point/add',
+            component: RolePermissionAddPoint,
+            meta: { title: '添加功能点', menuPath: false, authCode: 'super', menuIcon: 'cluster', hideInBread: false, openMode: 'normal' },
+          },
+          {
+            path: '/systemManagement/permissionConfig/point/edit',
+            name: '/systemManagement/permissionConfig/point/edit',
+            component: RolePermissionEditPoint,
+            meta: { title: '编辑功能点', menuPath: false, authCode: 'super', menuIcon: 'cluster', hideInBread: false, openMode: 'normal' },
+          }
+        ]
       },
       {
-        path: '/systemManagement/organization/view',
-        name: '/systemManagement/organization/view',
-        component: OrganizationView,
-        meta: { title: '组织机构查看', menuPath: false, uthCode: 'P01002', menuIcon: 'cluster', hideInBread: false, openMode: 'normal' }
+        path: '/systemManagement/organization',
+        name: '/systemManagement/organization',
+        component: Organization,
+        meta: { title: '组织机构管理', menuPath: true, authCode: 'super', menuIcon: 'cluster', hideInBread: false, openMode: 'normal' },
+        children: [{
+          path: '/systemManagement/organization/create',
+          name: '/systemManagement/organization/create',
+          component: OrganizationCreate,
+          meta: { title: '组织机构创建', menuPath: false, authCode: 'P01001', menuIcon: 'cluster', hideInBread: false, openMode: 'normal' }
+        },
+        {
+          path: '/systemManagement/organization/view',
+          name: '/systemManagement/organization/view',
+          component: OrganizationView,
+          meta: { title: '组织机构查看', menuPath: false, uthCode: 'P01002', menuIcon: 'cluster', hideInBread: false, openMode: 'normal' }
+        },
+        {
+          path: '/systemManagement/organization/edit',
+          name: '/systemManagement/organization/edit',
+          component: OrganizationCreate,
+          meta: { title: '组织机构编辑', menuPath: false, authCode: 'P01003', menuIcon: 'cluster', hideInBread: false, openMode: 'normal' }
+        },
+        ]
       },
-      {
-        path: '/systemManagement/organization/edit',
-        name: '/systemManagement/organization/edit',
-        component: OrganizationCreate,
-        meta: { title: '组织机构编辑', menuPath: false, authCode: 'P01003', menuIcon: 'cluster', hideInBread: false, openMode: 'normal' }
-      },
-      ]
-    },
       // RoleManagement角色管理
-    {
-      path: '/systemManagement/role',
-      name: '/systemManagement/role',
-      component: RoleManagement,
-      meta: { title: '角色管理', menuPath: true, authCode: 'P02000', menuIcon: 'cluster', hideInBread: false, openMode: 'normal' },
-      children: [{
-        path: '/systemManagement/role/create',
-        name: '/systemManagement/role/create',
-        component: RoleCreate,
-        meta: { title: '角色创建', menuPath: false, authCode: 'P02001', menuIcon: 'cluster', hideInBread: false, openMode: 'normal' }
-      },
       {
-        path: '/systemManagement/role/edit',
-        name: '/systemManagement/role/edit',
-        component: RoleCreate,
-        meta: { title: '角色修改', menuPath: false, authCode: 'P02003', menuIcon: 'cluster', hideInBread: false, openMode: 'normal' }
+        path: '/systemManagement/role',
+        name: '/systemManagement/role',
+        component: RoleManagement,
+        meta: { title: '角色管理', menuPath: true, authCode: 'super', menuIcon: 'cluster', hideInBread: false, openMode: 'normal' },
+        children: [{
+          path: '/systemManagement/role/create',
+          name: '/systemManagement/role/create',
+          component: RoleCreate,
+          meta: { title: '角色创建', menuPath: false, authCode: 'P02001', menuIcon: 'cluster', hideInBread: false, openMode: 'normal' }
+        },
+        {
+          path: '/systemManagement/role/edit',
+          name: '/systemManagement/role/edit',
+          component: RoleCreate,
+          meta: { title: '角色修改', menuPath: false, authCode: 'P02003', menuIcon: 'cluster', hideInBread: false, openMode: 'normal' }
+        },
+        {
+          path: '/systemManagement/role/view',
+          name: '/systemManagement/role/view',
+          component: RoleCreate,
+          meta: { title: '角色查看', menuPath: false, authCode: 'P02002', menuIcon: 'cluster', hideInBread: false, openMode: 'normal' }
+        },
+        ]
       },
-      {
-        path: '/systemManagement/role/view',
-        name: '/systemManagement/role/view',
-        component: RoleCreate,
-        meta: { title: '角色查看', menuPath: false, authCode: 'P02002', menuIcon: 'cluster', hideInBread: false, openMode: 'normal' }
-      },
-      ]
-    },
       // AdministratorManagement管理员管理
-    {
-      path: '/systemManagement/administrator',
-      name: '/systemManagement/administrator',
-      component: AdministratorManagement,
-      meta: { title: '管理员管理', menuPath: true, authCode: 'P03000', menuIcon: 'cluster', hideInBread: false, openMode: 'normal' },
-      children: [{
-        path: '/systemManagement/administrator/createNewUser',
-        name: '/systemManagement/administrator/createNewUser',
-        component: CreateNewUser,
-        meta: { title: '新增用户信息', menuPath: false, authCode: 'P03303', menuIcon: 'cluster', hideInBread: false, openMode: 'normal' },
-      },
       {
-        path: '/systemManagement/administrator/editNewUser',
-        name: '/systemManagement/administrator/editNewUser',
-        component: CreateNewUser,
-        meta: { title: '新增用户信息修改', menuPath: false, authCode: 'P03302', menuIcon: 'cluster', hideInBread: false, openMode: 'normal' },
+        path: '/systemManagement/administrator',
+        name: '/systemManagement/administrator',
+        component: AdministratorManagement,
+        meta: { title: '用户管理', menuPath: true, authCode: 'P03000', menuIcon: 'cluster', hideInBread: false, openMode: 'normal' },
+        children: [{
+          path: '/systemManagement/administrator/createNewUser',
+          name: '/systemManagement/administrator/createNewUser',
+          component: CreateNewUser,
+          meta: { title: '新增用户信息', menuPath: false, authCode: 'P03303', menuIcon: 'cluster', hideInBread: false, openMode: 'normal' },
+        },
+        {
+          path: '/systemManagement/administrator/editNewUser',
+          name: '/systemManagement/administrator/editNewUser',
+          component: CreateNewUser,
+          meta: { title: '新增用户信息修改', menuPath: false, authCode: 'P03302', menuIcon: 'cluster', hideInBread: false, openMode: 'normal' },
+        },
+        {
+          path: '/systemManagement/administrator/newUserView',
+          name: '/systemManagement/administrator/newUserView',
+          component: NewUserView,
+          meta: { title: '查看新用户信息', menuPath: false, authCode: 'P03301', menuIcon: 'cluster', hideInBread: false, openMode: 'normal' },
+        },
+        {
+          path: '/systemManagement/administrator/pendingView',
+          name: '/systemManagement/administrator/pendingView',
+          component: PendingView,
+          meta: { title: '待分配权限查看', menuPath: false, authCode: 'P03101', menuIcon: 'cluster', hideInBread: false, openMode: 'normal' },
+        },
+        {
+          path: '/systemManagement/administrator/distribution',
+          name: '/systemManagement/administrator/distribution',
+          component: Distribution,
+          meta: { title: '权限分配', menuPath: false, authCode: 'P03102', menuIcon: 'cluster', hideInBread: false, openMode: 'normal' },
+        },
+        ]
       },
+      // 公共基础信息维护
       {
-        path: '/systemManagement/administrator/newUserView',
-        name: '/systemManagement/administrator/newUserView',
-        component: NewUserView,
-        meta: { title: '查看新用户信息', menuPath: false, authCode: 'P03301', menuIcon: 'cluster', hideInBread: false, openMode: 'normal' },
+        path: '/systemManagement/basic',
+        name: '/systemManagement/basic',
+        component: SysBasicInfo,
+        meta: { title: '基础信息维护', menuPath: true, authCode: 'P04000', menuIcon: 'cluster', hideInBread: false, openMode: 'normal' },
+        children: []
       },
-      {
-        path: '/systemManagement/administrator/pendingView',
-        name: '/systemManagement/administrator/pendingView',
-        component: PendingView,
-        meta: { title: '待分配权限查看', menuPath: false, authCode: 'P03101', menuIcon: 'cluster', hideInBread: false, openMode: 'normal' },
-      },
-      {
-        path: '/systemManagement/administrator/distribution',
-        name: '/systemManagement/administrator/distribution',
-        component: Distribution,
-        meta: { title: '权限分配', menuPath: false, authCode: 'P03102', menuIcon: 'cluster', hideInBread: false, openMode: 'normal' },
-      },
-      ]
-    },
     ]
   },
   {
@@ -228,24 +267,24 @@ const appRoutes = [{
       path: '/expertManagement/talent',
       name: '/expertManagement/talent',
       component: Talent,
-      meta: { title: '人才库', menuPath: true, authCode: 'P10000', menuIcon: 'user', hideInBread: false, openMode: 'normal' },
+      meta: { title: '人才库', menuPath: true, authCode: 'P12000', menuIcon: 'user', hideInBread: false, openMode: 'normal' },
       children: [{
         path: '/expertManagement/talent/upload',
         name: '/expertManagement/talent/upload',
         component: TalentUpload,
-        meta: { title: '导入人才库', menuPath: false, authCode: 'P10000', menuIcon: 'user', hideInBread: false, openMode: 'normal' }
+        meta: { title: '导入人才库', menuPath: false, authCode: 'P12001', menuIcon: 'user', hideInBread: false, openMode: 'normal' }
       },
       {
         path: '/expertManagement/talent/create',
         name: '/expertManagement/talent/create',
         component: TalentCreate,
-        meta: { title: '新增人才账号', menuPath: false, authCode: 'P10000', menuIcon: 'user', hideInBread: false, openMode: 'normal' }
+        meta: { title: '新增人才账号', menuPath: false, authCode: 'P12001', menuIcon: 'user', hideInBread: false, openMode: 'normal' }
       },
       {
         path: '/expertManagement/talent/view',
         name: '/expertManagement/talent/view',
         component: TalentView,
-        meta: { title: '查看人才账号', menuPath: false, authCode: 'P10000', menuIcon: 'user', hideInBread: false, openMode: 'normal' }
+        meta: { title: '查看人才账号', menuPath: false, authCode: 'P12002', menuIcon: 'user', hideInBread: false, openMode: 'normal' }
       },
       ]
     },
@@ -253,36 +292,36 @@ const appRoutes = [{
       path: '/expertManagement/expertLibrary',
       name: '/expertManagement/expertLibrary',
       component: ExpertLibrary,
-      meta: { title: '专家库', menuPath: true, authCode: 'P10000', menuIcon: 'user', hideInBread: false, openMode: 'normal' },
+      meta: { title: '专家库', menuPath: true, authCode: 'P11000', menuIcon: 'user', hideInBread: false, openMode: 'normal' },
       children: [{
         path: '/expertManagement/expertLibrary/create',
         name: '/expertManagement/expertLibrary/create',
         component: ExpertLibraryCreate,
-        meta: { title: '新增专家账号', menuPath: false, authCode: 'P10000', menuIcon: 'user', hideInBread: false, openMode: 'normal' }
+        meta: { title: '新增专家账号', menuPath: false, authCode: 'P11001', menuIcon: 'user', hideInBread: false, openMode: 'normal' }
       },
       {
         path: '/expertManagement/expertLibrary/edit',
         name: '/expertManagement/expertLibrary/edit',
         component: ExpertLibraryCreate,
-        meta: { title: '修改专家账号', menuPath: false, authCode: 'P10000', menuIcon: 'user', hideInBread: false, openMode: 'normal' }
+        meta: { title: '修改专家账号', menuPath: false, authCode: 'P11003', menuIcon: 'user', hideInBread: false, openMode: 'normal' }
       },
       {
         path: '/expertManagement/expertLibrary/view',
         name: '/expertManagement/expertLibrary/view',
         component: ExpertLibraryView,
-        meta: { title: '查看专家账号', menuPath: false, authCode: 'P10000', menuIcon: 'user', hideInBread: false, openMode: 'normal' }
+        meta: { title: '查看专家账号', menuPath: false, authCode: 'P11002', menuIcon: 'user', hideInBread: false, openMode: 'normal' }
       },
       {
         path: '/expertManagement/expertLibrary/select',
         name: '/expertManagement/expertLibrary/select',
         component: ExpertLibrarySelect,
-        meta: { title: '选择专家账号', menuPath: false, authCode: 'P10000', menuIcon: 'user', hideInBread: false, openMode: 'normal' }
+        meta: { title: '选择专家账号', menuPath: false, authCode: 'P11001', menuIcon: 'user', hideInBread: false, openMode: 'normal' }
       },
       {
         path: '/expertManagement/expertLibrary/upload',
         name: '/expertManagement/expertLibrary/upload',
         component: ExpertLibraryUpload,
-        meta: { title: '导入专家账号', menuPath: false, authCode: 'P10000', menuIcon: 'user', hideInBread: false, openMode: 'normal' }
+        meta: { title: '导入专家账号', menuPath: false, authCode: 'P11001', menuIcon: 'user', hideInBread: false, openMode: 'normal' }
       }
       ]
     },
@@ -290,12 +329,12 @@ const appRoutes = [{
       path: '/expertManagement/reiview',
       name: '/expertManagement/reiview',
       component: ProjectReview,
-      meta: { title: '项目评审', menuPath: true, authCode: 'P10000', menuIcon: 'edit', hideInBread: false, openMode: 'normal' },
+      meta: { title: '项目评审', menuPath: true, authCode: 'P13000', menuIcon: 'edit', hideInBread: false, openMode: 'normal' },
       children: [{
         path: '/expertManagement/reiview/history',
         name: '/expertManagement/reiview/history',
         component: ProjectReviewHistory,
-        meta: { title: '历史评审', menuPath: false, authCode: 'P10000', menuIcon: 'user', hideInBread: false, openMode: 'normal' }
+        meta: { title: '历史评审', menuPath: false, authCode: 'P13000', menuIcon: 'user', hideInBread: false, openMode: 'normal' }
       }]
     },
     {
@@ -306,6 +345,7 @@ const appRoutes = [{
     }
     ]
   },
+  //科普教育基地申报管理
   {
     path: '/kpjd',
     name: 'kpjd',
@@ -365,6 +405,10 @@ const appRoutes = [{
       meta: { title: '新品申报', menuPath: true, authCode: 'S050101', menuIcon: 'exception', hideInBread: false, openMode: 'spa' },
     },
     {
+      path: '/scsd/post/scsdPost/view/:id', name: '/scsd/post/scsdPost/view',
+      meta: { title: '查看申报信息', menuPath:false, authCode:'S05010106', hideInBread:false, openMode: 'spa'},
+    },
+    {
       path: '/scsd/forma/scsdForma',
       name: '/scsd/forma/scsdForma',
       meta: { title: '形式审查信息', menuPath: true, authCode: 'S050103', menuIcon: 'file-protect', hideInBread: false, openMode: 'spa' },
@@ -399,6 +443,156 @@ const appRoutes = [{
       name: '/scsd/selectPost',
       meta: { title: '查看申报记录', menuPath: true, authCode: 'S050108', menuIcon: 'exception', hideInBread: false, menuIcon: 'appstore' }
     }
+    ]
+  },
+  //水产原良种验收
+  {
+    path: '/scylzc',
+    name: 'scylzc',
+    component: contentWrapper,
+    meta: { title: '水产原良种场验收审定', menuPath: true, authCode: 'S0503', menuIcon: 'barcode', hideInBread: true },
+    children: [
+      {
+        path: '/scylzc/account/list',
+        name: '/scylzc/account/list',
+        meta: { title: '申报单位管理', menuPath: true, authCode: 'S050307', menuIcon: 'cluster', hideInBread: false, openMode: 'spa' },
+      },
+      {
+        path: '/scylzc/acceptance/list',
+        name: '/scylzc/acceptance/list',
+        meta: { title: '验收申请填写', menuPath: true, authCode: 'S050301', menuIcon: 'exception', hideInBread: false, openMode: 'spa' },
+      },
+      {
+        path: '/scylzc/afApply/list',
+        name: '/scylzc/afApply/list',
+        meta: { title: '验收审查管理', menuPath: true, authCode: 'S050302', menuIcon: 'barcode', hideInBread: false, openMode: 'spa'  },
+      },
+      {
+        path: '/scylzc/afReview/list',
+        name: '/scylzc/afReview/list',
+        meta: { title: '验收初审管理', menuPath: true, authCode: 'S050303', menuIcon: 'exception', hideInBread: false, openMode: 'spa' },
+      },
+      {
+        path: '/scylzc/afOrgaExpert/list',
+        name: '/scylzc/afOrgaExpert/list',
+        meta: { title: '组织专家评审', menuPath: true, authCode: 'S050304',  menuIcon: 'database', hideInBread: false, openMode: 'spa' }
+      },
+      {
+        path: '/scylzc/afVerification/list',
+        name: '/scylzc/afVerification/list',
+        meta: { title: '专家评审', menuPath: true, authCode: 'S050305', menuIcon: 'team', hideInBread: false, openMode: 'spa' },
+        children: [{
+          path: '/scylzc/afVerification/check',
+          name: '/scylzc/afVerification/check',
+          meta: { title: '评审', menuPath: false, authCode: 'S05030501', menuIcon: 'appstore', hideInBread: false, openMode: 'normal', openMode: 'spa' }
+        },
+        {
+          path: '/scylzc/afVerification/view',
+          name: '/scylzc/afVerification/view',
+          meta: { title: '查看申请', menuPath: false, authCode: 'S05030103', menuIcon: 'appstore', hideInBread: false, openMode: 'spa' }
+        }]
+      },
+      {
+        path: '/scylzc/allApplyInfo/list',
+        name: '/scylzc/allApplyInfo/list',
+        meta: { title: '查看全部申报信息', menuPath: true, authCode: '', menuIcon: 'team', hideInBread: false, openMode: 'spa'},
+      }
+    ]
+  },
+  //水产原良种复查
+  {
+    path: '/ylzcre',
+    name: 'ylzcre',
+    component: contentWrapper,
+    meta: { title: '水产原良种场复查审定', menuPath: true, authCode: 'S0502', menuIcon: 'barcode', hideInBread: true, openMode: 'spa' },
+    children: [
+      {
+        path: '/ylzcre/review/information',
+        name: '/ylzcre/review/information',
+        meta: { title: '监测数据管理', menuPath: true, authCode: 'S050201', menuIcon: 'exception', hideInBread: false, openMode: 'spa' },
+      },
+      {
+        path: '/ylzcre/acceptance/list',
+        name: '/ylzcre/acceptance/list',
+        meta: { title: '复查申请填写', menuPath: true, authCode: 'S050202', menuIcon: 'profile', hideInBread: false, openMode: 'spa' },
+      },
+      {
+        path: '/ylzcre/afApply/list',
+        name: '/ylzcre/afApply/list',
+        meta: { title: '复查申请审查', menuPath: true, authCode: 'S050203', menuIcon: 'barcode', hideInBread: false, openMode: 'spa'},
+      },
+      {
+        path: '/ylzcre/afReview/list',
+        name: '/ylzcre/afReview/list',
+        meta: { title: '复查申请初审', menuPath: true, authCode: 'S050204', menuIcon: 'exception', hideInBread: false, openMode: 'spa'},
+      },
+      {
+        path: '/ylzcre/afOrgaExpert/list',
+        name: '/ylzcre/afOrgaExpert/list',
+        meta: { title: '组织专家管理', menuPath: true, authCode: 'S050205', menuIcon: 'database', hideInBread: false, openMode: 'spa' }
+      },
+      {
+        path: '/ylzcre/afVerification/list',
+        name: '/ylzcre/afVerification/list',
+        meta: { title: '专家评审', menuPath: true, authCode: ' S050206', menuIcon: 'team', hideInBread: false, openMode: 'spa'},
+        children: [
+          {
+            path: '/ylzcre/afVerification/check',
+            name: '/ylzcre/afVerification/check',
+            meta: { title: '评审', menuPath: false, authCode: 'S05020601', menuIcon: 'appstore', hideInBread: false, openMode: 'spa' }
+          },
+          {
+            path: '/ylzcre/afVerification/view',
+            name: '/ylzcre/afVerification/view',
+            meta: { title: '查看申请', menuPath: false, authCode: 'S05020203', menuIcon: 'appstore', hideInBread: false, openMode: 'spa'}
+          }
+        ]
+      },
+      {
+        path: '/ylzcre/allApplyInfo/list',
+        name: '/ylzcre/allApplyInfo/list',
+        meta: { title: '查看全部申报信息', menuPath: true, authCode: 'S050207', menuIcon: 'team', hideInBread: false}, openMode: 'spa'}
+    ]
+  },
+  //质量追述
+  {
+    path: '/zlzs',
+    name: 'zlzs',
+    component: contentWrapper,
+    meta: { title: '质量追溯', menuPath: true, authCode: 'S0703', menuIcon: 'barcode', hideInBread: true, openMode: 'spa' },
+    children:[{
+      path: '/zlzs/company/zlzsCompany', name: '/zlzs/company/zlzsCompany',
+      meta: { title: '企业信息管理', menuPath:true, authCode:'S070301', hideInBread:false, menuIcon: 'appstore', openMode: 'spa' }
+    },{
+      path: '/zlzs/seedingout/zlzsSeedingout', name: '/zlzs/seedingout/zlzsSeedingout',
+      meta: { title: '苗种投放管理', menuPath:true, authCode:'S070302', hideInBread:false, menuIcon: 'appstore', openMode: 'spa'}
+    },{
+      path: '/zlzs/fodderout/zlzsFodderout', name: '/zlzs/fodderout/zlzsFodderout',
+      meta: { title: '饲料投入管理', menuPath:true, authCode:'S070303', hideInBread:false, menuIcon: 'appstore', openMode: 'spa'}
+    },{
+      path: '/zlzs/drugout/zlzsDrugout', name: '/zlzs/drugout/zlzsDrugout',
+      meta: { title: '渔药投入管理', menuPath:true, authCode:'S070304', hideInBread:false, menuIcon: 'appstore', openMode: 'spa'}
+    },{
+      path: '/zlzs/sale/zlzsSale', name: '/zlzs/sale/zlzsSale',
+      meta: { title: '销售信息管理', menuPath:true, authCode:'S070305', hideInBread:false, menuIcon: 'appstore', openMode: 'spa'}
+    },{
+      path: '/zlzs/review/zlzsReview', name: '/zlzs/review/zlzsReview',
+      meta: { title: '追溯信息管理', menuPath:true, authCode:'S070306', hideInBread:false, menuIcon: 'appstore', openMode: 'spa'}
+    },
+    ]
+  },
+  //智慧报表管理
+  {
+    path: '/bbgl',
+    name: 'bbgl',
+    component: contentWrapper,
+    meta: { title: '智慧报表管理', menuPath: true, authCode: 'S0804', menuIcon: 'barcode', hideInBread: true, openMode: 'spa' },
+    children:[
+      {
+        path: '/bbgl/report/rmReportInfo',
+        name: '/bbgl/report/rmReportInfo',
+        meta: { title: '报表文件管理', menuPath:true, authCode:'S080401', menuIcon: 'appstore', hideInBread:false,  openMode: 'spa'},
+      }
     ]
   },
   {
@@ -456,6 +650,12 @@ const appRoutes = [{
   name: 'networkerr',
   component: TipsNetworkErr,
   meta: { title: '网络错误', },
+},
+{
+  path: '/upperLimitErr',
+  name: 'upperLimitErr',
+  component: TipsUpperLimitErr,
+  meta: { title: '访问频繁', },
 },
 ]
 

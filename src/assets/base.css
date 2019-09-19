@@ -2,15 +2,11 @@
     background-color: #fff;
     margin: 16px 16px 0 16px;
 }
-
 .layoutPadding {
     padding: 20px;
 }
-
-.routerWapper {
-    height: 100%;
-}
-
+.routerWapper { height: 100%;}
+.contentPadding { padding: 20px 10px }
 
 /* 全局table设置 */
 
@@ -117,22 +113,12 @@
     border-bottom: 1px solid #e0e0e0;
 }
 
-.portalDetailContentWapper .detailsPartLine {
-    margin-bottom: 16px
-}
+.portalDetailContentWapper .detailsPartLine { margin-bottom: 16px }
 
 
 /* 权限树详情页 */
-
-.portalRoleTree {
-    display: flex;
-    flex-wrap: wrap;
-}
-
-.portalRoleTree>li {
-    flex: 0 0 33%;
-}
-
-.contentPadding {
-    padding: 20px 10px
-}
+.portalRoleTree { display: flex; flex-wrap: wrap; }
+.portalRoleTree>li { flex: 0 0 25%; }
+.portalRoleConfigTree .ant-tree-child-tree{ display: flex; flex-wrap: wrap; }
+.portalRoleConfigTree .ant-tree-child-tree{ display: flex; flex-wrap: wrap; }
+.portalRoleTree.ant-tree>li>.ant-tree-node-content-wrapper,.portalRoleConfigTree.ant-tree>li>.ant-tree-node-content-wrapper{ font-weight: bold }
