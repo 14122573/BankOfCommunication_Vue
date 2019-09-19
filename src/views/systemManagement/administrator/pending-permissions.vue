@@ -47,8 +47,7 @@
 				{{$com.strTime(record.createTime)}}
 			</span>
 		  <span slot="action" slot-scope="text, record">
-        <span class="actionBtn" v-if="$permission('P03101')" @click="viewBtn(record)">查看</span>
-        <a-divider v-if="$permission('P03101')" type="vertical" />
+        <span class="actionBtn" v-if="$permission('P03101')" @click="viewBtn(record)">查看<a-divider v-if="$permission('P03101')" type="vertical" /></span>
         <span v-if="$permission('P03102')" class="actionBtn" @click="distributionBtn(record)">权限分配</span>
       </span>
 		</a-table>
@@ -150,8 +149,7 @@ export default {
     getList() {
       let searchParams = JSON.parse(JSON.stringify(this.searchForm))
       if (searchParams.createTime_desc) {
-        searchParams['ui.createTime_lt'] = searchParams.createTime_desc[0]
-        searchParams['ui.createTime_gt'] = searchParams.createTime_desc[1]
+        searchParams['ui.createTime_btw'] = searchParams.createTime_desc.join(',')
         delete searchParams.createTime_desc
       }
       // if (params.createTime_desc) params.createTime_desc=params.createTime_desc.join(',');

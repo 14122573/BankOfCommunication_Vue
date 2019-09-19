@@ -49,7 +49,7 @@
         </a-col>
         <a-col span="8">
           <a-form-item label="联系电话" v-bind="colSpa">
-            <a-input v-decorator="['phone',{rules:rules.phone}]" placeholder="请输入"></a-input>
+            <a-input v-decorator="['phone',{validateTrigger: 'blur',rules:rules.phone}]" placeholder="请输入"></a-input>
           </a-form-item>
         </a-col>
         <a-col span="8">
