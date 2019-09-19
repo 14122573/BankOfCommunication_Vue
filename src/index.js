@@ -4,7 +4,7 @@ import Vue from 'vue'
 
 // import App from './App'
 import App from '@/components/Layout/main'
-
+import BaiduMap from 'vue-baidu-map'
 import router from './router'
 import store from './store'
 import ajax from './server/ajax'
@@ -93,6 +93,10 @@ Vue.use(LocaleProvider)
 Vue.use(ActiveForm)
 Vue.use(Steps)
 Vue.use(Anchor)
+Vue.use(BaiduMap, {
+  // ak 是在百度地图开发者平台申请的密钥
+  ak: 'MvCb6BWu4jHR9TD0svHfO4bWlx9pA9HG'
+})
 
 import RouterWapper from '@/components/Layout/content-wrapper'
 import DetailsItem from '@/components/detail/detailItem'

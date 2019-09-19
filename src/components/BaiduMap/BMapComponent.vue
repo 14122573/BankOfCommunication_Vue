@@ -1,7 +1,7 @@
 <template>
   <div>
-    <div id="allmap" ref="allmap" :style="mapStyle"></div>
-    <div id="r-result"></div>
+		<baidu-map id="allmap" @ready="showMap" ref="allmap" :style="mapStyle">
+    </baidu-map>
   </div>
 </template>
 <script>
@@ -33,7 +33,7 @@ export default {
   },
   methods: {
     //init
-    showMap() {
+    showMap({BMap, map}) {
       this.map = new BMap.Map(this.$refs.allmap) // 创建Map实例
       var point = new BMap.Point(121.47, 31.23)
       this.map.centerAndZoom('上海',12)
