@@ -39,12 +39,18 @@ case 'sit': // sit环境下
       micId:'mic:scsd',
       pathPrefix:'/scsd'
     },
-    // {
-    //   baseUrl:'http://bbgl.omniview.pro',
-    //   resourceName:'bbgl',
-    //   micId:'mic:bbgl',
-    //   pathPrefix:'/bbgl'
-    // }
+    {
+      baseUrl:'http://scylzc.omniview.pro',
+      resourceName:'scylzc',
+      micId:'mic:scylzc',
+      pathPrefix:'/scylzc'
+    },
+    {
+      baseUrl:'http://ylzcre.omniview.pro',
+      resourceName:'ylzcre',
+      micId:'mic:ylzcre',
+      pathPrefix:'/ylzcre'
+    }
   ]
   break
 case 'uat': // uat环境下
