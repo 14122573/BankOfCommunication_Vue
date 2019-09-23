@@ -141,6 +141,7 @@ export default {
         for(let i=0;i<this.pointDetail.permSet.length;i++){
           this.pointDetail.permIds.push(this.pointDetail.permSet[i].id)
         }
+        this.editForm.permIds = this.pointDetail.permIds
         this.pointEditForm.getFieldDecorator('permIds',{initialValue:this.pointDetail.permIds})
       }
     })
@@ -158,6 +159,7 @@ export default {
           for(let i=0;i<this.pointDetail.permSet.length;i++){
             this.pointDetail.permIds.push(this.pointDetail.permSet[i].id)
           }
+          this.editForm.permIds = this.pointDetail.permIds
           this.pointEditForm.getFieldDecorator('permIds',{initialValue:this.pointDetail.permIds})
         }
       })
@@ -185,9 +187,6 @@ export default {
     savePoint(){
       this.pointEditForm.validateFields(err => {
         if (!err) {
-          if (this.editForm.permIds.length==0) { // 当没有修改过功能点的所属权限，手动将原来的信息覆盖要提交的数据
-            this.editForm.permIds = this.pointDetail.permIds
-          }
           let putParams = Object.assign({},this.editForm,{
             'pointName':this.pointEditForm.getFieldValue('pointName'),
             'pointKey':this.editForm.type+this.pointEditForm.getFieldValue('pointKey'),

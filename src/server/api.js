@@ -42,11 +42,12 @@ export default {
 
   // 系统配置
   // 系统配置 -- 权限配置管理
-  POST_PREMSBRANCH: '/service-permission/perm/perm', //新增权限分支
+  POST_PREMSBRANCH: '/service-permission/perm/perm', //单个新增权限分支
   PUT_PREMSBRANCH: '/service-permission/perm/perm/{id}', //修改权限分支
   DELETE_PREMSBRANCH: '/service-permission/perm/perm/{id}', //删除权限分支
   GET_PREMSPOINT_LIST: '/service-permission/perm/points', //获取功能点清单
-  POST_PREMSPOINT: '/service-permission/perm/point', //添加功能点
+  POST_PREMSPOINT: '/service-permission/perm/point', //单个添加功能点
+  POST_PREMSPOINT_BATCH: '/service-permission/perm/point/batch', //批量添加功能点
   PUT_PREMSPOINT: '/service-permission/perm/point/{id}', //修改功能点
   DELETE_PREMSPOINT: '/service-permission/perm/point/{id}', //删除功能点
   GET_CHECK_POINTCODE_EXIT: '/service-permission/perm/pointKey/repeat', //确认功能码是否已存在

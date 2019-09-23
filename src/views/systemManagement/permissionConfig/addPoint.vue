@@ -11,7 +11,7 @@
       <div class="portalDetailContentBody">
         <div class="layoutMargin layoutPadding detailsPartSection">
           <a-alert message="请严格按照功能编码定义规则填写功能编码，否则可能导致业务或功能异常" type="info" showIcon />
-          <a-form class=" layoutMargin" :form="porintCreateForm">
+          <a-form class="layoutMargin" :form="porintCreateForm">
             <a-row type="flex" justify="space-between" align="middle">
               <a-col span="16">
                 <a-form-item class='formItem' label="业务系统名称" :label-col="{span:4}" :wrapper-col="{span:16}">
@@ -129,7 +129,7 @@ export default {
      * @param {String} select 当前已选权限id数组
      */
     handlePermsChange(select){
-      this.createForm .permIds = select
+      this.createForm.permIds = select
     },
     /**
      * 监听系统选择，获取选择系统的名称
@@ -168,7 +168,7 @@ export default {
      */
     getRoleTree(){
       this.$ajax.get({
-        url:this.$api.GET_ALL_ROLE + '?isTree=true'
+        url:this.$api.GET_ALL_ROLE + '?isTree=true&isAll=true'
       }).then(res=>{
         if(!!res.data && !!res.data.content){
           let data=res.data.content

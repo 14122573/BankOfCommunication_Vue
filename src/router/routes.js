@@ -40,15 +40,12 @@ const RoleManagement = () =>
 const RoleCreate = () =>
     import ('@/views/systemManagement/role/add')
     // 权限功能点配置管理
-const RolePermissionConfig = () =>
-    import ('@/views/systemManagement/permissionConfig/index')
-const RolePermissionPoint = () =>
-    import ('@/views/systemManagement/permissionConfig/point')
-const RolePermissionAddPoint = () =>
-    import ('@/views/systemManagement/permissionConfig/addPoint')
-const RolePermissionEditPoint = () =>
-    import ('@/views/systemManagement/permissionConfig/editPoint')
-    // 管理员管理
+const RolePermissionConfig = () => import ('@/views/systemManagement/permissionConfig/index')
+const RolePermissionPoint = () => import ('@/views/systemManagement/permissionConfig/point')
+const RolePermissionAddPoint = () => import ('@/views/systemManagement/permissionConfig/addPoint')
+const RolePermissionAddPointBatch = () => import ('@/views/systemManagement/permissionConfig/addPointBatch')
+const RolePermissionEditPoint = () => import ('@/views/systemManagement/permissionConfig/editPoint')
+// 管理员管理
 const AdministratorManagement = () =>
     import ('@/views/systemManagement/administrator/index')
 const PendingView = () =>
@@ -148,19 +145,28 @@ const appRoutes = [{
           name: '/systemManagement/permissionConfig/point',
           component: RolePermissionPoint,
           meta: { title: '功能点管理', menuPath: false, authCode: 'super', menuIcon: 'cluster', hideInBread: false, openMode: 'normal' },
+          children:[
+            {
+              path: '/systemManagement/permissionConfig/point/add',
+              name: '/systemManagement/permissionConfig/point/add',
+              component: RolePermissionAddPoint,
+              meta: { title: '添加功能点', menuPath: false, authCode: 'super', menuIcon: 'cluster', hideInBread: false, openMode: 'normal' },
+            },
+            {
+              path: '/systemManagement/permissionConfig/point/addBatch',
+              name: '/systemManagement/permissionConfig/point/addBatch',
+              component: RolePermissionAddPointBatch,
+              meta: { title: '批量添加功能点', menuPath: false, authCode: 'super', menuIcon: 'cluster', hideInBread: false, openMode: 'normal' },
+            },
+            {
+              path: '/systemManagement/permissionConfig/point/edit',
+              name: '/systemManagement/permissionConfig/point/edit',
+              component: RolePermissionEditPoint,
+              meta: { title: '编辑功能点', menuPath: false, authCode: 'super', menuIcon: 'cluster', hideInBread: false, openMode: 'normal' },
+            }
+          ]
         },
-        {
-          path: '/systemManagement/permissionConfig/point/add',
-          name: '/systemManagement/permissionConfig/point/add',
-          component: RolePermissionAddPoint,
-          meta: { title: '添加功能点', menuPath: false, authCode: 'super', menuIcon: 'cluster', hideInBread: false, openMode: 'normal' },
-        },
-        {
-          path: '/systemManagement/permissionConfig/point/edit',
-          name: '/systemManagement/permissionConfig/point/edit',
-          component: RolePermissionEditPoint,
-          meta: { title: '编辑功能点', menuPath: false, authCode: 'super', menuIcon: 'cluster', hideInBread: false, openMode: 'normal' },
-        }
+
         ]
       },
       {
