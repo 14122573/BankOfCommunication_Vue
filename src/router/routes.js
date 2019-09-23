@@ -507,11 +507,6 @@ const appRoutes = [{
         path: '/scylzc/allApplyInfo/list',
         name: '/scylzc/allApplyInfo/list',
         meta: { title: '查看全部申报信息', menuPath: true, authCode: 'S050306', menuIcon: 'team', hideInBread: false, openMode: 'spa'},
-      },
-      {
-        path: '/scylzc/allApplyInfo/list',
-        name: '/scylzc/allApplyInfo/list',
-        meta: { title: '查看全部申报信息', menuPath: true, authCode: 'S050306', menuIcon: 'team', hideInBread: false, openMode: 'spa' },
       }
     ]
   },
@@ -565,15 +560,9 @@ const appRoutes = [{
         ]
       },
       {
-        path: '/ylzcre/afVerification/view',
-        name: '/ylzcre/afVerification/view',
-        meta: { title: '查看申请', menuPath: false, authCode: 'S05020203', menuIcon: 'appstore', hideInBread: false, openMode: 'spa' }
-      },
-      {
         path: '/ylzcre/allApplyInfo/list',
         name: '/ylzcre/allApplyInfo/list',
-        meta: { title: '查看全部申报信息', menuPath: true, authCode: 'S050207', menuIcon: 'team', hideInBread: false },
-        openMode: 'spa'
+        meta: { title: '查看全部申报信息', menuPath: true, authCode: 'S050207', menuIcon: 'team', hideInBread: false }, openMode: 'spa'
       }
     ]
   },
