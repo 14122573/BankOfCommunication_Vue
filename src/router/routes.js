@@ -1,9 +1,14 @@
 // const Layout = () => import('@/components/Layout/main')
-const contentWrapper = () => import ('@/components/Layout/content-wrapper')
-const TipsUpperLimitErr = () => import ('@/views/tips/upperlimit')
-const TipsNetworkErr = () => import ('@/views/tips/network')
-const TipsNoAuth = () => import ('@/views/tips/auth')
-const TipsOutsite = () => import ('@/views/tips/outsite')
+const contentWrapper = () =>
+    import ('@/components/Layout/content-wrapper')
+const TipsUpperLimitErr = () =>
+    import ('@/views/tips/upperlimit')
+const TipsNetworkErr = () =>
+    import ('@/views/tips/network')
+const TipsNoAuth = () =>
+    import ('@/views/tips/auth')
+const TipsOutsite = () =>
+    import ('@/views/tips/outsite')
 const HomePage = () =>
     import ('@/views/home')
 const LoginPage = () =>
@@ -19,9 +24,10 @@ const PersonCenter = () =>
     import ('@/views/personal/person-center')
 const PersonExpert = () =>
     import ('@/views/personal/expert')
-// 系统管理
-const SysBasicInfo = () => import ('@/views/systemManagement/basicInformation/index')
-// 组织机构
+    // 系统管理
+const SysBasicInfo = () =>
+    import ('@/views/systemManagement/basicInformation/index')
+    // 组织机构
 const Organization = () =>
     import ('@/views/systemManagement/organization/list')
 const OrganizationCreate = () =>
@@ -33,10 +39,11 @@ const RoleManagement = () =>
     import ('@/views/systemManagement/role/list')
 const RoleCreate = () =>
     import ('@/views/systemManagement/role/add')
-// 权限功能点配置管理
+    // 权限功能点配置管理
 const RolePermissionConfig = () => import ('@/views/systemManagement/permissionConfig/index')
 const RolePermissionPoint = () => import ('@/views/systemManagement/permissionConfig/point')
 const RolePermissionAddPoint = () => import ('@/views/systemManagement/permissionConfig/addPoint')
+const RolePermissionAddPointBatch = () => import ('@/views/systemManagement/permissionConfig/addPointBatch')
 const RolePermissionEditPoint = () => import ('@/views/systemManagement/permissionConfig/editPoint')
 // 管理员管理
 const AdministratorManagement = () =>
@@ -50,7 +57,8 @@ const CreateNewUser = () =>
 const NewUserView = () =>
     import ('@/views/systemManagement/administrator/new-user-view')
     // 专家管理人员
-const ExpertBase = () => import ('@/views/expertManagement/base/index')
+const ExpertBase = () =>
+    import ('@/views/expertManagement/base/index')
 const Talent = () =>
     import ('@/views/expertManagement/talent/list')
 const TalentUpload = () =>
@@ -132,25 +140,33 @@ const appRoutes = [{
         name: '/systemManagement/permissionConfig',
         component: RolePermissionConfig,
         meta: { title: '角色权限配置', menuPath: true, authCode: 'super', menuIcon: 'cluster', hideInBread: false, openMode: 'normal' },
-        children:[
-          {
-            path: '/systemManagement/permissionConfig/point',
-            name: '/systemManagement/permissionConfig/point',
-            component: RolePermissionPoint,
-            meta: { title: '功能点管理', menuPath: false, authCode: 'super', menuIcon: 'cluster', hideInBread: false, openMode: 'normal' },
-          },
-          {
-            path: '/systemManagement/permissionConfig/point/add',
-            name: '/systemManagement/permissionConfig/point/add',
-            component: RolePermissionAddPoint,
-            meta: { title: '添加功能点', menuPath: false, authCode: 'super', menuIcon: 'cluster', hideInBread: false, openMode: 'normal' },
-          },
-          {
-            path: '/systemManagement/permissionConfig/point/edit',
-            name: '/systemManagement/permissionConfig/point/edit',
-            component: RolePermissionEditPoint,
-            meta: { title: '编辑功能点', menuPath: false, authCode: 'super', menuIcon: 'cluster', hideInBread: false, openMode: 'normal' },
-          }
+        children: [{
+          path: '/systemManagement/permissionConfig/point',
+          name: '/systemManagement/permissionConfig/point',
+          component: RolePermissionPoint,
+          meta: { title: '功能点管理', menuPath: false, authCode: 'super', menuIcon: 'cluster', hideInBread: false, openMode: 'normal' },
+          children:[
+            {
+              path: '/systemManagement/permissionConfig/point/add',
+              name: '/systemManagement/permissionConfig/point/add',
+              component: RolePermissionAddPoint,
+              meta: { title: '添加功能点', menuPath: false, authCode: 'super', menuIcon: 'cluster', hideInBread: false, openMode: 'normal' },
+            },
+            {
+              path: '/systemManagement/permissionConfig/point/addBatch',
+              name: '/systemManagement/permissionConfig/point/addBatch',
+              component: RolePermissionAddPointBatch,
+              meta: { title: '批量添加功能点', menuPath: false, authCode: 'super', menuIcon: 'cluster', hideInBread: false, openMode: 'normal' },
+            },
+            {
+              path: '/systemManagement/permissionConfig/point/edit',
+              name: '/systemManagement/permissionConfig/point/edit',
+              component: RolePermissionEditPoint,
+              meta: { title: '编辑功能点', menuPath: false, authCode: 'super', menuIcon: 'cluster', hideInBread: false, openMode: 'normal' },
+            }
+          ]
+        },
+
         ]
       },
       {
@@ -345,7 +361,7 @@ const appRoutes = [{
     }
     ]
   },
-  //科普教育基地申报管理
+    //科普教育基地申报管理
   {
     path: '/kpjd',
     name: 'kpjd',
@@ -405,8 +421,9 @@ const appRoutes = [{
       meta: { title: '新品申报', menuPath: true, authCode: 'S050101', menuIcon: 'exception', hideInBread: false, openMode: 'spa' },
     },
     {
-      path: '/scsd/post/scsdPost/view/:id', name: '/scsd/post/scsdPost/view',
-      meta: { title: '查看申报信息', menuPath:false, authCode:'S05010106', hideInBread:false, openMode: 'spa'},
+      path: '/scsd/post/scsdPost/view/:id',
+      name: '/scsd/post/scsdPost/view',
+      meta: { title: '查看申报信息', menuPath: false, authCode: 'S05010106', hideInBread: false, openMode: 'spa' },
     },
     {
       path: '/scsd/forma/scsdForma',
@@ -445,7 +462,7 @@ const appRoutes = [{
     }
     ]
   },
-  //水产原良种验收
+    //水产原良种验收
   {
     path: '/scylzc',
     name: 'scylzc',
@@ -482,24 +499,24 @@ const appRoutes = [{
         name: '/scylzc/afVerification/list',
         meta: { title: '专家评审', menuPath: true, authCode: 'S050305', menuIcon: 'team', hideInBread: false, openMode: 'spa' },
         children: [{
-          path: '/scylzc/afVerification/check',
-          name: '/scylzc/afVerification/check',
+          path: '/scylzc/afVerification/list/check',
+          name: '/scylzc/afVerification/list/check',
           meta: { title: '评审', menuPath: false, authCode: 'S05030501', menuIcon: 'appstore', hideInBread: false, openMode: 'normal', openMode: 'spa' }
         },
         {
-          path: '/scylzc/afVerification/view',
-          name: '/scylzc/afVerification/view',
+          path: '/scylzc/afVerification/list/view',
+          name: '/scylzc/afVerification/list/view',
           meta: { title: '查看申请', menuPath: false, authCode: 'S05030103', menuIcon: 'appstore', hideInBread: false, openMode: 'spa' }
         }]
       },
       {
         path: '/scylzc/allApplyInfo/list',
         name: '/scylzc/allApplyInfo/list',
-        meta: { title: '查看全部申报信息', menuPath: true, authCode: '', menuIcon: 'team', hideInBread: false, openMode: 'spa'},
+        meta: { title: '查看全部申报信息', menuPath: true, authCode: 'S050306', menuIcon: 'team', hideInBread: false, openMode: 'spa'},
       }
     ]
   },
-  //水产原良种复查
+    //水产原良种复查
   {
     path: '/ylzcre',
     name: 'ylzcre',
@@ -537,13 +554,13 @@ const appRoutes = [{
         meta: { title: '专家评审', menuPath: true, authCode: ' S050206', menuIcon: 'team', hideInBread: false, openMode: 'spa'},
         children: [
           {
-            path: '/ylzcre/afVerification/check',
-            name: '/ylzcre/afVerification/check',
+            path: '/ylzcre/afVerification/list/check',
+            name: '/ylzcre/afVerification/list/check',
             meta: { title: '评审', menuPath: false, authCode: 'S05020601', menuIcon: 'appstore', hideInBread: false, openMode: 'spa' }
           },
           {
-            path: '/ylzcre/afVerification/view',
-            name: '/ylzcre/afVerification/view',
+            path: '/ylzcre/afVerification/list/view',
+            name: '/ylzcre/afVerification/list/view',
             meta: { title: '查看申请', menuPath: false, authCode: 'S05020203', menuIcon: 'appstore', hideInBread: false, openMode: 'spa'}
           }
         ]
@@ -551,49 +568,53 @@ const appRoutes = [{
       {
         path: '/ylzcre/allApplyInfo/list',
         name: '/ylzcre/allApplyInfo/list',
-        meta: { title: '查看全部申报信息', menuPath: true, authCode: 'S050207', menuIcon: 'team', hideInBread: false}, openMode: 'spa'}
+        meta: { title: '查看全部申报信息', menuPath: true, authCode: 'S050207', menuIcon: 'team', hideInBread: false }, openMode: 'spa'
+      }
     ]
   },
-  //质量追述
+    //质量追述
   {
     path: '/zlzs',
     name: 'zlzs',
     component: contentWrapper,
     meta: { title: '质量追溯', menuPath: true, authCode: 'S0703', menuIcon: 'barcode', hideInBread: true, openMode: 'spa' },
-    children:[{
-      path: '/zlzs/company/zlzsCompany', name: '/zlzs/company/zlzsCompany',
-      meta: { title: '企业信息管理', menuPath:true, authCode:'S070301', hideInBread:false, menuIcon: 'appstore', openMode: 'spa' }
-    },{
-      path: '/zlzs/seedingout/zlzsSeedingout', name: '/zlzs/seedingout/zlzsSeedingout',
-      meta: { title: '苗种投放管理', menuPath:true, authCode:'S070302', hideInBread:false, menuIcon: 'appstore', openMode: 'spa'}
-    },{
-      path: '/zlzs/fodderout/zlzsFodderout', name: '/zlzs/fodderout/zlzsFodderout',
-      meta: { title: '饲料投入管理', menuPath:true, authCode:'S070303', hideInBread:false, menuIcon: 'appstore', openMode: 'spa'}
-    },{
-      path: '/zlzs/drugout/zlzsDrugout', name: '/zlzs/drugout/zlzsDrugout',
-      meta: { title: '渔药投入管理', menuPath:true, authCode:'S070304', hideInBread:false, menuIcon: 'appstore', openMode: 'spa'}
-    },{
-      path: '/zlzs/sale/zlzsSale', name: '/zlzs/sale/zlzsSale',
-      meta: { title: '销售信息管理', menuPath:true, authCode:'S070305', hideInBread:false, menuIcon: 'appstore', openMode: 'spa'}
-    },{
-      path: '/zlzs/review/zlzsReview', name: '/zlzs/review/zlzsReview',
-      meta: { title: '追溯信息管理', menuPath:true, authCode:'S070306', hideInBread:false, menuIcon: 'appstore', openMode: 'spa'}
-    },
-    ]
+    children: [{
+      path: '/zlzs/company/zlzsCompany',
+      name: '/zlzs/company/zlzsCompany',
+      meta: { title: '企业信息管理', menuPath: true, authCode: 'S070301', hideInBread: false, menuIcon: 'appstore', openMode: 'spa' }
+    }, {
+      path: '/zlzs/seedingout/zlzsSeedingout',
+      name: '/zlzs/seedingout/zlzsSeedingout',
+      meta: { title: '苗种投放管理', menuPath: true, authCode: 'S070302', hideInBread: false, menuIcon: 'appstore', openMode: 'spa' }
+    }, {
+      path: '/zlzs/fodderout/zlzsFodderout',
+      name: '/zlzs/fodderout/zlzsFodderout',
+      meta: { title: '饲料投入管理', menuPath: true, authCode: 'S070303', hideInBread: false, menuIcon: 'appstore', openMode: 'spa' }
+    }, {
+      path: '/zlzs/drugout/zlzsDrugout',
+      name: '/zlzs/drugout/zlzsDrugout',
+      meta: { title: '渔药投入管理', menuPath: true, authCode: 'S070304', hideInBread: false, menuIcon: 'appstore', openMode: 'spa' }
+    }, {
+      path: '/zlzs/sale/zlzsSale',
+      name: '/zlzs/sale/zlzsSale',
+      meta: { title: '销售信息管理', menuPath: true, authCode: 'S070305', hideInBread: false, menuIcon: 'appstore', openMode: 'spa' }
+    }, {
+      path: '/zlzs/review/zlzsReview',
+      name: '/zlzs/review/zlzsReview',
+      meta: { title: '追溯信息管理', menuPath: true, authCode: 'S070306', hideInBread: false, menuIcon: 'appstore', openMode: 'spa' }
+    }, ]
   },
-  //智慧报表管理
+    //智慧报表管理
   {
     path: '/bbgl',
     name: 'bbgl',
     component: contentWrapper,
     meta: { title: '智慧报表管理', menuPath: true, authCode: 'S0804', menuIcon: 'barcode', hideInBread: true, openMode: 'spa' },
-    children:[
-      {
-        path: '/bbgl/report/rmReportInfo',
-        name: '/bbgl/report/rmReportInfo',
-        meta: { title: '报表文件管理', menuPath:true, authCode:'S080401', menuIcon: 'appstore', hideInBread:false,  openMode: 'spa'},
-      }
-    ]
+    children: [{
+      path: '/bbgl/report/rmReportInfo',
+      name: '/bbgl/report/rmReportInfo',
+      meta: { title: '报表文件管理', menuPath: true, authCode: 'S080401', menuIcon: 'appstore', hideInBread: false, openMode: 'spa' },
+    }]
   },
   {
     path: '/SCYJ/:sysname',

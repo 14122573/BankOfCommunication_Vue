@@ -1,63 +1,68 @@
 <template>
-<div class="layoutMargin layoutPadding">
-  <template v-if='sysListForSearch.length>0 && pointsList && isReady'>
-    <a-form class="protalForm" :form="porintSearchForm">
-      <a-row type="flex" justify="space-between" align="middle">
-        <a-col span="6">
-          <a-form-item class='formItem' label="业务系统名称" :label-col="{span:8}" :wrapper-col="{span:16}">
-            <a-select placeholder="请选择业务系统" :options="sysListForSearch" v-model="searchForm.type" />
-          </a-form-item>
-        </a-col>
-        <a-col span="6" v-show="searchForm.type">
-          <a-form-item label="功能点名称" :label-col="{span:8}" :wrapper-col="{span:16}">
-						<a-input v-decorator="['pointName']" placeholder="请输入"></a-input>
-          </a-form-item>
-        </a-col>
-        <a-col span="6" class="algin-right" style="padding-right:8px">
-          <a-button @click="reset">重置</a-button>
-          <a-button type="primary" @click="getPointList">搜索</a-button>
-        </a-col>
-      </a-row>
-    </a-form>
-    <p class="gayLine"></p>
-    <div class="portalTableOperates">
-      <a-button icon='plus' @click="goToAddPoint">添加功能点</a-button>
-      <a-button icon='rollback' @click="$router.push({name:'/systemManagement/permissionConfig'})">返回权限配置</a-button>
-    </div>
-    <a-collapse v-if='pointsArray.length>0' defaultActiveKey="0" class='reviewSeationGroup' :bordered="false">
-      <template v-for="(pointGroup,index) in pointsArray">
-        <a-collapse-panel :key='index' class='reviewSeation' >
-          <template slot="header">
-            <div class="reviewSeationTitle">
-              <span class="sysName">{{pointGroup.name}}<span class="points">已有功能点<span class="pointNum">{{pointGroup.children.length}}</span>个</span></span>
-            </div>
-          </template>
-          <a-row class="reviewSeationContent" :gutter="16">
-            <template v-for="(point) in pointGroup.children">
-              <a-col span="4" class="reviewCard" :key="point.id">
-                <div class="contentBody">
-                  <p class="title">{{point.pointName}}</p>
-                  <p class="des">{{point.pointKey}}</p>
-                  <p class="perm"> <img :src="permIcon" class="group-icon" alt="人数"><span>已归属权限<span class="permNum">{{point.permSet.length || '0'}}</span>个</span> </p>
-                </div>
-                <div class="contentOperate">
-                  <span @click="goToEditPoint(point)">修改</span>
-                  <template v-if="point.permSet.length==0">
-                    <a-divider type="vertical" />
-                    <span @click="confirmDeletePoint(point)">删除</span>
-                  </template>
-                </div>
-              </a-col>
+<div class="routerWapper">
+  <div class="layoutMargin layoutPadding" v-if="$route.name == '/systemManagement/permissionConfig/point'">
+    <template v-if='sysListForSearch.length>0 && pointsList && isReady'>
+      <a-form class="protalForm" :form="porintSearchForm">
+        <a-row type="flex" justify="space-between" align="middle">
+          <a-col span="6">
+            <a-form-item class='formItem' label="业务系统名称" :label-col="{span:8}" :wrapper-col="{span:16}">
+              <a-select placeholder="请选择业务系统" :options="sysListForSearch" v-model="searchForm.type" />
+            </a-form-item>
+          </a-col>
+          <a-col span="6" v-show="searchForm.type">
+            <a-form-item label="功能点名称" :label-col="{span:8}" :wrapper-col="{span:16}">
+              <a-input v-decorator="['pointName']" placeholder="请输入"></a-input>
+            </a-form-item>
+          </a-col>
+          <a-col span="6" class="algin-right" style="padding-right:8px">
+            <a-button @click="reset">重置</a-button>
+            <a-button type="primary" @click="getPointList">搜索</a-button>
+          </a-col>
+        </a-row>
+      </a-form>
+      <p class="gayLine"></p>
+      <div class="portalTableOperates">
+        <a-button icon='plus' @click="goToAddPoint" type="primary">单个添加功能点</a-button>
+        <a-button icon='plus' @click="goToBatchAddPoint" type="primary">批量添加功能点</a-button>
+        <a-button icon='rollback' @click="$router.push({name:'/systemManagement/permissionConfig'})">返回权限配置</a-button>
+      </div>
+      <a-collapse v-if='pointsArray.length>0' defaultActiveKey="0" class='reviewSeationGroup' :bordered="false">
+        <template v-for="(pointGroup,index) in pointsArray">
+          <a-collapse-panel :key='index' class='reviewSeation' >
+            <template slot="header">
+              <div class="reviewSeationTitle">
+                <span class="sysName">{{pointGroup.name}}<span class="points">已有功能点<span class="pointNum">{{pointGroup.children.length}}</span>个</span></span>
+              </div>
             </template>
-          </a-row>
-        </a-collapse-panel>
-      </template>
-    </a-collapse>
-  </template>
-  <template v-else>
-    <a-skeleton active />
-  </template>
+            <a-row class="reviewSeationContent" :gutter="16">
+              <template v-for="(point) in pointGroup.children">
+                <a-col span="4" class="reviewCard" :key="point.id">
+                  <div class="contentBody">
+                    <p class="title">{{point.pointName}}</p>
+                    <p class="des">{{point.pointKey}}</p>
+                    <p class="perm"> <img :src="permIcon" class="group-icon" alt="人数"><span>已归属权限<span class="permNum">{{point.permSet.length || '0'}}</span>个</span> </p>
+                  </div>
+                  <div class="contentOperate">
+                    <span @click="goToEditPoint(point)">修改</span>
+                    <template v-if="point.permSet.length==0">
+                      <a-divider type="vertical" />
+                      <span @click="confirmDeletePoint(point)">删除</span>
+                    </template>
+                  </div>
+                </a-col>
+              </template>
+            </a-row>
+          </a-collapse-panel>
+        </template>
+      </a-collapse>
+    </template>
+    <template v-else>
+      <a-skeleton active />
+    </template>
+  </div>
+	<RouterWapper v-else></RouterWapper>
 </div>
+
 </template>
 <script>
 export default {
@@ -75,12 +80,17 @@ export default {
   watch: {
   },
   beforeCreate() {
-    this.porintSearchForm = this.$form.createForm(this)
+    if(this.$route.name == '/systemManagement/permissionConfig/point'){
+      this.porintSearchForm = this.$form.createForm(this)
+    }
+
   },
   mounted(){
-    this.getSysCodOptions()
-    this.getPointList()
-    this.isReady = true
+    if(this.$route.name == '/systemManagement/permissionConfig/point'){
+      this.getSysCodOptions()
+      this.getPointList()
+      this.isReady = true
+    }
   },
   watch:{
     pointsList(){
@@ -120,7 +130,6 @@ export default {
       }).then(res=>{
         if(res.code === '200'){
           this.pointsList = this.$com.confirm(res, 'data.content', [])
-          console.log('pointsList',this.pointsList)
         }else{
           this.$message.error(res.msg)
         }
@@ -156,12 +165,14 @@ export default {
       }).then(res => {
         if (res.code === '200') {
           this.$message.success('删除成功')
-          // this.$router.go(0)
           this.getPointList()
         } else {
           this.$message.error(res.msg)
         }
       })
+    },
+    goToBatchAddPoint(){
+      this.$router.push({name:'/systemManagement/permissionConfig/point/addBatch'})
     },
     goToAddPoint(){
       this.$router.push({name:'/systemManagement/permissionConfig/point/add'})

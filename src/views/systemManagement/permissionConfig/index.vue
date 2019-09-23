@@ -6,7 +6,7 @@
       <div class="portalDetailTitle">
         <span class="title">维护权限基础划分</span>
         <div class="detailOperations">
-          <a-button icon='plus' @click="goToPointMeg">功能点管理</a-button>
+          <a-button type="primary" @click="goToPointMeg">功能点管理</a-button>
           <a-button icon='plus' type="primary" ghost @click="handleAddRoleNode(true)">添加一级权限</a-button>
           <a-button :disabled='disAddRoleNode' icon='plus' type="primary" ghost @click="handleAddRoleNode(false)">添加子集权限</a-button>
           <a-button :disabled='disDelRoleNode' icon='plus' type="primary" ghost @click="handleEditRoleNode">修改权限信息</a-button>
