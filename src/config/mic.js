@@ -10,64 +10,77 @@
 let MicConfig = []
 switch (process.env.NODE_ENV) {
 case 'devol': // 本地线上部署环境下
-  MicConfig = [
-    {
-      baseUrl:'http://scsd.tao.com',
-      resourceName:'scsd',
-      micId:'mic:scsd',
-      pathPrefix:'/scsd'
-    },
-    {
-      baseUrl:'http://scylzc.tao.com', // 原良种验收
-      resourceName:'scylzc',
-      micId:'mic:scylzc',
-      pathPrefix:'/scylzc'
-    },
-    {
-      baseUrl:'http://ylzcre.tao.com', // 原良种复查
-      resourceName:'ylzcre',
-      micId:'mic:ylzcre',
-      pathPrefix:'/ylzcre'
-    }
+  MicConfig = [{
+    baseUrl: 'http://scsd.tao.com',
+    resourceName: 'scsd',
+    micId: 'mic:scsd',
+    pathPrefix: '/scsd'
+  },
+  {
+    baseUrl: 'http://scylzc.tao.com', // 原良种验收
+    resourceName: 'scylzc',
+    micId: 'mic:scylzc',
+    pathPrefix: '/scylzc'
+  },
+  {
+    baseUrl: 'http://ylzcre.tao.com', // 原良种复查
+    resourceName: 'ylzcre',
+    micId: 'mic:ylzcre',
+    pathPrefix: '/ylzcre'
+  }
   ]
   break
 case 'sit': // sit环境下
-  MicConfig = [
-    {
-      baseUrl:'http://scsd.omniview.pro',
-      resourceName:'scsd',
-      micId:'mic:scsd',
-      pathPrefix:'/scsd'
-    },
-    // {
-    //   baseUrl:'http://bbgl.omniview.pro',
-    //   resourceName:'bbgl',
-    //   micId:'mic:bbgl',
-    //   pathPrefix:'/bbgl'
-    // }
+  MicConfig = [{
+    baseUrl: 'http://scsd.omniview.pro',
+    resourceName: 'scsd',
+    micId: 'mic:scsd',
+    pathPrefix: '/scsd'
+  },
+  {
+    baseUrl: 'http://scylzc.omniview.pro',
+    resourceName: 'scylzc',
+    micId: 'mic:scylzc',
+    pathPrefix: '/scylzc'
+  },
+  {
+    baseUrl: 'http://ylzcre.omniview.pro',
+    resourceName: 'ylzcre',
+    micId: 'mic:ylzcre',
+    pathPrefix: '/ylzcre'
+  },
+  {
+    baseUrl: 'http://bbgl.omniview.pro',
+    resourceName: 'bbgl',
+    micId: 'mic:bbgl',
+    pathPrefix: '/bbgl'
+  },
+  {
+    baseUrl: 'http://zlzs.omniview.pro',
+    resourceName: 'zlzs',
+    micId: 'mic:zlzs',
+    pathPrefix: '/zlzs'
+  }
   ]
   break
 case 'uat': // uat环境下
-  MicConfig = [
-    {
-      baseUrl:'http://scsd.szjoin.net',
-      resourceName:'scsd',
-      micId:'mic:scsd',
-      pathPrefix:'/scsd'
-    }
-  ]
+  MicConfig = [{
+    baseUrl: 'http://scsd.szjoin.net',
+    resourceName: 'scsd',
+    micId: 'mic:scsd',
+    pathPrefix: '/scsd'
+  }]
   break
 case 'production': // 生产环境下
   MicConfig = []
   break
 default: // 默认环境下（开发环境）
-  MicConfig = [
-    {
-      baseUrl:'http://scsd.tao.com',
-      resourceName:'scsd',
-      micId:'mic:scsd',
-      pathPrefix:'/scsd'
-    },
+  MicConfig = [{
+    baseUrl: 'http://scsd.tao.com',
+    resourceName: 'scsd',
+    micId: 'mic:scsd',
+    pathPrefix: '/scsd'
+  },
     // {
     //   baseUrl:'http://scylzc.tao.com', // 原良种验收
     //   resourceName:'scylzc',
