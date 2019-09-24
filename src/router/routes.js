@@ -662,6 +662,12 @@ const appRoutes = [{
     name: 'NYPC',
     component: TipsOutsite,
     meta: { title: '水产养殖动物病原菌耐药性普查数据分析系统', menuPath: true, menuIcon: 'experiment', authCode: 'NYPC', hideInBread: false, openMode: 'outsite' }
+  },
+  {
+    path: '/SCZN/:sysname',
+    name: 'SCZN',
+    component: TipsOutsite,
+    meta: { title: '“水产智能”健康养殖生产与大数据管理系统', menuPath: true, menuIcon: 'experiment', authCode: 'SCZN', hideInBread: false, openMode: 'outsite' }
   }
   ],
 },
