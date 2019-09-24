@@ -551,7 +551,7 @@ const appRoutes = [{
       {
         path: '/ylzcre/afVerification/list',
         name: '/ylzcre/afVerification/list',
-        meta: { title: '专家评审', menuPath: true, authCode: ' S050206', menuIcon: 'team', hideInBread: false, openMode: 'spa'},
+        meta: { title: '专家评审', menuPath: true, authCode: 'S050206', menuIcon: 'team', hideInBread: false, openMode: 'spa'},
         children: [
           {
             path: '/ylzcre/afVerification/list/check',
