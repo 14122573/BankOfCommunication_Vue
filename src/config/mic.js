@@ -60,6 +60,12 @@ case 'sit': // sit环境下
     resourceName: 'zlzs',
     micId: 'mic:zlzs',
     pathPrefix: '/zlzs'
+  },
+  {
+    baseUrl: 'http://yysygl.omniview.pro',
+    resourceName: 'yysygl',
+    micId: 'mic:yysygl',
+    pathPrefix: '/yysygl'
   }
   ]
   break
