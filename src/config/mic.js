@@ -29,7 +29,7 @@ case 'devol': // 本地线上部署环境下
     pathPrefix: '/ylzcre'
   },
   {
-    baseUrl: 'http://yysygl.tao.pro',// 渔业兽医
+    baseUrl: 'http://yysygl.tao.com',// 渔业兽医
     resourceName: 'yysygl',
     micId: 'mic:yysygl',
     pathPrefix: '/yysygl'
