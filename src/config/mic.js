@@ -27,6 +27,12 @@ case 'devol': // 本地线上部署环境下
     resourceName: 'ylzcre',
     micId: 'mic:ylzcre',
     pathPrefix: '/ylzcre'
+  },
+  {
+    baseUrl: 'http://yysygl.tao.com',// 渔业兽医
+    resourceName: 'yysygl',
+    micId: 'mic:yysygl',
+    pathPrefix: '/yysygl'
   }
   ]
   break
@@ -60,6 +66,12 @@ case 'sit': // sit环境下
     resourceName: 'zlzs',
     micId: 'mic:zlzs',
     pathPrefix: '/zlzs'
+  },
+  {
+    baseUrl: 'http://yysygl.omniview.pro',
+    resourceName: 'yysygl',
+    micId: 'mic:yysygl',
+    pathPrefix: '/yysygl'
   }
   ]
   break
