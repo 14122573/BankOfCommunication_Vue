@@ -141,7 +141,22 @@ export default {
           }
         })
         break
-
+      case 'S0502':
+        this.$router.push({
+          name:nextRouter,
+          query:{
+            id:taskCode
+          }
+        })
+        break
+      case 'S0503':
+        this.$router.push({
+          name:nextRouter,
+          query:{
+            id:taskCode
+          }
+        })
+        break
       default:
         break
       }
