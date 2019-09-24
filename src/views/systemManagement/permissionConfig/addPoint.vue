@@ -139,7 +139,7 @@ export default {
         if (!err) {
           let postParams = Object.assign({},this.createForm ,{
             'pointName':this.porintCreateForm.getFieldValue('pointName'),
-            'pointKey':this.createForm.type+this.porintCreateForm.getFieldValue('pointKey')
+            'pointKey':(!this.createForm.type?'':this.createForm.type)+this.porintCreateForm.getFieldValue('pointKey')
           })
           this.$ajax.post({
             url: this.$api.POST_PREMSPOINT,

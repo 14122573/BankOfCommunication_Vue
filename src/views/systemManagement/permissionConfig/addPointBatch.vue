@@ -387,7 +387,7 @@ export default {
      */
     getRoleTree(){
       this.$ajax.get({
-        url:this.$api.GET_ALL_ROLE + '?isTree=true'
+        url:this.$api.GET_ALL_ROLE + '?isTree=true&isAll=true'
       }).then(res=>{
         if(!!res.data && !!res.data.content){
           let data=res.data.content
