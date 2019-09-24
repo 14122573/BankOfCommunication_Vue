@@ -22,7 +22,7 @@
       <a-row type="flex" justify="start" align="middle">
         <a-col span="24">
           <a-form-item label="拥有功能点" :label-col="{span:4}" :wrapper-col="{span:20}">
-            <a-select showSearch @change="handlePointChange" mode="multiple">
+            <a-select @change="handlePointChange" mode="multiple">
               <a-select-opt-group v-for="(pointsGroup,groupIndex) in pointsArray" :key='groupIndex'>
                 <span slot="label">{{pointsGroup.name}}</span>
                 <a-select-option v-for="(point) in pointsGroup.children" :value="point.id" :key="point.id">{{point.pointKey+'('+point.pointName+')'}}</a-select-option>
