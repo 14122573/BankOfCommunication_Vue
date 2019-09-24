@@ -1,6 +1,6 @@
 <template>
 	<a-modal :maskClosable="false" cancelText="取消" okText="确认" @ok="handleOk" @cancel="handleCancel" :width="465"
-	 title="添加权限" :visible="isShow">
+	 title="修改权限" :visible="isShow">
 		<a-form class="layoutMargin" :form="permEditForm">
       <a-row type="flex" justify="start" align="middle">
         <a-col span="24">
@@ -94,6 +94,13 @@ export default {
     timestamp(){
       this.getPointList()
       this.resetForm()
+      if(this.perm.title){
+        this.$nextTick(function () {
+          this.permEditForm.setFieldsValue({permName:this.perm.title})
+          this.permEditForm.setFieldsValue({isHide:this.perm.isHide?'1':'0'})
+          this.permEditForm.getFieldDecorator('pointIds',{initialValue:this.perm.pointSet})
+        })
+      }
     },
     resetShow() {
       this.isShow = this.resetShow

@@ -551,7 +551,7 @@ const appRoutes = [{
       {
         path: '/ylzcre/afVerification/list',
         name: '/ylzcre/afVerification/list',
-        meta: { title: '专家评审', menuPath: true, authCode: ' S050206', menuIcon: 'team', hideInBread: false, openMode: 'spa'},
+        meta: { title: '专家评审', menuPath: true, authCode: 'S050206', menuIcon: 'team', hideInBread: false, openMode: 'spa'},
         children: [
           {
             path: '/ylzcre/afVerification/list/check',
@@ -604,6 +604,29 @@ const appRoutes = [{
       meta: { title: '追溯信息管理', menuPath: true, authCode: 'S070306', hideInBread: false, menuIcon: 'appstore', openMode: 'spa' }
     }, ]
   },
+  //渔业兽医
+  {
+    path: '/yysygl',
+    name: 'yysygl',
+    component: contentWrapper,
+    meta: { title: '渔业兽医', menuPath: true, authCode: 'S0602', menuIcon: 'barcode', hideInBread: true, openMode: 'spa' },
+    children: [{
+      path: '/yysygl/secrchpage/list', name: '/yysygl/secrchpage/list',
+      meta: { title: '兽医查询', menuPath: true, authCode: 'S060201', hideInBread: true, menuIcon: 'appstore', openMode: 'spa'  },
+    },
+    {
+      path: '/yysygl/yyVeternary/list', name: '/yysygl/yyVeternary/list',
+      meta: { title: '渔业乡村兽医', menuPath: true, authCode: 'S060202', hideInBread: true, menuIcon: 'appstore', openMode: 'spa'  },
+    },
+    {
+      path: '/yysygl/official/list', name: '/yysygl/official/list',
+      meta: { title: '渔业官方兽医', menuPath: true, authCode: 'S060203', hideInBread: true, menuIcon: 'appstore', openMode: 'spa'  },
+    },
+    {
+      path: '/yysygl/practising/list', name: '/yysygl/practising/list',
+      meta: { title: '渔业执业兽医', menuPath: true, authCode: 'S060204', hideInBread: true, menuIcon: 'appstore', openMode: 'spa'  },
+    },]
+  },
     //智慧报表管理
   {
     path: '/bbgl',
@@ -639,6 +662,12 @@ const appRoutes = [{
     name: 'NYPC',
     component: TipsOutsite,
     meta: { title: '水产养殖动物病原菌耐药性普查数据分析系统', menuPath: true, menuIcon: 'experiment', authCode: 'NYPC', hideInBread: false, openMode: 'outsite' }
+  },
+  {
+    path: '/SCZN/:sysname',
+    name: 'SCZN',
+    component: TipsOutsite,
+    meta: { title: '“水产智能”健康养殖生产与大数据管理系统', menuPath: true, menuIcon: 'experiment', authCode: 'SCZN', hideInBread: false, openMode: 'outsite' }
   }
   ],
 },

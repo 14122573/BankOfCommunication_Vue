@@ -126,7 +126,7 @@ export default {
         pointPermIds:[]
       },
       tableColumns: [{
-        title: '业务系统名称',
+        title: '业务子系统名称',
         dataIndex: 'type',
         width: '20%',
         scopedSlots: {
@@ -323,7 +323,7 @@ export default {
     /**
      * 监听单元格中功能点所属业务系统的change事件，获取子组件传递的更改后的值
      * @param {String} key 本次变更的功能点数据的key值
-     * @param {Object} value 本次变更的功能点数据的业务系统值 {sysCode:业务系统code,sysName:业务系统名称}
+     * @param {Object} value 本次变更的功能点数据的业务系统值 {sysCode:业务系统code,sysName:业务子系统名称}
      */
     onSystemChange (key, value) {
       const dataSource = [...this.dataSource]
@@ -347,7 +347,6 @@ export default {
         target[dataIndex] = value
         this.dataSource = dataSource
       }
-      console.log('onPointChange',target,key, dataIndex, value, this.dataSource)
     },
     createPointBatch(){
       let pushData = []
@@ -368,7 +367,6 @@ export default {
       })
       if(!errs.pointKey){
 
-        console.log('createPointBatch',this.dataSource,pushData,errs)
         this.$ajax.post({
           url: this.$api.POST_PREMSPOINT_BATCH,
           params: pushData
@@ -389,7 +387,7 @@ export default {
      */
     getRoleTree(){
       this.$ajax.get({
-        url:this.$api.GET_ALL_ROLE + '?isTree=true'
+        url:this.$api.GET_ALL_ROLE + '?isTree=true&isAll=true'
       }).then(res=>{
         if(!!res.data && !!res.data.content){
           let data=res.data.content
@@ -437,7 +435,8 @@ export default {
      */
     getSysCodOptions(){
       this.$ajax.get({
-        url: this.$api.SYSTEM_LIST_ALL_GET
+        url: this.$api.SYSTEM_LIST_ALL_GET,
+        params:{type:'1'}
       }).then(res=>{
         if(res.code === '200'){
           let data = this.$com.confirm(res, 'data.content', [])

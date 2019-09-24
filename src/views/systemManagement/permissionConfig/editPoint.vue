@@ -15,8 +15,8 @@
             <a-form class=" layoutMargin" :form="pointEditForm">
               <a-row type="flex" justify="space-between" align="middle">
                 <a-col span="16">
-                  <a-form-item class='formItem' label="业务系统名称" :label-col="{span:4}" :wrapper-col="{span:16}">
-                    <a-select placeholder="请选择业务系统" :options="sysListForSearch" v-model="editForm.type" @change="onSysChange" />
+                  <a-form-item class='formItem' label="业务子系统名称" :label-col="{span:4}" :wrapper-col="{span:16}">
+                    <a-select placeholder="请选择业务系统" :options="sysListForSearch" :value="editForm.type" @change="onSysChange" />
                   </a-form-item>
                 </a-col>
               </a-row>
@@ -28,7 +28,7 @@
                 </a-col>
                 <a-col span="8">
                   <a-form-item label="功能点编码" :label-col="{span:8}" :wrapper-col="{span:16}">
-                    <a-input :addonBefore="editForm.type?editForm.type:''" v-decorator="['pointKey',{validateTrigger:'blur',rules:formRules.pointCode}]" placeholder="请输入"></a-input>
+                    <a-input :addonBefore="editForm.type?editForm.type:''" v-decorator="['pointKey',{validateTrigger:'blur',rules:pointCodeFormRule}]" placeholder="请输入"></a-input>
                   </a-form-item>
                 </a-col>
               </a-row>
@@ -59,26 +59,22 @@ import { OldSysCodes } from '@/config/outside-config'
 export default {
   data() {
     const validatePointCode = (rule, value, callback) => {
-      if (!value) {
-        callback()
+      let code = (!this.editForm.type?'':this.editForm.type)+(!value?'':value)
+      if (!!value && value.length>0 && !!this.editForm.type && !this.$com.checkNumber(value)) {
+        callback('功能编码仅能填写数字')
       } else {
-        if (!this.$com.checkNumber(value)) {
-          callback('功能编码仅能填写数字')
-        } else {
-          if(this.pointDetail.pointKey== (this.editForm.type+value)){ //如果数据没有改变过 ，就功能吗重复不校验
-            callback()
-          }else{
-            this.$ajax.get({
-              url: this.$api.GET_CHECK_POINTCODE_EXIT + '?pointKey=' + this.editForm.type+value
-            }).then(res => {
-              if (res.data.content === false) {
-                callback()
-              } else {
-                callback('功能点编码已存在!')
-              }
-            })
-          }
-
+        if(this.pointDetail.pointKey==code){ //如果数据没有改变过 ，就功能吗重复不校验
+          callback()
+        }else{
+          this.$ajax.get({
+            url: this.$api.GET_CHECK_POINTCODE_EXIT + '?pointKey=' + code
+          }).then(res => {
+            if (res.data.content === false) {
+              callback()
+            } else {
+              callback('功能点编码已存在!')
+            }
+          })
         }
       }
     }
@@ -101,6 +97,13 @@ export default {
           { required: true, whitespace: true, message: '请填写功能点编码' },
           { validator: validatePointCode }
         ],
+        pointCodeRequir: [
+          { required: true, whitespace: true, message: '请填写功能点编码' },
+          { validator: validatePointCode }
+        ],
+        pointCodeNoRequir:[
+          { validator: validatePointCode }
+        ]
       },
       tree:{
         roleTreeData:[],
@@ -132,7 +135,7 @@ export default {
     }
     // 初始化表单值
     this.$nextTick(function () {
-      this.editForm['type']=this.pointDetail.type
+      this.editForm['type']=this.pointDetail.type=='0'?undefined:this.pointDetail.type
       this.editForm['typeName']=this.pointDetail.typeName
       this.pointEditForm.getFieldDecorator('pointName',{initialValue:this.pointDetail.pointName})
       this.pointEditForm.getFieldDecorator('pointKey',{initialValue:this.pointDetail.pointKey.replace(this.editForm.type, '')})
@@ -147,10 +150,19 @@ export default {
     })
     this.preparate.isReady = true
   },
+  computed:{
+    pointCodeFormRule(){
+      if(!this.editForm.type){
+        return this.formRules.pointCodeRequir
+      }else{
+        return this.formRules.pointCodeNoRequir
+      }
+    }
+  },
   watch:{
     pointDetail(){
       this.$nextTick(function () {
-        this.editForm['type']=this.pointDetail.type
+        this.editForm['type']=this.pointDetail.type=='0'?undefined:this.pointDetail.type
         this.editForm['typeName']=this.pointDetail.typeName
         this.pointEditForm.getFieldDecorator('pointName',{initialValue:this.pointDetail.pointName})
         this.pointEditForm.getFieldDecorator('pointKey',{initialValue:this.pointDetail.pointKey.replace(this.editForm.type, '')})
@@ -189,7 +201,7 @@ export default {
         if (!err) {
           let putParams = Object.assign({},this.editForm,{
             'pointName':this.pointEditForm.getFieldValue('pointName'),
-            'pointKey':this.editForm.type+this.pointEditForm.getFieldValue('pointKey'),
+            'pointKey':(!this.editForm.type?'':this.editForm.type)+this.pointEditForm.getFieldValue('pointKey'),
           })
           this.$ajax.put({
             url: this.$api.PUT_PREMSPOINT.replace('{id}', this.pointDetail.id),
@@ -210,7 +222,7 @@ export default {
      */
     getRoleTree(){
       this.$ajax.get({
-        url:this.$api.GET_ALL_ROLE + '?isTree=true'
+        url:this.$api.GET_ALL_ROLE + '?isTree=true&isAll=true'
       }).then(res=>{
         if(!!res.data && !!res.data.content){
           let data=res.data.content
@@ -257,7 +269,8 @@ export default {
      */
     getSysCodOptions(){
       this.$ajax.get({
-        url: this.$api.SYSTEM_LIST_ALL_GET
+        url: this.$api.SYSTEM_LIST_ALL_GET,
+        params:{type:'1'}
       }).then(res=>{
         if(res.code === '200'){
           let data = this.$com.confirm(res, 'data.content', [])

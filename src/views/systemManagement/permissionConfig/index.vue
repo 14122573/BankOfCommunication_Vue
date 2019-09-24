@@ -15,12 +15,28 @@
       </div>
       <div class="portalDetailContentWapper">
         <div class="portalDetailContentBody">
+          <div class="layoutMargin">
+            <a-alert message="标签说明" type="info">
+              <div slot="description">
+                <p><a-icon type="share-alt" style="color:rgba(0,0,255,0.6);" /> : 此类权限可用于角色创建和分配</p>
+                <p><a-icon type="stop" style="color:rgba(255,0,0,0.6);" /> : 此类权限不可用于角色创建和赋权</p>
+              </div>
+            </a-alert>
+          </div>
           <div class="layoutMargin detailsPartSection contentPadding">
             <template v-if="tree.roleTreeDataArranged.length==0">
               <a-skeleton active />
             </template>
             <template v-else>
-              <a-tree  class="portalRoleConfigTree" :treeData="tree.roleTreeDataArranged" defaultExpandAll @select="onSelect" ></a-tree>
+              <a-tree  class="portalRoleConfigTree" :treeData="tree.roleTreeDataArranged" defaultExpandAll @select="onSelect" >
+                <template slot='treeTitle' slot-scope="treeNode">
+                  <span class="prohibitRoleNode">
+                    <span class="title">{{treeNode.title }}</span>
+                    <a-icon v-if="treeNode.isHide" class="icon prohibit" type="stop" />
+                    <a-icon v-else class="icon" type="share-alt" />
+                  </span>
+                </template>
+              </a-tree>
             </template>
           </div>
         </div>
@@ -31,6 +47,12 @@
     <EditPermBranch @on-success='closeEditModal' :parentNode='editPerm.parentDetail' :perm='!editPerm.permDetail?{}:editPerm.permDetail' :timestamp='Date.now()' :resetShow='editPerm.showModal'></EditPermBranch>
   </div>
 </template>
+<style scoped>
+.prohibitRoleNode .title{ padding-right:2px;}
+.prohibitRoleNode .icon { color:rgba(0,0,255,0.6);font-size:12px; }
+.prohibitRoleNode .prohibit { color:rgba(255,0,0,0.6); }
+</style>
+
 <script>
 import { OldSysCodes } from '@/config/outside-config'
 import CreatePermBranch from './addPerm'
@@ -139,6 +161,7 @@ export default {
         return true
       }
     }
+
   },
   methods: {
     closeEditModal(isReload){
@@ -177,21 +200,21 @@ export default {
       let roleNode = null
     },
     handleEditRoleNode(){
-      this.editPerm.showModal = true
       this.editPerm.permDetail = this.selectedNode.node
       this.editPerm.parentDetail = {
         key:!this.selectedNode.parent?'0':this.selectedNode.parent.key,
         name:!this.selectedNode.parent?'根节点':this.selectedNode.parent.title,
         isHide:!this.selectedNode.parent?false:this.selectedNode.parent.isHide
       }
+      this.editPerm.showModal = true
     },
     handleAddRoleNode(isFirst){
-      this.createPerm.showModal = true
       if(!isFirst){
         this.createPerm.parentDetail.key = this.selectedNode.key
         this.createPerm.parentDetail.name = this.selectedNode.node.title
         this.createPerm.parentDetail.isHide = this.selectedNode.node.isHide
       }
+      this.createPerm.showModal = true
     },
     handleDelRoleNode(){
       let vm = this
@@ -250,12 +273,14 @@ export default {
     initRoleTreeNode(item){
       let isOldSys = (!!item.permKey && this.$com.oneOf(item.permKey,OldSysCodes)) ? true:false
       let childrenNode={
+        'titleName':item.permName,
         'title':item.permName,
         'key':item.id,
         'permKey':!item.permKey?'':item.permKey,
         'pointSet':this.getPointsIds(!item.points?[]:item.points),
         'isOldSys':isOldSys,
-        'isHide':item.isHide
+        'isHide':item.isHide,
+        'scopedSlots':{title:'treeTitle'}
       }
       if(item.childList && item.childList.length){
         childrenNode.children = []
@@ -275,7 +300,7 @@ export default {
       if(selectedKeys.length>0){
         this.selectedNode['key'] = selectedKeys[0]
         this.selectedNode['node'] = {
-          'title':selectedNodes[0].data.props.title,
+          'title':selectedNodes[0].data.props.titleName,
           'isOldSys':selectedNodes[0].data.props.isOldSys,
           'permKey':selectedNodes[0].data.props.permKey,
           'pointSet':selectedNodes[0].data.props.pointSet,

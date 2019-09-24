@@ -4,14 +4,9 @@
     <template v-if='sysListForSearch.length>0 && pointsList && isReady'>
       <a-form class="protalForm" :form="porintSearchForm">
         <a-row type="flex" justify="space-between" align="middle">
-          <a-col span="6">
-            <a-form-item class='formItem' label="业务系统名称" :label-col="{span:8}" :wrapper-col="{span:16}">
+          <a-col span="8">
+            <a-form-item class='formItem' label="业务子系统名称" :label-col="{span:8}" :wrapper-col="{span:16}">
               <a-select placeholder="请选择业务系统" :options="sysListForSearch" v-model="searchForm.type" />
-            </a-form-item>
-          </a-col>
-          <a-col span="6" v-show="searchForm.type">
-            <a-form-item label="功能点名称" :label-col="{span:8}" :wrapper-col="{span:16}">
-              <a-input v-decorator="['pointName']" placeholder="请输入"></a-input>
             </a-form-item>
           </a-col>
           <a-col span="6" class="algin-right" style="padding-right:8px">
@@ -38,7 +33,7 @@
               <template v-for="(point) in pointGroup.children">
                 <a-col span="4" class="reviewCard" :key="point.id">
                   <div class="contentBody">
-                    <p class="title">{{point.pointName}}</p>
+                    <div class="title" :title='point.pointName'>{{point.pointName}}</div>
                     <p class="des">{{point.pointKey}}</p>
                     <p class="perm"> <img :src="permIcon" class="group-icon" alt="人数"><span>已归属权限<span class="permNum">{{point.permSet.length || '0'}}</span>个</span> </p>
                   </div>
@@ -105,25 +100,21 @@ export default {
     }
   },
   methods:{
+    /**
+     * 清空表单搜索条件，展示默认列表内容
+     */
     reset(){
       delete this.searchForm.type
-      this.porintSearchForm.resetFields()
+      this.getPointList()
     },
     /**
      * 搜索获取功能点清单
      */
     getPointList(){
       let searchParms
-      if(!!this.porintSearchForm.getFieldValue('pointName')){
-        searchParms = Object.assign({},{
-          type:this.searchForm.type,
-          pointName:this.porintSearchForm.getFieldValue('pointName')
-        })
-      }else{
-        searchParms = Object.assign({},{
-          type:this.searchForm.type,
-        })
-      }
+      searchParms = Object.assign({},{
+        type:this.searchForm.type,
+      })
       this.$ajax.get({
         url: this.$api.GET_PREMSPOINT_LIST,
         params: searchParms
@@ -192,7 +183,8 @@ export default {
      */
     getSysCodOptions(){
       this.$ajax.get({
-        url: this.$api.SYSTEM_LIST_ALL_GET
+        url: this.$api.SYSTEM_LIST_ALL_GET,
+        params:{type:'1'}
       }).then(res=>{
         if(res.code === '200'){
           let data = this.$com.confirm(res, 'data.content', [])
@@ -201,6 +193,10 @@ export default {
               label: item.sysName,
               value: item.sysCode
             }
+          })
+          this.sysListForSearch.push({
+            label: 'Portal平台',
+            value: '0'
           })
         }else{
           this.$message.error(res.msg)
@@ -221,7 +217,7 @@ export default {
 .reviewCard .contentBody{ height:80px; padding:10px 10px; vertical-align: middle; background: #fff;  border-radius: 2px; border:1px solid #e0e0e0; }
 .reviewCard .contentBody p{ margin: 0}
 .reviewCard .contentBody .title, .reviewCard .contentBody .des {line-height: 20px; font-size: 12px; color:rgb(0, 0, 0,0.6)}
-.reviewCard .contentBody .title { font-size: 14px; font-weight: bold; color:rgb(0, 0, 0,0.8)}
+.reviewCard .contentBody .title { font-size: 14px; height: 20px; font-weight: bold; color:rgb(0, 0, 0,0.8); white-space: nowrap; overflow:hidden; text-overflow: ellipsis}
 .reviewCard .contentOperate{ border:1px solid #e0e0e0; border-top: none; height: 38px;background-color: rgb(234, 244, 254,0.4); padding-right:20px;text-align: right;line-height: 38px;}
 .reviewCard .perm{ font-size: 12px}
 .reviewCard .group-icon{ width: 16px; position: relative; top: -2px; margin-right: 5px}
