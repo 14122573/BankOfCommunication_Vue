@@ -105,9 +105,13 @@ export default {
     }
   },
   methods:{
+    /**
+     * 清空表单搜索条件，展示默认列表内容
+     */
     reset(){
       delete this.searchForm.type
       this.porintSearchForm.resetFields()
+      this.getPointList()
     },
     /**
      * 搜索获取功能点清单
@@ -117,7 +121,7 @@ export default {
       if(!!this.porintSearchForm.getFieldValue('pointName')){
         searchParms = Object.assign({},{
           type:this.searchForm.type,
-          pointName:this.porintSearchForm.getFieldValue('pointName')
+          pointName_l:this.porintSearchForm.getFieldValue('pointName')
         })
       }else{
         searchParms = Object.assign({},{

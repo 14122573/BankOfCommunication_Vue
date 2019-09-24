@@ -27,7 +27,7 @@
               </a-col>
               <a-col span="8">
                 <a-form-item label="功能点编码" :label-col="{span:8}" :wrapper-col="{span:16}">
-                  <a-input :addonBefore="createForm.type?createForm.type:''" v-decorator="['pointKey',{rules:formRules.pointCode}]" placeholder="请输入"></a-input>
+                  <a-input :addonBefore="createForm.type?createForm.type:''" v-decorator="['pointKey',{rules:pointCodeFormRule}]" placeholder="请输入"></a-input>
                 </a-form-item>
               </a-col>
             </a-row>
@@ -55,40 +55,19 @@ export default {
   data() {
     const validatePointCode = (rule, value, callback) => {
       let code = (!this.createForm.type?'':this.createForm.type)+(!value?'':value)
-      if(!code){
-        callback('请填写功能点编码')
-      }else{
-        if (!!value && value.length>0 && !!this.createForm.type && !this.$com.checkNumber(value)) {
-          callback('功能编码仅能填写数字')
-        } else {
-          this.$ajax.get({
-            url: this.$api.GET_CHECK_POINTCODE_EXIT + '?pointKey=' +  code
-          }).then(res => {
-            if (res.data.content === false) {
-              callback()
-            } else {
-              callback('功能点编码已存在!')
-            }
-          })
-        }
+      if (!!value && value.length>0 && !!this.createForm.type && !this.$com.checkNumber(value)) {
+        callback('功能编码仅能填写数字')
+      } else {
+        this.$ajax.get({
+          url: this.$api.GET_CHECK_POINTCODE_EXIT + '?pointKey=' +  code
+        }).then(res => {
+          if (res.data.content === false) {
+            callback()
+          } else {
+            callback('功能点编码已存在!')
+          }
+        })
       }
-      // if (!value) {
-      //   callback()
-      // } else {
-      //   if (!this.$com.checkNumber(value)) {
-      //     callback('功能编码仅能填写数字')
-      //   } else {
-      //     this.$ajax.get({
-      //       url: this.$api.GET_CHECK_POINTCODE_EXIT + '?pointKey=' + this.createForm.type+value
-      //     }).then(res => {
-      //       if (res.data.content === false) {
-      //         callback()
-      //       } else {
-      //         callback('功能点编码已存在!')
-      //       }
-      //     })
-      //   }
-      // }
     }
     return {
       isReady:false,
@@ -101,10 +80,13 @@ export default {
         pointName:[
           { required: true, whitespace: true, message: '请填写功能点名称' }
         ],
-        pointCode: [
-          // { required: true, whitespace: true, message: '请填写功能点编码' },
+        pointCodeRequir: [
+          { required: true, whitespace: true, message: '请填写功能点编码' },
           { validator: validatePointCode }
         ],
+        pointCodeNoRequir:[
+          { validator: validatePointCode }
+        ]
       },
       tree:{
         roleTreeData:[],
@@ -122,6 +104,15 @@ export default {
     this.getRoleTree()
     this.getSysCodOptions()
     this.isReady = true
+  },
+  computed:{
+    pointCodeFormRule(){
+      if(!this.createForm.type){
+        return this.formRules.pointCodeRequir
+      }else{
+        return this.formRules.pointCodeNoRequir
+      }
+    }
   },
   methods:{
     /**
@@ -141,6 +132,7 @@ export default {
           this.createForm ['typeName'] =  element.label
         }
       })
+      this.porintCreateForm.validateFields()
     },
     createPoint(){
       this.porintCreateForm.validateFields(err => {
@@ -167,8 +159,10 @@ export default {
      * 查询权限树
      */
     getRoleTree(){
+      
       this.$ajax.get({
         url:this.$api.GET_ALL_ROLE + '?isTree=true&isAll=true'
+
       }).then(res=>{
         if(!!res.data && !!res.data.content){
           let data=res.data.content
