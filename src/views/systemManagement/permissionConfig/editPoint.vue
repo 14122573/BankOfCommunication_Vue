@@ -269,7 +269,8 @@ export default {
      */
     getSysCodOptions(){
       this.$ajax.get({
-        url: this.$api.SYSTEM_LIST_ALL_GET
+        url: this.$api.SYSTEM_LIST_ALL_GET,
+        params:{type:'1'}
       }).then(res=>{
         if(res.code === '200'){
           let data = this.$com.confirm(res, 'data.content', [])
