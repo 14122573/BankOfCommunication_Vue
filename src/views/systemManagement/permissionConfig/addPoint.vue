@@ -14,7 +14,7 @@
           <a-form class="layoutMargin" :form="porintCreateForm">
             <a-row type="flex" justify="space-between" align="middle">
               <a-col span="16">
-                <a-form-item class='formItem' label="业务系统名称" :label-col="{span:4}" :wrapper-col="{span:16}">
+                <a-form-item class='formItem' label="业务子系统名称" :label-col="{span:4}" :wrapper-col="{span:16}">
                   <a-select allowClear placeholder="请选择业务系统" :options="sysListForSearch" v-model="createForm.type" @change="onSysChange" />
                 </a-form-item>
               </a-col>
@@ -159,7 +159,7 @@ export default {
      * 查询权限树
      */
     getRoleTree(){
-      
+
       this.$ajax.get({
         url:this.$api.GET_ALL_ROLE + '?isTree=true&isAll=true'
 

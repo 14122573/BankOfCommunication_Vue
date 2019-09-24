@@ -234,7 +234,6 @@ export default {
       this.getInfo()
     }
     this.expertId = this.$store.state.userInfos.id
-    // console.log(this.$store.state.userInfos.id)
     this.$ajax.all(this.getOptions()).then(() => {
       if (this.expertId!='' && !!this.expertId) {
         this.getDetail()

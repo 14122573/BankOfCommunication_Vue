@@ -40,7 +40,6 @@ async function loadResource(url) {
   //   font = cssContent.match(/fonts\/ionicons.[a-z0-9]*\.(ttf|woff)/gi),
   //   svg = cssContent.match(/img\/ionicons.[a-z0-9]*?\.svg/gi),
   //   img = cssContent.match(/img\/[a-z0-9\.]*?\.(png|jpg|gif|jpeg)/gi)
-
   // console.log(url,font,svg,img,ico)
 
   // let a = document.createElement('script')

@@ -94,7 +94,6 @@ export default {
     timestamp(){
       this.getPointList()
       this.resetForm()
-      console.log(this.perm)
       if(this.perm.title){
         this.$nextTick(function () {
           this.permEditForm.setFieldsValue({permName:this.perm.title})
@@ -106,7 +105,6 @@ export default {
     resetShow() {
       this.isShow = this.resetShow
       if(this.isShow){
-        console.log(this.perm)
         if(this.perm.title){
           // 初始化表单值
           this.$nextTick(function () {
@@ -121,7 +119,6 @@ export default {
   created(){
     this.getPointList()
     // 初始化表单值
-    console.log(this.perm)
     if(this.perm.title){
       this.$nextTick(function () {
         this.permEditForm.setFieldsValue({permName:this.perm.title})

@@ -207,7 +207,6 @@ export default {
         isHide:!this.selectedNode.parent?false:this.selectedNode.parent.isHide
       }
       this.editPerm.showModal = true
-      console.log('handleEditRoleNode',this.selectedNode,this.editPerm)
     },
     handleAddRoleNode(isFirst){
       if(!isFirst){
