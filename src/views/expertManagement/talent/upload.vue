@@ -15,12 +15,11 @@
                             <span class="upload-text">导入文件：</span>
                             <a-input read-only :value="fileName" style="width:60%;" />
                             <a-upload 
-                                accept=".jpg,.jpeg,.png" 
+                                accept=".xsl,.xlsx" 
                                 :showUploadList="false"
                                 style="width:20%;" 
                                 name="file" 
                                 :multiple="true" 
-                                action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
                                 :headers="headers" 
                                 :beforeUpload="beforeUpload"
                             >
@@ -42,27 +41,27 @@
                         <a-icon type="link" class="download-icon" /><a @click="downloadTemplate">下载导入模板</a>
                     </a-col>
                 </a-row>
-                <a-row :style="{'margin-top':'20px'}" v-if="fileList.length>0">
+                <!-- <a-row :style="{'margin-top':'20px'}" v-if="fileList.length>0">
                     <a-col>
                         <a-tag v-for="(item,index) in  fileList" :key="index" closable @close="handleRemove(index)">{{item.name}}</a-tag>
                     </a-col>
-                </a-row>
-                <a-row :style="{'margin-top':'20px'}">
+                </a-row> -->
+                <a-row :style="{'margin-top':'20px'}" v-if="result.error === 0">
                     <a-col span="11">
                         <a-alert type="info" showIcon closable class="successTips">
                             <a-icon slot="icon" type="check-circle" :size="16" />
                             <div slot="message">
-                                导入成功,共导入数据125条
+                                导入成功,共导入数据{{result.success}}条
                             </div>
                         </a-alert>
                     </a-col>
                 </a-row>
-                <a-row :style="{marginTop:'20px'}">
+                <a-row :style="{marginTop:'20px'}" v-if="result.error > 0">
                     <a-col span="14">
                         <a-alert type="error" showIcon closable class="errorTips">
                             <div slot="message">
-                                导入失败,共导入数据125条,成功导入数据125条,导入失败25条,<a @click="downloadErrorDatas">下载导入失败数据&nbsp;<a-icon type="link" /></a>
-                                <p>失败数据：</p>
+                                导入失败,共导入数据{{result.success + result.error}}条,成功导入数据{{result.success}}条,导入失败{{result.error}}条,<a @click="downloadErrorDatas">下载导入失败数据&nbsp;<a-icon type="link" /></a>
+                                <!-- <p>失败数据：</p> -->
                             </div>
                         </a-alert>
                     </a-col>
@@ -73,70 +72,71 @@
           <a-alert message="导入流程步骤：" banner type="info" id="uplod-alert" showIcon >
               <a-steps direction="vertical" size="small" id="upload-steps" slot="description" :current="-1">
                   <a-step title="点击链接，下载可导入的文本模板" />
-                  <a-step title="从系统选择文件进行导入，支持xsl和xlsx的文件格式（可选择多个文件）" />
+                  <a-step title="从系统选择文件进行导入，支持xsl和xlsx的文件格式" />
                   <a-step title="点击页面的“导入”按钮完成导入" />
                   <a-step title="根据导入提示，进行错误数据排查" />
               </a-steps>
           </a-alert>
           </div>
     </div>
-
-
-
 </div>
 </template>
 <script>
 export default {
-  name: 'organization-upload',
+  name: 'talent-upload',
   data() {
     return {
       headers: {},
       fileList: [],
       uploading: false,
-      fileName: ''
+      fileName: '',
+      result:{},
     }
   },
   methods: {
     beforeUpload(file) {
-      this.fileList = [...this.fileList, file]
-      this.fileName = file.name
-      // 				const isLt2M = file.size / 1024 / 1024 < 2
-      // 				if (!isLt2M) {
-      // 					this.$message.error('Image must smaller than 2MB!')
-      // 				}
-      console.log(this.fileList, file)
+      const isLt200M = file.size / 1024 / 1024 < 200
+      if (!isLt200M) {
+        this.$message.error('上传文件不能大于200M')
+      }else{
+        this.fileList=[]
+        this.fileList = [...this.fileList, file]
+      		this.fileName = file.name
+      }
       return false
     },
     handleUpload() {
       const { fileList } = this
       const formData = new FormData()
       fileList.forEach(file => {
-        formData.append('files[]', file)
+        formData.append('file', file)
       })
       this.uploading = true
-      reqwest({
-        url: 'https://www.mocky.io/v2/5cc8019d300000980a055e76',
-        method: 'post',
-        processData: false,
-        data: formData,
-        success: () => {
-          this.fileList = []
-          this.uploading = false
-          this.$message.success('upload successfully.')
-        },
-        error: () => {
-          this.uploading = false
-          this.$message.error('upload failed.')
+      this.result={}
+	  this.$ajax.post(
+		  {
+			  url:this.$api.IMPORT_EXPERT_ALL+'/1',
+			  params:formData
+		  }
+	  ).then((res)=>{
+        if(res.code == '200'){
+          this.result=res.data.content
+          this.uploading=false
+          this.fileList=[]
+          this.fileName=''
         }
-      })
+	  })
     },
     handleRemove(index) {
       this.fileList.splice(index, 1)
-      console.log(this.fileList, '232')
     },
     //下载错误数据
-    downloadErrorDatas() {},
-    downloadTemplate() {}
+    downloadErrorDatas() {
+      window.open(this.result.path)
+    },
+    downloadTemplate() {
+      window.open(this.$api.TEMPLAT_DOWNLOAD_EXPERT_AND_TALENT.replace('/api',''))
+    }
   }
 }
 </script>

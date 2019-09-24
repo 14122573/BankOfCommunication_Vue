@@ -1,17 +1,16 @@
 // The Vue build version to load with the `import` command
 // (runtime-only or standalone) has been set in webpack.base.conf with an alias.
+import 'babel-polyfill'
 import Vue from 'vue'
 
 // import App from './App'
 import App from '@/components/Layout/main'
-
 import router from './router'
 import store from './store'
 import ajax from './server/ajax'
 import api from './server/api'
 import cookie from './util/local-cookie'
 import common from './util/common'
-import './assets/base.css' // 引入全局样式
 import PermissionControl from './util/permission-control.js' // 权限自定义指令 v-permission="code"
 import { PermissionFilter } from './util/permission-filter.js' // 权限全局方法 v-if="$permission('code')"
 import {
@@ -48,8 +47,12 @@ import {
   Cascader,
   LocaleProvider,
   Steps,
-  Anchor
+  Anchor,
+  Collapse,
+  Popconfirm
+  // CollapsePanel
 } from 'ant-design-vue'
+import './assets/base.css' // 引入全局样式
 import './assets/reset-ant.css' // 重置ant-design样式
 import ActiveForm from '@/components/ActiveForm'
 import singleSpaVue from 'single-spa-vue'
@@ -93,11 +96,14 @@ Vue.use(LocaleProvider)
 Vue.use(ActiveForm)
 Vue.use(Steps)
 Vue.use(Anchor)
+Vue.use(Collapse)
+Vue.use(Popconfirm)
+// Vue.use(Collapse-panel)
 
 import RouterWapper from '@/components/Layout/content-wrapper'
 import DetailsItem from '@/components/detail/detailItem'
-Vue.component('RouterWapper',RouterWapper)
-Vue.component('DetailsItem',DetailsItem)
+Vue.component('RouterWapper', RouterWapper)
+Vue.component('DetailsItem', DetailsItem)
 
 Vue.prototype.$ajax = ajax
 Vue.prototype.$api = api

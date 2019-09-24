@@ -153,17 +153,56 @@ export default {
         this.defaultOpenKeys = latestOpenKey ? [latestOpenKey] : []
       }
     },
+    /**
+     * 遍历左侧菜单,根据目标跳转路由的route.name找到目标路由在左侧菜单的父级
+     * 通常此方法解决的是 专家库-》专家评审 跳转到子项目
+     * @param {String} toName 目标跳转路由
+     * @returns {Object}
+     */
+    findDefaultMenuKeys(toName){
+      let selectedKeys = '',openKeys=''
+      for(let i=0;i<this.$store.state.menuList.length;i++){
+        let menuGroup = this.$store.state.menuList[i]
+        if(toName.indexOf(menuGroup.name) >= 0){
+          openKeys = menuGroup.name
+          // if('scsd'== menuGroup.name){ // 由于scsd的评审页面路由与其真正的父级菜单路由不匹配，故都默认为函审路由
+          //   selectedKeys = '/scsd/exam/scsdExam'
+          // }else{
+          for(let j=0;j<menuGroup.children.length;j++){
+            let menuChild = menuGroup.children[j]
+            if(toName.indexOf(menuChild.name)>=0){
+              selectedKeys = menuChild.name
+            }
+          }
+          // }
+        }
+      }
+      return {
+        openKeys :openKeys, // 当前需要展开的一级菜单的route.name
+        selectedKeys :selectedKeys // 当前需要默认选中的二级菜单的route.name
+      }
+    }
   },
   watch: {
     $route(to) {
       if (!to.name) return
       // if (this.defaultSelectedKeys.indexOf(to.name) < 0) {
-      if (to.name.indexOf(this.defaultSelectedKeys[0]) < 0){ // 当当前路由不为选定路由或选定路由的子集，则清空设置
-        this.defaultSelectedKeys = []
-        this.defaultOpenKeys = []
+      if (to.name.indexOf(this.defaultSelectedKeys[0]) < 0){ // 当前路由不为选定路由或选定路由的子集，则清空设置
+        // 遍历左侧菜单，找到to路由的父级
+        let defaultMenuKeys = this.findDefaultMenuKeys(to.name)
+        //没有找到，清空设置
+        if(''==defaultMenuKeys.openKeys){
+          this.defaultSelectedKeys = []
+          this.defaultOpenKeys = []
+        }else{//找到了，定位左侧菜单，并存储左侧菜单展开设置
+          this.defaultOpenKeys = []
+          this.defaultOpenKeys.push(defaultMenuKeys.openKeys)
+          this.defaultSelectedKeys = []
+          this.defaultSelectedKeys.push(defaultMenuKeys.selectedKeys)
+        }
         this.$store.commit('SET_DEFAULTMENU_STATUS', {
-          defaultSelectedKeys: [],
-          defaultOpenKeys: [],
+          defaultSelectedKeys: this.defaultSelectedKeys,
+          defaultOpenKeys: this.defaultOpenKeys,
         })
       }else{ // 否则就保存现有的菜单展开设置
         this.$store.commit('SET_DEFAULTMENU_STATUS', {

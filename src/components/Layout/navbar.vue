@@ -82,7 +82,7 @@ export default {
           const parentRoute = this.routeList.find(item => to.path.startsWith(item.path))
           navList.push({ title: '首页', routerName:'home', path: '/home' })
           if(parentRoute){
-            console.log('navbar in ',to,parentRoute)
+            // console.log('navbar in ',to,parentRoute)
             navList.push({ title: parentRoute.meta.title, routerName: parentRoute.name, path: parentRoute.path })
           }
         }

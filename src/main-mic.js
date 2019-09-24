@@ -1,7 +1,9 @@
+import 'babel-polyfill'
 import {registerApplication, start} from 'single-spa'
 import axios from 'axios'
 import fetchInject from 'fetch-inject'
 import { MicConfigs } from '@/config/mic'
+import com from '@/util/common'
 
 
 (async function loadApp(){
@@ -12,8 +14,10 @@ import { MicConfigs } from '@/config/mic'
     // 当页面加载好了，有了#content元素后才加载子项目，避免刷新后空白的问题
     for(let i=0;i<MicConfigs.length;i++){
       // 读取子项目配置
-      await loadResource(MicConfigs[i].baseUrl)
-      registerApplication(MicConfigs[i].resourceName, () => Promise.resolve(window[MicConfigs[i].micId]),  pathPrefix(MicConfigs[i].pathPrefix))
+      // await loadResource(MicConfigs[i].baseUrl)
+      Promise.resolve(loadResource(MicConfigs[i].baseUrl)).then(() => {
+        registerApplication(MicConfigs[i].resourceName, () => Promise.resolve(window[MicConfigs[i].micId]),  pathPrefix(MicConfigs[i].pathPrefix))
+      })
     }
   }
 })()
@@ -36,19 +40,46 @@ async function loadResource(url) {
   //   font = cssContent.match(/fonts\/ionicons.[a-z0-9]*\.(ttf|woff)/gi),
   //   svg = cssContent.match(/img\/ionicons.[a-z0-9]*?\.svg/gi),
   //   img = cssContent.match(/img\/[a-z0-9\.]*?\.(png|jpg|gif|jpeg)/gi)
-
   // console.log(url,font,svg,img,ico)
-  // 优先注入,避免‘call’ of undefined的错误
-  await fetchInject([
-    base + manifest[0],
-    base + vendor[0],
-  ])
 
-  // app.js需要在manifest和vendor之后注入
-  await fetchInject([
-    base + app[0],
-    base + css[0],
-  ])
+  // let a = document.createElement('script')
+  // a.innerHTML = (await axios.get(base + manifest[0])).data
+  // document.head.appendChild(a)
+  // let b = document.createElement('script')
+  // b.innerHTML = (await axios.get(base + vendor[0])).data
+  // document.head.appendChild(b)
+  // let c = document.createElement('script')
+  // c.innerHTML = (await axios.get(base + app[0])).data
+  // document.head.appendChild(c)
+  // let d = document.createElement('style')
+  // d.innerHTML = (await axios.get(base + css[0])).data
+  // document.head.appendChild(d)
+
+  if (com.IEVersion() == -1) { // 非ie浏览器
+    // 优先注入,避免‘call’ of undefined的错误
+    await fetchInject([
+      base + manifest[0],
+      base + vendor[0],
+    ])
+    // app.js需要在manifest和vendor之后注入
+    await fetchInject([
+      base + app[0],
+      base + css[0],
+    ])
+  } else { // ie环境
+    let a = document.createElement('script')
+    a.innerHTML = (await axios.get(base + manifest[0])).data
+    document.head.appendChild(a)
+    let b = document.createElement('script')
+    b.innerHTML = (await axios.get(base + vendor[0])).data
+    document.head.appendChild(b)
+    let c = document.createElement('script')
+    c.innerHTML = (await axios.get(base + app[0])).data
+    document.head.appendChild(c)
+    let d = document.createElement('style')
+    d.innerHTML = (await axios.get(base + css[0])).data
+    document.head.appendChild(d)
+  }
 }
 
 function pathPrefix(prefix) {

@@ -5,10 +5,9 @@
         <a-row type="flex" justify="space-between">
           <a-col span="4"> 基本信息 </a-col>
           <a-col offset="12" span="4" class="algin-right">
-            <a-button>修改密码</a-button>
+            <a-button @click="showChangePwdModal">修改密码</a-button>
           </a-col>
         </a-row>
-
       </p>
       <a-row class="detailsPartLine">
         <a-col span="8">
@@ -49,11 +48,12 @@
         <a-alert class="margin" message="您是超级管理员，将不详细展示权限内子系统清单" type="info" showIcon />
       </template>
       <template v-else>
-        <div class="margin" v-for="(item,index) in authSysList" :key="index">
-          <a-tag class="tag" color="blue" >{{item}}</a-tag>
+        <div class="margin">
+          <a-tag class="tag" color="blue" v-for="(item,index) in authSysList" :key="index">{{item}}</a-tag>
         </div>
       </template>
     </div>
+    <ChangePassword @on-close='closeChangePwdModal' :resetPwdShow='isShowChangePwd'></ChangePassword>
   </div>
 </template>
 <style scoped>
@@ -62,12 +62,17 @@
 </style>
 <script>
 import { permission, } from '@/util/mixins'
+import ChangePassword from '@/views/personal/changePassword'
 export default {
   name: 'PersonCenter',
   mixins: [permission],
+  components: {
+    ChangePassword
+  },
   data() {
     return {
-      userInfo:null
+      userInfo:null,
+      isShowChangePwd:false
     }
   },
   created() {
@@ -78,6 +83,9 @@ export default {
     }
   },
   computed:{
+    showChangePwd(){
+      return this.isShowChangePwd
+    },
     authSysList(){
       if(!this.userInfo){
         return []
@@ -88,6 +96,12 @@ export default {
     }
   },
   methods: {
+    showChangePwdModal(){
+      this.isShowChangePwd = true
+    },
+    closeChangePwdModal(){
+      this.isShowChangePwd = false
+    },
     /**
      * 根据权限，获取权限子系统清单
      * @returns {Array}
@@ -138,7 +152,3 @@ export default {
   }
 }
 </script>
-
-<style>
-
-</style>
