@@ -458,7 +458,17 @@ const appRoutes = [{
     {
       path: '/scsd/selectPost',
       name: '/scsd/selectPost',
-      meta: { title: '查看申报记录', menuPath: true, authCode: 'S050108', menuIcon: 'exception', hideInBread: false, menuIcon: 'appstore' }
+      meta: { title: '查看申报记录', menuPath: true, authCode: 'S050108', menuIcon: 'exception', hideInBread: false, openMode: 'spa' }
+    },
+    {
+      path: '/scsd/dateEntry/information',
+      name: '/scsd/dateEntry/information',
+      meta: { title: '新品种推广管理', menuPath: true, authCode:'S050109', menuIcon: 'cluster', hideInBread: false, openMode: 'spa' },
+    },
+    {
+      path: '/scsd/dateEntry/information/list',
+      name: '/scsd/dateEntry/information/list',
+      meta: { title: '查看所有新品种推广', menuPath: true, authCode:'S050110', menuIcon: 'cluster', hideInBread: false, openMode: 'spa' },
     }
     ]
   },

@@ -49,7 +49,7 @@ export default {
       this.value = value
       this.pointNameForm.validateFields(err => {
         if (!err) {
-          this.$emit('change', value)
+          this.$emit('change', this.value)
         }
       })
     },
