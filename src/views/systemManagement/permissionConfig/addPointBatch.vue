@@ -92,7 +92,6 @@
 }
 </style>
 <script>
-// import { OldSysCodes } from '@/config/outside-config'
 import PointNameCell from './batchAddComponents/pointNameCell'
 import SystemCell from './batchAddComponents/systemCell'
 import PointCodeCell from './batchAddComponents/pointCodeCell'
@@ -396,14 +395,23 @@ export default {
           })
 
           // 重组需要展示的权限树
-          // let oldSysPermissions = [],vm = this
+          let initializedRoleTree = []
+          this.tree.roleTreeDataArranged = []
           this.tree.roleTreeData.forEach((item,index)=>{
-            // if(this.$com.oneOf(item.permKey,OldSysCodes)){
-            //   oldSysPermissions.push(item)
-            // }else{
-            let node = Object.assign({}, item)
-            this.tree.roleTreeDataArranged.push(node)
-            // }
+            if(!item.canDelete && !!item.permKey){
+              initializedRoleTree.push(item)
+            }else{
+              let node = Object.assign({}, item)
+              this.tree.roleTreeDataArranged.push(node)
+            }
+          })
+          this.tree.roleTreeDataArranged.push({
+            'title':'初始化权限',
+            'key':'-1',
+            'permKey':'',
+            'canDelete':false,
+            'isHide':true,
+            'children':[].concat(initializedRoleTree)
           })
         }
       })
@@ -414,12 +422,12 @@ export default {
      * @returns childrenNode 对传入参数，已重组的数据
      */
     initRoleTreeNode(item){
-      // let isOldSys = (!!item.permKey && this.$com.oneOf(item.permKey,OldSysCodes)) ? true:false
       let childrenNode={
         'title':item.permName,
         'key':item.id,
         'permKey':!item.permKey?'':item.permKey,
-        // 'isOldSys':isOldSys
+        'canDelete':item.canDelete===false?false:true,
+        'isHide':item.isHide,
       }
       if(item.childList && item.childList.length){
         childrenNode.children = []
