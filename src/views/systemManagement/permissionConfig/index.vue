@@ -54,7 +54,6 @@
 </style>
 
 <script>
-// import { OldSysCodes } from '@/config/outside-config'
 import CreatePermBranch from './addPerm'
 import EditPermBranch from './editPerm'
 export default {
@@ -101,11 +100,27 @@ export default {
   watch:{
     'tree.roleTreeData': {
       handler: function(val) {
+        let initializedRoleTree = []
         // 重组需要展示的权限树
         this.tree.roleTreeDataArranged = []
         this.tree.roleTreeData.forEach((item,index)=>{
-          let node = Object.assign({}, item)
-          this.tree.roleTreeDataArranged.push(node)
+          if(!item.canDelete && !!item.permKey){
+            initializedRoleTree.push(item)
+          }else{
+            let node = Object.assign({}, item)
+            this.tree.roleTreeDataArranged.push(node)
+          }
+        })
+        this.tree.roleTreeDataArranged.push({
+          'titleName':'初始化权限',
+          'title':'初始化权限',
+          'key':'-1',
+          'permKey':'',
+          'pointSet':[],
+          'canDelete':false,
+          'isHide':true,
+          'scopedSlots':{title:'treeTitle'},
+          'children':[].concat(initializedRoleTree)
         })
       },
       deep: true
@@ -114,22 +129,22 @@ export default {
   computed:{
     disAddRoleNode(){
       if(!!this.selectedNode.node){
-        // if(!this.selectedNode.node.canDelete){
-        //   return true
-        // }else{
         if(!this.selectedNode.parent){
           return false
         }else{
           return true
         }
-        // }
       }else{
         return true
       }
     },
     disEditRoleNode(){
       if(!!this.selectedNode.node){
-        return false
+        if('-1'==this.selectedNode.node.key){ // 当为重组权限树时手动添加的树节点时，不可编辑
+          return true
+        }else{ // 否则可修改
+          return false
+        }
       }else{
         return true
       }
@@ -244,9 +259,9 @@ export default {
     },
     getPointsIds(points){
       let ids = []
-      for(let i=0;i<points.length;i++){
-        ids.push(points[i].id)
-      }
+      ids = points.map(point=>{
+        return point.id
+      })
       return ids
     },
     /**

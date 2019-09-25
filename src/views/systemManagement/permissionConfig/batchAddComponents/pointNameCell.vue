@@ -7,7 +7,6 @@
 </template>
 <style scoped>
 .cellInput,.cellText { width: 90%}
-/* .cellInput { margin-right: 5px;} */
 .cellText { display: inline-block; margin: 0}
 .cellBtn { cursor: pointer; color: #1890ff}
 </style>
