@@ -466,8 +466,8 @@ const appRoutes = [{
       meta: { title: '新品种推广管理', menuPath: true, authCode:'S050109', menuIcon: 'cluster', hideInBread: false, openMode: 'spa' },
     },
     {
-      path: '/scsd/dateEntry/information/list',
-      name: '/scsd/dateEntry/information/list',
+      path: '/scsd/selectDateEntry',
+      name: '/scsd/selectDateEntry',
       meta: { title: '查看所有新品种推广', menuPath: true, authCode:'S050110', menuIcon: 'cluster', hideInBread: false, openMode: 'spa' },
     }
     ]
