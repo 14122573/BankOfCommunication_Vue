@@ -50,7 +50,6 @@
   </div>
 </template>
 <script>
-// import { OldSysCodes } from '@/config/outside-config'
 export default {
   data() {
     const validatePointCode = (rule, value, callback) => {
@@ -171,14 +170,9 @@ export default {
           })
 
           // 重组需要展示的权限树
-          // let oldSysPermissions = [],vm = this
           this.tree.roleTreeData.forEach((item,index)=>{
-            // if(this.$com.oneOf(item.permKey,OldSysCodes)){
-            //   oldSysPermissions.push(item)
-            // }else{
             let node = Object.assign({}, item)
             this.tree.roleTreeDataArranged.push(node)
-            // }
           })
         }
       })
