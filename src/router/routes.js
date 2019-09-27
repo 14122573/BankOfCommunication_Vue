@@ -690,6 +690,12 @@ const appRoutes = [{
     name: 'SCZN',
     component: TipsOutsite,
     meta: { title: '“水产智能”健康养殖生产与大数据管理系统', menuPath: true, menuIcon: 'experiment', authCode: 'SCZN', hideInBread: false, openMode: 'outsite' }
+  },
+  {
+    path: '/XXYY/:sysname',
+    name: 'XXYY',
+    component: TipsOutsite,
+    meta: { title: '休闲渔业品牌管理系统', menuPath: true, menuIcon: 'experiment', authCode: 'XXYY', hideInBread: false, openMode: 'outsite' }
   }
   ],
 },

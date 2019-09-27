@@ -147,6 +147,12 @@ export default {
       if(this.$com.oneOf('SCYJ',this.$store.state.permissionCodeList)){
         authSysList.push('国家水生动物疫情预警系统')
       }
+      if(this.$com.oneOf('SCZN',this.$store.state.permissionCodeList)){
+        authSysList.push('“水产智能”健康养殖生产与大数据管理系统')
+      }
+      if(this.$com.oneOf('XXYY',this.$store.state.permissionCodeList)){
+        authSysList.push('休闲渔业品牌管理系统')
+      }
       return authSysList
     }
   }
