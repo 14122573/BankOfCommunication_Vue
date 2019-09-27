@@ -78,7 +78,13 @@ case 'sit': // sit环境下
     resourceName: 'yysygl',
     micId: 'mic:yysygl',
     pathPrefix: '/yysygl'
-  }
+  },
+  {
+    baseUrl: 'http://txc.omniview.pro', // 科普基地
+    resourceName: 'kpjd',
+    micId: 'mic:kpjd',
+    pathPrefix: '/kpjd'
+  },
   ]
   break
 case 'uat': // uat环境下
