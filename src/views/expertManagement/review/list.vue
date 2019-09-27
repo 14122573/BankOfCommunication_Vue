@@ -130,7 +130,7 @@ export default {
       }
       // 根据系统判断跳转子系统方式
       switch (sysCode) {
-      case 'S0501':
+      case 'S0501': // 新品种审核
         this.$router.push({
           name:nextRouter,
           params:{id:taskCode},
@@ -141,7 +141,7 @@ export default {
           }
         })
         break
-      case 'S0502':
+      case 'S0502': // 原良种复查
         this.$router.push({
           name:nextRouter,
           query:{
@@ -149,7 +149,15 @@ export default {
           }
         })
         break
-      case 'S0503':
+      case 'S0503': // 原良种验收
+        this.$router.push({
+          name:nextRouter,
+          query:{
+            id:taskCode
+          }
+        })
+        break
+      case 'S0101': // 科普教育基地
         this.$router.push({
           name:nextRouter,
           query:{
