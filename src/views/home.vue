@@ -30,7 +30,7 @@
       </p>
         <div class="workspacHelpItem">
           <p>管理员姓名</p>
-          <p>12312312312</p>
+          <p>18300562365</p>
         </div>
       </a-col>
     </a-row>

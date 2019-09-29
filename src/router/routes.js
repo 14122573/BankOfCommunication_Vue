@@ -426,22 +426,22 @@ const appRoutes = [{
     children: [{
       path: '/kpjd/declare/Declare',
       name: '/kpjd/declare/Declare',
-      meta: { title: '提交基地申报', menuPath: true, authCode: 'S010101', menuIcon: 'appstore', hideInBread: false, openMode: 'spa' }
+      meta: { title: '申报管理', menuPath: true, authCode: 'S010101', menuIcon: 'appstore', hideInBread: false, openMode: 'spa' }
     },
     {
       path: '/kpjd/declare/DeclareReview',
       name: '/kpjd/declare/DeclareReview',
-      meta: { title: '基地申报初审', menuPath: true, authCode: 'S010102', menuIcon: 'appstore', hideInBread: false, openMode: 'spa' }
+      meta: { title: '申报初审', menuPath: true, authCode: 'S010102', menuIcon: 'appstore', hideInBread: false, openMode: 'spa' }
     },
     {
       path: '/kpjd/declare/Trial',
       name: '/kpjd/declare/Trial',
-      meta: { title: '基地申报组织专家', menuPath: true, authCode: 'S010103', menuIcon: 'appstore', hideInBread: false, openMode: 'spa' }
+      meta: { title: '组织专家', menuPath: true, authCode: 'S010103', menuIcon: 'appstore', hideInBread: false, openMode: 'spa' }
     },
     {
       path: '/kpjd/declare/organizationExpert',
       name: '/kpjd/declare/organizationExpert',
-      meta: { title: '基地申报专家评审', menuPath: true, authCode: 'S010104', menuIcon: 'appstore', hideInBread: false, openMode: 'spa' },
+      meta: { title: '线上评分', menuPath: true, authCode: 'S010104', menuIcon: 'appstore', hideInBread: false, openMode: 'spa' },
       children:[
         {
           path: '/kpjd/declare/Declare/DeclareInfo',
@@ -473,7 +473,7 @@ const appRoutes = [{
     {
       path: '/kpjd/judge/judgeTable',
       name: '/kpjd/judge/judgeTable',
-      meta: { title: '评判标准管理', menuPath: true, authCode: 'S010108', menuIcon: 'appstore', hideInBread: false, openMode: 'spa' }
+      meta: { title: '评判标准', menuPath: true, authCode: 'S010108', menuIcon: 'appstore', hideInBread: false, openMode: 'spa' }
     },
     ]
   },
