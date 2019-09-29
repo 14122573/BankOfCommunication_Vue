@@ -52,6 +52,21 @@ let expertReviewRouter = {
       routerName:'/scylzc/afVerification/list/view',
       authCode: 'S05030103',
     },
+  ],
+  // KPJYWritten 中国水产学会科普教育基地评审
+  // TTBZWritten 中国水产学会团体标准函审
+  'S0101':[ //科普教育基地
+    {
+      type:'review',
+      reviewTypeCode:'KPJYWritten',
+      routerName:'/kpjd/declare/organizationExpert/expertAdd',
+      authCode: 'S01010402',
+    },
+    {
+      type:'detail',
+      routerName:'/kpjd/declare/Declare/DeclareInfo',
+      authCode: 'S05030103',
+    },
   ]
 }
 

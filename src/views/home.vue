@@ -9,7 +9,7 @@
       <p class="workspacDocTitle">
         <span><a-divider class="divider" type="vertical"></a-divider> 操作手册</span>
       </p>
-      <a-row class="workspacDocBody" gutter='10'>
+      <a-row class="workspacDocBody" :gutter='10'>
         <a-col span='6'>
           <p class="workspacDocItem"><a>国家水生国家水生国家水生国家水生国家水生.doc</a></p>
         </a-col>

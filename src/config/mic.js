@@ -17,6 +17,12 @@ case 'devol': // 本地线上部署环境下
     pathPrefix: '/scsd'
   },
   {
+    baseUrl: 'http://txc.tao.com', // 科普基地
+    resourceName: 'kpjd',
+    micId: 'mic:kpjd',
+    pathPrefix: '/kpjd'
+  },
+  {
     baseUrl: 'http://scylzc.tao.com', // 原良种验收
     resourceName: 'scylzc',
     micId: 'mic:scylzc',
@@ -93,6 +99,12 @@ default: // 默认环境下（开发环境）
     micId: 'mic:scsd',
     pathPrefix: '/scsd'
   },
+  {
+    baseUrl: 'http://txc.tao.com', // 科普基地
+    resourceName: 'kpjd',
+    micId: 'mic:kpjd',
+    pathPrefix: '/kpjd'
+  }
     // {
     //   baseUrl:'http://scylzc.tao.com', // 原良种验收
     //   resourceName:'scylzc',
