@@ -361,6 +361,67 @@ const appRoutes = [{
     }
     ]
   },
+  //水生动物防疫系统实验室能力验证
+  {
+    path: '/ssdw',
+    name: 'ssdw',
+    component: contentWrapper,
+    meta: { title: '水生动物防疫系统实验室能力验证', menuPath: true, authCode: 'S0601', menuIcon: 'barcode', hideInBread: true },
+    children: [
+      {
+        path: '/ssdw/disease/ssdwDisease', name: '/ssdw/disease/ssdwDisease',
+        meta: { title: '疾病信息管理', menuPath:true, authCode:'S060101', hideInBread:false, menuIcon: 'appstore', openMode: 'spa'}
+      },
+      {
+        path: '/ssdw/unitInfo/ssdwUnitInfo', name: '/ssdw/unitInfo/ssdwUnitInfo',
+        meta: { title: '单位信息管理', menuPath:true, authCode:'S060102', hideInBread:false, menuIcon: 'appstore', openMode: 'spa'}
+      },
+      {
+        path: '/ssdw/plan/ssdwPlan', name: '/ssdw/plan/ssdwPlan',
+        meta: { title: '能力验证计划管理', menuPath:true, authCode:'S060103', hideInBread:false, menuIcon: 'appstore', openMode: 'spa'}
+      },
+      {
+        path: '/ssdw/tech/ssdwTechGet', name: '/ssdw/tech/ssdwTechGet',
+        meta: { title: '技术方案上报', menuPath:true, authCode:'S060104', hideInBread:false, menuIcon: 'appstore', openMode: 'spa'}
+      },
+      {
+        path: '/ssdw/tech/ssdwTech', name: '/ssdw/tech/ssdwTech',
+        meta: { title: '技术方案审批', menuPath:true, authCode:'S060105', hideInBread:false, menuIcon: 'appstore', openMode: 'spa'}
+      },
+      {
+        path: '/ssdw/enroll/ssdwEnrollGet', name: '/ssdw/enroll/ssdwEnrollGet',
+        meta: { title: '能力验证计划报名', menuPath:true, authCode:'S060111', hideInBread:false, menuIcon: 'appstore', openMode: 'spa'}
+      },
+      {
+        path: '/ssdw/enroll/ssdwEnroll', name: '/ssdw/enroll/ssdwEnroll',
+        meta: { title: '能力验证计划报名审批', menuPath:true, authCode:'S060106', hideInBread:false, menuIcon: 'appstore', openMode: 'spa'}
+      },
+      {
+        path: '/ssdw/sample/ssdwSample', name: '/ssdw/sample/ssdwSample',
+        meta: { title: '样品管理', menuPath:true, authCode:'S060107', hideInBread:false, menuIcon: 'appstore', openMode: 'spa'}
+      },
+      {
+        path: '/ssdw/sample/ssdwSampleRecive', name: '/ssdw/sample/ssdwSampleRecive',
+        meta: { title: '样品接收管理', menuPath:true, authCode:'S060112', hideInBread:false, menuIcon: 'appstore', openMode: 'spa'}
+      },
+      {
+        path: '/ssdw/sample/ssdwSampleVerify', name: '/ssdw/sample/ssdwSampleVerify',
+        meta: { title: '验证报告上传', menuPath:true, authCode:'S060108', hideInBread:false, menuIcon: 'appstore', openMode: 'spa'}
+      },
+      {
+        path: '/ssdw/sample/ssdwSampleReport', name: '/ssdw/sample/ssdwSampleReport',
+        meta: { title: '验证报告结果判定', menuPath:true, authCode:'S060109', hideInBread:false, menuIcon: 'appstore', openMode: 'spa'}
+      },
+      {
+        path: '/ssdw/report/ssdwReport', name: '/ssdw/report/ssdwReport',
+        meta: { title: '总结报告上传', menuPath:true, authCode:'S060110', hideInBread:false, menuIcon: 'appstore', openMode: 'spa'}
+      },
+      {
+        path: '/ssdw/report/ssdwReportDown', name: '/ssdw/report/ssdwReportDown',
+        meta: { title: '总结报告下载', menuPath:true, authCode:'S060113', hideInBread:false, menuIcon: 'appstore', openMode: 'spa'}
+      },
+    ]
+  },
   //学术会议
   {
     path: '/xshy',
@@ -416,7 +477,6 @@ const appRoutes = [{
       },
     ]
   },
-
     //科普教育基地申报管理
   {
     path: '/kpjd',
@@ -752,6 +812,12 @@ const appRoutes = [{
     name: 'XXYY',
     component: TipsOutsite,
     meta: { title: '休闲渔业品牌管理系统', menuPath: true, menuIcon: 'experiment', authCode: 'XXYY', hideInBread: false, openMode: 'outsite' }
+  },
+  {
+    path: '/HYMC/:sysname',
+    name: 'HYMC',
+    component: TipsOutsite,
+    meta: { title: '海洋牧场', menuPath: true, menuIcon: 'experiment', authCode: 'HYMC', hideInBread: false, openMode: 'outsite' }
   }
   ],
 },

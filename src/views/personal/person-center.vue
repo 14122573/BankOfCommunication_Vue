@@ -109,7 +109,7 @@ export default {
     getSysList(){
       let authSysList = []
       if(this.$com.oneOf('S1001',this.$store.state.permissionCodeList)){
-        authSysList.push('学术会议')
+        authSysList.push('中国水产学会学术会议管理')
       }
       if(this.$com.oneOf('S1002',this.$store.state.permissionCodeList)){
         authSysList.push('范蠡奖评审')
@@ -132,8 +132,14 @@ export default {
       if(this.$com.oneOf('S0101',this.$store.state.permissionCodeList)){
         authSysList.push('科普教育基地申报管理')
       }
+      if(this.$com.oneOf('S0503',this.$store.state.permissionCodeList)){
+        authSysList.push('水产原良种场验收审定')
+      }
       if(this.$com.oneOf('S0502',this.$store.state.permissionCodeList)){
-        authSysList.push('源良种场')
+        authSysList.push('水产原良种场复查审定')
+      }
+      if(this.$com.oneOf('S0804',this.$store.state.permissionCodeList)){
+        authSysList.push('智慧报表管理')
       }
       if(this.$com.oneOf('YQCB',this.$store.state.permissionCodeList)){
         authSysList.push('全国水产养殖动植物病情测报系统')
@@ -152,6 +158,9 @@ export default {
       }
       if(this.$com.oneOf('XXYY',this.$store.state.permissionCodeList)){
         authSysList.push('休闲渔业品牌管理系统')
+      }
+      if(this.$com.oneOf('HYMC',this.$store.state.permissionCodeList)){
+        authSysList.push('海洋牧场')
       }
       return authSysList
     }

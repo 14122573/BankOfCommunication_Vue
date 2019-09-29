@@ -91,6 +91,12 @@ case 'sit': // sit环境下
     micId: 'mic:xshy',
     pathPrefix: '/xshy'
   },
+  {
+    baseUrl: 'http://ssdw.omniview.pro', // 水生动物防疫系统实验室能力验证
+    resourceName: 'ssdw',
+    micId: 'mic:ssdw',
+    pathPrefix: '/ssdw'
+  },
   ]
   break
 case 'uat': // uat环境下
@@ -117,18 +123,6 @@ default: // 默认环境下（开发环境）
     micId: 'mic:kpjd',
     pathPrefix: '/kpjd'
   }
-    // {
-    //   baseUrl:'http://scylzc.tao.com', // 原良种验收
-    //   resourceName:'scylzc',
-    //   micId:'mic:scylzc',
-    //   pathPrefix:'/scylzc'
-    // },
-    // {
-    //   baseUrl:'http://ylzcre.tao.com', // 原良种复查
-    //   resourceName:'ylzcre',
-    //   micId:'mic:ylzcre',
-    //   pathPrefix:'/ylzcre'
-    // }
   ]
   break
 };
