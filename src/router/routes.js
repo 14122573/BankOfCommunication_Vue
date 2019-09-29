@@ -361,6 +361,62 @@ const appRoutes = [{
     }
     ]
   },
+  //学术会议
+  {
+    path: '/xshy',
+    name: 'xshy',
+    component: contentWrapper,
+    meta: { title: '中国水产学会学术会议管理', menuPath: true, authCode: 'S1001', menuIcon: 'barcode', hideInBread: true },
+    children: [
+      // 会议管理路由
+      {
+        path: '/xshy/release/acmMeetingRelease', name: '/xshy/release/acmMeetingRelease',
+        meta: { title: '会议管理', menuPath: true, authCode: 'S100102', hideInBread: false, menuIcon: 'sound', openMode: 'spa'  },
+      },
+      {
+        path: '/xshy/push/acmPushNotf', name: '/xshy/push/acmPushNotf',
+        meta: { title: '会议信息推送', menuPath: true, authCode: 'S100103', hideInBread: false, menuIcon: 'bell', openMode: 'spa'  },
+      },
+      {
+        path: '/xshy/sign/acmMeetingHome', name: '/xshy/sign/acmMeetingHome',
+        meta: { title: '会议报名', menuPath: true, authCode: 'S100109', hideInBread: false, menuIcon: 'table', openMode: 'spa'  },
+      },
+      {
+        path: '/xshy/sign/acmMeetingSignSingle', name: '/xshy/sign/acmMeetingSignSingle',
+        meta: { title: '报名历史', menuPath: true, authCode: 'S100110', hideInBread: false, menuIcon: 'table', openMode: 'spa'  },
+      },
+      {
+        path: '/xshy/sign/acmMeetingSign', name: '/xshy/sign/acmMeetingSign',
+        meta: { title: '报名信息管理', menuPath: true, authCode: 'S100108', hideInBread: false, menuIcon: 'form', openMode: 'spa'  },
+      },
+      // 理事投票路由
+      {
+        path: '/xshy/menber/acmBoardMenber', name: '/xshy/menber/acmBoardMenber',
+        meta: { title: '理事成员管理', menuPath: true, authCode: 'S100107', hideInBread: false, menuIcon: 'team', openMode: 'spa' },
+      },
+      {
+        path: '/xshy/meeting/acmBoardMeetingIssue', name: '/xshy/meeting/acmBoardMeetingIssue',
+        meta: { title: '理事议题库', menuPath: true, authCode: 'S100106', hideInBread: false, menuIcon: 'table', openMode: 'spa' },
+      },
+      {
+        path: '/xshy/meeting/acmBoardMeeting', name: '/xshy/meeting/acmBoardMeeting',
+        meta: { title: '理事会议管理', menuPath: true, authCode: 'S100104', hideInBread: false, menuIcon: 'table', openMode: 'spa' },
+      },
+      {
+        path: '/xshy/meeting/acmBoardMeetingIssueStatis', name: '/xshy/meeting/acmBoardMeetingIssueStatis',
+        meta: { title: '理事议题结果', menuPath: true, authCode: 'S100105', hideInBread: false, menuIcon: 'table', openMode: 'spa' },
+      },
+      {
+        path: '/xshy/meetingMem/acmBoardMeetingMem', name: '/xshy/meetingMem/acmBoardMeetingMem',
+        meta: { title: '理事会议管理', menuPath: true, authCode: 'S100111', hideInBread: false, menuIcon: 'table', openMode: 'spa' },
+      },
+      {
+        path: '/xshy/meetingMem/acmBoardMeetingIssueVote', name: '/xshy/meetingMem/acmBoardMeetingIssueVote',
+        meta: { title: '理事议题投票', menuPath: true, authCode: 'S100112', hideInBread: false, menuIcon: 'table', openMode: 'spa' },
+      },
+    ]
+  },
+
     //科普教育基地申报管理
   {
     path: '/kpjd',
