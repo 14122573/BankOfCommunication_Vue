@@ -44,41 +44,53 @@ case 'devol': // 本地线上部署环境下
   break
 case 'sit': // sit环境下
   MicConfig = [{
-    baseUrl: 'http://scsd.omniview.pro',
+    baseUrl: 'http://scsd.omniview.pro', //新品种
     resourceName: 'scsd',
     micId: 'mic:scsd',
     pathPrefix: '/scsd'
   },
   {
-    baseUrl: 'http://scylzc.omniview.pro',
+    baseUrl: 'http://scylzc.omniview.pro', //原良种验收
     resourceName: 'scylzc',
     micId: 'mic:scylzc',
     pathPrefix: '/scylzc'
   },
   {
-    baseUrl: 'http://ylzcre.omniview.pro',
+    baseUrl: 'http://ylzcre.omniview.pro', //原良种复查
     resourceName: 'ylzcre',
     micId: 'mic:ylzcre',
     pathPrefix: '/ylzcre'
   },
   {
-    baseUrl: 'http://bbgl.omniview.pro',
+    baseUrl: 'http://bbgl.omniview.pro', //智慧报表
     resourceName: 'bbgl',
     micId: 'mic:bbgl',
     pathPrefix: '/bbgl'
   },
   {
-    baseUrl: 'http://zlzs.omniview.pro',
+    baseUrl: 'http://zlzs.omniview.pro', //质量安全追述
     resourceName: 'zlzs',
     micId: 'mic:zlzs',
     pathPrefix: '/zlzs'
   },
   {
-    baseUrl: 'http://yysygl.omniview.pro',
+    baseUrl: 'http://yysygl.omniview.pro', //智慧报表
     resourceName: 'yysygl',
     micId: 'mic:yysygl',
     pathPrefix: '/yysygl'
-  }
+  },
+  {
+    baseUrl: 'http://kpjd.omniview.pro', // 科普基地
+    resourceName: 'kpjd',
+    micId: 'mic:kpjd',
+    pathPrefix: '/kpjd'
+  },
+  {
+    baseUrl: 'http://xshy.omniview.pro', // 学术会议
+    resourceName: 'xshy',
+    micId: 'mic:xshy',
+    pathPrefix: '/xshy'
+  },
   ]
   break
 case 'uat': // uat环境下
