@@ -96,7 +96,6 @@ const ProjectReviewHistory = () =>
      *               spa 注册子前端项目的路由。注，此时设置的router.name为子项目展现路由名称的name，且需带上子项目名称前缀。如：/{micname}/{子项目router.name}，且无需设定router.component
      *               normal 本项目中自有路由
      *               outsite 新开标签页打开，此打开方式将不嵌套layout。对应读取的跳转链接在，config/outside-config.js下。对象键值名需与router.name、router.meta.authCode保持一致
-     *
      */
 const appRoutes = [{
   path: '/',
