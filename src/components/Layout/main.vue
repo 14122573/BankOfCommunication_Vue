@@ -32,7 +32,7 @@
 								</span>
 								<a-menu slot="overlay" @click="handleClick">
 									<a-menu-item key="person">账户信息</a-menu-item>
-									<a-menu-item key="expert">专家个人信息</a-menu-item>
+									<a-menu-item v-if="$permission('P21001')" key="expert">专家个人信息</a-menu-item>
 									<a-menu-item key="logout">退出登录</a-menu-item>
 								</a-menu>
 							</a-dropdown>

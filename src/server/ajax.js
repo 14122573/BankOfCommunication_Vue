@@ -43,7 +43,9 @@ const reponseCodeHandler = (res) => {
       })
     } else if (code == '900') {
       router.push({ name: 'noauth' })
-    } else if (code == '710' || code == '720') {
+    } else if (code == '429') {//同一对外IP，2s内请求超过100次
+      router.push({ name: 'upperLimitErr' })
+    }else if (code == '710' || code == '720') {
       // message.error('')
     }
   }

@@ -1,28 +1,124 @@
-.layoutMargin { background-color:#fff; margin: 16px 16px 0 16px; }
-.layoutPadding { padding: 20px;}
+.layoutMargin {
+    background-color: #fff;
+    margin: 16px 16px 0 16px;
+}
+.layoutPadding {
+    padding: 20px;
+}
 .routerWapper { height: 100%;}
+.contentPadding { padding: 20px 10px }
+
 /* 全局table设置 */
-.portalTableOperates { margin-bottom: 10px;}
-.portalTable { margin-bottom: 16px;}
-.portalTable .actionBtn { color:#1890ff; cursor: pointer;}
+
+.portalTableOperates {
+    margin-bottom: 10px;
+}
+
+.portalTable {
+    margin-bottom: 16px;
+}
+
+.portalTable .actionBtn {
+    color: #1890ff;
+    cursor: pointer;
+}
+
+
 /* 全局基础样式设置 */
-.algin-right { text-align: right; }
-.gayLine { display:block; clear: both; width: 100%; border-bottom: 1px dashed #e0e0e0; margin: 20px 0}
-.gayLine.noline { border-color: transparent}
+
+.algin-right {
+    text-align: right;
+}
+
+.gayLine {
+    display: block;
+    clear: both;
+    width: 100%;
+    border-bottom: 1px dashed #e0e0e0;
+    margin: 20px 0
+}
+
+.gayLine.noline {
+    border-color: transparent
+}
+
+
 /* 全局表单样式 */
-.protalForm .formItem { width: 100%}
-.protalForm .formItemLine { margin-bottom: 10px;}
+
+.protalForm .formItem {
+    width: 100%
+}
+
+.protalForm .formItemLine {
+    margin-bottom: 10px;
+}
+
 
 /* 详情页 */
-.portalDetailWapper { height: 100%;}
-.portalDetailTitle {position: relative; z-index: 2;  background-color: #fff;  text-align: left; box-shadow:0 2px 5px #e0e0e0 }
-.portalDetailTitle .title{ font-size:16px; font-weight: bold; color: #232323; height: 60px; line-height: 60px; padding-left: 1rem  }
-.portalDetailTitle .detailOperations {float:right; margin: 14px 1rem 0 0}
-.portalDetailContentWapper { position: relative; z-index: 1; height:calc(100% - 60px)}
-.portalDetailContentBody { position: relative; z-index: 1; overflow: hidden; overflow-y: scroll; padding-bottom: 20px; height: 100%;}
-.portalDetailContentWapper .detailsPartSection{ margin-top: 20px; padding-bottom:20px;  }
-.portalDetailContentWapper .detailsPartTitle { text-align: left; font-weight: bold; color: #232323; margin: 0 16px 16px 16px; font-size: 16px; text-indent: 0.5rem; line-height: 60px; border-bottom: 1px solid #e0e0e0; }
-.portalDetailContentWapper .detailsPartLine { margin-bottom: 16px}
+
+.portalDetailWapper {
+    height: 100%;
+}
+
+.portalDetailTitle {
+    position: relative;
+    z-index: 2;
+    background-color: #fff;
+    text-align: left;
+    box-shadow: 0 2px 5px #e0e0e0
+}
+
+.portalDetailTitle .title {
+    font-size: 16px;
+    font-weight: bold;
+    color: #232323;
+    height: 60px;
+    line-height: 60px;
+    padding-left: 1rem
+}
+
+.portalDetailTitle .detailOperations {
+    float: right;
+    margin: 14px 1rem 0 0
+}
+
+.portalDetailContentWapper {
+    position: relative;
+    z-index: 1;
+    height: calc(100% - 60px)
+}
+
+.portalDetailContentBody {
+    position: relative;
+    z-index: 1;
+    overflow: hidden;
+    overflow-y: scroll;
+    padding-bottom: 20px;
+    height: 100%;
+}
+
+.portalDetailContentWapper .detailsPartSection {
+    margin-top: 20px;
+    padding-bottom: 20px;
+}
+
+.portalDetailContentWapper .detailsPartTitle {
+    text-align: left;
+    font-weight: bold;
+    color: #232323;
+    margin: 0 16px 16px 16px;
+    font-size: 16px;
+    text-indent: 0.5rem;
+    line-height: 60px;
+    border-bottom: 1px solid #e0e0e0;
+}
+
+.portalDetailContentWapper .detailsPartLine { margin-bottom: 16px }
+
+
 /* 权限树详情页 */
-.portalRoleTree { display: flex; flex-wrap:wrap;}
-.portalRoleTree > li {flex: 0 0 33%;  }
+.portalRoleTree { display: flex; flex-wrap: wrap; }
+.portalRoleTree>li { flex: 0 0 25%; }
+.portalRoleConfigTree .ant-tree-child-tree{ display: flex; flex-wrap: wrap; }
+.portalRoleConfigTree .ant-tree-child-tree{ display: flex; flex-wrap: wrap; }
+.portalRoleTree.ant-tree>li>.ant-tree-node-content-wrapper,.portalRoleConfigTree.ant-tree>li>.ant-tree-node-content-wrapper{ font-weight: bold }

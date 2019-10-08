@@ -10,7 +10,7 @@
 
     <div class="portalDetailContentWapper">
       <a-form class="portalDetailContentBody" :form="formData">
-        <div class="layoutMargin detailsPartSection dis-edit">
+        <div class="layoutMargin detailsPartSection contentPadding">
           <UserDetail :id="$route.query.id" />
           <a-divider style="margin-top:0px;" dashed />
           <a-row class="formItemLine">
@@ -317,11 +317,6 @@ export default {
   }
 }
 </script>
-<style scoped>
-	.dis-edit{
-    padding-top:20px;
-  }
-</style>
 <style>
 	.distribution-span li.ant-tree-treenode-disabled>span:not(.ant-tree-switcher),
 	li.ant-tree-treenode-disabled>.ant-tree-node-content-wrapper,

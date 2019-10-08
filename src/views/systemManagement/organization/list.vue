@@ -1,13 +1,13 @@
 <template>
 	<div class="routerWapper">
-		<div v-if="$route.name == '/systemManagement/organization'" class="layoutMargin layoutPadding" style="height:96%">
-			<a-row :gutter="20" style="height:100%">
-				<a-col :span="6" style="height:100%;">
+		<div v-if="$route.name == '/systemManagement/organization'" class="layoutMargin layoutPadding">
+			<a-row :gutter="20">
+				<a-col :span="6">
 					<div class="institutionalTreeWapper">
 						<h2 class="institutionalTreeTitle">行政区域</h2>
-						<div class="institutionalTree">
-							<a-tree showLine @select="onSelect" v-if="defaultSelectedKeys.length>0" :treeData="treeData"
-							 :defaultSelectedKeys="defaultSelectedKeys" :loadData="onLoadData">
+						<div class="institutionalTree" style="height:450px">
+							<a-tree showLine @select="onSelect" @expand="expand" :expandedKeys="expandedKeys" v-if="selectedKeys.length>0"
+							 :treeData="treeData" :selectedKeys="selectedKeys" :loadData="onLoadData">
 							</a-tree>
 						</div>
 					</div>
@@ -34,14 +34,14 @@
 					<p class="gayLine"></p>
 					<div class="portalTableOperates">
 						<a-button icon='plus' v-if="$permission('P01001')" type="primary" @click="handleAdd">新建组织机构</a-button>
-						<a-button icon='download' v-if="$permission('P01005')" @click="toUpload">批量导入组织机构</a-button>
+						<!-- <a-button icon='download' v-if="$permission('P01005')" @click="toUpload">批量导入组织机构</a-button> -->
 					</div>
 					<a-table class="portalTable" size='small' :columns="columns" rowKey="groupName" :dataSource="dataSource"
 					 :pagination="pagination">
 						<span slot="action" slot-scope="text, record">
 							<span class="actionBtn" v-if="$permission('P01002')" @click="$router.push({name:'/systemManagement/organization/view',query:{id:record.id}})">查看</span>
 							<a-divider v-if="$permission('P01002')" type="vertical" />
-							<span class="actionBtn" v-if="$permission('P01003')" @click="$router.push({name:'/systemManagement/organization/edit',query:{id:record.id,data:JSON.stringify(transData)}})">修改</span>
+							<span class="actionBtn" v-if="$permission('P01003')" @click="handleEdit(record)">修改</span>
 							<a-divider v-if="$permission('P01003')" type="vertical" />
 							<span class="actionBtn" v-if="$permission('P01004')" @click="deleteBtn(text,record)">删除</span>
 						</span>
@@ -72,7 +72,7 @@
 
 	.institutionalTreeWapper>div {
 		height: calc(100% - 50px);
-		width: calc(100% - 20px);
+		width: calc(100% - 10px);
 		padding: 5px;
 		overflow-y: auto;
 		overflow-x: scroll;
@@ -134,7 +134,8 @@ export default {
       areaCode: '',
       opeationItem: {},
       treeData: [],
-      defaultSelectedKeys: [],
+      selectedKeys: [],
+      expandedKeys: ['all'],
       transData: {},
       pagination: {
         pageNo: 1,
@@ -148,7 +149,14 @@ export default {
     }
   },
   mounted() {
-    this.getArea()
+    if (this.$route.name == '/systemManagement/organization') {
+      this.getArea()
+    }
+  },
+  watch: {
+    areaCode() {
+      this.selectedKeys = [String(this.areaCode)]
+    }
   },
   methods: {
     //导入
@@ -196,7 +204,7 @@ export default {
       const params = Object.assign(options, {
         pageSize: this.pagination.pageSize,
         pageNo: this.pagination.pageNo,
-        areaCode: this.areaCode
+        areaCode: this.areaCode == 'all' ? '' : this.areaCode
       })
       this.$ajax.get({
         url: this.$api.GET_ORGANIZATION_LIST,
@@ -214,12 +222,16 @@ export default {
         }
       }).then(res => {
         let datas = this.$com.confirm(res, 'data.content', [])
+        let trees = []
         datas.forEach((ele, index) => {
-          this.treeData.push(this.getTreeNode(ele, index))
+          trees.push(this.getTreeNode(ele, index))
         })
-        this.areaCode = this.treeData[0].id
-        this.transData.area = this.treeData[0]
-        this.defaultSelectedKeys = [this.areaCode]
+        this.treeData = [{
+          title: '全部',
+          key: 'all',
+          children: trees
+        }]
+        this.areaCode = 'all'
         this.getLists()
       })
     },
@@ -229,6 +241,9 @@ export default {
         id: item.id,
         key: item.id,
         parentId: item.parentId
+      }
+      if (item.id.length == '9') {
+        childrenNode.isLeaf = true
       }
       return childrenNode
     },
@@ -259,9 +274,13 @@ export default {
       this.pagination.pageNo = 1
       this.pagination.current = 1
       this.areaCode = selectedKeys[0]
-      this.defaultSelectedKeys = [selectedKeys[0]]
       this.transData.area = info.node.dataRef
-      this.getLists()
+      if (!this.areaCode) {
+        this.areaCode = 'all'
+        this.getLists()
+      } else {
+        this.getLists()
+      }
     },
     //搜索
     handleSearch() {
@@ -283,14 +302,36 @@ export default {
       this.getLists()
     },
     handleAdd() {
-      if (this.areaCode == undefined) {
-        this.$message.error('请先选择行政区域节点再去新增！')
-      } else {
+      if (this.areaCode && this.areaCode !== 'all') {
         this.$router.push({
           name: '/systemManagement/organization/create',
           query: {
             data: JSON.stringify(this.transData)
           }
+        })
+      } else {
+        this.$model.warning({
+          title: '提示',
+          content: '请先选择具体的行政区域节点再去新增！'
+        })
+      }
+    },
+    expand(expandedKeys) {
+      this.expandedKeys = expandedKeys
+    },
+    handleEdit(record) {
+      if (this.areaCode && this.areaCode !== 'all') {
+        this.$router.push({
+          name: '/systemManagement/organization/edit',
+          query: {
+            id: record.id,
+            data: JSON.stringify(this.transData)
+          }
+        })
+      } else {
+        this.$model.warning({
+          title: '提示',
+          content: '请先选择具体的行政区域节点再去修改！'
         })
       }
     }

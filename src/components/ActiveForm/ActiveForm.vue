@@ -21,30 +21,30 @@ import ActiveFormItem from './ActiveFormItem'
 export default {
   name: 'ActiveForm',
   components: {
-    ActiveFormItem,
+    ActiveFormItem
   },
   props: {
     layout: {
       type: Array,
-      required: true,
+      required: true
     },
     model: {
       type: Object,
-      default() {
+      default () {
         return {}
-      },
+      }
     },
     labelWidth: {
       type: Number,
-      default() {
+      default () {
         return 5
       }
     }
   },
-  created() {
+  created () {
     this.filterDateItem()
   },
-  data() {
+  data () {
     return {
       form: this.$form.createForm(this, {
         // 当表单值变化时同时赋给model
@@ -52,25 +52,26 @@ export default {
           this.model = Object.assign(this.model, this.operateDateItem(val, true))
         }
       }),
-      dateItems: {},
+      dateItems: {}
     }
   },
-  mounted() {
+  mounted () {
+    const model = this.filterDataModel(this.model)
     // 根据model初始化表单值
-    this.form.setFieldsValue(this.operateDateItem(this.model, false))
+    this.form.setFieldsValue(this.operateDateItem(model, false))
   },
   methods: {
     // 表单验证，上级组件可以通过this.$refs来调用此函数
-    validate(callback) {
+    validate (callback) {
       this.form.validateFields((err, values) => {
         callback(err, values)
       })
     },
     // 筛选layout中的日期组件
-    filterDateItem() {
+    filterDateItem () {
       const result = {}
       this.layout.forEach(item => {
-        for (let key in item) {
+        for (const key in item) {
           if (item[key].type && (item[key].type == 'date' || item[key].type == 'daterange')) {
             result[key] = item[key]
           }
@@ -79,9 +80,9 @@ export default {
       this.dateItems = result
     },
     // 由于antd的日期组件都是moment格式，这里进行了转化成字符串
-    operateDateItem(obj, isMomentToString) {
-      const model = {...obj}
-      for (let key in model) {
+    operateDateItem (obj, isMomentToString) {
+      const model = { ...obj }
+      for (const key in model) {
         const dateItem = this.dateItems[key]
         if (!dateItem) return model
         if (dateItem.type == 'date') {
@@ -102,18 +103,37 @@ export default {
       }
       return model
     },
+    // 过滤掉layout中不存在的字段，防止You cannot set a form field before rendering a field associated with the value.的错误
+    filterDataModel (model) {
+      const keys = Object.keys(model)
+      if (keys.length <= 0) return {}
+      const list = []
+      if (this.layout.length > 0) {
+        this.layout.forEach(item => {
+          list.push(...Object.keys(item))
+        })
+      }
+      const result = {}
+      keys.forEach(key => {
+        if (list.indexOf(key) >= 0) {
+          result[key] = model[key]
+        }
+      })
+      return result
+    }
   },
   watch: {
-    model(cur, past) {
+    model (cur, past) {
       // 通过监听model来判断reset表单或给表单重新设置值
       const keys = Object.keys(cur)
+      const result = this.filterDataModel(cur)
       if (keys.length <= 0) {
         this.form.resetFields()
       } else {
         this.form.resetFields()
-        this.form.setFieldsValue(this.operateDateItem(cur, false))
+        this.form.setFieldsValue(this.operateDateItem(result, false))
       }
-    },
+    }
   }
 }
 </script>

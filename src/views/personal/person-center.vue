@@ -5,10 +5,9 @@
         <a-row type="flex" justify="space-between">
           <a-col span="4"> 基本信息 </a-col>
           <a-col offset="12" span="4" class="algin-right">
-            <a-button>修改密码</a-button>
+            <a-button @click="showChangePwdModal">修改密码</a-button>
           </a-col>
         </a-row>
-
       </p>
       <a-row class="detailsPartLine">
         <a-col span="8">
@@ -49,11 +48,12 @@
         <a-alert class="margin" message="您是超级管理员，将不详细展示权限内子系统清单" type="info" showIcon />
       </template>
       <template v-else>
-        <div class="margin" v-for="(item,index) in authSysList" :key="index">
-          <a-tag class="tag" color="blue" >{{item}}</a-tag>
+        <div class="margin">
+          <a-tag class="tag" color="blue" v-for="(item,index) in authSysList" :key="index">{{item}}</a-tag>
         </div>
       </template>
     </div>
+    <ChangePassword @on-close='closeChangePwdModal' :resetPwdShow='isShowChangePwd'></ChangePassword>
   </div>
 </template>
 <style scoped>
@@ -62,12 +62,17 @@
 </style>
 <script>
 import { permission, } from '@/util/mixins'
+import ChangePassword from '@/views/personal/changePassword'
 export default {
   name: 'PersonCenter',
   mixins: [permission],
+  components: {
+    ChangePassword
+  },
   data() {
     return {
-      userInfo:null
+      userInfo:null,
+      isShowChangePwd:false
     }
   },
   created() {
@@ -78,6 +83,9 @@ export default {
     }
   },
   computed:{
+    showChangePwd(){
+      return this.isShowChangePwd
+    },
     authSysList(){
       if(!this.userInfo){
         return []
@@ -88,6 +96,12 @@ export default {
     }
   },
   methods: {
+    showChangePwdModal(){
+      this.isShowChangePwd = true
+    },
+    closeChangePwdModal(){
+      this.isShowChangePwd = false
+    },
     /**
      * 根据权限，获取权限子系统清单
      * @returns {Array}
@@ -95,7 +109,7 @@ export default {
     getSysList(){
       let authSysList = []
       if(this.$com.oneOf('S1001',this.$store.state.permissionCodeList)){
-        authSysList.push('学术会议')
+        authSysList.push('中国水产学会学术会议管理')
       }
       if(this.$com.oneOf('S1002',this.$store.state.permissionCodeList)){
         authSysList.push('范蠡奖评审')
@@ -118,8 +132,14 @@ export default {
       if(this.$com.oneOf('S0101',this.$store.state.permissionCodeList)){
         authSysList.push('科普教育基地申报管理')
       }
+      if(this.$com.oneOf('S0503',this.$store.state.permissionCodeList)){
+        authSysList.push('水产原良种场验收审定')
+      }
       if(this.$com.oneOf('S0502',this.$store.state.permissionCodeList)){
-        authSysList.push('源良种场')
+        authSysList.push('水产原良种场复查审定')
+      }
+      if(this.$com.oneOf('S0804',this.$store.state.permissionCodeList)){
+        authSysList.push('智慧报表管理')
       }
       if(this.$com.oneOf('YQCB',this.$store.state.permissionCodeList)){
         authSysList.push('全国水产养殖动植物病情测报系统')
@@ -133,12 +153,17 @@ export default {
       if(this.$com.oneOf('SCYJ',this.$store.state.permissionCodeList)){
         authSysList.push('国家水生动物疫情预警系统')
       }
+      if(this.$com.oneOf('SCZN',this.$store.state.permissionCodeList)){
+        authSysList.push('“水产智能”健康养殖生产与大数据管理系统')
+      }
+      if(this.$com.oneOf('XXYY',this.$store.state.permissionCodeList)){
+        authSysList.push('休闲渔业品牌管理系统')
+      }
+      if(this.$com.oneOf('HYMC',this.$store.state.permissionCodeList)){
+        authSysList.push('海洋牧场')
+      }
       return authSysList
     }
   }
 }
 </script>
-
-<style>
-
-</style>
