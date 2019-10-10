@@ -178,7 +178,7 @@ export default {
       const params = Object.assign(options, {
         pageNo: this.pagination.pageNo,
         pageSize: this.pagination.pageSize,
-        'oa.status_in': '1',
+        'oa.status_in': '0,1',
         'ui.createTime_desc': '1'
       })
       this.$ajax.get({

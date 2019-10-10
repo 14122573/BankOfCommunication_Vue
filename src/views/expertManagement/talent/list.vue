@@ -2,7 +2,7 @@
 	<div class="routerWapper">
 		<div v-if="$route.name =='/expertManagement/talent'" class="layoutMargin layoutPadding">
 			<a-form :form="searchForm" class="protalForm">
-				<a-row type="flex" justify="space-between" class="formItemLine">
+				<a-row type="flex" justify="start" class="formItemLine">
 					<a-col span="6">
 						<a-form-item label="姓名" class="formItem" v-bind="colSpe">
 							<a-input v-decorator="['name_l']" placeholder="请输入"></a-input>
@@ -20,13 +20,13 @@
 							</a-select>
 						</a-form-item>
 					</a-col>
-					<a-col span="6">
+				</a-row>
+				<a-row type="flex" justify="space-between" class="formItemLine">
+					<a-col span="8">
 						<a-form-item label="用户状态" class="formItem" v-bind="colSpe">
 							<a-checkbox-group v-decorator="['status_in',{initialValue: []}]" :options="options.statusList"></a-checkbox-group>
 						</a-form-item>
 					</a-col>
-				</a-row>
-				<a-row type="flex" justify="end" class="formItemLine">
 					<a-col span="6" class="algin-right">
 						<a-button @click="reset">重置</a-button>
 						<a-button type="primary" @click="search">搜索</a-button>
@@ -43,8 +43,10 @@
 					<userStatus :status="record.status" />
 				</span>
 				<span slot="action" slot-scope="text, record">
-					<span class="actionBtn" @click="$router.push({name:'/expertManagement/talent/view',query:{id:record.expertId}})">查看<a-divider type="vertical" /></span>
-					<span class="actionBtn" @click="editBtn(record)">修改</span>
+					<span class="actionBtn" @click="$router.push({name:'/expertManagement/talent/view',query:{id:record.expertId}})">查看</span>
+          <template v-if="$com.oneOf(record.status,['0','1'])">
+					  <span class="actionBtn" @click="editBtn(record)"><a-divider type="vertical" />修改</span>
+          </template>
 				</span>
 			</a-table>
 		</div>
@@ -82,7 +84,11 @@ export default {
         ],
         statusList: [{
           label: '正常',
-          value: '0,1'
+          value: '1'
+        },
+        {
+          label: '禁用',
+          value: '9'
         },
         {
           label: '已注销',
@@ -169,9 +175,6 @@ export default {
       if(!!searchParams && !!searchParams.routeName && (this.$route.name == searchParams.routeName)){
         if(!!searchParams.params){
           this.searchForm.setFieldsValue(searchParams.params)
-          // Object.keys(searchParams.params).forEach(elem=>{
-          //   this.searchForm[elem] = searchParams.params[elem]
-          // })
         }
         if(!!searchParams.pagination){
           if(!!searchParams.pagination.pageNo && searchParams.pagination.pageNo!=1){
