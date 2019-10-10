@@ -54,8 +54,8 @@
             <DetailsItem :labelSpan='8' :textSpan="16" :label='"所属行政区域"' :text='(!detail.area||!detail.area.areaName)?"暂无":detail.area.areaName'></DetailsItem>
           </a-col>
         </a-row>
-        <div class="layoutMargin detailsPartLine" v-if="detailReady">
-          <a-tree class="portalRoleTree" checkable :treeData="treeData" v-model="checkedKeys" disabled />
+        <div class="layoutMargin detailsPartLine" >
+          <a-tree class="portalRoleTree" v-if="detailReady==2" checkable :treeData="treeData" v-model="checkedKeys" disabled />
         </div>
       </div>
     </div>
@@ -70,7 +70,7 @@ export default {
       checkedKeys: [],
       detail: {},
       treeData: [],
-      detailReady:false
+      detailReady:0
     }
   },
   mounted() {
@@ -106,6 +106,7 @@ export default {
         data.forEach((item, index) => {
           this.treeData.push(this.getTreeData(item, index))
         })
+        this.detailReady ++
       })
     },
     // 整理权限树
@@ -130,10 +131,13 @@ export default {
       }).then(res => {
         if (res.code === '200') {
           let data = res.data.content
-          this.checkedKeys = data.map((item) => {
-            return item.id
-          })
-          this.detailReady = true
+          for(let i=0;i<data.length;i++){
+            if(false ===data[i].canDelete){
+            }else{
+              this.checkedKeys.push(data[i].id)
+            }
+          }
+          this.detailReady ++
         }
       })
     }

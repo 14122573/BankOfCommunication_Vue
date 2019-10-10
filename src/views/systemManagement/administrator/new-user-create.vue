@@ -379,17 +379,19 @@ export default {
         })
         this.$ajax.get({
           url: this.$api.ROLE_DETAIL.replace('{id}', params)
-        })
-          .then(res => {
-            if (res.code === '200') {
-              let data = res.data.content
-              this.checkedKeys = data.map((item) => {
-                return item.id
-              })
-            } else {
-              this.$message.error(res.msg)
+        }).then(res => {
+          if (res.code === '200') {
+            let data = res.data.content
+            for(let i=0;i<data.length;i++){
+              if(false ===data[i].canDelete){
+              }else{
+                this.checkedKeys.push(data[i].id)
+              }
             }
-          })
+          } else {
+            this.$message.error(res.msg)
+          }
+        })
       }
     },
     getDetail() {
