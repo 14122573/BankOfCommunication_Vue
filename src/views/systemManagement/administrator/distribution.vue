@@ -41,7 +41,7 @@
         </div>
 			</a-form>
     </div>
-			
+
 	</div>
 </template>
 <script>
@@ -96,9 +96,12 @@ export default {
           .then(res => {
             if (res.code === '200') {
               let data = this.$com.confirm(res, 'data.content', [])
-              this.checkedKeys = data.map((item) => {
-                return item.id
-              })
+              for(let i=0;i<data.length;i++){
+                if(false ===data[i].canDelete){
+                }else{
+                  this.checkedKeys.push(data[i].id)
+                }
+              }
             } else {
               this.$message.error(res.msg)
             }
