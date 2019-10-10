@@ -54,7 +54,7 @@
             <DetailsItem :labelSpan='8' :textSpan="16" :label='"所属行政区域"' :text='(!detail.area||!detail.area.areaName)?"暂无":detail.area.areaName'></DetailsItem>
           </a-col>
         </a-row>
-        <div class="layoutMargin detailsPartLine">
+        <div class="layoutMargin detailsPartLine" v-if="detailReady">
           <a-tree class="portalRoleTree" checkable :treeData="treeData" v-model="checkedKeys" disabled />
         </div>
       </div>
@@ -69,7 +69,8 @@ export default {
       defaultExpandedKeys: [],
       checkedKeys: [],
       detail: {},
-      treeData: []
+      treeData: [],
+      detailReady:false
     }
   },
   mounted() {
@@ -132,6 +133,7 @@ export default {
           this.checkedKeys = data.map((item) => {
             return item.id
           })
+          this.detailReady = true
         }
       })
     }

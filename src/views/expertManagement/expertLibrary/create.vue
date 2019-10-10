@@ -66,12 +66,13 @@
                 </a-col>
                 <a-col span="8">
                   <a-form-item label="一寸照" v-bind="colSpa">
-                    <a-upload listType="picture-card" :fileList="fileList"
-                      @preview="handlePreview"
+                    <a-upload listType="picture-card" class="avatar-uploader"
+                      :fileList="fileList"
+                      :customRequest="(data) =>{handleUpload(data,fileList)}"
                       :remove="handleRemove"
                       :beforeUpload="beforeUpload"
-                      class="avatar-uploader"
-                      accept=".jpg,.jpeg"
+                      :accept="fileUpload.acceptTypes"
+                      @preview="handlePreview"
                       >
                       <div v-if="fileList.length < 1">
                         <a-icon type="cloud-upload" style="fontSize:24px" />
@@ -127,7 +128,7 @@
           <a-anchor-link href="#management" title="相关管理信息" />
         </a-anchor>
       </div>
-      
+
     </div>
 
 		<a-modal :visible="previewVisible"  style="text-align:center" :width="600" :footer="null" @cancel="previewVisible = false">
@@ -178,13 +179,6 @@ export default {
         }
       }
     }
-    const validateImg = (rule, value, callback) => {
-      if (this.fileList.length === 0) {
-        callback('请上传一寸照!')
-      } else {
-        callback()
-      }
-    }
     return {
       changeSmall:false,
       options: {
@@ -201,7 +195,6 @@ export default {
         provinceConfirmList: [{ label: '是', value: '是' },{ label: '否', value: '否' }],
         unitConfirmList: [{ label: '是', value: '是' },{ label: '否', value: '否' }]
       },
-      fileList: [],
       colSpa: {
         labelCol: { span: 10 },
         wrapperCol: { span: 12 }
@@ -212,6 +205,11 @@ export default {
       },
       previewVisible: false,
       previewImage: '',
+      fileList: [],
+      fileUpload:{
+        acceptTypes:'.jpg,.jpeg',
+        acceptTypesArray:['jpg','jpeg']
+      },
       rules: {
         loginPhone:[
           { required: true, whitespace: true, message: '请输入联系电话!' },
@@ -244,7 +242,6 @@ export default {
         position: [
           { required: true, whitespace: true, message: '请选择职务!' }
         ],
-        // 一寸照
       }
     }
   },
@@ -289,39 +286,45 @@ export default {
       this.fileList = []
     },
     beforeUpload(file) {
-      const isLt5M = file.size / 1024 / 1024 < 5
-      if (!isLt5M) {
-        this.$message.error('一寸照最大不能超过5M!')
+      let fileNameArr = file.name.split('.')
+      let fileSuffix = fileNameArr[fileNameArr.length-1].toLowerCase()
+      let isAccept = this.$com.oneOf(fileSuffix,this.fileUpload.acceptTypesArray)
+      let isLt5M = file.size / 1024 / 1024 < 5
+      let message = ''
+      if(!isAccept){
+        message += !isAccept?('文件格式限定为'+this.fileUpload.acceptTypes+'；'):''
+      }
+      if(!isLt5M){
+        message += !islt200m?'一寸照需小于5M；':''
+      }
+      if(isAccept && isLt5M){
+        return true
+      }else{
+        this.$message.error(message)
         return false
       }
-      let fileList = [...this.fileList, file]
-      this.handleUpload(fileList)
-      return false
     },
-    handleUpload(fileList) {
+    handleUpload(data,fileList) {
       const formData = new FormData()
-      fileList.forEach(file => {
-        formData.append('file', file)
+      formData.append('file', data.file)
+      data.onProgress()
+      this.$ajax.post({
+        url: this.$api.UPLOAD_TEMP,
+        params: formData
+      }).then(res => {
+        if (res.code === '200') {
+          let data = this.$com.confirm(res, 'data.content', {})
+          this.fileList = []
+          this.fileList.push({
+            uid: data.id,
+            name: data.name,
+            status: 'done',
+            url: data.path
+          })
+        } else {
+          this.$message.error(res.msg)
+        }
       })
-      this.$ajax
-        .post({
-          url: this.$api.UPLOAD_TEMP,
-          params: formData
-        })
-        .then(res => {
-          if (res.code === '200') {
-            let data = this.$com.confirm(res, 'data.content', {})
-            this.fileList = []
-            this.fileList.push({
-              uid: data.id,
-              name: data.name,
-              status: 'done',
-              url: data.path
-            })
-          } else {
-            this.$message.error(res.msg)
-          }
-        })
     },
     // 取消
     back() {
@@ -361,10 +364,7 @@ export default {
       })
       let link, msg, methods
       if (this.$route.query.id) {
-        link = this.$api.EXPORT_TYPE_EDIT.replace(
-          '{experId}',
-          this.$route.query.id
-        )
+        link = this.$api.EXPORT_TYPE_EDIT.replace('{experId}',this.$route.query.id)
         methods = 'put'
         msg = '修改成功！'
       } else {
@@ -385,16 +385,43 @@ export default {
       })
     },
     getDetail() {
-      this.$ajax
-        .get({
-          url: this.$api.GET_EXPERT_DETAIL.replace(
-            '{experId}',
-            this.$route.query.id
-          ),
-          hideLoading: false
-        })
-        .then(res => {
-          let {
+      this.$ajax.get({
+        url: this.$api.GET_EXPERT_DETAIL.replace('{experId}',this.$route.query.id),
+        hideLoading: false
+      }).then(res => {
+        let {
+          loginPhone,
+          name,
+          sex,
+          minority,
+          workCompany,
+          identity,
+          companyNature,
+          companyAddress,
+          belongDepartment,
+          jobTitle,
+          position,
+          partTime,
+          graduatedSchool,
+          education,
+          bachelor,
+          profession,
+          workExperience,
+          mailingAddress,
+          phone,
+          email,
+          researchDirection,
+          performance,
+          achievements,
+          workArea,
+          professionGroup,
+          provinceConfirm,
+          unitConfirm,
+          historyWork,
+          portraitImg
+        } = this.$com.confirm(res, 'data.content', {})
+        this.$nextTick(() => {
+          this.form.setFieldsValue({
             loginPhone,
             name,
             sex,
@@ -406,7 +433,9 @@ export default {
             belongDepartment,
             jobTitle,
             position,
-            partTime,
+            partTime
+          })
+          this.$refs.jobStudy.formJob.setFieldsValue({
             graduatedSchool,
             education,
             bachelor,
@@ -414,7 +443,9 @@ export default {
             workExperience,
             mailingAddress,
             phone,
-            email,
+            email
+          })
+          this.$refs.jobSpace.formSpace.setFieldsValue({
             researchDirection,
             performance,
             achievements,
@@ -422,54 +453,18 @@ export default {
             professionGroup,
             provinceConfirm,
             unitConfirm,
-            historyWork,
-            portraitImg
-          } = this.$com.confirm(res, 'data.content', {})
-          this.$nextTick(() => {
-            this.form.setFieldsValue({
-              loginPhone,
-              name,
-              sex,
-              minority,
-              workCompany,
-              identity,
-              companyNature,
-              companyAddress,
-              belongDepartment,
-              jobTitle,
-              position,
-              partTime
-            })
-            this.$refs.jobStudy.formJob.setFieldsValue({
-              graduatedSchool,
-              education,
-              bachelor,
-              profession,
-              workExperience,
-              mailingAddress,
-              phone,
-              email
-            })
-            this.$refs.jobSpace.formSpace.setFieldsValue({
-              researchDirection,
-              performance,
-              achievements,
-              workArea,
-              professionGroup,
-              provinceConfirm,
-              unitConfirm,
-              historyWork
-            })
-            if(portraitImg != null){
-              this.fileList.push({
-                uid: -1,
-                name: portraitImg,
-                status: 'done',
-                url: portraitImg
-              })
-            }
+            historyWork
           })
+          if(portraitImg != null){
+            this.fileList.push({
+              uid: '-1',
+              name: portraitImg,
+              status: 'done',
+              url: portraitImg
+            })
+          }
         })
+      })
     },
     // 保存按钮
     save() {
@@ -486,12 +481,20 @@ export default {
           }
         })
       })
-
+      let personalPhoto = {}
+      if(this.fileList.length>0){ //当有上传一寸照时，作如下判断
+        if(this.fileList[0].uid == '-1'){ // 说明未修改一寸照
+          personalPhoto.portraitImg = this.fileList[0].name
+        }else{ // 说明有修改一寸照
+          personalPhoto.fileId = this.fileList[0].uid
+        }
+      }
       if (formsAll) {
-        let data = Object.assign(
+        let data = Object.assign({},
           this.$refs.jobStudy.formJob.getFieldsValue(),
           this.$refs.jobSpace.formSpace.getFieldsValue(),
-          this.form.getFieldsValue()
+          this.form.getFieldsValue(),
+          personalPhoto
         )
         this.forMat(data)
       } else {
@@ -509,40 +512,18 @@ export default {
 }
 </script>
 <style scoped>
-.target {
-  position: absolute;
-  z-index: 10;
-  right: 33px;
-  top: 240px;
-  padding: 10px 8px;
-  border-radius: 2px;
-  background: white;
+.target { position: absolute; z-index: 10; right: 33px; top: 240px; padding: 10px 8px; border-radius: 2px; background: white;
   -moz-box-shadow: -1px 0px 5px #878787;
   -webkit-box-shadow: -1px 0px 5px #878787;
   box-shadow: -1px 0px 5px #878787;
 }
-.target .icon {
-  text-align: right;
-  cursor: pointer;
-  color: #1890ff;
-}
-.create-talent {
-  overflow: auto;
-}
-/* .talent-anchor {  position: absolute; box-shadow: 2px 2px 5px #e0e0e0;  z-index: 10; right: 0px; top: 240px; } */
+.target .icon { text-align: right; cursor: pointer; color: #1890ff; }
+.create-talent { overflow: auto; }
 </style>
 <style>
-.avatar-uploader > .ant-upload {
-  width: 90%;
-  height: 220px;
-}
-.avatar-uploader .ant-upload-list {
-  width: 100%;
-}
-.avatar-uploader .ant-upload-list-picture-card .ant-upload-list-item {
-  width: 90%;
-  height: 220px;
-}
+.avatar-uploader > .ant-upload { width: 90%; height: 220px; }
+.avatar-uploader .ant-upload-list { width: 100%;}
+.avatar-uploader .ant-upload-list-picture-card .ant-upload-list-item { width: 90%;height: 220px;}
 </style>
 
 
