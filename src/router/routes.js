@@ -69,8 +69,7 @@ const TalentView = () =>
     import ('@/views/expertManagement/talent/view')
 const ExpertLibrary = () =>
     import ('@/views/expertManagement/expertLibrary/list')
-const ExpertLibraryCreate = () =>
-    import ('@/views/expertManagement/expertLibrary/create')
+const ExpertLibraryCreate = () => import ('@/views/expertManagement/expertLibrary/create')
 const ExpertLibrarySelect = () =>
     import ('@/views/expertManagement/expertLibrary/select')
 const ExpertLibraryView = () =>
@@ -294,6 +293,12 @@ const appRoutes = [{
         name: '/expertManagement/talent/create',
         component: TalentCreate,
         meta: { title: '新增人才账号', menuPath: false, authCode: 'P12001', menuIcon: 'user', hideInBread: false, openMode: 'normal' }
+      },
+      {
+        path: '/expertManagement/talent/edit',
+        name: '/expertManagement/talent/edit',
+        component: TalentCreate,
+        meta: { title: '修改人才账号', menuPath: false, authCode: 'P12003', menuIcon: 'user', hideInBread: false, openMode: 'normal' }
       },
       {
         path: '/expertManagement/talent/view',
