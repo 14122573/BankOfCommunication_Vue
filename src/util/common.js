@@ -276,6 +276,12 @@ export default {
      */
   checkUserStatusTags(value, status = value.toString()) {
     switch (status) {
+    case '0':
+      return {
+        txt: '待分配',
+        color: 'warning'
+      }
+      break
     case '1':
       return {
         txt: '正常',
