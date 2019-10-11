@@ -97,6 +97,12 @@ case 'sit': // sit环境下
     micId: 'mic:ssdw',
     pathPrefix: '/ssdw'
   },
+  {
+    baseUrl: 'http://pjsf.omniview.pro', // 中国水产学会团体标准管理
+    resourceName: 'ttbz',
+    micId: 'mic:ttbz',
+    pathPrefix: '/ttbz'
+  },
   ]
   break
 case 'uat': // uat环境下

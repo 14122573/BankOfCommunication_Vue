@@ -53,9 +53,7 @@ let expertReviewRouter = {
       authCode: 'S05030103',
     },
   ],
-  // KPJYWritten 中国水产学会科普教育基地评审
-  // TTBZWritten 中国水产学会团体标准函审
-  'S0101':[ //科普教育基地
+  'S0101':[ //中国水产学会科普教育基地评审
     {
       type:'review',
       reviewTypeCode:'KPJYWritten',
@@ -66,6 +64,19 @@ let expertReviewRouter = {
       type:'detail',
       routerName:'/kpjd/declare/Declare/DeclareInfo',
       authCode: 'S05030103',
+    },
+  ],
+  'S0201':[ //中国水产学会团体标准函审
+    {
+      type:'review',
+      reviewTypeCode:'TTBZWritten',
+      routerName:'/ttbz/letterReviewmanager/addLetterResult',
+      authCode: 'S02010602',
+    },
+    {
+      type:'detail',
+      routerName:'/ttbz/organizationExpert/standardExpertDetail',
+      authCode: 'S02010601',
     },
   ]
 }
