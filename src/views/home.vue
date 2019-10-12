@@ -1,5 +1,13 @@
 <template>
   <div class="layoutMargin workpaceBg">
+    <div class="loader" v-if="$store.state.isLoadingResource">
+      <div>
+        <a-spin tip="子项目资源载入中..." :spinning="$store.state.isLoadingResource" size="large"/>
+      </div>
+      <div style="width: 30%;">
+        <a-progress :percent="$store.state.loadingProgress" status="active"/>
+      </div>
+    </div>
 		<img class="workpaceLeftFishBg" src="@/assets/images/workspace-fishLeft.png" alt="logo" />
 		<img class="workpaceRightFishBg" src="@/assets/images/workspace-fishRight.png" alt="logo" />
 		<img class="workpaceButtomWave" src="@/assets/images/workspace-wave.png" alt="logo" />
@@ -74,6 +82,19 @@ export default {
 
 <style scoped>
 	h1{ text-align: center; padding: 30px; }
+  .loader {
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    background-color: rgba(255,255,255,0.6);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+  }
 </style>
 <style>
 .homeRow {padding-top:20px;}
