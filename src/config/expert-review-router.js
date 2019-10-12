@@ -70,7 +70,7 @@ let expertReviewRouter = {
     {
       type:'review',
       reviewTypeCode:'TTBZWritten',
-      routerName:'/ttbz/letterReviewmanager/addLetterResult',
+      routerName:'/ttbz/letterReviewmanager/letterReview/addLetterReview',
       authCode: 'S02010602',
     },
     {

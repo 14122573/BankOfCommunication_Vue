@@ -374,49 +374,49 @@ const appRoutes = [{
     children: [
       {
         path: '/ttbz/standardApplyManager/StandardApply', name: '/ttbz/standardApplyManager/StandardApply',
-        meta: { title: '立项管理', menuPath: true, authCode: 'S020101', hideInBread:false, menuIcon: 'appstore', openMode: 'spa' }
+        meta: { title: '立项管理', authCode: 'S020101', menuPath: true, hideInBread:false, menuIcon: 'appstore', openMode: 'spa' }
       },
       {
         path: '/ttbz/organizationExpert/StandardExpert', name: '/ttbz/organizationExpert/StandardExpert',
-        meta: { title: '组织专家', menuPath: true, authCode: 'S020107', hideInBread:false, menuIcon: 'appstore', openMode: 'spa' }
+        meta: { title: '组织专家', authCode: 'S020107', menuPath: true, hideInBread:false, menuIcon: 'appstore', openMode: 'spa' }
       },
       {
         path: '/ttbz/projectArgumentation/StandardReview', name: '/ttbz/projectArgumentation/StandardReview',
-        meta: { title: '立项论证', menuPath: true, authCode: 'S020102', hideInBread:false, menuIcon: 'appstore', openMode: 'spa' }
+        meta: { title: '立项论证', authCode: 'S020102', menuPath: true, hideInBread:false, menuIcon: 'appstore', openMode: 'spa'}
       },
       {
         path: '/ttbz/formalReview/StandardExamine', name: '/ttbz/formalReview/StandardExamine',
-        meta: { title: '形式审查', menuPath: true, authCode: 'S020104', hideInBread:false, menuIcon: 'appstore', openMode: 'spa' }
+        meta: { title: '形式审查',authCode: 'S020104', menuPath: true, hideInBread:false, menuIcon: 'appstore', openMode: 'spa'}
       },
       {
         path: '/ttbz/letterReviewmanager/letterReview', name: '/ttbz/letterReviewmanager/letterReview',
-        meta: { title: '函审管理', menuPath: true, authCode: 'S020106', hideInBread:false, menuIcon: 'appstore', openMode: 'spa'},
+        meta: { title: '函审管理', authCode: 'S020106',menuPath: true, hideInBread:false, menuIcon: 'appstore', openMode: 'spa' },
         children:[
           {
             path: '/ttbz/organizationExpert/standardExpertDetail', name: '/ttbz/organizationExpert/standardExpertDetail',
             meta: { title: '查看申报内容', menuPath: false, authCode: 'S02010601', hideInBread:false, menuIcon: 'appstore', openMode: 'spa' }
           },
           {
-            path: '/ttbz/letterReviewmanager/addLetterResult', name: '/ttbz/letterReviewmanager/addLetterResult',
+            path: '/ttbz/letterReviewmanager/letterReview/addLetterReview', name: '/ttbz/letterReviewmanager/letterReview/addLetterReview',
             meta: { title: '标准申报函审结论录入', menuPath: false, authCode: 'S02010602', hideInBread:false, menuIcon: 'appstore', openMode: 'spa' }
           },
         ]
       },
       {
         path: '/ttbz/meetingReview/review', name: '/ttbz/meetingReview/review',
-        meta: { title: '会议审查管理', menuPath: true, authCode: 'S020105', hideInBread:false, menuIcon: 'appstore', openMode: 'spa' }
+        meta: { title: '会议审查管理', authCode: 'S020105',menuPath: true, hideInBread:false, menuIcon: 'appstore', openMode: 'spa' }
       },
       {
         path: '/ttbz/standardDeclare/declare', name: '/ttbz/standardDeclare/declare',
-        meta: { title: '标准制定管理', menuPath: true, authCode: 'S020103', hideInBread:false, menuIcon: 'appstore', openMode: 'spa'}
+        meta: { title: '标准制定管理',  authCode: 'S020103',menuPath: true, hideInBread:false, menuIcon: 'appstore', openMode: 'spa'}
       },
       {
-        path: '/ttbz/letterReviewmanager/letterResult', name: '/ttbz/letterReviewmanager/letterResult',
-        meta: { title: '录入函审结果', menuPath: true, authCode: 'S020108', hideInBread:false, menuIcon: 'appstore', openMode: 'spa' }
+        path: '/ttbz/letterReviewmanager/letterReview/letterResult', name: '/ttbz/letterReviewmanager/letterReview/letterResult',
+        meta: { title: '录入函审结果',  authCode: 'S020108',menuPath: true, hideInBread:false, menuIcon: 'appstore', openMode: 'spa' }
       },
       {
         path: '/ttbz/publicAnnouncement/BulletinAndPublish', name: '/ttbz/publicAnnouncement/BulletinAndPublish',
-        meta: { title: '公示发布管理', menuPath: true, authCode: 'S020109', hideInBread:false, menuIcon: 'appstore', openMode: 'spa' }
+        meta: { title: '公示发布管理', authCode: 'S020109',menuPath: true, hideInBread:false, menuIcon: 'appstore', openMode: 'spa' }
       },
     ]
   },
