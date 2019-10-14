@@ -16,6 +16,8 @@ case 'devol': // 本地线上部署环境下
     'SCZN':'http://114.215.195.182:2280/SSJK.aspx', //“水产智能”健康养殖生产与大数据管理系统
     'XXYY':'http://123.206.129.108:9000/index/user/index', // 休闲渔业
     'HYMC':'http://123.206.129.108:8082/index/user/index', // 海洋牧场
+    'SCJG':'http://www.cninfoyu.cn/', // 水产价格采集
+
   }
   break
 case 'sit': // sit环境下
@@ -26,7 +28,7 @@ case 'sit': // sit环境下
     'NYPC':'http://47.102.155.97:8083/Sso', // 水产养殖动物病原菌耐药性普查数据分析系统
     'SCZN':'http://114.215.195.182:2280/SSJK.aspx', //“水产智能”健康养殖生产与大数据管理系统
     'XXYY':'http://123.206.129.108:8000/index/user/index', //休闲渔业
-    'HYMC':'http://123.206.129.108:8082/index/user/index', // 海洋牧场
+    'SCJG':'http://www.cninfoyu.cn/', // 水产价格采集
   }
   break
 case 'uat': // uat环境下
@@ -38,6 +40,7 @@ case 'uat': // uat环境下
     'SCZN':'http://114.215.195.182:2280/SSJK.aspx', //“水产智能”健康养殖生产与大数据管理系统
     'XXYY':'http://123.206.129.108:8000/index/user/index', //休闲渔业
     'HYMC':'http://123.206.129.108:8082/index/user/index', // 海洋牧场
+    'SCJG':'http://www.cninfoyu.cn/', // 水产价格采集
   }
   break
 case 'production': // 生产环境下
@@ -51,11 +54,12 @@ default: // 默认环境下（开发环境）
     'SCZN':'http://114.215.195.182:2280/SSJK.aspx', //“水产智能”健康养殖生产与大数据管理系统
     'XXYY':'http://123.206.129.108:9000/index/user/index', // 休闲渔业
     'HYMC':'http://123.206.129.108:8082/index/user/index', // 海洋牧场
+    'SCJG':'http://www.cninfoyu.cn/', // 水产价格采集
   }
   break
 };
 
-let oldSysCodes = ['SCYJ','YQCB','ZXJC','NYPC','SCZN','XXYY','HYMC']
+let oldSysCodes = ['SCYJ','YQCB','ZXJC','NYPC','SCZN','XXYY','HYMC','SCJG']
 
 export const OutsideUrls = {
   ...outsideUrl,

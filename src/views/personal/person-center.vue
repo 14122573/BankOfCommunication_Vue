@@ -162,6 +162,9 @@ export default {
       if(this.$com.oneOf('HYMC',this.$store.state.permissionCodeList)){
         authSysList.push('海洋牧场')
       }
+      if(this.$com.oneOf('SCJG',this.$store.state.permissionCodeList)){
+        authSysList.push('水产价格采集')
+      }
       return authSysList
     }
   }
