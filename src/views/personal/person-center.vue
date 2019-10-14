@@ -115,7 +115,7 @@ export default {
         authSysList.push('范蠡奖评审')
       }
       if(this.$com.oneOf('S0201',this.$store.state.permissionCodeList)){
-        authSysList.push('团体标准管理')
+        authSysList.push('中国水产学会团体标准管理')
       }
       if(this.$com.oneOf('S0602',this.$store.state.permissionCodeList)){
         authSysList.push('渔业兽医管理')
@@ -130,7 +130,7 @@ export default {
         authSysList.push('水产新品种审定')
       }
       if(this.$com.oneOf('S0101',this.$store.state.permissionCodeList)){
-        authSysList.push('科普教育基地申报管理')
+        authSysList.push('中国水产学会科普教育基地管理')
       }
       if(this.$com.oneOf('S0503',this.$store.state.permissionCodeList)){
         authSysList.push('水产原良种场验收审定')

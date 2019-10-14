@@ -165,6 +165,14 @@ export default {
           }
         })
         break
+      case 'S0201': // 团体标准
+        this.$router.push({
+          name:nextRouter,
+          query:{
+            id:taskCode
+          }
+        })
+        break
       default:
         break
       }
