@@ -877,6 +877,12 @@ const appRoutes = [{
     name: 'HYMC',
     component: TipsOutsite,
     meta: { title: '海洋牧场', menuPath: true, menuIcon: 'experiment', authCode: 'HYMC', hideInBread: false, openMode: 'outsite' }
+  },
+  {
+    path: '/SCJG/:sysname',
+    name: 'SCJG',
+    component: TipsOutsite,
+    meta: { title: '水产价格采集', menuPath: true, menuIcon: 'experiment', authCode: 'SCJG', hideInBread: false, openMode: 'outsite' }
   }
   ],
 },
