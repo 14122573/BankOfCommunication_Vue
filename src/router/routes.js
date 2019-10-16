@@ -883,6 +883,12 @@ const appRoutes = [{
     name: 'SCJG',
     component: TipsOutsite,
     meta: { title: '水产价格采集', menuPath: true, menuIcon: 'experiment', authCode: 'SCJG', hideInBread: false, openMode: 'outsite' }
+  },
+  {
+    path: '/YMSZ/:sysname',
+    name: 'YMSZ',
+    component: TipsOutsite,
+    meta: { title: '渔民收支', menuPath: true, menuIcon: 'experiment', authCode: 'YMSZ', hideInBread: false, openMode: 'outsite' }
   }
   ],
 },

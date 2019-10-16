@@ -165,6 +165,9 @@ export default {
       if(this.$com.oneOf('SCJG',this.$store.state.permissionCodeList)){
         authSysList.push('水产价格采集')
       }
+      if(this.$com.oneOf('YMSZ',this.$store.state.permissionCodeList)){
+        authSysList.push('渔民收支')
+      }
       return authSysList
     }
   }
