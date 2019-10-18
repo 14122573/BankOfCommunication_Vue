@@ -365,6 +365,62 @@ const appRoutes = [{
     }
     ]
   },
+  //范蠡奖评审
+  {
+    path: '/fljps',
+    name: 'fljps',
+    component: contentWrapper,
+    meta: { title: '范蠡奖评审', menuPath: true, authCode: 'S1002', menuIcon: 'barcode', hideInBread: true },
+    children: [
+      {
+        path: '/fljps/notf/flaNotf', name: '/fljps/notf/flaNotf',
+        meta: { title: '评审管理', menuPath: true, authCode: 'S100201', hideInBread:false, menuIcon: 'appstore', openMode: 'spa'},
+      },
+      {
+        path: '/fljps/firsttrial/flaFirstTrial', name: '/fljps/firsttrial/flaFirstTrial',
+        meta: { title: '初审管理', menuPath: true, authCode: 'S100203', hideInBread:false, menuIcon: 'appstore', openMode: 'spa'},
+      },
+      {
+        path: '/fljps/reviewShow/flaReviewShow', name: '/fljps/reviewShow/flaReviewShow',
+        meta: { title: '评审结果汇总', menuPath: true, authCode: 'S100205', hideInBread:false, menuIcon: 'appstore', openMode: 'spa'},
+      },
+      {
+        path: '/fljps/reportNote/flaReviewNotf', name: '/fljps/reportNote/flaReviewNotf',
+        meta: { title: '评审管理', menuPath: true, authCode: 'S100209', hideInBread:false, menuIcon: 'appstore', openMode: 'spa' },
+      },
+      {
+        path: '/fljps/scitechrep/scitechrep', name: '/fljps/scitechrep/scitechrep',
+        meta: { title: '技术类申报', menuPath: true, authCode: 'S100210', hideInBread:false, menuIcon: 'appstore', openMode: 'spa' },
+      },
+      {
+        path: '/fljps/innoteamrep/innoteamrep', name: '/fljps/innoteamrep/innoteamrep',
+        meta: { title: '团队类申报', menuPath: true, authCode: 'S100211', hideInBread:false, menuIcon: 'appstore', openMode: 'spa' },
+      },
+      {
+        path: '/fljps/checkconf/checkconfirmpost', name: '/fljps/checkconf/checkconfirmpost',
+        meta: { title: '检查并确认申报', menuPath: true, authCode: 'S100212', hideInBread:false, menuIcon: 'appstore', openMode: 'spa'},
+      },
+      // huchanglin 申报单位
+      {
+        path: '/fljps/expert/flaOrgaExpert', name: '/fljps/expert/flaOrgaExpert',
+        meta: { title: '组织专家', menuPath: true, authCode: 'S100204', hideInBread:false, menuIcon: 'appstore', openMode: 'spa' },
+      },
+      {
+        path: '/fljps/review/flaReview', name: '/fljps/review/flaReview',
+        meta: { title: '评审管理', menuPath: true, authCode: 'S100208', hideInBread:false, menuIcon: 'appstore', openMode: 'spa' },
+      },
+      //ricozhou 申报推荐
+      {
+        path: '/fljps/recomanage/flaRrua', name: '/fljps/recomanage/flaRrua',
+        meta: { title: '申报单位推荐', menuPath: true, authCode: 'S100206', hideInBread:false, menuIcon: 'appstore', openMode: 'spa' },
+      },
+      //ricozhou 申报推荐确认
+      {
+        path: '/fljps/recomanage/flaRecConf', name: '/fljps/recomanage/flaRecConf',
+        meta: { title: '推荐材料审查', menuPath: true, authCode: 'S100207', hideInBread:false, menuIcon: 'appstore', openMode: 'spa'},
+      },
+    ]
+  },
   //团体标准
   {
     path: '/ttbz',
