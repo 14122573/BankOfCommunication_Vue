@@ -103,6 +103,12 @@ case 'sit': // sit环境下
     micId: 'mic:ttbz',
     pathPrefix: '/ttbz'
   },
+  {
+    baseUrl: 'http://fljps.omniview.pro', // 范蠡奖评审
+    resourceName: 'fljps',
+    micId: 'mic:fljps',
+    pathPrefix: '/fljps'
+  },
   ]
   break
 case 'uat': // uat环境下

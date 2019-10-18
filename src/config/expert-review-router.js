@@ -78,7 +78,20 @@ let expertReviewRouter = {
       routerName:'/ttbz/organizationExpert/standardExpertDetail',
       authCode: 'S02010601',
     },
-  ]
+  ],
+  // 'S1002':[ //中国水产学会团体标准函审
+  //   {
+  //     type:'review',
+  //     reviewTypeCode:'FLJPSWritten',
+  //     routerName:'/ttbz/letterReviewmanager/letterReview/addLetterReview',
+  //     authCode: 'S02010602',
+  //   },
+  //   {
+  //     type:'detail',
+  //     routerName:'/ttbz/organizationExpert/standardExpertDetail',
+  //     authCode: 'S02010601',
+  //   },
+  // ]
 }
 
 
