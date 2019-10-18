@@ -365,7 +365,7 @@ const appRoutes = [{
     }
     ]
   },
-  //团体标准
+  //范蠡奖评审
   {
     path: '/fljps',
     name: 'fljps',
