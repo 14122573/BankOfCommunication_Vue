@@ -178,7 +178,8 @@ export default {
     handleOk() {
       this.permEditForm.validateFields(err => {
         if (!err) {
-          let putParams = Object.assign({parentId:this.parentNode.key},{
+          let parentPermid = this.parentNode.key=='-1'?'0':this.parentNode.key
+          let putParams = Object.assign({parentId:parentPermid},{
             'permName':this.permEditForm.getFieldValue('permName'),
             'isHide':this.permEditForm.getFieldValue('isHide')=='0'?false:true,
             'pointSet':this.getSelectPointSetObject(this.permEditForm.getFieldValue('pointIds'))
