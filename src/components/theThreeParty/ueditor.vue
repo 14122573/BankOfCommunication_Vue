@@ -33,7 +33,9 @@ export default {
             'directionalityltr', 'directionalityrtl', 'indent', '|',
             'justifyleft', 'justifycenter', 'justifyright', 'justifyjustify', '|', 'touppercase', 'tolowercase', '|',
             'link', 'unlink'
-          ]]
+          ]],
+          zIndex:1,
+          initialFrameHeight:300
         }
       }
     }
