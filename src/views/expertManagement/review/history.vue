@@ -108,13 +108,13 @@ export default {
       let nextRouter = ''
       for(let i=0;i<micSysRouters.length;i++){
         let micSysRouter = micSysRouters[i]
-        if( micSysRouter.type=='review'){
+        if( micSysRouter.type=='detail'){
           nextRouter = micSysRouter.routerName
         }
       }
       // 根据系统判断跳转子系统方式
       switch (sysCode) {
-      case 'S0501':
+      case 'S0501':// 新品种审核
         this.$router.push({
           name:nextRouter,
           params:{id:taskCode},
@@ -124,7 +124,50 @@ export default {
           }
         })
         break
-
+      case 'S0502': // 原良种复查
+        this.$router.push({
+          name:nextRouter,
+          query:{
+            id:taskCode
+          }
+        })
+        break
+      case 'S0503': // 原良种验收
+        this.$router.push({
+          name:nextRouter,
+          query:{
+            id:taskCode
+          }
+        })
+        break
+      case 'S0101': // 科普教育基地
+        this.$router.push({
+          name:nextRouter,
+          query:{
+            id:taskCode
+          }
+        })
+        break
+      case 'S0201': // 团体标准
+        this.$router.push({
+          name:nextRouter,
+          query:{
+            id:taskCode
+          }
+        })
+        break
+      case 'S1002': // 中国水产学会团体标准函审
+        this.$router.push({
+          name:nextRouter,
+          params:{
+            id:taskCode
+          },
+          query:{
+            sourceRoutePath:this.$route.path,
+            sourceRouteType:'portal'
+          }
+        })
+        break
       default:
         break
       }

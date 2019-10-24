@@ -109,13 +109,13 @@ export default {
     getSysList(){
       let authSysList = []
       if(this.$com.oneOf('S1001',this.$store.state.permissionCodeList)){
-        authSysList.push('学术会议')
+        authSysList.push('中国水产学会学术会议管理')
       }
       if(this.$com.oneOf('S1002',this.$store.state.permissionCodeList)){
         authSysList.push('范蠡奖评审')
       }
       if(this.$com.oneOf('S0201',this.$store.state.permissionCodeList)){
-        authSysList.push('团体标准管理')
+        authSysList.push('中国水产学会团体标准管理')
       }
       if(this.$com.oneOf('S0602',this.$store.state.permissionCodeList)){
         authSysList.push('渔业兽医管理')
@@ -130,10 +130,16 @@ export default {
         authSysList.push('水产新品种审定')
       }
       if(this.$com.oneOf('S0101',this.$store.state.permissionCodeList)){
-        authSysList.push('科普教育基地申报管理')
+        authSysList.push('中国水产学会科普教育基地管理')
+      }
+      if(this.$com.oneOf('S0503',this.$store.state.permissionCodeList)){
+        authSysList.push('水产原良种场验收审定')
       }
       if(this.$com.oneOf('S0502',this.$store.state.permissionCodeList)){
-        authSysList.push('源良种场')
+        authSysList.push('水产原良种场复查审定')
+      }
+      if(this.$com.oneOf('S0804',this.$store.state.permissionCodeList)){
+        authSysList.push('智慧报表管理')
       }
       if(this.$com.oneOf('YQCB',this.$store.state.permissionCodeList)){
         authSysList.push('全国水产养殖动植物病情测报系统')
@@ -146,6 +152,21 @@ export default {
       }
       if(this.$com.oneOf('SCYJ',this.$store.state.permissionCodeList)){
         authSysList.push('国家水生动物疫情预警系统')
+      }
+      if(this.$com.oneOf('SCZN',this.$store.state.permissionCodeList)){
+        authSysList.push('“水产智能”健康养殖生产与大数据管理系统')
+      }
+      if(this.$com.oneOf('XXYY',this.$store.state.permissionCodeList)){
+        authSysList.push('休闲渔业品牌管理系统')
+      }
+      if(this.$com.oneOf('HYMC',this.$store.state.permissionCodeList)){
+        authSysList.push('海洋牧场')
+      }
+      if(this.$com.oneOf('SCJG',this.$store.state.permissionCodeList)){
+        authSysList.push('水产价格采集')
+      }
+      if(this.$com.oneOf('YMSZ',this.$store.state.permissionCodeList)){
+        authSysList.push('渔民收支')
       }
       return authSysList
     }

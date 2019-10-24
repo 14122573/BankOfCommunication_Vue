@@ -1,31 +1,32 @@
 import 'babel-polyfill'
 import {registerApplication, start} from 'single-spa'
 import axios from 'axios'
-import fetchInject from 'fetch-inject'
+// import fetchInject from 'fetch-inject'
 import { MicConfigs } from '@/config/mic'
-import com from '@/util/common'
-
+// import com from '@/util/common'
+import store from './store'
 
 (async function loadApp(){
   window.isSpa = true
-
   await registerApplication('layout', () => import('@/index.js'), () => true)
-  window.onload = async () => {
-    // 当页面加载好了，有了#content元素后才加载子项目，避免刷新后空白的问题
+  window.onload = async () => { // 当页面加载好了，有了#content元素后才加载子项目，避免刷新后空白的问题
+    let progress = 0
+    store.commit('SET_LOADING_PROGRESS', {progress, len: MicConfigs.length})
     for(let i=0;i<MicConfigs.length;i++){
       // 读取子项目配置
-      // await loadResource(MicConfigs[i].baseUrl)
       Promise.resolve(loadResource(MicConfigs[i].baseUrl)).then(() => {
         registerApplication(MicConfigs[i].resourceName, () => Promise.resolve(window[MicConfigs[i].micId]),  pathPrefix(MicConfigs[i].pathPrefix))
+        store.commit('SET_LOADING_PROGRESS', {progress: progress += 1, len: MicConfigs.length})
+      }).catch(() => {
+        store.commit('SET_LOADING_PROGRESS', {progress: progress += 1, len: MicConfigs.length})
       })
     }
   }
+  start()
 })()
-start()
 
 async function loadResource(url) {
   const res = await axios.get(url + '/index.html')
-
   // 获取所有js、css、网站图标
   const html = res.data, base = url + '/static/',
     css = html.match(/css\/app.*?\.css/gi),
@@ -33,6 +34,22 @@ async function loadResource(url) {
     vendor = html.match(/js\/vendor.*?\.js/gi),
     app = html.match(/js\/app.*?\.js/gi),
     ico = html.match(/[a-z]*?\.ico/gi)
+
+
+  const frag = document.createDocumentFragment()
+  const a = document.createElement('script')
+  a.innerHTML = (await axios.get(base + manifest[0])).data
+  frag.appendChild(a)
+  const b = document.createElement('script')
+  b.innerHTML = (await axios.get(base + vendor[0])).data
+  frag.appendChild(b)
+  const c = document.createElement('script')
+  c.innerHTML = (await axios.get(base + app[0])).data
+  frag.appendChild(c)
+  const d = document.createElement('style')
+  d.innerHTML = (await axios.get(base + css[0])).data
+  frag.appendChild(d)
+  document.head.appendChild(frag)
 
   // 从css文件中获取所有字体文件、背景图片
   // const cssRes = await axios.get(base + css[0])
@@ -55,31 +72,31 @@ async function loadResource(url) {
   // d.innerHTML = (await axios.get(base + css[0])).data
   // document.head.appendChild(d)
 
-  if (com.IEVersion() == -1) { // 非ie浏览器
-    // 优先注入,避免‘call’ of undefined的错误
-    await fetchInject([
-      base + manifest[0],
-      base + vendor[0],
-    ])
-    // app.js需要在manifest和vendor之后注入
-    await fetchInject([
-      base + app[0],
-      base + css[0],
-    ])
-  } else { // ie环境
-    let a = document.createElement('script')
-    a.innerHTML = (await axios.get(base + manifest[0])).data
-    document.head.appendChild(a)
-    let b = document.createElement('script')
-    b.innerHTML = (await axios.get(base + vendor[0])).data
-    document.head.appendChild(b)
-    let c = document.createElement('script')
-    c.innerHTML = (await axios.get(base + app[0])).data
-    document.head.appendChild(c)
-    let d = document.createElement('style')
-    d.innerHTML = (await axios.get(base + css[0])).data
-    document.head.appendChild(d)
-  }
+  // if (com.IEVersion() == -1) { // 非ie浏览器
+  //   // 优先注入,避免‘call’ of undefined的错误
+  //   await fetchInject([
+  //     base + manifest[0],
+  //     base + vendor[0],
+  //   ])
+  //   // app.js需要在manifest和vendor之后注入
+  //   await fetchInject([
+  //     base + app[0],
+  //     base + css[0],
+  //   ])
+  // } else { // ie环境
+  //   let a = document.createElement('script')
+  //   a.innerHTML = (await axios.get(base + manifest[0])).data
+  //   document.head.appendChild(a)
+  //   let b = document.createElement('script')
+  //   b.innerHTML = (await axios.get(base + vendor[0])).data
+  //   document.head.appendChild(b)
+  //   let c = document.createElement('script')
+  //   c.innerHTML = (await axios.get(base + app[0])).data
+  //   document.head.appendChild(c)
+  //   let d = document.createElement('style')
+  //   d.innerHTML = (await axios.get(base + css[0])).data
+  //   document.head.appendChild(d)
+  // }
 }
 
 function pathPrefix(prefix) {

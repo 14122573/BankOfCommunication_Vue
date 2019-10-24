@@ -55,7 +55,6 @@
   </div>
 </template>
 <script>
-import { OldSysCodes } from '@/config/outside-config'
 export default {
   data() {
     const validatePointCode = (rule, value, callback) => {
@@ -201,7 +200,7 @@ export default {
         if (!err) {
           let putParams = Object.assign({},this.editForm,{
             'pointName':this.pointEditForm.getFieldValue('pointName'),
-            'pointKey':this.editForm.type+this.pointEditForm.getFieldValue('pointKey'),
+            'pointKey':(!this.editForm.type?'':this.editForm.type)+this.pointEditForm.getFieldValue('pointKey'),
           })
           this.$ajax.put({
             url: this.$api.PUT_PREMSPOINT.replace('{id}', this.pointDetail.id),
@@ -222,22 +221,32 @@ export default {
      */
     getRoleTree(){
       this.$ajax.get({
-        url:this.$api.GET_ALL_ROLE + '?isTree=true'
+        url:this.$api.GET_ALL_ROLE + '?isTree=true&isAll=true'
       }).then(res=>{
         if(!!res.data && !!res.data.content){
           let data=res.data.content
           data.forEach((item,index)=>{
             this.tree.roleTreeData.push(this.initRoleTreeNode(item))
           })
-          // 过滤获得老系统
-          let oldSysPermissions = [],vm = this
+
+          // 重组需要展示的权限树
+          let initializedRoleTree = []
+          this.tree.roleTreeDataArranged = []
           this.tree.roleTreeData.forEach((item,index)=>{
-            if(this.$com.oneOf(item.permKey,OldSysCodes)){
-              oldSysPermissions.push(item)
+            if(!item.canDelete && !!item.permKey){
+              initializedRoleTree.push(item)
             }else{
               let node = Object.assign({}, item)
               this.tree.roleTreeDataArranged.push(node)
             }
+          })
+          this.tree.roleTreeDataArranged.push({
+            'title':'初始化权限',
+            'key':'-1',
+            'permKey':'',
+            'canDelete':false,
+            'isHide':true,
+            'children':[].concat(initializedRoleTree)
           })
         }
       })
@@ -248,12 +257,12 @@ export default {
      * @returns childrenNode 对传入参数，已重组的数据
      */
     initRoleTreeNode(item){
-      let isOldSys = (!!item.permKey && this.$com.oneOf(item.permKey,OldSysCodes)) ? true:false
       let childrenNode={
         'title':item.permName,
         'key':item.id,
         'permKey':!item.permKey?'':item.permKey,
-        'isOldSys':isOldSys
+        'canDelete':item.canDelete===false?false:true,
+        'isHide':item.isHide,
       }
       if(item.childList && item.childList.length){
         childrenNode.children = []
@@ -269,7 +278,8 @@ export default {
      */
     getSysCodOptions(){
       this.$ajax.get({
-        url: this.$api.SYSTEM_LIST_ALL_GET
+        url: this.$api.SYSTEM_LIST_ALL_GET,
+        params:{type:'1'}
       }).then(res=>{
         if(res.code === '200'){
           let data = this.$com.confirm(res, 'data.content', [])

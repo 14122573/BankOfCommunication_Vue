@@ -52,6 +52,45 @@ let expertReviewRouter = {
       routerName:'/scylzc/afVerification/list/view',
       authCode: 'S05030103',
     },
+  ],
+  'S0101':[ //中国水产学会科普教育基地评审
+    {
+      type:'review',
+      reviewTypeCode:'KPJYWritten',
+      routerName:'/kpjd/declare/organizationExpert/expertAdd',
+      authCode: 'S01010402',
+    },
+    {
+      type:'detail',
+      routerName:'/kpjd/declare/Declare/DeclareInfo',
+      authCode: 'S05030103',
+    },
+  ],
+  'S0201':[ //中国水产学会团体标准函审
+    {
+      type:'review',
+      reviewTypeCode:'TTBZWritten',
+      routerName:'/ttbz/letterReviewmanager/letterReview/addLetterReview',
+      authCode: 'S02010602',
+    },
+    {
+      type:'detail',
+      routerName:'/ttbz/organizationExpert/standardExpertDetail',
+      authCode: 'S02010601',
+    },
+  ],
+  'S1002':[ //中国水产学会团体标准函审
+    {
+      type:'review',
+      reviewTypeCode:'FLJPSWritten',
+      routerName:'/fljps/flaReportDetail/flaReportDetail',
+      authCode: 'S10020801',
+    },
+    {
+      type:'detail',
+      routerName:'/fljps/flaReportDetail/flaReportDetail',
+      authCode: 'S10020802',
+    },
   ]
 }
 

@@ -2,7 +2,7 @@
 	<div class="routerWapper">
 		<div v-if="$route.name =='/expertManagement/expertLibrary'" class="layoutMargin layoutPadding">
 			<a-form :form="searchForm" class="protalForm">
-				<a-row type="flex" justify="space-between" class="formItemLine">
+				<a-row type="flex" justify="start" class="formItemLine">
 					<a-col span="6">
 						<a-form-item label="姓名" class="formItem" v-bind="colSpe">
 							<a-input v-decorator="['name_l']" placeholder="请输入"></a-input>
@@ -20,19 +20,19 @@
 							</a-select>
 						</a-form-item>
 					</a-col>
-					<a-col span="6">
+				</a-row>
+				<a-row type="flex" justify="start" class="formItemLine">
+          <a-col span="8">
 						<a-form-item label="用户状态" class="formItem" v-bind="colSpe">
 							<a-checkbox-group v-decorator="['status_in',{initialValue: []}]" :options="options.statusList"></a-checkbox-group>
 						</a-form-item>
 					</a-col>
-				</a-row>
-				<a-row type="flex" justify="space-between" class="formItemLine">
-					<a-col span="18">
+					<a-col span="12">
 						<a-form-item label="级别认定" class="formItem" :label-col="{span:3}" :wrapper-col="{span:12}">
 							<a-checkbox-group v-decorator="['proStatus',{initialValue: ['all']}]" :options="options.proList"></a-checkbox-group>
 						</a-form-item>
 					</a-col>
-					<a-col span="6" class="algin-right">
+					<a-col span="4" class="algin-right">
 						<a-button @click="reset">重置</a-button>
 						<a-button type="primary" @click="search">搜索</a-button>
 					</a-col>
@@ -48,8 +48,10 @@
 					<userStatus :status="record.status" />
 				</span>
 				<span slot="action" slot-scope="text, record">
-					<span class="actionBtn" @click="$router.push({name:'/expertManagement/expertLibrary/view',query:{id:record.expertId}})">查看<a-divider type="vertical" /></span>
-					<span class="actionBtn" @click="editBtn(record)">修改</span>
+					<span class="actionBtn" @click="$router.push({name:'/expertManagement/expertLibrary/view',query:{id:record.expertId}})">查看</span>
+          <template v-if="$com.oneOf(record.status,['0','1'])">
+					  <span class="actionBtn" @click="editBtn(record)"><a-divider type="vertical" />修改</span>
+          </template>
 				</span>
 			</a-table>
 			<a-modal :maskClosable="false" okText="确认" @ok="handleJump" @cancel="addExpertUser=false" :width="480" title="新增专家用户"
@@ -118,6 +120,10 @@ export default {
         statusList: [{
           label: '正常',
           value: '1'
+        },
+        {
+          label: '禁用',
+          value: '9'
         },
         {
           label: '已注销',

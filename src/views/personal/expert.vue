@@ -7,7 +7,7 @@
 			</div>
 		</div>
     <div ref="editSelfExpert" class="portalDetailContentWapper">
-      <div class="portalDetailContentBody">
+      <div class="portalDetailContentBody" ref="expertPersonalTalent">
         <a-form :form="form">
           <div class="layoutMargin detailsPartSection">
             <p class="detailsPartTitle" id="basic">基本信息</p>
@@ -34,7 +34,7 @@
                     </a-col>
                     <a-col span="12">
                       <a-form-item label="身份证号" v-bind="colSpa">
-                        <a-input v-decorator="['identity',{rules:rules.identity}]" placeholder="请输入"></a-input>
+                        <a-input v-decorator="['identity',{validateTrigger: 'blur',rules:rules.identity}]" placeholder="请输入"></a-input>
                       </a-form-item>
                     </a-col>
                   </a-row>
@@ -64,14 +64,14 @@
                   </a-row>
                 </a-col>
                 <a-col span="8">
-                  <a-form-item label="一寸照" required v-bind="colSpa">
-                    <a-upload listType="picture-card" :fileList="fileList"
-                      @preview="handlePreview"
+                  <a-form-item label="一寸照" v-bind="colSpa">
+                    <a-upload listType="picture-card" class="avatar-uploader"
+                      :fileList="fileList"
+                      :customRequest="(data) =>{handleUpload(data,fileList)}"
                       :remove="handleRemove"
                       :beforeUpload="beforeUpload"
-                      class="avatar-uploader"
-                      accept=".jpg"
-                      v-decorator="['portraitImg',{rules:rules.portraitImg}]"
+                      :accept="fileUpload.acceptTypes"
+                      @preview="handlePreview"
                       >
                       <div v-if="fileList.length < 1">
                         <a-icon type="cloud-upload" style="fontSize:24px" />
@@ -107,22 +107,38 @@
         <jobStudy ref="jobStudy" class="marginRef" :options="options" :colSpa="colSpa" :textSpa="textSpa"/>
         <jobSpace ref="jobSpace" class="marginRef" :options="options" :colSpa="colSpa" :textSpa="textSpa" />
       </div>
-      <a-anchor :offsetTop="240" :getContainer="()=> this.$refs['editSelfExpert']" class="talent-anchor">
-        <a-anchor-link href="#basic" title="基本信息" />
-        <a-anchor-link href="#job" title="工作学习经历" />
-        <a-anchor-link href="#message" title="联系信息" />
-        <a-anchor-link href="#space" title="工作领域信息" />
-        <a-anchor-link href="#management" title="相关管理信息" />
-      </a-anchor>
+      <div class="target">
+        <div class="icon" v-show="changeSmall">
+					<a-icon type="environment" @click="changeSmall=false"/>
+				</div>
+				<div class="icon" v-show="!changeSmall">
+					<a-icon type="double-right" @click="changeSmall=true"/>
+				</div>
+        <a-anchor v-show="!changeSmall" :offsetTop="240" :getContainer="()=> this.$refs['expertPersonalTalent']" class="talent-anchor">
+          <a-anchor-link href="#basic" title="基本信息" />
+          <a-anchor-link href="#job" title="工作学习经历" />
+          <a-anchor-link href="#message" title="联系信息" />
+          <a-anchor-link href="#space" title="工作领域信息" />
+          <a-anchor-link href="#management" title="相关管理信息" />
+        </a-anchor>
+      </div>
     </div>
     <a-modal :visible="previewVisible" style="text-align:center" :width="600" :footer="null" @cancel="previewVisible = false">
 			<img alt="一寸照" style="width: 80%;height:auto" :src="previewImage" />
 		</a-modal>
+
+
   </div>
 </template>
 
 <style scoped>
-.talent-anchor {  position: absolute; box-shadow: 2px 2px 5px #e0e0e0;  z-index: 10; right: 0px; top: 260px; }
+.target { position: absolute; z-index: 10; right: 33px; top: 240px; padding: 10px 8px; border-radius: 2px; background: white;
+  -moz-box-shadow: -1px 0px 5px #878787;
+  -webkit-box-shadow: -1px 0px 5px #878787;
+  box-shadow: -1px 0px 5px #878787;
+}
+.target .icon { text-align: right; cursor: pointer; color: #1890ff; }
+.create-talent { overflow: auto; }
 </style>
 <style>
 .avatar-uploader > .ant-upload { width: 90%; height: 220px; }
@@ -162,14 +178,8 @@ export default {
         }
       }
     }
-    const validateImg = (rule, value, callback) => {
-      if (this.fileList.length === 0) {
-        callback('请上传一寸照!')
-      } else {
-        callback()
-      }
-    }
     return {
+      changeSmall:false,
       expertId:'',
       options: {
         sexList: [{ label: '男', value: '男' }, { label: '女', value: '女' }],
@@ -185,7 +195,6 @@ export default {
         provinceConfirmList: [{ label: '是', value: '是' },{ label: '否', value: '否' }],
         unitConfirmList: [{ label: '是', value: '是' },{ label: '否', value: '否' }]
       },
-      fileList: [],
       colSpa: {
         labelCol: { span: 10 },
         wrapperCol: { span: 12 }
@@ -196,6 +205,11 @@ export default {
       },
       previewVisible: false,
       previewImage: '',
+      fileList: [],
+      fileUpload:{
+        acceptTypes:'.jpg,.jpeg',
+        acceptTypesArray:['jpg','jpeg']
+      },
       rules: {
         name: [{ required: true, whitespace: true, message: '请输入姓名!' }],
         sex: [{ required: true, whitespace: true, message: '请选择性别!' }],
@@ -224,8 +238,6 @@ export default {
         position: [
           { required: true, whitespace: true, message: '请选择职务!' }
         ],
-        // 一寸照
-        portraitImg: [{ validator: validateImg }]
       }
     }
   },
@@ -258,12 +270,20 @@ export default {
           }
         })
       })
-
+      let personalPhoto = {}
+      if(this.fileList.length>0){ //当有上传一寸照时，作如下判断
+        if(this.fileList[0].uid == '-1'){ // 说明未修改一寸照
+          personalPhoto.portraitImg = this.fileList[0].name
+        }else{ // 说明有修改一寸照
+          personalPhoto.fileId = this.fileList[0].uid
+        }
+      }
       if (formsAll) {
         let data = Object.assign(
           this.$refs.jobStudy.formJob.getFieldsValue(),
           this.$refs.jobSpace.formSpace.getFieldsValue(),
-          this.form.getFieldsValue()
+          this.form.getFieldsValue(),
+          personalPhoto
         )
         this.forMat(data)
       } else {
@@ -306,19 +326,32 @@ export default {
     },
     handleRemove(file) {
       this.fileList = []
-      this.form.setFieldsValue({ portraitImg: null })
-      this.form.validateFields(['portraitImg'])
+      // this.form.setFieldsValue({ portraitImg: null })
+      // this.form.validateFields(['portraitImg'])
     },
     beforeUpload(file) {
-      let fileList = [...this.fileList, file]
-      this.handleUpload(fileList)
-      return false
+      let fileNameArr = file.name.split('.')
+      let fileSuffix = fileNameArr[fileNameArr.length-1].toLowerCase()
+      let isAccept = this.$com.oneOf(fileSuffix,this.fileUpload.acceptTypesArray)
+      let isLt5M = file.size / 1024 / 1024 < 5
+      let message = ''
+      if(!isAccept){
+        message += !isAccept?('文件格式限定为'+this.fileUpload.acceptTypes+'；'):''
+      }
+      if(!isLt5M){
+        message += !islt200m?'一寸照需小于5M；':''
+      }
+      if(isAccept && isLt5M){
+        return true
+      }else{
+        this.$message.error(message)
+        return false
+      }
     },
-    handleUpload(fileList) {
+    handleUpload(data,fileList) {
       const formData = new FormData()
-      fileList.forEach(file => {
-        formData.append('file', file)
-      })
+      formData.append('file', data.file)
+      data.onProgress()
       this.$ajax.post({
         url: this.$api.UPLOAD_TEMP,
         params: formData
@@ -332,8 +365,6 @@ export default {
             status: 'done',
             url: data.path
           })
-          this.form.setFieldsValue({ portraitImg: data.path })
-          this.form.validateFields(['portraitImg'])
         } else {
           this.$message.error(res.msg)
         }
@@ -377,7 +408,6 @@ export default {
       }).then(res => {
         if (res.code === '200') {
           this.$message.success('修改成功！')
-          // this.back()
         } else {
           this.$message.error(res.msg)
         }
@@ -455,7 +485,7 @@ export default {
           if(portraitImg != null){
             this.form.setFieldsValue({ portraitImg: portraitImg })
             this.fileList.push({
-              uid: -1,
+              uid: '-1',
               name: portraitImg,
               status: 'done',
               url: portraitImg
@@ -467,7 +497,3 @@ export default {
   }
 }
 </script>
-
-<style>
-
-</style>

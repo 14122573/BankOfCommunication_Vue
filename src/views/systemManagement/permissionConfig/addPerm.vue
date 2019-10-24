@@ -1,17 +1,17 @@
 <template>
-	<a-modal :maskClosable="false" cancelText="取消" okText="确认" @ok="handleOk" @cancel="handleCancel" :width="465"
+	<a-modal :maskClosable="false" cancelText="取消" okText="确认" @ok="handleOk" @cancel="handleCancel" :width="600"
 	 title="添加权限" :visible="isShow">
 		<a-form class=" layoutMargin" :form="permCreateForm">
       <a-row type="flex" justify="start" align="middle">
         <a-col span="24">
-          <a-form-item label="权限名称" :label-col="{span:7}" :wrapper-col="{span:17}">
+          <a-form-item label="权限名称" :label-col="{span:4}" :wrapper-col="{span:20}">
             <a-input v-decorator="['permName',{ validateTrigger:'blur',rules:formRules.permName}]" placeholder="请输入"></a-input>
           </a-form-item>
         </a-col>
       </a-row>
       <a-row type="flex" justify="start" align="middle">
         <a-col span="24">
-          <a-form-item label="是否不可分配" :label-col="{span:7}" :wrapper-col="{span:17}">
+          <a-form-item label="可分配否" :label-col="{span:4}" :wrapper-col="{span:20}">
             <a-radio-group :disabled="isDisabaleDistribution" v-decorator="['isHide',{validateTrigger:'blur',rules:formRules.isHide}]">
               <a-radio-button value="0">可分配</a-radio-button>
               <a-radio-button value="1">不可分配</a-radio-button>
@@ -21,11 +21,11 @@
       </a-row>
       <a-row type="flex" justify="start" align="middle">
         <a-col span="24">
-          <a-form-item label="拥有功能点" :label-col="{span:7}" :wrapper-col="{span:17}">
+          <a-form-item label="拥有功能点" :label-col="{span:4}" :wrapper-col="{span:20}">
             <a-select @change="handlePointChange" mode="multiple">
               <a-select-opt-group v-for="(pointsGroup,groupIndex) in pointsArray" :key='groupIndex'>
                 <span slot="label">{{pointsGroup.name}}</span>
-                <a-select-option v-for="(point) in pointsGroup.children" :value="point.id" :key="point.id">{{point.pointName}}</a-select-option>
+                <a-select-option v-for="(point) in pointsGroup.children" :value="point.id" :key="point.id">{{point.pointKey+'('+point.pointName+')'}}</a-select-option>
               </a-select-opt-group>
             </a-select>
           </a-form-item>
