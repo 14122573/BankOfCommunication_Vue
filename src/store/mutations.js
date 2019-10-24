@@ -1,4 +1,11 @@
 export default {
+  SET_LOADING_PROGRESS(state, {progress, len}) {
+    state.isLoadingResource = true
+    state.loadingProgress = Number(((progress / len) * 100).toFixed(0))
+    if (progress >= len) {
+      state.isLoadingResource = false
+    }
+  },
   SET_LOADING(state, data) {
     state.showLoading = data
   },

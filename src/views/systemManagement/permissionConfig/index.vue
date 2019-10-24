@@ -9,7 +9,7 @@
           <a-button type="primary" @click="goToPointMeg">功能点管理</a-button>
           <a-button icon='plus' type="primary" ghost @click="handleAddRoleNode(true)">添加一级权限</a-button>
           <a-button :disabled='disAddRoleNode' icon='plus' type="primary" ghost @click="handleAddRoleNode(false)">添加子集权限</a-button>
-          <a-button :disabled='disDelRoleNode' icon='plus' type="primary" ghost @click="handleEditRoleNode">修改权限信息</a-button>
+          <a-button :disabled='disEditRoleNode' icon='plus' type="primary" ghost @click="handleEditRoleNode">修改权限信息</a-button>
           <a-button :disabled='disDelRoleNode' icon='delete' type="danger" ghost @click="handleDelRoleNode">删除权限</a-button>
         </div>
       </div>
@@ -54,7 +54,6 @@
 </style>
 
 <script>
-import { OldSysCodes } from '@/config/outside-config'
 import CreatePermBranch from './addPerm'
 import EditPermBranch from './editPerm'
 export default {
@@ -101,23 +100,27 @@ export default {
   watch:{
     'tree.roleTreeData': {
       handler: function(val) {
-        // 过滤获得老系统
-        let oldSysPermissions = []
+        let initializedRoleTree = []
+        // 重组需要展示的权限树
         this.tree.roleTreeDataArranged = []
         this.tree.roleTreeData.forEach((item,index)=>{
-          if(this.$com.oneOf(item.permKey,OldSysCodes)){
-            oldSysPermissions.push(item)
+          if(!item.canDelete && !!item.permKey){
+            initializedRoleTree.push(item)
           }else{
             let node = Object.assign({}, item)
             this.tree.roleTreeDataArranged.push(node)
           }
         })
         this.tree.roleTreeDataArranged.push({
-          'title':'老系统权限',
-          'key':'0',
+          'titleName':'初始化权限',
+          'title':'初始化权限',
+          'key':'-1',
           'permKey':'',
-          'isOldSys':true,
-          'children':[].concat(oldSysPermissions)
+          'pointSet':[],
+          'canDelete':false,
+          'isHide':true,
+          'scopedSlots':{title:'treeTitle'},
+          'children':[].concat(initializedRoleTree)
         })
       },
       deep: true
@@ -126,14 +129,10 @@ export default {
   computed:{
     disAddRoleNode(){
       if(!!this.selectedNode.node){
-        if(this.$com.oneOf(this.selectedNode.node.permKey,OldSysCodes)){
-          return true
+        if(!this.selectedNode.parent){
+          return false
         }else{
-          if(!this.selectedNode.parent){
-            return false
-          }else{
-            return true
-          }
+          return true
         }
       }else{
         return true
@@ -141,14 +140,10 @@ export default {
     },
     disEditRoleNode(){
       if(!!this.selectedNode.node){
-        if(this.$com.oneOf(this.selectedNode.node.permKey,OldSysCodes)){
+        if('-1'==this.selectedNode.node.key){ // 当为重组权限树时手动添加的树节点时，不可编辑
           return true
-        }else{
-          if(!this.selectedNode.parent){
-            return true
-          }else{
-            return false
-          }
+        }else{ // 否则可修改
+          return false
         }
       }else{
         return true
@@ -156,7 +151,11 @@ export default {
     },
     disDelRoleNode(){
       if(!!this.selectedNode.node){
-        return false
+        if(!this.selectedNode.node.canDelete){
+          return true
+        }else{
+          return false
+        }
       }else{
         return true
       }
@@ -260,9 +259,9 @@ export default {
     },
     getPointsIds(points){
       let ids = []
-      for(let i=0;i<points.length;i++){
-        ids.push(points[i].id)
-      }
+      ids = points.map(point=>{
+        return point.id
+      })
       return ids
     },
     /**
@@ -271,14 +270,13 @@ export default {
      * @returns childrenNode 对传入参数，已重组的数据
      */
     initRoleTreeNode(item){
-      let isOldSys = (!!item.permKey && this.$com.oneOf(item.permKey,OldSysCodes)) ? true:false
       let childrenNode={
         'titleName':item.permName,
         'title':item.permName,
         'key':item.id,
         'permKey':!item.permKey?'':item.permKey,
         'pointSet':this.getPointsIds(!item.points?[]:item.points),
-        'isOldSys':isOldSys,
+        'canDelete':item.canDelete===false?false:true,
         'isHide':item.isHide,
         'scopedSlots':{title:'treeTitle'}
       }
@@ -301,7 +299,7 @@ export default {
         this.selectedNode['key'] = selectedKeys[0]
         this.selectedNode['node'] = {
           'title':selectedNodes[0].data.props.titleName,
-          'isOldSys':selectedNodes[0].data.props.isOldSys,
+          'canDelete':selectedNodes[0].data.props.canDelete,
           'permKey':selectedNodes[0].data.props.permKey,
           'pointSet':selectedNodes[0].data.props.pointSet,
           'key':selectedNodes[0].data.key,

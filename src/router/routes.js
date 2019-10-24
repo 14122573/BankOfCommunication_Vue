@@ -69,8 +69,7 @@ const TalentView = () =>
     import ('@/views/expertManagement/talent/view')
 const ExpertLibrary = () =>
     import ('@/views/expertManagement/expertLibrary/list')
-const ExpertLibraryCreate = () =>
-    import ('@/views/expertManagement/expertLibrary/create')
+const ExpertLibraryCreate = () => import ('@/views/expertManagement/expertLibrary/create')
 const ExpertLibrarySelect = () =>
     import ('@/views/expertManagement/expertLibrary/select')
 const ExpertLibraryView = () =>
@@ -96,7 +95,6 @@ const ProjectReviewHistory = () =>
      *               spa 注册子前端项目的路由。注，此时设置的router.name为子项目展现路由名称的name，且需带上子项目名称前缀。如：/{micname}/{子项目router.name}，且无需设定router.component
      *               normal 本项目中自有路由
      *               outsite 新开标签页打开，此打开方式将不嵌套layout。对应读取的跳转链接在，config/outside-config.js下。对象键值名需与router.name、router.meta.authCode保持一致
-     *
      */
 const appRoutes = [{
   path: '/',
@@ -297,6 +295,12 @@ const appRoutes = [{
         meta: { title: '新增人才账号', menuPath: false, authCode: 'P12001', menuIcon: 'user', hideInBread: false, openMode: 'normal' }
       },
       {
+        path: '/expertManagement/talent/edit',
+        name: '/expertManagement/talent/edit',
+        component: TalentCreate,
+        meta: { title: '修改人才账号', menuPath: false, authCode: 'P12003', menuIcon: 'user', hideInBread: false, openMode: 'normal' }
+      },
+      {
         path: '/expertManagement/talent/view',
         name: '/expertManagement/talent/view',
         component: TalentView,
@@ -361,6 +365,240 @@ const appRoutes = [{
     }
     ]
   },
+  //范蠡奖评审
+  {
+    path: '/fljps',
+    name: 'fljps',
+    component: contentWrapper,
+    meta: { title: '范蠡奖评审', menuPath: true, authCode: 'S1002', menuIcon: 'barcode', hideInBread: true },
+    children: [
+      //wuzihao 业务处室
+      {
+        path: '/fljps/notf/flaNotf', name: '/fljps/notf/flaNotf',
+        meta: { title: '评审管理', menuPath: true, authCode: 'S100201', hideInBread: false, menuIcon: 'sound', openMode: 'spa' },
+      },
+      {
+        path: '/fljps/firsttrial/flaFirstTrial', name: '/fljps/firsttrial/flaFirstTrial',
+        meta: { title: '初审管理', menuPath: true, authCode: 'S100203', hideInBread: false, menuIcon: 'sound', openMode: 'spa' },
+      },
+      {
+        path: '/fljps/expert/flaOrgaExpert', name: '/fljps/expert/flaOrgaExpert',
+        meta: { title: '组织专家', menuPath: true, authCode: 'S100204', hideInBread: false, menuIcon: 'team', openMode: 'spa' },
+      },
+      {
+        path: '/fljps/reviewShow/flaReviewShow', name: '/fljps/reviewShow/flaReviewShow',
+        meta: { title: '评审结果汇总', menuPath: true, authCode: 'S100205', hideInBread: false, menuIcon: 'table', openMode: 'spa' },
+      },
+      //申报单位
+      {
+        path: '/fljps/reportNote/flaReviewNotf', name: '/fljps/reportNote/flaReviewNotf',
+        meta: { title: '评审管理', menuPath: true, authCode: 'S100209', hideInBread: false, menuIcon: 'table', openMode: 'spa' },
+      },
+      {
+        path: '/fljps/scitechrep/scitechrep', name: '/fljps/scitechrep/scitechrep',
+        meta: { title: '技术类申报', menuPath: true, authCode: 'S100210', hideInBread: false, menuIcon: 'table', openMode: 'spa' },
+      },
+      {
+        path: '/fljps/innoteamrep/innoteamrep', name: '/fljps/innoteamrep/innoteamrep',
+        meta: { title: '团队类申报', menuPath: true, authCode: 'S100211', hideInBread: false, menuIcon: 'table', openMode: 'spa'},
+      },
+      {
+        path: '/fljps/checkconf/checkconfirmpost', name: '/fljps/checkconf/checkconfirmpost',
+        meta: { title: '检查并确认申报', menuPath: true, authCode: 'S100212', hideInBread: false, menuIcon: 'table', openMode: 'spa' },
+      },
+      // huchanglin 专家
+      {
+        path: '/fljps/review/flaReview', name: '/fljps/review/flaReview',
+        meta: { title: '评审管理', menuPath: true, authCode: 'S100208', hideInBread: false, menuIcon: 'table', openMode: 'spa' },
+        children:[
+          {
+            path: '/fljps/flaReportDetail/flaReportDetail/:id', name: '/fljps/flaReportDetail/flaReportDetail',
+            meta: { title: '查看成果详情', menuPath: false, authCode: 'S10020304', hideInBread: false , menuIcon: 'table', openMode: 'spa'}
+          },
+        ]
+      },
+      //ricozhou 主管单位
+      {
+        path: '/fljps/recomanage/flaRrua', name: '/fljps/recomanage/flaRrua',
+        meta: { title: '申报单位推荐', menuPath: true, authCode: 'S100206', hideInBread: false, menuIcon: 'sound', openMode: 'spa' },
+      },
+      {
+        path: '/fljps/recomanage/flaRecConf', name: '/fljps/recomanage/flaRecConf',
+        meta: { title: '推荐材料审查', menuPath: true, authCode: 'S100207', hideInBread: false, menuIcon: 'sound', openMode: 'spa' },
+      },
+    ]
+  },
+  //团体标准
+  {
+    path: '/ttbz',
+    name: 'ttbz',
+    component: contentWrapper,
+    meta: { title: '中国水产学会团体标准管理', menuPath: true, authCode: 'S0201', menuIcon: 'barcode', hideInBread: true },
+    children: [
+      {
+        path: '/ttbz/standardApplyManager/StandardApply', name: '/ttbz/standardApplyManager/StandardApply',
+        meta: { title: '立项管理', authCode: 'S020101', menuPath: true, hideInBread:false, menuIcon: 'appstore', openMode: 'spa' }
+      },
+      {
+        path: '/ttbz/organizationExpert/StandardExpert', name: '/ttbz/organizationExpert/StandardExpert',
+        meta: { title: '组织专家', authCode: 'S020107', menuPath: true, hideInBread:false, menuIcon: 'appstore', openMode: 'spa' }
+      },
+      {
+        path: '/ttbz/projectArgumentation/StandardReview', name: '/ttbz/projectArgumentation/StandardReview',
+        meta: { title: '立项论证', authCode: 'S020102', menuPath: true, hideInBread:false, menuIcon: 'appstore', openMode: 'spa'}
+      },
+      {
+        path: '/ttbz/formalReview/StandardExamine', name: '/ttbz/formalReview/StandardExamine',
+        meta: { title: '形式审查',authCode: 'S020104', menuPath: true, hideInBread:false, menuIcon: 'appstore', openMode: 'spa'}
+      },
+      {
+        path: '/ttbz/letterReviewmanager/letterReview', name: '/ttbz/letterReviewmanager/letterReview',
+        meta: { title: '函审管理', authCode: 'S020106',menuPath: true, hideInBread:false, menuIcon: 'appstore', openMode: 'spa' },
+        children:[
+          {
+            path: '/ttbz/organizationExpert/standardExpertDetail', name: '/ttbz/organizationExpert/standardExpertDetail',
+            meta: { title: '查看申报内容', menuPath: false, authCode: 'S02010601', hideInBread:false, menuIcon: 'appstore', openMode: 'spa' }
+          },
+          {
+            path: '/ttbz/letterReviewmanager/letterReview/addLetterReview', name: '/ttbz/letterReviewmanager/letterReview/addLetterReview',
+            meta: { title: '标准申报函审结论录入', menuPath: false, authCode: 'S02010602', hideInBread:false, menuIcon: 'appstore', openMode: 'spa' }
+          },
+        ]
+      },
+      {
+        path: '/ttbz/meetingReview/review', name: '/ttbz/meetingReview/review',
+        meta: { title: '会议审查管理', authCode: 'S020105',menuPath: true, hideInBread:false, menuIcon: 'appstore', openMode: 'spa' }
+      },
+      {
+        path: '/ttbz/standardDeclare/declare', name: '/ttbz/standardDeclare/declare',
+        meta: { title: '标准制定管理',  authCode: 'S020103',menuPath: true, hideInBread:false, menuIcon: 'appstore', openMode: 'spa'}
+      },
+      {
+        path: '/ttbz/letterReviewmanager/letterReview/letterResult', name: '/ttbz/letterReviewmanager/letterReview/letterResult',
+        meta: { title: '录入函审结果',  authCode: 'S020108',menuPath: true, hideInBread:false, menuIcon: 'appstore', openMode: 'spa' }
+      },
+      {
+        path: '/ttbz/publicAnnouncement/BulletinAndPublish', name: '/ttbz/publicAnnouncement/BulletinAndPublish',
+        meta: { title: '公示发布管理', authCode: 'S020109',menuPath: true, hideInBread:false, menuIcon: 'appstore', openMode: 'spa' }
+      },
+    ]
+  },
+  //水生动物防疫系统实验室能力验证
+  {
+    path: '/ssdw',
+    name: 'ssdw',
+    component: contentWrapper,
+    meta: { title: '水生动物防疫系统实验室能力验证', menuPath: true, authCode: 'S0601', menuIcon: 'barcode', hideInBread: true },
+    children: [
+      {
+        path: '/ssdw/disease/ssdwDisease', name: '/ssdw/disease/ssdwDisease',
+        meta: { title: '疾病信息管理', menuPath:true, authCode:'S060101', hideInBread:false, menuIcon: 'appstore', openMode: 'spa'}
+      },
+      {
+        path: '/ssdw/unitInfo/ssdwUnitInfo', name: '/ssdw/unitInfo/ssdwUnitInfo',
+        meta: { title: '单位信息管理', menuPath:true, authCode:'S060102', hideInBread:false, menuIcon: 'appstore', openMode: 'spa'}
+      },
+      {
+        path: '/ssdw/plan/ssdwPlan', name: '/ssdw/plan/ssdwPlan',
+        meta: { title: '能力验证计划管理', menuPath:true, authCode:'S060103', hideInBread:false, menuIcon: 'appstore', openMode: 'spa'}
+      },
+      {
+        path: '/ssdw/tech/ssdwTechGet', name: '/ssdw/tech/ssdwTechGet',
+        meta: { title: '技术方案上报', menuPath:true, authCode:'S060104', hideInBread:false, menuIcon: 'appstore', openMode: 'spa'}
+      },
+      {
+        path: '/ssdw/tech/ssdwTech', name: '/ssdw/tech/ssdwTech',
+        meta: { title: '技术方案审批', menuPath:true, authCode:'S060105', hideInBread:false, menuIcon: 'appstore', openMode: 'spa'}
+      },
+      {
+        path: '/ssdw/enroll/ssdwEnrollGet', name: '/ssdw/enroll/ssdwEnrollGet',
+        meta: { title: '能力验证计划报名', menuPath:true, authCode:'S060111', hideInBread:false, menuIcon: 'appstore', openMode: 'spa'}
+      },
+      {
+        path: '/ssdw/enroll/ssdwEnroll', name: '/ssdw/enroll/ssdwEnroll',
+        meta: { title: '能力验证计划报名审批', menuPath:true, authCode:'S060106', hideInBread:false, menuIcon: 'appstore', openMode: 'spa'}
+      },
+      {
+        path: '/ssdw/sample/ssdwSample', name: '/ssdw/sample/ssdwSample',
+        meta: { title: '样品管理', menuPath:true, authCode:'S060107', hideInBread:false, menuIcon: 'appstore', openMode: 'spa'}
+      },
+      {
+        path: '/ssdw/sample/ssdwSampleRecive', name: '/ssdw/sample/ssdwSampleRecive',
+        meta: { title: '样品接收管理', menuPath:true, authCode:'S060112', hideInBread:false, menuIcon: 'appstore', openMode: 'spa'}
+      },
+      {
+        path: '/ssdw/sample/ssdwSampleVerify', name: '/ssdw/sample/ssdwSampleVerify',
+        meta: { title: '验证报告上传', menuPath:true, authCode:'S060108', hideInBread:false, menuIcon: 'appstore', openMode: 'spa'}
+      },
+      {
+        path: '/ssdw/sample/ssdwSampleReport', name: '/ssdw/sample/ssdwSampleReport',
+        meta: { title: '验证报告结果判定', menuPath:true, authCode:'S060109', hideInBread:false, menuIcon: 'appstore', openMode: 'spa'}
+      },
+      {
+        path: '/ssdw/report/ssdwReport', name: '/ssdw/report/ssdwReport',
+        meta: { title: '总结报告上传', menuPath:true, authCode:'S060110', hideInBread:false, menuIcon: 'appstore', openMode: 'spa'}
+      },
+      {
+        path: '/ssdw/report/ssdwReportDown', name: '/ssdw/report/ssdwReportDown',
+        meta: { title: '总结报告下载', menuPath:true, authCode:'S060113', hideInBread:false, menuIcon: 'appstore', openMode: 'spa'}
+      },
+    ]
+  },
+  //学术会议
+  {
+    path: '/xshy',
+    name: 'xshy',
+    component: contentWrapper,
+    meta: { title: '中国水产学会学术会议管理', menuPath: true, authCode: 'S1001', menuIcon: 'barcode', hideInBread: true },
+    children: [
+      // 会议管理路由
+      {
+        path: '/xshy/release/acmMeetingRelease', name: '/xshy/release/acmMeetingRelease',
+        meta: { title: '会议管理', menuPath: true, authCode: 'S100102', hideInBread: false, menuIcon: 'sound', openMode: 'spa'  },
+      },
+      {
+        path: '/xshy/push/acmPushNotf', name: '/xshy/push/acmPushNotf',
+        meta: { title: '会议信息推送', menuPath: true, authCode: 'S100103', hideInBread: false, menuIcon: 'bell', openMode: 'spa'  },
+      },
+      {
+        path: '/xshy/sign/acmMeetingHome', name: '/xshy/sign/acmMeetingHome',
+        meta: { title: '会议报名', menuPath: true, authCode: 'S100109', hideInBread: false, menuIcon: 'table', openMode: 'spa'  },
+      },
+      {
+        path: '/xshy/sign/acmMeetingSignSingle', name: '/xshy/sign/acmMeetingSignSingle',
+        meta: { title: '报名历史', menuPath: true, authCode: 'S100110', hideInBread: false, menuIcon: 'table', openMode: 'spa'  },
+      },
+      {
+        path: '/xshy/sign/acmMeetingSign', name: '/xshy/sign/acmMeetingSign',
+        meta: { title: '报名信息管理', menuPath: true, authCode: 'S100108', hideInBread: false, menuIcon: 'form', openMode: 'spa'  },
+      },
+      // 理事投票路由
+      {
+        path: '/xshy/menber/acmBoardMenber', name: '/xshy/menber/acmBoardMenber',
+        meta: { title: '理事成员管理', menuPath: true, authCode: 'S100107', hideInBread: false, menuIcon: 'team', openMode: 'spa' },
+      },
+      {
+        path: '/xshy/meeting/acmBoardMeetingIssue', name: '/xshy/meeting/acmBoardMeetingIssue',
+        meta: { title: '理事议题库', menuPath: true, authCode: 'S100106', hideInBread: false, menuIcon: 'table', openMode: 'spa' },
+      },
+      {
+        path: '/xshy/meeting/acmBoardMeeting', name: '/xshy/meeting/acmBoardMeeting',
+        meta: { title: '理事会议管理', menuPath: true, authCode: 'S100104', hideInBread: false, menuIcon: 'table', openMode: 'spa' },
+      },
+      {
+        path: '/xshy/meeting/acmBoardMeetingIssueStatis', name: '/xshy/meeting/acmBoardMeetingIssueStatis',
+        meta: { title: '理事议题结果', menuPath: true, authCode: 'S100105', hideInBread: false, menuIcon: 'table', openMode: 'spa' },
+      },
+      {
+        path: '/xshy/meetingMem/acmBoardMeetingMem', name: '/xshy/meetingMem/acmBoardMeetingMem',
+        meta: { title: '理事会议管理', menuPath: true, authCode: 'S100111', hideInBread: false, menuIcon: 'table', openMode: 'spa' },
+      },
+      {
+        path: '/xshy/meetingMem/acmBoardMeetingIssueVote', name: '/xshy/meetingMem/acmBoardMeetingIssueVote',
+        meta: { title: '理事议题投票', menuPath: true, authCode: 'S100112', hideInBread: false, menuIcon: 'table', openMode: 'spa' },
+      },
+    ]
+  },
     //科普教育基地申报管理
   {
     path: '/kpjd',
@@ -370,42 +608,54 @@ const appRoutes = [{
     children: [{
       path: '/kpjd/declare/Declare',
       name: '/kpjd/declare/Declare',
-      meta: { title: '提交基地申报', menuPath: true, authCode: 'S010101', menuIcon: 'appstore', hideInBread: false, openMode: 'spa' }
+      meta: { title: '申报管理', menuPath: true, authCode: 'S010101', menuIcon: 'appstore', hideInBread: false, openMode: 'spa' }
     },
     {
       path: '/kpjd/declare/DeclareReview',
       name: '/kpjd/declare/DeclareReview',
-      meta: { title: '基地申报评审', menuPath: true, authCode: 'S010102', menuIcon: 'appstore', hideInBread: false, openMode: 'spa' }
+      meta: { title: '申报初审', menuPath: true, authCode: 'S010102', menuIcon: 'appstore', hideInBread: false, openMode: 'spa' }
     },
     {
       path: '/kpjd/declare/Trial',
       name: '/kpjd/declare/Trial',
-      meta: { title: '基地申报组织专家', menuPath: true, authCode: 'S010103', menuIcon: 'appstore', hideInBread: false, openMode: 'spa' }
+      meta: { title: '组织专家', menuPath: true, authCode: 'S010103', menuIcon: 'appstore', hideInBread: false, openMode: 'spa' }
     },
     {
       path: '/kpjd/declare/organizationExpert',
       name: '/kpjd/declare/organizationExpert',
-      meta: { title: '基地申报专家评审', menuPath: true, authCode: 'S010104', menuIcon: 'appstore', hideInBread: false, openMode: 'spa' }
+      meta: { title: '线上评分', menuPath: true, authCode: 'S010104', menuIcon: 'appstore', hideInBread: false, openMode: 'spa' },
+      children:[
+        {
+          path: '/kpjd/declare/Declare/DeclareInfo',
+          name: '/kpjd/declare/Declare/DeclareInfo',
+          meta: { title: '查看申请详情', menuPath: false, authCode: 'S01010104', menuIcon: 'appstore', hideInBread: false, openMode: 'spa'}
+        },
+        {
+          path: '/kpjd/declare/organizationExpert/expertAdd',
+          name: '/kpjd/declare/organizationExpert/expertAdd',
+          meta: { title: '评分录入', menuPath: false, authCode: 'S01010402', menuIcon: 'appstore', hideInBread: false, openMode: 'spa' }
+        }
+      ]
+    },
+    {
+      path: '/kpjd/judge/judgeBian',
+      name: '/kpjd/judge/judgeBian',
+      meta: { title: '颁发牌匾', menuPath: true, authCode: 'S010105', menuIcon: 'appstore', hideInBread: false, openMode: 'spa' }
     },
     {
       path: '/kpjd/declare/Notice',
       name: '/kpjd/declare/Notice',
-      meta: { title: '基地申报评审结果', menuPath: true, authCode: 'S010105', menuIcon: 'appstore', hideInBread: false, openMode: 'spa' }
+      meta: { title: '科普教育基地库', menuPath: true, authCode: 'S010106', menuIcon: 'appstore', hideInBread: false, openMode: 'spa' }
     },
     {
       path: '/kpjd/declare/Submission',
       name: '/kpjd/declare/Submission',
-      meta: { title: '提交考核材料', menuPath: true, authCode: 'S010106', menuIcon: 'appstore', hideInBread: false, openMode: 'spa' }
-    },
-    {
-      path: '/kpjd/declare/AssessResult',
-      name: '/kpjd/declare/AssessResult',
-      meta: { title: '考核结果', menuPath: true, authCode: 'S010107', menuIcon: 'appstore', hideInBread: false, openMode: 'spa' }
+      meta: { title: '综合考评', menuPath: true, authCode: 'S010107', menuIcon: 'appstore', hideInBread: false, openMode: 'spa' }
     },
     {
       path: '/kpjd/judge/judgeTable',
       name: '/kpjd/judge/judgeTable',
-      meta: { title: '评判标准管理', menuPath: true, authCode: 'S010108', menuIcon: 'appstore', hideInBread: false, openMode: 'spa' }
+      meta: { title: '评判标准', menuPath: true, authCode: 'S010108', menuIcon: 'appstore', hideInBread: false, openMode: 'spa' }
     },
     ]
   },
@@ -458,7 +708,17 @@ const appRoutes = [{
     {
       path: '/scsd/selectPost',
       name: '/scsd/selectPost',
-      meta: { title: '查看申报记录', menuPath: true, authCode: 'S050108', menuIcon: 'exception', hideInBread: false, menuIcon: 'appstore' }
+      meta: { title: '查看申报记录', menuPath: true, authCode: 'S050108', menuIcon: 'exception', hideInBread: false, openMode: 'spa' }
+    },
+    {
+      path: '/scsd/dateEntry/information',
+      name: '/scsd/dateEntry/information',
+      meta: { title: '新品种推广管理', menuPath: true, authCode:'S050109', menuIcon: 'cluster', hideInBread: false, openMode: 'spa' },
+    },
+    {
+      path: '/scsd/selectDateEntry',
+      name: '/scsd/selectDateEntry',
+      meta: { title: '查看所有新品种推广', menuPath: true, authCode:'S050110', menuIcon: 'cluster', hideInBread: false, openMode: 'spa' },
     }
     ]
   },
@@ -668,6 +928,30 @@ const appRoutes = [{
     name: 'SCZN',
     component: TipsOutsite,
     meta: { title: '“水产智能”健康养殖生产与大数据管理系统', menuPath: true, menuIcon: 'experiment', authCode: 'SCZN', hideInBread: false, openMode: 'outsite' }
+  },
+  {
+    path: '/XXYY/:sysname',
+    name: 'XXYY',
+    component: TipsOutsite,
+    meta: { title: '休闲渔业品牌管理系统', menuPath: true, menuIcon: 'experiment', authCode: 'XXYY', hideInBread: false, openMode: 'outsite' }
+  },
+  {
+    path: '/HYMC/:sysname',
+    name: 'HYMC',
+    component: TipsOutsite,
+    meta: { title: '海洋牧场', menuPath: true, menuIcon: 'experiment', authCode: 'HYMC', hideInBread: false, openMode: 'outsite' }
+  },
+  {
+    path: '/SCJG/:sysname',
+    name: 'SCJG',
+    component: TipsOutsite,
+    meta: { title: '水产价格采集', menuPath: true, menuIcon: 'experiment', authCode: 'SCJG', hideInBread: false, openMode: 'outsite' }
+  },
+  {
+    path: '/YMSZ/:sysname',
+    name: 'YMSZ',
+    component: TipsOutsite,
+    meta: { title: '渔民收支', menuPath: true, menuIcon: 'experiment', authCode: 'YMSZ', hideInBread: false, openMode: 'outsite' }
   }
   ],
 },

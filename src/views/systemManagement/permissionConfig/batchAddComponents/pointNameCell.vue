@@ -7,7 +7,6 @@
 </template>
 <style scoped>
 .cellInput,.cellText { width: 90%}
-/* .cellInput { margin-right: 5px;} */
 .cellText { display: inline-block; margin: 0}
 .cellBtn { cursor: pointer; color: #1890ff}
 </style>
@@ -49,7 +48,7 @@ export default {
       this.value = value
       this.pointNameForm.validateFields(err => {
         if (!err) {
-          this.$emit('change', value)
+          this.$emit('change', this.value)
         }
       })
     },

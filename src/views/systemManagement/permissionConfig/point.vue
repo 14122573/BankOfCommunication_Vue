@@ -4,7 +4,7 @@
     <template v-if='sysListForSearch.length>0 && pointsList && isReady'>
       <a-form class="protalForm" :form="porintSearchForm">
         <a-row type="flex" justify="space-between" align="middle">
-          <a-col span="6">
+          <a-col span="8">
             <a-form-item class='formItem' label="业务子系统名称" :label-col="{span:8}" :wrapper-col="{span:16}">
               <a-select placeholder="请选择业务系统" :options="sysListForSearch" v-model="searchForm.type" />
             </a-form-item>
@@ -183,7 +183,8 @@ export default {
      */
     getSysCodOptions(){
       this.$ajax.get({
-        url: this.$api.SYSTEM_LIST_ALL_GET
+        url: this.$api.SYSTEM_LIST_ALL_GET,
+        params:{type:'1'}
       }).then(res=>{
         if(res.code === '200'){
           let data = this.$com.confirm(res, 'data.content', [])
@@ -192,6 +193,10 @@ export default {
               label: item.sysName,
               value: item.sysCode
             }
+          })
+          this.sysListForSearch.push({
+            label: 'Portal平台',
+            value: '0'
           })
         }else{
           this.$message.error(res.msg)

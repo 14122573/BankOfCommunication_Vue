@@ -84,20 +84,21 @@ export default {
       const model = { ...obj }
       for (const key in model) {
         const dateItem = this.dateItems[key]
-        if (!dateItem) return model
-        if (dateItem.type == 'date') {
-          if (isMomentToString) {
-            if (!moment.isMoment(model[key])) return model
-            model[key] = moment(model[key]).format(dateItem.format || 'YYYY-MM-DD')
-          } else {
-            model[key] = moment(model[key], dateItem.format || 'YYYY-MM-DD')
-          }
-        } else if (dateItem.type == 'daterange') {
-          if (isMomentToString) {
-            if (!moment.isMoment(model[key][0]) || !moment.isMoment(model[key][1])) return model
-            model[key] = [moment(model[key][0]).format(dateItem.format || 'YYYY-MM-DD'), moment(model[key][1]).format(dateItem.format || 'YYYY-MM-DD')]
-          } else {
-            model[key] = [moment(model[key][0], dateItem.format || 'YYYY-MM-DD'), moment(model[key][1], dateItem.format || 'YYYY-MM-DD')]
+        if (dateItem) {
+          if (dateItem.type == 'date') {
+            if (isMomentToString) {
+              if (!moment.isMoment(model[key])) return model
+              model[key] = moment(model[key]).format(dateItem.format || 'YYYY-MM-DD')
+            } else {
+              model[key] = moment(model[key], dateItem.format || 'YYYY-MM-DD')
+            }
+          } else if (dateItem.type == 'daterange') {
+            if (isMomentToString) {
+              if (!moment.isMoment(model[key][0]) || !moment.isMoment(model[key][1])) return model
+              model[key] = [moment(model[key][0]).format(dateItem.format || 'YYYY-MM-DD'), moment(model[key][1]).format(dateItem.format || 'YYYY-MM-DD')]
+            } else {
+              model[key] = [moment(model[key][0], dateItem.format || 'YYYY-MM-DD'), moment(model[key][1], dateItem.format || 'YYYY-MM-DD')]
+            }
           }
         }
       }

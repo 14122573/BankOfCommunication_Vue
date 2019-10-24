@@ -247,6 +247,7 @@ export default {
           values.roleNames = (this.roles.map(ele => {
             return ele.label
           })).join(',')
+
           if (!this.$route.query.id) {
             this.$ajax.post({
               url: this.$api.POST_ADD_USER,
@@ -379,17 +380,19 @@ export default {
         })
         this.$ajax.get({
           url: this.$api.ROLE_DETAIL.replace('{id}', params)
-        })
-          .then(res => {
-            if (res.code === '200') {
-              let data = res.data.content
-              this.checkedKeys = data.map((item) => {
-                return item.id
-              })
-            } else {
-              this.$message.error(res.msg)
+        }).then(res => {
+          if (res.code === '200') {
+            let data = res.data.content
+            for(let i=0;i<data.length;i++){
+              if(false ===data[i].canDelete){
+              }else{
+                this.checkedKeys.push(data[i].id)
+              }
             }
-          })
+          } else {
+            this.$message.error(res.msg)
+          }
+        })
       }
     },
     getDetail() {
@@ -417,12 +420,27 @@ export default {
           zipCode
         } = this.detail
 
+        // 整理当前用户详情中的角色ID数据，去除重复
         let datas = this.detail.roleIds != null ? this.detail.roleIds.split(',') : []
+        let userRoleIDs = []
+        for(var i=0;i<datas.length;i++){
+          if(userRoleIDs.indexOf(datas[i]) == -1){
+            userRoleIDs.push(datas[i])
+          }
+        }
+        // 整理当前用户详情中的角色名称数据，去除重复
         let datas1 = this.detail.roleNames != null ? this.detail.roleNames.split(',') : []
-        datas.forEach((ele, index) => {
-          datas[index] = {
+        let userRoleNames = []
+        for(var i=0;i<datas1.length;i++){
+          if(userRoleNames.indexOf(datas1[i]) == -1){
+            userRoleNames.push(datas1[i])
+          }
+        }
+        // 组装需要展示在用户信息表单“角色名称”项的初始数据
+        userRoleIDs.forEach((ele, index) => {
+          userRoleIDs[index] = {
             'key': ele,
-            'label': datas1[index]
+            'label': userRoleNames[index]
           }
         })
         let setDatas = {
@@ -442,10 +460,10 @@ export default {
             key: this.detail.area.id
           }
         }
-        setDatas.notes = datas
-        this.roles = datas
+        setDatas.notes = userRoleIDs
+        this.roles = userRoleIDs
         this.searchForm.setFieldsValue(setDatas)
-        this.roleChange(datas)
+        this.roleChange(userRoleIDs)
       })
     },
     validatePhone(rule, value, callback) {

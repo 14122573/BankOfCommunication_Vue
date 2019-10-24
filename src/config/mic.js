@@ -17,6 +17,12 @@ case 'devol': // 本地线上部署环境下
     pathPrefix: '/scsd'
   },
   {
+    baseUrl: 'http://txc.tao.com', // 科普基地
+    resourceName: 'kpjd',
+    micId: 'mic:kpjd',
+    pathPrefix: '/kpjd'
+  },
+  {
     baseUrl: 'http://scylzc.tao.com', // 原良种验收
     resourceName: 'scylzc',
     micId: 'mic:scylzc',
@@ -38,41 +44,71 @@ case 'devol': // 本地线上部署环境下
   break
 case 'sit': // sit环境下
   MicConfig = [{
-    baseUrl: 'http://scsd.omniview.pro',
+    baseUrl: 'http://scsd.omniview.pro', //新品种
     resourceName: 'scsd',
     micId: 'mic:scsd',
     pathPrefix: '/scsd'
   },
   {
-    baseUrl: 'http://scylzc.omniview.pro',
+    baseUrl: 'http://scylzc.omniview.pro', //原良种验收
     resourceName: 'scylzc',
     micId: 'mic:scylzc',
     pathPrefix: '/scylzc'
   },
   {
-    baseUrl: 'http://ylzcre.omniview.pro',
+    baseUrl: 'http://ylzcre.omniview.pro', //原良种复查
     resourceName: 'ylzcre',
     micId: 'mic:ylzcre',
     pathPrefix: '/ylzcre'
   },
   {
-    baseUrl: 'http://bbgl.omniview.pro',
+    baseUrl: 'http://bbgl.omniview.pro', //智慧报表
     resourceName: 'bbgl',
     micId: 'mic:bbgl',
     pathPrefix: '/bbgl'
   },
   {
-    baseUrl: 'http://zlzs.omniview.pro',
+    baseUrl: 'http://zlzs.omniview.pro', //质量安全追述
     resourceName: 'zlzs',
     micId: 'mic:zlzs',
     pathPrefix: '/zlzs'
   },
   {
-    baseUrl: 'http://yysygl.omniview.pro',
+    baseUrl: 'http://yysygl.omniview.pro', //智慧报表
     resourceName: 'yysygl',
     micId: 'mic:yysygl',
     pathPrefix: '/yysygl'
-  }
+  },
+  {
+    baseUrl: 'http://kpjd.omniview.pro', // 科普基地
+    resourceName: 'kpjd',
+    micId: 'mic:kpjd',
+    pathPrefix: '/kpjd'
+  },
+  {
+    baseUrl: 'http://xshy.omniview.pro', // 学术会议
+    resourceName: 'xshy',
+    micId: 'mic:xshy',
+    pathPrefix: '/xshy'
+  },
+  {
+    baseUrl: 'http://ssdw.omniview.pro', // 水生动物防疫系统实验室能力验证
+    resourceName: 'ssdw',
+    micId: 'mic:ssdw',
+    pathPrefix: '/ssdw'
+  },
+  {
+    baseUrl: 'http://pjsf.omniview.pro', // 中国水产学会团体标准管理
+    resourceName: 'ttbz',
+    micId: 'mic:ttbz',
+    pathPrefix: '/ttbz'
+  },
+  {
+    baseUrl: 'http://fljps.omniview.pro', // 范蠡奖评审
+    resourceName: 'fljps',
+    micId: 'mic:fljps',
+    pathPrefix: '/fljps'
+  },
   ]
   break
 case 'uat': // uat环境下
@@ -93,18 +129,12 @@ default: // 默认环境下（开发环境）
     micId: 'mic:scsd',
     pathPrefix: '/scsd'
   },
-    // {
-    //   baseUrl:'http://scylzc.tao.com', // 原良种验收
-    //   resourceName:'scylzc',
-    //   micId:'mic:scylzc',
-    //   pathPrefix:'/scylzc'
-    // },
-    // {
-    //   baseUrl:'http://ylzcre.tao.com', // 原良种复查
-    //   resourceName:'ylzcre',
-    //   micId:'mic:ylzcre',
-    //   pathPrefix:'/ylzcre'
-    // }
+  {
+    baseUrl: 'http://txc.tao.com', // 科普基地
+    resourceName: 'kpjd',
+    micId: 'mic:kpjd',
+    pathPrefix: '/kpjd'
+  }
   ]
   break
 };
