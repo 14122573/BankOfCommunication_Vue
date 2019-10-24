@@ -1,6 +1,5 @@
 // const Layout = () => import('@/components/Layout/main')
-const contentWrapper = () =>
-    import ('@/components/Layout/content-wrapper')
+const contentWrapper = () =>  import ('@/components/Layout/content-wrapper')
 const TipsUpperLimitErr = () =>
     import ('@/views/tips/upperlimit')
 const TipsNetworkErr = () =>
