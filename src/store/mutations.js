@@ -38,4 +38,7 @@ export default {
   SET_SEARCHPARAMS(state, searchParams) {
     state.listSearchParams[searchParams.routeName] = JSON.parse(JSON.stringify(searchParams))
   },
+  SET_CHOOSESYSLISTS(state, chooseSystemLists) {
+    state.chooseSystemLists = JSON.parse(JSON.stringify(chooseSystemLists))
+  },
 }
