@@ -54,7 +54,7 @@
 	</div>
 </template>
 <script>
-import userStatus from '../../systemManagement/components/user-status'
+import userStatus from '@/views/systemManagement/components/user-status'
 export default {
   name: 'Talent',
   components: {

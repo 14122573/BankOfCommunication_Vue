@@ -1,9 +1,9 @@
 <template>
-	<div class="loginFrame">
+	<div class="loginFrame" :style="'background-image: url(' + require('@/assets/images/bg.jpg') + ')'">
 		<div class="loginForm">
-			<div class="matching">
+			<div class="matching" :style="'background-image: url(' + require('@/assets/images/pic.jpg') + ')'">
 				<a-row type="flex" justify="start" align="middle" :gutter="10">
-					<a-col offset="1"><img src="../../assets/images/logo.png" alt="" class="logo"></a-col>
+					<a-col offset="1"><img src="@/assets/images/logo.png" alt="" class="logo"></a-col>
 					<a-col>“智能渔技”综合信息服务平台</a-col>
 				</a-row>
 			</div>
@@ -380,7 +380,6 @@ export default {
 		margin: 0px;
 		padding: 0px;
 		position: relative;
-		background-image: url("../../assets/images/bg.jpg");
 		background-size: cover;
 	}
 
@@ -403,7 +402,6 @@ export default {
 
 	.matching {
 		width: 550px;
-		background-image: url("../../assets/images/pic.jpg");
 		background-size: cover;
 		padding: 10px 0;
 		font-size: 26px;

@@ -7,9 +7,9 @@
 
 <script>
 //主体文件引入
-import '../../../static/ueditor/ueditor.config.js'
-import '../../../static/ueditor/ueditor.all.min.js'
-import '../../../static/ueditor/lang/zh-cn/zh-cn.js'
+import './ueditor/ueditor.config.js'
+import './ueditor/ueditor.all.min.js'
+import './ueditor/lang/zh-cn/zh-cn.js'
 
 export default {
   name: 'UE',

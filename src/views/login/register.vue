@@ -1,10 +1,10 @@
 <template>
-	<div class="registerFrame">
+	<div class="registerFrame" :style="'background-image: url(' + rqeuire('@/assets/images/bg.jpg') + ')'">
 		<Loader />
-		<div class="registerWapper">
+		<div class="registerWapper" :style="'background:#fff url(' + require('@/assets/images/border.png') + ' no-repeat bottom center'">
 			<div>
 				<a-row type="flex" justify="start" align="middle" :gutter="10">
-					<a-col><img src="../../assets/images/logo.png" alt="" class="logo"></a-col>
+					<a-col><img src="@/assets/images/logo.png" alt="" class="logo"></a-col>
 					<a-col>“智能渔技”综合信息服务平台</a-col>
 				</a-row>
 			</div>
@@ -390,8 +390,8 @@ export default {
 .footer p { margin: 0; }
 .footer p:last-of-type { color: #829bdc; }
 
-.registerFrame { 	width: 100%; height: 100%; min-height: 700px; margin: 0px; padding: 0px; position: relative; background-image: url("../../assets/images/bg.jpg"); background-size: cover; }
-.registerWapper { width: 900px; height: 540px; position: absolute; left: 0; top: 0; right: 0; bottom: 0; margin: auto; background:#fff url("../../assets/images/border.png") no-repeat bottom center; background-size: 100%; padding: 10px 20px; font-size: 26px; color: rgba(101, 101, 101);}
+.registerFrame { 	width: 100%; height: 100%; min-height: 700px; margin: 0px; padding: 0px; position: relative; background-size: cover; }
+.registerWapper { width: 900px; height: 540px; position: absolute; left: 0; top: 0; right: 0; bottom: 0; margin: auto; background-size: 100%; padding: 10px 20px; font-size: 26px; color: rgba(101, 101, 101);}
 .registerWapper .logo {height: 70px;}
 .resigerTitle { margin-bottom: 20px; }
 .resigerTitle .title { font-size: 20px; font-weight: bold; }
