@@ -47,6 +47,8 @@ case 'uat': // uat环境下
   }
   break
 case 'production': // 生产环境下
+  outsideUrl = {
+  }
   break
 default: // 默认环境下（开发环境）
   outsideUrl = {
