@@ -13,8 +13,8 @@ case 'production': // 生产环境下
   BASE_URL = 'http://znyj.nftec.agri.cn/api'
   break
 default: // 默认环境下（开发环境）
-  // BASE_URL = 'http://fish.omniview.pro/api'
-  BASE_URL = 'http://iftp.omniview.pro/api'
+  BASE_URL = 'http://fish.omniview.pro/api'
+  // BASE_URL = 'http://iftp.omniview.pro/api'
   break
 };
 
@@ -95,4 +95,11 @@ export default {
   TEMPLAT_DOWNLOAD_EXPERT_AND_TALENT: BASE_URL + '/template/导入模版.xlsx', //专家库人才库导入模板下载
   // 专家管理--项目评审
   GET_EXPERT_REVIEW_TODO_LIST: '/service-expert/expert/extract/{expertId}', //获取当前接口传参专家需要评审的数据,? status:0-未完成 1-完成 null/""-全部
+  // 内容发布-知识库
+  GET_CMS_KNOWLEDGE_LIST: '/service-release/release/knowledge', //获取知识库文档列表
+  POST_CMS_KNOWLEDGE: '/service-release/release/knowledge', //新建知识文档
+  GET_CMS_KNOWLEDGE_DETAIL: '/service-release/release/knowledge/{id}', //获取知识库详情信息
+  PUT_CMS_KNOWLEDGE_DETAIL: '/service-release/release/knowledge/{id}', //修改知识库详情信息
+  DELETE_CMS_KNOWLEDGE: '/service-release/release/knowledge/{id}', //删除单条知识库文档
+  PUT_CMS_KNOWLEDGE_STATUS: '/service-release/release/knowledge/{id}/{status}', //修改单条知识库文档状态
 }

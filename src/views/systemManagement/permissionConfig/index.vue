@@ -1,5 +1,3 @@
-<style scoped>
-</style>
 <template>
 	<div class="routerWapper">
     <div class="portalDetailWapper" v-if="$route.name == '/systemManagement/permissionConfig'">
