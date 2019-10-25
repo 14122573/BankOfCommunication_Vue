@@ -145,7 +145,7 @@ export default {
         // this.$cookie.remove('userInfo')
         this.$cookie.remove('redirectUrl')
         this.$cookie.remove('url')
-        this.$cookie.remove('systemLists')
+        // this.$cookie.remove('systemLists')
         this.$cookie.remove('canEnterBind')
         this.$cookie.remove('NavbarList')
       } else {
@@ -160,7 +160,7 @@ export default {
           // this.$cookie.remove('userInfo')
           this.$cookie.remove('redirectUrl')
           this.$cookie.remove('url')
-          this.$cookie.remove('systemLists')
+          // this.$cookie.remove('systemLists')
           this.$cookie.remove('canEnterBind')
           this.$cookie.remove('NavbarList')
           this.$router.push({

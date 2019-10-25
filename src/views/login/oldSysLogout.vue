@@ -116,7 +116,9 @@ export default {
     verOldSysAuth(oldSys){
       if(Array.isArray(oldSys) && oldSys.length>1){
         this.$cookie.set('canEnterBind', '200')
-        this.$cookie.set('systemLists', oldSys)
+        // this.$cookie.set('systemLists', oldSys)
+        let chooseSystemLists = oldSys
+        this.$store.commit('SET_CHOOSESYSLISTS', chooseSystemLists)
         return true
       }else{
         return false

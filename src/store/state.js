@@ -13,5 +13,6 @@ export default {
     defaultOpenKeys: [],
   },
   tabName: '',
-  listSearchParams: {}
+  listSearchParams: {},
+  chooseSystemLists: []
 }

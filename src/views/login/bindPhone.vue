@@ -12,11 +12,17 @@
 					请选择登录系统
 				</div>
 				<div class="systemLists">
-					<div class="systemItem" v-for="(item,index) in systemLists" :key="index" @click="selectSystem(item,index)">
-						{{item.sysDic.sysName}}
-						<img src="../../assets/images/system-s.png" alt="" class="checkImage" v-show='activeIndex==index' />
-						<img src="../../assets/images/isBind.png" alt="" class="checkImage" v-show='item.isBind=="true"||item.isBind=="1"' />
-					</div>
+          <a-row :gutter="16">
+          <template v-for="(item,index) in systemLists">
+            <a-col span='6' :key="index">
+              <div class="systemItem" @click="selectSystem(item,index)">
+                {{item.sysDic.sysName}}
+                <img src="../../assets/images/system-s.png" alt="" class="checkImage" v-show='activeIndex==index' />
+                <img src="../../assets/images/isBind.png" alt="" class="checkImage" v-show='item.isBind=="true"||item.isBind=="1"' />
+              </div>
+            </a-col>
+          </template>
+          </a-row>
 				</div>
 			</div>
 			<div class="bindPhone" v-if='right=="完成绑定"'>
@@ -253,7 +259,8 @@ export default {
     }
   },
   mounted() {
-    this.systemLists = this.$cookie.get('systemLists') != undefined ? JSON.parse(this.$cookie.get('systemLists')) : []
+    // this.systemLists = this.$cookie.get('systemLists') != undefined ? JSON.parse(this.$cookie.get('systemLists')) : []
+    this.systemLists = this.$store.state.chooseSystemLists
     if (this.$route.query.id) {
       this.userId = this.$route.query.id
       this.pageType = 'isBind'
@@ -341,7 +348,8 @@ export default {
     handleOk() {
       let gainDatas = this.gainDatas
       if (!this.$route.query.id) {
-        let lists = JSON.parse(this.$cookie.get('systemLists'))
+        // let lists = JSON.parse(this.$cookie.get('systemLists'))
+        let lists = this.$store.state.chooseSystemLists
         this.$com.setOldSysAccounts(gainDatas.access_token, gainDatas.refresh_token, lists)
       }
       if (gainDatas.redirectUrl) {
@@ -389,7 +397,9 @@ export default {
         url: this.$api.GET_SELECT_SYSTEM + links
       }).then(res => {
         let gainDatas = res.data.content
-        let lists = JSON.parse(this.$cookie.get('systemLists'))
+        // let lists = JSON.parse(this.$cookie.get('systemLists'))
+        let lists = this.$store.state.chooseSystemLists
+
         this.$com.setOldSysAccounts(gainDatas.access_token, gainDatas.refresh_token, lists)
         if (gainDatas.redirectUrl) {
           this.$cookie.set('canEnterBind', '500')
@@ -592,17 +602,15 @@ export default {
 
 	.systemLists {
 		margin: 10px 0 0px 0;
-		display: flex;
-		justify-content: flex-start;
-
-	}
+    }
 
 	.systemItem {
-		width: 172px;
+		width: 100%;
 		height: 65px;
 		background: rgba(242, 247, 250);
 		text-align: center;
 		font-size: 12px;
+		margin-bottom: 10px;
 		margin-right: 10px;
 		padding: 15px 17px;
 		cursor: pointer;
@@ -610,7 +618,7 @@ export default {
 	}
 
 	.checkImage {
-		width: 172px;
+		width: 100%;
 		height: 65px;
 		position: absolute;
 		top: 0px;
