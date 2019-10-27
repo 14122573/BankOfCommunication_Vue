@@ -49,6 +49,9 @@ const ProjectReviewHistory = () => import ('@/views/expertManagement/review/hist
 const demo = () => import ('@/views/demo/use-pdf')
 // 内容管理-知识文库
 const KnowledgeList = () => import ('@/views/cms/knowledge/list')
+const KnowledgeCreate = () => import ('@/views/cms/knowledge/create')
+const KnowledgeEdit = () => import ('@/views/cms/knowledge/edit')
+const KnowledgeDetail = () => import ('@/views/cms/knowledge/details')
 
 /**
      * 要求：
@@ -331,17 +334,29 @@ const appRoutes = [{
       ]
     },
     //内容发布
-    // {
-    //   path: '/cms', name: 'cms', component: contentWrapper,
-    //   meta: { title: '内容管理', menuPath: true, authCode: 'P30000', menuIcon: 'file-text', hideInBread: true },
-    //   children:[
-    //     {
-    //       path: '/cms/knowledge', name: '/cms/knowledge', component: KnowledgeList,
-    //       meta: { title: '知识文库管理', menuPath: true, authCode: 'P31000', menuIcon: 'file-text', hideInBread: false },
-    //       children:[]
-    //     }
-    //   ]
-    // },
+    {
+      path: '/cms', name: 'cms', component: contentWrapper,
+      meta: { title: '内容管理', menuPath: true, authCode: 'P30000', menuIcon: 'file-text', hideInBread: true },
+      children:[
+        {
+          path: '/cms/knowledge', name: '/cms/knowledge', component: KnowledgeList,
+          meta: { title: '知识文库管理', menuPath: true, authCode: 'P31000', menuIcon: 'file-text', hideInBread: false },
+          children:[
+            {
+              path: '/cms/knowledge/create', name: '/cms/knowledge/create', component: KnowledgeCreate,
+              meta: { title: '新建知识文献', menuPath: false, authCode: 'P32001', menuIcon: 'file-text', hideInBread: false },
+            },
+            {
+              path: '/cms/knowledge/edit/:id', name: '/cms/knowledge/edit', component: KnowledgeEdit,
+              meta: { title: '修改知识文献', menuPath: false, authCode: 'P32001', menuIcon: 'file-text', hideInBread: false },
+            },{
+              path: '/cms/knowledge/:id', name: '/cms/knowledge/details', component: KnowledgeDetail,
+              meta: { title: '查看知识文献详情', menuPath: false, authCode: 'P33003', menuIcon: 'file-text', hideInBread: false },
+            }
+          ]
+        }
+      ]
+    },
     //范蠡奖评审
     {
       path: '/fljps',
