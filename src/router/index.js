@@ -11,6 +11,7 @@ Vue.use(Router)
 
 const config = {
   mode: 'history',
+  base: process.env.NODE_ENV === 'development' ? '/' : '/portal/',
   routes,
 }
 const router = new Router(config)
@@ -44,6 +45,11 @@ router.beforeEach((to, from, next) => {
     } else {
       next()
     }
+  }
+  if (!to.name) {
+    next('/error-page')
+  } else {
+    next()
   }
 })
 

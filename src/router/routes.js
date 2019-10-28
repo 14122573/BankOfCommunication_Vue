@@ -7,6 +7,8 @@ const TipsNoAuth = () =>
     import ('@/views/tips/auth')
 const TipsOutsite = () =>
     import ('@/views/tips/outsite')
+const ErrorPage = () =>
+    import ('@/views/tips/error-page')
 const HomePage = () =>
     import ('@/views/home')
 const LoginPage = () =>
@@ -982,6 +984,12 @@ const appRoutes = [{
   name: 'networkerr',
   component: TipsNetworkErr,
   meta: { title: '网络错误', },
+},
+{
+  path: '/error-page',
+  name: 'error-page',
+  component: ErrorPage,
+  meta: { title: '404', },
 },
 {
   path: '/upperLimitErr',
