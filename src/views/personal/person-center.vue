@@ -168,6 +168,12 @@ export default {
       if(this.$com.oneOf('YMSZ',this.$store.state.permissionCodeList)){
         authSysList.push('渔民收支')
       }
+      if(this.$com.oneOf('YQJC',this.$store.state.permissionCodeList)){
+        authSysList.push('渔情监测')
+      }
+      if(this.$com.oneOf('NLBL',this.$store.state.permissionCodeList)){
+        authSysList.push('内陆捕捞')
+      }
       return authSysList
     }
   }

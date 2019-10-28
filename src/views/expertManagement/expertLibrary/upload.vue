@@ -14,13 +14,13 @@
                         <a-input-group compact>
                             <span class="upload-text">导入文件：</span>
                             <a-input read-only :value="fileName" style="width:60%;" />
-                            <a-upload 
-                                accept=".xsl,.xlsx" 
+                            <a-upload
+                                accept=".xsl,.xlsx"
                                 :showUploadList="false"
-                                style="width:20%;" 
-                                name="file" 
-                                :multiple="true" 
-                                :headers="headers" 
+                                style="width:20%;"
+                                name="file"
+                                :multiple="true"
+                                :headers="headers"
                                 :beforeUpload="beforeUpload"
                             >
                                 <a-button type="primary">
@@ -66,7 +66,7 @@
                         </a-alert>
                     </a-col>
                 </a-row>
-                
+
         </div>
         <a-divider dashed />
           <a-alert message="导入流程步骤：" banner type="info" id="uplod-alert" showIcon >

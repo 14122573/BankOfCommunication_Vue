@@ -1,4 +1,4 @@
-let BASE_URL = ''
+let BASE_URL = '',MOCK_URL=''
 switch (process.env.NODE_ENV) {
 case 'devol': // 本地线上部署环境下
   BASE_URL = 'http://fish.omniview.pro/api'
@@ -15,6 +15,7 @@ case 'production': // 生产环境下
 default: // 默认环境下（开发环境）
   // BASE_URL = 'http://fish.omniview.pro/api'
   BASE_URL = 'http://iftp.omniview.pro/api'
+  MOCK_URL = 'http://47.100.45.230:30000/mock/267'
   break
 };
 
@@ -96,10 +97,10 @@ export default {
   // 专家管理--项目评审
   GET_EXPERT_REVIEW_TODO_LIST: '/service-expert/expert/extract/{expertId}', //获取当前接口传参专家需要评审的数据,? status:0-未完成 1-完成 null/""-全部
   // 内容发布-知识库
-  GET_CMS_KNOWLEDGE_LIST: '/service-release/release/knowledge', //获取知识库文档列表
-  POST_CMS_KNOWLEDGE: '/service-release/release/knowledge', //新建知识文档
-  GET_CMS_KNOWLEDGE_DETAIL: '/service-release/release/knowledge/{id}', //获取知识库详情信息
-  PUT_CMS_KNOWLEDGE_DETAIL: '/service-release/release/knowledge/{id}', //修改知识库详情信息
-  DELETE_CMS_KNOWLEDGE: '/service-release/release/knowledge/{id}', //删除单条知识库文档
-  PUT_CMS_KNOWLEDGE_STATUS: '/service-release/release/knowledge/{id}/{status}', //修改单条知识库文档状态
+  GET_CMS_KNOWLEDGE_LIST: MOCK_URL+'/service-release/release/knowledge', //获取知识库文档列表
+  POST_CMS_KNOWLEDGE: MOCK_URL+'/service-release/release/knowledge', //新建知识文档
+  GET_CMS_KNOWLEDGE_DETAIL: MOCK_URL+'/service-release/release/knowledge/{id}', //获取知识库详情信息
+  PUT_CMS_KNOWLEDGE_DETAIL: MOCK_URL+'/service-release/release/knowledge/{id}', //修改知识库详情信息
+  DELETE_CMS_KNOWLEDGE: MOCK_URL+'/service-release/release/knowledge/{id}', //删除单条知识库文档
+  PUT_CMS_KNOWLEDGE_STATUS: MOCK_URL+'/service-release/release/knowledge/{id}/{status}', //修改单条知识库文档状态
 }

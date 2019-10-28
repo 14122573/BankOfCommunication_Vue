@@ -1,0 +1,189 @@
+<template>
+ <a-upload
+    v-if="ready"
+    :fileList="uploadFileList"
+    :customRequest="(data) =>{handleUpload(data,uploadFileList)}"
+    :remove="(data) =>{handleUploadFileRemove(data,uploadFileList)}"
+    :beforeUpload="beforeUpload"
+    :accept="uploadConfig.acceptTypes"
+    :multiple="multiple">
+    <a-button :disabled="!allowUpload"> <a-icon type="upload" />上传材料 </a-button>
+  </a-upload>
+</template>
+<script>
+export default {
+  name:'FileUpload',
+  props:{
+    multiple:{ // 是否允许一次上传多个
+      type:Boolean,
+      default() {
+        return false
+      }
+    },
+    /**
+     * 需要初始化展示的已上传文件列表,要求格式
+     * [{
+     *  uid: '-1',
+        name: this.knowledgeDetails.path,
+        status: 'done',
+        url: this.knowledgeDetails.path
+     * },
+     * ...]
+     */
+    defaultFileList:{
+      type:Array,
+      default() {
+        return []
+      }
+    },
+    maxCount:{ //可上传的文件数量
+      type:Number,
+      default() {
+        return 1
+      }
+    },
+    acceptTypes:{ //可上传的文件格式
+      type:Array,
+      default() {
+        return ['jpg','jpeg','png','gif','doc','docx','xlsx','xls','xlsm','pdf']
+      }
+    },
+    maxFileSize:{ //可上传的文件大小，单位B
+      type:Number,
+      default() {
+        return 5*1024*1024
+      }
+    },
+    timestamp:{ //时间戳，用于传参更新的被监听字段
+      type:Number,
+      required:true
+    },
+  },
+  data(){
+    return {
+      ready:false,
+      uploadFileList:[],
+      uploadConfig:{
+        acceptTypes:'',
+        acceptTypesArray:[]
+      }
+    }
+  },
+  mounted(){
+    this.init()
+  },
+  watch:{
+    timestamp(){
+      this.init()
+    }
+  },
+  computed:{
+    /**
+     * 是否允许继续添加上传文件
+     * @returns {Boolean} true 允许继续添加上传
+     */
+    allowUpload(){
+      if(this.uploadFileList.length<this.maxCount){
+        return true
+      }else{
+        return false
+      }
+    }
+  },
+  methods:{
+    init(){
+      this.ready = false
+      // init UploadConfig
+      this.uploadConfig.acceptTypesArray = this.acceptTypes
+      this.uploadConfig.acceptTypes = ''
+      for(let i=0;i<this.acceptTypes.length;i++){
+        this.uploadConfig.acceptTypes += '.'+this.acceptTypes[i]+','
+      }
+      this.uploadConfig.acceptTypes = this.uploadConfig.acceptTypes.substring(0,this.uploadConfig.acceptTypes.length-1)
+
+      // init uploadFileList
+      this.uploadFileList = [].concat(this.defaultFileList)
+
+      this.ready = true
+    },
+    /**
+     * 删除已上传文件，更新暂存
+     * @param {Object} file 本次上传的文件对象
+     * @param {Array} uploadFileList 已暂存的已上传文件对象列表
+     */
+    handleUploadFileRemove(file, uploadFileList) {
+      const index = uploadFileList.indexOf(file)
+      uploadFileList.splice(index, 1)
+
+      this.$emit('change',uploadFileList)
+    },
+    /**
+     * 在调用接口上传前，检查本次上传文件是否符合业务规则，如文件后缀及大小
+     * @param {Object} file 本次上传的文件对象
+     * @returns {Boolean} true 符合规则；
+     */
+    beforeUpload(file) {
+      let fileNameArr = file.name.split('.')
+      let fileSuffix = fileNameArr[fileNameArr.length-1].toLowerCase()
+      let isAccept = this.$com.oneOf(fileSuffix,this.uploadConfig.acceptTypesArray)
+      let isLtMaxFileSize = (file.size  < this.maxFileSize)
+
+      let message = ''
+      message += !isAccept?('文件格式限定为'+this.uploadConfig.acceptTypes+'；'):''
+      message += !isLtMaxFileSize?'文件需小于5M；':''
+      if(isAccept && isLtMaxFileSize){
+        return true
+      }else{
+        this.$message.error(message)
+        this.$emit('change',this.uploadFileList)
+
+        return false
+      }
+    },
+    /**
+     * 执行接口调用，将本次选择文件上传至远程，并更新本次已上传文件数组
+     * @param {Object} file 本次上传的文件对象
+     * @param {Array} uploadFileList 已暂存的已上传文件对象列表
+     */
+    handleUpload(data,uploadFileList) {
+      const formData = new FormData()
+      formData.append('file', data.file)
+      data.onProgress()
+      this.$ajax.post({
+        url: this.$api.UPLOAD_TEMP,
+        params: formData
+      }).then(res => {
+        if (res.code === '200') {
+          let data = this.$com.confirm(res, 'data.content', {})
+          for(let index = 0;index<uploadFileList.length;index++){
+            if(data.name == uploadFileList[index].name){
+              this.$message.error('该文件已上传')
+
+              this.$emit('change',uploadFileList)
+              return
+            }
+          }
+          this.uploadFileList.push({
+            uid: data.id,
+            name: data.name,
+            status: 'done',
+            url: data.path
+          })
+
+          this.$emit('change',this.uploadFileList)
+        } else {
+          this.$message.error(res.msg)
+        }
+      })
+    },
+    getUploadFileList(){
+      return this.uploadFileList
+    }
+  }
+}
+</script>
+<style>
+.cmsDataStatus .ant-badge-status-dot{ width:9px; height:9px;}
+</style>
+
+

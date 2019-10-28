@@ -23,6 +23,7 @@ import {
   Breadcrumb,
   Form,
   Input,
+  InputNumber,
   Card,
   Dropdown,
   Row,
@@ -71,6 +72,7 @@ Vue.use(Icon)
 Vue.use(Breadcrumb)
 Vue.use(Form)
 Vue.use(Input)
+Vue.use(InputNumber)
 Vue.use(Card)
 Vue.use(Dropdown)
 Vue.use(Row)
