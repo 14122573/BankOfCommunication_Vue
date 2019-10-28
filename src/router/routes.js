@@ -950,6 +950,18 @@ const appRoutes = [{
       name: 'YMSZ',
       component: TipsOutsite,
       meta: { title: '渔民收支', menuPath: true, menuIcon: 'experiment', authCode: 'YMSZ', hideInBread: false, openMode: 'outsite' }
+    },
+    {
+      path: '/YQJC/:sysname',
+      name: 'YQJC',
+      component: TipsOutsite,
+      meta: { title: '渔情监测', menuPath: true, menuIcon: 'experiment', authCode: 'YQJC', hideInBread: false, openMode: 'outsite' }
+    },
+    {
+      path: '/NLBL/:sysname',
+      name: 'NLBL',
+      component: TipsOutsite,
+      meta: { title: '内陆捕捞', menuPath: true, menuIcon: 'experiment', authCode: 'NLBL', hideInBread: false, openMode: 'outsite' }
     }
   ],
 },

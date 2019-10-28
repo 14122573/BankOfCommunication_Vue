@@ -18,6 +18,9 @@ case 'devol': // 本地线上部署环境下
     'HYMC':'http://123.206.129.108:8082/index/user/index', // 海洋牧场
     'SCJG':'http://www.cninfoyu.cn/', // 水产价格采集
     'YMSZ':'http://www.csfish.org.cn:8080/fishincome/', // 渔民收支
+    'YQJC':'http://139.129.222.144:8094/sys/Login', // 渔情监测
+    'NLBL':'http://139.129.222.144:8093/default.aspx', // 内陆捕捞
+
 
   }
   break
@@ -31,6 +34,8 @@ case 'sit': // sit环境下
     'XXYY':'http://123.206.129.108:8000/index/user/index', //休闲渔业
     'SCJG':'http://www.cninfoyu.cn/', // 水产价格采集
     'YMSZ':'http://www.csfish.org.cn:8080/fishincome/', // 渔民收支
+    'YQJC':'http://139.129.222.144:8094/sys/Login', // 渔情监测
+    'NLBL':'http://139.129.222.144:8093/default.aspx', // 内陆捕捞
   }
   break
 case 'uat': // uat环境下
@@ -44,6 +49,8 @@ case 'uat': // uat环境下
     'HYMC':'http://123.206.129.108:8082/index/user/index', // 海洋牧场
     'SCJG':'http://www.cninfoyu.cn/', // 水产价格采集
     'YMSZ':'http://www.csfish.org.cn:8080/fishincome/', // 渔民收支
+    'YQJC':'http://139.129.222.144:8094/sys/Login', // 渔情监测
+    'NLBL':'http://139.129.222.144:8093/default.aspx', // 内陆捕捞
   }
   break
 case 'production': // 生产环境下
@@ -61,11 +68,13 @@ default: // 默认环境下（开发环境）
     'HYMC':'http://123.206.129.108:8082/index/user/index', // 海洋牧场
     'SCJG':'http://www.cninfoyu.cn/', // 水产价格采集
     'YMSZ':'http://www.csfish.org.cn:8080/fishincome/', // 渔民收支
+    'YQJC':'http://139.129.222.144:8094/sys/Login', // 渔情监测
+    'NLBL':'http://139.129.222.144:8093/default.aspx', // 内陆捕捞
   }
   break
 };
 
-let oldSysCodes = ['SCYJ','YQCB','ZXJC','NYPC','SCZN','XXYY','HYMC','SCJG','YMSZ']
+let oldSysCodes = ['SCYJ','YQCB','ZXJC','NYPC','SCZN','XXYY','HYMC','SCJG','YMSZ','NLBL','YQJC']
 
 export const OutsideUrls = {
   ...outsideUrl,
