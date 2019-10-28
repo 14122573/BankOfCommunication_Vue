@@ -52,6 +52,8 @@ const KnowledgeList = () => import ('@/views/cms/knowledge/list')
 const KnowledgeCreate = () => import ('@/views/cms/knowledge/create')
 const KnowledgeEdit = () => import ('@/views/cms/knowledge/edit')
 const KnowledgeDetail = () => import ('@/views/cms/knowledge/details')
+// 内容管理 - 投票管理
+const VoteList = () => import('@/views/cms/vote/list')
 
 /**
      * 要求：
@@ -354,6 +356,10 @@ const appRoutes = [{
               meta: { title: '查看知识文献详情', menuPath: false, authCode: 'P33003', menuIcon: 'file-text', hideInBread: false },
             }
           ]
+        },
+        {
+          path: '/cms/vote', name: '/cms/vote', component: VoteList,
+          meta: { title: '投票管理', menuPath: true, menuIcon: 'file-text', hideInBread: false }
         }
       ]
     },
