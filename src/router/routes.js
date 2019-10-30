@@ -52,6 +52,9 @@ const KnowledgeList = () => import ('@/views/cms/knowledge/list')
 const KnowledgeCreate = () => import ('@/views/cms/knowledge/create')
 const KnowledgeEdit = () => import ('@/views/cms/knowledge/edit')
 const KnowledgeDetail = () => import ('@/views/cms/knowledge/details')
+const KnowledgePublishedList= () => import ('@/views/cms/knowledgePublish/authList')
+const KnowledgePublishedAnonymousList= () => import ('@/views/cms/knowledgePublish/anonymousList')
+const KnowledgeView= () => import ('@/views/cms/knowledgePublish/view')
 // 内容管理 - 投票管理
 const VoteList = () => import('@/views/cms/vote/list')
 const VoteEdit = () => import('@/views/cms/vote/edit')
@@ -357,6 +360,10 @@ const appRoutes = [{
               meta: { title: '查看知识文献详情', menuPath: false, authCode: 'P33003', menuIcon: 'file-text', hideInBread: false },
             }
           ]
+        },
+        {
+          path: '/cms/knowledgePublish', name: '/cms/knowledgePublish', component: KnowledgePublishedList,
+          meta: { title: '知识文献', menuPath: false, menuIcon: 'file-text', hideInBread: false },
         },
         {
           path: '/cms/vote', name: '/cms/vote', component: VoteList,
@@ -969,6 +976,12 @@ const appRoutes = [{
       name: 'NLBL',
       component: TipsOutsite,
       meta: { title: '内陆捕捞', menuPath: true, menuIcon: 'experiment', authCode: 'NLBL', hideInBread: false, openMode: 'outsite' }
+    },
+    {
+      path: '/ZYYH/:sysname',
+      name: 'ZYYH',
+      component: TipsOutsite,
+      meta: { title: '水生物资源养护信息采集系统 ', menuPath: true, menuIcon: 'experiment', authCode: 'ZYYH', hideInBread: false, openMode: 'outsite' }
     }
   ],
 },
@@ -1008,6 +1021,15 @@ const appRoutes = [{
   component: TipsUpperLimitErr,
   meta: { title: '访问频繁', },
 },
+// 匿名浏览知识文库
+{
+  path: '/cms/knowledgeAnonymous', name: '/cms/knowledgeAnonymous', component: KnowledgePublishedAnonymousList,
+  meta: { title: '知识文献', menuPath: false, menuIcon: 'file-text', hideInBread: false },
+},
+{
+  path: '/cms/knowledgePublish/:id', name: '/cms/knowledgePublish/view', component: KnowledgeView,
+  meta: { title: '浏览知识文献', menuPath: false, menuIcon: 'file-text', hideInBread: false },
+}
 ]
 
 export const routes = [

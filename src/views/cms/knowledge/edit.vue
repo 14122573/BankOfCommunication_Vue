@@ -3,7 +3,7 @@
 		<div class="portalDetailTitle">
 			<span class="title">新建知识文献</span>
 			<div class="detailOperations">
-				<a-button @click='backList'>取消</a-button>
+				<a-button @click='$router.back()'>取消</a-button>
 				<a-button type="primary" @click='saveKnowledge("save")'>保存</a-button>
 				<a-button type="primary" @click='saveKnowledge("publish")'>保存并发布</a-button>
 			</div>
@@ -12,7 +12,7 @@
       <div class="portalDetailContentBody create-talent" ref="create-talent">
         <a-form :form="knowledgeEditForm">
           <div class="layoutMargin detailsPartSection">
-            <p class="detailsPartTitle" id="basic">基本信息</p>
+            <p class="detailsPartTitle">基本信息</p>
             <div style="margin:0 16px;">
               <a-row :gutter='16'>
                 <a-col span="16">
@@ -44,7 +44,7 @@
           </div>
 
           <div class="layoutMargin detailsPartSection">
-            <p class="detailsPartTitle" id="basic">文献内容</p>
+            <p class="detailsPartTitle">文献内容</p>
             <div style="margin:0 16px;">
               <a-row :gutter='16'>
                 <a-col span="8"  v-if="ready">
@@ -78,7 +78,7 @@
 
 </template>
 <script>
-import FileUpload from '@/views/cms/components/fileUpload'
+import FileUpload from '@/components/Upload/fileUpload'
 export default {
   components: {
     FileUpload,
@@ -175,17 +175,17 @@ export default {
                 path:this.knowledgeDetails.path
               })
             }
-            // todo: 获取详情时，初始化pdf文件default展示配置
+            // 初始化 已上传的文件，用于展示
             if(this.formData.type=='1'){
               this.uploadFileList.default.push({
                 uid: '-1',
-                name: this.knowledgeDetails.path,
+                name: this.knowledgeDetails.fileName,
                 status: 'done',
                 url: this.knowledgeDetails.path
               })
               this.uploadFileList.used.push({
                 uid: '-1',
-                name: this.knowledgeDetails.path,
+                name: this.knowledgeDetails.fileName,
                 status: 'done',
                 url: this.knowledgeDetails.path
               })
@@ -196,10 +196,6 @@ export default {
           this.$message.error(res.msg)
         }
       })
-    },
-
-    backList(){
-      this.$router.back()
     },
     /**
      * 监听表单’可否匿名浏览‘选项变动，并暂存
@@ -215,9 +211,17 @@ export default {
     onDataTypeChange(e){
       this.formData.type = e.target.value
     },
+    /**
+     * 监听表单’文献PDF附件‘上传变动，并暂存
+     * @param {Array} filelist 最新变动已上传的文件对象列表
+     */
     onUploadFileChange(filelist){
       this.uploadFileList.used = [].concat(filelist)
     },
+    /**
+     * 提交表单内容
+     * @param {String} type 提交表单内容的数据保存类型，暂存：save；保存并发布：publish
+     */
     saveKnowledge(type){
       type = !type?'save':type
       this.knowledgeEditForm.validateFields(err => {
@@ -225,7 +229,8 @@ export default {
           let postParams = Object.assign({},this.formData ,{
             'title':this.knowledgeEditForm.getFieldValue('title'),
             'author':this.knowledgeEditForm.getFieldValue('author'),
-            'years':this.knowledgeEditForm.getFieldValue('years')
+            'years':this.knowledgeEditForm.getFieldValue('years'),
+            'status':type=='save'?'0':'1'
           })
           if(this.formData.type=='0'){
             if(!this.knowledgeEditForm.getFieldValue('path')){
@@ -235,7 +240,7 @@ export default {
               postParams.path = this.knowledgeEditForm.getFieldValue('path')
             }
           }
-          // todo: 修改知识文库的时候，对PDF上传文件是否上传覆盖的逻辑
+
           if(this.formData.type=='1'){
             if(this.uploadFileList.used.length>0){
               if(this.uploadFileList.used[0].uid == '-1'){ // 未修改PDF
@@ -248,18 +253,14 @@ export default {
               return
             }
           }
-          console.log(postParams)
           this.$ajax.put({
             url: this.$api.PUT_CMS_KNOWLEDGE_DETAIL.replace('{id}', this.id),
             params: postParams
           }).then(res => {
             if (res.code === '200') {
-              if(type=='save'){
-                this.$message.success('暂存成功')
-                this.$router.push({name:'/cms/knowledge'})
-              }else if(type=='publish'){
-                // todo :保存并发布
-              }
+              this.$message.success(type=='save'?'暂存成功':'保存并发布成功')
+              this.$router.push({name:'/cms/knowledge'})
+
             } else {
               this.$message.error(res.msg)
             }

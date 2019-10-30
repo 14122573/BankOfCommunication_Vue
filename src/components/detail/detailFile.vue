@@ -42,9 +42,15 @@ export default {
       type: String,
       required: true
     },
+    /**
+     * 需要展示的文件列表
+     * [{name:文件名, url:文件链接}]
+     */
     files:{
       type: Array,
-      required: true
+      default() {
+        return []
+      }
     }
   },
   data() {
@@ -66,7 +72,7 @@ export default {
         this.fileList.push({
           'name':this.files[i].name,
           'fileType':this.getFileType(this.files[i].name),
-          'uid':this.files[i].uid,
+          // 'uid':this.files[i].uid,
           'url':this.files[i].url,
         })
       }

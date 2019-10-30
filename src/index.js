@@ -108,8 +108,10 @@ Vue.use(Progress)
 
 import RouterWapper from '@/components/Layout/content-wrapper'
 import DetailsItem from '@/components/detail/detailItem'
+import DetailsFile from '@/components/detail/detailFile'
 Vue.component('RouterWapper', RouterWapper)
 Vue.component('DetailsItem', DetailsItem)
+Vue.component('DetailsFile', DetailsFile)
 
 Vue.prototype.$ajax = ajax
 Vue.prototype.$api = api
