@@ -104,6 +104,12 @@ export default {
   DELETE_CMS_KNOWLEDGE: MOCK_URL+'/service-release/release/knowledge/{id}', //删除单条知识库文档
   PUT_CMS_KNOWLEDGE_STATUS: MOCK_URL+'/service-release/release/knowledge/{id}/{status}', //修改单条知识库文档状态
   // 内容发布-投票管理
-  GET_VOTE_LIST: MOCK_URL + '/service-release/release/vote', // 获取投票列表
+  GET_VOTE_LIST: MOCK_URL + '/service-release/release/public/vote', // 获取投票列表
   POST_ADD_VOTE: MOCK_URL + '/service-release/release/vote', // 新增投票
+  GET_VOTE_DETAIL: MOCK_URL + '/service-release/release/public/vote/{id}', // 获取投票详情
+  GET_VOTE_VIEW: MOCK_URL + '/service-release/release/vote/result/{id}', // 查看投票信息
+  PUT_EDIT_VOTE: MOCK_URL + '/service-release/release/vote/{id}', // 修改投票
+  DELETE_VOTE: MOCK_URL + '/service-release/release/vote/{id}', // 删除投票
+  PUT_VOTE_STATUS: MOCK_URL + '/service-release/release/vote/{id}/{status}', // 修改投票的状态
+  GET_VOTE_RESULT: MOCK_URL + '/service-release/release/vote/result/count/{id}', // 获取投票结果公示
 }

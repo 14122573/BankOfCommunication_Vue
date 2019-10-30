@@ -12,3 +12,13 @@
 
 /* 重写专家库-项目评审 折叠面板 */
 .reviewSeationGroup.ant-collapse > .ant-collapse-item {background: rgb(247, 247, 247); border-radius: 4px; margin-bottom: 10px; border: 0px; overflow: hidden}
+
+/* 去掉进度条圆角 */
+.ant-progress-inner,
+.ant-progress-bg {
+  border-radius: 0 !important;
+}
+.ant-progress-inner {
+  background: #fff;
+  border: 1px solid #1890ff;
+}

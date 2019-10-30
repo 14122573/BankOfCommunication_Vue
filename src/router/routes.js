@@ -58,6 +58,8 @@ const KnowledgeView= () => import ('@/views/cms/knowledgePublish/view')
 // 内容管理 - 投票管理
 const VoteList = () => import('@/views/cms/vote/list')
 const VoteEdit = () => import('@/views/cms/vote/edit')
+const VoteResult = () => import('@/views/cms/vote/result')
+const VoteView = () => import('@/views/cms/vote/view')
 
 /**
      * 要求：
@@ -372,7 +374,15 @@ const appRoutes = [{
             {
               path: '/cms/vote/edit', name: '/cms/vote/edit', component: VoteEdit,
               meta: { title: '投票详情', menuPath: false, authCode: 'P33001', menuIcon: 'file-text', hideInBread: false },
-            }
+            },
+            {
+              path: '/cms/vote/result', name: '/cms/vote/result', component: VoteResult,
+              meta: { title: '投票结果预览', menuPath: false, authCode: 'P33005', menuIcon: 'file-text', hideInBread: false },
+            },
+            {
+              path: '/cms/vote/view', name: '/cms/vote/view', component: VoteView,
+              meta: { title: '投票信息查看', menuPath: false, authCode: 'P33003', menuIcon: 'file-text', hideInBread: false },
+            },
           ]
         }
       ]
