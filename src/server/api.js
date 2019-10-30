@@ -97,12 +97,20 @@ export default {
   // 专家管理--项目评审
   GET_EXPERT_REVIEW_TODO_LIST: '/service-expert/expert/extract/{expertId}', //获取当前接口传参专家需要评审的数据,? status:0-未完成 1-完成 null/""-全部
   // 内容发布-知识库
-  GET_CMS_KNOWLEDGE_LIST: MOCK_URL+'/service-release/release/knowledge', //获取知识库文档列表
+  GET_CMS_KNOWLEDGE_LIST: MOCK_URL+'/service-release/release/public/knowledge', //获取知识库文档列表
   POST_CMS_KNOWLEDGE: MOCK_URL+'/service-release/release/knowledge', //新建知识文档
-  GET_CMS_KNOWLEDGE_DETAIL: MOCK_URL+'/service-release/release/knowledge/{id}', //获取知识库详情信息
+  GET_CMS_KNOWLEDGE_DETAIL: MOCK_URL+'/service-release/release/public/knowledge/{id}', //获取知识库详情信息
   PUT_CMS_KNOWLEDGE_DETAIL: MOCK_URL+'/service-release/release/knowledge/{id}', //修改知识库详情信息
   DELETE_CMS_KNOWLEDGE: MOCK_URL+'/service-release/release/knowledge/{id}', //删除单条知识库文档
   PUT_CMS_KNOWLEDGE_STATUS: MOCK_URL+'/service-release/release/knowledge/{id}/{status}', //修改单条知识库文档状态
+  // 内容发布-通知公告
+  GET_CMS_NOTICE_LIST: MOCK_URL+'/service-release/release/public/news', //获取通知公告列表
+  POST_CMS_NOTICE: MOCK_URL+'/service-release/release/news', //新建通知公告
+  GET_CMS_NOTICE_DETAIL: MOCK_URL+'/service-release/release/public/news/{id}', //获取通知公告详情信息
+  PUT_CMS_NOTICE_DETAIL: MOCK_URL+'/service-release/release/news/{id}', //修改通知公告详情信息
+  DELETE_CMS_NOTICE: MOCK_URL+'/service-release/release/news/{id}', //删除单条通知公告文档
+  PUT_CMS_NOTICE_STATUS: MOCK_URL+'/service-release/release/news/{id}/{status}', //修改单条通知公告状态
+  PUT_CMS_NOTICE_PLACEMENT: MOCK_URL+'/service-release/release/news/top/{id}/{top}', //置顶通知公告，top（是否置顶）： 0-否 1-是
   // 内容发布-投票管理
   GET_VOTE_LIST: MOCK_URL + '/service-release/release/public/vote', // 获取投票列表
   POST_ADD_VOTE: MOCK_URL + '/service-release/release/vote', // 新增投票
