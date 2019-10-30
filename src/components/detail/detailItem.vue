@@ -1,7 +1,10 @@
 <template>
   <a-row type="flex" justify="center" align="top" class="detailContent">
     <a-col :span="labelSpan" class="label">{{label}}：</a-col>
-    <a-col :span="textSpan" class="text">{{text}}</a-col>
+    <a-col :span="textSpan" class="text">
+      <template v-if="text.length>0">{{text}}</template>
+      <slot name='detailContent'></slot>
+    </a-col>
   </a-row>
 </template>
 
@@ -24,7 +27,9 @@ export default {
     },
     text:{
       type: String,
-      required: true
+      default() {
+        return ''
+      }
     }
   },
   data() {

@@ -1,7 +1,7 @@
 <template>
-    <span class="cmsDataStatus">
-        <a-badge :status="statusColor" :text="statusName" />
-    </span>
+  <span class="BYCmsDataStatus">
+    <a-badge :status="statusColor" :text="statusName" />
+  </span>
 </template>
 <script>
 export default {
@@ -97,7 +97,7 @@ export default {
       }
     },
     voteStatus(){
-      switch (status) {
+      switch (this.status) {
       case '0':
         this.statusName = '草稿'
         this.statusColor = 'warning'
@@ -124,7 +124,7 @@ export default {
 }
 </script>
 <style>
-.cmsDataStatus .ant-badge-status-dot{ width:9px; height:9px;}
+.BYCmsDataStatus .ant-badge-status-dot{ width:9px; height:9px;}
 </style>
 
 

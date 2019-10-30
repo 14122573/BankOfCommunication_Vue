@@ -1,74 +1,72 @@
 <template>
 	<div class="routerWapper">
-    <div class="layoutMargin layoutPadding" v-if="$route.name == '/cms/knowledge'">
-      <a-form class="protalForm" :form="knowledgeSearchForm">
+    <div class="layoutMargin layoutPadding" v-if="$route.name == '/cms/notice'">
+      <a-form class="protalForm" :form="noticeSearchForm">
         <a-row class="formItemLine" type="flex" justify="start" align="middle">
           <a-col span="8">
             <a-form-item class='formItem' label="标题" :label-col="{span:8}" :wrapper-col="{span:16}">
-              <a-input placeholder="请输入知识文献标题" v-decorator="['title']"/>
+              <a-input placeholder="请输入通知公告标题" v-decorator="['title']"/>
             </a-form-item>
           </a-col>
           <a-col span="8">
-            <a-form-item class='formItem' label="作者" :label-col="{span:8}" :wrapper-col="{span:16}">
-              <a-input placeholder="请输入作者姓名" v-decorator="['author']"/>
-            </a-form-item>
-          </a-col>
-          <a-col span="8">
-            <a-form-item class='formItem' label="内容类型" :label-col="{span:8}" :wrapper-col="{span:16}">
-              <a-checkbox-group :options="searchFormOption.type" :defaultValue="defaultSearchForm.type" @change="onTypeChange" />
-            </a-form-item>
-          </a-col>
-        </a-row>
-        <a-row class="formItemLine" type="flex" justify="start" align="middle">
-          <a-col span="8">
-            <a-form-item class='formItem' label="文献状态" :label-col="{span:8}" :wrapper-col="{span:16}">
+            <a-form-item class='formItem' label="状态" :label-col="{span:8}" :wrapper-col="{span:16}">
               <a-checkbox-group :options="searchFormOption.status" :defaultValue="defaultSearchForm.status" @change="onStatusChange" />
             </a-form-item>
           </a-col>
-          <a-col span="8">
-            <a-form-item class='formItem' label="可匿名查看否" :label-col="{span:8}" :wrapper-col="{span:16}">
-              <a-checkbox-group :options="searchFormOption.anonymous" :defaultValue="defaultSearchForm.anonymous" @change="onAnonymousChange" />
-            </a-form-item>
-          </a-col>
-          <a-col span="6" class="algin-right" style="padding-right:8px">
+         <a-col span="6" class="algin-right" style="padding-right:8px">
             <a-button @click="reset">重置</a-button>
-            <a-button type="primary" @click="getKnowLedgeList">搜索</a-button>
+            <a-button type="primary" @click="getNoticeList">搜索</a-button>
           </a-col>
         </a-row>
       </a-form>
       <p class="gayLine"></p>
       <div class='portalTableOperates'>
-        <a-button icon='plus' v-if="$permission('P32001')" type="primary" @click='goTo("create")'>新建知识文献</a-button>
+        <a-button icon='plus' v-if="$permission('P31001')" type="primary" @click='goTo("create")'>新建通知公告</a-button>
       </div>
-      <a-table size='small' class="portalTable" :columns="listColumns" :dataSource="knowledgeList" rowKey='id' :pagination='pagination'>
-        <span slot="knowledgeType" slot-scope="text, record">
-          <a-tag v-if="record.type=='1'" color="pink">PDF</a-tag>
-          <a-tag v-if="record.type=='0'" color="purple">视频</a-tag>
-			  </span>
-        <span slot="knowledgeStatus" slot-scope="text, record">
-          <CMSDataStatus :cmsType='"knowledge"' :status='record.status'></CMSDataStatus>
-        </span>
-        <span slot="action" slot-scope="text, record">
-          <span class="actionBtn" v-if="$permission('P33003')" @click='goTo("detail",record.id)'>查看<a-divider v-if="$com.oneOf(record.status,['0','1'])" type="vertical" /></span>
+      <a-table size='small' class="portalTable" :columns="listColumns" :dataSource="noticeList" rowKey='id' :pagination='pagination'>
+        <template slot="effectTime" slot-scope="text, record">
+          <div class="BYCmsDataEffectTime">
+            <p><span class="label">起：</span>{{$com.oneOf(record.startTime,['1900-01-01 00:00:00',''])?'发布即时生效':record.startTime}}</p>
+            <p><span class="label">止：</span>{{$com.oneOf(record.endTime,['2099-01-01 00:00:00',''])?'∞':record.endTime}}</p>
+          </div>
+			  </template>
+        <template slot="placement" slot-scope="text, record">
+          <template  v-if="record.isTop=='1'">
+            <a-tag color="blue">已置顶</a-tag>
+            <p class="placementTime">{{record.topDate}}</p>
+          </template>
+          <a-tag v-else >未置顶</a-tag>
+			  </template>
+        <template slot="noticeStatus" slot-scope="text, record">
+          <CMSDataStatus :cmsType='"notice"' :status='record.status'></CMSDataStatus>
+        </template>
+        <template slot="action" slot-scope="text, record">
+          <span class="actionBtn" v-if="$permission('P31005')" @click='goTo("detail",record.id)'>查看<a-divider v-if="$com.oneOf(record.status,['0','1'])" type="vertical" /></span>
           <template v-if="record.status=='0'">
-            <span class="actionBtn" v-if="$permission('P32001')" @click='goTo("edit",record.id)'>修改<a-divider type="vertical" /></span>
+            <span class="actionBtn" v-if="$permission('P31001')" @click='goTo("edit",record.id)'>修改<a-divider type="vertical" /></span>
             <a-dropdown>
               <span class="actionBtn"> 更多 <a-icon type="down" /> </span>
                 <a-menu slot="overlay" @click='(event)=>{doListOpeations(event.key,record)}'>
-                  <a-menu-item class="actionBtn" key="publish" v-if="$permission('P32004')"> 发布 </a-menu-item>
-                  <a-menu-item class="actionBtn" key="delete" v-if="$permission('P32002')"> 删除 </a-menu-item>
+                  <a-menu-item class="actionBtn" key="publish" v-if="$permission('P31004')"> 发布 </a-menu-item>
+                  <a-menu-item class="actionBtn" key="delete" v-if="$permission('P31002')"> 删除 </a-menu-item>
                 </a-menu>
             </a-dropdown>
           </template>
-          <span class="actionBtn" v-if="record.status=='1' && $permission('P32004')" @click="doListOpeations('recall',record)">撤回</span>
-        </span>
+          <template v-if="record.status=='1'">
+            <span class="actionBtn" v-if="record.isTop=='0' && $permission('P31003')" @click="doListOpeations('top',record)">置顶</span>
+            <span class="actionBtn" v-if="record.isTop=='1' && $permission('P31003')" @click="doListOpeations('down',record)">取消置顶</span>
+            <span class="actionBtn" v-if="$permission('P31004')" @click="doListOpeations('recall',record)">撤回</span>
+          </template>
+        </template>
 		  </a-table>
     </div>
 		<RouterWapper v-else></RouterWapper>
   </div>
 </template>
 <style scoped>
-
+.BYCmsDataEffectTime p {margin: 0; line-height: 18px;}
+.BYCmsDataEffectTime .label { color:#1890ff; font-size: 12px}
+.placementTime { padding-top: 8px; margin: 0; font-size: 12px }
 </style>
 
 <script>
@@ -76,19 +74,12 @@ import CMSDataStatus from '@/views/cms/components/cmsStatus'
 
 export default {
   components: {
-    CMSDataStatus,
+    CMSDataStatus
   },
   data() {
     return {
       isReady:false,
       searchFormOption:{
-        type:[{
-          label: '视频',
-          value: '0'
-        },{
-          label: 'PDF',
-          value: '1'
-        }],
         status:[{
           label: '草稿',
           value: '0'
@@ -98,44 +89,33 @@ export default {
         },{
           label: '已失效',
           value: '2'
-        }],
-        anonymous:[{
-          label: '允许',
-          value: '0'
-        },{
-          label: '不允许',
-          value: '1'
-        }
-        ]
+        }]
       },
       defaultSearchForm:{
-        type:['0','1'],
-        status:['0','1'],
-        anonymous:['0','1']
+        status:['0','1']
       },
       searchForm:{},
-      knowledgeList:[],
+      noticeList:[],
       listColumns:[
         {
           title: '标题',
           dataIndex: 'title',
           key: 'title'
         },{
-          title: '作者',
-          dataIndex: 'author',
-          key: 'author'
-        },{
-          title: '发表年份',
-          dataIndex: 'years',
-          key: 'years',
-          width: 80
-        },{
-          title: '内容类型',
-          dataIndex: 'type',
-          key: 'type',
-          width: 100,
+          title: '生效时间段',
+          dataIndex: 'startTime',
+          key: 'startTime',
+          width: 210,
           scopedSlots: {
-            customRender: 'knowledgeType'
+            customRender: 'effectTime'
+          }
+        },{
+          title: '置顶否',
+          dataIndex: 'isTop',
+          key: 'isTop',
+          width: 180,
+          scopedSlots: {
+            customRender: 'placement'
           }
         },{
           title: '状态',
@@ -143,7 +123,7 @@ export default {
           key: 'status',
           width: 140,
           scopedSlots: {
-            customRender: 'knowledgeStatus'
+            customRender: 'noticeStatus'
           }
         },{
           title: '操作',
@@ -165,16 +145,14 @@ export default {
     }
   },
   beforeCreate() {
-    if(this.$route.name == '/cms/knowledge'){
-      this.knowledgeSearchForm = this.$form.createForm(this)
+    if(this.$route.name == '/cms/notice'){
+      this.noticeSearchForm = this.$form.createForm(this)
     }
   },
   mounted() {
-    if(this.$route.name == '/cms/knowledge'){
+    if(this.$route.name == '/cms/notice'){
       this.searchForm.status_in = this.toKeyString(this.defaultSearchForm.status,',')
-      this.searchForm.type_in = this.toKeyString(this.defaultSearchForm.type,',')
-      this.searchForm.anonymous_in = this.toKeyString(this.defaultSearchForm.anonymous,',')
-      this.getKnowLedgeList()
+      this.getNoticeList()
     }
   },
   watch:{
@@ -210,10 +188,21 @@ export default {
         opeation.tips='撤回后将无法再次编辑、发布或删除！'
         toStatus = '2'
         break
+
+      case 'top':
+        opeation.title='您确认置顶“'+data.title+'”吗？'
+        opeation.tips='置顶后将在展示列表，按最新置顶时间降序排列'
+        toStatus = '1'
+        break
+      case 'down':
+        opeation.title='您确认取消置顶“'+data.title+'”吗？'
+        opeation.tips='取消置顶后，此通知公告将不会在展示列表优先展示'
+        toStatus = '0'
+        break
       default:
         break
       }
-      if(this.$com.oneOf(eventKey,['publish','delete','recall'])){
+      if(this.$com.oneOf(eventKey,['publish','delete','recall','top','down'])){
         let vm = this
         this.$model.confirm({
           title: opeation.title,
@@ -224,12 +213,32 @@ export default {
           onOk() {
             if(eventKey=='delete'){
               vm.toDoDelete(data.id)
-            }else{
+            }else if(this.$com.oneOf(eventKey,['publish','recall'])){
               vm.toChangeStatus(data.id,toStatus)
+            }else if(this.$com.oneOf(eventKey,['top','down'])){
+              vm.toChangePlacement(data.id,toStatus)
             }
           },
         })
       }
+    },
+    /**
+     * 更改指定数据的置顶状态
+     * @param {String} id 被操作数据key
+     * @param {String} status 目标状态Key ，置顶：1；不置顶：0
+     */
+    toChangePlacement(id,status){
+      this.$ajax.put({
+        url: this.$api.PUT_CMS_NOTICE_PLACEMENT.replace('{id}', id).replace('{top}', status)
+      }).then(res=>{
+        if(res.code=='200'){
+          let successMsg = status=='1'?'置顶成功':'取消置顶成功'
+          this.$message.success('successMsg')
+          this.getNoticeList()
+        }else{
+          this.$message.error(res.msg)
+        }
+      })
     },
     /**
      * 删除指定数据
@@ -237,11 +246,11 @@ export default {
      */
     toDoDelete(id){
       this.$ajax.delete({
-        url: this.$api.DELETE_CMS_KNOWLEDGE.replace('{id}', id)
+        url: this.$api.DELETE_CMS_NOTICE.replace('{id}', id)
       }).then(res=>{
         if(res.code=='200'){
           this.$message.success('删除成功')
-          this.getKnowLedgeList()
+          this.getNoticeList()
         }else{
           this.$message.error(res.msg)
         }
@@ -254,12 +263,12 @@ export default {
      */
     toChangeStatus(id,status){
       this.$ajax.put({
-        url: this.$api.PUT_CMS_KNOWLEDGE_STATUS.replace('{id}', id).replace('{status}', status)
+        url: this.$api.PUT_CMS_NOTICE_STATUS.replace('{id}', id).replace('{status}', status)
       }).then(res=>{
         if(res.code=='200'){
           let successMsg = status=='1'?'发布成功':'撤回成功'
           this.$message.success('successMsg')
-          this.getKnowLedgeList()
+          this.getNoticeList()
         }else{
           this.$message.error(res.msg)
         }
@@ -289,20 +298,6 @@ export default {
       this.searchForm.status_in = this.toKeyString(selecteds,',')
     },
     /**
-     * 监听搜索表单中文库类型选项勾选内容变更，并暂存勾选结果
-     * @param {Array} selecteds 已勾选项的key
-     */
-    onTypeChange(selecteds){
-      this.searchForm.type_in = this.toKeyString(selecteds,',')
-    },
-    /**
-     * 监听搜索表单中文库是否允许匿名查看选项勾选内容变更，并暂存勾选结果
-     * @param {Array} selecteds 已勾选项的key
-     */
-    onAnonymousChange(){
-      this.searchForm.anonymous_in = this.toKeyString(selecteds,',')
-    },
-    /**
      * 进入数据操作页面
      * @param {String} type 页面类型， 创建：create；修改：edit；详情：detail
      * @param {String} id 数据key
@@ -313,12 +308,12 @@ export default {
       switch (type) {
       case 'create':
         this.$router.push({
-          name:'/cms/knowledge/create',
+          name:'/cms/notice/create',
         })
         break
       case 'detail':
         this.$router.push({
-          name:'/cms/knowledge/details',
+          name:'/cms/notice/details',
           params:{
             id:id
           }
@@ -326,7 +321,7 @@ export default {
         break
       case 'edit':
         this.$router.push({
-          name:'/cms/knowledge/edit',
+          name:'/cms/notice/edit',
           params:{
             id:id
           }
@@ -341,15 +336,13 @@ export default {
      */
     reset(){
       this.searchForm ={
-        status_in:this.toKeyString(this.defaultSearchForm.status,','),
-        type_in:this.toKeyString(this.defaultSearchForm.type,','),
-        anonymous_in:this.toKeyString(this.defaultSearchForm.anonymous,',')
+        status_in:this.toKeyString(this.defaultSearchForm.status,',')
       }
       this.pagination.current = 1
       this.pagination.pageNo = 1
-      this.knowledgeSearchForm.setFieldsValue({title:'',author:''})
+      this.noticeSearchForm.setFieldsValue({title:''})
 
-      this.getKnowLedgeList()
+      this.getNoticeList()
     },
     /**
      * 记录翻页，并获取当前页的数据
@@ -358,28 +351,28 @@ export default {
     onPageChange(current) {
       this.pagination.current = current
       this.pagination.pageNo = current
-      this.getKnowLedgeList()
+      this.getNoticeList()
     },
     /**
      * 调用结构，查询表单要求的知识文库资料
      */
-    getKnowLedgeList(){
+    getNoticeList(){
       let searchParms
       searchParms = Object.assign({},this.searchForm,{
-        title_l:!this.knowledgeSearchForm.getFieldValue('title')?'':this.knowledgeSearchForm.getFieldValue('title'),
-        author_l:!this.knowledgeSearchForm.getFieldValue('author')?'':this.knowledgeSearchForm.getFieldValue('author'),
+        title_l:!this.noticeSearchForm.getFieldValue('title')?'':this.noticeSearchForm.getFieldValue('title'),
+        author_l:!this.noticeSearchForm.getFieldValue('author')?'':this.noticeSearchForm.getFieldValue('author'),
       },{
         pageNo: this.pagination.pageNo,
         pageSize: this.pagination.pageSize
       })
       this.$ajax.get({
-        url: this.$api.GET_CMS_KNOWLEDGE_LIST,
+        url: this.$api.GET_CMS_NOTICE_LIST,
         params: searchParms
       }).then(res => {
         this.pagination.total = this.$com.confirm(res, 'data.totalRows', 0)
         this.pagination.pageNo = this.$com.confirm(res, 'data.page', 1)
         this.pagination.current = this.pagination.pageNo
-        this.knowledgeList = this.$com.confirm(res, 'data.content', [])
+        this.noticeList = this.$com.confirm(res, 'data.content', [])
         this.isReady = true
       })
     }

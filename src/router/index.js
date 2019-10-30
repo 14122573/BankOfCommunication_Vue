@@ -1,10 +1,9 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import {
-  routes
-} from './routes'
+import { routes } from './routes'
 import Cookie from '@/util/local-cookie'
-import { log } from 'util'
+// import { log } from 'util'
+import Common from '@/util/common'
 import store from '@/store'
 
 Vue.use(Router)
@@ -32,14 +31,14 @@ router.beforeEach((to, from, next) => {
     if (to.name == 'login') {
       next()
     } else {
-      if (to.name == 'upperLimitErr' || to.name == 'networkerr' || to.name == 'register' || to.name == 'oldSysLogout' || (to.name == 'bindPhone' && canEnterBind == '200')) {
+      if (Common.oneOf(to.name,['/cms/knowledgePublish/view','/cms/knowledgeAnonymous','upperLimitErr','register','oldSysLogout','networkerr'])|| (to.name == 'bindPhone' && canEnterBind == '200')) {
         next()
       } else {
         next('/login')
       }
     }
   } else { // 已经登录
-    if (to.name == 'login' || to.name == 'bindPhone') {
+    if (Common.oneOf(to.name,['login','bindPhone'])) {
       next('/home')
     } else {
       next()

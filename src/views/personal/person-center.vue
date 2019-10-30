@@ -174,6 +174,12 @@ export default {
       if(this.$com.oneOf('NLBL',this.$store.state.permissionCodeList)){
         authSysList.push('内陆捕捞')
       }
+      if(this.$com.oneOf('ZYYH',this.$store.state.permissionCodeList)){
+        authSysList.push('水生物资源养护信息采集系统')
+      }
+      if(this.$com.oneOf('YYTJ',this.$store.state.permissionCodeList)){
+        authSysList.push('全国渔业统计')
+      }
       return authSysList
     }
   }

@@ -52,8 +52,17 @@ const KnowledgeList = () => import ('@/views/cms/knowledge/list')
 const KnowledgeCreate = () => import ('@/views/cms/knowledge/create')
 const KnowledgeEdit = () => import ('@/views/cms/knowledge/edit')
 const KnowledgeDetail = () => import ('@/views/cms/knowledge/details')
+const KnowledgePublishedList= () => import ('@/views/cms/knowledgePublish/authList')
+const KnowledgePublishedAnonymousList= () => import ('@/views/cms/knowledgePublish/anonymousList')
+const KnowledgeView= () => import ('@/views/cms/knowledgePublish/view')
+// 内容管理-通知公告
+const NoticeList = () => import ('@/views/cms/notice/list')
+const NoticeCreate = () => import ('@/views/cms/notice/create')
+const NoticeEdit = () => import ('@/views/cms/notice/edit')
+const NoticeDetail = () => import ('@/views/cms/notice/detail')
 // 内容管理 - 投票管理
 const VoteList = () => import('@/views/cms/vote/list')
+const VoteEdit = () => import('@/views/cms/vote/edit')
 
 /**
      * 要求：
@@ -336,33 +345,60 @@ const appRoutes = [{
       ]
     },
     //内容发布
-    // {
-    //   path: '/cms', name: 'cms', component: contentWrapper,
-    //   meta: { title: '内容管理', menuPath: true, authCode: 'P30000', menuIcon: 'file-text', hideInBread: true },
-    //   children:[
-    //     {
-    //       path: '/cms/knowledge', name: '/cms/knowledge', component: KnowledgeList,
-    //       meta: { title: '知识文库管理', menuPath: true, authCode: 'P31000', menuIcon: 'file-text', hideInBread: false },
-    //       children:[
-    //         {
-    //           path: '/cms/knowledge/create', name: '/cms/knowledge/create', component: KnowledgeCreate,
-    //           meta: { title: '新建知识文献', menuPath: false, authCode: 'P32001', menuIcon: 'file-text', hideInBread: false },
-    //         },
-    //         {
-    //           path: '/cms/knowledge/edit/:id', name: '/cms/knowledge/edit', component: KnowledgeEdit,
-    //           meta: { title: '修改知识文献', menuPath: false, authCode: 'P32001', menuIcon: 'file-text', hideInBread: false },
-    //         },{
-    //           path: '/cms/knowledge/:id', name: '/cms/knowledge/details', component: KnowledgeDetail,
-    //           meta: { title: '查看知识文献详情', menuPath: false, authCode: 'P33003', menuIcon: 'file-text', hideInBread: false },
-    //         }
-    //       ]
-    //     },
-    //     {
-    //       path: '/cms/vote', name: '/cms/vote', component: VoteList,
-    //       meta: { title: '投票管理', menuPath: true, menuIcon: 'file-text', hideInBread: false }
-    //     }
-    //   ]
-    // },
+    {
+      path: '/cms', name: 'cms', component: contentWrapper,
+      meta: { title: '内容管理', menuPath: true, authCode: 'P30000', menuIcon: 'file-text', hideInBread: true },
+      children:[
+        {
+          path: '/cms/knowledge', name: '/cms/knowledge', component: KnowledgeList,
+          meta: { title: '知识文库管理', menuPath: true, authCode: 'P32000', menuIcon: 'file-text', hideInBread: false },
+          children:[
+            {
+              path: '/cms/knowledge/create', name: '/cms/knowledge/create', component: KnowledgeCreate,
+              meta: { title: '新建知识文献', menuPath: false, authCode: 'P32001', menuIcon: 'file-text', hideInBread: false },
+            },
+            {
+              path: '/cms/knowledge/edit/:id', name: '/cms/knowledge/edit', component: KnowledgeEdit,
+              meta: { title: '修改知识文献', menuPath: false, authCode: 'P32001', menuIcon: 'file-text', hideInBread: false },
+            },{
+              path: '/cms/knowledge/:id', name: '/cms/knowledge/details', component: KnowledgeDetail,
+              meta: { title: '查看知识文献详情', menuPath: false, authCode: 'P33003', menuIcon: 'file-text', hideInBread: false },
+            }
+          ]
+        },
+        {
+          path: '/cms/knowledgePublish', name: '/cms/knowledgePublish', component: KnowledgePublishedList,
+          meta: { title: '知识文献', menuPath: false, menuIcon: 'file-text', hideInBread: false },
+        },
+        {
+          path: '/cms/notice', name: '/cms/notice', component: NoticeList,
+          meta: { title: '通知公告管理', menuPath: true, authCode: 'P31000', menuIcon: 'file-text', hideInBread: false },
+          children:[
+            {
+              path: '/cms/notice/create', name: '/cms/notice/create', component: NoticeCreate,
+              meta: { title: '新建知识文献', menuPath: false, authCode: 'P31001', menuIcon: 'file-text', hideInBread: false },
+            },
+            {
+              path: '/cms/notice/edit/:id', name: '/cms/notice/edit', component: NoticeEdit,
+              meta: { title: '修改知识文献', menuPath: false, authCode: 'P31001', menuIcon: 'file-text', hideInBread: false },
+            },{
+              path: '/cms/notice/:id', name: '/cms/notice/details', component: NoticeDetail,
+              meta: { title: '知识文献详情', menuPath: false, authCode: 'P31005', menuIcon: 'file-text', hideInBread: false },
+            }
+          ]
+        },
+        {
+          path: '/cms/vote', name: '/cms/vote', component: VoteList,
+          meta: { title: '投票管理', menuPath: true, authCode: 'P33000', menuIcon: 'file-text', hideInBread: false },
+          children: [
+            {
+              path: '/cms/vote/edit', name: '/cms/vote/edit', component: VoteEdit,
+              meta: { title: '投票详情', menuPath: false, authCode: 'P33001', menuIcon: 'file-text', hideInBread: false },
+            }
+          ]
+        }
+      ]
+    },
     //范蠡奖评审
     {
       path: '/fljps',
@@ -962,6 +998,18 @@ const appRoutes = [{
       name: 'NLBL',
       component: TipsOutsite,
       meta: { title: '内陆捕捞', menuPath: true, menuIcon: 'experiment', authCode: 'NLBL', hideInBread: false, openMode: 'outsite' }
+    },
+    {
+      path: '/ZYYH/:sysname',
+      name: 'ZYYH',
+      component: TipsOutsite,
+      meta: { title: '水生物资源养护信息采集系统 ', menuPath: true, menuIcon: 'experiment', authCode: 'ZYYH', hideInBread: false, openMode: 'outsite' }
+    },
+    {
+      path: '/YYTJ/:sysname',
+      name: 'YYTJ',
+      component: TipsOutsite,
+      meta: { title: '全国渔业统计', menuPath: true, menuIcon: 'experiment', authCode: 'YYTJ', hideInBread: false, openMode: 'outsite' }
     }
   ],
 },
@@ -1001,6 +1049,15 @@ const appRoutes = [{
   component: TipsUpperLimitErr,
   meta: { title: '访问频繁', },
 },
+// 匿名浏览知识文库
+{
+  path: '/cms/knowledgeAnonymous', name: '/cms/knowledgeAnonymous', component: KnowledgePublishedAnonymousList,
+  meta: { title: '知识文献', menuPath: false, menuIcon: 'file-text', hideInBread: false },
+},
+{
+  path: '/cms/knowledgePublish/:id', name: '/cms/knowledgePublish/view', component: KnowledgeView,
+  meta: { title: '浏览知识文献', menuPath: false, menuIcon: 'file-text', hideInBread: false },
+}
 ]
 
 export const routes = [
