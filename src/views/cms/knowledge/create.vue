@@ -3,7 +3,7 @@
 		<div class="portalDetailTitle">
 			<span class="title">新建知识文献</span>
 			<div class="detailOperations">
-				<a-button @click='backList'>取消</a-button>
+				<a-button @click='$router.back()'>取消</a-button>
 				<a-button type="primary" @click='saveKnowledge("save")'>保存</a-button>
 				<a-button type="primary" @click='saveKnowledge("publish")'>保存并发布</a-button>
 			</div>
@@ -12,7 +12,7 @@
       <div class="portalDetailContentBody create-talent" ref="create-talent">
         <a-form :form="knowledgeCreateForm">
           <div class="layoutMargin detailsPartSection">
-            <p class="detailsPartTitle" id="basic">基本信息</p>
+            <p class="detailsPartTitle">基本信息</p>
             <div style="margin:0 16px;">
               <a-row :gutter='16'>
                 <a-col span="16">
@@ -44,7 +44,7 @@
           </div>
 
           <div class="layoutMargin detailsPartSection">
-            <p class="detailsPartTitle" id="basic">文献内容</p>
+            <p class="detailsPartTitle">文献内容</p>
             <div style="margin:0 16px;">
               <a-row :gutter='16'>
                 <a-col span="8">
@@ -78,7 +78,7 @@
 
 </template>
 <script>
-import FileUpload from '@/views/cms/components/fileUpload'
+import FileUpload from '@/components/Upload/fileUpload'
 export default {
   components: {
     FileUpload,
@@ -144,9 +144,6 @@ export default {
   mounted() {
   },
   methods: {
-    backList(){
-      this.$router.back()
-    },
     /**
      * 监听表单’可否匿名浏览‘选项变动，并暂存
      * @param {Object} e change事件对象
@@ -161,9 +158,17 @@ export default {
     onDataTypeChange(e){
       this.formData.type = e.target.value
     },
+    /**
+     * 监听表单’文献PDF附件‘上传变动，并暂存
+     * @param {Array} filelist 最新变动已上传的文件对象列表
+     */
     onUploadFileChange(filelist){
       this.uploadFileList = [].concat(filelist)
     },
+    /**
+     * 提交表单内容
+     * @param {String} type 提交表单内容的数据保存类型，暂存：save；保存并发布：publish
+     */
     saveKnowledge(type){
       type = !type?'save':type
       this.knowledgeCreateForm.validateFields(err => {
@@ -174,7 +179,8 @@ export default {
               'title':this.knowledgeCreateForm.getFieldValue('title'),
               'author':this.knowledgeCreateForm.getFieldValue('author'),
               'years':this.knowledgeCreateForm.getFieldValue('years'),
-              'path':this.knowledgeCreateForm.getFieldValue('path')
+              'path':this.knowledgeCreateForm.getFieldValue('path'),
+              'status':type=='save'?'0':'1'
             })
           }
           if(this.formData.type=='1'){
@@ -195,12 +201,8 @@ export default {
             params: postParams
           }).then(res => {
             if (res.code === '200') {
-              if(type=='save'){
-                this.$message.success('暂存成功')
-                this.$router.push({name:'/cms/knowledge'})
-              }else if(type=='publish'){
-                // todo :保存并发布
-              }
+              this.$message.success(type=='save'?'暂存成功':'保存并发布成功')
+              this.$router.push({name:'/cms/knowledge'})
             } else {
               this.$message.error(res.msg)
             }

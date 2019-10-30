@@ -1,4 +1,5 @@
 <template>
+<div class="BYFileUpload">
  <a-upload
     v-if="ready"
     :fileList="uploadFileList"
@@ -9,6 +10,7 @@
     :multiple="multiple">
     <a-button :disabled="!allowUpload"> <a-icon type="upload" />上传材料 </a-button>
   </a-upload>
+</div>
 </template>
 <script>
 export default {
@@ -115,7 +117,7 @@ export default {
       const index = uploadFileList.indexOf(file)
       uploadFileList.splice(index, 1)
 
-      this.$emit('change',uploadFileList)
+      this.$emit('change',[].concat(uploadFileList))
     },
     /**
      * 在调用接口上传前，检查本次上传文件是否符合业务规则，如文件后缀及大小
@@ -135,7 +137,7 @@ export default {
         return true
       }else{
         this.$message.error(message)
-        this.$emit('change',this.uploadFileList)
+        this.$emit('change',[].concat(this.uploadFileList))
 
         return false
       }
@@ -159,7 +161,7 @@ export default {
             if(data.name == uploadFileList[index].name){
               this.$message.error('该文件已上传')
 
-              this.$emit('change',uploadFileList)
+              this.$emit('change',[].concat(uploadFileList))
               return
             }
           }
@@ -170,12 +172,22 @@ export default {
             url: data.path
           })
 
-          this.$emit('change',this.uploadFileList)
+          this.$emit('change',[].concat(this.uploadFileList))
         } else {
           this.$message.error(res.msg)
         }
       })
     },
+    /**
+     * 供父组件主动调用获取最新的已上传文件列表
+     * @returns {Array} uploadFileList
+     * [{
+     *  uid: '-1',
+        name: this.knowledgeDetails.path,
+        status: 'done',
+        url: this.knowledgeDetails.path
+     * },
+     */
     getUploadFileList(){
       return this.uploadFileList
     }
@@ -183,7 +195,10 @@ export default {
 }
 </script>
 <style>
-.cmsDataStatus .ant-badge-status-dot{ width:9px; height:9px;}
+/* 重写表单文件上传结果布局，使其一行多个，且支持单个文件名称折行 */
+.BYFileUpload .ant-upload-list-item { display: inline-block; word-break: break-all; height: auto}
+.BYFileUpload .ant-upload-list-item-name {white-space: normal; padding-right: 10px;}
+.BYFileUpload .ant-upload-list-item .anticon-close { top:50%; margin-top: -5px;}
 </style>
 
 

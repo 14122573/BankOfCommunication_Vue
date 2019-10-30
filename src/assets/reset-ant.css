@@ -9,10 +9,6 @@
 /* 去除表单验证提示下方外边距 */
 .protalForm .ant-form-item { margin-bottom: 0}
 .protalForm.ant-form-inline .ant-form-item-with-help { margin-bottom: 0px}
-/* 重写表单文件上传结果布局，使其一行多个，且支持单个文件名称折行 */
-.protalForm .ant-upload-list-item { display: inline-block; word-break: break-all; height: auto}
-.protalForm .ant-upload-list-item-name {white-space: normal; padding-right: 10px;}
-.protalForm .ant-upload-list-item .anticon-close { top:50%; margin-top: -5px;}
 
 /* 重写专家库-项目评审 折叠面板 */
 .reviewSeationGroup.ant-collapse > .ant-collapse-item {background: rgb(247, 247, 247); border-radius: 4px; margin-bottom: 10px; border: 0px; overflow: hidden}

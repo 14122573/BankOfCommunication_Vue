@@ -39,6 +39,12 @@ case 'devol': // 本地线上部署环境下
     resourceName: 'yysygl',
     micId: 'mic:yysygl',
     pathPrefix: '/yysygl'
+  },
+  {
+    baseUrl: 'http://fljps.tao.com',// 范蠡奖
+    resourceName: 'fljps',
+    micId: 'mic:fljps',
+    pathPrefix: '/fljps'
   }
   ]
   break
