@@ -57,12 +57,15 @@ import {
 import './assets/base.css' // 引入全局样式
 import './assets/reset-ant.css' // 重置ant-design样式
 import ActiveForm from '@/components/ActiveForm'
+import ActiveTable from '@/components/ActiveTable'
 import singleSpaVue from 'single-spa-vue'
 
 // 由于日期组件默认是英文的，需要本地化
 import moment from 'moment'
 import 'moment/locale/zh-cn'
 moment.locale('zh-cn')
+Vue.use(ActiveForm)
+Vue.use(ActiveTable)
 
 Vue.use(Button)
 Vue.use(Spin)
@@ -96,7 +99,6 @@ Vue.use(TreeSelect)
 Vue.use(Radio)
 Vue.use(Cascader)
 Vue.use(LocaleProvider)
-Vue.use(ActiveForm)
 Vue.use(Steps)
 Vue.use(Anchor)
 Vue.use(Collapse)

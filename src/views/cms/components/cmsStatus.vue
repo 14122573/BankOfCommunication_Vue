@@ -97,7 +97,7 @@ export default {
       }
     },
     voteStatus(){
-      switch (status) {
+      switch (this.status) {
       case '0':
         this.statusName = '草稿'
         this.statusColor = 'warning'
