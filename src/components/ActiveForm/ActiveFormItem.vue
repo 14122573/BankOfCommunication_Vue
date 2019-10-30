@@ -1,5 +1,5 @@
 <template>
-  <a-form-item :label-col="{span:+ labelWidth}" :wrapper-col="{span: + (24 - labelWidth)}" :label="item.label">
+  <a-form-item :label-col="labelCol" :wrapper-col="wrapperCol" :label="item.label">
 
     <a-input
       v-if="item.type == 'input'"
@@ -160,10 +160,10 @@ export default {
     validate() {
       if (this.item.type == 'checkbox') {
         // 如果是CheckBox的话初始化要是个数组
-        return [this.entry, Object.assign(this.item.validate, {initialValue: []})]
+        return [this.entry, Object.assign(this.item.validate || {}, {initialValue: []})]
       }
       if (this.item.type == 'upload') {
-        return [this.entry, Object.assign(this.item.validate, {valuePropName: 'fileList'  , getValueFromEvent: this.normFile})]
+        return [this.entry, Object.assign(this.item.validate || {}, {valuePropName: 'fileList'  , getValueFromEvent: this.normFile})]
       }
       return [this.entry, this.item.validate || {}]
     },
@@ -181,6 +181,21 @@ export default {
       }
       return '请选择'
     },
+    labelCol() {
+      return {
+        style: {
+          width: `${this.labelWidth}px`
+        },
+      }
+    },
+    wrapperCol() {
+      return {
+        style: {
+          display: 'inline-block',
+          width: `calc(90% - ${this.labelWidth}px)`
+        }
+      }
+    }
   }
 }
 </script>
@@ -191,5 +206,8 @@ export default {
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
+  }
+  .ant-row.ant-form-item {
+    display: flex;
   }
 </style>
