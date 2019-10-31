@@ -1,5 +1,5 @@
 <template>
-	<div class="registerFrame" :style="'background-image: url(' + rqeuire('@/assets/images/bg.jpg') + ')'">
+	<div class="registerFrame" :style="'background-image: url(' + require('@/assets/images/bg.jpg') + ')'">
 		<Loader />
 		<div class="registerWapper" :style="'background:#fff url(' + require('@/assets/images/border.png') + ' no-repeat bottom center'">
 			<div>
