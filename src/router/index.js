@@ -31,7 +31,8 @@ router.beforeEach((to, from, next) => {
     if (to.name == 'login') {
       next()
     } else {
-      if (Common.oneOf(to.name,['/cms/knowledgePublish/view','/cms/knowledgeAnonymous','upperLimitErr','register','oldSysLogout','networkerr'])|| (to.name == 'bindPhone' && canEnterBind == '200')) {
+      let uneedTokenRouter=['/cms/noticePublish','/cms/noticePublish/view','/cms/knowledgePublish/view','/cms/knowledgeAnonymous','upperLimitErr','register','oldSysLogout','networkerr']
+      if (Common.oneOf(to.name,uneedTokenRouter) || (to.name == 'bindPhone' && canEnterBind == '200')) {
         next()
       } else {
         next('/login')

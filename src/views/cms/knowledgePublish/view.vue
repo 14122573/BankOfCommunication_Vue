@@ -1,13 +1,13 @@
 <template>
   <div :class="{'loginFrame':true,'minHeight':knowledgeDetails.type=='0'}" :style="'background-image: url(' + require('@/assets/images/bg.jpg') + ')'"  v-if="knowledgeDetails.title">
-    <div class="knowledgeFrame">
-      <div class="knowledgeFrameTitle">
+    <div class="cmsPublishFrame">
+      <div class="cmsPublishFrameTitle">
         <a-row type="flex" justify="space-between" align="top" :gutter='16'>
           <a-col :span="20">
             <p class="titleName">{{knowledgeDetails.title}}</p>
             <p class="titleSub"><span style="padding-right:16px">作者：{{knowledgeDetails.author}}</span> <span>年代：{{knowledgeDetails.years}}</span></p>
           </a-col>
-          <a-col :span="4"> <a-button type="primary" @click="$router.back()" ghost> 返回知识文献列表 </a-button> </a-col>
+          <a-col :span="4"> <a-button type="primary" @click="goBackList" ghost> 返回知识文献列表 </a-button> </a-col>
         </a-row>
       </div>
       <div class="layoutMargin" style="padding-bottom:16px" >
@@ -30,14 +30,11 @@
 <style scoped>
 .loginFrame { position: relative; width: 100%; min-width: 1000px; margin: 0px; padding: 0px; padding: 80px 0; background-size: cover;  background-repeat:repeat-y }
 .loginFrame.minHeight { min-height: 100%}
-.knowledgeFrame{ position: relative; width: 1000px; background-color: #fff; margin: 0 auto;}
-.knowledgeFrameTitle { padding-top: 16px; margin:0 16px 16px;  border-bottom: 1px solid #E0E0E0; padding-bottom: 10px;}
-.knowledgeFrameTitle p{ margin: 0;color: rgba(0, 0, 0, 0.7); line-height: 1.5em}
-.knowledgeFrameTitle .titleName{ font-size: 18px;  font-weight: bold;}
-.knowledgeFrameTitle .titleSub{ font-size: 14px;}
-.knowledge{ font-size: 14px; padding:10px 16px; line-height:1em; color:rgba(0,0,0,0.7); cursor: pointer;}
-.knowledge.hasBg{ background-color: #F3F8FA}
-.knowledge:hover,.knowledge.hasBg:hover{ background-color: #E8F8FF}
+.cmsPublishFrame{ position: relative; width: 1000px; background-color: #fff; margin: 0 auto;}
+.cmsPublishFrameTitle { padding-top: 16px; margin:0 16px 16px;  border-bottom: 1px solid #E0E0E0; padding-bottom: 10px;}
+.cmsPublishFrameTitle p{ margin: 0;color: rgba(0, 0, 0, 0.7); line-height: 1.5em}
+.cmsPublishFrameTitle .titleName{ font-size: 18px;  font-weight: bold;}
+.cmsPublishFrameTitle .titleSub{ font-size: 14px;}
 .footer { height: 50px; width: 100%; text-align: center; position: absolute; bottom: 10px; left: 0px; color: #cfd7f3; font-size: 14px;}
 .footer p {	margin: 0; }
 .footer p:last-of-type { 	color: #829bdc; }
@@ -59,6 +56,14 @@ export default {
   computed:{
   },
   methods: {
+    goBackList(){
+      let token = this.$cookie.get('token')
+      if (token !=undefined && token !=null && 'String'==typeof token) {
+        this.$router.push({name:'/cms/knowledgePublish'})
+      }else{
+        this.$router.push({name:'/cms/knowledgeAnonymous'})
+      }
+    },
     /**
      * 获取详情
      */
@@ -68,7 +73,7 @@ export default {
       }).then(res => {
         if(res.code =='200'){
           this.knowledgeDetails = this.$com.confirm(res, 'data.content', {})
-          console.log(this.knowledgeDetails)
+          // console.log(this.knowledgeDetails)
           this.checkAnonymous()
         }else{
           this.$message.error(res.msg)

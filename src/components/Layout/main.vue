@@ -151,7 +151,9 @@ export default {
       } else {
         this.$ajax.post({
           url: this.$api.POST_LOGOUT,
-          params: {}
+          params: {
+            refreshToken:this.$cookie.get('refresh_token')
+          }
         }).then(res => {
           this.$store.commit('SET_CLEAR')
           this.$cookie.remove('KeepLogin')

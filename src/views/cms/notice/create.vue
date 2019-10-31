@@ -24,13 +24,13 @@
                   <a-form-item label="生效起始时间" :label-col="{span:4}" :wrapper-col="{span:20}">
                     <a-switch @change="onStartEffectChange" style='margin-right:10px;' />
                     <!-- <a-date-picker style="width:300px" @change='onStartEffectTimeChange' @ok='onStartEffectTimeCheck' v-show="formData.openEffectStart" v-decorator="['startTime']" format="YYYY-MM-DD HH:mm:ss" :disabledDate="disabledDate" :disabledTime="disabledDateTime" :showTime="{ defaultValue: $moment('00:00:00', 'HH:mm:ss') }"/> -->
-                    <a-date-picker style="width:300px" v-show="formData.openEffectStart" v-decorator="['startTime']" :format="timeFormat" :disabledDate="disabledDate" :disabledTime="disabledDateTime" :showTime="{ defaultValue: $moment('00:00:00', 'HH:mm:ss') }"/>
+                    <a-date-picker style="width:300px" v-show="formData.openEffectStart" v-decorator="['startTime']" :format="timeFormat" showTime />
                   </a-form-item>
                 </a-col>
                 <a-col span="16">
                   <a-form-item label="生效截止时间" :label-col="{span:4}" :wrapper-col="{span:20}">
                     <a-switch @change="onEndEffectChange" style='margin-right:10px;' />
-                    <a-date-picker style="width:300px" v-show="formData.openEffectEnd" v-decorator="['endTime']" :format="timeFormat" :disabledDate="disabledDate" :disabledTime="disabledDateTime" :showTime="{ defaultValue: $moment('00:00:00', 'HH:mm:ss') }"/>
+                    <a-date-picker style="width:300px" v-show="formData.openEffectEnd" v-decorator="['endTime']" :format="timeFormat" showTime />
                   </a-form-item>
                 </a-col>
               </a-row>
@@ -116,35 +116,6 @@ export default {
       this.formData.isTop = e.target.value
     },
     /**
-     * 计算生成可以选择的日期范围、时间范围
-     * @returns {Array}
-     */
-    dateTimeRange(start, end) {
-      const result = []
-      for (let i = start; i < end; i++) {
-        result.push(i)
-      }
-      return result
-    },
-    /**
-     * 计算得出无法选择的日期
-     * @returns {Object}
-     */
-    disabledDate(current) {
-      return current && current < this.$moment().endOf('day')
-    },
-    /**
-     * 返回可以点击的时间面板内容
-     * @returns {Object}
-     */
-    disabledDateTime() {
-      return {
-        disabledHours: () => this.dateTimeRange(0, 24).splice(4, 20),
-        disabledMinutes: () => this.dateTimeRange(30, 60),
-        disabledSeconds: () => [55, 56],
-      }
-    },
-    /**
      * 监听UEditor内容变更，并存储
      * @param {Object} instance
      */
@@ -192,7 +163,7 @@ export default {
           }
 
           let postParams = Object.assign({},this.formData ,{
-            'title':this.noticeCreateForm.getFieldValue('title'), 
+            'title':this.noticeCreateForm.getFieldValue('title'),
             'isVote':'0', // 默认创建的为非投票结果文章
             'status':type=='save'?'0':'1'
           })
