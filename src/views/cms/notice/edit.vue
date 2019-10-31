@@ -4,8 +4,8 @@
         <span class="title">{{noticeDetail.title}}</span>
         <div class="detailOperations">
             <a-button @click='$router.back()'>取消</a-button>
-            <a-button type="primary" @click='saveKnowledge("save")'>保存</a-button>
-            <a-button type="primary" @click='saveKnowledge("publish")'>保存并发布</a-button>
+            <a-button type="primary" @click='editKnowledge("save")'>保存</a-button>
+            <a-button type="primary" @click='editKnowledge("publish")'>保存并发布</a-button>
         </div>
     </div>
     <div class="portalDetailContentWapper">
@@ -166,7 +166,7 @@ export default {
      * 提交表单内容
      * @param {String} type 提交表单内容的数据保存类型，暂存：save；保存并发布：publish
      */
-    saveKnowledge(type){
+    editKnowledge(type){
       type = !type?'save':type
       this.noticeEditForm.validateFields(err => {
         if (!err) {

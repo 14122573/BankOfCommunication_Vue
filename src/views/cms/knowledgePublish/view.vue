@@ -1,5 +1,5 @@
 <template>
-  <div :class="{'loginFrame':true,'minHeight':knowledgeDetails.type=='0'}" :style="'background-image: url(' + require('@/assets/images/bg.jpg') + ')'"  v-if="knowledgeDetails.title">
+  <div :class="{'loginFrame':true,'minHeight':knowledgeDetails.type=='0'}" :style="'background-image: url(' + require('@/assets/images/bg-cmsview.jpg') + ')'"  v-if="knowledgeDetails.title">
     <div class="cmsPublishFrame">
       <div class="cmsPublishFrameTitle">
         <a-row type="flex" justify="space-between" align="top" :gutter='16'>
@@ -28,7 +28,7 @@
 </template>
 
 <style scoped>
-.loginFrame { position: relative; width: 100%; min-width: 1000px; margin: 0px; padding: 0px; padding: 80px 0; background-size: cover;  background-repeat:repeat-y }
+.loginFrame { position: relative; width: 100%; min-width: 1000px; margin: 0px; padding: 0px; padding: 80px 0; background-size: 100%;  background-repeat:repeat-y }
 .loginFrame.minHeight { min-height: 100%}
 .cmsPublishFrame{ position: relative; width: 1000px; background-color: #fff; margin: 0 auto;}
 .cmsPublishFrameTitle { padding-top: 16px; margin:0 16px 16px;  border-bottom: 1px solid #E0E0E0; padding-bottom: 10px;}

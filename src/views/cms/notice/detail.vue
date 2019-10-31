@@ -117,7 +117,7 @@ export default {
         name:'',
         color:''
       }
-      switch (this.noticeDetail.status) {
+      switch (this.noticeDetail.isTop) {
       case '0':
         statusTag.name = '不置顶'
         statusTag.color = 'blue'

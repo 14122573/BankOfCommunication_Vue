@@ -53,8 +53,8 @@
             </a-dropdown>
           </template>
           <template v-if="record.status=='1'">
-            <span class="actionBtn" v-if="record.isTop=='0' && $permission('P31003')" @click="doListOpeations('top',record)">置顶</span>
-            <span class="actionBtn" v-if="record.isTop=='1' && $permission('P31003')" @click="doListOpeations('down',record)">取消置顶</span>
+            <span class="actionBtn" v-if="record.isTop=='0' && $permission('P31003')" @click="doListOpeations('top',record)">置顶<a-divider type="vertical" /></span>
+            <span class="actionBtn" v-if="record.isTop=='1' && $permission('P31003')" @click="doListOpeations('down',record)">取消置顶<a-divider type="vertical" /></span>
             <span class="actionBtn" v-if="$permission('P31004')" @click="doListOpeations('recall',record)">撤回</span>
           </template>
         </template>
@@ -213,9 +213,9 @@ export default {
           onOk() {
             if(eventKey=='delete'){
               vm.toDoDelete(data.id)
-            }else if(this.$com.oneOf(eventKey,['publish','recall'])){
+            }else if(vm.$com.oneOf(eventKey,['publish','recall'])){
               vm.toChangeStatus(data.id,toStatus)
-            }else if(this.$com.oneOf(eventKey,['top','down'])){
+            }else if(vm.$com.oneOf(eventKey,['top','down'])){
               vm.toChangePlacement(data.id,toStatus)
             }
           },
