@@ -5,7 +5,7 @@
 			<div @click='appearIndex=2'>
 				<img src="@/assets/images/bgResetPwd.png" alt="" class="bgImage">
 				<a-row type="flex" justify="space-around" align="middle" :gutter="10" class='block'>
-					<a-col span='6'><img src="../../assets/images/head1.png" alt="" class="icon"></a-col>
+					<a-col span='6'><img src="@/assets/images/head1.png" alt="" class="icon"></a-col>
 					<a-col span='16'>
 						<div class="title">已绑定手机用户</div>
 						<div class="desc">点击此处找回密码</div>
@@ -15,7 +15,7 @@
 			<div @click='appearIndex=1' class="unBindLinks">
 				<img src="@/assets/images/bgResetPwd.png" alt="" class="bgImage">
 				<a-row type="flex" justify="space-around" align="middle" class='block'>
-					<a-col span='6'><img src="../../assets/images/head2.png" alt="" class="icon"></a-col>
+					<a-col span='6'><img src="@/assets/images/head2.png" alt="" class="icon"></a-col>
 					<a-col span='16'>
 						<div class="title">未绑定手机用户</div>
 						<div class="desc">点击此处联系管理员</div>
@@ -29,7 +29,7 @@
 				<div>
 					<img src="@/assets/images/bgResetPwd.png" alt="" class="bgImage">
 					<a-row type="flex" justify="space-around" align="middle" class='block'>
-						<a-col span='6'><img src="../../assets/images/head1.png" alt="" class="icon"></a-col>
+						<a-col span='6'><img src="@/assets/images/head1.png" alt="" class="icon"></a-col>
 						<a-col span='16'>
 							<div class="title">管理员姓名</div>
 							<div class="desc" style="color:black">18300562365</div>
@@ -184,7 +184,7 @@ export default {
               callback()
             }
           })
-						
+
         }
       }
     },
