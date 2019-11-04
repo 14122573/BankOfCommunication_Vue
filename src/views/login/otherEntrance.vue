@@ -6,19 +6,19 @@
         <a-row type="flex" justify="start" align="top" :gutter='16' >
           <a-col :span="7">
             <p class="entrance">
-              <img src="@/assets/images/head1.png" alt="" class="icon1">
+              <img src="@/assets/images/icon-login-entrance-1.png" alt="" class="icon1">
               <span class="title">数据服务</span>
             </p>
           </a-col>
           <a-col :span="7">
             <p class="entrance" @click="$router.push({name:'/cms/knowledgeAnonymous'})">
-              <img src="@/assets/images/head1.png" alt="" class="icon1">
+              <img src="@/assets/images/icon-login-entrance-2.png" alt="" class="icon1">
               <span class="title">知识服务</span>
             </p>
           </a-col>
           <a-col :span="7">
             <p class="entrance">
-              <img src="@/assets/images/head1.png" alt="" class="icon1">
+              <img src="@/assets/images/icon-login-entrance-3.png" alt="" class="icon1">
               <span class="title">系统服务</span>
             </p>
           </a-col>
