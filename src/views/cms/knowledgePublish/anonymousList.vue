@@ -1,27 +1,24 @@
 <template>
 	<div class="loginFrame" :style="'background-image: url(' + require('@/assets/images/bg.jpg') + ')'">
-    <div class="knowledgeFrame">
-      <template v-if="$route.name == '/cms/knowledgeAnonymous'">
-        <div class="knowledgeFrameTitle">
-          <a-row type="flex" justify="space-between" align="middle">
-            <a-col :span="4"><span class="titleName">知识文献</span></a-col>
-            <a-col :span="2"> <a-button type="primary" @click="$router.push({name:'login'})" ghost> 返回 </a-button> </a-col>
-          </a-row>
+    <div class="cmsPublishFrame">
+      <div class="cmsPublishFrameTitle">
+        <a-row type="flex" justify="space-between" align="middle">
+          <a-col :span="4"><span class="titleName">知识文献</span></a-col>
+          <a-col :span="2"> <a-button type="primary" @click="$router.push({name:'login'})" ghost> 返回 </a-button> </a-col>
+        </a-row>
+      </div>
+      <template v-if="isReady">
+        <div style="padding:16px">
+          <template v-for="(knowledge,index) in knowledgeList">
+          <div @click="goToView(knowledge.id)" :class='{"knowledge":true,"hasBg":(index+1)%2==1}' :key="index">[{{knowledge.years}}] - {{knowledge.title}} - [{{knowledge.author}}]</div>
+          </template>
         </div>
-        <template v-if="isReady">
-          <div style="padding:16px">
-            <template v-for="(knowledge,index) in knowledgeList">
-            <div @click="goToView(knowledge.id)" :class='{"knowledge":true,"hasBg":(index+1)%2==1}' :key="index">[{{knowledge.years}}] - {{knowledge.title}} - [{{knowledge.author}}]</div>
-            </template>
-          </div>
-          <a-row style="padding:0 16px" type="flex" justify="end">
-            <a-col>
-              <a-pagination size="small" :defaultPageSize="pagination.pageSize" showQuickJumper @change="onPageChange" :current="pagination.pageNo" :total="pagination.total" ></a-pagination>
-            </a-col>
-          </a-row>
-        </template>
+        <a-row style="padding:0 16px" type="flex" justify="end">
+          <a-col>
+            <a-pagination size="small" :defaultPageSize="pagination.pageSize" showQuickJumper @change="onPageChange" :current="pagination.pageNo" :total="pagination.total" ></a-pagination>
+          </a-col>
+        </a-row>
       </template>
-      <RouterWapper v-else></RouterWapper>
     </div>
 		<div class="footer">
 			<p>主办单位：全国水产技术推广总站、中国水产学会&nbsp;&nbsp;&nbsp;&nbsp; 技术支持：博彦科技股份有限公司</p>
@@ -31,9 +28,9 @@
 </template>
 <style scoped>
 .loginFrame { width: 100%; height: 100%; min-width: 1000px;  min-height: 700px; margin: 0px; padding: 0px; position: relative; background-size: cover; }
-.knowledgeFrame{ width: 1000px; background-color: #fff;  min-height: 600px; height: 80%; position: absolute; left: 0; top: 0; right: 0; bottom: 0; margin: auto;}
-.knowledgeFrameTitle { margin: 16px;  border-bottom: 1px solid #E0E0E0; padding-bottom: 10px;}
-.knowledgeFrameTitle .titleName{ font-size: 18px; color: rgba(0, 0, 0, 0.7);}
+.cmsPublishFrame{ width: 1000px; background-color: #fff;  min-height: 600px; height: 80%; position: absolute; left: 0; top: 0; right: 0; bottom: 0; margin: auto;}
+.cmsPublishFrameTitle { margin: 16px;  border-bottom: 1px solid #E0E0E0; padding-bottom: 10px;}
+.cmsPublishFrameTitle .titleName{ font-size: 18px; color: rgba(0, 0, 0, 0.7);}
 .knowledge{ font-size: 14px; padding:10px 16px; line-height:1em; color:rgba(0,0,0,0.7); cursor: pointer;}
 .knowledge.hasBg{ background-color: #F3F8FA}
 .knowledge:hover,.knowledge.hasBg:hover{ background-color: #E8F8FF}
@@ -62,9 +59,7 @@ export default {
     }
   },
   mounted() {
-    if(this.$route.name == '/cms/knowledgeAnonymous'){
-      this.getKnowLedgeList()
-    }
+    this.getKnowLedgeList()
   },
   computed: {
 

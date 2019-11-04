@@ -53,8 +53,8 @@
             </a-dropdown>
           </template>
           <template v-if="record.status=='1'">
-            <span class="actionBtn" v-if="record.isTop=='0' && $permission('P31003')" @click="doListOpeations('top',record)">置顶</span>
-            <span class="actionBtn" v-if="record.isTop=='1' && $permission('P31003')" @click="doListOpeations('down',record)">取消置顶</span>
+            <span class="actionBtn" v-if="record.isTop=='0' && $permission('P31003')" @click="doListOpeations('top',record)">置顶<a-divider type="vertical" /></span>
+            <span class="actionBtn" v-if="record.isTop=='1' && $permission('P31003')" @click="doListOpeations('down',record)">取消置顶<a-divider type="vertical" /></span>
             <span class="actionBtn" v-if="$permission('P31004')" @click="doListOpeations('recall',record)">撤回</span>
           </template>
         </template>
@@ -213,9 +213,9 @@ export default {
           onOk() {
             if(eventKey=='delete'){
               vm.toDoDelete(data.id)
-            }else if(this.$com.oneOf(eventKey,['publish','recall'])){
+            }else if(vm.$com.oneOf(eventKey,['publish','recall'])){
               vm.toChangeStatus(data.id,toStatus)
-            }else if(this.$com.oneOf(eventKey,['top','down'])){
+            }else if(vm.$com.oneOf(eventKey,['top','down'])){
               vm.toChangePlacement(data.id,toStatus)
             }
           },
@@ -233,7 +233,7 @@ export default {
       }).then(res=>{
         if(res.code=='200'){
           let successMsg = status=='1'?'置顶成功':'取消置顶成功'
-          this.$message.success('successMsg')
+          this.$message.success(successMsg)
           this.getNoticeList()
         }else{
           this.$message.error(res.msg)
@@ -267,7 +267,7 @@ export default {
       }).then(res=>{
         if(res.code=='200'){
           let successMsg = status=='1'?'发布成功':'撤回成功'
-          this.$message.success('successMsg')
+          this.$message.success(successMsg)
           this.getNoticeList()
         }else{
           this.$message.error(res.msg)
@@ -354,13 +354,12 @@ export default {
       this.getNoticeList()
     },
     /**
-     * 调用结构，查询表单要求的知识文库资料
+     * 调用接口，查询表单要求的通知公告资料
      */
     getNoticeList(){
       let searchParms
       searchParms = Object.assign({},this.searchForm,{
-        title_l:!this.noticeSearchForm.getFieldValue('title')?'':this.noticeSearchForm.getFieldValue('title'),
-        author_l:!this.noticeSearchForm.getFieldValue('author')?'':this.noticeSearchForm.getFieldValue('author'),
+        title_l:!this.noticeSearchForm.getFieldValue('title')?'':this.noticeSearchForm.getFieldValue('title')
       },{
         pageNo: this.pagination.pageNo,
         pageSize: this.pagination.pageSize

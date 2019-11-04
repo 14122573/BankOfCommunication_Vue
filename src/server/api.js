@@ -40,6 +40,8 @@ export default {
   GET_PHONE_CODE: '/service-user/user/public/send/{type}/{phone}', // 发送验证码 （用于注册、忘记密码）
   POST_CHECK_PHONE_CODE: '/service-user/user/public/check/{type}/{phone}/{code}', // 验证手机验证码 （用于注册、忘记密码）
   PUT_PERSONAL_RESET_PWD: 'service-user/user/pwd', // 个人中心重置密码
+  PUT_USER_PHONE: '/service-user/user/phone/{phone}/{code}', // 登录用户修改手机号
+  PUT_EDIT_USER: '/service-user/user/user', // 登录用户修改个人信息
 
   // 系统配置
   // 系统配置 -- 权限配置管理
@@ -104,14 +106,20 @@ export default {
   DELETE_CMS_KNOWLEDGE: MOCK_URL+'/service-release/release/knowledge/{id}', //删除单条知识库文档
   PUT_CMS_KNOWLEDGE_STATUS: MOCK_URL+'/service-release/release/knowledge/{id}/{status}', //修改单条知识库文档状态
   // 内容发布-通知公告
-  GET_CMS_NOTICE_LIST: MOCK_URL+'/service-release/release/public/news', //获取通知公告列表
-  POST_CMS_NOTICE: MOCK_URL+'/service-release/release/news', //新建通知公告
-  GET_CMS_NOTICE_DETAIL: MOCK_URL+'/service-release/release/public/news/{id}', //获取通知公告详情信息
-  PUT_CMS_NOTICE_DETAIL: MOCK_URL+'/service-release/release/news/{id}', //修改通知公告详情信息
-  DELETE_CMS_NOTICE: MOCK_URL+'/service-release/release/news/{id}', //删除单条通知公告文档
-  PUT_CMS_NOTICE_STATUS: MOCK_URL+'/service-release/release/news/{id}/{status}', //修改单条通知公告状态
-  PUT_CMS_NOTICE_PLACEMENT: MOCK_URL+'/service-release/release/news/top/{id}/{top}', //置顶通知公告，top（是否置顶）： 0-否 1-是
+  GET_CMS_NOTICE_LIST: '/service-release/release/public/news', //获取通知公告列表
+  POST_CMS_NOTICE: '/service-release/release/news', //新建通知公告
+  GET_CMS_NOTICE_DETAIL: '/service-release/release/public/news/{id}', //获取通知公告详情信息
+  PUT_CMS_NOTICE_DETAIL: '/service-release/release/news/{id}', //修改通知公告详情信息
+  DELETE_CMS_NOTICE: '/service-release/release/news/{id}', //删除单条通知公告文档
+  PUT_CMS_NOTICE_STATUS: '/service-release/release/news/{id}/{status}', //修改单条通知公告状态
+  PUT_CMS_NOTICE_PLACEMENT: '/service-release/release/news/top/{id}/{top}', //置顶通知公告，top（是否置顶）： 0-否 1-是
   // 内容发布-投票管理
-  GET_VOTE_LIST: MOCK_URL + '/service-release/release/vote', // 获取投票列表
+  GET_VOTE_LIST: MOCK_URL + '/service-release/release/public/vote', // 获取投票列表
   POST_ADD_VOTE: MOCK_URL + '/service-release/release/vote', // 新增投票
+  GET_VOTE_DETAIL: MOCK_URL + '/service-release/release/public/vote/{id}', // 获取投票详情
+  GET_VOTE_VIEW: MOCK_URL + '/service-release/release/vote/result/{id}', // 查看投票信息
+  PUT_EDIT_VOTE: MOCK_URL + '/service-release/release/vote/{id}', // 修改投票
+  DELETE_VOTE: MOCK_URL + '/service-release/release/vote/{id}', // 删除投票
+  PUT_VOTE_STATUS: MOCK_URL + '/service-release/release/vote/{id}/{status}', // 修改投票的状态
+  GET_VOTE_RESULT: MOCK_URL + '/service-release/release/vote/result/count/{id}', // 获取投票结果公示
 }

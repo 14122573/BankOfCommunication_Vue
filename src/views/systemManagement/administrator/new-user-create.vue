@@ -1,7 +1,7 @@
 <template>
 	<div class="portalDetailWapper">
 		<div class="portalDetailTitle">
-			<span class="title">{{$route.meta.title}}</span>
+			<span class="title">{{fromCenter ? '账户基本信息修改' : $route.meta.title}}</span>
 			<div class="detailOperations">
 				<a-button @click='handleReturn'>返回</a-button>
 				<a-button type="primary" @click='handleAdd' html-type="submit">保存</a-button>
@@ -18,8 +18,8 @@
 							</a-form-item>
 						</a-col>
 						<a-col span="8">
-							<a-form-item class="formItem" label="登录手机号" v-bind="colSpe">
-								<a-input placeholder="请输入" :disabled="!!$route.query.id" v-decorator="['phone',searchFormRules.phone]" />
+							<a-form-item class="formItem" label="账号" v-bind="colSpe">
+								<a-input placeholder="请输入手机号" :disabled="fromCenter" v-decorator="['phone',searchFormRules.phone]" />
 							</a-form-item>
 						</a-col>
 						<a-col span="8">
@@ -51,7 +51,7 @@
 				<div class="layoutMargin detailsPartSection">
 					<p class="detailsPartTitle">账户信息</p>
 					<a-row class="formItemLine">
-						<a-col span="8">
+						<a-col span="8" v-if="!fromCenter">
 							<a-form-item label="角色名称" v-bind="colSpe">
 								<a-select placeholder="请选择" @change="roleChange" allowClear mode="multiple" labelInValue v-decorator="['notes', searchFormRules.notes]">
 									<a-select-option v-for="(item,index) in roleList" :key="index" :value="item.id">{{item.roleName}}</a-select-option>
@@ -77,7 +77,7 @@
 							</a-form-item>
 						</a-col>
 					</a-row>
-					<div class="layoutMargin detailsPartLine">
+					<div v-if="!fromCenter" class="layoutMargin detailsPartLine">
 						<a-tree class="portalRoleTree" checkable disabled :treeData="treeData" v-model="checkedKeys" />
 					</div>
 				</div>
@@ -172,7 +172,8 @@ export default {
       groupLists: [],
       areaName: '',
       roleList: [],
-      roles: []
+      roles: [],
+      fromCenter: false, // 是否从个人中心-账户信息跳转过来的
     }
   },
   mounted() {
@@ -180,6 +181,8 @@ export default {
     this.getArea()
     this.getTree()
     this.getRoleLists()
+    const {fromCenter} = this.$route.query
+    this.fromCenter = (fromCenter && fromCenter === '1') // 从个人中心-账户信息跳过来的不能修改手机号
   },
   methods: {
     // 查询权限树
@@ -263,6 +266,16 @@ export default {
               }
             })
           } else {
+            if (this.fromCenter) { // 如果是用户中心-基本信息过来修改的则用此接口
+              this.$ajax.put({
+                url: this.$api.PUT_EDIT_USER,
+                params: values,
+              }).then(res => {
+                this.$message.success('修改成功')
+                this.$nextTick(() => this.$router.back())
+              })
+              return
+            }
             this.$ajax.put({
               url: this.$api.PUT_USER_LIST.replace('{id}', this.$route.query.id),
               params: values
@@ -468,7 +481,7 @@ export default {
     },
     validatePhone(rule, value, callback) {
       if (!value || value == undefined || value.split(' ').join('').length === 0) {
-        callback('请输入登录手机号！')
+        callback('请输入账号！')
       } else {
         if (!this.$route.query.id) {
           if (!this.$com.checkPhone(value)) {

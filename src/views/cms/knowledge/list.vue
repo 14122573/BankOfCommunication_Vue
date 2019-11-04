@@ -258,7 +258,7 @@ export default {
       }).then(res=>{
         if(res.code=='200'){
           let successMsg = status=='1'?'发布成功':'撤回成功'
-          this.$message.success('successMsg')
+          this.$message.success(successMsg)
           this.getKnowLedgeList()
         }else{
           this.$message.error(res.msg)

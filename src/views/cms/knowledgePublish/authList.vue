@@ -69,6 +69,7 @@ export default {
       },
       defaultSearchForm:{
         type:['0','1'],
+        anonymous:['0','1']
       },
       searchForm:{},
       knowledgeList:[],
@@ -89,6 +90,7 @@ export default {
   mounted() {
     // if(this.$route.name == '/cms/knowledgePublish'){
     this.searchForm.type_in = this.toKeyString(this.defaultSearchForm.type,',')
+    this.searchForm.anonymous_in = this.toKeyString(this.defaultSearchForm.anonymous,',')
     this.getKnowLedgeList()
     // }
   },
@@ -137,7 +139,7 @@ export default {
       this.searchForm ={
         // status_in:this.toKeyString(this.defaultSearchForm.status,','),
         type_in:this.toKeyString(this.defaultSearchForm.type,','),
-        // anonymous_in:this.toKeyString(this.defaultSearchForm.anonymous,',')
+        anonymous_in:this.toKeyString(this.defaultSearchForm.anonymous,',')
       }
       this.pagination.current = 1
       this.pagination.pageNo = 1

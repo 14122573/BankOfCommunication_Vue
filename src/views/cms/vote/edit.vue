@@ -1,9 +1,9 @@
 <template>
   <div class="portalDetailWrapper">
     <div class="portalDetailTitle">
-			<span class="title">创建投票</span>
+			<span class="title">{{voteId ? '修改投票' : '创建投票'}}</span>
 			<div class="detailOperations">
-				<a-button @click='$router.back()'>取消</a-button>
+				<a-button @click="$router.back()">取消</a-button>
 				<a-button @click="saveData('0')" type="primary">保存</a-button>
 				<a-button @click="saveData('1')" type="primary">保存并发布</a-button>
 			</div>
@@ -34,9 +34,9 @@
               </ActiveForm>
               <template v-else>
                 <p class="title">
-                  {{`${i + 1}、${item.title}? `}}
-                  <span class="red" v-show="item.isRequired == '0'">*</span>
-                  {{`(${item.type == '0'? '单选题' : '多选题'})`}}
+                  {{`${i + 1}、${item.title} `}}
+                  <span class="red" v-show="item.isRequired == '0'">*</span>&nbsp;&nbsp;&nbsp;&nbsp;
+                  {{`(${item.type == '0' ? '单选题' : '多选题'})`}}
                 </p>
                 <template v-if="item.options && item.options.length > 0">
                   <p v-for="option in item.options" :key="option.value">
@@ -62,6 +62,7 @@ export default {
   name: 'VoteEdit',
   data() {
     return {
+      voteId: null, // null为新增模式，有值为修改模式
       layout: [
         {
           name: {
@@ -145,17 +146,40 @@ export default {
       ],
       questionModel: {},
       questionOptions: [],
-      isEditing: false,
+      isEditing: false, // question是编辑模式还是完成模式的依据
+    }
+  },
+  mounted() {
+    const {query} = this.$route
+    if (query && query.id) {
+      this.voteId = query.id
+      this.getDetail()
     }
   },
   methods: {
+    getDetail() {
+      this.$ajax.get({
+        url: this.$api.GET_VOTE_DETAIL.replace('{id}', this.voteId)
+      }).then(res => {
+        const {name, startTime, endTime, description, subjects} = res.data.content
+        this.model = {
+          name,
+          date: [startTime, endTime],
+          description,
+        }
+        // 因为接口返回的问题选项只有id和value，没有label，暂时先做处理，以后要去掉
+        subjects.forEach(item => {
+          if (item.options && item.options.length > 0) {
+            item.options.forEach(option => {
+              option.label = ''
+            })
+          }
+        })
+        this.questionList = subjects
+      })
+    },
     addNewQuestion() {
-      const index = this.questionList.findIndex(item => item.isEditing)
-      // 如果有未保存的题目则提示先保存
-      if (index >= 0) {
-        this.$message.error('请先保存编辑中的题目')
-        return
-      }
+      if (this.checkIsEditing()) return
       this.questionList.push({isEditing: true})
     },
     cancelNewQuestion(i) {
@@ -168,12 +192,7 @@ export default {
       this.initQuestion()
     },
     editQuestion(i) {
-      const index = this.questionList.findIndex(item => item.isEditing)
-      // 如果有未保存的题目则提示先保存
-      if (index >= 0) {
-        this.$message.error('请先保存编辑中的题目')
-        return
-      }
+      if (this.checkIsEditing()) return
       this.isEditing = true
       this.questionOptions = this.questionList[i].options
       this.addNewOption(false)
@@ -193,6 +212,10 @@ export default {
     saveQuestion(i) {
       this.$refs.questionForm[0].validate(err => { // 这里不知是否是if的关系，需要加上[0]，原本正常的form不需要
         if (err) return
+        if (this.questionOptions.length == 0) {
+          this.$message.error('请至少添加一个选项')
+          return
+        }
         const arr = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K']
         const options = this.questionOptions.map((option, index) => {
           return {
@@ -261,16 +284,36 @@ export default {
       layout.push(...options)
       this.questionLayout = layout
     },
-    initQuestion() {
-      // 清空Question模板等
+    initQuestion() { // 清空question模板等
       this.questionOptions = []
       this.questionModel = {}
       this.questionLayout = this.questionLayout.slice(0, 4)
       this.isEditing = false
     },
+    checkIsEditing() { // 检查是否存在正在编辑的题目，有则返回true
+      const index = this.questionList.findIndex(item => item.isEditing)
+      // 如果有未保存的题目则提示先保存
+      if (index >= 0) {
+        this.$message.error('请先保存编辑中的题目')
+        return true
+      }
+      return false
+    },
     saveData(status) {
+      if (this.checkIsEditing()) return
       this.$refs.basicForm.validate(err => {
         if (err) return
+        if (this.questionList.length == 0) {
+          this.$message.error('请至少添加一个投票题目')
+          return
+        }
+        let method = 'post'
+        let url = this.$api.POST_ADD_VOTE
+        if (this.voteId) {
+          // 如果是修改模式则改变请求方式和url
+          method = 'put'
+          url = this.$api.PUT_EDIT_VOTE.replace('{id}', this.voteId)
+        }
         const {name, description, date} = this.model
         const params = {
           name,
@@ -280,8 +323,8 @@ export default {
           status,
           subjects: this.questionList,
         }
-        this.$ajax.post({
-          url: this.$api.POST_ADD_VOTE,
+        this.$ajax[method]({
+          url,
           params,
         }).then(res => {
           if (status == '1') {

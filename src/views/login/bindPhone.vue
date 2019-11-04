@@ -1,9 +1,9 @@
 <template>
-	<div class="loginFrame">
+	<div class="loginFrame" :style="'background-image: url(' + require('@/assets/images/bg.jpg') + ')'">
 		<div class="chooseSystem">
 			<div>
 				<a-row type="flex" justify="start" align="middle" :gutter="10">
-					<a-col><img src="../../assets/images/logo.png" alt="" class="logo"></a-col>
+					<a-col><img src="@/assets/images/logo.png" alt="" class="logo"></a-col>
 					<a-col>“智能渔技”综合信息服务平台</a-col>
 				</a-row>
 			</div>
@@ -17,8 +17,8 @@
             <a-col span='6' :key="index">
               <div class="systemItem" @click="selectSystem(item,index)">
                 {{item.sysDic.sysName}}
-                <img src="../../assets/images/system-s.png" alt="" class="checkImage" v-show='activeIndex==index' />
-                <img src="../../assets/images/isBind.png" alt="" class="checkImage" v-show='item.isBind=="true"||item.isBind=="1"' />
+                <img src="@/assets/images/system-s.png" alt="" class="checkImage" v-show='activeIndex==index' />
+                <img src="@/assets/images/isBind.png" alt="" class="checkImage" v-show='item.isBind=="true"||item.isBind=="1"' />
               </div>
             </a-col>
           </template>
@@ -45,16 +45,10 @@
 						</a-col>
 						<a-col :span="7">
 							<a-form-item>
-								<a-input v-decorator="[
-											  'code',
-											  { validateTrigger:'change',
-                                            rules: [
-											  {validator: validateCode}] }
-											]"
+								<a-input v-decorator="[ 'code', { validateTrigger:'change',  rules: [ {validator: validateCode}] } ]"
 								 placeholder="手机验证码" :disabled='disableCode'>
 									<a-icon slot="prefix" type="code" style="color: rgba(0,0,0,.25)" />
 								</a-input>
-
 							</a-form-item>
 						</a-col>
 						<a-col :span="4">
@@ -70,15 +64,7 @@
 						<a-row type="flex" justify="start" align="middle" :gutter="10">
 							<a-col span="7">
 								<a-form-item>
-									<a-input v-decorator="[
-										  'password',
-										  {
-											validateTrigger:'blur',
-											rules: [ {
-												validator: validateToNextPassword,
-											}] }
-										]"
-									 type="password" placeholder="密码需大于6位且含字母和数字">
+									<a-input v-decorator="[ 'password', { validateTrigger:'blur', rules: [ { validator: validateToNextPassword, }] } ]" type="password" placeholder="密码需大于6位且含字母和数字">
 										<a-icon slot="prefix" type="lock" style="color: rgba(0,0,0,.25)" />
 									</a-input>
 								</a-form-item>
@@ -187,19 +173,19 @@
 					</div>
 				</a-form>
 			</div>
-			<img src="../../assets/images/border.png" alt="" class="border">
+		  <img src="@/assets/images/border.png" alt="" class="border">
 			<div class="btnGroup">
 				<div v-if="hasLogined" @click="toLogin">
-					<img src="../../assets/images/left.png" alt="">
+					<img src="@/assets/images/left.png" alt="">
 					<div>退出</div>
 				</div>
 				<div v-else @click="showLeft">
-					<img src="../../assets/images/left.png" alt="">
+					<img src="@/assets/images/left.png" alt="">
 					<div>{{left}}</div>
 				</div>
 				<div @click="showRight">
-					<img src="../../assets/images/right2.png" alt="" v-if='disableNext'>
-					<img src="../../assets/images/right.png" alt="" v-else>
+					<img src="@/assets/images/right2.png" alt="" v-if='disableNext'>
+					<img src="@/assets/images/right.png" alt="" v-else>
 					<div>{{right}}</div>
 				</div>
 			</div>
@@ -218,13 +204,9 @@
 </template>
 
 <script>
-import {
-  permission
-} from '@/util/mixins'
+import { permission } from '@/util/mixins'
 import testStrong from '@/components/testPwd'
-import {
-  encryptDes
-} from '@/util/des-cryptojs'
+import { encryptDes } from '@/util/des-cryptojs'
 export default {
   name: 'bindPhone',
   components: {
@@ -569,7 +551,6 @@ export default {
 		margin: 0px;
 		padding: 0px;
 		position: relative;
-		background-image: url("../../assets/images/bg.jpg");
 		background-size: cover;
 		z-index: 10;
 	}

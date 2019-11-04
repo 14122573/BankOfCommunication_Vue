@@ -10,6 +10,7 @@ Vue.use(Router)
 
 const config = {
   mode: 'history',
+  base: process.env.NODE_ENV === 'development' ? '/' : '/portal/',
   routes,
 }
 const router = new Router(config)
@@ -31,7 +32,8 @@ router.beforeEach((to, from, next) => {
     if (to.name == 'login') {
       next()
     } else {
-      if (Common.oneOf(to.name,['/cms/knowledgePublish/view','/cms/knowledgeAnonymous','upperLimitErr','register','oldSysLogout','networkerr'])|| (to.name == 'bindPhone' && canEnterBind == '200')) {
+      let uneedTokenRouter=['/cms/noticePublish','/cms/noticePublish/view','/cms/knowledgePublish/view','/cms/knowledgeAnonymous','upperLimitErr','register','oldSysLogout','networkerr']
+      if (Common.oneOf(to.name,uneedTokenRouter) || (to.name == 'bindPhone' && canEnterBind == '200')) {
         next()
       } else {
         next('/login')
@@ -43,6 +45,11 @@ router.beforeEach((to, from, next) => {
     } else {
       next()
     }
+  }
+  if (!to.name) {
+    next('/error-page')
+  } else {
+    next()
   }
 })
 

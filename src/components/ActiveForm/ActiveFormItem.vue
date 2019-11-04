@@ -89,7 +89,7 @@
     </span>
 
     <template v-if="item.render">
-      <component :is="component" />
+      <component :is="component" v-decorator="validate"/>
     </template>
   </a-form-item>
 </template>

@@ -1,73 +1,71 @@
 <template>
-	<div class="loginFrame">
-		<div class="loginForm">
-			<div class="matching">
-				<a-row type="flex" justify="start" align="middle" :gutter="10">
-					<a-col offset="1"><img src="../../assets/images/logo.png" alt="" class="logo"></a-col>
-					<a-col>“智能渔技”综合信息服务平台</a-col>
-				</a-row>
-			</div>
-			<div class="form">
-				<div class="login" v-if='pageType=="login"'>
-					<h2>用户登录</h2>
-					<a-form :form="formLogin" class="login-form">
-						<a-form-item>
-							<a-input v-decorator="[
-										'username',
-										{ validateTrigger:'blur',
-										rules: [
-										{ validator: validateAccount}] }
-									]"
-							 placeholder="账户或手机号" autocomplete="off" @change='visibleError = false'>
-								<a-icon slot="prefix" type="user" style="color: rgba(0,0,0,.25)" />
-							</a-input>
-						</a-form-item>
-						<input type="password" style="display: none;">
-						<a-form-item class="login-form-password">
-							<a-input v-decorator="[ 'pwd', { validateTrigger:'blur', rules: [{ validator: validatePassword }] } ]" :type="isType"
-							 id="pwds" placeholder="密码" autocomplete="off" @focus='pasBlur' >
-								<a-icon slot="prefix" type="lock" style="color: rgba(0,0,0,.25)" />
-							</a-input>
-						</a-form-item>
-						<input type="text" style="display:none">
-						<a-form-item class="login-form-code" v-if='errorCount>=3'>
-							<a-row type="flex" justify="space-between">
-								<a-col :span="12">
-									<div class="qrcode">
-										<img :src="$api.BASE_URL+$api.GET_CODE+'?reqId='+figure" alt="" @click='figure=Math.random()'>
-									</div>
-								</a-col>
-								<a-col :span="12">
-									<a-input style="height:44px" v-decorator="[ 'captcha', { validateTrigger:'blur', rules: [{ required: true,whitespace:true, message: '请输入验证码!' }] } ]"
-									 placeholder="验证码" autocomplete="off" />
-								</a-col>
-							</a-row>
-						</a-form-item>
-						<div class="showError">
-							<div v-if="visibleError">
-								<a-icon type="close-circle" />&nbsp;&nbsp;{{loginFailMsg}}
-							</div>
-						</div>
-						<a-form-item>
-							<a-row type="flex" justify="space-between">
-								<a-col :span="12" class="login-form-chckbox">
-									<a-checkbox :checked="remember" @change="keepLogin"> 7天免登录 </a-checkbox>
-								</a-col>
-								<a-col :span="12">
-									<a class="login-form-forgot" @click='pageType="findPassword"'> 忘记密码? </a>
-								</a-col>
-							</a-row>
-							<a-button type="primary" html-type="submit" class="login-form-button" @click="handleLogin">
-								登录
-							</a-button>
-							<a @click="toRegister" class="login-form-register">新用户注册 </a>
-						</a-form-item>
-					</a-form>
-				</div>
-				<ResetPassword v-if='pageType=="findPassword"' @on-change='pageTypeChange' @on-success='changeSuccess'></ResetPassword>
-				<opeationSuccess v-if='pageType=="success"' @on-change='pageTypeChange' :successText='successText'></opeationSuccess>
-			</div>
-		</div>
+	<div class="loginFrame" :style="'background-image: url(' + require('@/assets/images/bg.jpg') + ')'">
+    <div class="loginFrameBody">
+      <a-row class="loginFrameTitle" type="flex" justify="start" align="middle" :gutter="10">
+        <a-col><img src="@/assets/images/logo.png" alt="" class="logo"></a-col>
+        <a-col>“智能渔技”综合信息服务平台</a-col>
+      </a-row>
+      <div class="loginForm">
+        <div class="matching" :style="'background-image: url(' + require('@/assets/images/bg-login-cms.jpg') + ')'">
+          <NoticeList></NoticeList>
+          <OtherEntrance></OtherEntrance>
+        </div>
+        <div class="form">
+          <div class="login" v-if='pageType=="login"'>
+            <h2>用户登录</h2>
+            <a-form :form="formLogin" class="login-form">
+              <a-form-item>
+                <a-input v-decorator="[ 'username', { validateTrigger:'blur',  rules: [ { validator: validateAccount}] } ]"
+                placeholder="账户或手机号" autocomplete="off" @change='visibleError = false'>
+                  <a-icon slot="prefix" type="user" style="color: rgba(0,0,0,.25)" />
+                </a-input>
+              </a-form-item>
+              <input type="password" style="display: none;">
+              <a-form-item class="login-form-password">
+                <a-input v-decorator="[ 'pwd', { validateTrigger:'blur', rules: [{ validator: validatePassword }] } ]" :type="isType"
+                id="pwds" placeholder="密码" autocomplete="off" @focus='pasBlur' >
+                  <a-icon slot="prefix" type="lock" style="color: rgba(0,0,0,.25)" />
+                </a-input>
+              </a-form-item>
+              <input type="text" style="display:none">
+              <a-form-item class="login-form-code" v-if='errorCount>=3'>
+                <a-row type="flex" justify="space-between">
+                  <a-col :span="12">
+                    <div class="qrcode">
+                      <img :src="$api.BASE_URL+$api.GET_CODE+'?reqId='+figure" alt="" @click='figure=Math.random()'>
+                    </div>
+                  </a-col>
+                  <a-col :span="12">
+                    <a-input style="height:44px" v-decorator="[ 'captcha', { validateTrigger:'blur', rules: [{ required: true,whitespace:true, message: '请输入验证码!' }] } ]"
+                    placeholder="验证码" autocomplete="off" />
+                  </a-col>
+                </a-row>
+              </a-form-item>
+              <div class="showError">
+                <div v-if="visibleError">
+                  <a-icon type="close-circle" />&nbsp;&nbsp;{{loginFailMsg}}
+                </div>
+              </div>
+              <a-form-item>
+                <a-row type="flex" justify="space-between">
+                  <a-col :span="12" class="login-form-chckbox">
+                    <a-checkbox :checked="remember" @change="keepLogin"> 7天免登录 </a-checkbox>
+                  </a-col>
+                  <a-col :span="12">
+                    <a class="login-form-forgot" @click='pageType="findPassword"'> 忘记密码? </a>
+                  </a-col>
+                </a-row>
+                <a-button type="primary" html-type="submit" class="login-form-button" @click="handleLogin"> 登录</a-button>
+                <a @click="toRegister" class="login-form-register">新用户注册 </a>
+              </a-form-item>
+            </a-form>
+          </div>
+          <ResetPassword v-if='pageType=="findPassword"' @on-change='pageTypeChange' @on-success='changeSuccess'></ResetPassword>
+          <opeationSuccess v-if='pageType=="success"' @on-change='pageTypeChange' :successText='successText'></opeationSuccess>
+        </div>
+      </div>
+    </div>
+
 		<div class="footer">
 			<p>主办单位：全国水产技术推广总站、中国水产学会&nbsp;&nbsp;&nbsp;&nbsp; 技术支持：博彦科技股份有限公司</p>
 			<p>COPYRIGHT&copy;-{{$com.getCurrentYear()}} ALL RIGHTS RESERVED</p>
@@ -75,21 +73,20 @@
 	</div>
 </template>
 <script>
-import {
-  permission
-} from '@/util/mixins'
+import { permission } from '@/util/mixins'
+import { encryptDes} from '@/util/des-cryptojs'
 import testStrong from '@/components/testPwd'
 import ResetPassword from '@/views/login/resetPassword'
 import opeationSuccess from '@/views/login/success'
-import {
-  encryptDes
-} from '@/util/des-cryptojs'
+import NoticeList from '@/views/cms/noticePublish/noticeInLogin'
+import OtherEntrance from '@/views/login/otherEntrance'
 export default {
-  name: 'Login',
   components: {
     testStrong,
     ResetPassword,
-    opeationSuccess
+    opeationSuccess,
+    NoticeList,
+    OtherEntrance
   },
   mixins: [permission],
   beforeCreate() {
@@ -196,9 +193,7 @@ export default {
       let gainDatas = res.data.content
       if (res.msg == 'choose') {
         //存储系统列表
-        let chooseSystemLists = gainDatas
-        this.$store.commit('SET_CHOOSESYSLISTS', chooseSystemLists)
-        // this.$cookie.set('systemLists', JSON.stringify(gainDatas))
+        this.$cookie.set('systemLists', JSON.stringify(gainDatas))
         if (this.sysCode != 'null') {
           //列表存在该code  存在去匹配code值去获取跳转路径 不存在去绑定
           let data = gainDatas.find(item => item.sysDic.sysCode == this.sysCode)
@@ -375,135 +370,31 @@ export default {
 </script>
 
 <style scoped>
-	.loginFrame {
-		width: 100%;
-		height: 100%;
-		min-width: 1000px;
-		margin: 0px;
-		padding: 0px;
-		position: relative;
-		background-image: url("../../assets/images/bg.jpg");
-		background-size: cover;
-	}
+	.loginFrame { width: 100%; height: 100%; min-width: 1000px; min-height: 700px; margin: 0px; padding: 0px; position: relative; background-size: cover;}
+  .loginFrameBody { width: 900px; height:560px; position:relative; margin: auto; top: calc((100% - 560px)/2)}
+  .loginFrameTitle { font-size: 26px; color: white; margin-bottom: 10px;}
+  .loginFrameTitle .logo { height: 70px;}
 
-	.loginForm {
-		width: 900px;
-		height: 460px;
-		position: absolute;
-		left: 0;
-		top: 0;
-		right: 0;
-		bottom: 0;
-		margin: auto;
-	}
+	.loginForm { width: 900px; height: 460px;}
+	.loginForm>div { height: 460px; float: left; overflow: hidden;}
+	.loginForm .matching { width: 550px; background-size: cover; padding: 10px 0;}
 
-	.loginForm>div {
-		height: 460px;
-		float: left;
-		overflow: hidden;
-	}
+	.form { width: 350px; background: white; position: relative;}
+	.form>div { width: 260px; position: absolute;left: 35px; top: 35px;}
+	.form h2 { font-size: 24px; text-align: left; height: 24px; line-height: 24px; font-weight: 500; margin: 0 0 22px 0;}
+	.login-form, .register-form { max-width: 300px; text-align: left;}
+	.ant-form label { text-align: left; font-size: 12px; color: #939a9f;}
+	.login-form-forgot { float: right; font-size: 12px;}
+	.login-form-register { color: #0076FF; font-size: 14px;}
+	.login .login-form-button { width: 100%; margin-top: 40px; text-align: center;}
 
-	.matching {
-		width: 550px;
-		background-image: url("../../assets/images/pic.jpg");
-		background-size: cover;
-		padding: 10px 0;
-		font-size: 26px;
-		color: white;
-	}
-
-	.logo {
-		height: 70px;
-	}
-
-	.form {
-		width: 350px;
-		background: white;
-		position: relative;
-	}
-
-	.form>div {
-		width: 260px;
-		position: absolute;
-		left: 35px;
-		top: 35px;
-	}
-
-	h2 {
-		font-size: 24px;
-		text-align: left;
-		height: 24px;
-		line-height: 24px;
-		font-weight: 500;
-		margin: 0 0 22px 0;
-	}
-
-	.login-form,
-	.register-form {
-		max-width: 300px;
-		text-align: left;
-	}
-
-	.ant-form label {
-		text-align: left;
-		font-size: 12px;
-		color: #939a9f;
-	}
-
-	.login-form-forgot {
-		float: right;
-		font-size: 12px;
-	}
-
-	.login-form-register {
-		color: #0076FF;
-		font-size: 14px;
-	}
-
-	.login .login-form-button {
-		width: 100%;
-		margin-top: 40px;
-		text-align: center;
-	}
-
-	.footer {
-		height: 50px;
-		width: 100%;
-		text-align: center;
-		position: absolute;
-		bottom: 0px;
-		left: 0px;
-		color: #cfd7f3;
-		font-size: 14px;
-	}
-
-	.footer p {
-		margin: 0;
-	}
-
-	.footer p:last-of-type {
-		color: #829bdc;
-	}
-
-	.ant-input-affix-wrapper,
-	.login-form-button {
-		height: 44px;
-	}
-
-	.showError {
-		margin-top: -20px;
-		height: 20px;
-		color: red;
-	}
-
-	.qrcode {
-		cursor: pointer;
-	}
+	.footer { height: 50px; width: 100%; text-align: center; position: absolute; bottom: 0px; left: 0px; color: #cfd7f3; font-size: 14px;}
+  .footer p {	margin: 0; }
+  .footer p:last-of-type { 	color: #829bdc; }
+  .ant-input-affix-wrapper, .login-form-button { height: 44px; }
+  .showError { margin-top: -20px; height: 20px; color: red;}
+  .qrcode { cursor: pointer;}
 </style>
 <style>
-	.login-form-code .ant-form-explain {
-		margin-left: 140px;
-		position: relative;
-		top: 6px;
-	}
+	.login-form-code .ant-form-explain { margin-left: 140px; position: relative; top: 6px;}
 </style>

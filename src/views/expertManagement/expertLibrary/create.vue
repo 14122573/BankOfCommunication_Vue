@@ -138,8 +138,8 @@
 
 </template>
 <script>
-import jobStudy from '../components/jobStudy'
-import jobSpace from '../components/jobSpace'
+import jobStudy from '@/views/expertManagement/components/jobStudy'
+import jobSpace from '@/views/expertManagement/components/jobSpace'
 export default {
   name: 'talent-create',
   components: { jobStudy, jobSpace },

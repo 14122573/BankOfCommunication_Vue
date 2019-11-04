@@ -38,7 +38,7 @@
 							</a-dropdown>
 						</div>
 					</a-layout-header>
-					<a-layout-content id="appContent">
+					<a-layout-content id="appContent" :style="'background: url('+ require('@/assets/images/content-bg.png') + ') no-repeat'">
 						<a-locale-provider :locale="zh_CN">
 							<router-view v-show="!showSpaContent" :key="$route.path" />
 						</a-locale-provider>
@@ -151,7 +151,9 @@ export default {
       } else {
         this.$ajax.post({
           url: this.$api.POST_LOGOUT,
-          params: {}
+          params: {
+            refreshToken:this.$cookie.get('refresh_token')
+          }
         }).then(res => {
           this.$store.commit('SET_CLEAR')
           this.$cookie.remove('KeepLogin')
@@ -270,11 +272,9 @@ export default {
 	#appContent {
 		overflow-y: auto;
 		padding: 0 0 14px 0;
-		background: url('../../assets/images/content-bg.png') no-repeat;
 		background-position: 95% 10%;
 		background-size: 20%;
 		height: 100%;
-
 	}
 	#appContent #content { 	height: 100%; }
 	#appContent #content>div { overflow-y: auto; }

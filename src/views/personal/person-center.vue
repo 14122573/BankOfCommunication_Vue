@@ -4,7 +4,9 @@
       <p class="detailsPartTitle">
         <a-row type="flex" justify="space-between">
           <a-col span="4"> 基本信息 </a-col>
-          <a-col offset="12" span="4" class="algin-right">
+          <a-col offset="8" span="8" class="algin-right">
+            <a-button @click="toEditInfo">修改基本信息</a-button>
+            <a-button @click="showPhoneModal = true">修改手机号</a-button>
             <a-button @click="showChangePwdModal">修改密码</a-button>
           </a-col>
         </a-row>
@@ -54,6 +56,7 @@
       </template>
     </div>
     <ChangePassword @on-close='closeChangePwdModal' :resetPwdShow='isShowChangePwd'></ChangePassword>
+    <ChangePhone v-model="showPhoneModal"/>
   </div>
 </template>
 <style scoped>
@@ -63,16 +66,19 @@
 <script>
 import { permission, } from '@/util/mixins'
 import ChangePassword from '@/views/personal/changePassword'
+import ChangePhone from './changePhone'
 export default {
   name: 'PersonCenter',
   mixins: [permission],
   components: {
-    ChangePassword
+    ChangePassword,
+    ChangePhone,
   },
   data() {
     return {
       userInfo:null,
-      isShowChangePwd:false
+      isShowChangePwd:false,
+      showPhoneModal: false,
     }
   },
   created() {
@@ -96,6 +102,16 @@ export default {
     }
   },
   methods: {
+    toEditInfo() {
+      const {id} = this.userInfo
+      this.$router.push({
+        name: '/systemManagement/administrator/editNewUser',
+        query: {
+          id,
+          fromCenter: '1',
+        },
+      })
+    },
     showChangePwdModal(){
       this.isShowChangePwd = true
     },

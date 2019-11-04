@@ -55,6 +55,12 @@ export default {
         this.instance = UE.getEditor(this.randomId, this.ueditorConfig)
         this.instance.setContent(val)
       }
+    },
+    ready(){
+      if (this.value != null  && this.ready) {
+        this.instance = UE.getEditor(this.randomId, this.ueditorConfig)
+        this.instance.setContent(this.value )
+      }
     }
   },
   //此时--el挂载到实例上去了,可以初始化对应的编辑器了
