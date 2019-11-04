@@ -126,7 +126,12 @@ case 'uat': // uat环境下
   }]
   break
 case 'production': // 生产环境下
-  MicConfig = []
+  MicConfig = [{ //质量安全/追述
+    baseUrl: 'http://znyj.nftec.agri.cn/zlaq',
+    resourceName: 'zlzs',
+    micId: 'mic:zlzs',
+    pathPrefix: '/zlzs'
+  }]
   break
 default: // 默认环境下（开发环境）
   MicConfig = [{

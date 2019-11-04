@@ -9,6 +9,12 @@
 						<a-input :placeholder="name.formPlaceHolder"  v-decorator="['title',rules.title]"> </a-input>
 					</a-form-item>
 				</a-col>
+        <a-col span="24" v-if="baseType=='breed'">
+        <!-- 仅水产品种信息编辑展示 -->
+					<a-form-item label="计量单位" v-bind="colSpe">
+						<a-input placeholder="请输入品种计量单位"  v-decorator="['breedUnit',rules.breedUnit]"> </a-input>
+					</a-form-item>
+				</a-col>
 			</a-row>
 		</a-form>
 	</a-modal>
@@ -43,6 +49,10 @@ export default {
       },
       rules: {
         title: {
+          validateTrigger: 'blur',
+          rules: [{ required: true }]
+        },
+        breedUnit: {
           validateTrigger: 'blur',
           rules: [{ required: true }]
         }
@@ -88,7 +98,8 @@ export default {
           this.$ajax.post({
             url: this.apis.post,
             params: {
-              name: this.createForm.getFieldValue('title')
+              name: this.createForm.getFieldValue('title'),
+              unit: this.createForm.getFieldValue('breedUnit')
             }
           }).then(res => {
             if (res.code === '200') {

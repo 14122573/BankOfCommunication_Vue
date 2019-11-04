@@ -53,6 +53,7 @@ import {
   Popconfirm,
   Progress,
   Switch,
+  Calendar,
   // CollapsePanel
 } from 'ant-design-vue'
 import './assets/base.css' // 引入全局样式
@@ -106,6 +107,7 @@ Vue.use(Collapse)
 Vue.use(Popconfirm)
 Vue.use(Progress)
 Vue.use(Switch)
+Vue.use(Calendar)
 // Vue.use(Collapse-panel)
 
 import RouterWapper from '@/components/Layout/content-wrapper'

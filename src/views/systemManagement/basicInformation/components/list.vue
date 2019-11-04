@@ -13,6 +13,7 @@
       <div class="inner">
         <div class="content">
           <p class="name">{{item.name}}</p>
+          <p class="breedUnit" v-if="baseType=='breed'">计量单位：{{!item.unit?'暂无':item.unit}}</p>
         </div>
         <div class="operate">
           <template>
@@ -28,6 +29,8 @@
   <EditBase @on-success='closeEditModal' :baseType='baseType' :resetShow='isShow.editModal' :item="!editData?{}:editData"></EditBase>
 </div>
 </template>
+
+
 <script>
 import CreatBase from './add'
 import EditBase from './edit'
@@ -65,6 +68,11 @@ export default {
   },
   mounted(){
     this.preparate()
+    // this.$ajax.get({
+    //   url:'http://www.tianqiapi.com/api/'
+    // }).then(res=>{
+    //   console.log(res)
+    // })
   },
   methods:{
     preparate(){
@@ -149,7 +157,9 @@ export default {
 .box { width: 20%; padding: 0 8px 16px 8px;}
 .inner {height: 100px; display: flex; flex-direction: column; border: 1px solid #e8eaec;}
 .content { display: flex; flex: 1; flex-direction: column; justify-content: center; align-items: start; padding:0px 10px;}
-.content .name{ font-size: 16px;font-weight: bold; margin-bottom: 0}
+.content p{ margin-bottom: 0 }
+.content .name{ font-size: 16px;font-weight: bold;}
+.content .breedUnit{ font-size: 14px; color: rgba(0,0,0,0.7)}
 .content .name-num{ margin-left: 5px;font-weight: bold;}
 .operate { border-top: 1px solid #e8eaec; height: 40px; text-align: center; line-height: 40px; }
 .operate span { cursor: pointer; color: #1890ff}
