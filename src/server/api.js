@@ -40,6 +40,8 @@ export default {
   GET_PHONE_CODE: '/service-user/user/public/send/{type}/{phone}', // 发送验证码 （用于注册、忘记密码）
   POST_CHECK_PHONE_CODE: '/service-user/user/public/check/{type}/{phone}/{code}', // 验证手机验证码 （用于注册、忘记密码）
   PUT_PERSONAL_RESET_PWD: 'service-user/user/pwd', // 个人中心重置密码
+  PUT_USER_PHONE: '/service-user/user/phone/{phone}/{code}', // 登录用户修改手机号
+  PUT_EDIT_USER: '/service-user/user/user', // 登录用户修改个人信息
 
   // 系统配置
   // 系统配置 -- 权限配置管理
