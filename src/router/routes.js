@@ -4,6 +4,7 @@ const TipsUpperLimitErr = () => import ('@/views/tips/upperlimit')
 const TipsNetworkErr = () => import ('@/views/tips/network')
 const TipsNoAuth = () => import ('@/views/tips/auth')
 const TipsOutsite = () => import ('@/views/tips/outsite')
+const ErrorPage = () => import ('@/views/tips/error-page')
 const HomePage = () => import ('@/views/home')
 const LoginPage = () => import ('@/views/login/login')
 const RegisterPage = () => import ('@/views/login/register')
@@ -1054,6 +1055,12 @@ const appRoutes = [{
   name: 'networkerr',
   component: TipsNetworkErr,
   meta: { title: '网络错误', },
+},
+{
+  path: '/error-page',
+  name: 'error-page',
+  component: ErrorPage,
+  meta: { title: '404', },
 },
 {
   path: '/upperLimitErr',
