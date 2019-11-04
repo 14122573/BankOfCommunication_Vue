@@ -19,16 +19,16 @@
       </p>
       <a-row class="workspacDocBody" :gutter='10'>
         <a-col span='6'>
-          <p class="workspacDocItem"><a>国家水生国家水生国家水生国家水生国家水生.doc</a></p>
+          <p class="workspacDocItem" :style="'background: url(' + require('@/assets/images/workspace-helperword.png') + ') no-repeat'"><a>国家水生国家水生国家水生国家水生国家水生.doc</a></p>
         </a-col>
         <a-col span='6'>
-          <p class="workspacDocItem"><a>国家水生国家水生国家水生国家水生国家水生.doc</a></p>
+          <p class="workspacDocItem" :style="'background: url(' + require('@/assets/images/workspace-helperword.png') + ') no-repeat'"><a>国家水生国家水生国家水生国家水生国家水生.doc</a></p>
         </a-col>
         <a-col span='6'>
-          <p class="workspacDocItem"><a>国家水生国家水生国家水生国家水生国家水生.doc</a></p>
+          <p class="workspacDocItem" :style="'background: url(' + require('@/assets/images/workspace-helperword.png') + ') no-repeat'"><a>国家水生国家水生国家水生国家水生国家水生.doc</a></p>
         </a-col>
         <a-col span='6'>
-          <p class="workspacDocItem"><a>国家水生国家水生国家水生国家水生国家水生.doc</a></p>
+          <p class="workspacDocItem" :style="'background: url(' + require('@/assets/images/workspace-helperword.png') + ') no-repeat'"><a>国家水生国家水生国家水生国家水生国家水生.doc</a></p>
         </a-col>
       </a-row>
       </a-col>
@@ -36,7 +36,7 @@
       <p class="workspacDocTitle">
         <span><a-divider class="divider" type="vertical"></a-divider>管理员联系方式</span>
       </p>
-        <div class="workspacHelpItem">
+        <div class="workspacHelpItem" :style="'background: url(' + require('@/assets/images/workspace-service.png') + ') no-repeat'">
           <p>管理员姓名</p>
           <p>18300562365</p>
         </div>
@@ -55,9 +55,9 @@
 .workspacDocTitle { border-bottom: 1px solid #ccc; font-size: 16px; font-weight: bold; line-height: 20px; padding-bottom: 10px;}
 .workspacDocTitle .divider { width: 5px; height: 16px; background-color: #1890ff}
 .workspacDocBody { padding-right: 10px;}
-.workspacDocItem { padding:5px 0 0 50px; min-height: 50px; cursor: pointer; background: url('../assets/images/workspace-helperword.png') no-repeat; background-size: 40px; background-position: left top}
+.workspacDocItem { padding:5px 0 0 50px; min-height: 50px; cursor: pointer; background-size: 40px; background-position: left top}
 .workspacDocItem a{ color: rgba(0, 0, 0, 0.8); font-size: 14px; line-height: 18px;}
-.workspacHelpItem { margin:20px 0 0 20px; color: rgba(0, 0, 0, 0.8); font-size: 14px; line-height: 20px; padding-left:50px; min-height: 50px; cursor: pointer; background: url('../assets/images/workspace-service.png') no-repeat; background-size: 40px; background-position: left top}
+.workspacHelpItem { margin:20px 0 0 20px; color: rgba(0, 0, 0, 0.8); font-size: 14px; line-height: 20px; padding-left:50px; min-height: 50px; cursor: pointer; background-size: 40px; background-position: left top}
 .workspacHelpItem p{ padding: 0; margin: 0}
 </style>
 
