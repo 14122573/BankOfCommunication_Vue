@@ -32,7 +32,7 @@ router.beforeEach((to, from, next) => {
     if (to.name == 'login') {
       next()
     } else {
-      let uneedTokenRouter=['/cms/noticePublish','/cms/noticePublish/view','/cms/knowledgePublish/view','/cms/knowledgeAnonymous','upperLimitErr','register','oldSysLogout','networkerr']
+      let uneedTokenRouter=['/cms/noticePublish','/cms/noticePublish/view','/cms/knowledgePublish/view','/cms/knowledgeAnonymous','upperLimitErr','register','oldSysLogout','outerNetworkerr']
       if (Common.oneOf(to.name,uneedTokenRouter) || (to.name == 'bindPhone' && canEnterBind == '200')) {
         next()
       } else {

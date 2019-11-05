@@ -2,6 +2,7 @@
 const contentWrapper = () =>  import ('@/components/Layout/content-wrapper')
 const TipsUpperLimitErr = () => import ('@/views/tips/upperlimit')
 const TipsNetworkErr = () => import ('@/views/tips/network')
+const TipsInnerNetworkErr = () => import ('@/views/tips/innerNetwork')
 const TipsNoAuth = () => import ('@/views/tips/auth')
 const TipsOutsite = () => import ('@/views/tips/outsite')
 const ErrorPage = () => import ('@/views/tips/error-page')
@@ -102,6 +103,12 @@ const appRoutes = [{
     {
       path: '/noauth', name: 'noautherr', component: TipsNoAuth,
       meta: { title: '没有权限', },
+    },
+    {
+      path: '/innerNetworkerr',
+      name: 'innerNetworkerr',
+      component: TipsInnerNetworkErr,
+      meta: { title: '系统异常', },
     },
     {
       path: '/person', name: 'person', component: PersonCenter,
@@ -1051,8 +1058,8 @@ const appRoutes = [{
   meta: { title: '老系统安全登出', },
 },
 {
-  path: '/networkerr',
-  name: 'networkerr',
+  path: '/outerNetworkerr',
+  name: 'outerNetworkerr',
   component: TipsNetworkErr,
   meta: { title: '网络错误', },
 },

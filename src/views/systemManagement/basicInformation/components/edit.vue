@@ -9,6 +9,12 @@
 						<a-input :placeholder="name.formPlaceHolder"  v-decorator="['title',rules.title]"> </a-input>
 					</a-form-item>
 				</a-col>
+        <a-col span="24" v-if="baseType=='breed'">
+        <!-- 仅水产品种信息编辑展示 -->
+					<a-form-item label="计量单位" v-bind="colSpe">
+						<a-input placeholder="请输入品种计量单位"  v-decorator="['breedUnit',rules.breedUnit]"> </a-input>
+					</a-form-item>
+				</a-col>
 			</a-row>
 		</a-form>
 	</a-modal>
@@ -50,6 +56,10 @@ export default {
         title: {
           validateTrigger: 'blur',
           rules: [{ required: true }]
+        },
+        breedUnit: {
+          validateTrigger: 'blur',
+          rules: [{ required: true }]
         }
       },
       name:{
@@ -72,6 +82,13 @@ export default {
       if(this.isShow){
         this.$nextTick(function () {
           this.editForm.setFieldsValue({ title: !this.item.name?'': this.item.name })
+          switch (this.baseType) {
+          case 'breed':
+            this.editForm.setFieldsValue({ breedUnit: !this.item.unit?'': this.item.unit })
+            break
+          default:
+            break
+          }
         })
       }
     }
@@ -93,6 +110,13 @@ export default {
       }
       this.$nextTick(function () {
         this.editForm.setFieldsValue({ title: !this.item.name?'': this.item.name })
+        switch (this.baseType) {
+        case 'breed':
+          this.editForm.setFieldsValue({ breedUnit: !this.item.unit?'': this.item.unit })
+          break
+        default:
+          break
+        }
       })
     },
     handleOk() {
@@ -101,7 +125,8 @@ export default {
           this.$ajax.put({
             url: this.apis.put.replace('{id}', this.item.id),
             params: {
-              name: this.editForm.getFieldValue('title')
+              name: this.editForm.getFieldValue('title'),
+              unit: this.createForm.getFieldValue('breedUnit')
             }
           }).then(res => {
             if (res.code === '200') {

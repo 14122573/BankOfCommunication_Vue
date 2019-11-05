@@ -14,6 +14,7 @@ const Axios = axios.create({
 })
 const CancelToken = axios.CancelToken
 let cancelRequest = null
+let currentRouterName ='',currentApi=''
 
 // 处理请求状态码
 const reponseCodeHandler = (res) => {
@@ -51,42 +52,41 @@ const reponseCodeHandler = (res) => {
   }
 }
 
+const showErrPage= (api,routername,code)=>{
+  console.log(api)
+  if(Common.oneOf(routername,['login','register','bindPhone'])){
+    if(!Common.oneOf(api,['/service-release/release/public/news'])){
+      router.push({
+        name: 'outerNetworkerr'
+      })
+    }
+  }else{
+    router.push({
+      name: 'innerNetworkerr'
+    })
+  }
+}
+
 // 根据报错的状态码进行错误处理
 const errorHandler = (err) => {
   const errStatus = (err.response && err.response.status) || (err.data && err.data.errcode)
   if (errStatus) {
     switch (errStatus) {
     case 404: // 网络请求不存在,跳转统一报错页面
-      router.push({
-        name: 'networkerr'
-      })
+      showErrPage(currentApi,currentRouterName)
       break
     case 500:
       const code = err.response.data && err.response.data.code
-      if (code == '740') { // 运行时异常
-        router.push({
-          name: 'networkerr'
-        })
-      } else { // 其他错误，统一到网络异常页面
-        router.push({
-          name: 'networkerr'
-        })
-      }
+      showErrPage(currentApi,currentRouterName)
       break
     default: // 其他错误，统一到网络异常页面
-      router.push({
-        name: 'networkerr'
-      })
+      showErrPage(currentApi,currentRouterName)
       break
     }
   } else if (err.toString().indexOf('timeout') != -1) { // 统一到网络异常页面
-    router.push({
-      name: 'networkerr'
-    })
+    showErrPage(currentApi,currentRouterName)
   } else if (err.toString().indexOf('Network Error') != -1) { // 统一到网络异常页面
-    router.push({
-      name: 'networkerr'
-    })
+    showErrPage(currentApi,currentRouterName)
   }
 }
 
@@ -116,10 +116,14 @@ Axios.interceptors.response.use(response => {
  * @param {String} contentType [请求头，默认为'application/json;charset=UTF-8']
  * @param {Boolean} hideLoading [隐藏请求时的loading图，默认为false]
  */
-const request = ({ method, url, params, contentType = 'application/json;charset=UTF-8', hideLoading = false }) => {
+const request = ({ method, url, params, contentType = 'application/json;charset=UTF-8', hideLoading = false, routername }) => {
   if (!url || typeof(url) != 'string') {
     throw new Error('接口URL不正确')
   }
+  // 存储当前调用接口所在的路由和API地址
+  currentApi = url
+  currentRouterName = !routername?'':routername
+
   // transformResponse()执行完再执行then()。transformResponse函数用于提前处理返回的数据。返回的result对象比transformResponse函数的data对象包含的数据多。
   // if (method == 'get') {
   //   let timestamp = Date.now()

@@ -1,22 +1,24 @@
 <template>
   <div class="header">
-    <a-breadcrumb>
+    <a-breadcrumb class="portalNavBar">
       <template v-for="(item,index) in list">
         <a-breadcrumb-item :key="index">
           <template v-if="!item.hideBread">
-            <router-link v-if="item.showBreadPath" class="navlink" :to="item.path">{{item.title}}</router-link>
+            <router-link v-if="item.showBreadPath" style="color:#1890ff" class="navlink" :to="item.path">{{item.title}}</router-link>
             <span v-else>{{item.title}}</span>
           </template>
+          <span v-else>{{item.title}}</span>
         </a-breadcrumb-item>
       </template>
-
     </a-breadcrumb>
   </div>
 </template>
+<style>
+/* .portalNavBar.ant-breadcrumb .navlink { color: #1890ff} */
+</style>
 
 <script>
 // 不够严谨，临时制造，需要改进
-
 import {checkHideInBread} from '@/util/mixins'
 import {routes} from '@/router/routes'
 export default {
@@ -28,6 +30,7 @@ export default {
   },
   mounted() {
     const list = this.$cookie.get('NavbarList')
+    // console.log('NavbarList',JSON.parse(list))
     if(list && list.length>0){
       this.list = JSON.parse(list)
     }else{
@@ -77,6 +80,7 @@ export default {
   watch: {
     $route(to, from) {
       let navList = []
+      // console.log('navbar',to, from,to.matched)
       if(to && to.matched && Array.isArray(to.matched)){
         if (!to.name) {
           const parentRoute = this.routeList.find(item => to.path.startsWith(item.path))

@@ -5,7 +5,7 @@ const config = require('../config')
 const vueLoaderConfig = require('./vue-loader.conf')
 
 function resolve (dir) {
-  console.log('111', process.env.NODE_ENV, config.dev.assetsPublicPath, config.build.assetsPublicPath)
+  // console.log('111', process.env.NODE_ENV, config.dev.assetsPublicPath, config.build.assetsPublicPath)
   return path.join(__dirname, '..', dir)
 }
 
