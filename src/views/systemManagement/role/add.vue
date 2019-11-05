@@ -2,10 +2,6 @@
   .roleTitleSeation { border-bottom: 1px solid #e0e0e0; padding:10px}
   .roleTitleSeation .roleName { font-size: 20px; line-height: 40px; color:#232323; font-weight: bold}
   .roleTree { margin-top: 10px;}
-  /*
-  .role-ope li.ant-tree-treenode-disabled > span:not(.ant-tree-switcher), li.ant-tree-treenode-disabled > .ant-tree-node-content-wrapper, li.ant-tree-treenode-disabled > .ant-tree-node-content-wrapper span{
-    color:rgba(0, 0, 0,1);
-  } */
 </style>
 
 <template>
@@ -39,7 +35,7 @@
             <a-tree class="portalRoleTree" v-if="showTree" checkable :treeData="treeData" :defaultExpandedKeys='expandedKeys' v-model="checkedKeys" :disabled="$route.query.type === 'view'" />
           </div>
         </a-form>
-        
+
       </div>
     </div>
 </template>
@@ -136,22 +132,27 @@ export default {
             methods='post'
             msg='新增成功'
           }
-          this.$ajax[methods](
-            {
-              url:link,
-              params:{
-                roleName:this.formData.getFieldValue('roleName'),
-                permIds:this.checkedKeys.join(',')
-              }
+          this.$ajax[methods]({
+            url:link,
+            params:{
+              roleName:this.formData.getFieldValue('roleName'),
+              permIds:this.checkedKeys.join(',')
             }
-          ).then(res=>{
+          }).then(res=>{
             if(res.code === '200'){
               this.$message.success(msg)
               this.$router.back()
             }else{
-              this.$message.error(res.msg)
+              this.$model.error({
+                title: '提交错误',
+                content: !res.msg?'':res.msg,
+                okText: '确认',
+                cancelText: '取消',
+              })
             }
           })
+        }else{
+          this.$com.getFormValidErrTips(this,err)
         }
       })
     },
@@ -172,7 +173,8 @@ export default {
       if(this.userCount !== null && this.userCount !== '' && this.userCount != 0){
         this.$model.warning({
           title: '无法删除此角色',
-          content: '此角色还有员工未被分配，请先处理该角色下所有员工的调岗操作'
+          content: '此角色还有员工未被分配，请先处理该角色下所有员工的调岗操作',
+          okText: '确认',
         })
       }else{
         this.$model.confirm({
@@ -197,7 +199,12 @@ export default {
             name:'/systemManagement/role'
           })
         }else{
-          this.$message.error(res.msg)
+          this.$model.error({
+            title: '提交错误',
+            content: !res.msg?'':res.msg,
+            okText: '确认',
+            cancelText: '取消',
+          })
         }
       })
     },

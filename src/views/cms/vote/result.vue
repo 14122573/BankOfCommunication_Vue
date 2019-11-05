@@ -4,16 +4,16 @@
     <p class="detailsPartTitle">
       投票结果预览
       <span style="float: right;">
-        <a-button @click="$router.back()">取消</a-button>
+        <a-button @click="$router.back()">返回</a-button>
 				<a-button @click="handleSubmit" type="primary">确认公示</a-button>
       </span>
     </p>
     <div class="container">
       <h2>{{content.name}}</h2>
       <div v-for="(item, index) in content.subjects" :key="item.key">
-        <p class="title">{{`${index + 1}、${item.title}`}}&nbsp;&nbsp;&nbsp;&nbsp;{{`参与投票人数：${item.count}人`}}</p>
-        <p v-for="option in item.options" :key="option.id" class="option">
-          <span>{{`${option.value}、${option.label || ''}`}}</span>
+        <p class="title">{{`${index + 1}、${item.title}`}}&nbsp;&nbsp;&nbsp;&nbsp;{{`参与投票人数：${item.count || 0}人`}}</p>
+        <p v-for="(option, i) in item.options" :key="option.id" class="option">
+          <span>{{`${$com.numToLetter(i)}、${option.value || ''}`}}</span>
           <a-progress :percent="calcPercent(item.count, option.count)" status="normal" style="width: 30%;" :strokeWidth="14" :showInfo="false" />
           <span>{{`${option.count || 0}人 / ${calcPercent(item.count, option.count)}%`}}</span>
         </p>
@@ -57,10 +57,17 @@ export default {
         title: config.title,
         content: config.content,
         onOk: () => {
-          this.$ajax.put({
-            url: this.$api.PUT_VOTE_STATUS.replace('{id}', this.voteId).replace('{status}', '3')
+          this.$ajax.post({
+            url: this.$api.POST_CMS_NOTICE,
+            params: {
+              voteId: this.voteId,
+            }
           }).then(() => {
-            this.$message.success(config.msg)
+            this.$model.success({
+              title: '成功',
+              content: config.msg,
+              okText: '确认',
+            })
             this.$nextTick(() => this.$router.back())
           })
         },

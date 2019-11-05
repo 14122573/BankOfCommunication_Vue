@@ -56,7 +56,7 @@
       </template>
     </div>
     <ChangePassword @on-close='closeChangePwdModal' :resetPwdShow='isShowChangePwd'></ChangePassword>
-    <ChangePhone v-model="showPhoneModal"/>
+    <ChangePhone v-model="showPhoneModal" @success="getData"/>
   </div>
 </template>
 <style scoped>
@@ -76,17 +76,13 @@ export default {
   },
   data() {
     return {
-      userInfo:null,
+      userInfo: {},
       isShowChangePwd:false,
       showPhoneModal: false,
     }
   },
-  created() {
-    if(!this.$store.state.userInfos){
-      this.getInfo()
-    }else{
-      this.userInfo = this.$store.state.userInfos
-    }
+  mounted() {
+    this.getData()
   },
   computed:{
     showChangePwd(){
@@ -102,6 +98,11 @@ export default {
     }
   },
   methods: {
+    getData() {
+      this.getInfo().then(() => {
+        this.userInfo = this.$store.state.userInfos
+      })
+    },
     toEditInfo() {
       const {id} = this.userInfo
       this.$router.push({

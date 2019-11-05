@@ -108,7 +108,7 @@ export default {
         break
       case '2':
         this.statusName = '结束'
-        this.statusColor = 'Success'
+        this.statusColor = 'success'
         break
       case '3':
         this.statusName = '结果已公示'

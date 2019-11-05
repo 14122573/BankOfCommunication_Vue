@@ -133,20 +133,19 @@ export default {
           url: this.$api.GET_ORGANIZATION_LIST,
           params: params,
           hideLoading: true
+        }).then(res => {
+          if (res.code === '200') {
+            let data = this.$com.confirm(res, 'data.content', [])
+            this.options.organList = data.map((item) => {
+              return {
+                label: item.groupName,
+                value: item.id
+              }
+            })
+          } else {
+            this.$message.error(res.msg)
+          }
         })
-          .then(res => {
-            if (res.code === '200') {
-              let data = this.$com.confirm(res, 'data.content', [])
-              this.options.organList = data.map((item) => {
-                return {
-                  label: item.groupName,
-                  value: item.id
-                }
-              })
-            } else {
-              this.$message.error(res.msg)
-            }
-          })
       }
     },
     //   查询options
@@ -175,20 +174,19 @@ export default {
         this.$ajax.get({
           url: item.url,
           params: item.params
+        }).then(res => {
+          if (res.code === '200') {
+            let data = this.$com.confirm(res, 'data.content', [])
+            this.options[item.name] = data.map(item => {
+              return {
+                label: item.roleName || item.areaName,
+                value: item.id
+              }
+            })
+          } else {
+            this.$message.error(res.msg)
+          }
         })
-          .then(res => {
-            if (res.code === '200') {
-              let data = this.$com.confirm(res, 'data.content', [])
-              this.options[item.name] = data.map(item => {
-                return {
-                  label: item.roleName || item.areaName,
-                  value: item.id
-                }
-              })
-            } else {
-              this.$message.error(res.msg)
-            }
-          })
       })
     },
     // // 查询权限树
@@ -299,17 +297,23 @@ export default {
           this.$ajax.put({
             url: this.$api.CONFIG_ROLES_TO_USER,
             params: params
+          }).then((res) => {
+            if (res.code === '200') {
+              this.$message.success('分配成功')
+              this.$router.push({
+                name: '/systemManagement/administrator'
+              })
+            } else {
+              this.$model.error({
+                title: '提交错误',
+                content: !res.msg?'':res.msg,
+                okText: '确认',
+                cancelText: '取消',
+              })
+            }
           })
-            .then((res) => {
-              if (res.code === '200') {
-                this.$message.success('分配成功')
-                this.$router.push({
-                  name: '/systemManagement/administrator'
-                })
-              } else {
-                this.$message.error(res.msg)
-              }
-            })
+        }else{
+          this.$com.getFormValidErrTips(this,err)
         }
       })
     }

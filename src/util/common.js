@@ -401,5 +401,36 @@ export default {
     }else{
       return -1//不是ie浏览器
     }
+  },
+  /**
+   * 根据err对象，获取其错误提示文字,以弹窗方式展示
+   * @param {Object} err form验证器返回的err对象
+   * @param {Object} vm vue的示例对象
+   * @param {String} otherTips 非form验证器返回的err对象中的错误提示
+   */
+  getFormValidErrTips(vm,err,otherTips){
+    otherTips = !otherTips?'':otherTips
+    let errTips = ''
+    if(!!err && 'object'==typeof err){
+      Object.keys(err).forEach(function(key){
+        for(let i=0;i<err[key].errors.length;i++){
+          errTips += err[key].errors[i].message +'；'
+        }
+      })
+      vm.$model.error({
+        title: '表单验证未通过',
+        content: errTips+otherTips,
+        okText: '确认',
+        cancelText: '取消',
+      })
+    }
+  },
+  /**
+   * 输入数字转换成大写字母，比如 输入 0 输出 'A'
+   * @param {Number} num 输入的数字
+   */
+  numToLetter(num) {
+    if (!num && num != 0) return null
+    return (Number(num) + 10).toString(36).toUpperCase()
   }
 }

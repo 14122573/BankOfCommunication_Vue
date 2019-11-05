@@ -153,8 +153,10 @@ export default {
                 })
               }else{
                 this.$model.error({
-                  title:'提示',
-                  content:res.msg
+                  title: '提交错误',
+                  content: !res.msg?'':res.msg,
+                  okText: '确认',
+                  cancelText: '取消',
                 })
               }
             })
@@ -168,10 +170,18 @@ export default {
                 this.$router.push({
                   name: '/systemManagement/organization'
                 })
+              }else{
+                this.$model.error({
+                  title: '提交错误',
+                  content: !res.msg?'':res.msg,
+                  okText: '确认',
+                  cancelText: '取消',
+                })
               }
             })
           }
-
+        }else{
+          this.$com.getFormValidErrTips(this,err)
         }
       })
     },

@@ -1,7 +1,7 @@
 <template>
   <div class="routerWapper" style="width:100%">
     <div class='layoutMargin contentPadding'>
-      <UeditorCompent @ready="editorReady" ref="ue" :value="ueditor.defaultMSG" ></UeditorCompent>
+      <UeditorCompent @ready="editorReady" ref="ue" :value="ueditor.defaultMSG" :ueditorConfig='ueditorConfig'></UeditorCompent>
     </div>
   </div>
 </template>
@@ -16,7 +16,21 @@ export default {
       ueditor:{
         defaultMSG:'',
         formContent:'213131'
-      }
+      },
+      ueditorConfig:{
+        serverUrl:'http://88.88.88.175:8091/ueditor/execute',
+        toolbars:[[
+          'undo', 'redo', '|',
+          'bold', 'italic', 'underline', 'fontborder', 'strikethrough', 'superscript', 'subscript', 'removeformat', 'formatmatch', 'autotypeset', 'blockquote', 'pasteplain', '|', 'forecolor', 'backcolor', 'insertorderedlist', 'insertunorderedlist', 'selectall', 'cleardoc', '|',
+          'rowspacingtop', 'rowspacingbottom', 'lineheight', '|',
+          'customstyle', 'paragraph', 'fontfamily', 'fontsize', '|',
+          'directionalityltr', 'directionalityrtl', 'indent', '|', 'imagenone', 'imageleft', 'imageright', 'imagecenter', '|',
+          'simpleupload', '|',
+          'justifyleft', 'justifycenter', 'justifyright', 'justifyjustify', '|', 'touppercase', 'tolowercase', '|',
+          'link', 'unlink'
+        ]],
+        zIndex:1,
+        initialFrameHeight:300}
     }
   },
   mounted() {

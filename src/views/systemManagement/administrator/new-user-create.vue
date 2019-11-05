@@ -48,7 +48,7 @@
 						</a-col>
 					</a-row>
 				</div>
-				<div class="layoutMargin detailsPartSection">
+				<div v-if="!fromCenter" class="layoutMargin detailsPartSection">
 					<p class="detailsPartTitle">账户信息</p>
 					<a-row class="formItemLine">
 						<a-col span="8" v-if="!fromCenter">
@@ -77,7 +77,7 @@
 							</a-form-item>
 						</a-col>
 					</a-row>
-					<div v-if="!fromCenter" class="layoutMargin detailsPartLine">
+					<div class="layoutMargin detailsPartLine">
 						<a-tree class="portalRoleTree" checkable disabled :treeData="treeData" v-model="checkedKeys" />
 					</div>
 				</div>
@@ -271,7 +271,11 @@ export default {
                 url: this.$api.PUT_EDIT_USER,
                 params: values,
               }).then(res => {
-                this.$message.success('修改成功')
+                this.$model.success({
+                  title: '成功',
+                  content: '修改成功',
+                  okText: '确认',
+                })
                 this.$nextTick(() => this.$router.back())
               })
               return
@@ -290,6 +294,8 @@ export default {
               }
             })
           }
+        } else {
+          this.$com.getFormValidErrTips(this, err)
         }
       })
     },

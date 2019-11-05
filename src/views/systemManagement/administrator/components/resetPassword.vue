@@ -81,6 +81,8 @@ export default {
       this.resetData.validateFields((err, values) => {
         if (!err) {
           this.$emit('on-ok', values)
+        }else{
+          this.$com.getFormValidErrTips(this,err)
         }
       })
     },
