@@ -1,6 +1,7 @@
 <template>
 	<div class="registerFrame" :style="'background-image: url(' + require('@/assets/images/bg.jpg') + ')'">
 		<Loader />
+    <FrameTop></FrameTop>
 		<div class="registerWapper" :style="'background: url(' + require('@/assets/images/border.png') + ' no-repeat bottom center'">
 			<div>
 				<a-row type="flex" justify="start" align="middle" :gutter="10">
@@ -133,21 +134,21 @@
         </template>
 			</div>
 		</div>
-    <div class="footer">
-			<p>主办单位：全国水产技术推广总站、中国水产学会&nbsp;&nbsp;&nbsp;&nbsp; 技术支持：博彦科技股份有限公司</p>
-			<p>COPYRIGHT&copy;-{{$com.getCurrentYear()}} ALL RIGHTS RESERVED</p>
-		</div>
+    <FrameFooter></FrameFooter>
 	</div>
 </template>
 <script>
 import testStrong from '@/components/testPwd'
 import Loader from '@/components/Loader/loader'
 import {encryptDes} from '@/util/des-cryptojs'
+import FrameTop from '@/views/login/components/frameTop'
+import FrameFooter from '@/views/login/components/footer'
 export default {
   name: 'Register',
   components: {
     Loader,
-    testStrong
+    testStrong,
+    FrameTop,FrameFooter
   },
   beforeCreate() {
     this.formRegister = this.$form.createForm(this)
@@ -386,12 +387,9 @@ export default {
 
 <style>
 .ant-input-affix-wrapper { 	height: 44px; text-align: left; }
-.footer { height: 50px; width: 100%; text-align: center; position: absolute; bottom: 0px; left: 0px; color: #cfd7f3; font-size: 14px; }
-.footer p { margin: 0; }
-.footer p:last-of-type { color: #829bdc; }
 
 .registerFrame { 	width: 100%; height: 100%; min-height: 700px; margin: 0px; padding: 0px; position: relative; background-size: cover; }
-.registerWapper { width: 900px; height: 540px; background-color: #fff; position: absolute; left: 0; top: 0; right: 0; bottom: 0; margin: auto; background-size: 100%; padding: 10px 20px; font-size: 26px; color: rgba(101, 101, 101);}
+.registerWapper { width: 900px; height: 540px; background-color: #fff; position:relative; margin: auto; top: calc((100% - 540px)/2); background-size: 100%; padding: 10px 20px; font-size: 26px; color: rgba(101, 101, 101);}
 .registerWapper .logo {height: 70px;}
 .resigerTitle { margin-bottom: 20px; }
 .resigerTitle .title { font-size: 20px; font-weight: bold; }

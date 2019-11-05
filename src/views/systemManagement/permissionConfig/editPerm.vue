@@ -5,7 +5,7 @@
       <a-row type="flex" justify="start" align="middle">
         <a-col span="24">
           <a-form-item label="权限名称" :label-col="{span:4}" :wrapper-col="{span:20}">
-            <a-input v-decorator="['permName',{ validateTrigger:'blur',rules:formRules.permName}]" placeholder="请输入"></a-input>
+            <a-input v-decorator="['permName',{ validateTrigger:'blur',rules:formRules.permName}]" placeholder="请输入权限分支名称"></a-input>
           </a-form-item>
         </a-col>
       </a-row>
@@ -194,9 +194,16 @@ export default {
               this.resetForm()
               this.$emit('on-success',true)
             } else {
-              this.$message.error(res.msg)
+              this.$model.error({
+                title: '提交错误',
+                content: !res.msg?'':res.msg,
+                okText: '确认',
+                cancelText: '取消',
+              })
             }
           })
+        }else{
+          this.$com.getFormValidErrTips(this,err)
         }
       })
     },

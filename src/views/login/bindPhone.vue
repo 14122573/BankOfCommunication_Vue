@@ -1,5 +1,6 @@
 <template>
 	<div class="loginFrame" :style="'background-image: url(' + require('@/assets/images/bg.jpg') + ')'">
+    <FrameTop></FrameTop>
 		<div class="chooseSystem">
 			<div>
 				<a-row type="flex" justify="start" align="middle" :gutter="10">
@@ -196,10 +197,7 @@
 			</template>
 			<p>可使用原账号或手机号登录</p>
 		</a-modal>
-		<div class="footer">
-			<p>主办单位：全国水产技术推广总站、中国水产学会&nbsp;&nbsp;&nbsp;&nbsp; 技术支持：博彦科技股份有限公司</p>
-			<p>COPYRIGHT&copy;-{{$com.getCurrentYear()}} ALL RIGHTS RESERVED</p>
-		</div>
+		<FrameFooter></FrameFooter>
 	</div>
 </template>
 
@@ -207,10 +205,13 @@
 import { permission } from '@/util/mixins'
 import testStrong from '@/components/testPwd'
 import { encryptDes } from '@/util/des-cryptojs'
+import FrameTop from '@/views/login/components/frameTop'
+import FrameFooter from '@/views/login/components/footer'
 export default {
   name: 'bindPhone',
   components: {
-    testStrong
+    testStrong,
+    FrameTop,FrameFooter
   },
   mixins: [permission],
   beforeCreate() {
@@ -544,35 +545,9 @@ export default {
 </script>
 
 <style scoped>
-	.loginFrame {
-		width: 100%;
-		height: 100%;
-		min-height: 700px;
-		margin: 0px;
-		padding: 0px;
-		position: relative;
-		background-size: cover;
-		z-index: 10;
-	}
-
-	.chooseSystem {
-		width: 900px;
-		height: 540px;
-		position: absolute;
-		left: 0;
-		top: 0;
-		right: 0;
-		bottom: 0;
-		margin: auto;
-		background: white;
-		padding: 10px 20px;
-		font-size: 26px;
-		color: rgba(101, 101, 101);
-	}
-
-	.logo {
-		height: 70px;
-	}
+.loginFrame { width: 100%; height: 100%; min-width: 1000px; min-height: 700px; margin: 0px; padding: 0px; position: relative; background-size: cover; z-index: 10;}
+.chooseSystem { width: 900px; height: 540px; position:relative; margin: auto; top: calc((100% - 560px)/2); background: white; padding: 10px 20px; font-size: 26px; color: rgba(101, 101, 101);}
+.logo { height: 70px; }
 
 	.systemBlock {
 		font-size: 14px;
@@ -606,17 +581,6 @@ export default {
 		left: 0px;
 	}
 
-	.footer {
-		height: 50px;
-		width: 100%;
-		text-align: center;
-		position: absolute;
-		bottom: 0px;
-		left: 0px;
-		color: #cfd7f3;
-		font-size: 14px;
-		z-index: 0;
-	}
 
 	.btnGroup {
 		position: absolute;
@@ -650,13 +614,6 @@ export default {
 		right: 0;
 	}
 
-	.footer p {
-		margin: 0;
-	}
-
-	.footer p:last-of-type {
-		color: #829bdc;
-	}
 
 	.border {
 		width: 900px;

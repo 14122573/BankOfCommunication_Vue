@@ -126,6 +126,7 @@ Vue.prototype.$message = message
 Vue.prototype.$model = Modal
 Vue.prototype.$store = store
 Vue.prototype.$moment = moment
+// Vue.prototype.$moment.locale('zh-cn')
 
 Vue.config.productionTip = false
 const vueLifecycles = singleSpaVue({

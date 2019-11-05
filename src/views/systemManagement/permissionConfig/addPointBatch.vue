@@ -353,7 +353,7 @@ export default {
         pointKey:false
       }
       pushData = this.dataSource.map((item) => {
-        if(!item.pointKey){
+        if(!item.pointKey || !item.pointName){
           errs.pointKey = true
         }
         return {
@@ -365,7 +365,6 @@ export default {
         }
       })
       if(!errs.pointKey){
-
         this.$ajax.post({
           url: this.$api.POST_PREMSPOINT_BATCH,
           params: pushData
@@ -374,11 +373,21 @@ export default {
             this.$message.success('添加成功')
             this.$router.push({name:'/systemManagement/permissionConfig/point'})
           } else {
-            this.$message.error(res.msg)
+            this.$model.error({
+              title: '提交错误',
+              content: !res.msg?'':res.msg,
+              okText: '确认',
+              cancelText: '取消',
+            })
           }
         })
       }else{
-        this.$message.error('功能编码不能为空！')
+        this.$model.error({
+          title: '表单验证未通过',
+          content: '功能编码或功能名称不能为空！',
+          okText: '确认',
+          cancelText: '取消',
+        })
       }
     },
     /**

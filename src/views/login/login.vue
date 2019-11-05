@@ -1,20 +1,6 @@
 <template>
 	<div class="loginFrame" :style="'background-image: url(' + require('@/assets/images/bg.jpg') + ')'">
-    <div class="loginFrameTop">
-      <a-row type="flex" justify="start" align="middle">
-        <a-col span="6" >
-          <iframe style="margin-left:16px" scrolling="no" src="https://tianqiapi.com/api.php?style=tx&skin=grape" frameborder="0" width="380px" height="20" allowtransparency="true"></iframe>
-        </a-col>
-        <!-- <a-col span="2" class="algin-right">
-          <a-dropdown >
-            <span class="ant-dropdown-link" href="#"> Click me <a-icon type="down" /> </span>
-            <a-card slot="overlay">
-              <a-calendar style="width:300px" :fullscreen="false" />
-            </a-card>
-          </a-dropdown>
-        </a-col> -->
-      </a-row>
-    </div>
+    <FrameTop></FrameTop>
 
     <div class="loginFrameBody">
       <a-row class="loginFrameTitle" type="flex" justify="start" align="middle" :gutter="10">
@@ -81,10 +67,7 @@
       </div>
     </div>
 
-		<div class="footer">
-			<p>主办单位：全国水产技术推广总站、中国水产学会&nbsp;&nbsp;&nbsp;&nbsp; 技术支持：博彦科技股份有限公司</p>
-			<p>COPYRIGHT&copy;-{{$com.getCurrentYear()}} ALL RIGHTS RESERVED</p>
-		</div>
+    <FrameFooter></FrameFooter>
 	</div>
 </template>
 <script>
@@ -95,13 +78,16 @@ import ResetPassword from '@/views/login/resetPassword'
 import opeationSuccess from '@/views/login/success'
 import NoticeList from '@/views/cms/noticePublish/noticeInLogin'
 import OtherEntrance from '@/views/login/otherEntrance'
+import FrameTop from '@/views/login/components/frameTop'
+import FrameFooter from '@/views/login/components/footer'
 export default {
   components: {
     testStrong,
     ResetPassword,
     opeationSuccess,
     NoticeList,
-    OtherEntrance
+    OtherEntrance,
+    FrameTop,FrameFooter
   },
   mixins: [permission],
   beforeCreate() {
@@ -386,8 +372,7 @@ export default {
 
 <style scoped>
   .loginFrame { width: 100%; height: 100%; min-width: 1000px; min-height: 700px; margin: 0px; padding: 0px; position: relative; background-size: cover;}
-  .loginFrameTop { background-color: rgba(255,255,255,0.4); padding: 10px 0}
-  .loginFrameTitle { font-size: 26px; color: white; font-weight: bold}
+  .loginFrameTitle { font-size: 26px; color: white; font-weight: bold; margin-bottom: 10px}
   .loginFrameTitle .logo { height: 60px;}
 
   .loginFrameBody { width: 900px; height:560px; position:relative; margin: auto; top: calc((100% - 560px)/2)}
@@ -404,9 +389,7 @@ export default {
 	.login-form-register { color: #0076FF; font-size: 14px;}
 	.login .login-form-button { width: 100%; margin-top: 40px; text-align: center;}
 
-	.footer { height: 50px; width: 100%; text-align: center; position: absolute; bottom: 0px; left: 0px; color: #cfd7f3; font-size: 14px;}
-  .footer p {	margin: 0; }
-  .footer p:last-of-type { 	color: #829bdc; }
+
   .ant-input-affix-wrapper, .login-form-button { height: 44px; }
   .showError { margin-top: -20px; height: 20px; color: red;}
   .qrcode { cursor: pointer;}
