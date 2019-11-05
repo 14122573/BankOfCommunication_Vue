@@ -63,7 +63,11 @@ export default {
               voteId: this.voteId,
             }
           }).then(() => {
-            this.$message.success(config.msg)
+            this.$model.success({
+              title: '成功',
+              content: config.msg,
+              okText: '确认',
+            })
             this.$nextTick(() => this.$router.back())
           })
         },
