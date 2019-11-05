@@ -329,7 +329,7 @@ export default {
       this.modalData = item
       this.checkStatus = checkStatus
       let vm = this
-      this.$model.confirm({
+      this.$modal.confirm({
         title: this.modal.content,
         content: this.modal.tips,
         okText: '确认',
@@ -349,10 +349,7 @@ export default {
       }).then(res => {
         if (res.code === '200') {
           this.$message.success(this.modal.title + '成功！')
-          // this.modal.show=false
           this.getList()
-        } else {
-          this.$message.error(res.msg)
         }
       })
     },
@@ -372,13 +369,6 @@ export default {
               this.$message.success('重置密码成功')
               this.hadnleCancel()
               this.getList()
-            } else {
-              this.$model.error({
-                title: '提交错误',
-                content: !res.msg?'':res.msg,
-                okText: '确认',
-                cancelText: '取消',
-              })
             }
           })
         }else{

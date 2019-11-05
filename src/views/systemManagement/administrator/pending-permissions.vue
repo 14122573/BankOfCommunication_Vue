@@ -153,28 +153,26 @@ export default {
         delete searchParams.createTime_desc
       }
       // if (params.createTime_desc) params.createTime_desc=params.createTime_desc.join(',');
-      this.$ajax
-        .get({
-          url: this.$api.USER_LIST_TYPE_GET.replace('{type}', 'new'),
-          params: Object.assign(searchParams, this.params, {
-            pageSize: this.pagination.pageSize,
-            pageNo: this.pagination.pageNo
-          })
+      this.$ajax.get({
+        url: this.$api.USER_LIST_TYPE_GET.replace('{type}', 'new'),
+        params: Object.assign(searchParams, this.params, {
+          pageSize: this.pagination.pageSize,
+          pageNo: this.pagination.pageNo
         })
-        .then(res => {
-          if (res.code === '200') {
-            this.pagination.total = this.$com.confirm(res, 'data.totalRows', 0)
-            this.data = this.$com.confirm(res, 'data.content', [])
-          } else {
-            this.$message.error(res.msg)
-          }
-          // 存储当前页面列表的搜索添加和分页信息
-          this.$com.storeSearchParams(
-            this.$route.name+'/pending',
-            this.params,
-            this.searchForm
-          )
-        })
+      }).then(res => {
+        if (res.code === '200') {
+          this.pagination.total = this.$com.confirm(res, 'data.totalRows', 0)
+          this.data = this.$com.confirm(res, 'data.content', [])
+        } else {
+          this.$message.error(res.msg)
+        }
+        // 存储当前页面列表的搜索添加和分页信息
+        this.$com.storeSearchParams(
+          this.$route.name+'/pending',
+          this.params,
+          this.searchForm
+        )
+      })
     },
 
     onDateChange(date, dateString) {

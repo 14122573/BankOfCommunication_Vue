@@ -118,13 +118,13 @@ export default {
     deleteBtn(item){
       let vm = this
       if(item.userCount !== null && item.userCount !== '' && item.userCount != 0){
-        this.$model.warning({
+        this.$modal.warning({
           title: '无法删除此角色',
           content: '此角色还有员工未被分配，请先处理该角色下所有员工的调岗操作'
         })
       }else{
         this.deleteData = item
-        this.$model.confirm({
+        this.$modal.confirm({
           title: '是否确认删除此角色？',
           content: '此操作不可撤销',
           okText: '确认',

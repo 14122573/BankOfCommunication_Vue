@@ -118,7 +118,7 @@ export default {
         this.$ajax.put({
           url: this.$api.PUT_USER_PHONE.replace('{phone}', newPhone).replace('{code}', phoneCode)
         }).then(res => {
-          this.$model.success({
+          this.$modal.success({
             title: '成功',
             content: '修改成功',
             okText: '确认',

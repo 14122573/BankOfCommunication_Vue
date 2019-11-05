@@ -73,7 +73,6 @@ export default {
       }).then(res => {
         if(res.code =='200'){
           this.knowledgeDetails = this.$com.confirm(res, 'data.content', {})
-          // console.log(this.knowledgeDetails)
           this.checkAnonymous()
         }else{
           this.$message.error(res.msg)

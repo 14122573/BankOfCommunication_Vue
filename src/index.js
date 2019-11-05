@@ -123,7 +123,7 @@ Vue.prototype.$cookie = cookie
 Vue.prototype.$com = common
 Vue.prototype.$permission = PermissionFilter
 Vue.prototype.$message = message
-Vue.prototype.$model = Modal
+Vue.prototype.$modal = Modal
 Vue.prototype.$store = store
 Vue.prototype.$moment = moment
 // Vue.prototype.$moment.locale('zh-cn')

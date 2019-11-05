@@ -293,7 +293,7 @@ export default {
 					 })
         })
       } else {
-        this.$model.warning({
+        this.$modal.warning({
           title: '提示',
           content: '请至少选择一条数据！',
         })

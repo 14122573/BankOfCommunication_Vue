@@ -192,7 +192,7 @@ export default {
       this.$set(this.questionList[i], 'isEditing', true)
     },
     deleteQuestion(i) {
-      this.$model.confirm({
+      this.$modal.confirm({
         title: '提示',
         content: '确定删除此问题吗？',
         okType: 'danger',
@@ -205,7 +205,7 @@ export default {
       this.$refs.questionForm[0].validate(err => { // 这里不知是否是if的关系，需要加上[0]，原本正常的form不需要
         if (err) return
         if (this.questionOptions.length <= 1) {
-          this.$model.error({
+          this.$modal.error({
             title: '提示',
             content: '请至少添加两个选项',
             okText: '确认',
@@ -288,7 +288,7 @@ export default {
       const index = this.questionList.findIndex(item => item.isEditing)
       // 如果有未保存的题目则提示先保存
       if (index >= 0) {
-        this.$model.error({
+        this.$modal.error({
           title: '提示',
           content: '请先保存编辑中的题目',
           okText: '确认',
@@ -302,7 +302,7 @@ export default {
       this.$refs.basicForm.validate(err => {
         if (err) return
         if (this.questionList.length == 0) {
-          this.$model.error({
+          this.$modal.error({
             title: '提示',
             content: '请至少添加一个投票题目',
             okText: '确认',
@@ -330,13 +330,13 @@ export default {
           params,
         }).then(res => {
           if (status == '1') {
-            this.$model.success({
+            this.$modal.success({
               title: '成功',
               content: '保存并发布成功',
               okText: '确认',
             })
           } else {
-            this.$model.success({
+            this.$modal.success({
               title: '成功',
               content: '保存成功',
               okText: '确认',

@@ -298,7 +298,7 @@ export default {
         break
       }
       if (key != 4) {
-        this.$model.confirm({
+        this.$modal.confirm({
           title: this.opeation.title,
           content: this.opeation.tips,
           okText: '确认',
@@ -335,8 +335,6 @@ export default {
         if (res.code == '200') {
           this.$message.success('操作成功！')
           this.getList()
-        } else {
-          this.$message.error('操作失败！')
         }
       })
     },
@@ -426,13 +424,6 @@ export default {
           this.$message.success('重置密码成功')
           this.handleCancel()
           this.getList()
-        } else {
-          this.$model.error({
-            title: '提交错误',
-            content: !res.msg?'':res.msg,
-            okText: '确认',
-            cancelText: '取消',
-          })
         }
       })
     }

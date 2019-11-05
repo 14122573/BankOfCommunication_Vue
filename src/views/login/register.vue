@@ -340,6 +340,8 @@ export default {
               this.err.showTips = true
             }
           })
+        }else{
+          this.$com.getFormValidErrTips(this,err)
         }
       })
     },
@@ -370,7 +372,12 @@ export default {
           interval()
         })
       } else {
-        this.$message.error('请先填写手机号！')
+        this.$modal.error({
+          title: '提示',
+          content: '请先填写手机号！',
+          okText: '确认',
+          cancelText: '取消',
+        })
       }
     },
 

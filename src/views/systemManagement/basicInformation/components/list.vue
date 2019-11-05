@@ -124,7 +124,7 @@ export default {
       if(!!item) {
         let vm = this
         this.deleteData = item
-        this.$model.confirm({
+        this.$modal.confirm({
           title: '是否确认删除此数据？',
           content: '此操作不可撤销',
           okText: '确认',
@@ -144,8 +144,6 @@ export default {
         if (res.code === '200') {
           this.$message.success('删除成功')
           this.getList()
-        } else {
-          this.$message.error(res.msg)
         }
       })
     },

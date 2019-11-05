@@ -92,20 +92,19 @@ export default {
         })
         this.$ajax.get({
           url: this.$api.ROLE_DETAIL.replace('{id}', params)
-        })
-          .then(res => {
-            if (res.code === '200') {
-              let data = this.$com.confirm(res, 'data.content', [])
-              for(let i=0;i<data.length;i++){
-                if(false ===data[i].canDelete){
-                }else{
-                  this.checkedKeys.push(data[i].id)
-                }
+        }).then(res => {
+          if (res.code === '200') {
+            let data = this.$com.confirm(res, 'data.content', [])
+            for(let i=0;i<data.length;i++){
+              if(false ===data[i].canDelete){
+              }else{
+                this.checkedKeys.push(data[i].id)
               }
-            } else {
-              this.$message.error(res.msg)
             }
-          })
+          } else {
+            this.$message.error(res.msg)
+          }
+        })
       }
     },
     filterOption(input, option) {
@@ -302,13 +301,6 @@ export default {
               this.$message.success('分配成功')
               this.$router.push({
                 name: '/systemManagement/administrator'
-              })
-            } else {
-              this.$model.error({
-                title: '提交错误',
-                content: !res.msg?'':res.msg,
-                okText: '确认',
-                cancelText: '取消',
               })
             }
           })

@@ -14,13 +14,13 @@
                         <a-input-group compact>
                             <span class="upload-text">导入文件：</span>
                             <a-input read-only :value="fileName" style="width:60%;" />
-                            <a-upload 
-                                accept=".xsl,.xlsx" 
+                            <a-upload
+                                :accept="uploadConfig.acceptTypes"
                                 :showUploadList="false"
-                                style="width:20%;" 
-                                name="file" 
-                                :multiple="true" 
-                                :headers="headers" 
+                                style="width:20%;"
+                                name="file"
+                                :multiple="true"
+                                :headers="headers"
                                 :beforeUpload="beforeUpload"
                             >
                                 <a-button type="primary">
@@ -66,7 +66,7 @@
                         </a-alert>
                     </a-col>
                 </a-row>
-                
+
         </div>
         <a-divider dashed />
           <a-alert message="导入流程步骤：" banner type="info" id="uplod-alert" showIcon >
@@ -90,20 +90,46 @@ export default {
       fileList: [],
       uploading: false,
       fileName: '',
+      uploadConfig:{
+        acceptTypesArray:['xsl','xlsx'],
+        acceptTypes:'.xsl,.xlsx'
+      },
       result:{},
     }
   },
   methods: {
     beforeUpload(file) {
-      const isLt200M = file.size / 1024 / 1024 < 200
-      if (!isLt200M) {
-        this.$message.error('上传文件不能大于200M')
-      }else{
+      let fileNameArr = file.name.split('.')
+      let fileSuffix = fileNameArr[fileNameArr.length-1].toLowerCase()
+      let isAccept = this.$com.oneOf(fileSuffix,this.uploadConfig.acceptTypesArray)
+      let isLtMaxFileSize = (file.size  < (1024*1024*200))
+
+      let message = ''
+      message += !isAccept?('文件格式限定为'+this.uploadConfig.acceptTypes+'；'):''
+      message += !isLtMaxFileSize?'文件需小于200M；':''
+      if(isAccept && isLtMaxFileSize){
         this.fileList=[]
         this.fileList = [...this.fileList, file]
-      		this.fileName = file.name
+      	this.fileName = file.name
+        return true
+      }else{
+        this.$modal.error({
+          title: '上传文件验证未通过',
+          content: message,
+          okText: '确认',
+          cancelText: '取消',
+        })
+        return false
       }
-      return false
+      // const isLt200M = file.size / 1024 / 1024 < 200
+      // if (!isLt200M) {
+      //   this.$message.error('上传文件不能大于200M')
+      // }else{
+      //   this.fileList=[]
+      //   this.fileList = [...this.fileList, file]
+      // 		this.fileName = file.name
+      // }
+      // return false
     },
     handleUpload() {
       const { fileList } = this

@@ -147,13 +147,6 @@ export default {
             if (res.code === '200') {
               this.$message.success('添加成功')
               this.$router.push({name:'/systemManagement/permissionConfig/point'})
-            } else {
-              this.$model.error({
-                title: '提交错误',
-                content: !res.msg?'':res.msg,
-                okText: '确认',
-                cancelText: '取消',
-              })
             }
           })
         }else{

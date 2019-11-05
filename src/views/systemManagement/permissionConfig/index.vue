@@ -215,7 +215,7 @@ export default {
     },
     handleDelRoleNode(){
       let vm = this
-      this.$model.confirm({
+      this.$modal.confirm({
         title: '是否确认删除’'+this.selectedNode.node.title+'‘？',
         content: '此操作不可撤销',
         okText: '确认删除',
@@ -233,8 +233,6 @@ export default {
         if (res.code === '200') {
           this.$message.success('删除成功')
           this.getRoleTree()
-        } else {
-          this.$message.error(res.msg)
         }
       })
     },

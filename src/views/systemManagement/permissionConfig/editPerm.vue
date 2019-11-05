@@ -193,13 +193,6 @@ export default {
               this.$message.success('修改成功')
               this.resetForm()
               this.$emit('on-success',true)
-            } else {
-              this.$model.error({
-                title: '提交错误',
-                content: !res.msg?'':res.msg,
-                okText: '确认',
-                cancelText: '取消',
-              })
             }
           })
         }else{
