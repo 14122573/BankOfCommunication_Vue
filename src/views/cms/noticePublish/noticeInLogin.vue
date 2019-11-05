@@ -2,7 +2,7 @@
   <div class="noticeInLogin" v-if="isReady">
     <a-row class="noticeInLoginTitle" type="flex" justify="space-between" align="middle" :gutter='16' >
       <a-col :span="18"><span class="title">公告栏</span></a-col>
-      <a-col :span="6" class="algin-right"><span @click="$router.push({name:'/cms/noticePublish'})" class="more">更多>></span></a-col>
+      <a-col :span="6" class="algin-right"><span v-if='noticeList.length>0' @click="$router.push({name:'/cms/noticePublish'})" class="more">更多>></span></a-col>
     </a-row>
     <div class="noticeInLoginList">
       <template v-if='noticeList.length>0'>
