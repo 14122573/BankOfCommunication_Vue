@@ -101,11 +101,14 @@ export default {
         url: this.$api.GET_CMS_NOTICE_LIST,
         params: searchParms
       }).then(res => {
-        this.pagination.total = this.$com.confirm(res, 'data.totalRows', 0)
-        this.pagination.pageNo = this.$com.confirm(res, 'data.page', 1)
-        this.pagination.current = this.pagination.pageNo
-        this.noticeList = this.$com.confirm(res, 'data.content', [])
-        this.isReady = true
+        if(!!res && !!res.code && res.code =='200'){
+          this.pagination.total = this.$com.confirm(res, 'data.totalRows', 0)
+          this.pagination.pageNo = this.$com.confirm(res, 'data.page', 1)
+          this.pagination.current = this.pagination.pageNo
+          this.noticeList = this.$com.confirm(res, 'data.content', [])
+        }else{
+          this.noticeList = []
+        }
       })
     }
   }
