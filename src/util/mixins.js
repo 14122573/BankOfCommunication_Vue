@@ -7,7 +7,7 @@ export const permission = {
      * 调用API获取当前用户信息，并根据组装左侧菜单数据，存入vuex
      */
     getInfo() {
-      this.$ajax.get({
+      return this.$ajax.get({
         url: this.$api.GET_USER_INFO
       }).then(res => {
         // 本地存储用户基本信息

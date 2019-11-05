@@ -48,7 +48,7 @@
 						</a-col>
 					</a-row>
 				</div>
-				<div class="layoutMargin detailsPartSection">
+				<div v-if="!fromCenter" class="layoutMargin detailsPartSection">
 					<p class="detailsPartTitle">账户信息</p>
 					<a-row class="formItemLine">
 						<a-col span="8" v-if="!fromCenter">
@@ -77,7 +77,7 @@
 							</a-form-item>
 						</a-col>
 					</a-row>
-					<div v-if="!fromCenter" class="layoutMargin detailsPartLine">
+					<div class="layoutMargin detailsPartLine">
 						<a-tree class="portalRoleTree" checkable disabled :treeData="treeData" v-model="checkedKeys" />
 					</div>
 				</div>

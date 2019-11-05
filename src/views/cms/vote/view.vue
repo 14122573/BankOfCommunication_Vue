@@ -17,8 +17,8 @@
           <span class="red" v-show="item.isRequired == '0'">*</span>&nbsp;&nbsp;&nbsp;&nbsp;
           {{`(${item.type == '0' ? '单选题' : '多选题'})`}}
         </p>
-        <p v-for="option in item.options" :key="option.id">
-          {{`${option.value}、${option.label || ''}`}}
+        <p v-for="(option, i) in item.options" :key="option.id">
+          {{`${$com.numToLetter(i)}、${option.value || ''}`}}
         </p>
       </div>
     </div>
@@ -49,7 +49,7 @@ export default {
   methods: {
     getData() {
       this.$ajax.get({
-        url: this.$api.GET_VOTE_VIEW.replace('{id}', this.voteId),
+        url: this.$api.GET_VOTE_DETAIL.replace('{id}', this.voteId),
       }).then(res => {
         this.content = res.data.content
       })

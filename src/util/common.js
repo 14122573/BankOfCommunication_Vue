@@ -424,5 +424,13 @@ export default {
         cancelText: '取消',
       })
     }
+  },
+  /**
+   * 输入数字转换成大写字母，比如 输入 0 输出 'A'
+   * @param {Number} num 输入的数字
+   */
+  numToLetter(num) {
+    if (!num && num != 0) return null
+    return (Number(num) + 10).toString(36).toUpperCase()
   }
 }

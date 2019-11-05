@@ -114,12 +114,12 @@ export default {
   PUT_CMS_NOTICE_STATUS: '/service-release/release/news/{id}/{status}', //修改单条通知公告状态
   PUT_CMS_NOTICE_PLACEMENT: '/service-release/release/news/top/{id}/{top}', //置顶通知公告，top（是否置顶）： 0-否 1-是
   // 内容发布-投票管理
-  GET_VOTE_LIST: MOCK_URL + '/service-release/release/public/vote', // 获取投票列表
-  POST_ADD_VOTE: MOCK_URL + '/service-release/release/vote', // 新增投票
-  GET_VOTE_DETAIL: MOCK_URL + '/service-release/release/public/vote/{id}', // 获取投票详情
-  GET_VOTE_VIEW: MOCK_URL + '/service-release/release/vote/result/{id}', // 查看投票信息
-  PUT_EDIT_VOTE: MOCK_URL + '/service-release/release/vote/{id}', // 修改投票
-  DELETE_VOTE: MOCK_URL + '/service-release/release/vote/{id}', // 删除投票
-  PUT_VOTE_STATUS: MOCK_URL + '/service-release/release/vote/{id}/{status}', // 修改投票的状态
-  GET_VOTE_RESULT: MOCK_URL + '/service-release/release/vote/result/count/{id}', // 获取投票结果公示
+  GET_VOTE_LIST: '/service-release/release/public/vote', // 获取投票列表
+  POST_ADD_VOTE: '/service-release/release/vote', // 新增投票
+  GET_VOTE_DETAIL: '/service-release/release/public/vote/{id}', // 获取投票详情
+  GET_VOTE_VIEW: '/service-release/release/public/vote/result/{id}', // 查看投票信息
+  PUT_EDIT_VOTE: '/service-release/release/vote/{id}', // 修改投票
+  DELETE_VOTE: '/service-release/release/vote/{id}', // 删除投票
+  PUT_VOTE_STATUS: '/service-release/release/vote/{id}/{status}', // 修改投票的状态
+  GET_VOTE_RESULT: '/service-release/release/vote/result/count/{id}', // 获取投票结果公示
 }

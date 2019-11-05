@@ -6,7 +6,7 @@
       <a-button v-if="$permission('P33001')" @click="routerTo('/cms/vote/edit')" type="primary">新增</a-button>
       <div>
         <a-button @click="handleReset" type="primary" ghost>重置</a-button>
-        <a-button @click="handleSearch" type="primary">搜索</a-button>
+        <a-button @click="getList" type="primary">搜索</a-button>
       </div>
     </div>
   </ActiveForm>
@@ -18,6 +18,7 @@
     showPager
     @on-page-change="handlePageChange"
     :currentPage="currentPage"
+    :pageSize="pageSize"
     :total="total"
     class="portalTable"
   >
@@ -40,8 +41,8 @@
         <span v-if="$permission('P33004')" @click="changeStatus(record, '2')"  class="actionBtn">关闭</span>
       </template>
       <template v-else-if="record.status == '2'">
-        <span v-if="$permission('P33005')" @click="changeStatus(record, '3')" class="actionBtn">结果公示<a-divider type="vertical" /></span>
-        <span v-if="$permission('P33003')" @click="routerTo('/cms/vote/result', record)" class="actionBtn">查看结果</span>
+        <span v-if="$permission('P33003')" @click="routerTo('/cms/vote/result', record)" class="actionBtn">结果预览<a-divider type="vertical" /></span>
+        <span v-if="$permission('P33005')" @click="publicResult(record)" class="actionBtn">结果公示</span>
       </template>
     </span>
   </ActiveTable>
@@ -78,7 +79,6 @@ export default {
             type: 'checkbox',
             width: 20,
             options: [
-              {label: '全部', value: ''},
               {label: '草稿', value: '0'},
               {label: '已发布', value: '1'},
               {label: '结束', value: '2'},
@@ -90,6 +90,7 @@ export default {
       model: {},
       total: 0,
       currentPage: 1,
+      pageSize: 10,
       columns: [
         {
           title: '名称',
@@ -155,12 +156,6 @@ export default {
           content: '是否确认关闭投票？关闭后，投票将被置为“结束”不能再进行用户投票',
           msg: '关闭成功',
         }
-      } else if (status == '3') {
-        config = {
-          title: '公布投票结果',
-          content: '是否确认公布投票结果？',
-          msg: '公布成功',
-        }
       }
       this.$model.confirm({
         title: config.title,
@@ -175,12 +170,44 @@ export default {
         },
       })
     },
+    publicResult({id}) {
+      const config = {
+        title: '公布投票结果',
+        content: '是否确认公布投票结果？',
+        msg: '公布成功',
+      }
+      this.$model.confirm({
+        title: config.title,
+        content: config.content,
+        onOk: () => {
+          this.$ajax.post({
+            url: this.$api.POST_CMS_NOTICE,
+            params: {
+              voteId: id
+            }
+          }).then(() => {
+            this.$message.success(config.msg)
+            this.getList()
+          })
+        },
+      })
+    },
     getList() {
+      const {name = null, status = [0,1,2,3], date = []} = this.model
+      const params = {
+        name_l: name,
+        status_in: status.join(','),
+        startTime_gt: date[0] || null,
+        endTime_lt: date[1] || null,
+        pageNo: this.currentPage,
+        pageSize: this.pageSize,
+      }
       this.$ajax.get({
         url: this.$api.GET_VOTE_LIST,
+        params,
       }).then(res => {
-        this.list = res.data.content
-        this.total = res.data.totalRows
+        this.list = this.$com.confirm(res, 'data.content', [])
+        this.total = this.$com.confirm(res, 'data.totalRows', 0)
       })
     },
     routerTo(name, data = null) {
@@ -192,23 +219,14 @@ export default {
       }
       this.$router.push(config)
     },
-    handleSearch() {
-      const {name, status, date} = this.model
-      const params = {
-        name,
-        status,
-        startTime: date[0],
-        endTime: date[1],
-      }
-      // TODO 发请求搜索（暂无接口）
-    },
     handleReset() {
       this.model = {}
+      this.currentPage = 1
       this.getList()
     },
     handlePageChange({current}) {
       this.currentPage = current
-      // TODO 发请求获取数据（暂无接口）
+      this.getList()
     },
   }
 }

@@ -39,8 +39,8 @@
                   {{`(${item.type == '0' ? '单选题' : '多选题'})`}}
                 </p>
                 <template v-if="item.options && item.options.length > 0">
-                  <p v-for="option in item.options" :key="option.value">
-                    {{`${option.value}、${option.label}`}}
+                  <p v-for="(option, i) in item.options" :key="option.value">
+                    {{`${$com.numToLetter(i)}、${option.value}`}}
                   </p>
                 </template>
               </template>
@@ -167,14 +167,6 @@ export default {
           date: [startTime, endTime],
           description,
         }
-        // 因为接口返回的问题选项只有id和value，没有label，暂时先做处理，以后要去掉
-        subjects.forEach(item => {
-          if (item.options && item.options.length > 0) {
-            item.options.forEach(option => {
-              option.label = ''
-            })
-          }
-        })
         this.questionList = subjects
       })
     },
@@ -216,11 +208,9 @@ export default {
           this.$message.error('请至少添加一个选项')
           return
         }
-        const arr = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K']
         const options = this.questionOptions.map((option, index) => {
           return {
-            value: arr[index],
-            label: option.label,
+            value: option.value,
           }
         })
         const result = Object.assign(
@@ -235,7 +225,7 @@ export default {
     addNewOption(isNew) {
       // isNew为true则新增一条选项
       if (isNew) {
-        this.questionOptions.push({label: ''})
+        this.questionOptions.push({value: ''})
       }
       const options = this.questionOptions.map((item, index) => {
         return {
@@ -247,12 +237,12 @@ export default {
                 h('a-input', {
                   props: {
                     placeholder: '请输入',
-                    value: this.questionOptions[index].label,
+                    value: this.questionOptions[index].value,
                   },
                   on: {
                     change:({target}) => {
                       const {value} = target
-                      this.questionOptions[index].label = value
+                      this.questionOptions[index].value = value
                     }
                   },
                   style: 'width: 80%'
