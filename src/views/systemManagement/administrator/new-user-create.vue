@@ -271,7 +271,11 @@ export default {
                 url: this.$api.PUT_EDIT_USER,
                 params: values,
               }).then(res => {
-                this.$message.success('修改成功')
+                this.$model.success({
+                  title: '成功',
+                  content: '修改成功',
+                  okText: '确认',
+                })
                 this.$nextTick(() => this.$router.back())
               })
               return
@@ -290,6 +294,8 @@ export default {
               }
             })
           }
+        } else {
+          this.$com.getFormValidErrTips(this, err)
         }
       })
     },

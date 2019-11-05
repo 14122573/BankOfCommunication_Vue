@@ -138,7 +138,11 @@ export default {
           this.$ajax.delete({
             url: this.$api.DELETE_VOTE.replace('{id}', id)
           }).then(() => {
-            this.$message.success('删除成功')
+            this.$model.success({
+              title: '成功',
+              content: '删除成功',
+              okText: '确认',
+            })
             this.getList()
           })
         },
@@ -164,7 +168,11 @@ export default {
           this.$ajax.put({
             url: this.$api.PUT_VOTE_STATUS.replace('{id}', id).replace('{status}', status)
           }).then(() => {
-            this.$message.success(config.msg)
+            this.$model.success({
+              title: '成功',
+              content: config.msg,
+              okText: '确认',
+            })
             this.getList()
           })
         },
@@ -186,7 +194,11 @@ export default {
               voteId: id
             }
           }).then(() => {
-            this.$message.success(config.msg)
+            this.$model.success({
+              title: '成功',
+              content: config.msg,
+              okText: '确认',
+            })
             this.getList()
           })
         },
