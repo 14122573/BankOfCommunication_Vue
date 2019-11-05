@@ -31,8 +31,7 @@
             <h2>用户登录</h2>
             <a-form :form="formLogin" class="login-form">
               <a-form-item>
-                <a-input v-decorator="[ 'username', { validateTrigger:'blur',  rules: [ { validator: validateAccount}] } ]"
-                placeholder="账户或手机号" autocomplete="off" @change='visibleError = false'>
+                <a-input style="width:100%" v-decorator="[ 'username', { validateTrigger:'blur',  rules: [ { validator: validateAccount}] } ]" placeholder="账户或手机号" autocomplete="off" @change='visibleError = false'>
                   <a-icon slot="prefix" type="user" style="color: rgba(0,0,0,.25)" />
                 </a-input>
               </a-form-item>
