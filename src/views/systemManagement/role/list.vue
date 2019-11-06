@@ -22,8 +22,13 @@
         <div class="box" v-for="(item,index) in roleList" :key="index">
           <div class="inner">
             <div class="content">
-              <p class="name">{{item.roleName}}</p>
-              <p> <img :src="groups" class="group-icon" alt="人数"><span class="name-num">{{item.userCount || '0'}}人</span> </p>
+              <!-- <a-row type="flex" justify="start" align="middle">
+                <a-col span="16"><p class="name">{{item.roleName}}</p></a-col>
+                <a-col span="8"><span style="text-align: right;"></span></a-col>
+              </a-row> -->
+              <p class="name" style="margin:0">{{item.roleName}} </p>
+              <p style="margin:0"><img :src="groups" class="group-icon" alt="人数"><span class="name-num">{{item.userCount || '0'}}人</span></p>
+              <DataOperatorInList :creator='!item.creator?"":item.creator' :lastOperator='!item.operator?"":item.operator'></DataOperatorInList>
             </div>
             <div class="operate">
               <template v-if="$permission('P02002')">
@@ -51,7 +56,11 @@
   </div>
 </template>
 <script>
+import DataOperatorInList from "@/views/systemManagement/components/dataOperatorInList";
 export default {
+  components: {
+    DataOperatorInList
+  },
   data() {
     return {
       searchForm: {
@@ -200,8 +209,9 @@ export default {
 .box { width: 20%; padding: 0 8px 16px 8px;}
 .inner {height: 140px; display: flex; flex-direction: column; border: 1px solid #e8eaec;}
 .content { display: flex; flex: 1; flex-direction: column; justify-content: center; align-items: start; padding:0px 20px;}
-.content .name{ font-size: 16px;font-weight: bold;}
-.content .name-num{ margin-left: 5px;font-weight: bold;}
+.content .name{ font-weight: bold; margin: 0;word-break: break-all;
+  display: inline-block; width: 100%; overflow: hidden; text-overflow:ellipsis; white-space: nowrap;}
+.content .name-num{ margin-left: 5px;font-weight: bold; font-size: 12px}
 .operate { border-top: 1px solid #e8eaec; height: 40px; text-align: center; line-height: 40px; }
 .operate span { cursor: pointer; color: #1890ff}
 .inner.add-btn { background: #e8eaec; border: none; }

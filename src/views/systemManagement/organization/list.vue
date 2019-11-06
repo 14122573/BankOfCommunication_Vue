@@ -46,8 +46,11 @@
 							<span class="actionBtn" v-if="$permission('P01004')" @click="deleteBtn(text,record)">删除</span>
 						</span>
 						<span slot="contact" slot-scope="text, record">
-							联系人:&nbsp;{{record.contact || "暂无"}}<br />
-							联系电话:&nbsp;{{record.contactPhone || "暂无"}}
+              <p class="contactInfo"><span class="label">姓名:&nbsp;</span>{{record.contact || "暂无"}}</p>
+              <p class="contactInfo"><span class="label">电话:&nbsp;</span>{{record.contactPhone || "暂无"}}</p>
+						</span>
+            <span slot="operator" slot-scope="text, record">
+              <DataOperatorInList :creator='!record.creator?"":record.creator' :lastOperator='!record.operator?"":record.operator'></DataOperatorInList>
 						</span>
 					</a-table>
 				</a-col>
@@ -57,30 +60,19 @@
 	</div>
 </template>
 <style scoped>
-	.institutionalTreeWapper {
-		height: 90%;
-		width: 100%;
-		overflow: hidden;
-		padding-right: 16px;
-		border-right: 1px solid #e0e0e0;
-	}
-
-	.institutionalTreeTitle {
-		padding-top: 10px;
-		width: 100%;
-	}
-
-	.institutionalTreeWapper>div {
-		height: calc(100% - 50px);
-		width: calc(100% - 10px);
-		padding: 5px;
-		overflow-y: auto;
-		overflow-x: scroll;
-	}
+	.institutionalTreeWapper { height: 90%; width: 100%; overflow: hidden; padding-right: 16px; border-right: 1px solid #e0e0e0;}
+	.institutionalTreeTitle { padding-top: 10px; width: 100%; }
+  .institutionalTreeWapper>div { height: calc(100% - 50px); width: calc(100% - 10px); padding: 5px; overflow-y: auto; overflow-x: scroll; }
+  .contactInfo {font-size:12px; margin:0; }
+  .contactInfo .label{ color: rgba(0, 0, 0, 0.4)}
 </style>
 
 <script>
+import DataOperatorInList from "@/views/systemManagement/components/dataOperatorInList";
 export default {
+  components: {
+    DataOperatorInList
+  },
   name: 'organization',
   data() {
     return {
@@ -110,7 +102,7 @@ export default {
       {
         title: '联系人',
         dataIndex: 'contact',
-        width: 180,
+        width: 150,
         key: 'contact',
         scopedSlots: {
           customRender: 'contact'
@@ -121,6 +113,15 @@ export default {
         width: 180,
         dataIndex: 'addr',
         key: 'addr'
+      },
+      {
+        title: '操作人',
+        width: 150,
+        dataIndex: 'creator',
+        key: 'creator',
+        scopedSlots: {
+          customRender: 'operator'
+        }
       },
       {
         title: '操作',
@@ -212,6 +213,7 @@ export default {
       }).then(res => {
         this.dataSource = this.$com.confirm(res, 'data.content', [])
         this.pagination.total = this.$com.confirm(res, 'data.totalRows', 0)
+        console.log(this.dataSource)
       })
     },
     getArea() {
