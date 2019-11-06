@@ -25,9 +25,9 @@ export default {
           'rowspacingtop', 'rowspacingbottom', 'lineheight', '|',
           'customstyle', 'paragraph', 'fontfamily', 'fontsize', '|',
           'directionalityltr', 'directionalityrtl', 'indent', '|', 'imagenone', 'imageleft', 'imageright', 'imagecenter', '|',
-          'simpleupload', 'insertimage', '|',
+          'simpleupload', 'insertimage', 'attachment', 'insertvideo','|',
           'justifyleft', 'justifycenter', 'justifyright', 'justifyjustify', '|', 'touppercase', 'tolowercase', '|',
-          'link', 'unlink', 'attachment'
+          'link', 'unlink',
         ]],
         zIndex:1,
         initialFrameHeight:300}
