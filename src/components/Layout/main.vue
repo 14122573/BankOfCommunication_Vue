@@ -43,6 +43,7 @@
 							<router-view v-show="!showSpaContent" :key="$route.path" />
 						</a-locale-provider>
 						<div v-show="showSpaContent" id="content" />
+            <a-back-top v-if="showBacktop" :visibilityHeight="100" :target="backTopTarget"/>
 					</a-layout-content>
 				</a-layout>
 			</a-layout>
@@ -77,6 +78,8 @@ export default {
       showPurePage: false,
       tidingsCount: 0,
       showSpaContent: false,
+      backTopTarget: null,
+      showBacktop: false,
     }
   },
   created() {
@@ -110,6 +113,7 @@ export default {
       deep: true
     },
     $route(to, from) {
+      this.calcBackTopTarget() // 切换页面时获取返回顶部按钮的dom依据
       if (MicConfigs.length > 0) {
         // 根据配置文件的子项目路由前缀自动识别state.showSpaContent应该是true还是false
         this.showSpaContent = MicConfigs.some(item => to.path.startsWith(item.pathPrefix))
@@ -131,6 +135,11 @@ export default {
     menuMode() {
       return this.collapsed ? 'vertical' : 'inline'
     },
+    // backTopTarget() {
+    //   console.log('target', this.$store.state.backTopTarget)
+
+    //   return this.$store.state.backTopTarget
+    // },
   },
   methods: {
     /**
@@ -186,7 +195,22 @@ export default {
         this.plogout()
         break
       }
-
+    },
+    calcBackTopTarget() {
+      // 获取返回顶部按钮的dom依据
+      this.$nextTick(() => {
+        const dom1 = document.querySelector('.portalDetailContentBody')
+        const dom2 = document.querySelector('#appContent')
+        this.showBacktop = false
+        this.$nextTick(() => {
+          if (dom1) {
+            this.backTopTarget = () => dom1
+          } else {
+            this.backTopTarget = () => dom2
+          }
+          this.showBacktop = true
+        })
+      })
     }
   }
 }
