@@ -56,7 +56,7 @@
   </div>
 </template>
 <script>
-import DataOperatorInList from "@/views/systemManagement/components/dataOperatorInList";
+import DataOperatorInList from '@/views/systemManagement/components/dataOperatorInList'
 export default {
   components: {
     DataOperatorInList
