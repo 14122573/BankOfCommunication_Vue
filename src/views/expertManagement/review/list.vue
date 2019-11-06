@@ -2,19 +2,19 @@
   <div class="routerWapper">
     <div v-if='$route.name=="/expertManagement/reiview"' class="layoutMargin layoutPadding">
       <a-form class="protalForm" :form="searchForm">
-        <a-row type="flex" justify="space-between" class="formItemLine">
-          <a-col span="8">
-            <a-form-item class='formItem' label="业务系统名称" :label-col="{span:6}" :wrapper-col="{span:18}">
+        <a-row type="flex" justify="end" class="formItemLine">
+          <a-col span="6">
+            <a-form-item class='formItem' label="" :label-col="{span:0}" :wrapper-col="{span:24}">
               <a-select placeholder="请选择业务系统" :options="sysListForSearch" v-model="searchForm.systemCode" />
             </a-form-item>
           </a-col>
-          <a-col span="6" class="algin-right">
+          <a-col span="5" class="algin-right">
             <a-button @click="reset" html-type="submit">重置</a-button>
             <a-button type="primary" @click="getReviewList" html-type="submit">搜索</a-button>
           </a-col>
         </a-row>
       </a-form>
-      <p class="gayLine"></p>
+      <p class="gayLine noline"></p>
       <div class="portalTableOperates">
         <a-button icon='database' @click="$router.push({name:'/expertManagement/reiview/history'})">评审历史查询</a-button>
       </div>
