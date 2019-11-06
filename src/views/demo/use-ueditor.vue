@@ -18,7 +18,7 @@ export default {
         formContent:'213131'
       },
       ueditorConfig:{
-        serverUrl:this.$api.GET_UEDITOR_SERVICE_URL,
+        serverUrl:'http://iftp.omniview.pro/api/service-release/release/ueditor/execute',
         toolbars:[[
           'undo', 'redo', '|',
           'bold', 'italic', 'underline', 'fontborder', 'strikethrough', 'superscript', 'subscript', 'removeformat', 'formatmatch', 'autotypeset', 'blockquote', 'pasteplain', '|', 'forecolor', 'backcolor', 'insertorderedlist', 'insertunorderedlist', 'selectall', 'cleardoc', '|',

@@ -3,19 +3,19 @@
   <div class="layoutMargin layoutPadding" v-if="$route.name == '/systemManagement/permissionConfig/point'">
     <template v-if='sysListForSearch.length>0 && pointsList && isReady'>
       <a-form class="protalForm" :form="porintSearchForm">
-        <a-row type="flex" justify="space-between" align="middle">
-          <a-col span="8">
-            <a-form-item class='formItem' label="业务子系统名称" :label-col="{span:8}" :wrapper-col="{span:16}">
+        <a-row type="flex" justify="end" align="middle">
+          <a-col span="5" class="algin-right">
+            <a-form-item class='formItem' label="" :label-col="{span:0}" :wrapper-col="{span:24}">
               <a-select placeholder="请选择业务系统" :options="sysListForSearch" v-model="searchForm.type" />
             </a-form-item>
           </a-col>
-          <a-col span="6" class="algin-right" style="padding-right:8px">
+          <a-col span="5" class="algin-right" style="padding-right:8px">
             <a-button @click="reset">重置</a-button>
             <a-button type="primary" @click="getPointList">搜索</a-button>
           </a-col>
         </a-row>
       </a-form>
-      <p class="gayLine"></p>
+      <p class="gayLine noline"></p>
       <div class="portalTableOperates">
         <a-button icon='plus' @click="goToAddPoint" type="primary">单个添加功能点</a-button>
         <a-button icon='plus' @click="goToBatchAddPoint" type="primary">批量添加功能点</a-button>

@@ -1,24 +1,24 @@
 <template>
 	<div>
 		<a-form class="protalForm" :form="searchForm">
-			<a-row type="flex" justify="space-between" class="formItemLine">
+			<a-row type="flex" class="formItemLine" :justify="simpleSearchForm?'end':'space-between'" align='middle' :gutter="simpleSearchForm?16:0">
 				<a-col span="6">
-					<a-form-item class='formItem' label="姓名" v-bind="colSpe">
-						<a-input placeholder="请输入" v-model="searchForm.name_l" />
+					<a-form-item :label="simpleSearchForm?'':'账号'" :label-col="formItemLabelCol" :wrapper-col="formItemWrapperCol">
+						<a-input placeholder="请输入登录手机号" v-model="searchForm['ui.phone_l']" />
 					</a-form-item>
 				</a-col>
-				<a-col span="6">
-					<a-form-item label="账号" v-bind="colSpe">
-						<a-input placeholder="请输入" v-model="searchForm['ui.phone_l']" />
+				<a-col span="6" v-if="!simpleSearchForm">
+					<a-form-item class='formItem' label="姓名" :label-col="formItemLabelCol" :wrapper-col="formItemWrapperCol">
+						<a-input placeholder="请输入姓名" v-model="searchForm.name_l" />
 					</a-form-item>
 				</a-col>
-				<a-col span="6">
-					<a-form-item label="角色名称" v-bind="colSpe">
+				<a-col span="6" v-if="!simpleSearchForm">
+					<a-form-item label="角色名称" :label-col="formItemLabelCol" :wrapper-col="formItemWrapperCol">
 						<a-select placeholder="请选择" :options="roleList" allowClear v-model="searchForm['ui.roleIds']" />
 					</a-form-item>
 				</a-col>
-				<a-col span="6">
-					<a-form-item label="行政区域" v-bind="colSpe">
+				<a-col span="6" v-if="!simpleSearchForm">
+					<a-form-item label="行政区域" :label-col="formItemLabelCol" :wrapper-col="formItemWrapperCol">
 						<a-select v-model="searchForm['ui.areaId']" v-if="isAdminator !== true" placeholder="请选择" @change="onChangeTree"
 						 showSearch allowClear>
 							<a-select-option v-for="(item,index) in treeData" :key="index" :value="item.id">{{item.title}}</a-select-option>
@@ -28,16 +28,14 @@
 						</a-tree-select>
 					</a-form-item>
 				</a-col>
-			</a-row>
-			<a-row type="flex" justify="space-between" align='middle' class="formItemLine">
-				<a-col span="6">
-					<a-form-item label="组织机构" v-bind="colSpe">
+				<a-col span="6" v-if="!simpleSearchForm">
+					<a-form-item label="组织机构" :label-col="formItemLabelCol" :wrapper-col="formItemWrapperCol">
 						<a-select v-model="searchForm['ui.groupId']" placeholder='请选择'>
 							<a-select-option v-for="(item,index) in groupLists" allowClear :key="index" :value="item.id">{{item.groupName}}</a-select-option>
 						</a-select>
 					</a-form-item>
 				</a-col>
-				<a-col span="12">
+				<a-col span="12" v-if="!simpleSearchForm">
 					<a-form-item label="用户状态" :label-col="{span:4}" :wrapper-col="{span:16}">
 						<a-checkbox-group v-model="searchForm['checkedList']">
 							<a-checkbox :value="item.value" v-for="(item,index) in plainOptions" :key="index">{{item.text}}</a-checkbox>
@@ -47,6 +45,8 @@
 				<a-col span="6" class="algin-right">
 					<a-button @click="reset" html-type="submit">重置</a-button>
 					<a-button type="primary" @click="search" html-type="submit">搜索</a-button>
+          <a-button type="primary" v-if='simpleSearchForm' @click="showMoreSearch">更多搜索</a-button>
+          <a-button type="primary" v-if='!simpleSearchForm' @click="closeMoreSearch">简单搜索</a-button>
 				</a-col>
 			</a-row>
 		</a-form>
@@ -114,6 +114,7 @@ export default {
   data() {
     return {
       dateFormat: 'YYYY-MM-DD',
+      simpleSearchForm:true, // 展示、收取简单搜索开关，true为简单搜索
       colSpe: {
         labelCol: {
           span: 8
@@ -139,81 +140,75 @@ export default {
       },
       defaultValue:'',
       dataTable: [],
-      columns: [{
-        title: '姓名',
-        dataIndex: 'name',
-        key: 'name'
-      },{
-        title: '账号',
-        dataIndex: 'phone',
-        key: 'phone',
-      },
-      {
-        title: '角色名称',
-        dataIndex: 'roleNames',
-        key: 'roleNames',
-        width: 100,
-        scopedSlots: {
-          customRender: 'roleNames'
+      columns: [
+        {
+          title: '姓名',
+          dataIndex: 'name',
+          key: 'name'
+        },{
+          title: '账号',
+          dataIndex: 'phone',
+          key: 'phone',
+        },{
+          title: '角色名称',
+          dataIndex: 'roleNames',
+          key: 'roleNames',
+          width: 100,
+          scopedSlots: {
+            customRender: 'roleNames'
+          }
+        },{
+          title: '所属组织机构',
+          dataIndex: 'group',
+          key: 'group',
+          width: 100,
+          scopedSlots: {
+            customRender: 'group'
+          }
+        },{
+          title: '所属行政区域',
+          dataIndex: 'area',
+          key: 'area',
+          width: 100,
+          scopedSlots: {
+            customRender: 'area'
+          }
+        },{
+          title: '用户状态',
+          dataIndex: 'status',
+          key: 'status',
+          width: 80,
+          scopedSlots: {
+            customRender: 'status'
+          }
+        },{
+          title: '操作人',
+          width: 150,
+          dataIndex: 'creator',
+          key: 'creator',
+          scopedSlots: {
+            customRender: 'operator'
+          }
+        },{
+          title: '操作',
+          key: 'operation',
+          width: 180,
+          scopedSlots: {
+            customRender: 'action'
+          }
         }
-      },
-      {
-        title: '所属组织机构',
-        dataIndex: 'group',
-        key: 'group',
-        width: 100,
-        scopedSlots: {
-          customRender: 'group'
-        }
-      },
-      {
-        title: '所属行政区域',
-        dataIndex: 'area',
-        key: 'area',
-        width: 100,
-        scopedSlots: {
-          customRender: 'area'
-        }
-      },
-      {
-        title: '用户状态',
-        dataIndex: 'status',
-        key: 'status',
-        width: 80,
-        scopedSlots: {
-          customRender: 'status'
-        }
-      },
-      {
-        title: '操作人',
-        width: 150,
-        dataIndex: 'creator',
-        key: 'creator',
-        scopedSlots: {
-          customRender: 'operator'
-        }
-      },
-      {
-        title: '操作',
-        key: 'operation',
-        width: 180,
-        scopedSlots: {
-          customRender: 'action'
-        }
-      }
       ],
-      plainOptions: [{
-        text: '正常',
-        value: '1'
-      },
-      {
-        text: '禁用',
-        value: '9'
-      },
-      {
-        text: '已注销',
-        value: '8'
-      }
+      plainOptions: [
+        {
+          text: '正常',
+          value: '1'
+        },{
+          text: '禁用',
+          value: '9'
+        },{
+          text: '已注销',
+          value: '8'
+        }
       ],
       opeation: {
         title: '',
@@ -228,12 +223,38 @@ export default {
       resetPwdShow: false
     }
   },
+  computed:{
+    formItemLabelCol(){
+      let labelCol = {}
+      if(this.simpleSearchForm){
+        labelCol = {span: 0}
+      }else{
+        labelCol = {span: 8}
+      }
+      return labelCol
+    },
+    formItemWrapperCol(){
+      let wrapperCol = {}
+      if(this.simpleSearchForm){
+        wrapperCol = {span: 24}
+      }else{
+        wrapperCol = {span: 16}
+      }
+      return wrapperCol
+    }
+  },
   mounted() {
     this.isAdminator = this.$store.state.userInfos.isAllPerm
     this.getList()
     this.getArea()
   },
   methods: {
+    closeMoreSearch(){
+      this.simpleSearchForm = true
+    },
+    showMoreSearch(){
+      this.simpleSearchForm = false
+    },
     pageChange(current) {
       this.pagination.current = current
       this.pagination.pageNo = current

@@ -1,29 +1,29 @@
 <template>
 	<div class="old-user">
 		<a-form class="protalForm" :form="searchForm">
-			<a-row class="formItemLine" :gutter="8" type="flex" justify="space-between">
+			<a-row class="formItemLine" align='middle' :gutter="simpleSearchForm?16:0" type="flex" :justify="simpleSearchForm?'end':'space-between'">
 				<a-col span="6">
-					<a-form-item class="formItem" label="账号" :label-col="labelCol" :wrapper-col="wrapperCol">
-						<a-input placeholder="请输入" v-model="searchForm.username_l" />
+					<a-form-item class="formItem" :label="simpleSearchForm?'':'账号'" :label-col="formItemLabelCol" :wrapper-col="formItemWrapperCol">
+						<a-input placeholder="请输入登录账号" v-model="searchForm.username_l" />
 					</a-form-item>
 				</a-col>
-				<a-col span="8">
-					<a-form-item class="formItem" label="所属老系统" :label-col="labelCol" :wrapper-col="wrapperCol">
+				<a-col span="8" v-if="!simpleSearchForm">
+					<a-form-item class="formItem" label="所属老系统" :label-col="formItemLabelCol" :wrapper-col="formItemWrapperCol">
 						<a-select placeholder="请选择" v-model="searchForm.sysDicId" :options="systemList" allowClear />
 					</a-form-item>
 				</a-col>
-				<a-col span="8">
+				<a-col span="8" v-if="!simpleSearchForm">
 					<a-form-item class="formItem" label="用户状态" :label-col="{span:6}" :wrapper-col="{span:18}">
 						<a-checkbox-group v-model="searchForm.checkedList">
 							<a-checkbox :value="item.value" v-for="(item,index) in plainOptions" :key="index">{{item.text}}</a-checkbox>
 						</a-checkbox-group>
 					</a-form-item>
 				</a-col>
-			</a-row>
-			<a-row class="formItemLine" type="flex" justify="end">
-				<a-col class="algin-right">
+				<a-col :span="simpleSearchForm?6:24" class="algin-right">
 					<a-button @click="reset">重置</a-button>
 					<a-button type="primary" @click="search">搜索</a-button>
+          <a-button type="primary" v-if='simpleSearchForm' @click="showMoreSearch">更多搜索</a-button>
+          <a-button type="primary" v-if='!simpleSearchForm' @click="closeMoreSearch">简单搜索</a-button>
 				</a-col>
 			</a-row>
 		</a-form>
@@ -77,9 +77,7 @@
 	</div>
 </template>
 <script>
-import {
-  encryptDes
-} from '@/util/des-cryptojs'
+import { encryptDes } from '@/util/des-cryptojs'
 import userStatus from '@/views/systemManagement/components/user-status'
 import testStrong from '@/components/testPwd'
 export default {
@@ -101,13 +99,8 @@ export default {
       searchForm: {
         checkedList: ['1']
       },
+      simpleSearchForm:true, // 展示、收取简单搜索开关，true为简单搜索
       dateFormat: 'YYYY-MM-DD',
-      labelCol: {
-        span: 8
-      },
-      wrapperCol: {
-        span: 16
-      },
       params: {
         'ui.createTime_desc': 1
       },
@@ -121,58 +114,54 @@ export default {
         onChange: this.onChange
       },
       data: [],
-      columns: [{
-        title: '账号',
-        dataIndex: 'username',
-        key: 'username'
-      },
-      {
-        title: '所属老系统',
-        dataIndex: 'sysDic',
-        key: 'sysDic',
-        scopedSlots: {
-          customRender: 'sysDic'
+      columns: [
+        {
+          title: '账号',
+          dataIndex: 'username',
+          key: 'username'
+        },{
+          title: '所属老系统',
+          dataIndex: 'sysDic',
+          key: 'sysDic',
+          scopedSlots: {
+            customRender: 'sysDic'
+          }
+        },{
+          title: '关联手机号',
+          dataIndex: 'phone',
+          key: 'phone',
+          scopedSlots: {
+            customRender: 'phone'
+          }
+        },{
+          title: '用户状态',
+          dataIndex: 'status',
+          key: 'status',
+          width: 80,
+          scopedSlots: {
+            customRender: 'status'
+          }
+        },{
+          title: '操作',
+          dataIndex: 'action',
+          key: 'action',
+          width: 200,
+          scopedSlots: {
+            customRender: 'action'
+          }
         }
-      },
-      {
-        title: '关联手机号',
-        dataIndex: 'phone',
-        key: 'phone',
-        scopedSlots: {
-          customRender: 'phone'
-        }
-      },
-      {
-        title: '用户状态',
-        dataIndex: 'status',
-        key: 'status',
-        width: 80,
-        scopedSlots: {
-          customRender: 'status'
-        }
-      },
-      {
-        title: '操作',
-        dataIndex: 'action',
-        key: 'action',
-        width: 200,
-        scopedSlots: {
-          customRender: 'action'
-        }
-      }
       ],
-      plainOptions: [{
-        text: '正常',
-        value: '1'
-      },
-      {
-        text: '禁用',
-        value: '9'
-      },
-      {
-        text: '已注销',
-        value: '8'
-      }
+      plainOptions: [
+        {
+          text: '正常',
+          value: '1'
+        },{
+          text: '禁用',
+          value: '9'
+        },{
+          text: '已注销',
+          value: '8'
+        }
       ],
       modal: {
         show: false
@@ -189,7 +178,33 @@ export default {
       confirmDirty: false,
     }
   },
+  computed:{
+    formItemLabelCol(){
+      let labelCol = {}
+      if(this.simpleSearchForm){
+        labelCol = {span: 0}
+      }else{
+        labelCol = {span: 8}
+      }
+      return labelCol
+    },
+    formItemWrapperCol(){
+      let wrapperCol = {}
+      if(this.simpleSearchForm){
+        wrapperCol = {span: 24}
+      }else{
+        wrapperCol = {span: 16}
+      }
+      return wrapperCol
+    }
+  },
   methods: {
+    closeMoreSearch(){
+      this.simpleSearchForm = true
+    },
+    showMoreSearch(){
+      this.simpleSearchForm = false
+    },
     //   查询系统列表
     getSystemList() {
       this.$ajax.get({
