@@ -83,6 +83,9 @@
 			<span slot="status" slot-scope="text, record">
 				<userStatus :status="record.status" />
 			</span>
+      <span slot="operator" slot-scope="text, record">
+        <DataOperatorInList :creator='!record.creator?"":record.creator' :lastOperator='!record.operator?"":record.operator'></DataOperatorInList>
+      </span>
 		</a-table>
 		<resetPassword :resetPwdShow="resetPwdShow" @on-cancel="handleCancel" ref="reset" @on-ok="handleResetOk"></resetPassword>
 	</div>
@@ -90,14 +93,15 @@
 <script>
 import userStatus from '@/views/systemManagement/components/user-status'
 import resetPassword from '@/views/systemManagement/administrator/components/resetPassword'
-import {
-  encryptDes
-} from '@/util/des-cryptojs'
+import DataOperatorInList from '@/views/systemManagement/components/dataOperatorInList'
+import { encryptDes } from '@/util/des-cryptojs'
+
 export default {
   name: 'new-user',
   components: {
     userStatus,
-    resetPassword
+    resetPassword,
+    DataOperatorInList
   },
   props: {
     roleList: {
@@ -139,16 +143,16 @@ export default {
         title: '姓名',
         dataIndex: 'name',
         key: 'name'
-      },
-      {
+      },{
         title: '账号',
         dataIndex: 'phone',
-        key: 'phone'
+        key: 'phone',
       },
       {
         title: '角色名称',
         dataIndex: 'roleNames',
         key: 'roleNames',
+        width: 100,
         scopedSlots: {
           customRender: 'roleNames'
         }
@@ -157,6 +161,7 @@ export default {
         title: '所属组织机构',
         dataIndex: 'group',
         key: 'group',
+        width: 100,
         scopedSlots: {
           customRender: 'group'
         }
@@ -165,6 +170,7 @@ export default {
         title: '所属行政区域',
         dataIndex: 'area',
         key: 'area',
+        width: 100,
         scopedSlots: {
           customRender: 'area'
         }
@@ -179,9 +185,18 @@ export default {
         }
       },
       {
+        title: '操作人',
+        width: 150,
+        dataIndex: 'creator',
+        key: 'creator',
+        scopedSlots: {
+          customRender: 'operator'
+        }
+      },
+      {
         title: '操作',
         key: 'operation',
-        width: 200,
+        width: 180,
         scopedSlots: {
           customRender: 'action'
         }

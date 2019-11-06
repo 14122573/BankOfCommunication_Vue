@@ -14,6 +14,7 @@
         <div class="content">
           <p class="name">{{item.name}}</p>
           <p class="breedUnit" v-if="baseType=='breed'">计量单位：{{!item.unit?'暂无':item.unit}}</p>
+          <DataOperatorInList :creator='!item.creator?"":item.creator' :lastOperator='!item.operator?"":item.operator'></DataOperatorInList>
         </div>
         <div class="operate">
           <template>
@@ -34,6 +35,7 @@
 <script>
 import CreatBase from './add'
 import EditBase from './edit'
+import DataOperatorInList from '@/views/systemManagement/components/dataOperatorInList'
 export default {
   name:'ExpertListByType',
   props: {
@@ -43,7 +45,8 @@ export default {
     }
   },
   components: {
-    CreatBase,EditBase
+    CreatBase,EditBase,
+    DataOperatorInList
   },
   data() {
     return {
@@ -93,6 +96,7 @@ export default {
     closeEditModal(isReload){
       this.isShow.editModal = false
       this.editData = null
+      // console.log('closeEditModal',isReload)
       if(isReload){
         this.getList()
       }
@@ -153,12 +157,11 @@ export default {
 <style scoped>
 .wrapper { display: flex; flex-wrap: wrap;}
 .box { width: 20%; padding: 0 8px 16px 8px;}
-.inner {height: 100px; display: flex; flex-direction: column; border: 1px solid #e8eaec;}
+.inner {height: 140px; display: flex; flex-direction: column; border: 1px solid #e8eaec;}
 .content { display: flex; flex: 1; flex-direction: column; justify-content: center; align-items: start; padding:0px 10px;}
 .content p{ margin-bottom: 0 }
-.content .name{ font-size: 16px;font-weight: bold;}
-.content .breedUnit{ font-size: 14px; color: rgba(0,0,0,0.7)}
-.content .name-num{ margin-left: 5px;font-weight: bold;}
+.content .name{ font-weight: bold; margin-bottom: 5px; word-break: break-all; display: inline-block; width: 100%; overflow: hidden; text-overflow:ellipsis; white-space: nowrap;}
+.content .breedUnit{ color: rgba(0,0,0,0.7); width: 100%; margin-bottom: 8px; padding-bottom: 5px;  border-bottom: 1px dashed rgba(0,0,0,0.2)}
 .operate { border-top: 1px solid #e8eaec; height: 40px; text-align: center; line-height: 40px; }
 .operate span { cursor: pointer; color: #1890ff}
 .inner.add-btn { background: #e8eaec; border: none; }

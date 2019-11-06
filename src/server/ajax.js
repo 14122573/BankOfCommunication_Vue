@@ -69,7 +69,6 @@ const reponseCodeHandler = (res) => {
 }
 
 const showErrPage= (api,routername,code)=>{
-  console.log(api)
   if(Common.oneOf(routername,['login','register','bindPhone'])){
     if(!Common.oneOf(api,['/service-release/release/public/news'])){
       router.push({
