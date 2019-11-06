@@ -2,34 +2,36 @@
 	<div class="routerWapper">
 		<div v-if="$route.name =='/expertManagement/talent'" class="layoutMargin layoutPadding">
 			<a-form :form="searchForm" class="protalForm">
-				<a-row type="flex" justify="start" class="formItemLine">
+				<a-row type="flex" class="formItemLine" :justify="simpleSearchForm?'end':'space-between'" align='middle' :gutter="simpleSearchForm?16:0">
 					<a-col span="6">
-						<a-form-item label="姓名" class="formItem" v-bind="colSpe">
-							<a-input v-decorator="['name_l']" placeholder="请输入"></a-input>
+						<a-form-item :label="simpleSearchForm?'':'姓名'" class="formItem" :label-col="formItemLabelCol" :wrapper-col="formItemWrapperCol">
+							<a-input v-decorator="['name_l']" placeholder="请输入姓名"></a-input>
 						</a-form-item>
 					</a-col>
-					<a-col span="6">
-						<a-form-item label="联系电话" class="formItem" v-bind="colSpe">
+					<a-col span="6" v-if="!simpleSearchForm">
+						<a-form-item label="联系电话" class="formItem" :label-col="formItemLabelCol" :wrapper-col="formItemWrapperCol">
 							<a-input v-decorator="['phone_l']" placeholder="请输入"></a-input>
 						</a-form-item>
 					</a-col>
-					<a-col span="6">
-						<a-form-item label="职称" class="formItem" v-bind="colSpe">
+					<a-col span="6" v-if="!simpleSearchForm">
+						<a-form-item label="职称" class="formItem" :label-col="formItemLabelCol" :wrapper-col="formItemWrapperCol">
 							<a-select v-decorator="['jobTitle']" placeholder="请选择" allowClear>
 								<a-select-option v-for="(item,index) in options.jobList" :key="index" :value="item.id">{{item.name}}</a-select-option>
 							</a-select>
 						</a-form-item>
 					</a-col>
-				</a-row>
-				<a-row type="flex" justify="space-between" class="formItemLine">
-					<a-col span="8">
-						<a-form-item label="用户状态" class="formItem" v-bind="colSpe">
+				<!-- </a-row>
+				<a-row type="flex" justify="space-between" class="formItemLine"> -->
+					<a-col span="8" v-if="!simpleSearchForm">
+						<a-form-item label="用户状态" class="formItem" :label-col="formItemLabelCol" :wrapper-col="formItemWrapperCol">
 							<a-checkbox-group v-decorator="['status_in',{initialValue: []}]" :options="options.statusList"></a-checkbox-group>
 						</a-form-item>
 					</a-col>
 					<a-col span="6" class="algin-right">
 						<a-button @click="reset">重置</a-button>
 						<a-button type="primary" @click="search">搜索</a-button>
+            <a-button type="primary" v-if='simpleSearchForm' @click="showMoreSearch">更多搜索</a-button>
+            <a-button type="primary" v-if='!simpleSearchForm' @click="closeMoreSearch">简单搜索</a-button>
 					</a-col>
 				</a-row>
 			</a-form>
@@ -63,37 +65,37 @@ export default {
   data() {
     return {
       searchForm: this.$form.createForm(this),
+      simpleSearchForm:true, // 展示、收取简单搜索开关，true为简单搜索
       options: {
-        proList: [{
-          label: '省级认定',
-          value: '1'
-        },
-        {
-          label: '部级认定',
-          value: '0'
-        }
+        proList: [
+          {
+            label: '省级认定',
+            value: '1'
+          },{
+            label: '部级认定',
+            value: '0'
+          }
         ],
-        levList: [{
-          label: '是',
-          value: '1'
-        },
-        {
-          label: '否',
-          value: '0'
-        }
+        levList: [
+          {
+            label: '是',
+            value: '1'
+          },{
+            label: '否',
+            value: '0'
+          }
         ],
-        statusList: [{
-          label: '正常',
-          value: '1'
-        },
-        {
-          label: '禁用',
-          value: '9'
-        },
-        {
-          label: '已注销',
-          value: '8'
-        }
+        statusList: [
+          {
+            label: '正常',
+            value: '1'
+          },{
+            label: '禁用',
+            value: '9'
+          },{
+            label: '已注销',
+            value: '8'
+          }
         ],
         jobList: []
       },
@@ -106,45 +108,39 @@ export default {
         }
       },
       dataSource: [],
-      columns: [{
-        title: '姓名',
-        dataIndex: 'name'
-      },
-      {
-        title: '联系电话',
-        dataIndex: 'phone'
-      },
-      {
-        title: '工作单位',
-        dataIndex: 'workCompany'
-      },
-      {
-        title: '职称',
-        dataIndex: 'jobTitleName'
-      },
-      {
-        title: '省级认定',
-        dataIndex: 'provinceConfirm'
-      },
-      {
-        title: '部级认定',
-        dataIndex: 'unitConfirm'
-      },
-      {
-        title: '用户状态',
-        dataIndex: 'status',
-        scopedSlots: {
-          customRender: 'status'
+      columns: [
+        {
+          title: '姓名',
+          dataIndex: 'name'
+        },{
+          title: '联系电话',
+          dataIndex: 'phone'
+        },{
+          title: '工作单位',
+          dataIndex: 'workCompany'
+        },{
+          title: '职称',
+          dataIndex: 'jobTitleName'
+        },{
+          title: '省级认定',
+          dataIndex: 'provinceConfirm'
+        },{
+          title: '部级认定',
+          dataIndex: 'unitConfirm'
+        },{
+          title: '用户状态',
+          dataIndex: 'status',
+          scopedSlots: {
+            customRender: 'status'
+          }
+        },{
+          title: '操作',
+          width: 140,
+          dataIndex: 'action',
+          scopedSlots: {
+            customRender: 'action'
+          }
         }
-      },
-      {
-        title: '操作',
-        width: 140,
-        dataIndex: 'action',
-        scopedSlots: {
-          customRender: 'action'
-        }
-      }
       ],
       pagination: {
         pageNo: 1,
@@ -162,28 +158,38 @@ export default {
   },
   mounted() {
     if(this.$route.name == '/expertManagement/talent'){
-      this.getSearchParams()
+      this.getLists()
       this.getJobLists()
     }
   },
-  methods: {
-    /**
-     * 从vuex中或已存储的搜索条件，判断此条件是否为当前路由的 。如果是则使用
-     */
-    getSearchParams(){
-      let searchParams = !this.$store.state.listSearchParams?null:this.$store.state.listSearchParams[this.$route.name]
-      if(!!searchParams && !!searchParams.routeName && (this.$route.name == searchParams.routeName)){
-        if(!!searchParams.params){
-          this.searchForm.setFieldsValue(searchParams.params)
-        }
-        if(!!searchParams.pagination){
-          if(!!searchParams.pagination.pageNo && searchParams.pagination.pageNo!=1){
-            this.pagination.pageNo = searchParams.pagination.pageNo
-          }
-        }
+  computed:{
+    formItemLabelCol(){
+      let labelCol = {}
+      if(this.simpleSearchForm){
+        labelCol = {span: 0}
+      }else{
+        labelCol = {span: 8}
       }
-      this.getLists()
+      return labelCol
     },
+    formItemWrapperCol(){
+      let wrapperCol = {}
+      if(this.simpleSearchForm){
+        wrapperCol = {span: 24}
+      }else{
+        wrapperCol = {span: 16}
+      }
+      return wrapperCol
+    }
+  },
+  methods: {
+    closeMoreSearch(){
+      this.simpleSearchForm = true
+    },
+    showMoreSearch(){
+      this.simpleSearchForm = false
+    },
+
     getLists() {
       const options = this.$com.dealObjectValue(this.searchForm.getFieldsValue())
       if (options.status_in) options.status_in = options.status_in.join(',')
@@ -198,12 +204,6 @@ export default {
       }).then(res => {
         this.dataSource = this.$com.confirm(res, 'data.content', [])
         this.pagination.total = this.$com.confirm(res, 'data.totalRows', 0)
-        // 存储当前页面列表的搜索添加和分页信息
-        this.$com.storeSearchParams(
-          this.$route.name,
-          this.pagination,
-          this.searchForm.getFieldsValue()
-        )
       })
     },
     // 查询
