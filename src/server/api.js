@@ -99,7 +99,7 @@ export default {
   // 专家管理--项目评审
   GET_EXPERT_REVIEW_TODO_LIST: '/service-expert/expert/extract/{expertId}', //获取当前接口传参专家需要评审的数据,? status:0-未完成 1-完成 null/""-全部
   // 内容发布
-  GET_UEDITOR_SERVICE_URL: '/service-release/release/ueditor/execute', //ueditor 文件上传配置service_url地址
+  GET_UEDITOR_SERVICE_URL: BASE_URL+'/service-release/release/ueditor/execute', //ueditor 文件上传配置service_url地址
   // 内容发布-知识库
   GET_CMS_KNOWLEDGE_LIST: MOCK_URL+'/service-release/release/public/knowledge', //获取知识库文档列表
   POST_CMS_KNOWLEDGE: MOCK_URL+'/service-release/release/knowledge', //新建知识文档
