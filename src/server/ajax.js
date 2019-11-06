@@ -5,7 +5,7 @@ import Store from '@/store'
 import Cookie from '@/util/local-cookie'
 import router from '@/router'
 import Common from '@/util/common'
-import { message } from 'ant-design-vue'
+import { Modal } from 'ant-design-vue'
 
 // 配置请求的根域名和超时时间
 const Axios = axios.create({
@@ -14,7 +14,7 @@ const Axios = axios.create({
 })
 const CancelToken = axios.CancelToken
 let cancelRequest = null
-let currentRouterName ='',currentApi=''
+let currentRouterName ='',currentApi='',currentMethod=''
 
 // 处理请求状态码
 const reponseCodeHandler = (res) => {
@@ -47,7 +47,23 @@ const reponseCodeHandler = (res) => {
     } else if (code == '429') {//同一对外IP，2s内请求超过100次
       router.push({ name: 'upperLimitErr' })
     }else if (code == '710' || code == '720') {
-      // message.error('')
+      if(Common.oneOf(currentMethod.toLocaleLowerCase(),['post','put','delete'])){
+        Modal.error({
+          title: '提交错误',
+          content: !res.msg?'':res.msg,
+          okText: '确认',
+          cancelText: '取消',
+        })
+      }
+    }else{
+      if(Common.oneOf(currentMethod.toLocaleLowerCase(),['post','put','delete'])){
+        Modal.error({
+          title: '提交错误',
+          content: '系统异常',
+          okText: '确认',
+          cancelText: '取消',
+        })
+      }
     }
   }
 }
@@ -123,6 +139,7 @@ const request = ({ method, url, params, contentType = 'application/json;charset=
   // 存储当前调用接口所在的路由和API地址
   currentApi = url
   currentRouterName = !routername?'':routername
+  currentMethod = method
 
   // transformResponse()执行完再执行then()。transformResponse函数用于提前处理返回的数据。返回的result对象比transformResponse函数的data对象包含的数据多。
   // if (method == 'get') {

@@ -287,7 +287,12 @@ export default {
         )
         this.forMat(data)
       } else {
-        this.$message.error('请检查输入!')
+        this.$modal.error({
+          title: '表单验证未通过',
+          content: '请检查输入!',
+          okText: '确认',
+          cancelText: '取消',
+        })
       }
     },
     //   查询options
@@ -344,7 +349,12 @@ export default {
       if(isAccept && isLt5M){
         return true
       }else{
-        this.$message.error(message)
+        this.$modal.error({
+          title: '上传文件验证未通过',
+          content: message,
+          okText: '确认',
+          cancelText: '取消',
+        })
         return false
       }
     },
@@ -365,8 +375,6 @@ export default {
             status: 'done',
             url: data.path
           })
-        } else {
-          this.$message.error(res.msg)
         }
       })
     },
@@ -408,9 +416,7 @@ export default {
       }).then(res => {
         if (res.code === '200') {
           this.$message.success('修改成功！')
-        } else {
-          this.$message.error(res.msg)
-        }
+        } 
       })
     },
     getDetail() {

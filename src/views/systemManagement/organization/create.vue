@@ -144,19 +144,12 @@ export default {
               params: values
             }).then(res => {
               if (res.code == '200') {
-                this.$model.success({
+                this.$modal.success({
                   title:'提示',
                   content:'新增成功!'
                 })
                 this.$router.push({
                   name: '/systemManagement/organization'
-                })
-              }else{
-                this.$model.error({
-                  title: '提交错误',
-                  content: !res.msg?'':res.msg,
-                  okText: '确认',
-                  cancelText: '取消',
                 })
               }
             })
@@ -169,13 +162,6 @@ export default {
                 this.$message.success('修改成功！')
                 this.$router.push({
                   name: '/systemManagement/organization'
-                })
-              }else{
-                this.$model.error({
-                  title: '提交错误',
-                  content: !res.msg?'':res.msg,
-                  okText: '确认',
-                  cancelText: '取消',
                 })
               }
             })

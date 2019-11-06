@@ -44,20 +44,19 @@ export default {
           pageNo: 1,
           pageSize: 10000
         }
+      }).then(res => {
+        if (res.code === '200') {
+          let data = res.data.content
+          this.roleList = data.map(item => {
+            return {
+              label: item.roleName,
+              value: item.id
+            }
+          })
+        } else {
+          this.$message.error(res.msg)
+        }
       })
-        .then(res => {
-          if (res.code === '200') {
-            let data = res.data.content
-            this.roleList = data.map(item => {
-              return {
-                label: item.roleName,
-                value: item.id
-              }
-            })
-          } else {
-            this.$message.error(res.msg)
-          }
-        })
     },
   },
   computed: {

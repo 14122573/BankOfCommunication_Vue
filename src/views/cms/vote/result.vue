@@ -53,7 +53,7 @@ export default {
         content: '是否确认公布投票结果？',
         msg: '公布成功',
       }
-      this.$model.confirm({
+      this.$modal.confirm({
         title: config.title,
         content: config.content,
         onOk: () => {
@@ -63,7 +63,7 @@ export default {
               voteId: this.voteId,
             }
           }).then(() => {
-            this.$model.success({
+            this.$modal.success({
               title: '成功',
               content: config.msg,
               okText: '确认',

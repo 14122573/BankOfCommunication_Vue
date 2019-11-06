@@ -325,6 +325,8 @@ export default {
             this.gainDatas = res.data.content
             this.visibleModal = true
           })
+        }else{
+          this.$com.getFormValidErrTips(this,err)
         }
       })
     },
@@ -367,7 +369,12 @@ export default {
           this.goLogin()
         }
       } else {
-        this.$message.error('请先选择系统，再进行下一步！')
+        this.$modal.error({
+          title: '提示',
+          content: '请先选择系统，再进行下一步！',
+          okText: '确认',
+          cancelText: '取消',
+        })
       }
 
     },
@@ -428,7 +435,12 @@ export default {
           interval()
         })
       } else {
-        this.$message.error('请先填写手机号！')
+        this.$modal.error({
+          title: '提示',
+          content: '请先填写手机号！',
+          okText: '确认',
+          cancelText: '取消',
+        })
       }
     },
     clearTimer() {

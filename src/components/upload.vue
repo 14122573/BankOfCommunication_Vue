@@ -17,12 +17,22 @@ export default {
   methods: {
     handleChange(info) {
       if (info.file.status !== 'uploading') {
-        console.log(info.file, info.fileList)
+        // console.log(info.file, info.fileList)
       }
       if (info.file.status === 'done') {
-        this.$message.success(`${info.file.name} file uploaded successfully`)
+        // this.$message.success(`${info.file.name} file uploaded successfully`)
+        this.$modal.success({
+          title: '文件上传成功',
+          content: `${info.file.name} file uploaded successfully`
+        })
       } else if (info.file.status === 'error') {
-        this.$message.error(`${info.file.name} file upload failed.`)
+        this.$modal.error({
+          title: '提交错误',
+          content: `${info.file.name} 上传失败.`,
+          okText: '确认',
+          cancelText: '取消',
+        })
+        // this.$message.error(`${info.file.name} file upload failed.`)
       }
     },
   },

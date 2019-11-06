@@ -417,13 +417,13 @@ export default {
           errTips += err[key].errors[i].message +'；'
         }
       })
-      vm.$model.error({
-        title: '表单验证未通过',
-        content: errTips+otherTips,
-        okText: '确认',
-        cancelText: '取消',
-      })
     }
+    vm.$modal.error({
+      title: '表单验证未通过',
+      content: errTips+otherTips,
+      okText: '确认',
+      cancelText: '取消',
+    })
   },
   /**
    * 输入数字转换成大写字母，比如 输入 0 输出 'A'

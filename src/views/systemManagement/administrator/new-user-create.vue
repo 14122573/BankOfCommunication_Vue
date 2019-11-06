@@ -261,8 +261,6 @@ export default {
                 this.$router.push({
                   name: '/systemManagement/administrator'
                 })
-              } else {
-                this.$message.error(res.msg)
               }
             })
           } else {
@@ -271,7 +269,7 @@ export default {
                 url: this.$api.PUT_EDIT_USER,
                 params: values,
               }).then(res => {
-                this.$model.success({
+                this.$modal.success({
                   title: '成功',
                   content: '修改成功',
                   okText: '确认',
@@ -289,8 +287,6 @@ export default {
                 this.$router.push({
                   name: '/systemManagement/administrator'
                 })
-              } else {
-                this.$message.error('修改失败！')
               }
             })
           }

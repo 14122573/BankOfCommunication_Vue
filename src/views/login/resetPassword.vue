@@ -262,10 +262,10 @@ export default {
           }).then(res => {
             if (res.code == '200') {
               this.$emit('on-success', '找回密码成功！')
-            } else {
-              this.$message.error(res.msg)
             }
           })
+        }else{
+          this.$com.getFormValidErrTips(this,err)
         }
       })
     },

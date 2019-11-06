@@ -298,7 +298,12 @@ export default {
       if(isAccept && isLt5M){
         return true
       }else{
-        this.$message.error(message)
+        this.$modal.error({
+          title: '上传文件验证未通过',
+          content: message,
+          okText: '确认',
+          cancelText: '取消',
+        })
         return false
       }
     },

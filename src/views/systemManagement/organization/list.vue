@@ -169,7 +169,7 @@ export default {
     deleteBtn(text, record) {
       let vm = this
       this.opeationItem = record
-      this.$model.confirm({
+      this.$modal.confirm({
         title: '是否确认删除此组织机构？',
         content: '此操作不可撤销',
         okText: '确认删除',
@@ -310,7 +310,7 @@ export default {
           }
         })
       } else {
-        this.$model.warning({
+        this.$modal.warning({
           title: '提示',
           content: '请先选择具体的行政区域节点再去新增！'
         })
@@ -329,7 +329,7 @@ export default {
           }
         })
       } else {
-        this.$model.warning({
+        this.$modal.warning({
           title: '提示',
           content: '请先选择具体的行政区域节点再去修改！'
         })

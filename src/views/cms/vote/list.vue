@@ -130,7 +130,7 @@ export default {
   },
   methods: {
     deleteVote({id}) {
-      this.$model.confirm({
+      this.$modal.confirm({
         title: '删除投票',
         content: '是否确认删除该草稿投票信息？删除后将不会出现在列表中',
         okType: 'danger',
@@ -138,7 +138,7 @@ export default {
           this.$ajax.delete({
             url: this.$api.DELETE_VOTE.replace('{id}', id)
           }).then(() => {
-            this.$model.success({
+            this.$modal.success({
               title: '成功',
               content: '删除成功',
               okText: '确认',
@@ -161,14 +161,14 @@ export default {
           msg: '关闭成功',
         }
       }
-      this.$model.confirm({
+      this.$modal.confirm({
         title: config.title,
         content: config.content,
         onOk: () => {
           this.$ajax.put({
             url: this.$api.PUT_VOTE_STATUS.replace('{id}', id).replace('{status}', status)
           }).then(() => {
-            this.$model.success({
+            this.$modal.success({
               title: '成功',
               content: config.msg,
               okText: '确认',
@@ -184,7 +184,7 @@ export default {
         content: '是否确认公布投票结果？',
         msg: '公布成功',
       }
-      this.$model.confirm({
+      this.$modal.confirm({
         title: config.title,
         content: config.content,
         onOk: () => {
@@ -194,7 +194,7 @@ export default {
               voteId: id
             }
           }).then(() => {
-            this.$model.success({
+            this.$modal.success({
               title: '成功',
               content: config.msg,
               okText: '确认',

@@ -106,10 +106,10 @@ export default {
               this.$message.success('添加成功')
               this.resetForm()
               this.$emit('on-success',true)
-            } else {
-              this.$message.error(res.msg)
             }
           })
+        }else{
+          this.$com.getFormValidErrTips(this,err)
         }
       })
     },

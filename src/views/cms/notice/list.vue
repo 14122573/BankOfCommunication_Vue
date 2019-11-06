@@ -204,7 +204,7 @@ export default {
       }
       if(this.$com.oneOf(eventKey,['publish','delete','recall','top','down'])){
         let vm = this
-        this.$model.confirm({
+        this.$modal.confirm({
           title: opeation.title,
           content: opeation.tips,
           okText: '确认',
@@ -235,8 +235,6 @@ export default {
           let successMsg = status=='1'?'置顶成功':'取消置顶成功'
           this.$message.success(successMsg)
           this.getNoticeList()
-        }else{
-          this.$message.error(res.msg)
         }
       })
     },
@@ -251,8 +249,6 @@ export default {
         if(res.code=='200'){
           this.$message.success('删除成功')
           this.getNoticeList()
-        }else{
-          this.$message.error(res.msg)
         }
       })
     },
@@ -269,8 +265,6 @@ export default {
           let successMsg = status=='1'?'发布成功':'撤回成功'
           this.$message.success(successMsg)
           this.getNoticeList()
-        }else{
-          this.$message.error(res.msg)
         }
       })
     },

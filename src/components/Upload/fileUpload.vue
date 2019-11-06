@@ -132,13 +132,17 @@ export default {
 
       let message = ''
       message += !isAccept?('文件格式限定为'+this.uploadConfig.acceptTypes+'；'):''
-      message += !isLtMaxFileSize?'文件需小于5M；':''
+      message += !isLtMaxFileSize?'文件需小于'+this.maxFileSize+'B；':''
       if(isAccept && isLtMaxFileSize){
         return true
       }else{
-        this.$message.error(message)
+        this.$modal.error({
+          title: '上传文件验证未通过',
+          content: message,
+          okText: '确认',
+          cancelText: '取消',
+        })
         this.$emit('change',[].concat(this.uploadFileList))
-
         return false
       }
     },
@@ -159,8 +163,12 @@ export default {
           let data = this.$com.confirm(res, 'data.content', {})
           for(let index = 0;index<uploadFileList.length;index++){
             if(data.name == uploadFileList[index].name){
-              this.$message.error('该文件已上传')
-
+              this.$modal.error({
+                title: '上传文件验证未通过',
+                content: '该文件已上传',
+                okText: '确认',
+                cancelText: '取消',
+              })
               this.$emit('change',[].concat(uploadFileList))
               return
             }
@@ -173,8 +181,6 @@ export default {
           })
 
           this.$emit('change',[].concat(this.uploadFileList))
-        } else {
-          this.$message.error(res.msg)
         }
       })
     },

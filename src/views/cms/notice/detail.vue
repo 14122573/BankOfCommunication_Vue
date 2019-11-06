@@ -162,7 +162,7 @@ export default {
       }
       if(this.$com.oneOf(toStatusName,['publish','recall'])){
         let vm = this
-        this.$model.confirm({
+        this.$modal.confirm({
           title: opeation.title,
           content: opeation.tips,
           okText: '确认',
@@ -187,8 +187,6 @@ export default {
           let successMsg = status=='1'?'发布成功':'撤回成功'
           this.$message.success(successMsg)
           this.$router.push({name:'/cms/notice'})
-        }else{
-          this.$message.error(res.msg)
         }
       })
     },

@@ -111,10 +111,10 @@ export default {
               this.$message.success('重置密码成功')
               this.resetForm()
               this.$emit('on-close')
-            } else {
-              this.$message.error(res.msg)
             }
           })
+        }else{
+          this.$com.getFormValidErrTips(this,err)
         }
       })
     },

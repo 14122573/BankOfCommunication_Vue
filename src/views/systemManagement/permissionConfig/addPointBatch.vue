@@ -372,17 +372,10 @@ export default {
           if (res.code === '200') {
             this.$message.success('添加成功')
             this.$router.push({name:'/systemManagement/permissionConfig/point'})
-          } else {
-            this.$model.error({
-              title: '提交错误',
-              content: !res.msg?'':res.msg,
-              okText: '确认',
-              cancelText: '取消',
-            })
           }
         })
       }else{
-        this.$model.error({
+        this.$modal.error({
           title: '表单验证未通过',
           content: '功能编码或功能名称不能为空！',
           okText: '确认',

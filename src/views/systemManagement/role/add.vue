@@ -142,13 +142,6 @@ export default {
             if(res.code === '200'){
               this.$message.success(msg)
               this.$router.back()
-            }else{
-              this.$model.error({
-                title: '提交错误',
-                content: !res.msg?'':res.msg,
-                okText: '确认',
-                cancelText: '取消',
-              })
             }
           })
         }else{
@@ -171,13 +164,13 @@ export default {
     deleteBtn(){
       let vm = this
       if(this.userCount !== null && this.userCount !== '' && this.userCount != 0){
-        this.$model.warning({
+        this.$modal.warning({
           title: '无法删除此角色',
           content: '此角色还有员工未被分配，请先处理该角色下所有员工的调岗操作',
           okText: '确认',
         })
       }else{
-        this.$model.confirm({
+        this.$modal.confirm({
           title: '是否确认删除此角色？',
           content: '此操作不可撤销',
           okText: '确认',
@@ -197,13 +190,6 @@ export default {
           this.$message.success('删除成功')
           this.$router.push({
             name:'/systemManagement/role'
-          })
-        }else{
-          this.$model.error({
-            title: '提交错误',
-            content: !res.msg?'':res.msg,
-            okText: '确认',
-            cancelText: '取消',
           })
         }
       })
