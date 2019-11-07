@@ -11,11 +11,11 @@ module.exports = {
     assetsSubDirectory: 'static',
     assetsPublicPath: '/',
     proxyTable: {
-      "/spaone":{
-        target:"http://localhost:8082",
+      "/ueditorDevBase":{
+        target:"http://iftp.omniview.pro/api",
         changeOrigin:true,
         pathRewrite:{
-          '^/spaone':''
+          '^/ueditorDevBase':''
         }
       }
     },
