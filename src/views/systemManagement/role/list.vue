@@ -2,19 +2,19 @@
   <div class="routerWapper">
     <div v-if="$route.name == '/systemManagement/role'" class="layoutMargin layoutPadding">
       <a-form class="protalForm" :form="searchForm">
-        <a-row type="flex" justify="space-between" align="middle">
-          <a-col span="8">
-            <a-form-item class="formItem" label="角色名称" :label-col="labelCol" :wrapper-col="wrapperCol" >
-              <a-input placeholder="请输入" v-model="searchForm.roleName_l" />
+        <a-row type="flex" justify="end" align="middle">
+          <a-col span="6">
+            <a-form-item class="formItem" label="" :label-col="{span:0}" :wrapper-col="{span:24}" >
+              <a-input placeholder="请输入角色名称" v-model="searchForm.roleName_l" />
             </a-form-item>
           </a-col>
-          <a-col span="6" class="algin-right" style="padding-right:8px">
+          <a-col span="5" class="algin-right" style="padding-right:8px">
             <a-button @click="reset">重置</a-button>
             <a-button type="primary" @click="search">搜索</a-button>
           </a-col>
         </a-row>
       </a-form>
-      <p class="gayLine"></p>
+      <p class="gayLine noline"></p>
       <div class="portalTableOperates">
 				<a-button type="primary" icon='plus' v-if="$permission('P02001')" @click="addBtn">新增角色</a-button>
 			</div>
@@ -62,8 +62,6 @@ export default {
       searchForm: {
         roleName_l:''
       },
-      labelCol: { span: 10 },
-      wrapperCol: { span: 14 },
       roleList:[],
       deleteData:{},
       params:{

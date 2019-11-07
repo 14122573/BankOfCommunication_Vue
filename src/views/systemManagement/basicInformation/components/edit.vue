@@ -126,7 +126,7 @@ export default {
             url: this.apis.put.replace('{id}', this.item.id),
             params: {
               name: this.editForm.getFieldValue('title'),
-              unit: this.createForm.getFieldValue('breedUnit')
+              unit: this.editForm.getFieldValue('breedUnit')
             }
           }).then(res => {
             if (res.code === '200') {

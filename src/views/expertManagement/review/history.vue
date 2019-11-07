@@ -1,25 +1,27 @@
 <template>
   <div class="layoutMargin layoutPadding">
-    <a-form :form="reviewHisSearchForm">
-      <a-row type="flex" justify="space-between" class="formItemLine">
+    <a-form :form="reviewHisSearchForm" class="protalForm">
+      <a-row type="flex" class="formItemLine" :justify="simpleSearchForm?'end':'space-between'" align='middle' :gutter="simpleSearchForm?16:0">
         <a-col span="6">
-          <a-form-item class='formItem' label="业务系统名称"  :label-col="{span:8}" :wrapper-col="{span:16}">
-          <a-select placeholder="请选择" :options="sysListForSearch" v-model="searchForm.systemCode" />
+          <a-form-item :label="simpleSearchForm?'':'业务系统'" :label-col="formItemLabelCol" :wrapper-col="formItemWrapperCol">
+            <a-select placeholder="请选择业务系统" :options="sysListForSearch" v-model="searchForm.systemCode" />
           </a-form-item>
         </a-col>
-        <a-col span="8">
-          <a-form-item label="评审时间段" :label-col="{span:6}" :wrapper-col="{span:18}">
+        <a-col span="8" v-if="!simpleSearchForm">
+          <a-form-item label="评审时间段" :label-col="formItemLabelCol" :wrapper-col="formItemWrapperCol">
             <a-range-picker allowClear v-decorator="['finishTimes']"  :format="'YYYY-MM-DD'" style="width:100%" :placeholder="['请选择开始日期','请选择结束日期']"
               @change="onDateChange" />
           </a-form-item>
         </a-col>
         <a-col span="6" class="algin-right">
-          <a-button @click="reset" html-type="submit">重置</a-button>
-          <a-button type="primary" @click="getFinishReviewList" html-type="submit">搜索</a-button>
+          <a-button @click="reset" >重置</a-button>
+          <a-button type="primary" @click="getFinishReviewList">搜索</a-button>
+          <a-button type="primary" v-if='simpleSearchForm' @click="showMoreSearch">更多搜索</a-button>
+          <a-button type="primary" v-if='!simpleSearchForm' @click="closeMoreSearch">简单搜索</a-button>
         </a-col>
       </a-row>
     </a-form>
-    <p class="gayLine"></p>
+    <p class="gayLine noline"></p>
     <div class="portalTableOperates">
       <a-button icon='rollback' @click="$router.back()">返回待评审列表</a-button>
     </div>
@@ -37,6 +39,7 @@ export default {
   data(){
     return{
       expertId:!this.$store.state.userInfos?'':this.$store.state.userInfos.id,
+      simpleSearchForm:true, // 展示、收取简单搜索开关，true为简单搜索
       preparate:{
         isReady:false
       },
@@ -64,8 +67,7 @@ export default {
           customRender: (text, record, index) => {
             return this.reviewTypeName(text)
           },
-        },
-        {
+        },{
           title: '业务系统名称', dataIndex: 'systemCode',
           customRender: (text, record, index) => {
             return this.systemName(text)
@@ -90,12 +92,35 @@ export default {
     this.getSysCodOptions()
     this.getReviewTypeList()
     this.getFinishReviewList()
-    // 设置表单默认搜索时间段
-    // this.$nextTick(function () {
-    //   this.reviewHisSearchForm.getFieldDecorator('finishTimes',{initialValue:this.searchTime.default})
-    // })
+
+  },
+  computed:{
+    formItemLabelCol(){
+      let labelCol = {}
+      if(this.simpleSearchForm){
+        labelCol = {span: 0}
+      }else{
+        labelCol = {span: 6}
+      }
+      return labelCol
+    },
+    formItemWrapperCol(){
+      let wrapperCol = {}
+      if(this.simpleSearchForm){
+        wrapperCol = {span: 24}
+      }else{
+        wrapperCol = {span: 18}
+      }
+      return wrapperCol
+    }
   },
   methods:{
+    closeMoreSearch(){
+      this.simpleSearchForm = true
+    },
+    showMoreSearch(){
+      this.simpleSearchForm = false
+    },
     /**
      * 根据子系统code及申报材料ID，跳转至对应子系统申报材料详情页
      * @param {String} sysCode 子系统code

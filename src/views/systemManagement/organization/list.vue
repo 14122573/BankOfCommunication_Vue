@@ -14,27 +14,28 @@
 				</a-col>
 				<a-col :span="18">
 					<a-form class="protalForm" :form="searchForm">
-						<a-row type="flex" justify="center" align="middle">
+						<a-row type="flex" :justify="simpleSearchForm?'end':'space-between'" align="middle">
 							<a-col span="8">
-								<a-form-item class="formItem" label="组织机构名" :label-col="labelCol" :wrapper-col="wrapperCol">
-									<a-input placeholder="请输入" v-model="searchForm.groupName_l" />
+								<a-form-item class="formItem" :label="simpleSearchForm?'':'组织机构名'" :label-col="formItemLabelCol" :wrapper-col="formItemWrapperCol">
+									<a-input placeholder="请输入组织机构名" v-model="searchForm.groupName_l" />
 								</a-form-item>
 							</a-col>
-							<a-col span="8">
-								<a-form-item class="formItem" label="联系人" :label-col="labelCol" :wrapper-col="wrapperCol">
-									<a-input placeholder="请输入" v-model="searchForm.contact_l" />
+							<a-col span="8" v-if="!simpleSearchForm">
+								<a-form-item class="formItem" label="联系人" :label-col="formItemLabelCol" :wrapper-col="formItemWrapperCol">
+									<a-input placeholder="请输入机构联系人姓名" v-model="searchForm.contact_l" />
 								</a-form-item>
 							</a-col>
 							<a-col span="8" class="algin-right">
 								<a-button type="primary" ghost @click="handleReset">重置</a-button>
 								<a-button type="primary" @click="handleSearch">搜索</a-button>
+								<a-button type="primary" v-if='simpleSearchForm' @click="showMoreSearch">更多搜索</a-button>
+								<a-button type="primary" v-if='!simpleSearchForm' @click="closeMoreSearch">简单搜索</a-button>
 							</a-col>
 						</a-row>
 					</a-form>
-					<p class="gayLine"></p>
+      <p class="gayLine noline"></p>
 					<div class="portalTableOperates">
 						<a-button icon='plus' v-if="$permission('P01001')" type="primary" @click="handleAdd">新建组织机构</a-button>
-						<!-- <a-button icon='download' v-if="$permission('P01005')" @click="toUpload">批量导入组织机构</a-button> -->
 					</div>
 					<a-table class="portalTable" size='small' :columns="columns" rowKey="groupName" :dataSource="dataSource"
 					 :pagination="pagination">
@@ -77,12 +78,6 @@ export default {
   data() {
     return {
       searchForm: {},
-      labelCol: {
-        span: 8
-      },
-      wrapperCol: {
-        span: 16
-      },
       options: {
         nameOptions: [{
           label: '1',
@@ -94,43 +89,40 @@ export default {
         }]
       },
       dataSource: [],
-      columns: [{
-        title: '组织机构',
-        dataIndex: 'groupName',
-        key: 'groupName'
-      },
-      {
-        title: '联系人',
-        dataIndex: 'contact',
-        width: 150,
-        key: 'contact',
-        scopedSlots: {
-          customRender: 'contact'
+      columns: [
+        {
+          title: '组织机构',
+          dataIndex: 'groupName',
+          key: 'groupName'
+        },{
+          title: '联系人',
+          dataIndex: 'contact',
+          width: 150,
+          key: 'contact',
+          scopedSlots: {
+            customRender: 'contact'
+          }
+        },{
+          title: '地址',
+          width: 180,
+          dataIndex: 'addr',
+          key: 'addr'
+        },{
+          title: '操作人',
+          width: 150,
+          dataIndex: 'creator',
+          key: 'creator',
+          scopedSlots: {
+            customRender: 'operator'
+          }
+        },{
+          title: '操作',
+          dataIndex: 'action',
+          width: 160,
+          scopedSlots: {
+            customRender: 'action'
+          }
         }
-      },
-      {
-        title: '地址',
-        width: 180,
-        dataIndex: 'addr',
-        key: 'addr'
-      },
-      {
-        title: '操作人',
-        width: 150,
-        dataIndex: 'creator',
-        key: 'creator',
-        scopedSlots: {
-          customRender: 'operator'
-        }
-      },
-      {
-        title: '操作',
-        dataIndex: 'action',
-        width: 160,
-        scopedSlots: {
-          customRender: 'action'
-        }
-      }
       ],
       areaCode: '',
       opeationItem: {},
@@ -146,12 +138,33 @@ export default {
         defaultCurrent: 1,
         showQuickJumper: true,
         onChange: this.pageChange
-      }
+      },
+      simpleSearchForm:true // 展示、收取简单搜索开关，true为简单搜索
     }
   },
   mounted() {
     if (this.$route.name == '/systemManagement/organization') {
       this.getArea()
+    }
+  },
+  computed:{
+    formItemLabelCol(){
+      let labelCol = {}
+      if(this.simpleSearchForm){
+        labelCol = {span: 0}
+      }else{
+        labelCol = {span: 8}
+      }
+      return labelCol
+    },
+    formItemWrapperCol(){
+      let wrapperCol = {}
+      if(this.simpleSearchForm){
+        wrapperCol = {span: 24}
+      }else{
+        wrapperCol = {span: 16}
+      }
+      return wrapperCol
     }
   },
   watch: {
@@ -160,6 +173,12 @@ export default {
     }
   },
   methods: {
+    closeMoreSearch(){
+      this.simpleSearchForm = true
+    },
+    showMoreSearch(){
+      this.simpleSearchForm = false
+    },
     //导入
     toUpload() {
       this.$router.push({
@@ -213,7 +232,6 @@ export default {
       }).then(res => {
         this.dataSource = this.$com.confirm(res, 'data.content', [])
         this.pagination.total = this.$com.confirm(res, 'data.totalRows', 0)
-        console.log(this.dataSource)
       })
     },
     getArea() {
