@@ -5,7 +5,7 @@
 				<a-row type="flex" class="formItemLine" :justify="simpleSearchForm?'end':'space-between'" align='middle' :gutter="simpleSearchForm?16:0">
 					<a-col span="6">
 						<a-form-item :label="simpleSearchForm?'':'姓名'" class="formItem" :label-col="formItemLabelCol" :wrapper-col="formItemWrapperCol">
-							<a-input v-decorator="['name_l']" placeholder="请输入姓名"></a-input>
+							<a-input v-decorator="['name_l']" placeholder="请输入人才姓名"></a-input>
 						</a-form-item>
 					</a-col>
 					<a-col span="6" v-if="!simpleSearchForm">
@@ -20,8 +20,6 @@
 							</a-select>
 						</a-form-item>
 					</a-col>
-				<!-- </a-row>
-				<a-row type="flex" justify="space-between" class="formItemLine"> -->
 					<a-col span="8" v-if="!simpleSearchForm">
 						<a-form-item label="用户状态" class="formItem" :label-col="formItemLabelCol" :wrapper-col="formItemWrapperCol">
 							<a-checkbox-group v-decorator="['status_in',{initialValue: []}]" :options="options.statusList"></a-checkbox-group>
@@ -35,7 +33,7 @@
 					</a-col>
 				</a-row>
 			</a-form>
-			<p class="gayLine"></p>
+			<p class="gayLine noline"></p>
 			<a-row class="portalTableOperates">
 				<a-button type="primary" icon='plus' @click="$router.push({name: '/expertManagement/talent/create'})">新增人才</a-button>
 				<a-button icon='download' @click="$router.push({name: '/expertManagement/talent/upload'})">导入人才</a-button>
@@ -98,14 +96,6 @@ export default {
           }
         ],
         jobList: []
-      },
-      colSpe: {
-        labelCol: {
-          span: 8
-        },
-        wrapperCol: {
-          span: 16
-        }
       },
       dataSource: [],
       columns: [

@@ -2,24 +2,26 @@
 	<div class="routerWapper">
     <div class="layoutMargin layoutPadding" v-if="$route.name == '/cms/notice'">
       <a-form class="protalForm" :form="noticeSearchForm">
-        <a-row class="formItemLine" type="flex" justify="start" align="middle">
+        <a-row class="formItemLine" type="flex" :justify="simpleSearchForm?'end':'space-between'" align='middle' :gutter="simpleSearchForm?16:0">
           <a-col span="8">
-            <a-form-item class='formItem' label="标题" :label-col="{span:8}" :wrapper-col="{span:16}">
+            <a-form-item class='formItem' :label="simpleSearchForm?'':'标题'" :label-col="formItemLabelCol" :wrapper-col="formItemWrapperCol">
               <a-input placeholder="请输入通知公告标题" v-decorator="['title']"/>
             </a-form-item>
           </a-col>
-          <a-col span="8">
-            <a-form-item class='formItem' label="状态" :label-col="{span:8}" :wrapper-col="{span:16}">
+          <a-col span="8" v-if="!simpleSearchForm">
+            <a-form-item class='formItem' label="状态" :label-col="formItemLabelCol" :wrapper-col="formItemWrapperCol">
               <a-checkbox-group :options="searchFormOption.status" :defaultValue="defaultSearchForm.status" @change="onStatusChange" />
             </a-form-item>
           </a-col>
-         <a-col span="6" class="algin-right" style="padding-right:8px">
+         <a-col span="6" class="algin-right">
             <a-button @click="reset">重置</a-button>
             <a-button type="primary" @click="getNoticeList">搜索</a-button>
+            <a-button type="primary" v-if='simpleSearchForm' @click="showMoreSearch">更多搜索</a-button>
+            <a-button type="primary" v-if='!simpleSearchForm' @click="closeMoreSearch">简单搜索</a-button>
           </a-col>
         </a-row>
       </a-form>
-      <p class="gayLine"></p>
+      <p class="gayLine noline"></p>
       <div class='portalTableOperates'>
         <a-button icon='plus' v-if="$permission('P31001')" type="primary" @click='goTo("create")'>新建通知公告</a-button>
       </div>
@@ -79,6 +81,7 @@ export default {
   data() {
     return {
       isReady:false,
+      simpleSearchForm:true, // 展示、收取简单搜索开关，true为简单搜索
       searchFormOption:{
         status:[{
           label: '草稿',
@@ -159,9 +162,32 @@ export default {
 
   },
   computed:{
-
+    formItemLabelCol(){
+      let labelCol = {}
+      if(this.simpleSearchForm){
+        labelCol = {span: 0}
+      }else{
+        labelCol = {span: 8}
+      }
+      return labelCol
+    },
+    formItemWrapperCol(){
+      let wrapperCol = {}
+      if(this.simpleSearchForm){
+        wrapperCol = {span: 24}
+      }else{
+        wrapperCol = {span: 16}
+      }
+      return wrapperCol
+    }
   },
   methods: {
+    closeMoreSearch(){
+      this.simpleSearchForm = true
+    },
+    showMoreSearch(){
+      this.simpleSearchForm = false
+    },
     /**
      * 根据列表操作类型，弹窗用户确认后执行相应操作或请求
      * @param {String} eventKey 操作类型，发布：publish；删除：delete；撤回：recall

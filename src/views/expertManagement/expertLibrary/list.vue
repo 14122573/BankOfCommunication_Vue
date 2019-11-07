@@ -5,7 +5,7 @@
 				<a-row type="flex" class="formItemLine" :justify="simpleSearchForm?'end':'space-between'" align='middle' :gutter="simpleSearchForm?16:0">
 					<a-col span="6">
 						<a-form-item class="formItem" :label="simpleSearchForm?'':'姓名'" :label-col="formItemLabelCol" :wrapper-col="formItemWrapperCol">
-							<a-input v-decorator="['name_l']" placeholder="请输入"></a-input>
+							<a-input v-decorator="['name_l']" placeholder="请输入专家姓名"></a-input>
 						</a-form-item>
 					</a-col>
 					<a-col span="6" v-if="!simpleSearchForm">
