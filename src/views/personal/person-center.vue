@@ -177,6 +177,9 @@ export default {
         authSysList.push('休闲渔业品牌管理系统')
       }
       if(this.$com.oneOf('HYMC',this.$store.state.permissionCodeList)){
+        authSysList.push('水产推广体系')
+      }
+      if(this.$com.oneOf('TGTX',this.$store.state.permissionCodeList)){
         authSysList.push('海洋牧场')
       }
       if(this.$com.oneOf('SCJG',this.$store.state.permissionCodeList)){

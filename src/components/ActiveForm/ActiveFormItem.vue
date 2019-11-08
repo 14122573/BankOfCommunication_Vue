@@ -58,6 +58,7 @@
 
     <a-range-picker
       v-if="item.type == 'daterange'"
+      style="width: 100%"
       v-decorator="validate"
       :format="item.format"
       allowClear

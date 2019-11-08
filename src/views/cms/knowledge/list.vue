@@ -48,6 +48,9 @@
         <span slot="knowledgeStatus" slot-scope="text, record">
           <CMSDataStatus :cmsType='"knowledge"' :status='record.status'></CMSDataStatus>
         </span>
+        <span slot="operator" slot-scope="text, record">
+          <DataOperatorInList :creator='!record.creator?"":record.creator' :lastOperator='!record.operator?"":record.operator'></DataOperatorInList>
+        </span>
         <span slot="action" slot-scope="text, record">
           <span class="actionBtn" v-if="$permission('P33003')" @click='goTo("detail",record.id)'>查看<a-divider v-if="$com.oneOf(record.status,['0','1'])" type="vertical" /></span>
           <template v-if="record.status=='0'">
@@ -73,10 +76,11 @@
 
 <script>
 import CMSDataStatus from '@/views/cms/components/cmsStatus'
+import DataOperatorInList from '@/views/systemManagement/components/dataOperatorInList'
 
 export default {
   components: {
-    CMSDataStatus,
+    CMSDataStatus,DataOperatorInList
   },
   data() {
     return {
@@ -145,6 +149,14 @@ export default {
           width: 140,
           scopedSlots: {
             customRender: 'knowledgeStatus'
+          }
+        },{
+          title: '操作人',
+          width: 150,
+          dataIndex: 'creator',
+          key: 'creator',
+          scopedSlots: {
+            customRender: 'operator'
           }
         },{
           title: '操作',

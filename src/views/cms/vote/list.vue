@@ -2,15 +2,10 @@
 <div class="routerWapper">
 <div class="layoutMargin layoutPadding" v-if="$route.name == '/cms/vote'">
   <ActiveForm :layout="layout" :label-width="70" :model="model">
-    <div style="display:flex;justify-content: space-between;">
-      <a-button v-if="$permission('P33001')" @click="routerTo('/cms/vote/edit')" type="primary">新增</a-button>
-      <div>
-        <a-button @click="handleReset" type="primary" ghost>重置</a-button>
-        <a-button @click="getList" type="primary">搜索</a-button>
-      </div>
+    <div style="margin-bottom: 10px;">
+      <a-button v-if="$permission('P33001')" @click="routerTo('/cms/vote/edit')" type="primary">新增投票</a-button>
     </div>
   </ActiveForm>
-  <a-divider dashed />
   <ActiveTable
     rowKey="id"
     :columns="columns"
@@ -24,6 +19,9 @@
   >
     <div slot="status" slot-scope="{ text, record }">
       <CMSDataStatus cmsType="vote" :status='record.status' />
+    </div>
+    <div slot="operator" slot-scope="{text, record}">
+      <DataOperatorInList :creator='!record.creator?"":record.creator' :lastOperator='!record.operator?"":record.operator' />
     </div>
     <span slot="actions" slot-scope="{ text, record }">
       <span v-if="$permission('P33003')" @click="routerTo('/cms/vote/view', record)" class="actionBtn">查看<a-divider v-if="record.status != '3'" type="vertical"/></span>
@@ -53,40 +51,16 @@
 
 <script>
 import CMSDataStatus from '@/views/cms/components/cmsStatus'
+import DataOperatorInList from '@/views/systemManagement/components/dataOperatorInList'
 export default {
   name: 'VoteList',
   components: {
     CMSDataStatus,
+    DataOperatorInList,
   },
   data() {
     return {
-      layout: [
-        {
-          name: {
-            label: '名称',
-            type: 'input',
-            width: 10,
-          },
-          date: {
-            label: '投票时间',
-            type: 'daterange',
-            width: 10,
-          },
-        },
-        {
-          status: {
-            label: '发布状态',
-            type: 'checkbox',
-            width: 20,
-            options: [
-              {label: '草稿', value: '0'},
-              {label: '已发布', value: '1'},
-              {label: '结束', value: '2'},
-              {label: '已结果公示', value: '3'},
-            ],
-          },
-        }
-      ],
+      expand: false,
       model: {},
       total: 0,
       currentPage: 1,
@@ -116,6 +90,11 @@ export default {
           scopedSlots: { customRender: 'status' }
         },
         {
+          title: '操作人',
+          dataIndex: 'operator',
+          scopedSlots: { customRender: 'operator' }
+        },
+        {
           title: '操作',
           dataIndex: 'actions',
           width: 200,
@@ -128,7 +107,82 @@ export default {
   mounted() {
     this.getList()
   },
+  computed: {
+    layout() {
+      return [
+        {
+          name: {
+            label: '名称',
+            type: 'input',
+            width: this.expand ? 12 : 8,
+            offset: this.expand ? 0 : 10,
+            placeholder: '请输入投票名称',
+          },
+          date: {
+            label: '投票时间',
+            type: 'daterange',
+            width: 12,
+            hidden: !this.expand,
+          },
+          status: {
+            label: '发布状态',
+            type: 'checkbox',
+            width: 18,
+            options: [
+              {label: '草稿', value: '0'},
+              {label: '已发布', value: '1'},
+              {label: '结束', value: '2'},
+              {label: '已结果公示', value: '3'},
+            ],
+            hidden: !this.expand,
+          },
+          btns: {
+            width: 6,
+            custom: true,
+            render:(h) => {
+              return h('div', [
+                h('a-button', {
+                  props: {
+                    type: 'primary',
+                    ghost: true,
+                  },
+                  style: {
+                    marginRight: '5px'
+                  },
+                  on: {
+                    click: () => this.handleReset()
+                  },
+                }, '重置'),
+                h('a-button', {
+                  props: {
+                    type: 'primary',
+                  },
+                  style: {
+                    marginRight: '5px'
+                  },
+                  on: {
+                    click: () => this.getList()
+                  },
+                }, '搜索'),
+                h('a-button', {
+                  props: {
+                    type: 'primary',
+                  },
+                  on: {
+                    click: () => this.handleExpand()
+                  },
+                }, `${this.expand ? '简单' : '更多'}搜索`),
+              ])
+            },
+          },
+        },
+      ]
+    }
+  },
   methods: {
+    handleExpand() {
+      this.expand = !this.expand
+    },
     deleteVote({id}) {
       this.$modal.confirm({
         title: '删除投票',
