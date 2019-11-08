@@ -269,7 +269,7 @@ export default {
 
     // 从cookie里获取已有数据，并转为对象数组。否则直接返回false
     let oldSysAccountsListCS = Cookie.get('oldSysAccountsList')
-    console.log('oldSysAccountsListCS',JSON.parse(oldSysAccountsListCS))
+    console.log('oldSysAccountsListCS',oldSysAccountsListCS)
 
     if (!oldSysAccountsListCS) {
       return false
