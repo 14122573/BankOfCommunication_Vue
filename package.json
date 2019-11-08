@@ -17,6 +17,7 @@
         "lint"
     ],
     "dependencies": {
+        "@chenfengyuan/vue-qrcode": "^1.0.1",
         "ant-design-vue": "^1.4.3",
         "axios": "^0.19.0",
         "babel-polyfill": "^6.26.0",

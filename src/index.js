@@ -55,6 +55,7 @@ import {
   Switch,
   Calendar,
   BackTop,
+  Carousel,
   // CollapsePanel
 } from 'ant-design-vue'
 import './assets/base.css' // 引入全局样式
@@ -110,6 +111,7 @@ Vue.use(Progress)
 Vue.use(Switch)
 Vue.use(Calendar)
 Vue.use(BackTop)
+Vue.use(Carousel)
 // Vue.use(Collapse-panel)
 
 import RouterWapper from '@/components/Layout/content-wrapper'
