@@ -1,10 +1,19 @@
 <template>
-  <div class="noticeInLogin" v-if="isReady">
-    <a-row class="noticeInLoginTitle" type="flex" justify="space-between" align="middle" :gutter='16' >
-      <a-col :span="18"><span class="title">公告栏</span></a-col>
-      <a-col :span="6" class="algin-right"><span v-if='noticeList.length>0' @click="$router.push({name:'/cms/noticePublish'})" class="more">更多>></span></a-col>
-    </a-row>
-    <div class="noticeInLoginList">
+  <div class="noticeSection" v-if="isReady">
+    <template v-if="showPosition == 'login'">
+      <a-row class="noticeInLoginTitle" type="flex" justify="space-between" align="middle" :gutter='16' >
+        <a-col :span="18"><span class="title">公告栏</span></a-col>
+        <a-col :span="6" class="algin-right"><span v-if='noticeList.length>0' @click="$router.push({name:'/cms/noticePublish'})" class="more">更多>></span></a-col>
+      </a-row>
+    </template>
+    <template v-else-if="showPosition == 'home'">
+      <a-row class="noticeInHomeTitle" type="flex" justify="space-between" align="middle" :gutter='16' >
+        <a-col :span="18"><a-divider class="divider" type="vertical" /><span class="title">公告栏</span></a-col>
+        <a-col :span="6" class="algin-right"><span v-if='noticeList.length>0' @click="$router.push({name:'/cms/noticePublish'})" class="more">查看全部</span></a-col>
+      </a-row>
+    </template>
+
+    <div :class="listCssClass">
       <template v-if='noticeList.length>0'>
         <template  v-for="(notice,index) in noticeList">
         <div @click="goToView(notice.id)" class='notice' :key="index">
@@ -28,21 +37,50 @@
 
 </template>
 <style scoped>
-.noticeInLogin {margin: 0 16px; padding-top: 16px;}
+.noticeSection {margin: 0 16px; padding-top: 16px;}
+
 .noticeInLoginTitle { color: white; margin-bottom: 8px}
 .noticeInLoginTitle .title{ font-size: 20px;}
 .noticeInLoginTitle .more{ cursor: pointer}
+
+.noticeInHomeTitle { margin-bottom: 16px; padding-bottom: 8px; border-bottom: 1px solid  rgba(0,0,0,0.1)}
+.noticeInHomeTitle .divider{ font-size: 16px; background-color:#1890ff; height: 16px; width: 5px; border-radius: 4px;}
+.noticeInHomeTitle .title{ font-size: 16px;}
+.noticeInHomeTitle .more{ cursor: pointer; color: #1890ff}
+
 .noticeInLoginList { min-height: 240px}
-.notice{ padding:8px 0; line-height:1.5em; color:rgba(255,255,255,0.8); cursor: pointer; border-bottom: 1px solid rgba(255,255,255,0.2)}
-.notice .title {
-  font-weight: bold; padding-right:8px; word-break: break-all;
-  display: inline-block; width: 100%; overflow: hidden; text-overflow:ellipsis; white-space: nowrap;
- }
- .noNoticeBox {height: 240px; color: white; font-size: 30px; display: flex;flex-direction: column; align-items: center;justify-content: center;}
+.noticeInHomeList { min-height: 320px}
+.notice{ line-height:1.5em;  cursor: pointer; }
+.notice .title { font-weight: bold; padding-right:8px; word-break: break-all; display: inline-block; width: 100%; overflow: hidden; text-overflow:ellipsis; white-space: nowrap;}
+.noNoticeBox {height: 240px; color: white; font-size: 30px; display: flex;flex-direction: column; align-items: center;justify-content: center;}
+.noticeInLoginList .notice{ padding:8px 0; color:rgba(255,255,255,0.8); border-bottom: 1px solid rgba(255,255,255,0.2)}
+.noticeInLoginList .noNoticeBox{ color: white}
+.noticeInHomeList .notice { padding:2px 0;}
+.noticeInHomeList .notice, .noticeInHomeList .noNoticeBox { color:rgba(0,0,0,0.6);}
+
 </style>
 <script>
+import common from '@/util/common'
 export default {
-  beforeCreate() {
+  name:'noticeList',
+  props:{
+    showPosition:{
+      type:String,
+      required:true,
+      default(){
+        return 'login'
+      },
+      validator (value) {
+        // login-登录页 home-工作台
+        return common.oneOf(value, ['login', 'home'])
+      }
+    },
+    pageSize:{
+      type:Number,
+      default(){
+        return 5
+      },
+    }
   },
   data() {
     return {
@@ -50,7 +88,7 @@ export default {
       noticeList:[],
       pagination: {
         pageNo: 1,
-        pageSize: 5,
+        pageSize: this.pageSize,
         total: 0,
         current: 1,
         defaultCurrent: 1,
@@ -61,6 +99,21 @@ export default {
     this.getNoticeList()
   },
   computed: {
+    listCssClass(){
+      let cssClass = ''
+      switch (this.showPosition) {
+      case 'login':
+        cssClass = 'noticeInLoginList'
+        break
+      case 'home':
+        cssClass = 'noticeInHomeList'
+        break
+
+      default:
+        break
+      }
+      return cssClass
+    }
   },
   watch: {
   },

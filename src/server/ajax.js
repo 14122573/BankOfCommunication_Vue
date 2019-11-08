@@ -57,6 +57,7 @@ const reponseCodeHandler = (res) => {
       }
     }else{
       if(Common.oneOf(currentMethod.toLocaleLowerCase(),['post','put','delete'])){
+        console.log(currentMethod,currentApi)
         Modal.error({
           title: '提交错误',
           content: '系统异常',
