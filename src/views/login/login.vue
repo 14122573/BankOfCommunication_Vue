@@ -9,7 +9,7 @@
       </a-row>
       <div class="loginForm">
         <div class="matching" :style="'background-image: url(' + require('@/assets/images/bg-login-cms.jpg') + ')'">
-          <NoticeList></NoticeList>
+          <NoticeList :showPosition='"login"'></NoticeList>
           <OtherEntrance></OtherEntrance>
         </div>
         <div class="form">
