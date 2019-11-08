@@ -10,12 +10,12 @@ export default {
   name: 'Portal',
   // endChange
   created() {
-    let token = this.$cookie.get('token')
-    if (token !=undefined && token !=null && 'String'==typeof token) {
-      this.$ajax.post({
-        url:this.$api.CHECKTOKEN_POST
-      })
-    }
+    // let token = this.$cookie.get('token')
+    // if (token !=undefined && token !=null && 'String'==typeof token) {
+    //   this.$ajax.post({
+    //     url:this.$api.CHECKTOKEN_POST
+    //   })
+    // }
   }
 }
 </script>
