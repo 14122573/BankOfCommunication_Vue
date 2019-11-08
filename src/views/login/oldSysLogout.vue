@@ -15,21 +15,28 @@ export default {
   mounted() {
     let accessToken = this.$com.getQueryVariable('accessToken')
     let refreshToken = this.$com.getQueryVariable('refreshToken')
+    console.log('accessToken',accessToken)
+    console.log('refreshToken',refreshToken)
     if(!accessToken){
       this.$com.handleLogOut()
     }else{
       this.$com.setToken(accessToken,refreshToken)
       let checkResult = this.$com.checkOldSysAccounts(accessToken,refreshToken)
+      console.log('checkOldSysAccounts',checkResult)
       if(!checkResult){
         this.$com.handleLogOut()
       }else{
         this.$ajax.get({
           url: this.$api.GET_USER_INFO
         }).then(res => {
+
+          console.log('res',res)
           if(!res.data || !res.data.content){
             this.$com.handleLogOut()
           }else{
+            console.log('getLastOldSysAuth',sysList)
             let sysList = this.getLastOldSysAuth(checkResult,res.data.content.oldAccountSet)
+
             this.checkPortalAuth(sysList)
           }
         })

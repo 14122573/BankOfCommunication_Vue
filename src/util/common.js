@@ -4,6 +4,8 @@ import Store from '@/store'
 import Router from '@/router'
 import Md5 from 'js-md5'
 import moment from 'moment'
+import Ajax from '@/server/ajax'
+import Api from '@/server/api'
 
 export default {
   /**
@@ -161,20 +163,43 @@ export default {
      * 退出 --- 清除相关信息并推到登录页
      */
   handleLogOut() {
-    Store.commit('SET_CLEAR')
-    Cookie.remove('token')
-    if ('true' == Cookie.get('keepLogin')) {} else {
+    Ajax.post({
+      url: Api.POST_LOGOUT,
+      params: {
+        refreshToken:Cookie.get('refresh_token')
+      }
+    }).then(res => {
+      Store.commit('SET_CLEAR')
+      Cookie.remove('KeepLogin')
+      Cookie.remove('token')
       Cookie.remove('refresh_token')
-      Cookie.remove('oldSysAccountsList')
-    }
-    Cookie.remove('redirectUrl')
-    Cookie.remove('url')
-    Cookie.remove('systemLists')
-    Cookie.remove('canEnterBind')
-    Cookie.remove('NavbarList')
-    Router.push({
-      name: 'login'
+      // this.$cookie.remove('userInfo')
+      Cookie.remove('redirectUrl')
+      Cookie.remove('url')
+      // this.$cookie.remove('systemLists')
+      Cookie.remove('canEnterBind')
+      Cookie.remove('NavbarList')
+      Router.push({
+        name: 'login'
+      })
     })
+
+
+
+    // Store.commit('SET_CLEAR')
+    // Cookie.remove('token')
+    // if ('true' == Cookie.get('keepLogin')) {} else {
+    //   Cookie.remove('refresh_token')
+    //   Cookie.remove('oldSysAccountsList')
+    // }
+    // Cookie.remove('redirectUrl')
+    // Cookie.remove('url')
+    // Cookie.remove('systemLists')
+    // Cookie.remove('canEnterBind')
+    // Cookie.remove('NavbarList')
+    // Router.push({
+    //   name: 'login'
+    // })
   },
   /**
      * 获取URL执行参数值
