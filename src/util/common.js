@@ -233,6 +233,7 @@ export default {
   setOldSysAccounts(accessToken, refreshToken, oldSysList) {
     // 从cookie里获取已有数据，并转为对象数组。否则重新声明
     let oldSysAccountsListCS = Cookie.get('oldSysAccountsList')
+    console.log(oldSysAccountsListCS)
     let oldSysAccountsList = []
     if (!!oldSysAccountsListCS) {
       oldSysAccountsList = JSON.parse(oldSysAccountsListCS)
@@ -268,6 +269,8 @@ export default {
 
     // 从cookie里获取已有数据，并转为对象数组。否则直接返回false
     let oldSysAccountsListCS = Cookie.get('oldSysAccountsList')
+    console.log('oldSysAccountsListCS',JSON.parse(oldSysAccountsListCS))
+
     if (!oldSysAccountsListCS) {
       return false
     }
