@@ -14,13 +14,15 @@ export default {
   name: 'UseUEDITOR',
   components: { UeditorCompent,VueUeditorWrap },
   data() {
+    // 如果是本地开发的话会跨域，故设置了webpack代理，具体设置在/config/index.js的dev.proxyTable中
+    const base = process.env.NODE_ENV === 'development' ? '/ueditorDevBase' : 'http://iftp.omniview.pro/api'
     return {
       ueditor:{
         defaultMSG:'',
         formContent:'213131'
       },
       ueditorConfig:{
-        serverUrl:'http://iftp.omniview.pro/api/service-release/release/ueditor/execute',
+        serverUrl: base + '/service-release/release/public/ueditor/execute',
         // serverUrl: 'http://35.201.165.105:8000/controller.php',
         UEDITOR_HOME_URL: '/static/ueditor/',
         toolbars:[[
