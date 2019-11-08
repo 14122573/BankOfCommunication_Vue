@@ -42,6 +42,24 @@
         </div>
       </a-col>
     </a-row>
+
+    <a-card title="投票" style="width:70%;z-index:10;" size="small" :bodyStyle="{width: '96%', margin: '0 auto'}">
+      <a-button @click="toVoteList" type="link" slot="extra">查看更多</a-button>
+      <a-carousel arrows :dots="false">
+        <div slot="prevArrow" class="custom-slick-arrow" >
+          <a-icon type="left" />
+        </div>
+        <div slot="nextArrow" class="custom-slick-arrow" >
+          <a-icon type="right" />
+        </div>
+        <div style="width: 80%; margin: 0 atuo;">
+          <VoteQrCard :list="qrList" />
+        </div>
+        <div style="width: 80%; margin: 0 atuo;">
+          <VoteQrCard :list="qrList" />
+        </div>
+      </a-carousel>
+    </a-card>
   </div>
 </template>
 
@@ -63,12 +81,16 @@
 
 <script>
 import { permission } from '@/util/mixins'
+import VoteQrCard from '@/views/cms/components/voteQrCard.vue'
 export default {
   name: 'HomePage',
   mixins: [permission],
+  components: {
+    VoteQrCard,
+  },
   data() {
     return {
-
+      qrList: [],
     }
   },
   mounted() {
@@ -76,7 +98,28 @@ export default {
     if (token) {
       this.getInfo()
     }
-  }
+    this.getQrList()
+  },
+  methods: {
+    getQrList() {
+      const params = {
+        status_in: '1',
+        pageNo: 1,
+        pageSize: 10000,
+      }
+      this.$ajax.get({
+        url: this.$api.GET_VOTE_LIST,
+        params,
+      }).then(res => {
+        this.qrList = this.$com.confirm(res, 'data.content', [])
+      })
+    },
+    toVoteList() {
+      this.$router.push({
+        name: '/cms/vote/qr-list',
+      })
+    },
+  },
 }
 </script>
 
@@ -94,6 +137,26 @@ export default {
     align-items: center;
     justify-content: center;
     z-index: 9999;
+  }
+  .custom-slick-arrow {
+    width: 20px;
+    height: 40px;
+    line-height: 40px;
+    text-align: center;
+    font-size: 16px;
+    background: #94bfef;
+    color: #fff;
+    z-index: 11;
+    opacity: 0.3;
+    top: 40%;
+  }
+  .custom-slick-arrow:hover {
+    background: #94bfef;
+    color: #fff;
+    opacity: 0.5;
+  }
+  .custom-slick-arrow:before {
+    display: none;
   }
 </style>
 <style>

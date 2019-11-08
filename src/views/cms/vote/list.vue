@@ -4,6 +4,7 @@
   <ActiveForm :layout="layout" :label-width="70" :model="model">
     <div style="margin-bottom: 10px;">
       <a-button v-if="$permission('P33001')" @click="routerTo('/cms/vote/edit')" type="primary">新增投票</a-button>
+      <a-button @click="routerTo('/cms/vote/qr-list')" type="primary" ghost>查看二维码列表</a-button>
     </div>
   </ActiveForm>
   <ActiveTable

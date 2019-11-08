@@ -201,6 +201,7 @@ export default {
       this.$nextTick(() => {
         const dom1 = document.querySelector('.portalDetailContentBody')
         const dom2 = document.querySelector('#appContent')
+        if (!dom1 && !dom2) return
         this.showBacktop = false
         this.$nextTick(() => {
           if (dom1) {

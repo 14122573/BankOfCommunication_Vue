@@ -366,9 +366,9 @@ export default {
    * 格式化日期
    * @param {Date} value 日期
    */
-  formatDate(value) {
+  formatDate(value, rule = 'YYYY-MM-DD') {
     if(value){
-      return moment(value).format('YYYY-MM-DD')
+      return moment(value).format(rule)
     }
   },
   /**
