@@ -69,6 +69,7 @@ const VoteList = () => import('@/views/cms/vote/list')
 const VoteEdit = () => import('@/views/cms/vote/edit')
 const VoteResult = () => import('@/views/cms/vote/result')
 const VoteView = () => import('@/views/cms/vote/view')
+const VoteQrList = () => import('@/views/cms/vote/qr-list')
 
 /**
      * 要求：
@@ -414,6 +415,10 @@ const appRoutes = [{
             {
               path: '/cms/vote/view', name: '/cms/vote/view', component: VoteView,
               meta: { title: '投票信息查看', menuPath: false, authCode: 'P33003', menuIcon: 'file-text', hideInBread: false },
+            },
+            {
+              path: '/cms/vote/qr-list', name: '/cms/vote/qr-list', component: VoteQrList,
+              meta: { title: '投票二维码列表', menuPath: false, authCode: 'P33000', menuIcon: 'file-text', hideInBread: false },
             },
           ]
         }
