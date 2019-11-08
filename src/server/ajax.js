@@ -19,10 +19,10 @@ let currentRouterName ='',currentApi='',currentMethod=''
 // 处理请求状态码
 const reponseCodeHandler = (res) => {
   const code = res.data && res.data.code
-
-  console.log('reponseCodeHandler',res)
   if ('string' == typeof code) {
-    if (code == '200') {} else if (code == '911') {
+    if (code == '200') {
+
+    } else if (code == '911') {
       const params = {
         grant_type: 'refresh_token',
         client_id: 'house',
@@ -57,10 +57,10 @@ const reponseCodeHandler = (res) => {
           cancelText: '取消',
         })
       }
+    }else if (code == '912') {
+      //在refresh token 里的返回里已做处理，这里不做额外提示
     }else{
       if(Common.oneOf(currentMethod.toLocaleLowerCase(),['post','put','delete'])){
-        console.log(currentMethod,currentApi)
-        console.log('8888',res)
         Modal.error({
           title: '提交错误',
           content: '系统异常',
