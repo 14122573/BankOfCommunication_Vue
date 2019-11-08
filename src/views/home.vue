@@ -31,7 +31,21 @@
         </a-row>
       </a-col>
       <a-col span='6'>
-
+        <div class="sectionBox">
+          <div class="section">
+            <div class="sectionBody">
+              <a-row class="sectionTitle" type="flex" justify="space-between" align="middle" :gutter='16' >
+                <a-col :span="18"><a-divider class="divider" type="vertical" /><span class="title">管理员联系方式</span></a-col>
+              </a-row>
+            </div>
+          </div>
+        </div>
+        <div class="sectionBox">
+          <div class="section"></div>
+        </div>
+        <div class="sectionBox">
+          <div class="section"></div>
+        </div>
       </a-col>
     </a-row>
 </div>
@@ -43,6 +57,12 @@ h1{ text-align: center; padding: 30px; }
 .workpaceBg {margin: 16px 16px 0 16px; position: relative; width: calc(100% - 32px);  }
 .sectionBox { padding: 4px;}
 .section { margin-left: 4px; background-color: #fff; border-radius: 6px; box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.3) }
+.sectionBody{ margin: 0 16px; padding-top: 16px;}
+
+.sectionTitle { margin-bottom: 16px; padding-bottom: 8px; border-bottom: 1px solid  rgba(0,0,0,0.1)}
+.sectionTitle .divider{ font-size: 16px; background-color:#1890ff; height: 16px; width: 5px; border-radius: 4px;}
+.sectionTitle .title{ font-size: 16px;}
+.sectionTitle .more{ cursor: pointer; color: #1890ff}
 </style>
 
 <script>

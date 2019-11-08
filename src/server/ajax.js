@@ -19,6 +19,8 @@ let currentRouterName ='',currentApi='',currentMethod=''
 // 处理请求状态码
 const reponseCodeHandler = (res) => {
   const code = res.data && res.data.code
+
+  console.log('reponseCodeHandler',res)
   if ('string' == typeof code) {
     if (code == '200') {} else if (code == '911') {
       const params = {
@@ -58,6 +60,7 @@ const reponseCodeHandler = (res) => {
     }else{
       if(Common.oneOf(currentMethod.toLocaleLowerCase(),['post','put','delete'])){
         console.log(currentMethod,currentApi)
+        console.log('8888',res)
         Modal.error({
           title: '提交错误',
           content: '系统异常',
