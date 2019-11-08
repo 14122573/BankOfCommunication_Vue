@@ -44,9 +44,16 @@
 				<a-button icon='download' @click="$router.push({name: '/expertManagement/expertLibrary/upload'})">导入专家</a-button>
 			</a-row>
 			<a-table class="portalTable" size="small" :dataSource="dataSource" rowKey="id" :pagination="pagination" :columns="columns">
-				<span slot="status" slot-scope="text, record">
+				<span slot="confirm" slot-scope="text, record">
+          <p class="confirmInfo"><span class="label">部级认定:&nbsp;</span>{{record.unitConfirm || "暂无"}}</p>
+          <p class="confirmInfo"><span class="label">省级认定:&nbsp;</span>{{record.provinceConfirm || "暂无"}}</p>
+				</span>
+        <span slot="status" slot-scope="text, record">
 					<userStatus :status="record.status" />
 				</span>
+        <span slot="operator" slot-scope="text, record">
+          <DataOperatorInList :creator='!record.creator?"":record.creator' :lastOperator='!record.operator?"":record.operator'></DataOperatorInList>
+        </span>
 				<span slot="action" slot-scope="text, record">
 					<span class="actionBtn" @click="$router.push({name:'/expertManagement/expertLibrary/view',query:{id:record.expertId}})">查看</span>
           <template v-if="$com.oneOf(record.status,['0','1'])">
@@ -87,10 +94,11 @@
 </template>
 <script>
 import userStatus from '@/views/systemManagement/components/user-status'
+import DataOperatorInList from '@/views/systemManagement/components/dataOperatorInList'
 export default {
   name: 'Talent',
   components: {
-    userStatus
+    userStatus,DataOperatorInList
   },
   data() {
     return {
@@ -133,14 +141,6 @@ export default {
         ],
         jobList: []
       },
-      colSpe: {
-        labelCol: {
-          span: 8
-        },
-        wrapperCol: {
-          span: 16
-        }
-      },
       dataSource: [],
       columns: [
         {
@@ -154,18 +154,29 @@ export default {
           dataIndex: 'workCompany'
         },{
           title: '职称',
-          dataIndex: 'jobTitleName'
+          dataIndex: 'jobTitleName',
+          width: 100,
         },{
-          title: '省级认定',
-          dataIndex: 'provinceConfirm'
-        },{
-          title: '部级认定',
-          dataIndex: 'unitConfirm'
+          title: '部/省级认定',
+          dataIndex: 'provinceConfirm',
+          width: 120,
+          scopedSlots: {
+            customRender: 'confirm'
+          }
         },{
           title: '用户状态',
           dataIndex: 'status',
+          width: 80,
           scopedSlots: {
             customRender: 'status'
+          }
+        },{
+          title: '操作人',
+          width: 150,
+          dataIndex: 'creator',
+          key: 'creator',
+          scopedSlots: {
+            customRender: 'operator'
           }
         },{
           title: '操作',
@@ -308,34 +319,11 @@ export default {
 }
 </script>
 <style scoped>
-	.block {
-		height: 70px;
-		outline: 1px solid #e8e8e8;
-		font-size: 12px;
-		color: black;
-		cursor: pointer;
-		position: relative;
-	}
-
-	.block .algin-right .icon1 {
-		width: 45px;
-		margin-right: 10px;
-	}
-
-	.block .algin-right .icon2 {
-		width: 60px;
-		margin-right: 10px;
-	}
-
-	.bgImage {
-		position: absolute;
-		top: 0px;
-		left: 0px;
-		height: 70px;
-		width: 100%;
-	}
-
-	.active {
-		outline: 2px solid #40a9ff;
-	}
+.block { height: 70px; outline: 1px solid #e8e8e8; font-size: 12px; color: black; cursor: pointer; position: relative;}
+.block .algin-right .icon1 { width: 45px; margin-right: 10px;}
+.block .algin-right .icon2 { width: 60px; margin-right: 10px; }
+.bgImage { position: absolute; top: 0px; left: 0px; height: 70px; width: 100%;}
+.active { outline: 2px solid #40a9ff; }
+.confirmInfo {font-size:12px; margin:0; }
+.confirmInfo .label{ color: rgba(0, 0, 0, 0.4)}
 </style>
