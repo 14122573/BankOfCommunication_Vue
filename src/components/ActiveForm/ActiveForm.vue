@@ -2,8 +2,13 @@
   <a-form :form="form">
     <slot name="title"/>
     <a-row v-for="(row, rowIndex) in layout" :key="rowIndex">
-      <a-col v-for="(item, key) in row" :key="key" :span="item.width">
+      <a-col v-for="(item, key) in row" :key="key" :span="item.width" :offset="item.offset || 0" v-show="!item.hidden">
+        <!-- 不想包裹在a-form-item中可以设置custom为true, 否则render的组件在ActiveFormItem中定义 -->
+        <template v-if="item.custom && item.render">
+          <component :is="custom(key, item.render, item.props)"/>
+        </template>
         <ActiveFormItem
+          v-else
           :entry="key"
           :model="model"
           :item="item"
@@ -16,6 +21,7 @@
 </template>
 
 <script>
+import Vue from 'vue'
 import moment from 'moment'
 import ActiveFormItem from './ActiveFormItem'
 export default {
@@ -61,6 +67,12 @@ export default {
     this.form.setFieldsValue(this.operateDateItem(model, false))
   },
   methods: {
+    custom(entry, render, props) {
+      return Vue.component(entry, {
+        render: render,
+        props: props,
+      })
+    },
     // 表单验证，上级组件可以通过this.$refs来调用此函数
     validate (callback) {
       this.form.validateFields((err, values) => {
