@@ -147,25 +147,8 @@ export default {
 			 */
     plogout(isOnlyClear) {
       isOnlyClear = (isOnlyClear != undefined && isOnlyClear != null) ? isOnlyClear : false
-      // if (isOnlyClear) {
-      //   this.$store.commit('SET_CLEAR')
-      //   this.$cookie.remove('token')
-      //   this.$cookie.remove('refresh_token')
-      //   // this.$cookie.remove('userInfo')
-      //   this.$cookie.remove('redirectUrl')
-      //   this.$cookie.remove('url')
-      //   // this.$cookie.remove('systemLists')
-      //   this.$cookie.remove('canEnterBind')
-      //   this.$cookie.remove('NavbarList')
-      // } else {
-      this.$ajax.post({
-        url: this.$api.POST_LOGOUT,
-        params: {
-          refreshToken:this.$cookie.get('refresh_token')
-        }
-      }).then(res => {
+      if (isOnlyClear) {
         this.$store.commit('SET_CLEAR')
-        this.$cookie.remove('KeepLogin')
         this.$cookie.remove('token')
         this.$cookie.remove('refresh_token')
         // this.$cookie.remove('userInfo')
@@ -174,11 +157,28 @@ export default {
         // this.$cookie.remove('systemLists')
         this.$cookie.remove('canEnterBind')
         this.$cookie.remove('NavbarList')
-        this.$router.push({
-          name: 'login'
+      } else {
+        this.$ajax.post({
+          url: this.$api.POST_LOGOUT,
+          params: {
+            refreshToken:this.$cookie.get('refresh_token')
+          }
+        }).then(res => {
+          this.$store.commit('SET_CLEAR')
+          this.$cookie.remove('KeepLogin')
+          this.$cookie.remove('token')
+          this.$cookie.remove('refresh_token')
+          // this.$cookie.remove('userInfo')
+          this.$cookie.remove('redirectUrl')
+          this.$cookie.remove('url')
+          // this.$cookie.remove('systemLists')
+          this.$cookie.remove('canEnterBind')
+          this.$cookie.remove('NavbarList')
+          this.$router.push({
+            name: 'login'
+          })
         })
-      })
-      // }
+      }
     },
     toggleSideCollapsed() {
       this.collapsed = !this.collapsed
