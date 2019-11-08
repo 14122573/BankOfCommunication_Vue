@@ -1001,6 +1001,12 @@ const appRoutes = [{
       meta: { title: '海洋牧场', menuPath: true, menuIcon: 'experiment', authCode: 'HYMC', hideInBread: false, openMode: 'outsite' }
     },
     {
+      path: '/TGTX/:sysname',
+      name: 'TGTX',
+      component: TipsOutsite,
+      meta: { title: '水产推广体系', menuPath: true, menuIcon: 'experiment', authCode: 'TGTX', hideInBread: false, openMode: 'outsite' }
+    },
+    {
       path: '/SCJG/:sysname',
       name: 'SCJG',
       component: TipsOutsite,
