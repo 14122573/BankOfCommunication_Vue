@@ -18,11 +18,11 @@
         <template  v-for="(notice,index) in noticeList">
         <div @click="goToView(notice.id)" class='notice' :key="index">
           <a-row type="flex" justify="space-between" align="top" :gutter='16' >
-            <a-col :span="19">
+            <a-col :span="18">
               <span class="title" style="padding-right:8px">{{notice.title}}</span>
               <a-tag v-if="notice.isVote=='1'" color="orange">投票结果公示</a-tag>
             </a-col>
-            <a-col :span="5" class="algin-right">{{notice.startTime.split(' ')[0]}}</a-col>
+            <a-col :span="6" class="algin-right">{{notice.startTime.split(' ')[0]}}</a-col>
           </a-row>
         </div>
         </template>

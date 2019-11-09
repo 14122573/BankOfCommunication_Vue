@@ -58,7 +58,7 @@
                 <a-col :span="18"><a-divider class="divider" type="vertical" /><span class="title">天气日历</span></a-col>
               </a-row>
               <div class="sectionContent">
-                <iframe scrolling="no" src="https://tianqiapi.com/api.php?style=tf&skin=grape" frameborder="0" width="400" height="24" allowtransparency="true"></iframe>
+                <iframe scrolling="no" src="https://tianqiapi.com/api.php?style=tf&skin=grape" frameborder="0" width="100%" height="24" allowtransparency="true"></iframe>
                 <a-calendar style="width:100%" :fullscreen="false" > </a-calendar>
               </div>
             </div>
@@ -76,9 +76,9 @@
 </template>
 
 <style scoped>
-h1{ text-align: center; padding: 30px; }
+/* h1{ text-align: center; padding: 30px; } */
 .loader { position: fixed; top: 0; left: 0; bottom: 0; right: 0; background-color: rgba(255,255,255,0.6); display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 9999;}
-.workpaceBg {margin: 16px 16px 0 16px; position: relative; width: calc(100% - 32px);  }
+.workpaceBg {margin: 16px 16px 0 16px; position: relative;}
 .sectionBox { padding: 4px;}
 .section { margin-left: 4px; background-color: #fff; border-radius: 6px; box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.3) }
 .section.mb16{ margin-bottom: 16px;}
@@ -93,7 +93,6 @@ h1{ text-align: center; padding: 30px; }
 
 <script>
 import { permission } from '@/util/mixins'
-
 import NoticePublish from '@/views/cms/noticePublish/noticeInLogin'
 import KnowledgePublish from '@/views/cms/knowledgePublish/authInHome'
 import VotePublish from '@/views/cms/vote/voteInHome'

@@ -47,20 +47,20 @@ export default {
           span: 16
         }
       },
-      rules: {
-        title: {
-          validateTrigger: 'blur',
-          rules: [{ required: true }]
-        },
-        breedUnit: {
-          validateTrigger: 'blur',
-          rules: [{ required: true }]
-        }
-      },
       name:{
         modalTitle:'新增',
         formLabel:'名称',
         formPlaceHolder:'请输入'
+      },
+      rules: {
+        title: {
+          validateTrigger: 'blur',
+          rules: [{ required: true, message: '请输入名称' }]
+        },
+        breedUnit: {
+          validateTrigger: 'blur',
+          rules: [{ required: true, message: '请输入计量单位' }]
+        }
       }
     }
   },

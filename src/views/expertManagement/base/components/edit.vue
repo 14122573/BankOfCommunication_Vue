@@ -50,7 +50,7 @@ export default {
       rules: {
         title: {
           validateTrigger: 'blur',
-          rules: [{ required: true }]
+          rules: [{ required: true, message: '请输入名称' }]
         }
       },
       name:{
