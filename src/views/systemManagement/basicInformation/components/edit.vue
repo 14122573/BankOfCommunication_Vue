@@ -55,11 +55,11 @@ export default {
       rules: {
         title: {
           validateTrigger: 'blur',
-          rules: [{ required: true }]
+          rules: [{ required: true, message: '请输入名称' }]
         },
         breedUnit: {
           validateTrigger: 'blur',
-          rules: [{ required: true }]
+          rules: [{ required: true, message: '请输入计量单位' }]
         }
       },
       name:{

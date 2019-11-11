@@ -2,7 +2,7 @@
 	<div class="routerWapper">
 		<div v-if="$route.name =='/expertManagement/expertLibrary'" class="layoutMargin layoutPadding">
 			<a-form :form="searchForm" class="protalForm">
-				<a-row type="flex" class="formItemLine" :justify="simpleSearchForm?'end':'space-between'" align='middle' :gutter="simpleSearchForm?16:0">
+				<a-row type="flex" class="formItemLine" :justify="simpleSearchForm?'end':'space-between'" align='middle' :gutter="simpleSearchForm?8:0">
 					<a-col span="6">
 						<a-form-item class="formItem" :label="simpleSearchForm?'':'姓名'" :label-col="formItemLabelCol" :wrapper-col="formItemWrapperCol">
 							<a-input v-decorator="['name_l']" placeholder="请输入专家姓名"></a-input>
@@ -33,8 +33,8 @@
 					<a-col span="5" class="algin-right">
 						<a-button @click="reset">重置</a-button>
 						<a-button type="primary" @click="search">搜索</a-button>
-          <a-button type="primary" v-if='simpleSearchForm' @click="showMoreSearch">更多搜索</a-button>
-          <a-button type="primary" v-if='!simpleSearchForm' @click="closeMoreSearch">简单搜索</a-button>
+            <a-button type="primary" v-if='simpleSearchForm' @click="showMoreSearch">更多搜索</a-button>
+            <a-button type="primary" v-if='!simpleSearchForm' @click="closeMoreSearch">简单搜索</a-button>
 					</a-col>
 				</a-row>
 			</a-form>

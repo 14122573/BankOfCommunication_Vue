@@ -383,8 +383,6 @@ export default {
         if (res.code === '200') {
           this.$message.success(msg)
           this.back()
-        } else {
-          this.$message.error(res.msg)
         }
       })
     },
@@ -499,7 +497,12 @@ export default {
         )
         this.forMat(data)
       } else {
-        this.$message.error('请检查输入!')
+        this.$modal.error({
+          title: '表单验证未通过',
+          content: '请检查输入',
+          okText: '确认',
+          cancelText: '取消',
+        })
       }
     }
   },

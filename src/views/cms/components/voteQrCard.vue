@@ -2,12 +2,19 @@
   <div class="container">
     <div class="card" v-for="item in list" :key="item.id" @click="showQrcode(item.id)">
       <img src="@/assets/images/qrcode.png" alt="qrcode"/>
-      <p>{{item.name}}</p>
+      <p>
+        <a-tooltip placement="bottom">
+          <template slot="title">
+            <span>{{item.name}}</span>
+          </template>
+          {{item.name | formatter}}
+        </a-tooltip>
+      </p>
       <p>{{$com.formatDate(item.startTime, 'MM-DD')}} ~ {{$com.formatDate(item.endTime, 'MM-DD')}}</p>
     </div>
     <a-modal title="二维码" v-model="visible" :footer="null" width="20%">
       <div class="qr-wrapper">
-        <Qrcode v-if="visible" :value="url"/>
+        <Qrcode v-if="visible" tag="img" :value="url"/>
       </div>
     </a-modal>
   </div>
@@ -36,9 +43,19 @@ export default {
   },
   methods: {
     showQrcode(id) {
-      this.url = `http://iftp.omniview.pro/wx/vote?id=${id}`
+      this.url = encodeURI(`http://iftp.omniview.pro/wx/vote/${id}`)
       this.visible = true
     },
+  },
+  filters: {
+    formatter(value) {
+      if (!value) return ''
+      if (value.length >= 17) {
+        value = value.split('')
+        return (value.splice(0, 17)).join('') + '...'
+      }
+      return value
+    }
   }
 }
 </script>
