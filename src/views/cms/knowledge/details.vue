@@ -35,29 +35,37 @@
 								  <DetailsItem :labelSpan='8' :textSpan="16" :label='"发布年代"' :text='knowledgeDetails.years'></DetailsItem>
 								</a-col>
                 <a-col span="8" style="margin:8px 0;">
-								  <DetailsItem :labelSpan='8' :textSpan="16" :label='"可匿名浏览否"' :text='knowledgeDetails.anonymous=="0"?"允许匿名浏览":"不允许匿名浏览"'></DetailsItem>
+								  <DetailsItem :labelSpan='8' :textSpan="16" :label='"是否公开"' :text='knowledgeDetails.anonymous=="0"?"公开":"不公开"'></DetailsItem>
 								</a-col>
 							</a-row>
-						</div>
-					</div>
-          <div class="layoutMargin detailsPartSection">
-						<p class="detailsPartTitle">文献内容</p>
-						<div style="margin:0 16px;">
-							<a-row type="flex" justify="start">
-								<a-col span="8" style="margin:8px 0;">
-								  <DetailsItem :labelSpan='8' :textSpan="16" :label='"文献内容类型"'>
-                    <div slot="detailContent">
-                        <a-tag :color="getTypeTag.color">{{getTypeTag.name}}</a-tag>
-                    </div>
-                  </DetailsItem>
+              <a-row type="flex" justify="start">
+                <a-col span="16" style="margin:8px 0;">
+								  <DetailsFile :labelSpan='4' :textSpan="20" :label='"线上视频地址"' :files='makeFileList'></DetailsFile>
 								</a-col>
 							</a-row>
-							<a-row type="flex" justify="start">
+              <a-row type="flex" justify="start">
                 <a-col span="16" style="margin:8px 0;">
 								  <DetailsFile :labelSpan='4' :textSpan="20" :label='"文件信息"' :files='makeFileList'></DetailsFile>
 								</a-col>
 							</a-row>
 						</div>
+					</div>
+          <div class="layoutMargin detailsPartSection">
+						<p class="detailsPartTitle">文献正文内容</p>
+            <div style="margin:0 16px;">
+							<a-row type="flex" justify="start">
+                <a-col span="16" style="margin:8px 0;">
+                  <div v-html="!knowledgeDetails.content?'':knowledgeDetails.content"></div>
+								</a-col>
+							</a-row>
+						</div>
+						<!-- <div style="margin:0 16px;">
+							<a-row type="flex" justify="start">
+                <a-col span="16" style="margin:8px 0;">
+								  <DetailsFile :labelSpan='4' :textSpan="20" :label='"文件信息"' :files='makeFileList'></DetailsFile>
+								</a-col>
+							</a-row>
+						</div> -->
 					</div>
 				</template>
 			</div>
@@ -73,6 +81,7 @@ export default {
       id:this.$route.params.id,
       ready:false,
       knowledgeDetails:{},
+      videoUrls:[]
     }
   },
   mounted() {
@@ -109,40 +118,35 @@ export default {
       return statusTag
     },
     /**
-     * 根据传入的文献内容类型key值，返回需要展示的状态文字和颜色
-     * @returns {Object} name:文献内容类型名；color：状态文字颜色
+     * 组装需要展示的线上视频地址数组
+     * @returns {Array}  video:['','']
      */
-    getTypeTag(){
-      let statusTag = {
-        name:'',
-        color:''
+    makeVideoList(){
+      let videoUrlList = []
+      let attachments = !this.knowledgeDetails.attachments?[]:this.knowledgeDetails.attachments
+      for(let i=0;i<attachments.length;i++){
+        if(attachments[i].type=='2'){
+          videoUrlList.push(attachments[i].path)
+        }
       }
-      switch (this.knowledgeDetails.status) {
-      case '0':
-        statusTag.name = '视频'
-        statusTag.color = 'purple'
-        break
-      case '1':
-        statusTag.name = 'PDF'
-        statusTag.color = 'pink'
-        break
-      default:
-        statusTag.name = '-'
-        statusTag.color = 'gray'
-        break
-      }
-      return statusTag
+      return videoUrlList
     },
     /**
      * 组装需要展示的文件数组
-     * @returns {Array} [{name:带文件后缀的文件名称；url：已上传的文件地址},...]
+     * @returns {Array}  [{name:带文件后缀的文件名称；url：已上传的文件地址},...]
      */
     makeFileList(){
       let fileList = []
-      fileList.push({
-        name:this.knowledgeDetails.fileName,
-        url:this.knowledgeDetails.path
-      })
+      let attachments = !this.knowledgeDetails.attachments?[]:this.knowledgeDetails.attachments
+      for(let i=0;i<attachments.length;i++){
+        if(attachments[i].type=='1'){
+          fileList.push({
+            name:attachments[i].fileName,
+            url:attachments[i].path
+          })
+        }
+
+      }
       return fileList
     }
   },

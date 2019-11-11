@@ -8,7 +8,7 @@
     :beforeUpload="beforeUpload"
     :accept="uploadConfig.acceptTypes"
     :multiple="multiple">
-    <a-button :disabled="!allowUpload"> <a-icon type="upload" />上传材料 </a-button>
+    <a-button :disabled="!allowUpload"> <a-icon type="upload" />选择并上传文件 </a-button>
   </a-upload>
 </div>
 </template>

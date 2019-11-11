@@ -99,14 +99,15 @@ export default {
   // 专家管理--项目评审
   GET_EXPERT_REVIEW_TODO_LIST: '/service-expert/expert/extract/{expertId}', //获取当前接口传参专家需要评审的数据,? status:0-未完成 1-完成 null/""-全部
   // 内容发布
-  GET_UEDITOR_SERVICE_URL: BASE_URL+'/service-release/release/ueditor/execute', //ueditor 文件上传配置service_url地址
+  // 如果是本地开发的话会跨域，故设置了webpack代理，具体设置在/config/index.js的dev.proxyTable中
+  GET_UEDITOR_SERVICE_URL: (process.env.NODE_ENV === 'development' ? '/ueditorDevBase' : BASE_URL)+'/service-release/release/public/ueditor/execute', //ueditor 文件上传配置service_url地址
   // 内容发布-知识库
-  GET_CMS_KNOWLEDGE_LIST: MOCK_URL+'/service-release/release/public/knowledge', //获取知识库文档列表
-  POST_CMS_KNOWLEDGE: MOCK_URL+'/service-release/release/knowledge', //新建知识文档
-  GET_CMS_KNOWLEDGE_DETAIL: MOCK_URL+'/service-release/release/public/knowledge/{id}', //获取知识库详情信息
-  PUT_CMS_KNOWLEDGE_DETAIL: MOCK_URL+'/service-release/release/knowledge/{id}', //修改知识库详情信息
-  DELETE_CMS_KNOWLEDGE: MOCK_URL+'/service-release/release/knowledge/{id}', //删除单条知识库文档
-  PUT_CMS_KNOWLEDGE_STATUS: MOCK_URL+'/service-release/release/knowledge/{id}/{status}', //修改单条知识库文档状态
+  GET_CMS_KNOWLEDGE_LIST: '/service-release/release/public/knowledge', //获取知识库文档列表
+  POST_CMS_KNOWLEDGE: '/service-release/release/knowledge', //新建知识文档
+  GET_CMS_KNOWLEDGE_DETAIL: '/service-release/release/public/knowledge/{id}', //获取知识库详情信息
+  PUT_CMS_KNOWLEDGE_DETAIL: '/service-release/release/knowledge/{id}', //修改知识库详情信息
+  DELETE_CMS_KNOWLEDGE: '/service-release/release/knowledge/{id}', //删除单条知识库文档
+  PUT_CMS_KNOWLEDGE_STATUS: '/service-release/release/knowledge/{id}/{status}', //修改单条知识库文档状态
   // 内容发布-通知公告
   GET_CMS_NOTICE_LIST: '/service-release/release/public/news', //获取通知公告列表
   POST_CMS_NOTICE: '/service-release/release/news', //新建通知公告

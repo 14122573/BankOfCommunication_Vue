@@ -41,7 +41,7 @@ export default {
       isReady:false,
       knowledgeList:[],
       searchForm:{
-        type_in:'0,1',
+        // type_in:'0,1',
         anonymous_in:'0,1'
       },
       pagination: {

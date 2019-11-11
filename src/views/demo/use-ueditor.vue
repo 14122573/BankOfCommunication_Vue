@@ -23,7 +23,6 @@ export default {
       },
       ueditorConfig:{
         serverUrl: base + '/service-release/release/public/ueditor/execute',
-        // serverUrl: 'http://35.201.165.105:8000/controller.php',
         UEDITOR_HOME_URL: '/static/ueditor/',
         toolbars:[[
           'undo', 'redo', '|',
@@ -43,7 +42,8 @@ export default {
         initialFrameWidth:'80%',
         saveInterval: 100000000, // {Number} [默认值：500] 自动保存间隔时间，单位ms
         autoFloatEnabled: false, // [默认值：true] // 是否保持toolbar的位置不动
-        initialFrameHeight:300}
+        initialFrameHeight:300
+      }
     }
   },
   mounted() {

@@ -14,11 +14,6 @@
               <a-input placeholder="请输入作者姓名" v-decorator="['author']"/>
             </a-form-item>
           </a-col>
-          <a-col span="8" v-if="!simpleSearchForm">
-            <a-form-item class='formItem' label="内容类型" :label-col="formItemLabelCol" :wrapper-col="formItemWrapperCol">
-              <a-checkbox-group :options="searchFormOption.type" :defaultValue="defaultSearchForm.type" @change="onTypeChange" />
-            </a-form-item>
-          </a-col>
           <a-col :span="simpleSearchForm?6:24" class="algin-right">
             <a-button @click="reset">重置</a-button>
             <a-button type="primary" @click="getKnowLedgeList">搜索</a-button>
@@ -69,7 +64,7 @@ export default {
         }],
       },
       defaultSearchForm:{
-        type:['0','1'],
+        // type:['0','1'],
         anonymous:['0','1']
       },
       searchForm:{},
@@ -90,7 +85,7 @@ export default {
   },
   mounted() {
     // if(this.$route.name == '/cms/knowledgePublish'){
-    this.searchForm.type_in = this.toKeyString(this.defaultSearchForm.type,',')
+    // this.searchForm.type_in = this.toKeyString(this.defaultSearchForm.type,',')
     this.searchForm.anonymous_in = this.toKeyString(this.defaultSearchForm.anonymous,',')
     this.getKnowLedgeList()
     // }
@@ -149,20 +144,14 @@ export default {
       }
       return keyString
     },
-    /**
-     * 监听搜索表单中文库类型选项勾选内容变更，并暂存勾选结果
-     * @param {Array} selecteds 已勾选项的key
-     */
-    onTypeChange(selecteds){
-      this.searchForm.type_in = this.toKeyString(selecteds,',')
-    },
+
     /**
      * 重置列表表单项内容，并重获取数据
      */
     reset(){
       this.searchForm ={
         // status_in:this.toKeyString(this.defaultSearchForm.status,','),
-        type_in:this.toKeyString(this.defaultSearchForm.type,','),
+        // type_in:this.toKeyString(this.defaultSearchForm.type,','),
         anonymous_in:this.toKeyString(this.defaultSearchForm.anonymous,',')
       }
       this.pagination.current = 1

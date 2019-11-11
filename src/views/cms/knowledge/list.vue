@@ -13,11 +13,11 @@
               <a-input placeholder="请输入作者姓名" v-decorator="['author']"/>
             </a-form-item>
           </a-col>
-          <a-col span="8" v-if="!simpleSearchForm">
+          <!-- <a-col span="8" v-if="!simpleSearchForm">
             <a-form-item class='formItem' label="内容类型"  :label-col="formItemLabelCol" :wrapper-col="formItemWrapperCol">
               <a-checkbox-group :options="searchFormOption.type" :defaultValue="defaultSearchForm.type" @change="onTypeChange" />
             </a-form-item>
-          </a-col>
+          </a-col> -->
           <a-col span="8" v-if="!simpleSearchForm">
             <a-form-item class='formItem' label="文献状态"  :label-col="formItemLabelCol" :wrapper-col="formItemWrapperCol">
               <a-checkbox-group :options="searchFormOption.status" :defaultValue="defaultSearchForm.status" @change="onStatusChange" />
@@ -114,7 +114,7 @@ export default {
         ]
       },
       defaultSearchForm:{
-        type:['0','1'],
+        // type:['0','1'],
         status:['0','1'],
         anonymous:['0','1']
       },
@@ -134,15 +134,17 @@ export default {
           dataIndex: 'years',
           key: 'years',
           width: 80
-        },{
-          title: '内容类型',
-          dataIndex: 'type',
-          key: 'type',
-          width: 100,
-          scopedSlots: {
-            customRender: 'knowledgeType'
-          }
-        },{
+        },
+        // {
+        //   title: '内容类型',
+        //   dataIndex: 'type',
+        //   key: 'type',
+        //   width: 100,
+        //   scopedSlots: {
+        //     customRender: 'knowledgeType'
+        //   }
+        // },
+        {
           title: '状态',
           dataIndex: 'status',
           key: 'status',
@@ -185,7 +187,7 @@ export default {
   mounted() {
     if(this.$route.name == '/cms/knowledge'){
       this.searchForm.status_in = this.toKeyString(this.defaultSearchForm.status,',')
-      this.searchForm.type_in = this.toKeyString(this.defaultSearchForm.type,',')
+      // this.searchForm.type_in = this.toKeyString(this.defaultSearchForm.type,',')
       this.searchForm.anonymous_in = this.toKeyString(this.defaultSearchForm.anonymous,',')
       this.getKnowLedgeList()
     }
@@ -374,7 +376,7 @@ export default {
     reset(){
       this.searchForm ={
         status_in:this.toKeyString(this.defaultSearchForm.status,','),
-        type_in:this.toKeyString(this.defaultSearchForm.type,','),
+        // type_in:this.toKeyString(this.defaultSearchForm.type,','),
         anonymous_in:this.toKeyString(this.defaultSearchForm.anonymous,',')
       }
       this.pagination.current = 1
