@@ -14,11 +14,8 @@
           <div slot="nextArrow" class="custom-slick-arrow" >
             <a-icon type="right" />
           </div>
-          <div style="width: 80%; margin: 0 atuo;">
-            <VoteQrCard :list="qrList" />
-          </div>
-          <div style="width: 80%; margin: 0 atuo;">
-            <VoteQrCard :list="qrList" />
+          <div v-for="(list, index) in qrList" :key="index" style="width: 80%; margin: 0 atuo;">
+            <VoteQrCard :list="list" />
           </div>
         </a-carousel>
       </template>
@@ -70,7 +67,12 @@ export default {
         url: this.$api.GET_VOTE_LIST,
         params,
       }).then(res => {
-        this.qrList = this.$com.confirm(res, 'data.content', [])
+        const data = this.$com.confirm(res, 'data.content', [])
+        const result = []
+        while (data.length > 0) {
+          result.push(data.splice(0, 4))
+        }
+        this.qrList = result
         this.isReady = true
       })
     },
