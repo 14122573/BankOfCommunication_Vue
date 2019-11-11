@@ -76,7 +76,9 @@ export default {
     // 表单验证，上级组件可以通过this.$refs来调用此函数
     validate (callback) {
       this.form.validateFields((err, values) => {
-        this.$com.getFormValidErrTips(this, err) // 这边是后来加的需求，说要全局弹窗
+        if (err) {
+          this.$com.getFormValidErrTips(this, err) // 这边是后来加的需求，说要全局弹窗
+        }
         callback(err, values)
       })
     },
