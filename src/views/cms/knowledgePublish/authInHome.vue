@@ -42,7 +42,8 @@ export default {
       knowledgeList:[],
       searchForm:{
         // type_in:'0,1',
-        anonymous_in:'0,1'
+        anonymous_in:'0,1',
+        status_in: '1'
       },
       pagination: {
         pageNo: 1,

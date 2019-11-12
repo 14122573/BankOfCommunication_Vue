@@ -189,6 +189,7 @@ export default {
       searchParms = Object.assign({},this.searchForm,{
         title_l:!this.knowledgeSearchForm.getFieldValue('title')?'':this.knowledgeSearchForm.getFieldValue('title'),
         author_l:!this.knowledgeSearchForm.getFieldValue('author')?'':this.knowledgeSearchForm.getFieldValue('author'),
+        status_in: '1'
       },{
         pageNo: this.pagination.pageNo,
         pageSize: this.pagination.pageSize

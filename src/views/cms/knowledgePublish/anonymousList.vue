@@ -46,7 +46,8 @@ export default {
     return {
       isReady:false,
       searchForm:{
-        anonymous_in:'0'
+        anonymous_in:'0',
+        status_in: '1'
       },
       knowledgeList:[],
       pagination: {
