@@ -50,9 +50,9 @@ export default {
   filters: {
     formatter(value) {
       if (!value) return ''
-      if (value.length >= 17) {
+      if (value.length >= 15) {
         value = value.split('')
-        return (value.splice(0, 17)).join('') + '...'
+        return (value.splice(0, 15)).join('') + '...'
       }
       return value
     }
@@ -74,7 +74,7 @@ export default {
   justify-content: space-around;
   padding: 10px;
   border: 1px solid #eff7ff;
-  width: 150px;
+  width: 135px;
   height: 170px;
   text-align: center;
   margin: 8px;
