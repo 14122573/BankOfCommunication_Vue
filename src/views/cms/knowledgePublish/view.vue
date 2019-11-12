@@ -22,7 +22,7 @@
           <a-row class="attachmentsPart">
             <a-col span="4">相关附件文档：</a-col>
             <a-col span="20">
-              <a class="item" v-for="(item,index) in fileList" :key="index" :href="item.path" target="_blank"><a-icon type="link" />{{item.fileName}}</a>
+              <a class="item" v-for="(item,index) in fileList" :key="index" :href="item.path" target="_blank"><a-icon type="link" />{{item.name}}</a>
             </a-col>
           </a-row>
         </div>
@@ -37,15 +37,14 @@
 
 <style scoped>
 .loginFrame { position: relative; width: 100%; min-width: 1000px; margin: 0px; padding: 0px; padding: 80px 0; background-size: 100%;  background-repeat:repeat-y }
-.loginFrame.minHeight { min-height: 100%}
-.cmsPublishFrame{ position: relative; width: 1000px; background-color: #fff; margin: 0 auto;}
+.cmsPublishFrame{ position: relative; min-height: 700px; width: 1000px; background-color: #fff; margin: 0 auto;}
 .cmsPublishFrameTitle { padding-top: 16px; margin:0 16px 16px; padding-bottom: 10px;}
 .cmsPublishFrameTitle p{ line-height: 1.5em}
 .cmsPublishFrameTitle .titleName{ font-size: 20px; font-weight: bold; }
 .cmsPublishFrameTitle .titleSub{ color:#1890ff; margin: 0;}
 .cmsPublishFrameTitle .subcell { padding-right: 32px;}
 .cmsPublishFrameTitle .subcell .label {color: rgba(0, 0, 0, 0.4);  }
-.cmsContentBody { margin-top: 16px; padding: 16px 8px ;}
+.cmsContentBody { position: relative; margin-top: 16px; padding: 16px 8px ; }
 .cmsContentAttachments { margin-top: 30px; padding-top: 24px; border-top:2px solid rgba(0, 0, 0, 0.1)}
 .attachmentsPart { margin-bottom: 16px;}
 .attachmentsPart .item{ padding-right: 16px; cursor: pointer;}
@@ -137,7 +136,7 @@ export default {
         switch (attachments[i].type) {
         case '1'://附件
           this.fileList.push({
-            name:attachments[i].name,
+            name:attachments[i].fileName,
             path:attachments[i].path
           })
           break
