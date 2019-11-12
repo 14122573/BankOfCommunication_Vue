@@ -56,7 +56,7 @@
                   </a-form-item>
                 </a-col>
                 <a-col span="16">
-                  <a-form-item label="PDF文档" :label-col="{span:4}" :wrapper-col="{span:20}">
+                  <a-form-item label="PDF文档" :label-col="{span:4}" :wrapper-col="{span:20}" v-if="ready">
                     <FileUpload @change="onUploadFileChange" :defaultFileList='uploadFileList.default' :acceptTypes="uploadConfig.acceptTypesArray" :maxCount="100"  :maxFileSize="uploadConfig.maxSize" :timestamp="Date.now()"></FileUpload>
                     <a-alert style="margin-top:16px" message="仅能上传PDF格式文件" type="info" showIcon />
                   </a-form-item>
@@ -77,18 +77,10 @@
   </div>
 
 </template>
+<style scoped>
+.iconButton{ padding:3px 6px}
+</style>
 <script>
-const testArr = [{
-  id:111,
-  path:'sfasf',
-  fileName:'图片图片图片图片',
-  type:2
-},{
-  id:111,
-  path:'sfasf',
-  fileName:'文件文件文件文件文件',
-  type:1
-}]
 import FileUpload from '@/components/Upload/fileUpload'
 import VueUeditorWrap from 'vue-ueditor-wrap'
 export default {
@@ -191,7 +183,7 @@ export default {
      */
     arrangeFileList(){
       let fileList = this.uploadFileList.used.map((item,index)=>{
-        if(item.uid=='-1'){// 未修改PDF
+        if(item.uid.indexOf('-')==0){// 未修改PDF
           return {
             type:1,
             sort:index+1,
@@ -268,25 +260,25 @@ export default {
             this.formData.content = !this.knowledgeDetails.content?'':this.knowledgeDetails.content
 
             // this.knowledgeDetails.attachments
-            if(Array.isArray(testArr)){
-              for(let i=0;i<testArr.length;i++){
-                switch (testArr[i].type) {
-                case 1: // 为文件上传的附件类型
+            if(Array.isArray(this.knowledgeDetails.attachments)){
+              for(let i=0;i<this.knowledgeDetails.attachments.length;i++){
+                switch (this.knowledgeDetails.attachments[i].type) {
+                case '1': // 为文件上传的附件类型
                   this.uploadFileList.default.push({
-                    uid: '-1',
-                    name: testArr[i].fileName,
+                    uid: '-'+(i+1),
+                    name: !this.knowledgeDetails.attachments[i].fileName?'none':this.knowledgeDetails.attachments[i].fileName,
                     status: 'done',
-                    url: testArr[i].path
+                    url: this.knowledgeDetails.attachments[i].filePath
                   })
                   this.uploadFileList.used.push({
-                    uid: '-1',
-                    name: testArr[i].fileName,
+                    uid: '-'+(i+1),
+                    name: !this.knowledgeDetails.attachments[i].fileName?'none':this.knowledgeDetails.attachments[i].fileName,
                     status: 'done',
-                    url: testArr[i].path
+                    url: this.knowledgeDetails.attachments[i].filePath
                   })
                   break
-                case 2: // 线上视频地址的数据
-                  this.formData.videoUrlList.push(testArr[i].path)
+                case '2': // 线上视频地址的数据
+                  this.formData.videoUrlList.push(this.knowledgeDetails.attachments[i].filePath)
                   break
                 default:
                   break

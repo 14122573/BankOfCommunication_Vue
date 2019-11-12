@@ -40,7 +40,7 @@
 							</a-row>
               <a-row type="flex" justify="start">
                 <a-col span="16" style="margin:8px 0;">
-								  <DetailsFile :labelSpan='4' :textSpan="20" :label='"线上视频地址"' :files='makeFileList'></DetailsFile>
+								  <DetailsFile :labelSpan='4' :textSpan="20" :label='"线上视频地址"' :files='makeVideoList'></DetailsFile>
 								</a-col>
 							</a-row>
               <a-row type="flex" justify="start">
@@ -126,7 +126,7 @@ export default {
       let attachments = !this.knowledgeDetails.attachments?[]:this.knowledgeDetails.attachments
       for(let i=0;i<attachments.length;i++){
         if(attachments[i].type=='2'){
-          videoUrlList.push(attachments[i].path)
+          videoUrlList.push(attachments[i].filePath)
         }
       }
       return videoUrlList
@@ -142,7 +142,7 @@ export default {
         if(attachments[i].type=='1'){
           fileList.push({
             name:attachments[i].fileName,
-            url:attachments[i].path
+            url:attachments[i].filePath
           })
         }
 
@@ -215,7 +215,7 @@ export default {
       this.$router.push({
         name:'/cms/knowledge/edit',
         params:{
-          id:id
+          id:this.id
         }
       })
     },

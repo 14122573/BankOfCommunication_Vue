@@ -54,22 +54,6 @@
 </style>
 <script>
 
-const testArr = [{
-  id:111,
-  path:'sfasf',
-  fileName:'图片图片图片图片',
-  type:'2'
-},{
-  id:111,
-  path:'sfa13412341234123412341234123sf',
-  fileName:'图片图片图片图片',
-  type:'2'
-},{
-  id:111,
-  path:'sfasf',
-  fileName:'文件文件文件文件文件',
-  type:'1'
-}]
 
 import cpdf from '@/components/theThreeParty/pdf.vue'
 export default {
@@ -130,18 +114,18 @@ export default {
      * 整理知识文库中需要展示的附件内容
      */
     getAttachments(){
-      // let attachments = !this.knowledgeDetails.attachments?[]:this.knowledgeDetails.attachments
-      let attachments = testArr
+      let attachments = !this.knowledgeDetails.attachments?[]:this.knowledgeDetails.attachments
+      // let attachments = testArr
       for(let i=0;i<attachments.length;i++){
         switch (attachments[i].type) {
         case '1'://附件
           this.fileList.push({
             name:attachments[i].fileName,
-            path:attachments[i].path
+            path:attachments[i].filePath
           })
           break
         case '2'://视频
-          this.videoUrlList.push(attachments[i].path)
+          this.videoUrlList.push(attachments[i].filePath)
           break
         default:
           break

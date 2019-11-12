@@ -73,7 +73,8 @@ export default {
       let searchParms
       searchParms = Object.assign({},this.searchForm,{
         pageNo: this.pagination.pageNo,
-        pageSize: this.pagination.pageSize
+        pageSize: this.pagination.pageSize,
+        createTime_desc:'desc'
       })
       this.$ajax.get({
         url: this.$api.GET_CMS_KNOWLEDGE_LIST,
