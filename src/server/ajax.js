@@ -79,9 +79,13 @@ const showErrPage= (api,routername,code)=>{
         name: 'outerNetworkerr'
       })
     }
-  }else{
+  }else if(!!routername && routername.length>0){
     router.push({
       name: 'innerNetworkerr'
+    })
+  }else{
+    router.push({
+      name: 'outerNetworkerr'
     })
   }
 }
