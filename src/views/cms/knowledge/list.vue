@@ -402,6 +402,7 @@ export default {
       searchParms = Object.assign({},this.searchForm,{
         title_l:!this.knowledgeSearchForm.getFieldValue('title')?'':this.knowledgeSearchForm.getFieldValue('title'),
         author_l:!this.knowledgeSearchForm.getFieldValue('author')?'':this.knowledgeSearchForm.getFieldValue('author'),
+        createTime_desc:'desc'
       },{
         pageNo: this.pagination.pageNo,
         pageSize: this.pagination.pageSize
@@ -415,6 +416,7 @@ export default {
         this.pagination.current = this.pagination.pageNo
         this.knowledgeList = this.$com.confirm(res, 'data.content', [])
         this.isReady = true
+        console.log(this.knowledgeList)
       })
     }
   },

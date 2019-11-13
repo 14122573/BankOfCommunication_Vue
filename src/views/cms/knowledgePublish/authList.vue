@@ -14,7 +14,7 @@
               <a-input placeholder="请输入作者姓名" v-decorator="['author']"/>
             </a-form-item>
           </a-col>
-          <a-col :span="simpleSearchForm?6:24" class="algin-right">
+          <a-col span="6" class="algin-right">
             <a-button @click="reset">重置</a-button>
             <a-button type="primary" @click="getKnowLedgeList">搜索</a-button>
             <a-button type="primary" v-if='simpleSearchForm' @click="showMoreSearch">更多搜索</a-button>
@@ -24,10 +24,16 @@
       </a-form>
       <p class="gayLine noline"></p>
       <template v-if="isReady">
-        <div style="padding:16px 0">
-          <template v-for="(knowledge,index) in knowledgeList">
-          <div @click="goToView(knowledge.id)" :class='{"knowledge":true,"hasBg":(index+1)%2==1}' :key="index">[{{knowledge.years}}] - {{knowledge.title}} - [{{knowledge.author}}]</div>
-          </template>
+        <div class="knowledgeWapper">
+          <div class="box" v-for="(knowledge,index) in knowledgeList" :key="index" >
+            <div class="inner" @click="goToView(knowledge.id)">
+              <div class="content">
+                <p class="name" :title='knowledge.title'>{{knowledge.title}}</p>
+                <p class="info" ><a-icon type="user" class='icon' />{{knowledge.author}}</p>
+                <p class="info" ><a-icon type="calendar" class='icon' />{{knowledge.years}}</p>
+              </div>
+            </div>
+          </div>
         </div>
         <a-row type="flex" justify="end">
           <a-col>
@@ -40,9 +46,15 @@
   </div>
 </template>
 <style scoped>
-.knowledge{ font-size: 14px; padding:10px 16px; line-height:1em; color:rgba(0,0,0,0.7); cursor: pointer;}
-.knowledge.hasBg{ background-color: #F3F8FA}
-.knowledge:hover,.knowledge.hasBg:hover{ background-color: #E8F8FF}
+.knowledgeWapper{display: flex; flex-wrap: wrap; }
+.box { width: 20%; margin: 8px;  -webkit-box-shadow: 0 0 3px 1px #eff7ff; box-shadow: 0 0 3px 1px #eff7ff;}
+.box:hover { -webkit-box-shadow: 0 0 10px 6px #eff7ff; box-shadow: 0 0 10px 6px #eff7ff; cursor: pointer;}
+.inner {height: 100px; display: flex; flex-direction: column; border: 1px solid #e8eaec;}
+.content { display: flex; flex: 1; flex-direction: column; justify-content: center; align-items: start; padding:0px 10px;}
+.content p{ margin-bottom: 0 }
+.content .name{ font-size: 14px; font-weight: bold; margin-bottom: 5px; word-break: break-all; display: inline-block; width: 100%; overflow: hidden; text-overflow:ellipsis; white-space: nowrap;}
+.content .icon{color:#1890ff; padding-right:6px}
+.content .info { color:rgba(0, 0, 0, 0.5)}
 </style>
 
 <script>
@@ -177,6 +189,8 @@ export default {
       searchParms = Object.assign({},this.searchForm,{
         title_l:!this.knowledgeSearchForm.getFieldValue('title')?'':this.knowledgeSearchForm.getFieldValue('title'),
         author_l:!this.knowledgeSearchForm.getFieldValue('author')?'':this.knowledgeSearchForm.getFieldValue('author'),
+        status_in: '1',
+        createTime_desc:'desc'
       },{
         pageNo: this.pagination.pageNo,
         pageSize: this.pagination.pageSize

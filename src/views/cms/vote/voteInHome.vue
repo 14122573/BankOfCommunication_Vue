@@ -7,7 +7,7 @@
 
     <div class="list">
       <template v-if='qrList.length>0'>
-        <a-carousel style="margin:0 30px;padding-bottom: 16px;" arrows :dots="false">
+        <a-carousel style="margin:0 15px;padding-bottom: 16px;" arrows :dots="false">
           <div slot="prevArrow" class="custom-slick-arrow" >
             <a-icon type="left" />
           </div>
