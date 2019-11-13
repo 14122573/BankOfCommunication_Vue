@@ -46,9 +46,13 @@
             <div class="sectionBody">
               <a-row class="sectionTitle" type="flex" justify="space-between" align="middle">
                 <a-col :span="18"><a-divider class="divider" type="vertical" /><span class="title">操作手册</span></a-col>
+                <a-col :span="6" class="algin-right"><span @click="routerTo('/cms/manual/file-list')" class="more">查看全部</span></a-col>
               </a-row>
               <div class="sectionContent">
-                <p class="contact">xinnn / 123123123</p>
+                <div class="manual-wrapper">
+                  <img src="@/assets/images/word.png" />
+                  操作手册
+                </div>
               </div>
             </div>
           </div>
@@ -91,6 +95,9 @@
 .sectionTitle .divider{ font-size: 16px; background-color:#1890ff; height: 16px; width: 5px; border-radius: 4px;}
 .sectionTitle .title{ font-size: 16px;}
 .sectionTitle .more{ cursor: pointer; color: #1890ff}
+.manual-wrapper {text-align: center; padding-bottom: 16px; cursor: pointer;}
+.manual-wrapper:hover {color: #1890ff}
+.manual-wrapper > img {width: 50px;}
 </style>
 
 <script>
@@ -115,6 +122,11 @@ export default {
     }
   },
   methods: {
+    routerTo(name) {
+      this.$router.push({
+        name,
+      })
+    },
   },
 }
 </script>

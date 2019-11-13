@@ -1,51 +1,51 @@
 <template>
 <div class="routerWapper">
-<div class="layoutMargin layoutPadding" v-if="$route.name == '/cms/vote'">
-  <ActiveForm :layout="layout" :label-width="70" :model="model">
-    <div style="margin-bottom: 10px;">
-      <a-button v-if="$permission('P33001')" @click="routerTo('/cms/vote/edit')" type="primary">新增投票</a-button>
-    </div>
-  </ActiveForm>
-  <ActiveTable
-    rowKey="id"
-    :columns="columns"
-    :data="list"
-    showPager
-    @on-page-change="handlePageChange"
-    :currentPage="currentPage"
-    :pageSize="pageSize"
-    :total="total"
-    class="portalTable"
-  >
-    <div slot="status" slot-scope="{ text, record }">
-      <CMSDataStatus cmsType="vote" :status='record.status' />
-    </div>
-    <div slot="operator" slot-scope="{text, record}">
-      <DataOperatorInList :creator='!record.creator?"":record.creator' :lastOperator='!record.operator?"":record.operator' />
-    </div>
-    <span slot="actions" slot-scope="{ text, record }">
-      <span v-if="$permission('P33003')" @click="routerTo('/cms/vote/view', record)" class="actionBtn">查看<a-divider v-if="record.status != '3'" type="vertical"/></span>
-      <template v-if="record.status=='0'">
-        <span v-if="$permission('P33001')" @click="routerTo('/cms/vote/edit', record)" class="actionBtn">修改<a-divider type="vertical" /></span>
-        <a-dropdown>
-          <span class="actionBtn"> 更多 <a-icon type="down" /> </span>
-            <a-menu slot="overlay">
-              <a-menu-item v-if="$permission('P33004')" @click="changeStatus(record, '1')" class="actionBtn"> 发布 </a-menu-item>
-              <a-menu-item v-if="$permission('P33002')" @click="deleteVote(record)" class="actionBtn"> 删除 </a-menu-item>
-            </a-menu>
-        </a-dropdown>
-      </template>
-      <template v-else-if="record.status == '1'">
-        <span v-if="$permission('P33004')" @click="changeStatus(record, '2')"  class="actionBtn">关闭</span>
-      </template>
-      <template v-else-if="record.status == '2'">
-        <span v-if="$permission('P33003')" @click="routerTo('/cms/vote/result', record)" class="actionBtn">结果预览<a-divider type="vertical" /></span>
-        <span v-if="$permission('P33005')" @click="publicResult(record)" class="actionBtn">结果公示</span>
-      </template>
-    </span>
-  </ActiveTable>
-</div>
-<RouterWapper v-else />
+  <div class="layoutMargin layoutPadding" v-if="$route.name == '/cms/vote'">
+    <ActiveForm :layout="layout" :label-width="70" :model="model">
+      <div style="margin-bottom: 10px;">
+        <a-button v-if="$permission('P33001')" @click="routerTo('/cms/vote/edit')" type="primary">新增投票</a-button>
+      </div>
+    </ActiveForm>
+    <ActiveTable
+      rowKey="id"
+      :columns="columns"
+      :data="list"
+      showPager
+      @on-page-change="handlePageChange"
+      :currentPage="currentPage"
+      :pageSize="pageSize"
+      :total="total"
+      class="portalTable"
+    >
+      <div slot="status" slot-scope="{ text, record }">
+        <CMSDataStatus cmsType="vote" :status='record.status' />
+      </div>
+      <div slot="operator" slot-scope="{text, record}">
+        <DataOperatorInList :creator='!record.creator?"":record.creator' :lastOperator='!record.operator?"":record.operator' />
+      </div>
+      <span slot="actions" slot-scope="{ text, record }">
+        <span v-if="$permission('P33003')" @click="routerTo('/cms/vote/view', record)" class="actionBtn">查看<a-divider v-if="record.status != '3'" type="vertical"/></span>
+        <template v-if="record.status=='0'">
+          <span v-if="$permission('P33001')" @click="routerTo('/cms/vote/edit', record)" class="actionBtn">修改<a-divider type="vertical" /></span>
+          <a-dropdown>
+            <span class="actionBtn"> 更多 <a-icon type="down" /> </span>
+              <a-menu slot="overlay">
+                <a-menu-item v-if="$permission('P33004')" @click="changeStatus(record, '1')" class="actionBtn"> 发布 </a-menu-item>
+                <a-menu-item v-if="$permission('P33002')" @click="deleteVote(record)" class="actionBtn"> 删除 </a-menu-item>
+              </a-menu>
+          </a-dropdown>
+        </template>
+        <template v-else-if="record.status == '1'">
+          <span v-if="$permission('P33004')" @click="changeStatus(record, '2')"  class="actionBtn">关闭</span>
+        </template>
+        <template v-else-if="record.status == '2'">
+          <span v-if="$permission('P33003')" @click="routerTo('/cms/vote/result', record)" class="actionBtn">结果预览<a-divider type="vertical" /></span>
+          <span v-if="$permission('P33005')" @click="publicResult(record)" class="actionBtn">结果公示</span>
+        </template>
+      </span>
+    </ActiveTable>
+  </div>
+  <RouterWapper v-else />
 </div>
 </template>
 
@@ -140,7 +140,11 @@ export default {
             width: 6,
             custom: true,
             render:(h) => {
-              return h('div', [
+              return h('div', {
+                style: {
+                  paddingTop: '4px',
+                }
+              }, [
                 h('a-button', {
                   props: {
                     type: 'primary',

@@ -42,6 +42,14 @@
                   </a-form-item>
                 </a-col>
               </a-row>
+              <a-row :gutter="16">
+                <a-col span="16">
+                  <a-form-item label="PDF文档" :label-col="{span:4}" :wrapper-col="{span:20}" v-if="ready">
+                    <FileUpload @change="onUploadFileChange" :defaultFileList='uploadFileList.default' :acceptTypes="uploadConfig.acceptTypesArray" :maxCount="100"  :maxFileSize="uploadConfig.maxSize" :timestamp="Date.now()"></FileUpload>
+                    <a-alert style="margin-top:16px" message="仅能上传PDF格式文件" type="info" showIcon />
+                  </a-form-item>
+                </a-col>
+              </a-row>
             </div>
           </div>
         </a-form>
@@ -58,8 +66,9 @@
 </template>
 <script>
 import UeditorCompent from '@/components/theThreeParty/ueditor.vue'
+import FileUpload from '@/components/Upload/fileUpload'
 export default {
-  components: { UeditorCompent },
+  components: { UeditorCompent, FileUpload },
   data() {
     return {
       ready:false,
@@ -92,6 +101,14 @@ export default {
         title:[
           { required: true, whitespace: true, message: '请输入通知公告标题!' },
         ]
+      },
+      uploadFileList:{
+        default:[],
+        used:[]
+      },
+      uploadConfig:{
+        maxSize:5*1024*1024,
+        acceptTypesArray:['pdf']
       }
     }
   },
@@ -112,6 +129,23 @@ export default {
           this.formData.openEffectStart = this.$com.oneOf(this.noticeDetail.startTime,['',this.defaultEffectTime.startTime])?false:true
           this.formData.openEffectEnd = this.$com.oneOf(this.noticeDetail.endTime,['',this.defaultEffectTime.endTime])?false:true
 
+          // 附件
+          if(Array.isArray(this.noticeDetail.attachments)){
+            for(let i=0;i<this.noticeDetail.attachments.length;i++){
+              this.uploadFileList.default.push({
+                uid: '-'+(i+1),
+                name: !this.noticeDetail.attachments[i].fileName?'none':this.noticeDetail.attachments[i].fileName,
+                status: 'done',
+                url: this.noticeDetail.attachments[i].filePath
+              })
+              this.uploadFileList.used.push({
+                uid: '-'+(i+1),
+                name: !this.noticeDetail.attachments[i].fileName?'none':this.noticeDetail.attachments[i].fileName,
+                status: 'done',
+                url: this.noticeDetail.attachments[i].filePath
+              })
+            }
+          }
           //初始化表单数据
           this.$nextTick(function () {
             this.noticeEditForm.setFieldsValue({ title:this.noticeDetail.title })
@@ -152,6 +186,13 @@ export default {
       this.formData.isTop = e.target.value
     },
     /**
+     * 监听表单’文献PDF附件‘上传变动，并暂存
+     * @param {Array} filelist 最新变动已上传的文件对象列表
+     */
+    onUploadFileChange(filelist){
+      this.uploadFileList = [].concat(filelist)
+    },
+    /**
      * 监听UEditor内容变更，并存储
      * @param {Object} instance
      */
@@ -160,6 +201,25 @@ export default {
       instance.addListener('contentChange', () => {
         this.formData.content = instance.getContent()
         // console.log('editorReady',this.formData.content )
+      })
+    },
+    arrangeFileList(){
+      const {used} = this.uploadFileList
+      if (!used || used.length <= 0) return []
+      return this.uploadFileList.used.map((item,index)=>{
+        if(item.uid.indexOf('-')==0){// 未修改PDF
+          return {
+            type:1,
+            sort:index+1,
+            filePath:item.url
+          }
+        }else{ // 新上传的PDF
+          return {
+            type:1,
+            sort:index+1,
+            fileId:item.uid
+          }
+        }
       })
     },
     /**
@@ -201,7 +261,8 @@ export default {
           let postParams = Object.assign({},this.formData ,{
             'title':this.noticeEditForm.getFieldValue('title'),
             'isVote':'0', // 默认创建的为非投票结果文章
-            'status':type=='save'?'0':'1'
+            'status':type=='save'?'0':'1',
+            'attachments': this.arrangeFileList()
           })
           delete postParams.openEffectStart
           delete postParams.openEffectEnd

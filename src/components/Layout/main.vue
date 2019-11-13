@@ -207,6 +207,7 @@ export default {
           if (dom1) {
             this.backTopTarget = () => dom1
           } else {
+            dom2.scrollTo(0,0)
             this.backTopTarget = () => dom2
           }
           this.showBacktop = true

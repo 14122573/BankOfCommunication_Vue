@@ -44,6 +44,11 @@
                   </DetailsItem>
 								</a-col>
 							</a-row>
+              <a-row type="flex" justify="start">
+                <a-col span="16" style="margin:8px 0;">
+								  <DetailsFile :labelSpan='4' :textSpan="20" :label='"文件信息"' :files='makeFileList'></DetailsFile>
+								</a-col>
+							</a-row>
 						</div>
 					</div>
           <div class="layoutMargin detailsPartSection">
@@ -133,6 +138,23 @@ export default {
       }
       return statusTag
     },
+    /**
+     * 组装需要展示的文件数组
+     * @returns {Array}  [{name:带文件后缀的文件名称；url：已上传的文件地址},...]
+     */
+    makeFileList(){
+      let fileList = []
+      let attachments = !this.noticeDetail.attachments?[]:this.noticeDetail.attachments
+      for(let i=0;i<attachments.length;i++){
+        if(attachments[i].type=='1'){
+          fileList.push({
+            name:attachments[i].fileName,
+            url:attachments[i].filePath
+          })
+        }
+      }
+      return fileList
+    }
   },
   methods: {
     /**
@@ -197,7 +219,7 @@ export default {
       this.$router.push({
         name:'/cms/notice/edit',
         params:{
-          id:id
+          id: this.noticeDetail.id,
         }
       })
     },
