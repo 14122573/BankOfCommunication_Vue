@@ -3,7 +3,7 @@
 <div class="layoutMargin layoutPadding" v-if="$route.name == '/cms/manual'">
   <ActiveForm :layout="layout" :label-width="70" :model="model">
     <div style="margin-bottom: 10px;">
-      <a-button v-if="$permission('P33001')" @click="showModal = true" type="primary">新增操作手册</a-button>
+      <a-button v-if="$permission('P34001')" @click="showCreateModal" type="primary">新增操作手册</a-button>
     </div>
   </ActiveForm>
   <ActiveTable
@@ -21,12 +21,12 @@
       <DataOperatorInList :defaultFileList="uploadFileList" :creator='!record.creator?"":record.creator' :lastOperator='!record.operator?"":record.operator' />
     </div>
     <span slot="actions" slot-scope="{ text, record }">
-      <span v-if="$permission('P33003')" class="actionBtn">查看<a-divider type="vertical"/></span>
-      <span v-if="$permission('P33003')" @click="editManual(record)" class="actionBtn">编辑<a-divider type="vertical"/></span>
-      <span v-if="$permission('P33003')" class="actionBtn">删除</span>
+      <span v-if="$permission('P34003')" @click="handleView(record)" class="actionBtn">查看附件<a-divider type="vertical"/></span>
+      <span v-if="$permission('P34001')" @click="editManual(record)" class="actionBtn">编辑<a-divider type="vertical"/></span>
+      <span v-if="$permission('P34002')" @click="handleDelete(record)" class="actionBtn">删除</span>
     </span>
   </ActiveTable>
-  <a-modal v-model="showModal" :title="`新增操作手册`" :maskClosable="false" @ok="handleOk">
+  <a-modal v-model="showModal" :title="`${editId ? '编辑' : '新增'}操作手册`" :maskClosable="false" @ok="handleOk">
     <a-form v-if="showModal" :form="modalForm">
       <a-form-item label="名称" :label-col="{span:4}" :wrapper-col="{span:20}">
         <a-input v-decorator="['name',{validateTrigger: 'blur',rules:rules.name}]" placeholder="请输入操作手册名称"></a-input>
@@ -153,17 +153,15 @@ export default {
   methods: {
     handleUpload(filelist) {
       this.uploadFileList = [].concat(filelist)
-      console.log(this.uploadFileList);
-
     },
-    deleteVote({id}) {
+    handleDelete({id}) {
       this.$modal.confirm({
-        title: '删除投票',
-        content: '是否确认删除该草稿投票信息？删除后将不会出现在列表中',
+        title: '删除操作手册',
+        content: '是否确认删除该操作手册？',
         okType: 'danger',
         onOk: () => {
           this.$ajax.delete({
-            url: this.$api.DELETE_VOTE.replace('{id}', id)
+            url: this.$api.DELETE_MANUAL.replace('{id}', id)
           }).then(() => {
             this.$modal.success({
               title: '成功',
@@ -174,6 +172,9 @@ export default {
           })
         },
       })
+    },
+    handleView({path}) {
+      window.open(path, '_blank')
     },
     getList() {
       const {name = null} = this.model
@@ -199,13 +200,17 @@ export default {
       this.currentPage = current
       this.getList()
     },
-    editManual({id, name, path}) {
+    showCreateModal() {
+      this.editId = null
+      this.showModal = true
+    },
+    editManual({id, name, fileName, path}) {
       this.showModal = true
       this.editId = id
       this.$nextTick(() => {
         this.modalForm.setFieldsValue({
           name,
-          upload: [{name, url: path, uid: id}],
+          upload: [{name: fileName, url: path, uid: id}],
         })
       })
     },
@@ -219,10 +224,12 @@ export default {
           const params = {
             name: this.modalForm.getFieldValue('name'),
             path: this.modalForm.getFieldValue('upload').url,
+            fileName: this.modalForm.getFieldValue('upload').name,
           }
           if (this.uploadFileList.length > 0) {
             params.path = this.uploadFileList[0].url
             params.fileId = this.uploadFileList[0].uid
+            params.fileName = this.uploadFileList[0].name
           }
           this.$ajax.put({
             url: this.$api.PUT_EDIT_MANUAL.replace('{id}', this.editId),
@@ -234,7 +241,7 @@ export default {
               okText: '确认',
             })
             this.showModal = false
-            this.editId = null
+            this.uploadFileList = []
             this.getList()
           })
           return
@@ -243,7 +250,9 @@ export default {
           url: this.$api.POST_ADD_MANUAL,
           params: {
             name: this.modalForm.getFieldValue('name'),
+            fileName: this.uploadFileList[0].name,
             path: this.uploadFileList[0].url,
+            fileId: this.uploadFileList[0].uid,
           },
         }).then(res => {
           this.$modal.success({

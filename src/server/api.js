@@ -126,7 +126,8 @@ export default {
   PUT_VOTE_STATUS: '/service-release/release/vote/{id}/{status}', // 修改投票的状态
   GET_VOTE_RESULT: '/service-release/release/vote/result/count/{id}', // 获取投票结果公示
   // 内容发布-操作手册
-  GET_MANUAL_LIST: MOCK_URL + '/service-release/release/handbooks', //获取手册列表
-  POST_ADD_MANUAL: MOCK_URL + '/service-release/release/handbook', // 新增手册
-  PUT_EDIT_MANUAL: MOCK_URL + '/service-release/release/handbook/{id}', // 编辑手册
+  GET_MANUAL_LIST: '/service-release/release/handbooks', //获取手册列表
+  POST_ADD_MANUAL: '/service-release/release/handbook', // 新增手册
+  PUT_EDIT_MANUAL: '/service-release/release/handbook/{id}', // 编辑手册
+  DELETE_MANUAL: '/service-release/release/handbook/{id}', // 删除手册
 }

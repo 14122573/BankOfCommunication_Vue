@@ -8,7 +8,7 @@
       </span>
     </p>
     <div class="container">
-      <div class="card" v-for="item in list" :key="item.id">
+      <div class="card" v-for="item in list" :key="item.id" @click="handleView(item.path)">
         <img src="@/assets/images/word.png" />
         <p>
           <a-tooltip placement="bottom">
@@ -65,6 +65,9 @@ export default {
       this.pageNo = page
       this.getList()
     },
+    handleView(path) {
+      window.open(path, '_blank')
+    },
   },
   filters: {
     formatter(value) {
@@ -90,7 +93,7 @@ export default {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: space-around;
+  justify-content: center;
   padding: 10px;
   border: 1px solid #eff7ff;
   width: 135px;
@@ -107,6 +110,6 @@ export default {
   width: 40px;
 }
 .container > .card > p {
-  margin: 0;
+  margin: 10px 0 0;
 }
 </style>

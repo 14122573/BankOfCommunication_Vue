@@ -405,11 +405,11 @@ const appRoutes = [{
         },
         {
           path: '/cms/manual', name: '/cms/manual', component: ManualList,
-          meta: { title: '操作手册管理', menuPath: true, authCode: '', menuIcon: 'file-text', hideInBread: false },
+          meta: { title: '操作手册管理', menuPath: true, authCode: 'P34000', menuIcon: 'file-text', hideInBread: false },
           children: [
             {
               path: '/cms/manual/file-list', name: '/cms/manual/file-list', component: ManualFileList,
-              meta: { title: '操作手册列表', menuPath: false, authCode: '', menuIcon: 'file-text', hideInBread: false },
+              meta: { title: '操作手册列表', menuPath: false, authCode: 'P34000', menuIcon: 'file-text', hideInBread: false },
             },
           ],
         },

@@ -1,5 +1,5 @@
 <template>
-  <div class="knowledgeSection" v-if="isReady">
+  <div class="knowledgeSection">
     <a-row class="knowledgeInHomeTitle" type="flex" justify="space-between" align="middle" :gutter='16' >
       <a-col :span="18"><a-divider class="divider" type="vertical" /><span class="title">投票</span></a-col>
       <a-col :span="6" class="algin-right"><span v-if='qrList.length>0' @click="toVoteList" class="more">查看全部</span></a-col>
@@ -21,7 +21,7 @@
       </template>
       <template v-else>
         <div class="noDataBox">
-          <p class="tips">暂无知识文献</p>
+          <p>暂无投票列表</p>
         </div>
       </template>
     </div>
@@ -38,6 +38,7 @@
 .custom-slick-arrow { width: 20px; height: 40px; line-height: 40px; text-align: center;  font-size: 16px; background: #94bfef; color: #fff; z-index: 11; opacity: 0.3; top: 40%;}
 .custom-slick-arrow:hover { background: #94bfef; color: #fff; opacity: 0.5;}
 .custom-slick-arrow:before { display: none; }
+.noDataBox {height: 200px; color:rgba(0,0,0,0.6); font-size: 30px; display: flex;flex-direction: column; align-items: center;justify-content: center;}
 </style>
 <script>
 
@@ -49,7 +50,6 @@ export default {
   },
   data() {
     return {
-      isReady:false,
       qrList:[],
     }
   },
@@ -73,7 +73,6 @@ export default {
           result.push(data.splice(0, 4))
         }
         this.qrList = result
-        this.isReady = true
       })
     },
     toVoteList() {

@@ -1,7 +1,7 @@
 <template>
   <div>
     <a-row type="flex" justify="center" align="top" class="detailContent">
-      <a-col :span="labelSpan" class="label">{{label}}：</a-col>
+      <a-col v-if="label" :span="labelSpan" class="label">{{label}}：</a-col>
       <a-col :span="textSpan" class="text">
         <template v-for="(item,index) in fileList">
             <template v-if="'pic'==item.fileType">
@@ -40,7 +40,7 @@ export default {
     },
     label:{
       type: String,
-      required: true
+      default: null,
     },
     /**
      * 需要展示的文件列表

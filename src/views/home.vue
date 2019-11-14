@@ -13,7 +13,7 @@
         <a-row type="flex" justify="start" align='top' :gutter="12" style="margin-bottom:10px">
           <a-col span='24' class="sectionBox">
             <div class="section">
-              <VotePublish></VotePublish>
+              <VotePublish/>
             </div>
           </a-col>
         </a-row>
@@ -44,16 +44,7 @@
           </div>
           <div class="section mb16">
             <div class="sectionBody">
-              <a-row class="sectionTitle" type="flex" justify="space-between" align="middle">
-                <a-col :span="18"><a-divider class="divider" type="vertical" /><span class="title">操作手册</span></a-col>
-                <a-col :span="6" class="algin-right"><span @click="routerTo('/cms/manual/file-list')" class="more">查看全部</span></a-col>
-              </a-row>
-              <div class="sectionContent">
-                <div class="manual-wrapper">
-                  <img src="@/assets/images/word.png" />
-                  操作手册
-                </div>
-              </div>
+              <ManualPublish />
             </div>
           </div>
           <div class="section">
@@ -95,9 +86,6 @@
 .sectionTitle .divider{ font-size: 16px; background-color:#1890ff; height: 16px; width: 5px; border-radius: 4px;}
 .sectionTitle .title{ font-size: 16px;}
 .sectionTitle .more{ cursor: pointer; color: #1890ff}
-.manual-wrapper {text-align: center; padding-bottom: 16px; cursor: pointer;}
-.manual-wrapper:hover {color: #1890ff}
-.manual-wrapper > img {width: 50px;}
 </style>
 
 <script>
@@ -105,28 +93,21 @@ import { permission } from '@/util/mixins'
 import NoticePublish from '@/views/cms/noticePublish/noticeInLogin'
 import KnowledgePublish from '@/views/cms/knowledgePublish/authInHome'
 import VotePublish from '@/views/cms/vote/voteInHome'
+import ManualPublish from '@/views/cms/manual/manualInHome'
 
 export default {
   mixins: [permission],
   components: {
-    NoticePublish,KnowledgePublish,VotePublish
-  },
-  data() {
-    return {
-    }
+    NoticePublish,
+    KnowledgePublish,
+    VotePublish,
+    ManualPublish,
   },
   mounted() {
     const token = this.$cookie.get('token')
     if (token) {
       this.getInfo()
     }
-  },
-  methods: {
-    routerTo(name) {
-      this.$router.push({
-        name,
-      })
-    },
   },
 }
 </script>
