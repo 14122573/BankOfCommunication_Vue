@@ -73,6 +73,7 @@ const VoteQrList = () => import('@/views/cms/vote/qr-list')
 // 内容管理 - 操作手册
 const ManualList = () => import('@/views/cms/manual/list')
 const ManualFileList = () => import('@/views/cms/manual/file-list')
+const ManualView = () => import('@/views/cms/manual/manual-view')
 
 /**
      * 要求：
@@ -1112,7 +1113,11 @@ const appRoutes = [{
 },
 { path: '/cms/noticePublish/:id', name: '/cms/noticePublish/view', component: NoticeView,
   meta: { title: '浏览通知公告', menuPath: false, menuIcon: 'file-text', hideInBread: false },
-}
+},
+// 浏览操作手册
+{ path: '/cms/manualPublish', name: '/cms/manualPublish', component: ManualView,
+  meta: { title: '操作手册', menuPath: false, menuIcon: 'file-text', hideInBread: false },
+},
 ]
 
 export const routes = [

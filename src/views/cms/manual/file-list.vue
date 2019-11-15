@@ -8,17 +8,24 @@
       </span>
     </p>
     <div class="container">
-      <div class="card" v-for="item in list" :key="item.id" @click="handleView(item.path)">
-        <img src="@/assets/images/word.png" />
-        <p>
-          <a-tooltip placement="bottom">
-            <template slot="title">
-              <span>{{item.name}}</span>
-            </template>
-            {{item.name | formatter}}
-          </a-tooltip>
-        </p>
-      </div>
+      <template v-if="list.length > 0">
+        <div class="card" v-for="item in list" :key="item.id" @click="handleView(item.path)">
+          <img src="@/assets/images/word.png" />
+          <p>
+            <a-tooltip placement="bottom">
+              <template slot="title">
+                <span>{{item.name}}</span>
+              </template>
+              {{item.name | formatter}}
+            </a-tooltip>
+          </p>
+        </div>
+      </template>
+      <template v-else>
+        <div style="padding: 50px 0;">
+          <a-divider>暂无操作手册</a-divider>
+        </div>
+      </template>
     </div>
     <div style="text-align:right; padding: 16px 16px 0;">
       <a-pagination

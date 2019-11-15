@@ -206,21 +206,12 @@ export default {
      * @returns {Boolean} 已传入地址数组中的每个元素是否符合url地址要求
      */
     checkVideoUrl(urls){
-      let valid = 0
-      if(Array.isArray(urls)){
-        for(let i=0;i<urls.length;i++){
-          if(urls[i].length>7){
-            let startStr = urls[i].substr(0, 8).toLowerCase()
-            if (startStr.indexOf('https://')!=-1 || startStr.indexOf('http://')!=-1) {
-              valid++
-            }
-          }
-        }
-        if(valid == urls.length){
-          return true
-        }else{
-          return false
-        }
+      if(Array.isArray(urls) && urls.length > 0){
+        return urls.every(url => {
+          if (!url) return true
+          const str = url.toLowerCase()
+          return str.startsWith('https://') || str.startsWith('http://')
+        })
       }else{
         return true
       }
@@ -264,7 +255,7 @@ export default {
           if(!this.checkVideoUrl(this.formData.videoUrlList)){
             this.$modal.error({
               title: '表单验证未通过',
-              content: '”线上视频“填写了不合规的URL地址，请输入带有\'Http://\'或\'https://\'完整线上视频地址',
+              content: '”线上视频“填写了不合规的URL地址，请输入带有\'http://\'或\'https://\'完整线上视频地址',
               okText: '确认',
               cancelText: '取消',
             })
