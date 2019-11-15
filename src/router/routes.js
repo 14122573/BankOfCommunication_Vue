@@ -70,6 +70,10 @@ const VoteEdit = () => import('@/views/cms/vote/edit')
 const VoteResult = () => import('@/views/cms/vote/result')
 const VoteView = () => import('@/views/cms/vote/view')
 const VoteQrList = () => import('@/views/cms/vote/qr-list')
+// 内容管理 - 操作手册
+const ManualList = () => import('@/views/cms/manual/list')
+const ManualFileList = () => import('@/views/cms/manual/file-list')
+const ManualView = () => import('@/views/cms/manual/manual-view')
 
 /**
      * 要求：
@@ -399,6 +403,16 @@ const appRoutes = [{
               meta: { title: '通知公告详情', menuPath: false, authCode: 'P31005', menuIcon: 'file-text', hideInBread: false },
             }
           ]
+        },
+        {
+          path: '/cms/manual', name: '/cms/manual', component: ManualList,
+          meta: { title: '操作手册管理', menuPath: true, authCode: 'P34000', menuIcon: 'file-text', hideInBread: false },
+          children: [
+            {
+              path: '/cms/manual/file-list', name: '/cms/manual/file-list', component: ManualFileList,
+              meta: { title: '操作手册列表', menuPath: false, authCode: 'P34000', menuIcon: 'file-text', hideInBread: false },
+            },
+          ],
         },
         {
           path: '/cms/vote', name: '/cms/vote', component: VoteList,
@@ -1099,7 +1113,11 @@ const appRoutes = [{
 },
 { path: '/cms/noticePublish/:id', name: '/cms/noticePublish/view', component: NoticeView,
   meta: { title: '浏览通知公告', menuPath: false, menuIcon: 'file-text', hideInBread: false },
-}
+},
+// 浏览操作手册
+{ path: '/cms/manualPublish', name: '/cms/manualPublish', component: ManualView,
+  meta: { title: '操作手册', menuPath: false, menuIcon: 'file-text', hideInBread: false },
+},
 ]
 
 export const routes = [

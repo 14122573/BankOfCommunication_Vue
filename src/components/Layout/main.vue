@@ -1,5 +1,6 @@
 // 整体布局文件
 <template>
+<a-locale-provider :locale="zh_CN">
 	<a-layout id="portal">
 		<Loader />
 		<template v-if="showPurePage">
@@ -39,9 +40,7 @@
 						</div>
 					</a-layout-header>
 					<a-layout-content id="appContent" :style="'background: url('+ require('@/assets/images/content-bg.png') + ') no-repeat'">
-						<a-locale-provider :locale="zh_CN">
-							<router-view v-show="!showSpaContent" :key="$route.path" />
-						</a-locale-provider>
+            <router-view v-show="!showSpaContent" :key="$route.path" />
 						<div v-show="showSpaContent" id="content" />
             <a-back-top v-if="showBacktop" :visibilityHeight="100" :target="backTopTarget"/>
 					</a-layout-content>
@@ -49,6 +48,7 @@
 			</a-layout>
 		</template>
 	</a-layout>
+</a-locale-provider>
 </template>
 <script>
 import SideMenu from '@/components/Layout/sidemenu'
@@ -207,6 +207,7 @@ export default {
           if (dom1) {
             this.backTopTarget = () => dom1
           } else {
+            dom2.scrollTo(0,0)
             this.backTopTarget = () => dom2
           }
           this.showBacktop = true

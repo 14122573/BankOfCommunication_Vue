@@ -14,7 +14,7 @@
         </p>
       </a-col>
       <a-col :span="8" style="text-align:center">
-        <p class="entrance">
+        <p class="entrance" @click="$router.push({name: '/cms/manualPublish'})">
           <img src="@/assets/images/icon-login-entrance-3.png" alt="" class="icon1">
           <span class="title">系统服务</span>
         </p>

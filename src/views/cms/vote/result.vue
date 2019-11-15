@@ -14,8 +14,10 @@
         <p class="title">{{`${index + 1}、${item.title}`}}&nbsp;&nbsp;&nbsp;&nbsp;{{`参与投票人数：${item.count || 0}人`}}</p>
         <p v-for="(option, i) in item.options" :key="option.id" class="option">
           <span>{{`${$com.numToLetter(i)}、${option.value || ''}`}}</span>
-          <a-progress :percent="calcPercent(item.count, option.count)" status="normal" style="width: 30%;" :strokeWidth="14" :showInfo="false" />
-          <span>{{`${option.count || 0}人 / ${calcPercent(item.count, option.count)}%`}}</span>
+          <span>
+            <a-progress :percent="calcPercent(item.count, option.count)" status="normal" style="width: 200px;" :strokeWidth="14" :showInfo="false" />
+            <span>{{`${option.count || 0}人 / ${calcPercent(item.count, option.count)}%`}}</span>
+          </span>
         </p>
       </div>
     </div>
@@ -97,13 +99,16 @@ export default {
   .container .title {
     font-weight: bold;
   }
+  .container .option {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+  }
   .container .option span:first-child {
     display: inline-block;
-    min-width: 30%;
-    margin-right: 50px;
+    max-width: 50%;
   }
   .container .option span:last-child {
     color: #1890ff;
-    margin-left: 10px;
   }
 </style>

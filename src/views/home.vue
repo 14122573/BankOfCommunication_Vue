@@ -13,7 +13,7 @@
         <a-row type="flex" justify="start" align='top' :gutter="12" style="margin-bottom:10px">
           <a-col span='24' class="sectionBox">
             <div class="section">
-              <VotePublish></VotePublish>
+              <VotePublish/>
             </div>
           </a-col>
         </a-row>
@@ -44,12 +44,7 @@
           </div>
           <div class="section mb16">
             <div class="sectionBody">
-              <a-row class="sectionTitle" type="flex" justify="space-between" align="middle">
-                <a-col :span="18"><a-divider class="divider" type="vertical" /><span class="title">操作手册</span></a-col>
-              </a-row>
-              <div class="sectionContent">
-                <p class="contact">xinnn / 123123123</p>
-              </div>
+              <ManualPublish />
             </div>
           </div>
           <div class="section">
@@ -98,23 +93,21 @@ import { permission } from '@/util/mixins'
 import NoticePublish from '@/views/cms/noticePublish/noticeInLogin'
 import KnowledgePublish from '@/views/cms/knowledgePublish/authInHome'
 import VotePublish from '@/views/cms/vote/voteInHome'
+import ManualPublish from '@/views/cms/manual/manualInHome'
 
 export default {
   mixins: [permission],
   components: {
-    NoticePublish,KnowledgePublish,VotePublish
-  },
-  data() {
-    return {
-    }
+    NoticePublish,
+    KnowledgePublish,
+    VotePublish,
+    ManualPublish,
   },
   mounted() {
     const token = this.$cookie.get('token')
     if (token) {
       this.getInfo()
     }
-  },
-  methods: {
   },
 }
 </script>

@@ -43,6 +43,14 @@
                   </a-form-item>
                 </a-col>
               </a-row>
+              <a-row :gutter="16">
+                <a-col span="16">
+                  <a-form-item label="附件" :label-col="{span:4}" :wrapper-col="{span:20}">
+                    <FileUpload @change="onUploadFileChange"  :acceptTypes="uploadConfig.acceptTypesArray" :maxFileSize="uploadConfig.maxSize" :maxCount="100" :timestamp="Date.now()"></FileUpload>
+                      <a-alert style="margin-top:16px" message="仅能上传PDF格式文件" type="info" showIcon />
+                  </a-form-item>
+                </a-col>
+              </a-row>
             </div>
           </div>
           <div class="layoutMargin detailsPartSection">
@@ -59,8 +67,9 @@
 </template>
 <script>
 import UeditorCompent from '@/components/theThreeParty/ueditor'
+import FileUpload from '@/components/Upload/fileUpload'
 export default {
-  components: { UeditorCompent },
+  components: { UeditorCompent, FileUpload },
   data() {
     return {
       timeFormat:'YYYY-MM-DD HH:mm:ss',
@@ -88,6 +97,11 @@ export default {
         title:[
           { required: true, whitespace: true, message: '请输入通知公告标题!' },
         ]
+      },
+      uploadFileList:[],
+      uploadConfig:{
+        maxSize:5*1024*1024,
+        acceptTypesArray:['pdf']
       }
     }
   },
@@ -127,6 +141,13 @@ export default {
       })
     },
     /**
+     * 监听表单’文献PDF附件‘上传变动，并暂存
+     * @param {Array} filelist 最新变动已上传的文件对象列表
+     */
+    onUploadFileChange(filelist){
+      this.uploadFileList = [].concat(filelist)
+    },
+    /**
      * 提交表单内容
      * @param {String} type 提交表单内容的数据保存类型，暂存：save；保存并发布：publish
      */
@@ -161,11 +182,18 @@ export default {
             this.$com.getFormValidErrTips(vm,err,'请填写通知公告正文内容！')
             return
           }
-
+          const attachments = this.uploadFileList.map(item => {
+            return {
+              fileId: item.uid,
+              type: '1',
+              filePath: item.url,
+            }
+          })
           let postParams = Object.assign({},this.formData ,{
             'title':this.noticeCreateForm.getFieldValue('title'),
             'isVote':'0', // 默认创建的为非投票结果文章
-            'status':type=='save'?'0':'1'
+            'status':type=='save'?'0':'1',
+            attachments, // 附件
           })
 
           delete postParams.openEffectStart
