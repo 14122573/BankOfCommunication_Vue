@@ -135,11 +135,6 @@ export default {
     menuMode() {
       return this.collapsed ? 'vertical' : 'inline'
     },
-    // backTopTarget() {
-    //   console.log('target', this.$store.state.backTopTarget)
-
-    //   return this.$store.state.backTopTarget
-    // },
   },
   methods: {
     /**
