@@ -30,8 +30,20 @@
           </a-col>
         </a-row>
       </a-col>
+          <DataService ref="dataService"></DataService>
       <a-col span='8'>
         <div class="sectionBox">
+          <!-- 数据服务 -->
+          <div class="section mb16 dataSer" @click="openDataService()">
+            <img src="@/assets/images/Group 12@3x.png" >
+            <div class="demo">
+              <p>
+                <a-icon type="rise" />
+                数据服务
+              </p>
+            </div>
+          </div>
+          <!-- 管理员联系方式 -->
           <div class="section mb16">
             <div class="sectionBody">
               <a-row class="sectionTitle" type="flex" justify="space-between" align="middle">
@@ -42,11 +54,13 @@
               </div>
             </div>
           </div>
+          <!-- 操作手册 -->
           <div class="section mb16">
             <div class="sectionBody">
               <ManualPublish />
             </div>
           </div>
+          <!-- 天气日历 -->
           <div class="section">
             <div class="sectionBody">
               <a-row class="sectionTitle" type="flex" justify="space-between" align="middle">
@@ -82,6 +96,11 @@
 .sectionBody{ margin: 0 16px; padding-top: 16px;}
 .sectionContent .contact{ font-size: 16px; font-weight: bold; text-align: center; line-height: 30px ; padding-bottom: 10px;}
 
+/* 首页中数据服务模块 */
+.dataSer {position: relative; cursor:pointer}
+.dataSer img { display: inline-block; width: 100% ; max-height: 150px;}
+.dataSer .demo{ height: 60px; width: 100%; position: absolute; top:50%; left:50%; transform: translate(-50%,-50%);color:#fff;font-size: 24px; text-align: center;line-height: 60px;}
+
 .sectionTitle { margin-bottom: 16px; padding-bottom: 8px; border-bottom: 1px solid  rgba(0,0,0,0.1)}
 .sectionTitle .divider{ font-size: 16px; background-color:#1890ff; height: 16px; width: 5px; border-radius: 4px;}
 .sectionTitle .title{ font-size: 16px;}
@@ -94,6 +113,8 @@ import NoticePublish from '@/views/cms/noticePublish/noticeInLogin'
 import KnowledgePublish from '@/views/cms/knowledgePublish/authInHome'
 import VotePublish from '@/views/cms/vote/voteInHome'
 import ManualPublish from '@/views/cms/manual/manualInHome'
+// 引入数据服务的组件
+import DataService from '@/views/cms/dataService/dataService'
 
 export default {
   mixins: [permission],
@@ -102,6 +123,7 @@ export default {
     KnowledgePublish,
     VotePublish,
     ManualPublish,
+    DataService
   },
   mounted() {
     const token = this.$cookie.get('token')
@@ -109,6 +131,11 @@ export default {
       this.getInfo()
     }
   },
+  methods: {
+    openDataService(){
+      this.$refs.dataService.showModal()
+    }
+  }
 }
 </script>
 

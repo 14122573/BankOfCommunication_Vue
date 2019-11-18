@@ -405,6 +405,7 @@ export default {
         this.pagination.current = this.pagination.pageNo
         this.noticeList = this.$com.confirm(res, 'data.content', [])
         this.isReady = true
+        console.log(res)
       })
     }
   },

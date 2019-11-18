@@ -11,6 +11,7 @@
         <div class="matching" :style="'background-image: url(' + require('@/assets/images/bg-login-cms.jpg') + ')'">
           <NoticeList :showPosition='"login"'></NoticeList>
           <OtherEntrance></OtherEntrance>
+          <!-- <DataService></DataService> -->
         </div>
         <div class="form">
           <div class="login" v-if='pageType=="login"'>
@@ -80,6 +81,7 @@ import NoticeList from '@/views/cms/noticePublish/noticeInLogin'
 import OtherEntrance from '@/views/login/otherEntrance'
 import FrameTop from '@/views/login/components/frameTop'
 import FrameFooter from '@/views/login/components/footer'
+
 export default {
   components: {
     testStrong,
@@ -87,7 +89,8 @@ export default {
     opeationSuccess,
     NoticeList,
     OtherEntrance,
-    FrameTop,FrameFooter
+    FrameTop,
+    FrameFooter,
   },
   mixins: [permission],
   beforeCreate() {

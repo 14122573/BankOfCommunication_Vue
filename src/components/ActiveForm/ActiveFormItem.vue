@@ -53,6 +53,7 @@
       v-decorator="validate"
       :format="item.format"
       allowClear
+      :disabledDate="item.disabledDate || null"
       :placeholder="placeholder"
       :disabled="item.disabled" />
 
@@ -62,6 +63,7 @@
       v-decorator="validate"
       :format="item.format"
       allowClear
+      :disabledDate="item.disabledDate || null"
       :placeholder="placeholder"
       :disabled="item.disabled" />
 

@@ -1,8 +1,9 @@
 <template>
   <div class="otherEntrance">
+    <dataService ref="dataService"></dataService>
     <a-row type="flex" justify="space-between" align="top">
       <a-col :span="8" style="text-align:center">
-        <p class="entrance">
+        <p class="entrance" @click="openDataService()">
           <img src="@/assets/images/icon-login-entrance-1.png" alt="" class="icon1">
           <span class="title">数据服务</span>
         </p>
@@ -32,7 +33,13 @@
 .entrance .title{ padding-top: 8px; display: block; clear: both; font-size: 16px; font-weight: bold;}
 </style>
 <script>
+// 引入模态框 通过ref调用子组件的方法弹出
+import DataService from '@/views/cms/dataService/dataService'
+
 export default {
+  components:{
+    DataService
+  },
   beforeCreate() {
   },
   data() {
@@ -47,6 +54,9 @@ export default {
   watch: {
   },
   methods:{
+    openDataService(){
+      this.$refs.dataService.showModal()
+    }
   }
 }
 </script>

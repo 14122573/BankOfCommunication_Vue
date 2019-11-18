@@ -3,14 +3,18 @@
     <div class="cmsPublishFrame">
       <div class="cmsPublishFrameTitle">
         <a-row type="flex" justify="space-between" align="top" :gutter='16'>
-          <a-col :span="20">
+          <a-col :span="18">
             <p class="titleName">{{noticeDetail.title}}</p>
             <p class="titleSub">
               <a-tag style="margin-right:10px;" v-if="noticeDetail.isTop=='1'" color="blue">置顶</a-tag>
               <a-tag v-if="noticeDetail.isVote=='1'" color="orange">投票结果公示</a-tag>
             </p>
           </a-col>
-          <a-col :span="4"> <a-button type="primary" @click="$router.push({name:'/cms/noticePublish'})" ghost> 返回通知公告列表 </a-button> </a-col>
+          <a-col :span="6" >
+             <a-button type="primary" @click="$router.push({name:'/cms/noticePublish'})" ghost>返回通知公告列表</a-button>
+             <!-- 直接返回登录页 -->
+             <a-button class="close" type="primary" @click="$router.replace({name:'login'})" ghost>关闭</a-button>
+          </a-col>
         </a-row>
       </div>
       <div class="layoutMargin" style="padding-bottom:16px" >
@@ -33,6 +37,7 @@
 .cmsPublishFrameTitle p{ margin: 0;color: rgba(0, 0, 0, 0.7); line-height: 1.5em}
 .cmsPublishFrameTitle .titleName{ font-size: 18px;  font-weight: bold;}
 .cmsPublishFrameTitle .titleSub{ font-size: 14px;}
+.cmsPublishFrameTitle .close{ margin-left: 5px;}
 .footer { height: 50px; width: 100%; text-align: center; position: absolute; bottom: 10px; left: 0px; color: #cfd7f3; font-size: 14px;}
 .footer p {	margin: 0; }
 .footer p:last-of-type { 	color: #829bdc; }

@@ -2,7 +2,7 @@
   <a-menu :mode="menuMode" @openChange="onOpenChange" :openKeys="defaultOpenKeys" v-model="defaultSelectedKeys" class="sideMenu" theme="dark" style="text-align:left;">
     <template v-for="menu in menus">
       <template v-if="menu.children && menu.children.length > 0">
-        <a-sub-menu :key="menu.name">
+        <a-sub-menu :key="menu.name" :title="menu.meta.title">
           <span slot="title">
             <template v-if="menu.meta.menuIcon">
               <a-icon :type="menu.meta.menuIcon" />
@@ -13,7 +13,7 @@
             <span>{{menu.meta.title}}</span>
           </span>
           <template v-for="child in menu.children">
-            <a-menu-item :key="child.name" @click="({item, key}) => {navigateTo({item, key},child)}">
+            <a-menu-item :key="child.name" @click="({item, key}) => {navigateTo({item, key},child)}" :title="child.meta.title">
               <template v-if="child.meta.menuIcon">
                 <a-icon :type="child.meta.menuIcon" />
               </template>
@@ -27,7 +27,7 @@
       </template>
 
       <template v-else-if="!menu.children">
-        <a-menu-item :key="menu.name" @click="({item, key}) => {navigateTo({item, key},menu)}">
+        <a-menu-item :key="menu.name" @click="({item, key}) => {navigateTo({item, key},menu)}" :title="menu.meta.title">
           <template v-if="menu.meta.menuIcon">
             <a-icon :type="menu.meta.menuIcon" />
           </template>

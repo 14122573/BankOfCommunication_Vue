@@ -89,6 +89,9 @@ export default {
             label: '投票起止时间',
             type: 'daterange',
             width: 20,
+            disabledDate: (current) => {
+              return current && this.$moment(current, 'YYYY-MM-DD').isBefore(this.$moment().format('YYYY-MM-DD'))
+            },
             validate: {
               rules: [{required: true, message: '请选择投票起止时间'}]
             }
