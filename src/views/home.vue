@@ -30,11 +30,11 @@
           </a-col>
         </a-row>
       </a-col>
-          <DataService ref="demo"></DataService>
+          <DataService ref="dataService"></DataService>
       <a-col span='8'>
         <div class="sectionBox">
-
-          <div class="section mb16 dataSer" @click="fn">
+          <!-- 数据服务 -->
+          <div class="section mb16 dataSer" @click="openDataService()">
             <img src="@/assets/images/Group 12@3x.png" >
             <div class="demo">
               <p>
@@ -43,8 +43,7 @@
               </p>
             </div>
           </div>
-
-
+          <!-- 管理员联系方式 -->
           <div class="section mb16">
             <div class="sectionBody">
               <a-row class="sectionTitle" type="flex" justify="space-between" align="middle">
@@ -55,11 +54,13 @@
               </div>
             </div>
           </div>
+          <!-- 操作手册 -->
           <div class="section mb16">
             <div class="sectionBody">
               <ManualPublish />
             </div>
           </div>
+          <!-- 天气日历 -->
           <div class="section">
             <div class="sectionBody">
               <a-row class="sectionTitle" type="flex" justify="space-between" align="middle">
@@ -96,7 +97,7 @@
 .sectionContent .contact{ font-size: 16px; font-weight: bold; text-align: center; line-height: 30px ; padding-bottom: 10px;}
 
 /* 首页中数据服务模块 */
-.dataSer {position: relative;}
+.dataSer {position: relative; cursor:pointer}
 .dataSer img { display: inline-block; width: 100% ; max-height: 150px;}
 .dataSer .demo{ height: 60px; width: 100%; position: absolute; top:50%; left:50%; transform: translate(-50%,-50%);color:#fff;font-size: 24px; text-align: center;line-height: 60px;}
 
@@ -131,8 +132,8 @@ export default {
     }
   },
   methods: {
-    fn(){
-      this.$refs.demo.showModal()
+    openDataService(){
+      this.$refs.dataService.showModal()
     }
   }
 }

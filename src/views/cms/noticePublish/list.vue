@@ -107,7 +107,7 @@ export default {
           this.pagination.current = this.pagination.pageNo
           this.noticeList = this.$com.confirm(res, 'data.content', [])
           //如果有返回的通知公告列表--渲染
-          this.isReady = res.data.content ? true : false
+          this.isReady = res.data.content.length > 0 ? true : false
         }else{
           this.noticeList = []
         }

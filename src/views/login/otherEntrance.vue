@@ -1,9 +1,9 @@
 <template>
   <div class="otherEntrance">
-    <dataService ref="demo"></dataService>
+    <dataService ref="dataService"></dataService>
     <a-row type="flex" justify="space-between" align="top">
       <a-col :span="8" style="text-align:center">
-        <p class="entrance" @click="fn">
+        <p class="entrance" @click="openDataService()">
           <img src="@/assets/images/icon-login-entrance-1.png" alt="" class="icon1">
           <span class="title">数据服务</span>
         </p>
@@ -54,8 +54,8 @@ export default {
   watch: {
   },
   methods:{
-    fn(){
-      this.$refs.demo.showModal()
+    openDataService(){
+      this.$refs.dataService.showModal()
     }
   }
 }

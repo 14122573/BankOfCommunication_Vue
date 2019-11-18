@@ -3,11 +3,11 @@
     <a-modal :footer="null" centered v-model="visible" >
       <a-row type="flex" justify="space-around" class="demo">
         <a-col :span="10" class="dataModal">
-            <img src="@/assets/images/兽医@3x.png" alt="" class="icon2">
+            <img src="@/assets/images/Veterinary.png" alt="" class="icon2">
             <p class="title">官方兽医</p>
         </a-col>
         <a-col :span="10" class="dataModal">
-            <img src="@/assets/images/生产@3x.png" alt="" class="icon2">
+            <img src="@/assets/images/fishProduction.png" alt="" class="icon2">
             <p class="title">全国渔业生产情况</p>
         </a-col>
       </a-row>
