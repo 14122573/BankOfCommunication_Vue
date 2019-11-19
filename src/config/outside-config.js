@@ -16,9 +16,9 @@ case 'devol': // 本地线上部署环境下
     'SCZN':'http://114.215.195.182:2280/SSJK.aspx', //“水产智能”健康养殖生产与大数据管理系统
     'XXYY':'http://123.206.129.108:9000/index/user/index', // 休闲渔业
     'HYMC':'http://123.206.129.108:8082/index/user/index', // 海洋牧场
-    'TGTX':'http://123.206.129.108:8083', // 水产推广体系
+    'TGTX':'http://znyj.nftec.agri.cn/tgtx/checkToken.htmls', // 水产推广体系
     'SCJG':'http://www.cninfoyu.cn/', // 水产价格采集
-    'YMSZ':'http://www.csfish.org.cn:8080/fishincome/', // 渔民收支
+    'YMSZ':'http://znyj.nftec.agri.cn/fishincome', // 渔民收支
     'YQJC':'http://139.129.222.144:8094/sys/Login', // 渔情监测
     'NLBL':'http://139.129.222.144:8093/default.aspx', // 内陆捕捞
     'ZYYH':'http://139.129.222.144:8091/Default.aspx', // 水生物资源养护信息采集系统

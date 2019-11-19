@@ -2,8 +2,8 @@
   <a-menu :mode="menuMode" @openChange="onOpenChange" :openKeys="defaultOpenKeys" v-model="defaultSelectedKeys" class="sideMenu" theme="dark" style="text-align:left;">
     <template v-for="menu in menus">
       <template v-if="menu.children && menu.children.length > 0">
-        <a-sub-menu :key="menu.name" :title="menu.meta.title">
-          <span slot="title">
+        <a-sub-menu :key="menu.name">
+          <span slot="title" :title="menu.meta.title">
             <template v-if="menu.meta.menuIcon">
               <a-icon :type="menu.meta.menuIcon" />
             </template>
@@ -13,28 +13,28 @@
             <span>{{menu.meta.title}}</span>
           </span>
           <template v-for="child in menu.children">
-            <a-menu-item :key="child.name" @click="({item, key}) => {navigateTo({item, key},child)}" :title="child.meta.title">
+            <a-menu-item :key="child.name" @click="({item, key}) => {navigateTo({item, key},child)}">
               <template v-if="child.meta.menuIcon">
                 <a-icon :type="child.meta.menuIcon" />
               </template>
               <template v-else>
                 <a-icon type="bars" />
               </template>
-              <span>{{child.meta.title}}</span>
+              <span :title="child.meta.title">{{child.meta.title}}</span>
             </a-menu-item>
           </template>
         </a-sub-menu>
       </template>
 
       <template v-else-if="!menu.children">
-        <a-menu-item :key="menu.name" @click="({item, key}) => {navigateTo({item, key},menu)}" :title="menu.meta.title">
+        <a-menu-item :key="menu.name" @click="({item, key}) => {navigateTo({item, key},menu)}">
           <template v-if="menu.meta.menuIcon">
             <a-icon :type="menu.meta.menuIcon" />
           </template>
           <template v-else>
             <a-icon type="bars" />
           </template>
-          <span>{{menu.meta.title}}</span>
+          <span :title="menu.meta.title">{{menu.meta.title}}</span>
         </a-menu-item>
       </template>
     </template>
@@ -220,5 +220,22 @@ export default {
   padding-top: 10px;
   height: 90%;
   overflow-y: auto;
+  /* ie滚动条样式 */
+  scrollbar-arrow-color: #00284e; /*三角箭头的颜色*/
+  scrollbar-face-color: #00284e; /*立体滚动条的颜色（包括箭头部分的背景色）*/
+  scrollbar-3dlight-color: #00284e; /*立体滚动条亮边的颜色*/
+  scrollbar-highlight-color: #00284e; /*滚动条的高亮颜色（左阴影？）*/
+  scrollbar-shadow-color: #00284e; /*立体滚动条阴影的颜色*/
+  scrollbar-darkshadow-color: #00284e; /*立体滚动条外阴影的颜色*/
+  scrollbar-track-color: #000c17; /*立体滚动条背景颜色*/
+  scrollbar-base-color:#00284e; /*滚动条的基色*/
+}
+/* 设置滚动条的样式 */
+.sideMenu::-webkit-scrollbar {
+  width: 10px;
+}
+/* 滚动条滑块 */
+.sideMenu::-webkit-scrollbar-thumb {
+  background:#00284e;
 }
 </style>

@@ -45,8 +45,8 @@
                 </template>
               </template>
               <div class="actions">
-                <a-icon @click="editQuestion(i)" type="edit" />
-                <a-icon @click="deleteQuestion(i)" type="delete" />
+                <a-icon title="修改" @click="editQuestion(i)" type="edit" />
+                <a-icon title="删除" @click="deleteQuestion(i)" type="delete" />
               </div>
             </div>
             <a-button @click="addNewQuestion" type="dashed" block style="margin-top: 20px;">添加新题目</a-button>
@@ -388,7 +388,10 @@ export default {
     cursor: pointer;
     font-size: 18px;
   }
-  .actions > i:hover {
+  .actions > i:first-child:hover {
     color: #1890ff;
+  }
+  .actions > i:last-child:hover {
+    color: red;
   }
 </style>
