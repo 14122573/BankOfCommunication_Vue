@@ -52,7 +52,7 @@ const reponseCodeHandler = (res) => {
       if(Common.oneOf(currentMethod.toLocaleLowerCase(),['post','put','delete'])){
         Modal.error({
           title: '提交错误',
-          content: !res.msg?'':res.msg,
+          content: !res.data.msg?'':res.data.msg,
           okText: '确认',
           cancelText: '取消',
         })
