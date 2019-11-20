@@ -76,8 +76,10 @@
     :rowSelection="{selectedRowKeys: selectedRowKeys, onChange: onSelectChange}"
     :columns="columns"
     :dataSource="data"
+    :pagination="pagination"
+    rowKey="id"
   >
-    <template slot="operation" slot-scope="record">
+    <template slot="operation" slot-scope="text, record">
       <a-button @click="handleView(record)" type="link">查看</a-button>
     </template>
   </a-table>
@@ -85,15 +87,6 @@
 </template>
 
 <script>
-const data = []
-for (let i = 0; i < 46; i++) {
-  data.push({
-    key: i,
-    name: `Edward King ${i}`,
-    age: 32,
-    address: `London, Park Lane no. ${i}`,
-  })
-}
 export default {
   name: 'ActiveExtract',
   data() {
@@ -106,32 +99,76 @@ export default {
       filters: [],
       columns: [
         {
-          title: 'Name',
+          title: '姓名',
           dataIndex: 'name',
         },
         {
-          title: 'Age',
-          dataIndex: 'age',
+          title: '性别',
+          dataIndex: 'sex',
         },
         {
-          title: 'Address',
-          dataIndex: 'address',
+          title: '工作单位',
+          dataIndex: 'workCompany',
         },
         {
-          title: 'operation',
+          title: '行政职务',
+          dataIndex: 'positionName',
+          width: 100,
+        },
+        {
+          title: '职称',
+          dataIndex: 'jobTitleName',
+        },
+        {
+          title: '研究方向',
+          dataIndex: 'researchDirectionName',
+        },
+        {
+          title: '登录账号',
+          dataIndex: 'phone',
+        },
+        {
+          title: '操作',
           dataIndex: 'operation',
+          align: 'center',
           scopedSlots: { customRender: 'operation' },
         },
       ],
-      data: data,
+      pagination: {
+        pageNo: 1,
+        pageSize: 10,
+        total: 0,
+        defaultCurrent: 1,
+        showQuickJumper: true,
+        onChange: this.onPageChange
+      },
+      data: [],
       selectedRowKeys: [],
-      extractedRowKeys: [],
+      selectedRows: [],
+      extractedRows: [],
     }
   },
   mounted() {
     this.handleReset()
   },
   methods: {
+    getData() {
+      const {pageNo, pageSize} = this.pagination
+      this.$ajax.get({
+        url: this.$api.GET_EXPERT_LIST,
+        params: {
+          pageNo,
+          pageSize,
+        },
+      }).then(res => {
+        this.data = this.$com.confirm(res, 'data.content', [])
+        this.pagination.total = this.$com.confirm(res, 'data.totalRows', 0)
+      })
+    },
+    onPageChange(page) {
+      this.pagination.pageNo = page
+      this.getData()
+    },
     addFilter() {
       const len = this.filters.length
       if (len >= this.keyOptions.length - 1) return
@@ -145,16 +182,19 @@ export default {
     deleteFilter() {
       this.filters.pop()
     },
-    onSelectChange(selectedRowKeys) {
+    onSelectChange(selectedRowKeys, selectedRows) {
       this.selectedRowKeys = selectedRowKeys
+      this.selectedRows.push(...selectedRows)
     },
     handleReset() {
+      this.pageNo = 1
       this.filters = []
       this.basic = {
         key: this.keyOptions[0],
         condition2: this.conditions2[0],
         condition3: this.conditions3[0],
       }
+      this.getData()
     },
     handleSearch() {
       console.log(this.basic, this.filters)
@@ -163,8 +203,12 @@ export default {
       console.log(id)
     },
     handleExtract() {
-      this.extractedRowKeys.push(...this.selectedRowKeys)
+      this.extractedRows.push(...this.selectedRows)
+      // 去重并提取
+      const reducer = (arr, cur) => arr.indexOf(cur) >= 0 ? arr : [...arr, cur]
+      this.extractedRows = this.extractedRows.reduce(reducer, [])
       this.selectedRowKeys = []
+      this.selectedRows = []
     },
     handleSave() {},
     handleExport() {},
@@ -178,14 +222,14 @@ export default {
       return '抽取'
     },
     saveBtn() {
-      const len = this.extractedRowKeys.length
+      const len = this.extractedRows.length
       if (len > 0) {
         return `提交（已抽取${len}项）`
       }
       return '提交'
     },
     exportBtn() {
-      const len = this.extractedRowKeys.length
+      const len = this.extractedRows.length
       if (len > 0) {
         return `导出（已抽取${len}项）`
       }
@@ -208,14 +252,18 @@ export default {
   justify-content: center;
 }
 .extract-btns i {
-  font-size: 20px;
-  margin: 5px;
+  font-size: 22px;
+  margin: 4px 6px;
   cursor: pointer;
+  transition: all 0.5s;
 }
-.extract-btns i:first-child:hover {
+.extract-btns i:hover {
+  transform: scale(1.1);
+}
+.extract-btns i:first-child {
   color: #1890ff;
 }
-.extract-btns i:last-child:hover {
+.extract-btns i:last-child {
   color: red;
 }
 </style>
