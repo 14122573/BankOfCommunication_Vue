@@ -44,7 +44,7 @@
 <script>
 import {navigateToUrl} from 'single-spa'
 import common from '@/util/common'
-import { OutsideUrls } from '@/config/outside-config'
+// import { OutsideUrls } from '@/config/outside-config'
 export default {
   name: 'SideMenu',
   props: {
@@ -62,12 +62,31 @@ export default {
       openKeys: [],
       defaultSelectedKeys: [],
       defaultOpenKeys: [],
+      oldSysUrlsOrg:[],
+      oldSysUrls:{}
     }
   },
   created() {
     const {defaultSelectedKeys, defaultOpenKeys} = this.$store.state.defaultMenuStatus
     this.defaultSelectedKeys = defaultSelectedKeys || []
     this.defaultOpenKeys = (defaultOpenKeys.length <= 0 || !defaultOpenKeys[0]) ? [] : defaultOpenKeys
+
+    this.$ajax.get({
+      url:this.$api.GET_OLDSYS_HREF
+    }).then(res=>{
+      if(res.code === '200'){
+        this.oldSysUrlsOrg= this.$com.confirm(res, 'data.content', [])
+        for(let i=0;i<this.oldSysUrlsOrg.length;i++){
+          if(!this.oldSysUrlsOrg[i].type){
+            this.oldSysUrls[this.oldSysUrlsOrg[i].sysCode] = this.oldSysUrlsOrg[i].sysUrl
+          }
+        }
+      }else{
+        this.$message.error(res.msg)
+      }
+      // console.log('oldSysUrls',this.oldSysUrlsOrg,this.oldSysUrls)
+
+    })
   },
   computed: {
     menus() {
@@ -98,8 +117,8 @@ export default {
         userId = this.userInfo.id
       }
       let redirctUrl = ''
-      if('string' == typeof OutsideUrls[sysCode] && OutsideUrls[sysCode] !=''){
-        redirctUrl = OutsideUrls[sysCode]+'?userId='+userId+'&accessToken='+this.$cookie.get('token')+'&refreshToken='+this.$cookie.get('refresh_token')
+      if('string' == typeof this.oldSysUrls[sysCode] && this.oldSysUrls[sysCode] !=''){
+        redirctUrl = this.oldSysUrls[sysCode]+'?userId='+userId+'&accessToken='+this.$cookie.get('token')+'&refreshToken='+this.$cookie.get('refresh_token')
       }
       return redirctUrl==''?false:redirctUrl
     },
