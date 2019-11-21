@@ -25,12 +25,12 @@
 							<a-checkbox-group v-decorator="['status_in',{initialValue: []}]" :options="options.statusList"></a-checkbox-group>
 						</a-form-item>
 					</a-col>
-					<a-col span="11" v-if="!simpleSearchForm">
-						<a-form-item label="级别认定" class="formItem" :label-col="{span:3}" :wrapper-col="{span:12}">
+					<a-col span="10" v-if="!simpleSearchForm">
+						<a-form-item label="级别认定" class="formItem" :label-col="{span:7}" :wrapper-col="{span:17}">
 							<a-checkbox-group v-decorator="['proStatus',{initialValue: ['all']}]" :options="options.proList"></a-checkbox-group>
 						</a-form-item>
 					</a-col>
-					<a-col span="5" class="algin-right">
+					<a-col span="6" class="algin-right">
 						<a-button @click="reset">重置</a-button>
 						<a-button type="primary" @click="search">搜索</a-button>
             <a-button type="primary" v-if='simpleSearchForm' @click="showMoreSearch">更多搜索</a-button>
