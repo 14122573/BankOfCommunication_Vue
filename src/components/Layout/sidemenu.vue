@@ -44,7 +44,7 @@
 <script>
 import {navigateToUrl} from 'single-spa'
 import common from '@/util/common'
-import { OutsideUrls } from '@/config/outside-config'
+// import { OutsideUrls } from '@/config/outside-config'
 export default {
   name: 'SideMenu',
   props: {
@@ -62,12 +62,32 @@ export default {
       openKeys: [],
       defaultSelectedKeys: [],
       defaultOpenKeys: [],
+      micSysConfigs:[],
+      oldSysUrls:{}
     }
   },
   created() {
     const {defaultSelectedKeys, defaultOpenKeys} = this.$store.state.defaultMenuStatus
     this.defaultSelectedKeys = defaultSelectedKeys || []
     this.defaultOpenKeys = (defaultOpenKeys.length <= 0 || !defaultOpenKeys[0]) ? [] : defaultOpenKeys
+
+    // 获取目前接入portal的所有新系统、老系统配置
+    this.$ajax.get({
+      url:this.$api.GET_OLDSYS_HREF
+    }).then(res=>{
+      if(res.code === '200'){
+        this.micSysConfigs= this.$com.confirm(res, 'data.content', [])
+        for(let i=0;i<this.micSysConfigs.length;i++){
+          // 抓取老系统配置，并重新组装数据
+          if(!this.micSysConfigs[i].type){
+            this.oldSysUrls[this.micSysConfigs[i].sysCode] = this.micSysConfigs[i].sysUrl
+          }
+        }
+      }else{
+        this.$message.error(res.msg)
+      }
+      // console.log('oldSysUrls',this.micSysConfigs,this.oldSysUrls)
+    })
   },
   computed: {
     menus() {
@@ -98,8 +118,8 @@ export default {
         userId = this.userInfo.id
       }
       let redirctUrl = ''
-      if('string' == typeof OutsideUrls[sysCode] && OutsideUrls[sysCode] !=''){
-        redirctUrl = OutsideUrls[sysCode]+'?userId='+userId+'&accessToken='+this.$cookie.get('token')+'&refreshToken='+this.$cookie.get('refresh_token')
+      if('string' == typeof this.oldSysUrls[sysCode] && this.oldSysUrls[sysCode] !=''){
+        redirctUrl = this.oldSysUrls[sysCode]+'?userId='+userId+'&accessToken='+this.$cookie.get('token')+'&refreshToken='+this.$cookie.get('refresh_token')
       }
       return redirctUrl==''?false:redirctUrl
     },
