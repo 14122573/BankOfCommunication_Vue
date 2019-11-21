@@ -1,5 +1,5 @@
 <template>
-  <a-form-item :label-col="labelCol" :wrapper-col="wrapperCol" :label="item.label">
+  <a-form-item class="activeform-item" :label-col="labelCol" :wrapper-col="wrapperCol" :label="item.label">
 
     <a-input
       v-if="item.type == 'input'"
@@ -203,14 +203,14 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
   .ActiveForm-view-btn {
     max-width: 100%;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
   }
-  .ant-row.ant-form-item {
+  .activeform-item.ant-row.ant-form-item {
     display: flex;
   }
 </style>

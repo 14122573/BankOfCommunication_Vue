@@ -1,7 +1,7 @@
 <template>
   <div>
-    <p class="operatorInfo"><span class="label">创建人:&nbsp;</span>{{getCreator || "暂无"}}</p>
-    <p class="operatorInfo"><span class="label">最后修改人:&nbsp;</span>{{getLastOperator || "暂无"}}</p>
+    <p class="operatorInfo"><span class="label">创建人:&nbsp;</span>{{getCreator}}</p>
+    <p class="operatorInfo"><span class="label">最后修改人:&nbsp;</span>{{getLastOperator}}</p>
   </div>
 </template>
 <script>
@@ -16,10 +16,10 @@ export default {
   },
   computed:{
     getCreator(){
-      return (!this.creator || this.creator == '')?'暂无':this.creator
+      return this.creator || '初始化数据'
     },
     getLastOperator(){
-      return (!this.lastOperator || this.lastOperator == '')?'暂无':this.lastOperator
+      return this.lastOperator || '暂无'
     }
   }
 }

@@ -1,3 +1,9 @@
+.ant-input,
+.ant-select,
+.ant-select-selection,
+.ant-table {
+  border-radius: 2px;
+}
 .ant-btn {border-radius:2px; cursor: pointer;}
 .ant-btn.ant-btn-default { border-color:#1890ff; color: #1890ff }
 

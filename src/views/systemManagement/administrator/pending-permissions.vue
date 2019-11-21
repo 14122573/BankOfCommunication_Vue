@@ -28,7 +28,7 @@
 						 @change="onDateChange" />
 					</a-form-item>
 				</a-col>
-				<a-col span="5" class="algin-right">
+				<a-col span="6" class="algin-right">
 					<a-button @click="reset">重置</a-button>
 					<a-button type="primary" @click="search">搜索</a-button>
           <a-button type="primary" v-if='simpleSearchForm' @click="showMoreSearch">更多搜索</a-button>

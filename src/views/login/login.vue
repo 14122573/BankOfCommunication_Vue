@@ -198,6 +198,7 @@ export default {
       if (res.msg == 'choose') {
         //存储系统列表
         this.$cookie.set('systemLists', JSON.stringify(gainDatas))
+        this.$store.commit('SET_CHOOSESYSLISTS', gainDatas)
         if (this.sysCode != 'null') {
           //列表存在该code  存在去匹配code值去获取跳转路径 不存在去绑定
           let data = gainDatas.find(item => item.sysDic.sysCode == this.sysCode)

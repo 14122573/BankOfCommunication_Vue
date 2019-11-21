@@ -34,10 +34,10 @@
 			  </template>
         <template slot="placement" slot-scope="text, record">
           <template  v-if="record.isTop=='1'">
-            <a-tag color="blue">已置顶</a-tag>
+            <a-tag color="blue" style="cursor: default;">已置顶</a-tag>
             <p class="placementTime">{{record.topDate}}</p>
           </template>
-          <a-tag v-else >未置顶</a-tag>
+          <a-tag v-else style="cursor: default;">未置顶</a-tag>
 			  </template>
         <template slot="noticeStatus" slot-scope="text, record">
           <CMSDataStatus :cmsType='"notice"' :status='record.status'></CMSDataStatus>

@@ -98,10 +98,11 @@ const errorHandler = (err) => {
     case 404: // 网络请求不存在,跳转统一报错页面
       showErrPage(currentApi,currentRouterName)
       break
-    case 500:
-      const code = err.response.data && err.response.data.code
-      showErrPage(currentApi,currentRouterName)
-      break
+    /** 强说home页的请求报500就跳过去了，无法进行下一步操作，故此先注释掉 */
+    // case 500:
+    //   const code = err.response.data && err.response.data.code
+    //   showErrPage(currentApi,currentRouterName)
+    //   break
     default: // 其他错误，统一到网络异常页面
       showErrPage(currentApi,currentRouterName)
       break
