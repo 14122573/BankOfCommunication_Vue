@@ -62,7 +62,7 @@ export default {
       openKeys: [],
       defaultSelectedKeys: [],
       defaultOpenKeys: [],
-      oldSysUrlsOrg:[],
+      micSysConfigs:[],
       oldSysUrls:{}
     }
   },
@@ -71,21 +71,22 @@ export default {
     this.defaultSelectedKeys = defaultSelectedKeys || []
     this.defaultOpenKeys = (defaultOpenKeys.length <= 0 || !defaultOpenKeys[0]) ? [] : defaultOpenKeys
 
+    // 获取目前接入portal的所有新系统、老系统配置
     this.$ajax.get({
       url:this.$api.GET_OLDSYS_HREF
     }).then(res=>{
       if(res.code === '200'){
-        this.oldSysUrlsOrg= this.$com.confirm(res, 'data.content', [])
-        for(let i=0;i<this.oldSysUrlsOrg.length;i++){
-          if(!this.oldSysUrlsOrg[i].type){
-            this.oldSysUrls[this.oldSysUrlsOrg[i].sysCode] = this.oldSysUrlsOrg[i].sysUrl
+        this.micSysConfigs= this.$com.confirm(res, 'data.content', [])
+        for(let i=0;i<this.micSysConfigs.length;i++){
+          // 抓取老系统配置，并重新组装数据
+          if(!this.micSysConfigs[i].type){
+            this.oldSysUrls[this.micSysConfigs[i].sysCode] = this.micSysConfigs[i].sysUrl
           }
         }
       }else{
         this.$message.error(res.msg)
       }
-      // console.log('oldSysUrls',this.oldSysUrlsOrg,this.oldSysUrls)
-
+      // console.log('oldSysUrls',this.micSysConfigs,this.oldSysUrls)
     })
   },
   computed: {

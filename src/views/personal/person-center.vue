@@ -44,7 +44,7 @@
         </a-col>
       </a-row>
     </div>
-    <div class="layoutMargin detailsPartSection">
+    <div class="layoutMargin detailsPartSection" >
       <p class="detailsPartTitle">拥有子系统权限</p>
       <template v-if="userInfo.isAllPerm">
         <a-alert class="margin" message="您是超级管理员，将不详细展示权限内子系统清单" type="info" showIcon />
@@ -79,7 +79,20 @@ export default {
       userInfo: {},
       isShowChangePwd:false,
       showPhoneModal: false,
+      micSysConfigs:[]
     }
+  },
+  created(){
+    // 获取目前接入portal的所有新系统、老系统配置
+    this.$ajax.get({
+      url:this.$api.GET_OLDSYS_HREF
+    }).then(res=>{
+      if(res.code === '200'){
+        this.micSysConfigs= this.$com.confirm(res, 'data.content', [])
+      }else{
+        this.$message.error(res.msg)
+      }
+    })
   },
   mounted() {
     this.getData()
@@ -125,80 +138,10 @@ export default {
      */
     getSysList(){
       let authSysList = []
-      if(this.$com.oneOf('S1001',this.$store.state.permissionCodeList)){
-        authSysList.push('中国水产学会学术会议管理')
-      }
-      if(this.$com.oneOf('S1002',this.$store.state.permissionCodeList)){
-        authSysList.push('范蠡奖评审')
-      }
-      if(this.$com.oneOf('S0201',this.$store.state.permissionCodeList)){
-        authSysList.push('中国水产学会团体标准管理')
-      }
-      if(this.$com.oneOf('S0602',this.$store.state.permissionCodeList)){
-        authSysList.push('渔业兽医管理')
-      }
-      if(this.$com.oneOf('S0601',this.$store.state.permissionCodeList)){
-        authSysList.push('水生动物防疫')
-      }
-      if(this.$com.oneOf('S0703',this.$store.state.permissionCodeList)){
-        authSysList.push('质量追溯')
-      }
-      if(this.$com.oneOf('S0501',this.$store.state.permissionCodeList)){
-        authSysList.push('水产新品种审定')
-      }
-      if(this.$com.oneOf('S0101',this.$store.state.permissionCodeList)){
-        authSysList.push('中国水产学会科普教育基地管理')
-      }
-      if(this.$com.oneOf('S0503',this.$store.state.permissionCodeList)){
-        authSysList.push('水产原良种场验收审定')
-      }
-      if(this.$com.oneOf('S0502',this.$store.state.permissionCodeList)){
-        authSysList.push('水产原良种场复查审定')
-      }
-      if(this.$com.oneOf('S0804',this.$store.state.permissionCodeList)){
-        authSysList.push('智慧报表管理')
-      }
-      if(this.$com.oneOf('YQCB',this.$store.state.permissionCodeList)){
-        authSysList.push('全国水产养殖动植物病情测报系统')
-      }
-      if(this.$com.oneOf('ZXJC',this.$store.state.permissionCodeList)){
-        authSysList.push('国家水生动物疫病监测信息管理系统')
-      }
-      if(this.$com.oneOf('NYPC',this.$store.state.permissionCodeList)){
-        authSysList.push('水产养殖动物病原菌耐药性普查数据分析系统')
-      }
-      if(this.$com.oneOf('SCYJ',this.$store.state.permissionCodeList)){
-        authSysList.push('国家水生动物疫情预警系统')
-      }
-      if(this.$com.oneOf('SCZN',this.$store.state.permissionCodeList)){
-        authSysList.push('“水产智能”健康养殖生产与大数据管理系统')
-      }
-      if(this.$com.oneOf('XXYY',this.$store.state.permissionCodeList)){
-        authSysList.push('休闲渔业品牌管理系统')
-      }
-      if(this.$com.oneOf('HYMC',this.$store.state.permissionCodeList)){
-        authSysList.push('水产推广体系')
-      }
-      if(this.$com.oneOf('TGTX',this.$store.state.permissionCodeList)){
-        authSysList.push('海洋牧场')
-      }
-      if(this.$com.oneOf('SCJG',this.$store.state.permissionCodeList)){
-        authSysList.push('水产价格采集')
-      }
-      if(this.$com.oneOf('YMSZ',this.$store.state.permissionCodeList)){
-        authSysList.push('渔民收支')
-      }
-      if(this.$com.oneOf('YQJC',this.$store.state.permissionCodeList)){
-        authSysList.push('渔情监测')
-      }
-      if(this.$com.oneOf('NLBL',this.$store.state.permissionCodeList)){
-        authSysList.push('内陆捕捞')
-      }
-      if(this.$com.oneOf('ZYYH',this.$store.state.permissionCodeList)){
-        authSysList.push('水生物资源养护信息采集系统')
-      }
-      if(this.$com.oneOf('YYTJ',this.$store.state.permissionCodeList)){
-        authSysList.push('全国渔业统计')
+      for(let i=0;i<this.micSysConfigs.length;i++){
+        if(this.$com.oneOf(this.micSysConfigs[i].sysCode,this.$store.state.permissionCodeList)){
+          authSysList.push(this.micSysConfigs[i].sysName)
+        }
       }
       return authSysList
     }
