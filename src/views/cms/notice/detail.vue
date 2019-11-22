@@ -55,7 +55,7 @@
 						<p class="detailsPartTitle">通知内容</p>
 						<div style="margin:0 16px;">
 							<a-row type="flex" justify="start">
-                <a-col span="16" style="margin:8px 0;">
+                <a-col span="24" style="margin:8px 0;">
                   <div v-html="noticeDetail.content"></div>
 								</a-col>
 							</a-row>

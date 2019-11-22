@@ -107,8 +107,9 @@ const errorHandler = (err) => {
       showErrPage(currentApi,currentRouterName)
       break
     }
-  } else if (err.toString().indexOf('timeout') != -1) { // 统一到网络异常页面
-    showErrPage(currentApi,currentRouterName)
+    /**超时了就跳转了且无法进行下一步操作，故此先注释掉 */
+  // } else if (err.toString().indexOf('timeout') != -1) { // 统一到网络异常页面
+  //   showErrPage(currentApi,currentRouterName)
   } else if (err.toString().indexOf('Network Error') != -1) { // 统一到网络异常页面
     showErrPage(currentApi,currentRouterName)
   }

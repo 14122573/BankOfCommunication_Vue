@@ -21,8 +21,6 @@ default: // 默认环境下（开发环境）
 
 export default {
   BASE_URL,
-  // 老系统配置
-  GET_OLDSYS_HREF:'/service-user/user/systems', // 获取嵌入portal中老系统的跳转地址
   // 用户信息
   GET_USER_INFO: '/service-user/user/login/user/info', // 获取用户信息
   POST_LOGIN: '/service-user/user/public/login', //登录

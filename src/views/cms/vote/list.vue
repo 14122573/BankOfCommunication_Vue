@@ -24,7 +24,12 @@
         <DataOperatorInList :creator='!record.creator?"":record.creator' :lastOperator='!record.operator?"":record.operator' />
       </div>
       <span slot="actions" slot-scope="{ text, record }">
-        <span v-if="$permission('P33003')" @click="routerTo('/cms/vote/view', record)" class="actionBtn">查看<a-divider v-if="record.status != '3'" type="vertical"/></span>
+        <template v-if="record.status == '3'">
+          <span v-if="$permission('P33003')" @click="routerTo('/cms/vote/result', record)" class="actionBtn">查看结果公示</span>
+        </template>
+        <template v-else>
+          <span v-if="$permission('P33003')" @click="routerTo('/cms/vote/view', record)" class="actionBtn">查看<a-divider type="vertical"/></span>
+        </template>
         <template v-if="record.status=='0'">
           <span v-if="$permission('P33001')" @click="routerTo('/cms/vote/edit', record)" class="actionBtn">修改<a-divider type="vertical" /></span>
           <a-dropdown>
@@ -236,7 +241,13 @@ export default {
         },
       })
     },
-    publicResult({id}) {
+    calcPercent(total, option) {
+      if (!option) {
+        return 0
+      }
+      return Math.floor((option / total) * 100)
+    },
+    publicResult({id, name, description, startTime, endTime}) {
       const config = {
         title: '公布投票结果',
         content: '是否确认公布投票结果？',
@@ -246,18 +257,55 @@ export default {
         title: config.title,
         content: config.content,
         onOk: () => {
-          this.$ajax.post({
-            url: this.$api.POST_CMS_NOTICE,
-            params: {
-              voteId: id
-            }
-          }).then(() => {
-            this.$modal.success({
-              title: '成功',
-              content: config.msg,
-              okText: '确认',
+          this.$ajax.get({
+            url: this.$api.GET_VOTE_RESULT.replace('{id}', id),
+          }).then(res => {
+            const subjects = this.$com.confirm(res, 'data.content.subjects', [])
+            let content = `
+              <h2 style="text-align: center">${name}</h2>
+              <p style="text-align: center">投票日期：${startTime.split(' ')[0]} ~ ${endTime.split(' ')}</p>
+              <p style="text-align: center">${description}</p>
+            `
+            subjects.forEach((item, index) => {
+              let options = ''
+              if (item.options && item.options.length > 0) {
+                item.options.forEach((option, i) => {
+                  options += `
+                    <p>${this.$com.numToLetter(i)}、${option.value || ''}&nbsp;&nbsp;&nbsp;&nbsp;(${option.count || 0}人 / ${this.calcPercent(item.count, option.count)}%)</p>
+                  `
+                })
+              }
+              content += `
+                <div style="padding-left: 200px">
+                  <p>
+                    <b>${index + 1}、${item.title}</b>
+                    <span style="color:red">${item.isRequired == '0' ? '*' : ''}</span>&nbsp;&nbsp;&nbsp;&nbsp;
+                    (${item.type == '0' ? '单选题' : '多选题'})&nbsp;&nbsp;&nbsp;&nbsp;参与投票人数：${item.count || 0}人
+                  </p>
+                  ${options}
+                </div>
+              `
+              this.$ajax.post({
+                url: this.$api.POST_CMS_NOTICE,
+                params: {
+                  title: name,
+                  startTime,
+                  endTime,
+                  content,
+                  isTop: '0',
+                  isVote: '1',
+                  status: '1',
+                  voteId: id,
+                }
+              }).then(() => {
+                this.$modal.success({
+                  title: '成功',
+                  content: config.msg,
+                  okText: '确认',
+                })
+                this.getList()
+              })
             })
-            this.getList()
           })
         },
       })
@@ -266,7 +314,7 @@ export default {
       const {name = null, status = [0,1,2,3], date = []} = this.model
       const params = {
         name_l: name,
-        status_in: status.join(','),
+        status_in: status.length <= 0 ? '0,1,2,3' : status.join(','),
         startTime_gt: date[0] || null,
         endTime_lt: date[1] || null,
         pageNo: this.currentPage,

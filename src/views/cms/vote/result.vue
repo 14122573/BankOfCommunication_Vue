@@ -2,7 +2,7 @@
 <div class="portalDetailContentWapper">
   <div class="layoutMargin detailsPartSection">
     <p class="detailsPartTitle">
-      投票结果预览
+      投票结果
       <span style="float: right;">
         <a-button @click="$router.back()">返回</a-button>
 				<a-button @click="handleSubmit" type="primary">确认公示</a-button>
@@ -10,8 +10,15 @@
     </p>
     <div class="container">
       <h2>{{content.name}}</h2>
+      <p>投票日期：{{`${content.startTime && content.startTime.split(' ')[0]} ~ ${content.endTime && content.endTime.split(' ')[0]}`}}</p>
+      <p v-if="content.description">{{content.description}}</p>
       <div v-for="(item, index) in content.subjects" :key="item.key">
-        <p class="title">{{`${index + 1}、${item.title}`}}&nbsp;&nbsp;&nbsp;&nbsp;{{`参与投票人数：${item.count || 0}人`}}</p>
+        <p class="title">
+          {{`${index + 1}、${item.title}`}}
+          <span class="red" v-show="item.isRequired == '0'">*</span>&nbsp;&nbsp;&nbsp;&nbsp;
+          {{`(${item.type == '0' ? '单选题' : '多选题'})`}}&nbsp;&nbsp;&nbsp;&nbsp;
+          {{`参与投票人数：${item.count || 0}人`}}
+        </p>
         <p v-for="(option, i) in item.options" :key="option.id" class="option">
           <span>{{`${$com.numToLetter(i)}、${option.value || ''}`}}</span>
           <span>
@@ -59,18 +66,52 @@ export default {
         title: config.title,
         content: config.content,
         onOk: () => {
-          this.$ajax.post({
-            url: this.$api.POST_CMS_NOTICE,
-            params: {
-              voteId: this.voteId,
+          const {id, name, description, startTime, endTime} = this.content
+          const subjects = this.$com.confirm(this.content, 'subjects', [])
+          let content = `
+            <h2 style="text-align: center">${name}</h2>
+            <p style="text-align: center">投票日期：${startTime.split(' ')[0]} ~ ${endTime.split(' ')}</p>
+            <p style="text-align: center">${description}</p>
+          `
+          subjects.forEach((item, index) => {
+            let options = ''
+            if (item.options && item.options.length > 0) {
+              item.options.forEach((option, i) => {
+                options += `
+                  <p>${this.$com.numToLetter(i)}、${option.value || ''}&nbsp;&nbsp;&nbsp;&nbsp;(${option.count || 0}人 / ${this.calcPercent(item.count, option.count)}%)</p>
+                `
+              })
             }
-          }).then(() => {
-            this.$modal.success({
-              title: '成功',
-              content: config.msg,
-              okText: '确认',
+            content += `
+              <div style="padding-left: 200px">
+                <p>
+                  <b>${index + 1}、${item.title}</b>
+                  <span style="color:red">${item.isRequired == '0' ? '*' : ''}</span>&nbsp;&nbsp;&nbsp;&nbsp;
+                  (${item.type == '0' ? '单选题' : '多选题'})&nbsp;&nbsp;&nbsp;&nbsp;参与投票人数：${item.count || 0}人
+                </p>
+                ${options}
+              </div>
+            `
+            this.$ajax.post({
+              url: this.$api.POST_CMS_NOTICE,
+              params: {
+                title: name,
+                startTime,
+                endTime,
+                content,
+                isTop: '0',
+                isVote: '1',
+                status: '1',
+                voteId: id,
+              }
+            }).then(() => {
+              this.$modal.success({
+                title: '成功',
+                content: config.msg,
+                okText: '确认',
+              })
+              this.$nextTick(() => this.$router.back())
             })
-            this.$nextTick(() => this.$router.back())
           })
         },
       })
@@ -87,10 +128,11 @@ export default {
 
 <style scoped>
   .container {
-    width: 60%;
+    width: 75%;
     margin: 0 auto;
   }
-  .container > h2 {
+  .container > h2,
+  .container > p {
     text-align: center;
   }
   .container > div {
@@ -102,13 +144,17 @@ export default {
   .container .option {
     display: flex;
     align-items: flex-start;
-    justify-content: space-between;
+    justify-content: flex-start;
   }
   .container .option span:first-child {
     display: inline-block;
-    max-width: 50%;
+    width: 55%;
+    margin-right: 10px;
   }
   .container .option span:last-child {
     color: #1890ff;
+  }
+  .red {
+    color: red;
   }
 </style>

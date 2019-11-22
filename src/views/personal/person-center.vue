@@ -85,7 +85,7 @@ export default {
   created(){
     // 获取目前接入portal的所有新系统、老系统配置
     this.$ajax.get({
-      url:this.$api.GET_OLDSYS_HREF
+      url:this.$api.SYSTEM_LIST_ALL_GET
     }).then(res=>{
       if(res.code === '200'){
         this.micSysConfigs= this.$com.confirm(res, 'data.content', [])
