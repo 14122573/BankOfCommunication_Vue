@@ -17,10 +17,15 @@
       <template v-if='noticeList.length>0'>
         <template  v-for="(notice,index) in noticeList">
         <div @click="goToView(notice.id)" class='notice' :key="index">
-          <a-row type="flex" justify="space-between" align="top" :gutter='16' >
-            <a-col :span="17">
-              <span class="title" style="padding-right:8px">{{notice.title}}</span>
-              <a-tag v-if="notice.isVote=='1'" color="orange">投票结果公示</a-tag>
+          <a-row type="flex" justify="space-between" align="middle" :gutter='16' >
+            <a-col :span="17" style="display:flex;align-items: center;">
+              <a-tooltip placement="right">
+                <template slot="title">
+                  <span>{{notice.title}}</span>
+                </template>
+                <span class="title" style="padding-right:8px">{{notice.title}}</span>
+              </a-tooltip>
+              <img v-if="notice.isVote=='1'" style="width:22px;" title="投票结果公示" src="@/assets/images/publish-icon.png">
             </a-col>
             <a-col :span="7" class="algin-right">{{notice.startTime.split(' ')[0]}}</a-col>
           </a-row>
@@ -50,8 +55,8 @@
 
 .noticeInLoginList { min-height: 240px}
 .noticeInHomeList { min-height: 320px}
-.notice{ line-height:1.5em;  cursor: pointer; }
-.notice .title { font-weight: bold; padding-right:8px; word-break: break-all; display: inline-block; width: 100%; overflow: hidden; text-overflow:ellipsis; white-space: nowrap;}
+.notice{ cursor: pointer; margin-bottom: 6px;}
+.notice .title { font-weight: bold; padding-right:8px; word-break: break-all; display: inline-block; overflow: hidden; text-overflow:ellipsis; white-space: nowrap;}
 .noNoticeBox {height: 240px; color: white; font-size: 30px; display: flex;flex-direction: column; align-items: center;justify-content: center;}
 .noticeInLoginList .notice{ padding:8px 0; color:rgba(255,255,255,0.8); border-bottom: 1px solid rgba(255,255,255,0.2)}
 .noticeInLoginList .noNoticeBox{ color: white}

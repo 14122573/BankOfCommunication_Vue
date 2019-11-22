@@ -3,7 +3,7 @@
     <a-modal :footer="null" centered v-model="visible" >
       <a-row type="flex" justify="space-around" class="demo">
         <a-col :span="10" class="dataModal">
-            <img src="@/assets/images/Veterinary.png" alt="" class="icon2">
+            <img src="@/assets/images/veterinary.png" alt="" class="icon2">
             <p class="title">官方兽医</p>
         </a-col>
         <a-col :span="10" class="dataModal">
