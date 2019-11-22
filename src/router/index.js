@@ -46,11 +46,11 @@ router.beforeEach((to, from, next) => {
       next()
     }
   }
-  if (!to.name) {
-    next('/error-page')
-  } else {
-    next()
-  }
+  // if (!to.name) {
+  //   next('/error-page')
+  // } else {
+  //   next()
+  // }
 })
 
 export default router
