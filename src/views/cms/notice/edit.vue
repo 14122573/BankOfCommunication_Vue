@@ -190,7 +190,7 @@ export default {
      * @param {Array} filelist 最新变动已上传的文件对象列表
      */
     onUploadFileChange(filelist){
-      this.uploadFileList = [].concat(filelist)
+      this.uploadFileList.used = [].concat(filelist)
     },
     /**
      * 监听UEditor内容变更，并存储
@@ -206,8 +206,8 @@ export default {
     arrangeFileList(){
       const {used} = this.uploadFileList
       if (!used || used.length <= 0) return []
-      return this.uploadFileList.used.map((item,index)=>{
-        if(item.uid.indexOf('-')==0){// 未修改PDF
+      return used.map((item,index)=>{
+        if(item.uid && item.uid.toString().indexOf('-')==0){// 未修改PDF
           return {
             type:1,
             sort:index+1,
@@ -257,7 +257,6 @@ export default {
             this.$com.getFormValidErrTips(vm,err,'请填写通知公告正文内容！')
             return
           }
-
           let postParams = Object.assign({},this.formData ,{
             'title':this.noticeEditForm.getFieldValue('title'),
             'isVote':'0', // 默认创建的为非投票结果文章

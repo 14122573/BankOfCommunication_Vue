@@ -183,7 +183,7 @@ export default {
      */
     arrangeFileList(){
       let fileList = this.uploadFileList.used.map((item,index)=>{
-        if(item.uid.indexOf('-')==0){// 未修改PDF
+        if(item.uid && item.uid.toString().indexOf('-')==0){// 未修改PDF
           return {
             type:1,
             sort:index+1,
@@ -305,7 +305,6 @@ export default {
      */
     onUploadFileChange(filelist){
       this.uploadFileList.used = [].concat(filelist)
-      console.log('onUploadFileChange',this.uploadFileList.used )
     },
     /**
      * 提交表单内容

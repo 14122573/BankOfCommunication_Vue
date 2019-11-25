@@ -20,12 +20,12 @@
           </a-col> -->
           <a-col span="8" v-if="!simpleSearchForm">
             <a-form-item class='formItem' label="文献状态"  :label-col="formItemLabelCol" :wrapper-col="formItemWrapperCol">
-              <a-checkbox-group :options="searchFormOption.status" :defaultValue="defaultSearchForm.status" @change="onStatusChange" />
+              <a-checkbox-group :options="searchFormOption.status" v-decorator="['status', {initialValue: defaultSearchForm.status}]" @change="onStatusChange" />
             </a-form-item>
           </a-col>
           <a-col span="8" v-if="!simpleSearchForm">
             <a-form-item class='formItem' label="可匿名查看否"  :label-col="formItemLabelCol" :wrapper-col="formItemWrapperCol">
-              <a-checkbox-group :options="searchFormOption.anonymous" :defaultValue="defaultSearchForm.anonymous" @change="onAnonymousChange" />
+              <a-checkbox-group :options="searchFormOption.anonymous" v-decorator="['anonymous', {initialValue: defaultSearchForm.anonymous}]" @change="onAnonymousChange" />
             </a-form-item>
           </a-col>
           <a-col span="6" class="algin-right">
@@ -333,7 +333,7 @@ export default {
      * 监听搜索表单中文库是否允许匿名查看选项勾选内容变更，并暂存勾选结果
      * @param {Array} selecteds 已勾选项的key
      */
-    onAnonymousChange(){
+    onAnonymousChange(selecteds){
       this.searchForm.anonymous_in = this.toKeyString(selecteds,',')
     },
     /**
@@ -381,8 +381,12 @@ export default {
       }
       this.pagination.current = 1
       this.pagination.pageNo = 1
-      this.knowledgeSearchForm.setFieldsValue({title:'',author:''})
-
+      this.knowledgeSearchForm.setFieldsValue({
+        title:'',
+        author:'',
+        status: this.defaultSearchForm.status,
+        anonymous: this.defaultSearchForm.anonymous,
+      })
       this.getKnowLedgeList()
     },
     /**

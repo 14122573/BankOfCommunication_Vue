@@ -10,7 +10,7 @@
           </a-col>
           <a-col span="8" v-if="!simpleSearchForm">
             <a-form-item class='formItem' label="状态" :label-col="formItemLabelCol" :wrapper-col="formItemWrapperCol">
-              <a-checkbox-group :options="searchFormOption.status" :defaultValue="defaultSearchForm.status" @change="onStatusChange" />
+              <a-checkbox-group :options="searchFormOption.status" v-decorator="['status', {initialValue: defaultSearchForm.status}]" @change="onStatusChange" />
             </a-form-item>
           </a-col>
          <a-col span="6" class="algin-right">
@@ -372,7 +372,7 @@ export default {
       }
       this.pagination.current = 1
       this.pagination.pageNo = 1
-      this.noticeSearchForm.setFieldsValue({title:''})
+      this.noticeSearchForm.setFieldsValue({title:'', status: this.defaultSearchForm.status})
 
       this.getNoticeList()
     },
