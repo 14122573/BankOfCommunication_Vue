@@ -40,7 +40,7 @@
 							</a-row>
               <a-row type="flex" justify="start">
                 <a-col span="16" style="margin:8px 0;">
-								  <DetailsFile :labelSpan='4' :textSpan="20" :label='"线上视频地址"' :files='makeVideoList'></DetailsFile>
+								  <DetailsFile :labelSpan='4' :textSpan="20" :label='"线上视频地址"' :file='makeVideoList'></DetailsFile>
 								</a-col>
 							</a-row>
               <a-row type="flex" justify="start">
