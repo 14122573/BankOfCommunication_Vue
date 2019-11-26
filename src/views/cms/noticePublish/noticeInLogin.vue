@@ -152,8 +152,7 @@ export default {
           this.pagination.pageNo = this.$com.confirm(res, 'data.page', 1)
           this.pagination.current = this.pagination.pageNo
           this.noticeList = this.$com.confirm(res, 'data.content', [])
-          console.log(this.noticeList) // ----------------测试打印
-
+          // console.log(this.noticeList) // ----------------测试打印
         }else{
           this.noticeList = []
         }

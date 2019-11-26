@@ -420,7 +420,7 @@ export default {
         this.pagination.current = this.pagination.pageNo
         this.knowledgeList = this.$com.confirm(res, 'data.content', [])
         this.isReady = true
-        console.log(this.knowledgeList)
+        // console.log(this.knowledgeList)
       })
     }
   },

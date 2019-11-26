@@ -146,6 +146,8 @@ export default {
      */
     onUploadFileChange(filelist){
       this.uploadFileList = [].concat(filelist)
+      console.log(this.uploadFileList)
+
     },
     /**
      * 提交表单内容
@@ -195,7 +197,7 @@ export default {
             'status':type=='save'?'0':'1',
             attachments, // 附件
           })
-
+          
           delete postParams.openEffectStart
           delete postParams.openEffectEnd
 
@@ -203,6 +205,7 @@ export default {
             url: this.$api.POST_CMS_NOTICE,
             params: postParams
           }).then(res => {
+            // console.log(res)
             if (res.code === '200') {
               this.$message.success(type=='save'?'暂存成功':'保存并发布成功')
               this.$router.push({name:'/cms/notice'})

@@ -129,6 +129,7 @@ export default {
           this.formData.openEffectStart = this.$com.oneOf(this.noticeDetail.startTime,['',this.defaultEffectTime.startTime])?false:true
           this.formData.openEffectEnd = this.$com.oneOf(this.noticeDetail.endTime,['',this.defaultEffectTime.endTime])?false:true
 
+
           // 附件
           if(Array.isArray(this.noticeDetail.attachments)){
             for(let i=0;i<this.noticeDetail.attachments.length;i++){
@@ -145,6 +146,7 @@ export default {
                 url: this.noticeDetail.attachments[i].filePath
               })
             }
+            // console.log(this.noticeDetail.attachments)   // --- 获取原有的文件
           }
           //初始化表单数据
           this.$nextTick(function () {
@@ -191,6 +193,8 @@ export default {
      */
     onUploadFileChange(filelist){
       this.uploadFileList.used = [].concat(filelist)
+      // console.log(this.uploadFileList)
+
     },
     /**
      * 监听UEditor内容变更，并存储
@@ -211,7 +215,8 @@ export default {
           return {
             type:1,
             sort:index+1,
-            filePath:item.url
+            filePath:item.url,
+            fileName:item.name
           }
         }else{ // 新上传的PDF
           return {
@@ -263,6 +268,7 @@ export default {
             'status':type=='save'?'0':'1',
             'attachments': this.arrangeFileList()
           })
+
           delete postParams.openEffectStart
           delete postParams.openEffectEnd
           delete postParams.defaultContent
