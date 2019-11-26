@@ -187,7 +187,8 @@ export default {
           return {
             type:1,
             sort:index+1,
-            filePath:item.url
+            filePath:item.url,
+            fileName:item.name
           }
         }else{ // 新上传的PDF
           return {
