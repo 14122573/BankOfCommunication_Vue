@@ -129,6 +129,7 @@ export default {
           this.formData.openEffectStart = this.$com.oneOf(this.noticeDetail.startTime,['',this.defaultEffectTime.startTime])?false:true
           this.formData.openEffectEnd = this.$com.oneOf(this.noticeDetail.endTime,['',this.defaultEffectTime.endTime])?false:true
 
+
           // 附件
           if(Array.isArray(this.noticeDetail.attachments)){
             for(let i=0;i<this.noticeDetail.attachments.length;i++){
@@ -145,6 +146,7 @@ export default {
                 url: this.noticeDetail.attachments[i].filePath
               })
             }
+            // console.log(this.noticeDetail.attachments)   // --- 获取原有的文件
           }
           //初始化表单数据
           this.$nextTick(function () {
@@ -190,7 +192,9 @@ export default {
      * @param {Array} filelist 最新变动已上传的文件对象列表
      */
     onUploadFileChange(filelist){
-      this.uploadFileList = [].concat(filelist)
+      this.uploadFileList.used = [].concat(filelist)
+      // console.log(this.uploadFileList)
+
     },
     /**
      * 监听UEditor内容变更，并存储
@@ -206,12 +210,13 @@ export default {
     arrangeFileList(){
       const {used} = this.uploadFileList
       if (!used || used.length <= 0) return []
-      return this.uploadFileList.used.map((item,index)=>{
-        if(item.uid.indexOf('-')==0){// 未修改PDF
+      return used.map((item,index)=>{
+        if(item.uid && item.uid.toString().indexOf('-')==0){// 未修改PDF
           return {
             type:1,
             sort:index+1,
-            filePath:item.url
+            filePath:item.url,
+            fileName:item.name
           }
         }else{ // 新上传的PDF
           return {
@@ -257,13 +262,13 @@ export default {
             this.$com.getFormValidErrTips(vm,err,'请填写通知公告正文内容！')
             return
           }
-
           let postParams = Object.assign({},this.formData ,{
             'title':this.noticeEditForm.getFieldValue('title'),
             'isVote':'0', // 默认创建的为非投票结果文章
             'status':type=='save'?'0':'1',
             'attachments': this.arrangeFileList()
           })
+
           delete postParams.openEffectStart
           delete postParams.openEffectEnd
           delete postParams.defaultContent

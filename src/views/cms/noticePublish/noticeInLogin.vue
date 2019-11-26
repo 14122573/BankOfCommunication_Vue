@@ -27,7 +27,7 @@
               </a-tooltip>
               <img v-if="notice.isVote=='1'" style="width:22px;" title="投票结果公示" src="@/assets/images/publish-icon.png">
             </a-col>
-            <a-col :span="7" class="algin-right">{{notice.startTime.split(' ')[0]}}</a-col>
+              <a-col :span="7" class="algin-right">{{notice.startTime.split(' ')[0] != "1900-01-01" ? notice.startTime.split(' ')[0] :notice.createTime.split(' ')[0] }}</a-col>
           </a-row>
         </div>
         </template>
@@ -152,6 +152,7 @@ export default {
           this.pagination.pageNo = this.$com.confirm(res, 'data.page', 1)
           this.pagination.current = this.pagination.pageNo
           this.noticeList = this.$com.confirm(res, 'data.content', [])
+          // console.log(this.noticeList) // ----------------测试打印
         }else{
           this.noticeList = []
         }

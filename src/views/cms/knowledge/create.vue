@@ -188,7 +188,8 @@ export default {
         return {
           type:1,
           sort:index+1,
-          fileId:item.uid
+          fileId:item.uid,
+          fileName:item.name
         }
       })
       let videoList  = this.formData.videoUrlList.map((item,index)=>{

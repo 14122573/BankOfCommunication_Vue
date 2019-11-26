@@ -66,7 +66,9 @@ export default {
   data() {
     return {
       expand: false,
-      model: {},
+      model: {
+        status: ['0','1','2','3'],
+      },
       total: 0,
       currentPage: 1,
       pageSize: 10,
@@ -311,10 +313,10 @@ export default {
       })
     },
     getList() {
-      const {name = null, status = [0,1,2,3], date = []} = this.model
+      const {name = null, status, date = []} = this.model
       const params = {
         name_l: name,
-        status_in: status.length <= 0 ? '0,1,2,3' : status.join(','),
+        status_in: status.join(','),
         startTime_gt: date[0] || null,
         endTime_lt: date[1] || null,
         pageNo: this.currentPage,
@@ -338,7 +340,9 @@ export default {
       this.$router.push(config)
     },
     handleReset() {
-      this.model = {}
+      this.model = {
+        status: ['0','1','2','3'],
+      }
       this.currentPage = 1
       this.getList()
     },

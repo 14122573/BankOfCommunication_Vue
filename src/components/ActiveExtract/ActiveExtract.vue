@@ -199,8 +199,8 @@ export default {
     handleSearch() {
       console.log(this.basic, this.filters)
     },
-    handleView({id}) {
-      console.log(id)
+    handleView(data) {
+      console.log(data)
     },
     handleExtract() {
       this.extractedRows.push(...this.selectedRows)
