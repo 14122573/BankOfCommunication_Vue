@@ -13,7 +13,7 @@
           <div @click="goToView(notice.id)" :class='{"notice":true,"hasBg":(index+1)%2==1}' :key="index">
             <a-row type="flex" justify="space-between" align="middle" :gutter='16'>
               <a-col :span="20"><span style="padding-right:8px">{{notice.title}}</span><a-tag v-if="notice.isTop=='1'" color="blue">置顶</a-tag><a-tag v-if="notice.isVote=='1'" color="orange">投票结果公示</a-tag></a-col>
-              <a-col :span="4">{{notice.startTime}}</a-col>
+              <a-col :span="4">{{notice.startTime.split(' ')[0] != "1900-01-01" ? notice.startTime :notice.createTime }}</a-col>
             </a-row>
           </div>
           </template>
