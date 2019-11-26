@@ -85,7 +85,7 @@ export default {
     onPageChange(current) {
       this.pagination.current = current
       this.pagination.pageNo = current
-      this.getKnowLedgeList()
+      this.getNoticeList()
     },
     /**
      * 调用接口，查询表单要求的通知公告资料
@@ -106,7 +106,7 @@ export default {
           this.pagination.pageNo = this.$com.confirm(res, 'data.page', 1)
           this.pagination.current = this.pagination.pageNo
           this.noticeList = this.$com.confirm(res, 'data.content', [])
-          console.log(this.noticeList)
+          // console.log(this.noticeList)
 
           //如果有返回的通知公告列表--渲染
           this.isReady = res.data.content.length > 0 ? true : false
@@ -114,7 +114,7 @@ export default {
           this.noticeList = []
         }
       })
-    }
+    },
   }
 }
 </script>
