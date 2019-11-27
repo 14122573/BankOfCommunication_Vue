@@ -16,7 +16,7 @@
               <a-row>
                 <a-col span="16">
                   <a-row>
-                    <a-col span="12" v-if="!$route.query.id">
+                    <a-col span="12" v-if="!currentId">
                       <a-form-item label="登录手机号" v-bind="colSpa">
                         <a-input v-decorator="['loginPhone',{validateTrigger: 'blur',rules:rules.loginPhone}]" placeholder="请输入"></a-input>
                       </a-form-item>
@@ -139,7 +139,7 @@
           </div>
         </a-form>
         <jobStudy ref="jobStudy" class="marginRef" :options="options" :colSpa="colSpa" :textSpa="textSpa"/>
-        <jobSpace ref="jobSpace" class="marginRef" :options="options" :colSpa="colSpa" :textSpa="textSpa" />
+        <jobSpace ref="jobSpace" class="marginRef" :isExpert="isExpert" :options="options" :colSpa="colSpa" :textSpa="textSpa" />
       </div>
       <div class="target">
         <div class="icon" v-show="changeSmall">
@@ -153,10 +153,9 @@
           <a-anchor-link href="#job" title="工作学习经历" />
           <a-anchor-link href="#message" title="联系信息" />
           <a-anchor-link href="#space" title="工作领域信息" />
-          <a-anchor-link href="#management" title="相关管理信息" />
+          <a-anchor-link v-if="isExpert" href="#management" title="相关管理信息" />
         </a-anchor>
       </div>
-
     </div>
 
 		<a-modal :visible="previewVisible"  style="text-align:center" :width="600" :footer="null" @cancel="previewVisible = false">
@@ -169,7 +168,7 @@
 import jobStudy from '@/views/expertManagement/components/jobStudy'
 import jobSpace from '@/views/expertManagement/components/jobSpace'
 export default {
-  name: 'talent-create',
+  name: 'LibraryEdit',
   components: { jobStudy, jobSpace },
   data() {
     const validatePhone = (rule, value, callback) => {
@@ -217,6 +216,8 @@ export default {
       }
     }
     return {
+      isExpert: true, // 判断的依据， true为专家库， false为人才库
+      currentId: null,
       form: this.$form.createForm(this),
       age: null,
       changeSmall:false,
@@ -234,6 +235,7 @@ export default {
         provinceConfirmList: [{ label: '是', value: '是' },{ label: '否', value: '否' }],
         unitConfirmList: [{ label: '是', value: '是' },{ label: '否', value: '否' }],
         politicsList: [],
+        awardTypeList: [],
         areas: [],
       },
       colSpa: {
@@ -293,10 +295,17 @@ export default {
     }
   },
   mounted() {
+    this.isExpert = (this.$route.name.indexOf('talent') < 0) // 根据路由判断是专家还是人才
     this.getAreas(null)
     this.$ajax.all(this.getOptions()).then(() => {
-      if (this.$route.query.id) {
+      if (this.$route.query.id) { // 编辑
+        this.currentId = this.$route.query.id
         this.getDetail()
+      } else if (this.$route.name == '/person/expert') { // 从个人中心过来
+        this.currentId = this.$store.state.userInfos.id
+        if (this.currentId) {
+          this.getDetail()
+        }
       }
     })
   },
@@ -314,6 +323,7 @@ export default {
         { type: '6', name: 'workAreaList' }, //工作领域
         { type: '7', name: 'professionGroupList' }, //专业组别
         { type: '8', name: 'researchDirectionList' }, //主要研究方向
+        {type: '10', name: 'awardTypeList'}, // 获奖成果类别
         { type: '11', name: 'politicsList' } //政治面貌
       ]
       return items.map(item => {
@@ -364,27 +374,28 @@ export default {
       })
     },
     setAreaOptions(companyAddressId) { // 处理数据来回显省市区级联选择框的数据
-      const ids = companyAddressId.split('/')
+      const ids = companyAddressId && companyAddressId.split('/')
+      if (!ids || ids.length <= 0) return
       this.$ajax.all(
         this.$ajax.get({
           url: this.$api.GET_AREA_NEXT,
           params: {
-            parentId: ids[0].split('#')[0],
+            parentId: ids[0] && ids[0].split('#')[0],
           },
           hideLoading: true,
         }),
         this.$ajax.get({
           url: this.$api.GET_AREA_NEXT,
           params: {
-            parentId: ids[1].split('#')[0],
+            parentId: ids[1] && ids[1].split('#')[0],
           },
           hideLoading: true,
         }),
       ).then(res => {
         const lv2 = this.$com.confirm(res[0], 'data.content', [])
         const lv3 = this.$com.confirm(res[1], 'data.content', [])
-        const result = []
-        this.options.areas.forEach(item => {
+        const result = [...this.options.areas]
+        result.forEach(item => {
           if (item.value == ids[0]) {
             const children = []
             lv2.forEach(child => {
@@ -399,18 +410,13 @@ export default {
               }
               children.push(child)
             })
-            result.push({
-              label: item.label,
-              value: item.value,
-              isLeaf: item.isLeaf,
-              children: children.map(item => {
-                return {
-                  label: item.areaName,
-                  value: item.id + '#' + item.areaName,
-                  isLeaf: item.lv > 2,
-                  children: item.children,
-                }
-              }),
+            item.children = children.map(item => {
+              return {
+                label: item.areaName,
+                value: item.id + '#' + item.areaName,
+                isLeaf: item.lv > 2,
+                children: item.children,
+              }
             })
           }
         })
@@ -514,6 +520,13 @@ export default {
         if (list && list.length > 0) {
           const result = list.map((item, index) => {
             if (item.date && item.date.length > 0) {
+              if (item.type) {
+                this.options.awardTypeList.forEach(option => {
+                  if (option.value === item.type) {
+                    item.typeName = option.label
+                  }
+                })
+              }
               const date = [...item.date]
               item.date = [this.$moment(date[0]).format('YYYY-MM-DD'), this.$moment(date[1]).format('YYYY-MM-DD')]
               item.index = index
@@ -533,9 +546,12 @@ export default {
       })
       data.companyAddress = address.join('/')
       data.companyAddressId = data.companyAddressId.join('/')
+      if (!this.isExpert) { // 如果是人才库则需加参数type = '1'
+        data.type='1'
+      }
       let link, msg, methods
-      if (this.$route.query.id) {
-        link = this.$api.EXPORT_TYPE_EDIT.replace('{experId}',this.$route.query.id)
+      if (this.currentId) {
+        link = this.$api.EXPORT_TYPE_EDIT.replace('{experId}',this.currentId)
         methods = 'put'
         msg = '修改成功！'
       } else {
@@ -555,7 +571,7 @@ export default {
     },
     getDetail() {
       this.$ajax.get({
-        url: this.$api.GET_EXPERT_DETAIL.replace('{experId}',this.$route.query.id),
+        url: this.$api.GET_EXPERT_DETAIL.replace('{experId}',this.currentId),
         hideLoading: false
       }).then(res => {
         let {
