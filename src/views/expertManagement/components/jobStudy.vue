@@ -28,13 +28,36 @@
           </a-form-item>
         </a-col>
       </a-row>
+      <a-row :gutter="10" v-for="(item, i) in expeirenceList" :key="i">
+        <a-col span="10">
+          <a-form-item :label="i > 0 ? `工作/学习经历${i + 1}` : '工作/学习经历'" v-bind="col">
+            <a-range-picker v-decorator="[`workExperience[${i}].date`,{rules:rules.experience.date}]"/>
+          </a-form-item>
+        </a-col>
+        <a-col span="6">
+          <a-form-item>
+            <a-input v-decorator="[`workExperience[${i}].name`,{rules:rules.experience.name}]" placeholder="请输入单位/学校" />
+          </a-form-item>
+        </a-col>
+        <a-col span="6">
+          <a-form-item>
+            <a-input v-decorator="[`workExperience[${i}].content`,{rules:rules.experience.content}]" placeholder="请输入主要内容" />
+          </a-form-item>
+        </a-col>
+        <a-col span="2">
+          <div v-if="i > 0" class="del-btn"><a-icon @click="deleteExperience(i)" type="delete" /></div>
+        </a-col>
+      </a-row>
       <a-row>
+        <a-col span="20" offset="3"><a-button @click="addExperience" type="dashed" block>新增一条经历</a-button></a-col>
+      </a-row>
+      <!-- <a-row>
         <a-col span="16">
           <a-form-item label="工作经历" v-bind="textSpa">
             <a-textarea rows="2" v-decorator="['workExperience']" placeholder="请输入"></a-textarea>
           </a-form-item>
         </a-col>
-      </a-row>
+      </a-row> -->
     </div>
   </div>
   <div class="layoutMargin detailsPartSection">
@@ -98,6 +121,11 @@ export default {
       }
     }
     return {
+      formJob: this.$form.createForm(this),
+      col: {
+        labelCol: { span: 8 },
+        wrapperCol: { span: 16 }
+      },
       rules: {
         // 工作学习经历
         graduatedSchool: [
@@ -127,13 +155,52 @@ export default {
             whitespace: true,
             message: '请输入电子邮箱!'
           }
-        ]
-      }
+        ],
+        experience: {
+          date: [{ required: true, message: '请选择起止时间!' }],
+          name: [{ required: true, message: '请输入单位/学校!' }],
+          content: [{ required: true, message: '请输入主要内容!' }],
+        },
+      },
+      expeirenceList: [{}],
     }
   },
-  beforeCreate() {
-    this.formJob = this.$form.createForm(this)
+  methods: {
+    initialData(data) {
+      this.setRows(data.workExperience)
+      this.$nextTick(() => {
+        this.formJob.setFieldsValue(data)
+      })
+    },
+    setRows(rows) {
+      const result = []
+      rows.forEach(item => {
+        result.push({})
+      })
+      this.expeirenceList = result
+    },
+    addExperience() {
+      this.expeirenceList.push({})
+    },
+    deleteExperience(i) {
+      const workExperience = this.formJob.getFieldValue('workExperience')
+      this.expeirenceList.splice(i, 1)
+      workExperience.splice(i, 1)
+      this.formJob.setFieldsValue({
+        workExperience,
+      })
+    },
   },
 }
 </script>
 
+<style scoped>
+.del-btn {
+  font-size: 18px;
+  cursor: pointer;
+  margin: 6px 0;
+}
+.del-btn:hover {
+  color: red;
+}
+</style>

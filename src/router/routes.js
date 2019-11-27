@@ -36,15 +36,17 @@ const Distribution = () => import ('@/views/systemManagement/administrator/distr
 const CreateNewUser = () => import ('@/views/systemManagement/administrator/new-user-create')
 const NewUserView = () => import ('@/views/systemManagement/administrator/new-user-view')
 // 专家管理人员
+const LibraryEdit = () => import('@/views/expertManagement/components/libraryEdit') // 人才库、专家库、专家个人信息的新增及修改共用组件
+const LibraryView = () => import('@/views/expertManagement/components/libraryView') // 人才库、专家库、专家个人信息的查看共用组件
 const ExpertBase = () => import ('@/views/expertManagement/base/index')
 const Talent = () => import ('@/views/expertManagement/talent/list')
 const TalentUpload = () => import ('@/views/expertManagement/talent/upload')
-const TalentCreate = () => import ('@/views/expertManagement/talent/create')
-const TalentView = () => import ('@/views/expertManagement/talent/view')
+// const TalentCreate = () => import ('@/views/expertManagement/talent/create')
+// const TalentView = () => import ('@/views/expertManagement/talent/view')
 const ExpertLibrary = () => import ('@/views/expertManagement/expertLibrary/list')
-const ExpertLibraryCreate = () => import ('@/views/expertManagement/expertLibrary/create')
+// const ExpertLibraryCreate = () => import ('@/views/expertManagement/expertLibrary/create')
 const ExpertLibrarySelect = () => import ('@/views/expertManagement/expertLibrary/select')
-const ExpertLibraryView = () => import ('@/views/expertManagement/expertLibrary/view')
+// const ExpertLibraryView = () => import ('@/views/expertManagement/expertLibrary/view')
 const ExpertLibraryUpload = () => import ('@/views/expertManagement/expertLibrary/upload')
 const ProjectReview = () => import ('@/views/expertManagement/review/list')
 const ProjectReviewHistory = () => import ('@/views/expertManagement/review/history')
@@ -120,7 +122,7 @@ const appRoutes = [{
       meta: { title: '账户信息' },
     },
     {
-      path: '/person/expert', name: '/person/expert', component: PersonExpert,
+      path: '/person/expert', name: '/person/expert', component: LibraryEdit,
       meta: { title: '专家个人信息维护' },
     },
     // 系统管理
@@ -287,19 +289,19 @@ const appRoutes = [{
         {
           path: '/expertManagement/talent/create',
           name: '/expertManagement/talent/create',
-          component: TalentCreate,
+          component: LibraryEdit,
           meta: { title: '新增人才账号', menuPath: false, authCode: 'P12001', menuIcon: 'user', hideInBread: false, openMode: 'normal' }
         },
         {
           path: '/expertManagement/talent/edit',
           name: '/expertManagement/talent/edit',
-          component: TalentCreate,
+          component: LibraryEdit,
           meta: { title: '修改人才账号', menuPath: false, authCode: 'P12003', menuIcon: 'user', hideInBread: false, openMode: 'normal' }
         },
         {
           path: '/expertManagement/talent/view',
           name: '/expertManagement/talent/view',
-          component: TalentView,
+          component: LibraryView,
           meta: { title: '查看人才账号', menuPath: false, authCode: 'P12002', menuIcon: 'user', hideInBread: false, openMode: 'normal' }
         },
         ]
@@ -312,19 +314,19 @@ const appRoutes = [{
         children: [{
           path: '/expertManagement/expertLibrary/create',
           name: '/expertManagement/expertLibrary/create',
-          component: ExpertLibraryCreate,
+          component: LibraryEdit,
           meta: { title: '新增专家账号', menuPath: false, authCode: 'P11001', menuIcon: 'user', hideInBread: false, openMode: 'normal' }
         },
         {
           path: '/expertManagement/expertLibrary/edit',
           name: '/expertManagement/expertLibrary/edit',
-          component: ExpertLibraryCreate,
+          component: LibraryEdit,
           meta: { title: '修改专家账号', menuPath: false, authCode: 'P11003', menuIcon: 'user', hideInBread: false, openMode: 'normal' }
         },
         {
           path: '/expertManagement/expertLibrary/view',
           name: '/expertManagement/expertLibrary/view',
-          component: ExpertLibraryView,
+          component: LibraryView,
           meta: { title: '查看专家账号', menuPath: false, authCode: 'P11002', menuIcon: 'user', hideInBread: false, openMode: 'normal' }
         },
         {
