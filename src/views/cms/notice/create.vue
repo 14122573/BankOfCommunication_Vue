@@ -146,7 +146,7 @@ export default {
      */
     onUploadFileChange(filelist){
       this.uploadFileList = [].concat(filelist)
-      console.log(this.uploadFileList)
+      // console.log(this.uploadFileList)
 
     },
     /**
@@ -197,7 +197,7 @@ export default {
             'status':type=='save'?'0':'1',
             attachments, // 附件
           })
-          
+
           delete postParams.openEffectStart
           delete postParams.openEffectEnd
 

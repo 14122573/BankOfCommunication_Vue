@@ -3,7 +3,7 @@
     <div class="cmsPublishFrame">
       <div class="cmsPublishFrameTitle">
         <a-row type="flex" justify="space-between" align="middle">
-          <a-col :span="4"><span class="titleName">通知公告</span></a-col>
+          <a-col :span="4"><span class="titleName">通知公告1</span></a-col>
           <a-col :span="2"><a-button type="primary" @click="$router.push({name:'login'})" ghost> 关闭 </a-button> </a-col>
         </a-row>
       </div>
@@ -106,7 +106,10 @@ export default {
           this.pagination.pageNo = this.$com.confirm(res, 'data.page', 1)
           this.pagination.current = this.pagination.pageNo
           this.noticeList = this.$com.confirm(res, 'data.content', [])
-          // console.log(this.noticeList)
+
+          this.noticeList.sort((a,b) => {
+            return Date.parse(b.createTime)-Date.parse(a.createTime)
+          })
 
           //如果有返回的通知公告列表--渲染
           this.isReady = res.data.content.length > 0 ? true : false

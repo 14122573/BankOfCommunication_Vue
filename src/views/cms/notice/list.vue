@@ -296,6 +296,8 @@ export default {
      * @param {String} status 目标状态Key ，发布：1；失效：2
      */
     toChangeStatus(id,status){
+      console.log(status)
+
       this.$ajax.put({
         url: this.$api.PUT_CMS_NOTICE_STATUS.replace('{id}', id).replace('{status}', status)
       }).then(res=>{
@@ -405,7 +407,6 @@ export default {
         this.pagination.current = this.pagination.pageNo
         this.noticeList = this.$com.confirm(res, 'data.content', [])
         this.isReady = true
-        // console.log(this.noticeList)
       })
     }
   },
