@@ -3,7 +3,7 @@
     <div class="cmsPublishFrame">
       <div class="cmsPublishFrameTitle">
         <a-row type="flex" justify="space-between" align="middle">
-          <a-col :span="4"><span class="titleName">通知公告1</span></a-col>
+          <a-col :span="4"><span class="titleName">通知公告</span></a-col>
           <a-col :span="2"><a-button type="primary" @click="$router.push({name:'login'})" ghost> 关闭 </a-button> </a-col>
         </a-row>
       </div>
@@ -95,7 +95,8 @@ export default {
       searchParms = Object.assign({},{
         pageNo: this.pagination.pageNo,
         pageSize: this.pagination.pageSize,
-        status_in: '1'
+        status_in: '1',
+        topDate_desc:'desc',
       })
       this.$ajax.get({
         url: this.$api.GET_CMS_NOTICE_LIST,
@@ -106,11 +107,9 @@ export default {
           this.pagination.pageNo = this.$com.confirm(res, 'data.page', 1)
           this.pagination.current = this.pagination.pageNo
           this.noticeList = this.$com.confirm(res, 'data.content', [])
-
-          this.noticeList.sort((a,b) => {
-            return Date.parse(b.createTime)-Date.parse(a.createTime)
-          })
-
+          // this.noticeList.sort((a,b) => {
+          //   return Date.parse(b.createTime)-Date.parse(a.createTime)
+          // })
           //如果有返回的通知公告列表--渲染
           this.isReady = res.data.content.length > 0 ? true : false
         }else{

@@ -396,7 +396,7 @@ export default {
         title_l:!this.noticeSearchForm.getFieldValue('title')?'':this.noticeSearchForm.getFieldValue('title')
       },{
         pageNo: this.pagination.pageNo,
-        pageSize: this.pagination.pageSize
+        pageSize: this.pagination.pageSize,
       })
       this.$ajax.get({
         url: this.$api.GET_CMS_NOTICE_LIST,
