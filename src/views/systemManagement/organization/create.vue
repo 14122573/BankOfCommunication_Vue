@@ -178,7 +178,7 @@ export default {
     },
     validatePhone(rule, value, callback) {
       if (value && !this.$com.checkPhone(value) && !this.$com.checkTel(value)) {
-        callback('联系电话不合法!')
+        callback('请填写正确手机号/座机请用‘-’隔开区号!')
       } else {
         callback()
       }
