@@ -60,7 +60,7 @@
   <a-row :gutter="6">
     <a-col :span="2"><div style="margin: 5px 0;text-align:right;">抽取人数：</div></a-col>
     <a-col :span="4">
-      <a-input-number v-model="numbers" :min="1" style="width: 100%;"/>
+      <a-input-number v-model="extractionNo" :min="1" style="width: 100%;"/>
     </a-col>
     <a-col :span="2" :offset="14">
       <a-button @click="handleReset" type="primary" block ghost>重置</a-button>
@@ -70,34 +70,58 @@
     </a-col>
   </a-row>
   <a-divider dashed style="margin: 10px 0"/>
-  <a-tabs defaultActiveKey="1" @change="callback">
+  <a-tabs v-model="curTab" @change="handleTabChange">
     <a-tab-pane tab="筛选结果" key="1"/>
     <a-tab-pane :tab="tabText" key="2"/>
     <a-row slot="tabBarExtraContent">
-      <a-button @click="handleExtract">{{extractBtn}}</a-button>
+      <a-button @click="handleSelect">{{selectBtn}}</a-button>
       <a-button @click="handleSave" type="primary">{{saveBtn}}</a-button>
     </a-row>
   </a-tabs>
   <a-table
     size="small"
-    :rowSelection="{selectedRowKeys: selectedRowKeys, onChange: onSelectChange}"
+    :rowSelection="curTab == '2' ? null : {selectedRowKeys: selectedRowKeys, onChange: onSelectChange}"
     :columns="columns"
     :dataSource="data"
     :pagination="pagination"
     rowKey="id"
   >
-    <!-- <template slot="operation" slot-scope="text, record">
-      <a-button @click="handleView(record)" type="link">查看</a-button>
-    </template> -->
+    <template v-if="curTab == '2'" slot="operation" slot-scope="text, record">
+      <a-popconfirm
+        title="确认将此专家移出选中列表？"
+        @confirm="handleDelete(record)"
+        @cancel="cancel"
+      ><a-button type="danger" size="small">移出</a-button></a-popconfirm>
+      <!-- <a-button @click="handleView(record)" type="link">查看</a-button> -->
+    </template>
   </a-table>
 </a-card>
 </template>
 
 <script>
+const base = 'http://47.100.45.230:30000/mock/185'
+const POST_FILTER_LIST = base + '/service-expert/expert/extract' // 筛选专家
+const POST_SELECT = base + '/service-expert/expert/extract/select' // 选中专家
+const POST_CONFIRM = base + '/service-expert/extract/confirm' // 确认专家
 export default {
   name: 'ActiveExtract',
+  props: {
+    searchParams: {
+      type: Object,
+      default() {
+        return {}
+      },
+    },
+    confirmParams: {
+      type: Object,
+      default() {
+        return {}
+      },
+    },
+  },
   data() {
     return {
+      curTab: '1',
       typeOptions: [
         {name: '姓名', value: '1'},
         {name: '工作单位', value: '2'},
@@ -125,7 +149,7 @@ export default {
       ],
       basic: {},
       filters: [],
-      numbers: 100,
+      extractionNo: 100,
       columns: [
         {
           title: '姓名',
@@ -156,12 +180,12 @@ export default {
           title: '登录账号',
           dataIndex: 'phone',
         },
-        // {
-        //   title: '操作',
-        //   dataIndex: 'operation',
-        //   align: 'center',
-        //   scopedSlots: { customRender: 'operation' },
-        // },
+        {
+          title: '操作',
+          dataIndex: 'operation',
+          align: 'center',
+          scopedSlots: { customRender: 'operation' },
+        },
       ],
       pagination: {
         pageNo: 1,
@@ -174,7 +198,7 @@ export default {
       data: [],
       selectedRowKeys: [],
       selectedRows: [],
-      extractedRows: [],
+      selectedList: [],
     }
   },
   mounted() {
@@ -183,11 +207,23 @@ export default {
   methods: {
     getData() {
       const {pageNo, pageSize} = this.pagination
+      const params = Object.assign({}, this.searchParams, {
+        pageNo: this.pagination.pageNo,
+        pageSize: this.pagination.pageSize,
+        itemList: [this.basic, ...this.filters]
+      })
+      console.log('params', params)
+      // this.$ajax.post({
+      //   url: POST_FILTER_LIST,
+      //   params,
+      // }).then(res => {
+      //   console.log(res)
+      // })
       this.$ajax.get({
         url: this.$api.GET_EXPERT_LIST,
         params: {
-          pageNo,
-          pageSize,
+          pageNo: this.pagination.pageNo,
+          pageSize: this.pagination.pageSize,
         },
       }).then(res => {
         this.data = this.$com.confirm(res, 'data.content', [])
@@ -224,33 +260,62 @@ export default {
         contain: this.containOptions[0].value,
         equals: this.equalsOptions[0].value,
       }
-      this.getData()
+    },
+    handleTabChange(key) {
+      if (key == '1') {
+        this.getData()
+      } else if (key == '2') {
+        this.data = this.selectedList
+      }
     },
     handleSearch() {
-      console.log(this.basic, this.filters)
+      this.getData()
     },
-    handleView(data) {
-      console.log(data)
+    // handleView(data) {
+    //   console.log(data)
+    // },
+    handleDelete({id}) {
+      const index = this.selectedList.findIndex(item => item.id == id)
+      this.selectedList.splice(index, 1)
+      this.$emit('selectedList', this.selectedList)
     },
-    handleExtract() {
-      this.extractedRows.push(...this.selectedRows)
+    submitData(url) {
+      const params = Object.assign({}, this.confirmParams, {
+        expertList: this.selectedList.map(item => {
+          return {id: item.id}
+        })
+      })
+      this.$ajax.post({
+        url,
+        params,
+      }).then(res => {
+        console.log(res)
+      })
+    },
+    handleSelect() { // 选中专家
+      this.selectedList.push(...this.selectedRows)
       // 去重并提取
       const reducer = (arr, cur) => arr.indexOf(cur) >= 0 ? arr : [...arr, cur]
-      this.extractedRows = this.extractedRows.reduce(reducer, [])
+      this.selectedList = this.selectedList.reduce(reducer, [])
       this.selectedRowKeys = []
       this.selectedRows = []
+      this.submitData(POST_SELECT)
+      this.$emit('selectedList', this.selectedList)
     },
-    handleSave() {},
+    handleSave() { // 确认专家
+      this.submitData(POST_CONFIRM)
+      this.$emit('savedList', this.selectedList)
+    },
   },
   computed: {
     tabText() {
-      const len = this.extractedRows.length
+      const len = this.selectedList.length
       if (len > 0) {
         return `选中专家列表（已选中${len}项）`
       }
       return '选中专家列表'
     },
-    extractBtn() {
+    selectBtn() {
       const len = this.selectedRowKeys.length
       if (len > 0) {
         return `选中（已勾选${len}项）`
@@ -258,19 +323,12 @@ export default {
       return '选中'
     },
     saveBtn() {
-      const len = this.extractedRows.length
+      const len = this.selectedList.length
       if (len > 0) {
         return `确认（已选中${len}项）`
       }
       return '确认'
     },
-    // exportBtn() {
-    //   const len = this.extractedRows.length
-    //   if (len > 0) {
-    //     return `导出（已抽取${len}项）`
-    //   }
-    //   return '导出'
-    // },
   },
 }
 </script>
