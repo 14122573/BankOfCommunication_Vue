@@ -11,17 +11,17 @@
               <p :key='index' class="canload fileItem"><a :href='item.url' target="_blank">{{item.name}}</a></p>
             </template>
             <template v-else="">
-              <p :key='index'  class="fileItem">{{item.name}}</p>
+              <p :key='index' class="fileItem"><a :href='item.url' target="_blank">{{item.name}}</a></p>
             </template>
         </template>
       </a-col>
     </a-row>
-    <a-modal
-      :title='orgPic.name'
-      v-model="visibleOrgPic"
-      @ok="handleOk"
-      :footer="null"
-    >
+      <a-modal
+        :title='orgPic.name'
+        v-model="visibleOrgPic"
+        @ok="handleOk"
+        :footer="null"
+      >
       <p class="orgPicContent"><img :src='orgPic.url' /></p>
     </a-modal>
   </div>
@@ -51,11 +51,21 @@ export default {
       default() {
         return []
       }
+    },
+    /**
+     * 需要展示的网络视频列表
+     */
+    file:{
+      type: Array,
+      default() {
+        return []
+      }
     }
   },
   data() {
     return {
       fileList:[],
+      netList:[],
       visibleOrgPic:false,
       orgPic:{
         'url':'',
@@ -77,6 +87,20 @@ export default {
         })
       }
     }
+    if(Array.isArray(this.file)){
+      for(let i=0;i<this.file.length;i++){
+        this.netList.push({
+          'name':this.file[i],
+          'fileType':'',
+          'url':this.file[i],
+        })
+      }
+    }
+    // console.log(this.file)
+    // console.log(this.files)
+    this.fileList = this.netList.concat(this.fileList)
+    // console.log(this.fileList)
+
   },
   methods: {
     showOrgPic(url,name){

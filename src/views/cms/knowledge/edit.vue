@@ -270,6 +270,7 @@ export default {
                   })
                   break
                 case '2': // 线上视频地址的数据
+                  // this.formData.videoUrlList.push(this.knowledgeDetails.attachments[i].filePath)
                   this.formData.videoUrlList.push(this.knowledgeDetails.attachments[i].filePath)
                   break
                 default:
@@ -342,7 +343,7 @@ export default {
             'attachments': this.arrangeFileList()
           })
           delete  postParams.videoUrlList
-          console.log(postParams)
+          // console.log(postParams)
 
           this.$ajax.put({
             url: this.$api.PUT_CMS_KNOWLEDGE_DETAIL.replace('{id}', this.id),
