@@ -20,7 +20,7 @@
         </div>
         <a-row style="padding:0 16px" type="flex" justify="end">
           <a-col>
-            <a-pagination size="small" :defaultPageSize="pagination.pageSize" showQuickJumper @change="onPageChange" :current="pagination.pageNo" :total="pagination.total" ></a-pagination>
+              <a-pagination size="small" :defaultPageSize="pagination.pageSize" showQuickJumper @change="onPageChange" :current="pagination.pageNo" :total="pagination.total" ></a-pagination>
           </a-col>
         </a-row>
       </template>
@@ -98,6 +98,8 @@ export default {
         status_in: '1',
         topDate_desc:'desc',
       })
+      console.log(searchParms)
+
       this.$ajax.get({
         url: this.$api.GET_CMS_NOTICE_LIST,
         params: searchParms
@@ -107,9 +109,7 @@ export default {
           this.pagination.pageNo = this.$com.confirm(res, 'data.page', 1)
           this.pagination.current = this.pagination.pageNo
           this.noticeList = this.$com.confirm(res, 'data.content', [])
-          // this.noticeList.sort((a,b) => {
-          //   return Date.parse(b.createTime)-Date.parse(a.createTime)
-          // })
+          // console.log(this.noticeList)
           //如果有返回的通知公告列表--渲染
           this.isReady = res.data.content.length > 0 ? true : false
         }else{

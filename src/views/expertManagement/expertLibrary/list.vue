@@ -259,7 +259,8 @@ export default {
       delete options.proStatus
       const params = Object.assign(options, {
         pageSize: this.pagination.pageSize,
-        pageNo: this.pagination.pageNo
+        pageNo: this.pagination.pageNo,
+        type: '0',
       })
       this.$ajax.get({
         url: this.$api.GET_EXPERT_LIST,

@@ -96,7 +96,7 @@ export default {
         if(res.code =='200'){
           this.noticeDetail = this.$com.confirm(res, 'data.content', {})
           this.ready = true
-          console.log(this.noticeDetail)
+          // console.log(this.noticeDetail)
 
         }else{
           this.$message.error(res.msg)
