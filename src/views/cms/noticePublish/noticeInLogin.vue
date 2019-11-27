@@ -139,7 +139,8 @@ export default {
       searchParms = Object.assign({},{
         pageNo: this.pagination.pageNo,
         pageSize: this.pagination.pageSize,
-        status_in: '1'
+        status_in: '1',
+        topDate_desc:'desc'
       })
       this.$ajax.get({
         url: this.$api.GET_CMS_NOTICE_LIST,
