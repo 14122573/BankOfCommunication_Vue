@@ -59,8 +59,9 @@
 				<span class="actionBtn" v-if="$permission('P03301')" @click="viewBtn(record)">查看<a-divider type="vertical" /></span>
 				<span class="actionBtn" v-if="record.status!=8 && $permission('P03302')" @click="$router.push({name: '/systemManagement/administrator/editNewUser',query:{id:record.id}})">修改<a-divider type="vertical" /></span>
 				<a-dropdown>
-					<span class="actionBtn"> 更多
-						<a-icon type="down" /> </span>
+					<span class="actionBtn" v-if="record.status!=8" > 更多
+						<a-icon type="down" />
+          </span>
 					<a-menu slot="overlay" @click='(event)=>{showOpeations(event.key,record)}'>
 						<a-menu-item class="actionBtn" key="4" v-if="(record.status==1 ||record.status==9)&& $permission('P03306')"> 重置密码
 						</a-menu-item>
