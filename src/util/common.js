@@ -378,7 +378,6 @@ export default {
      * @param {Object} param 搜索参数
      */
   storeSearchParams(routeName, page, param) {
-
     if (!!routeName && !!page && !!param) {
       let searchParams = {
         'routeName': routeName,

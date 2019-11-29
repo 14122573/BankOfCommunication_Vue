@@ -1,28 +1,28 @@
 <template>
 	<div>
-		<a-form class="protalForm" :form="searchForm">
+		<a-form class="protalForm" :form="searchPendingUserForm">
 			<a-row class="formItemLine" type="flex" :justify="simpleSearchForm?'end':'space-between'" align='middle' :gutter="simpleSearchForm?16:0">
 				<a-col span="6">
 					<a-form-item class="formItem" :label="simpleSearchForm?'':'账号'" :label-col="formItemLabelCol" :wrapper-col="formItemWrapperCol">
-						<a-input placeholder="请输入登录手机号" v-model="searchForm['ui.phone_l']" />
+            <a-input placeholder="请输入登录手机号" v-decorator="['ui.phone_l']" />
 					</a-form-item>
 				</a-col>
-				<a-col span="6" v-if="!simpleSearchForm">
+				<a-col span="6" v-show="!simpleSearchForm">
 					<a-form-item class="formItem" label="姓名" :label-col="formItemLabelCol" :wrapper-col="formItemWrapperCol">
-						<a-input placeholder="请输入" v-model="searchForm.name_l" />
+            <a-input placeholder="请输入" v-decorator="['name_l']" />
 					</a-form-item>
 				</a-col>
-				<a-col span="6" v-if="!simpleSearchForm">
+				<a-col span="6" v-show="!simpleSearchForm">
 					<a-form-item label="邮箱" :label-col="formItemLabelCol" :wrapper-col="formItemWrapperCol">
-						<a-input placeholder="请输入" v-model="searchForm.mail_l" />
+            <a-input placeholder="请输入" v-decorator="['mail_l']" />
 					</a-form-item>
 				</a-col>
-				<a-col span="6" v-if="!simpleSearchForm">
+				<a-col span="6" v-show="!simpleSearchForm">
 					<a-form-item label="单位" :label-col="formItemLabelCol" :wrapper-col="formItemWrapperCol">
-						<a-input placeholder="请输入" v-model="searchForm.dept_l" />
+            <a-input placeholder="请输入" v-decorator="['dept_l']" />
 					</a-form-item>
 				</a-col>
-				<a-col span="12" v-if="!simpleSearchForm">
+				<a-col span="12" v-show="!simpleSearchForm">
 					<a-form-item label="注册时间段" :label-col="{span:4}" :wrapper-col="{span:20}">
 						<a-range-picker allowClear v-model="time" :format="dateFormat" style="width:100%" :placeholder="['请选择开始日期','请选择结束日期']"
 						 @change="onDateChange" />
@@ -143,6 +143,7 @@ export default {
     },
     // 重置按钮
     reset() {
+      this.searchPendingUserForm.resetFields()
       this.searchForm = {}
       this.time = []
       this.pagination.pageNo = 1
@@ -156,7 +157,12 @@ export default {
     },
     // 查询列表
     getList() {
-      let searchParams = JSON.parse(JSON.stringify(this.searchForm))
+      let searchParams = Object.assign({},this.searchForm,{
+        'ui.phone_l': !this.searchPendingUserForm.getFieldValue('ui.phone_l')?'':this.searchPendingUserForm.getFieldValue('ui.phone_l'),
+        name_l: !this.searchPendingUserForm.getFieldValue('name_l')?'':this.searchPendingUserForm.getFieldValue('name_l'),
+        mail_l: !this.searchPendingUserForm.getFieldValue('mail_l')?'':this.searchPendingUserForm.getFieldValue('mail_l'),
+        dept_l: !this.searchPendingUserForm.getFieldValue('dept_l')?'':this.searchPendingUserForm.getFieldValue('dept_l')
+      })
       if (searchParams.createTime_desc) {
         searchParams['ui.createTime_btw'] = searchParams.createTime_desc.join(',')
         delete searchParams.createTime_desc
@@ -164,7 +170,7 @@ export default {
       // if (params.createTime_desc) params.createTime_desc=params.createTime_desc.join(',');
       this.$ajax.get({
         url: this.$api.USER_LIST_TYPE_GET.replace('{type}', 'new'),
-        params: Object.assign(searchParams, this.params, {
+        params: Object.assign({},searchParams, this.params, {
           pageSize: this.pagination.pageSize,
           pageNo: this.pagination.pageNo
         })
@@ -178,8 +184,13 @@ export default {
         // 存储当前页面列表的搜索添加和分页信息
         this.$com.storeSearchParams(
           this.$route.name+'/pending',
-          this.params,
-          this.searchForm
+          this.pagination,
+          Object.assign({},this.searchForm,{
+            'ui.phone_l': !this.searchPendingUserForm.getFieldValue('ui.phone_l')?'':this.searchPendingUserForm.getFieldValue('ui.phone_l'),
+            name_l: !this.searchPendingUserForm.getFieldValue('name_l')?'':this.searchPendingUserForm.getFieldValue('name_l'),
+            mail_l: !this.searchPendingUserForm.getFieldValue('mail_l')?'':this.searchPendingUserForm.getFieldValue('mail_l'),
+            dept_l: !this.searchPendingUserForm.getFieldValue('dept_l')?'':this.searchPendingUserForm.getFieldValue('dept_l')
+          })
         )
       })
     },
@@ -213,8 +224,29 @@ export default {
       if(!!searchParams && !!searchParams.routeName && (this.$route.name+'/pending' == searchParams.routeName)){
         if(!!searchParams.params){
           Object.keys(searchParams.params).forEach(elem=>{
-            this.searchForm[elem] = searchParams.params[elem]
+            switch (elem) {
+            case 'ui.phone_l':
+              this.searchPendingUserForm.setFieldsValue({ 'ui.phone_l': searchParams.params[elem] })
+              break
+            case 'name_l':
+              this.searchPendingUserForm.setFieldsValue({ 'name_l': searchParams.params[elem] })
+              break
+            case 'mail_l':
+              this.searchPendingUserForm.setFieldsValue({ 'mail_l': searchParams.params[elem] })
+              break
+            case 'dept_l':
+              this.searchPendingUserForm.setFieldsValue({ 'dept_l': searchParams.params[elem] })
+              break
+            default:
+              this.searchForm[elem] = searchParams.params[elem]
+              break
+            }
           })
+          if(!!this.searchForm['createTime_desc']){
+            this.time = []
+            this.time.push(this.$moment(this.searchForm['createTime_desc'][0],this.dateFormat))
+            this.time.push(this.$moment(this.searchForm['createTime_desc'][1],this.dateFormat))
+          }
         }
         if(!!searchParams.pagination){
           if(!!searchParams.pagination.pageNo && searchParams.pagination.pageNo!=1){
@@ -225,9 +257,14 @@ export default {
       this.getList()
     },
   },
+  beforeCreate() {
+    this.searchPendingUserForm = this.$form.createForm(this)
+  },
   mounted() {
     if(this.$route.name == '/systemManagement/administrator'){
-      this.getSearchParams()
+      this.$nextTick(function () {
+        this.getSearchParams()
+      })
     }
   }
 }
