@@ -138,15 +138,28 @@
 									</a-row>
 								</a-col>
 							</a-row>
-							<a-row type="flex" justify="start" v-for="item in detail.workExperience" :key="item.index">
-								<a-col span="24">
-									<a-row type="flex" justify="start" class="detailsPartLine">
-										<a-col span="17">
-											<DetailsItem :labelSpan='3' :textSpan="20" :label='"工作经历"+(item.index + 1)' :text="`时间：${item.date[0]}至${item.date[1]} | 单位/学校：${item.name} | 主要内容：${item.content}`"></DetailsItem>
-										</a-col>
-									</a-row>
-								</a-col>
-							</a-row>
+              <template v-if="detail.workExperience && detail.workExperience.length > 0">
+                <a-row type="flex" justify="start" v-for="item in detail.workExperience" :key="item.index">
+                  <a-col span="24">
+                    <a-row type="flex" justify="start" class="detailsPartLine">
+                      <a-col span="17">
+                        <DetailsItem :labelSpan='3' :textSpan="20" :label='"工作经历"+(item.index + 1)' :text="`时间：${item.date && item.date[0]}至${item.date && item.date[1]} | 单位/学校：${item.name} | 主要内容：${item.content}`"></DetailsItem>
+                      </a-col>
+                    </a-row>
+                  </a-col>
+                </a-row>
+              </template>
+              <template v-else>
+                <a-row type="flex" justify="start">
+                  <a-col span="8">
+                    <a-row type="flex" justify="start" class="detailsPartLine">
+                      <a-col span="24">
+                        <DetailsItem :labelSpan='7' :textSpan="17" :label='"工作经历"' text='暂无'></DetailsItem>
+                      </a-col>
+                    </a-row>
+                  </a-col>
+                </a-row>
+              </template>
 						</div>
 					</div>
 					<div class="layoutMargin detailsPartSection">
@@ -195,11 +208,20 @@
 									<DetailsItem :labelSpan='4' :textSpan="20" :label='"主要工作业绩"' :text='detail.performance'></DetailsItem>
 								</a-col>
 							</a-row> -->
-							<a-row type="flex" justify="start" class="detailsPartLine" v-for="item in detail.achievements" :key="item.index">
-								<a-col span="24">
-									<DetailsItem :labelSpan='4' :textSpan="20" :label='"获奖成果" + (item.index + 1)' :text="`时间：${item.date[0]}至${item.date[1]} | 类别：${item.typeName} | 主要内容：${item.content}`"></DetailsItem>
-								</a-col>
-							</a-row>
+              <template v-if="detail.achievements && detail.achievements.length > 0">
+                <a-row type="flex" justify="start" class="detailsPartLine" v-for="item in detail.achievements" :key="item.index">
+                  <a-col span="24">
+                    <DetailsItem :labelSpan='4' :textSpan="20" :label='"获奖成果" + (item.index + 1)' :text="`时间：${item.date && item.date[0]}至${item.date && item.date[1]} | 类别：${item.typeName} | 主要内容：${item.content}`"></DetailsItem>
+                  </a-col>
+                </a-row>
+              </template>
+              <template v-else>
+                <a-row type="flex" justify="start" class="detailsPartLine">
+                  <a-col span="24">
+                    <DetailsItem :labelSpan='4' :textSpan="20" :label='"获奖成果"' text="暂无"></DetailsItem>
+                  </a-col>
+                </a-row>
+              </template>
 						</div>
 					</div>
 					<div v-if="isExpert" class="layoutMargin detailsPartSection">
@@ -288,13 +310,21 @@ export default {
         url: this.$api.GET_EXPERT_DETAIL.replace('{experId}', this.$route.query.id)
       }).then(res => {
         let data = this.$com.confirm(res, 'data.content', {})
+        if (data.workExperience) {
+          data.workExperience = JSON.parse(data.workExperience)
+        } else {
+          data.workExperience = []
+        }
+        if (data.achievements) {
+          data.achievements = JSON.parse(data.achievements)
+        } else {
+          data.achievements = []
+        }
         for (let i in data) {
           if (data[i] == null || data[i] == undefined) {
             data[i] = '暂无'
           }
         }
-        data.workExperience = JSON.parse(data.workExperience)
-        data.achievements = JSON.parse(data.achievements)
         this.detail = data
       })
     },
