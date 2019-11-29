@@ -27,7 +27,6 @@ export default {
       this.visible = true
     },
     toVeterinary() {
-      console.log(123)
       this.$router.push({ name: '/dataService/veterinary'})
 
     }

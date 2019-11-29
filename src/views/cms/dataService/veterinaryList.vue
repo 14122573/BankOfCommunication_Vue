@@ -1,24 +1,7 @@
 <template>
 	<div class="loginFrame" :style="'background-image: url(' + require('@/assets/images/bg.jpg') + ')'">
     <div class="cmsPublishFrame">
-      <div class="cmsPublishFrameTitle">
-        <a-row type="flex" justify="space-between" align="middle">
-          <a-col :span="4"><span class="titleName">知识文献</span></a-col>
-          <a-col :span="2"> <a-button type="primary" @click="$router.push({name:'login'})" ghost> 返回 </a-button> </a-col>
-        </a-row>
-      </div>
-      <template v-if="isReady">
-        <div style="padding:16px">
-          <template v-for="(knowledge,index) in knowledgeList">
-          <div @click="goToView(knowledge.id)" :class='{"knowledge":true,"hasBg":(index+1)%2==1}' :key="index">[{{knowledge.years}}] - {{knowledge.title}} - [{{knowledge.author}}]</div>
-          </template>
-        </div>
-        <a-row style="padding:0 16px" type="flex" justify="end">
-          <a-col>
-            <a-pagination size="small" :defaultPageSize="pagination.pageSize" showQuickJumper @change="onPageChange" :current="pagination.pageNo" :total="pagination.total" ></a-pagination>
-          </a-col>
-        </a-row>
-      </template>
+      sdfgsdfgsd
     </div>
 		<div class="footer">
 			<p>主办单位：全国水产技术推广总站、中国水产学会&nbsp;&nbsp;&nbsp;&nbsp; 技术支持：博彦科技股份有限公司</p>

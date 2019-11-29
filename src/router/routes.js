@@ -77,9 +77,9 @@ const ManualList = () => import('@/views/cms/manual/list')
 const ManualFileList = () => import('@/views/cms/manual/file-list')
 const ManualView = () => import('@/views/cms/manual/manual-view')
 // 数据服务 - 渔业兽医
-const Veterinary = () => import('@/views/cms/dataService/veterinary')
-const VeterinaryList = () => import('@/views/cms/dataService/veterinary')
-const VeterinaryView = () => import('@/views/cms/dataService/veterinary')
+// const Veterinary = () => import('@/views/cms/dataService/veterinary')
+const VeterinaryList = () => import('@/views/cms/dataService/veterinaryList')
+// const VeterinaryView = () => import('@/views/cms/dataService/veterinary')
 
 /**
      * 要求：
@@ -1066,45 +1066,31 @@ const appRoutes = [{
   ],
 },
 {
-  path: '/login',
-  name: 'login',
-  component: LoginPage,
+  path: '/login', name: 'login', component: LoginPage,
   meta: { title: '登录' },
 },
 {
-  path: '/register',
-  name: 'register',
-  component: RegisterPage,
+  path: '/register', name: 'register', component: RegisterPage,
   meta: { title: '注册' },
 },
 {
-  path: '/bindPhone',
-  name: 'bindPhone',
-  component: BindPhone,
+  path: '/bindPhone', name: 'bindPhone', component: BindPhone,
   meta: { title: '选择系统绑定手机号', },
 },
 {
-  path: '/oldSysLogout',
-  name: 'oldSysLogout',
-  component: OldSysLogout,
+  path: '/oldSysLogout', name: 'oldSysLogout', component: OldSysLogout,
   meta: { title: '老系统安全登出', },
 },
 {
-  path: '/outerNetworkerr',
-  name: 'outerNetworkerr',
-  component: TipsNetworkErr,
+  path: '/outerNetworkerr', name: 'outerNetworkerr', component: TipsNetworkErr,
   meta: { title: '网络错误', },
 },
 {
-  path: '/error-page',
-  name: 'error-page',
-  component: ErrorPage,
+  path: '/error-page', name: 'error-page', component: ErrorPage,
   meta: { title: '404', },
 },
 {
-  path: '/upperLimitErr',
-  name: 'upperLimitErr',
-  component: TipsUpperLimitErr,
+  path: '/upperLimitErr', name: 'upperLimitErr', component: TipsUpperLimitErr,
   meta: { title: '访问频繁', },
 },
 // 匿名浏览知识文库
@@ -1126,8 +1112,7 @@ const appRoutes = [{
   meta: { title: '操作手册', menuPath: false, menuIcon: 'file-text', hideInBread: false },
 },
 // 渔业兽医
-{
-  path: '/dataService/veterinary', name: '/dataService/veterinary', component: VeterinaryList,
+{ path: '/dataService/veterinary', name: '/dataService/veterinary', component: VeterinaryList,
   meta: { title: '渔业兽医', menuPath: false, menuIcon: 'file-text', hideInBread: false },
 },
 ]
