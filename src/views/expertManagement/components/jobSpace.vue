@@ -181,7 +181,7 @@ export default {
       rows.forEach(item => {
         result.push({})
       })
-      this.achievementsList = result
+      this.achievementsList = result.length <= 0 ? [{}] : []
     },
     addAchievements() {
       this.achievementsList.push({})

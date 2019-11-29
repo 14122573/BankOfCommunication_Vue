@@ -177,7 +177,7 @@ export default {
       rows.forEach(item => {
         result.push({})
       })
-      this.expeirenceList = result
+      this.expeirenceList = result.length <= 0 ? [{}] : []
     },
     addExperience() {
       this.expeirenceList.push({})
