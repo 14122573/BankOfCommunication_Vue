@@ -76,6 +76,10 @@ const VoteQrList = () => import('@/views/cms/vote/qr-list')
 const ManualList = () => import('@/views/cms/manual/list')
 const ManualFileList = () => import('@/views/cms/manual/file-list')
 const ManualView = () => import('@/views/cms/manual/manual-view')
+// 数据服务 - 渔业兽医
+const Veterinary = () => import('@/views/cms/dataService/veterinary')
+const VeterinaryList = () => import('@/views/cms/dataService/veterinary')
+const VeterinaryView = () => import('@/views/cms/dataService/veterinary')
 
 /**
      * 要求：
@@ -99,6 +103,7 @@ const appRoutes = [{
   redirect: '/login',
   component: contentWrapper,
   children: [
+
     {
       path: '/home', name: 'home', component: HomePage,
       meta: { title: '首页' },
@@ -1119,6 +1124,11 @@ const appRoutes = [{
 // 浏览操作手册
 { path: '/cms/manualPublish', name: '/cms/manualPublish', component: ManualView,
   meta: { title: '操作手册', menuPath: false, menuIcon: 'file-text', hideInBread: false },
+},
+// 渔业兽医
+{
+  path: '/dataService/veterinary', name: '/dataService/veterinary', component: VeterinaryList,
+  meta: { title: '渔业兽医', menuPath: false, menuIcon: 'file-text', hideInBread: false },
 },
 ]
 
