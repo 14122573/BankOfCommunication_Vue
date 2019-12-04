@@ -66,6 +66,7 @@ export default {
   SYSTEM_LIST_ALL_GET: '/service-user/user/systems', //查询系统列表
   CHECK_USER_STATUS: '/service-user/user/acct/{id}/status/{status}/{type}', //切换用户状态
   GET_AREA_NEXT: '/service-user/user/area/next', //获取下级地区
+  GET_PUBLIC_AREA_NEXT: '/service-user/user/public/areas', //获取下级地区(无需登录)
   USER_ACCOUNT_DETAIL: '/service-user/user/account/{id}', //待分配权限详情
   GET_ORGANIZATION_LIST: '/service-permission/perm/groups', //组织机构列表
   CONFIG_ROLES_TO_USER: '/service-user/user/config/roles', //给用户分配权限
@@ -131,4 +132,7 @@ export default {
   POST_ADD_MANUAL: '/service-release/release/handbook', // 新增手册
   PUT_EDIT_MANUAL: '/service-release/release/handbook/{id}', // 编辑手册
   DELETE_MANUAL: '/service-release/release/handbook/{id}', // 删除手册
+  // 兽医
+  GET_VETERINARYALL:'http://iftp.omniview.pro/api/veterinary/veterinary/public/doctor/publicInfo/allpub',// 全部兽医
+  GET_VETERINARY:'http://iftp.omniview.pro/api/veterinary/veterinary/public/doctor/publicInfo/pub/{id}/{type}'// 单个兽医
 }

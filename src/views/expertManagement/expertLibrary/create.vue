@@ -532,6 +532,8 @@ export default {
         return id.split('#')[1]
       })
       data.companyAddress = address.join('/')
+      console.log(data.companyAddressId)
+
       data.companyAddressId = data.companyAddressId.join('/')
       let link, msg, methods
       if (this.$route.query.id) {

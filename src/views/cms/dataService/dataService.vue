@@ -2,7 +2,7 @@
   <div class="dataService">
     <a-modal :footer="null" centered v-model="visible" >
       <a-row type="flex" justify="space-around" class="demo">
-        <a-col :span="10" class="dataModal">
+        <a-col :span="10" class="dataModal" @click="toVeterinary">
             <img src="@/assets/images/veterinary.png" alt="" class="icon2">
             <p class="title">官方兽医</p>
         </a-col>
@@ -15,6 +15,7 @@
   </div>
 </template>
 <script>
+
 export default {
   data() {
     return {
@@ -25,6 +26,10 @@ export default {
     showModal() {
       this.visible = true
     },
+    toVeterinary() {
+      this.$router.push({ name: '/veterinary'})
+
+    }
   },
 }
 </script>

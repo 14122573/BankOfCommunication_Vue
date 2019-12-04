@@ -395,6 +395,7 @@ export default {
         const lv2 = this.$com.confirm(res[0], 'data.content', [])
         const lv3 = this.$com.confirm(res[1], 'data.content', [])
         const result = [...this.options.areas]
+        // console.log(result)
         result.forEach(item => {
           if (item.value == ids[0]) {
             const children = []
@@ -421,6 +422,8 @@ export default {
           }
         })
         this.options.areas = result
+        // console.log(ids)
+
         this.form.setFieldsValue({
           companyAddressId: ids,
         })
@@ -528,7 +531,7 @@ export default {
                 })
               }
               const date = [...item.date]
-              item.date = [this.$moment(date[0]).format('YYYY-MM-DD'), this.$moment(date[1]).format('YYYY-MM-DD')]
+              item.date = [date[0] ? this.$moment(date[0]).format('YYYY-MM-DD') : null, date[1] ? this.$moment(date[1]).format('YYYY-MM-DD') : null]
               item.index = index
             }
             return item
@@ -615,7 +618,7 @@ export default {
             const result = list.map((item, index) => {
               if (item.date && item.date.length > 0) {
                 const date = [...item.date]
-                item.date = [this.$moment(date[0]), this.$moment(date[1])]
+                item.date = [date[0] ? this.$moment(date[0]) : null, date[1] ? this.$moment(date[1]) : null]
                 this.$delete(item, 'index')
               }
               return item
@@ -641,7 +644,7 @@ export default {
             jobTitle,
             position,
             // partTime,
-            birthday: this.$moment(birthday),
+            birthday: birthday ? this.$moment(birthday) : birthday,
             politic,
             companyPhone,
           })
