@@ -32,8 +32,8 @@ router.beforeEach((to, from, next) => {
     if (to.name == 'login') {
       next()
     } else {
-      let uneedTokenRouter=['/dataService/veterinary','/cms/noticePublish','/cms/noticePublish/view','/cms/knowledgePublish/view','/cms/knowledgeAnonymous','upperLimitErr','register','oldSysLogout','outerNetworkerr']
-      console.log(to.name,Common.oneOf(to.name,uneedTokenRouter) )
+      let uneedTokenRouter=['/veterinary/view','/veterinary','/cms/noticePublish','/cms/noticePublish/view','/cms/knowledgePublish/view','/cms/knowledgeAnonymous','upperLimitErr','register','oldSysLogout','outerNetworkerr']
+      // console.log(to.name,Common.oneOf(to.name,uneedTokenRouter) )
       if (Common.oneOf(to.name,uneedTokenRouter) || (to.name == 'bindPhone' && canEnterBind == '200')) {
         next()
       } else {

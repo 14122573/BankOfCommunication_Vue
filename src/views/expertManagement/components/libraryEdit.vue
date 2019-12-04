@@ -395,6 +395,7 @@ export default {
         const lv2 = this.$com.confirm(res[0], 'data.content', [])
         const lv3 = this.$com.confirm(res[1], 'data.content', [])
         const result = [...this.options.areas]
+        // console.log(result)
         result.forEach(item => {
           if (item.value == ids[0]) {
             const children = []
@@ -421,6 +422,8 @@ export default {
           }
         })
         this.options.areas = result
+        // console.log(ids)
+
         this.form.setFieldsValue({
           companyAddressId: ids,
         })

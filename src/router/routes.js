@@ -79,7 +79,7 @@ const ManualView = () => import('@/views/cms/manual/manual-view')
 // 数据服务 - 渔业兽医
 // const Veterinary = () => import('@/views/cms/dataService/veterinary')
 const VeterinaryList = () => import('@/views/cms/dataService/veterinaryList')
-// const VeterinaryView = () => import('@/views/cms/dataService/veterinary')
+const VeterinaryView = () => import('@/views/cms/dataService/view')
 
 /**
      * 要求：
@@ -1112,7 +1112,10 @@ const appRoutes = [{
   meta: { title: '操作手册', menuPath: false, menuIcon: 'file-text', hideInBread: false },
 },
 // 渔业兽医
-{ path: '/dataService/veterinary', name: '/dataService/veterinary', component: VeterinaryList,
+{ path: '/veterinary', name: '/veterinary', component: VeterinaryList,
+  meta: { title: '渔业兽医', menuPath: false, menuIcon: 'file-text', hideInBread: false },
+},
+{ path: '/veterinary/view', name: '/veterinary/view', component: VeterinaryView,
   meta: { title: '渔业兽医', menuPath: false, menuIcon: 'file-text', hideInBread: false },
 },
 ]
