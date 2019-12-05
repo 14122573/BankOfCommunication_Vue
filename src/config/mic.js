@@ -98,7 +98,7 @@ case 'sit': // sit环境下
     pathPrefix: '/xshy'
   },
   {
-    baseUrl: 'http://lshy.omniview.pro', // 理事会议
+    baseUrl: 'http://iftp.omniview.pro/lshy', // 理事会议
     resourceName: 'lshy',
     micId: 'mic:lshy',
     pathPrefix: '/lshy'
