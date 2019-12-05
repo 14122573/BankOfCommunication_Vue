@@ -147,7 +147,7 @@ export default {
       rules:{
         // 相关管理信息
         researchDirection:[
-          { required: true, whitespace: true, message: '请选择主要相关研究方向!' }
+          { whitespace: true, message: '请选择主要相关研究方向!' }
         ],
         workArea: [
           { required: true, whitespace: true, message: '请选择工作领域!' }

@@ -6,12 +6,11 @@
 				<a-button @click="backPage"> 返回 </a-button>
 			</div>
 		</div>
-    <!-- <a-button class="backPage" type="danger" @click="backPage">返 回</a-button> -->
       <a-form class="veterinaryForm" :form="veterinaryForm">
         <a-row class="formItemLine" type="flex" :justify="simpleSearchForm?'end':'space-between'" align='top' :gutter="simpleSearchForm?18:0">
           <!-- 兽医类型选择框 -->
           <a-col span="4">
-            <a-form-item :label="simpleSearchForm?'':'类型'" >
+            <a-form-item :label='"类型"' class="formItem" :label-col="{span:7}" :wrapper-col="{span:17}">
               <a-select change="changeArea()" placeholder="请选择兽医类型" v-decorator="['type',  { initialValue:'3',rules: [{ required: true, message: 'Please input your note!' }] }]">
                 <a-select-option value="3">全部类型</a-select-option>
                 <a-select-option value="0">乡村兽医</a-select-option>
@@ -22,13 +21,13 @@
           </a-col>
           <!-- 模糊搜索文字参数 info -->
           <a-col span="6">
-            <a-form-item :label="simpleSearchForm?'':'关键字'" class="formItem" >
+            <a-form-item label="关键字" class="formItem" :label-col="{span:7}" :wrapper-col="{span:17}">
               <a-input placeholder="请输入查询内容" v-decorator="['info']" />
             </a-form-item>
           </a-col>
           <!-- 省市县区 -->
-          <a-col span="8">
-            <a-form-item>
+					<a-col span="8" v-if="simpleSearchForm == false">
+            <a-form-item label="区域选择" class="formItem" :label-col="{span:7}" :wrapper-col="{span:17}">
               <a-cascader
                 v-decorator="['area']"
                 :options="options.areas"
@@ -42,33 +41,37 @@
           <a-col span="5" class="algin-right">
             <a-button @click="reset">重置</a-button>
             <a-button type="primary" @click="search">搜索</a-button>
+            <a-button type="primary" v-if='simpleSearchForm' @click="showMoreSearch">更多搜索</a-button>
+            <a-button type="primary" v-if='!simpleSearchForm' @click="closeMoreSearch">简单搜索</a-button>
           </a-col>
         </a-row>
       </a-form>
       <p class="gayLine noline" ></p>
       <div class="formListShow" v-if="formList.length>0">
-        <a-card  v-for="(item,i) in formList" :key="i" :title="item.name" style="width: 23%; float:left; margin:1% ">
+        <a-card size="small"  v-for="(item,i) in formList" :key="i" :title="item.name" style="width: 23%; float:left; margin:1% ">
           <a href="javascript:void(0)" slot="extra" @click.prevent="toView(item.publicInfoId,item.type)">查看</a>
-          <p>性别:{{item.gender== 0 ? '男':'女'}}</p>
+          <p v-bind="colSpa">性&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;别:&nbsp;{{item.gender== 0 ? '男':'女'}}</p>
           <p>执业类别:{{item.profession}}</p>
-          <p v-if="item.education==0">最高学历:小学</p>
-          <p v-else-if="item.education==1">最高学历:初中</p>
-          <p v-else-if="item.education==2">最高学历:中专/高中</p>
-          <p v-else-if="item.education==3">最高学历:专科</p>
-          <p v-else-if="item.education==4">最高学历:本科</p>
-          <p v-else-if="item.education==5">最高学历:硕士研究生</p>
-          <p v-else-if="item.education==6">最高学历:博士研究生</p>
-          <p v-else-if="item.education==7">最高学历:博士后</p>
-          <p>毕业院校:{{item.graduationSchool}}</p>
-          <p>所学专业:{{item.speciality}}</p>
-          <p>学校类别:{{item.schoolType}}</p>
-          <p>工作单位:{{item.unit}}</p>
-          <p>资格证号:{{item.qualificationNumber}}</p>
-          <p>居住地:{{item.address}}</p>
+          <p v-if="item.education==0">最高学历:&nbsp;小学</p>
+          <p v-else-if="item.education==1">最高学历:&nbsp;初中</p>
+          <p v-else-if="item.education==2">最高学历:&nbsp;中专/高中</p>
+          <p v-else-if="item.education==3">最高学历:&nbsp;专科</p>
+          <p v-else-if="item.education==4">最高学历:&nbsp;本科</p>
+          <p v-else-if="item.education==5">最高学历:&nbsp;硕士研究生</p>
+          <p v-else-if="item.education==6">最高学历:&nbsp;博士研究生</p>
+          <p v-else-if="item.education==7">最高学历:&nbsp;博士后</p>
+          <p>毕业院校:&nbsp;{{item.graduationSchool}}</p>
+          <p>所学专业:&nbsp;{{item.speciality}}</p>
+          <p>学校类别:&nbsp;{{item.schoolType}}</p>
+          <p>工作单位:&nbsp;{{item.unit}}</p>
+          <p>资格证号:&nbsp;{{item.qualificationNumber}}</p>
+          <p>居住地&nbsp;&nbsp;&nbsp;:&nbsp;{{item.address}}</p>
         </a-card>
       </div>
       <div class="NoformListShow" v-else>
+        <img class="noImg" src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjQiIGhlaWdodD0iNDEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CiAgPGcgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoMCAxKSIgZmlsbD0ibm9uZSIgZmlsbC1ydWxlPSJldmVub2RkIj4KICAgIDxlbGxpcHNlIGZpbGw9IiNGNUY1RjUiIGN4PSIzMiIgY3k9IjMzIiByeD0iMzIiIHJ5PSI3Ii8+CiAgICA8ZyBmaWxsLXJ1bGU9Im5vbnplcm8iIHN0cm9rZT0iI0Q5RDlEOSI+CiAgICAgIDxwYXRoIGQ9Ik01NSAxMi43Nkw0NC44NTQgMS4yNThDNDQuMzY3LjQ3NCA0My42NTYgMCA0Mi45MDcgMEgyMS4wOTNjLS43NDkgMC0xLjQ2LjQ3NC0xLjk0NyAxLjI1N0w5IDEyLjc2MVYyMmg0NnYtOS4yNHoiLz4KICAgICAgPHBhdGggZD0iTTQxLjYxMyAxNS45MzFjMC0xLjYwNS45OTQtMi45MyAyLjIyNy0yLjkzMUg1NXYxOC4xMzdDNTUgMzMuMjYgNTMuNjggMzUgNTIuMDUgMzVoLTQwLjFDMTAuMzIgMzUgOSAzMy4yNTkgOSAzMS4xMzdWMTNoMTEuMTZjMS4yMzMgMCAyLjIyNyAxLjMyMyAyLjIyNyAyLjkyOHYuMDIyYzAgMS42MDUgMS4wMDUgMi45MDEgMi4yMzcgMi45MDFoMTQuNzUyYzEuMjMyIDAgMi4yMzctMS4zMDggMi4yMzctMi45MTN2LS4wMDd6IiBmaWxsPSIjRkFGQUZBIi8+CiAgICA8L2c+CiAgPC9nPgo8L3N2Zz4K" alt="">
         <p>暂无数据</p>
+
       </div>
 
 	</div>
@@ -77,6 +80,14 @@
 export default {
   data() {
     return {
+      colSpa: {
+        labelCol: { span: 10 },
+        wrapperCol: { span: 12 }
+      },
+      textSpa: {
+        labelCol: { span: 5 },
+        wrapperCol: { span: 18 }
+      },
       arr:[],
       rules:{
         // 相关管理信息
@@ -97,19 +108,36 @@ export default {
   computed:{
   },
   methods: {
+    closeMoreSearch(){
+      this.simpleSearchForm = true
+    },
+    showMoreSearch(){
+      this.simpleSearchForm = false
+    },
     // 切换地区
     changgArea(){
       this.arr = []
     },
     //去详情
     toView(id,type){
-      this.$router.push({
-        name: '/veterinary/view',
-        query: {
-          id,
-          type,
-        }
-      })
+      if (typeof(this.$cookie.get('token')) == 'undefined') {
+        this.$router.push({
+          name: '/veterinary/view',
+          query: {
+            id,
+            type,
+          }
+        })
+      }else{
+        this.$router.push({
+          name: 'homeVeterinaryView',
+          query: {
+            id,
+            type,
+          }
+        })
+      }
+
     },
     // 返回前一页
     backPage() {
@@ -229,13 +257,14 @@ export default {
       sessionStorage.setItem('isReload', true)
       this.getList()
       this.arr = this.veterinaryForm.getFieldValue('area') || []
-      // console.log(this.arr)
+      // console.log(this.simpleSearchForm)
     },
     // 重置按钮
     reset() {
       this.veterinaryForm.resetFields()
       this.formList=[]
-      // this.arr = []
+      this.arr=[]
+      // this.getList()
     },
     // 查询列表
     async getList() {
@@ -244,25 +273,8 @@ export default {
       let cityId= areas[1] || ''
       let countyId= areas[2] || ''
       let townId= areas[3] || ''
-      //判断是否选择省市县区 并赋值给对应的省市县的key
-      if(this.veterinaryForm.getFieldValue('area')){
-        let i = this.veterinaryForm.getFieldValue('area').length> 0 ? this.veterinaryForm.getFieldValue('area').length :0
-        if (i == 4) {
-          provinceId = this.veterinaryForm.getFieldValue('area')[0].split('#')[0]
-          cityId = this.veterinaryForm.getFieldValue('area')[1].split('#')[0]
-          countyId = this.veterinaryForm.getFieldValue('area')[2].split('#')[0]
-          townId = this.veterinaryForm.getFieldValue('area')[3].split('#')[0]
-        } else if(i==3){
-          provinceId = this.veterinaryForm.getFieldValue('area')[0].split('#')[0]
-          cityId = this.veterinaryForm.getFieldValue('area')[1].split('#')[0]
-          countyId = this.veterinaryForm.getFieldValue('area')[2].split('#')[0]
-        } else if (i==2) {
-          provinceId = this.veterinaryForm.getFieldValue('area')[0].split('#')[0]
-          cityId = this.veterinaryForm.getFieldValue('area')[1].split('#')[0]
-        } else if (i==1) {
-          provinceId = this.veterinaryForm.getFieldValue('area')[0].split('#')[0]
-        }
-      }
+
+
       // 将搜索条件拼接为一个对象
       let searchParams = Object.assign({},{
         // 兽医类型
@@ -292,7 +304,8 @@ export default {
         this.$com.storeSearchParams(
           this.$route.name,
           '1',
-          Object.assign({},{
+          searchParams,
+          Object.assign({},this.searchForm,{
             // 兽医类型
             type: !searchParams.type?'':searchParams.type,
             // 文本搜索值
@@ -312,7 +325,7 @@ export default {
     /**
      * 从vuex中或已存储的搜索条件，判断此条件是否为当前路由的 。如果是则使用
      */
-    async getSearchParams(){
+    getSearchParams(){
       let searchParams = !this.$store.state.listSearchParams?null:this.$store.state.listSearchParams[this.$route.name]
       if(!!searchParams && !!searchParams.routeName && (this.$route.name == searchParams.routeName)){
         if(!!searchParams.params){
@@ -342,7 +355,8 @@ export default {
           })
         }
       }
-      await this.setAreaOptions(this.arr)
+      // console.log(this.$store.state.listSearchParams)
+      this.setAreaOptions(this.arr)
       this.getList()
     },
   },
@@ -352,7 +366,7 @@ export default {
   async mounted() {
     await this.getAreas(null)
     if(sessionStorage.getItem('isReload')){
-      if(this.$route.name == '/veterinary'){
+      if(this.$route.name == 'homeVeterinaryList' || this.$route.name == '/veterinary'){
         this.$nextTick(function () {
           this.getSearchParams()
         })
@@ -363,9 +377,10 @@ export default {
 </script>
 <style scoped>
   .veterinary{
-    width: 100%;
+    /* width: 100%; */
     position: relative;
     background-color: #fff;
+    padding:10px 10px 0 10px;
     overflow-x:hidden;
   }
   .veterinaryForm{
@@ -390,8 +405,14 @@ export default {
   .NoformListShow p{
       text-align: center;
       line-height:330px;
-      /* background-color: #fff; */
       color: #ccc;
+      position: relative;
+  }
+  .noImg{
+      position: absolute;
+      top: 62%;
+      left: 50%;
+      transform: translate(-50%,-50%)
   }
   .algin-right {
     margin-right: 4px;
