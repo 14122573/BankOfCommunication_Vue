@@ -631,7 +631,7 @@ const appRoutes = [{
           meta: { title: '总结报告下载', menuPath:true, authCode:'S060113', hideInBread:false, menuIcon: 'appstore', openMode: 'spa'}
         },
         {
-          path: '/ssdw/mould /ssdwMould', name: '/ssdw/mould/ ssdwMould',
+          path: '/ssdw/mould/ssdwMould', name: '/ssdw/mould/ssdwMould',
           meta: { title: '模板管理', menuPath:true, authCode:'S060115', hideInBread:false, menuIcon: 'appstore', openMode: 'spa'}
         },
         {
@@ -684,11 +684,11 @@ const appRoutes = [{
           meta: { title: '会议信息推送', menuPath: true, authCode: 'S100103', hideInBread: false, menuIcon: 'bell', openMode: 'spa'  },
         },
         {
-          path: '/xshy /pushConfig/acmPushNotfConfig', name: '/xshy /pushConfig/acmPushNotfConfig ',
+          path: '/xshy/pushConfig/acmPushNotfConfig', name: '/xshy/pushConfig/acmPushNotfConfig',
           meta: { title: '短信配置管理', menuPath: true, authCode: 'S100110', hideInBread: true, menuIcon: 'form' },
         },
         {
-          path: '/xshy /pushEmailConfig/acmPushNotfEmailConfig', name: '/xshy /pushEmailConfig/acmPushNotfEmailConfig ',
+          path: '/xshy/pushEmailConfig/acmPushNotfEmailConfig', name: '/xshy/pushEmailConfig/acmPushNotfEmailConfig',
           meta: { title: '邮件配置管理', menuPath: true, authCode: 'S100111', hideInBread: true, menuIcon: 'team' },
         },
         {
@@ -881,7 +881,7 @@ const appRoutes = [{
           meta: { title: '查看全部申报信息', menuPath: true, authCode: 'S050306', menuIcon: 'team', hideInBread: false, openMode: 'spa'},
         },
         {
-          path: '/scylzc/nodeConfig/list ', name: '/scylzc/nodeConfig/list ',
+          path: '/scylzc/nodeConfig/list', name: '/scylzc/nodeConfig/list',
           meta: { title: '流程配置', menuPath: true, authCode:'S050308', menuIcon: 'appstore', hideInBread: false, openMode: 'spa' },
         }
 
