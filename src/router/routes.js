@@ -103,7 +103,6 @@ const appRoutes = [{
   redirect: '/login',
   component: contentWrapper,
   children: [
-
     {
       path: '/home', name: 'home', component: HomePage,
       meta: { title: '首页' },
@@ -111,6 +110,14 @@ const appRoutes = [{
     {
       path: '/demo', name: 'demo', component: demo,
       meta: { title: 'demo', },
+    },
+    {
+      path: '/home/homeVeterinaryList', name: 'homeVeterinaryList', component: VeterinaryList,
+      meta: { title: '兽医' },
+    },
+    {
+      path: '/home/veterinaryView', name: 'homeVeterinaryView', component: VeterinaryView,
+      meta: { title: '数据' },
     },
     {
       path: '/noauth', name: 'noautherr', component: TipsNoAuth,
@@ -981,22 +988,23 @@ const appRoutes = [{
       name: 'yysygl',
       component: contentWrapper,
       meta: { title: '渔业兽医', menuPath: true, authCode: 'S0602', menuIcon: 'barcode', hideInBread: true, openMode: 'spa' },
-      children: [{
-        path: '/yysygl/secrchpage/list', name: '/yysygl/secrchpage/list',
-        meta: { title: '兽医查询', menuPath: true, authCode: 'S060201', hideInBread: true, menuIcon: 'appstore', openMode: 'spa'  },
-      },
-      {
-        path: '/yysygl/yyVeternary/list', name: '/yysygl/yyVeternary/list',
-        meta: { title: '渔业乡村兽医', menuPath: true, authCode: 'S060202', hideInBread: true, menuIcon: 'appstore', openMode: 'spa'  },
-      },
-      {
-        path: '/yysygl/official/list', name: '/yysygl/official/list',
-        meta: { title: '渔业官方兽医', menuPath: true, authCode: 'S060203', hideInBread: true, menuIcon: 'appstore', openMode: 'spa'  },
-      },
-      {
-        path: '/yysygl/practising/list', name: '/yysygl/practising/list',
-        meta: { title: '渔业执业兽医', menuPath: true, authCode: 'S060204', hideInBread: true, menuIcon: 'appstore', openMode: 'spa'  },
-      },]
+      children: [
+        {
+          path: '/yysygl/secrchpage/list', name: '/yysygl/secrchpage/list',
+          meta: { title: '兽医查询', menuPath: true, authCode: 'S060201', hideInBread: true, menuIcon: 'appstore', openMode: 'spa'  },
+        },
+        {
+          path: '/yysygl/yyVeternary/list', name: '/yysygl/yyVeternary/list',
+          meta: { title: '渔业乡村兽医', menuPath: true, authCode: 'S060202', hideInBread: true, menuIcon: 'appstore', openMode: 'spa'  },
+        },
+        {
+          path: '/yysygl/official/list', name: '/yysygl/official/list',
+          meta: { title: '渔业官方兽医', menuPath: true, authCode: 'S060203', hideInBread: true, menuIcon: 'appstore', openMode: 'spa'  },
+        },
+        {
+          path: '/yysygl/practising/list', name: '/yysygl/practising/list',
+          meta: { title: '渔业执业兽医', menuPath: true, authCode: 'S060204', hideInBread: true, menuIcon: 'appstore', openMode: 'spa'  },
+        },]
     },
     //智慧报表管理
     {

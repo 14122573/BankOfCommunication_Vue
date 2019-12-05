@@ -27,8 +27,12 @@ export default {
       this.visible = true
     },
     toVeterinary() {
-      this.$router.push({ name: '/veterinary'})
-
+      if (typeof(this.$cookie.get('token')) == 'undefined') {
+        this.$router.push({ name: '/veterinary'})
+      }else{
+        // console.log(2)
+        this.$router.push({ name: 'homeVeterinaryList'})
+      }
     }
   },
 }

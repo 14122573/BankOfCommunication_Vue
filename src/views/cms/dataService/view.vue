@@ -243,7 +243,7 @@ export default {
   },
   methods: {
     handleReturn() {
-      this.$router.push({ name: '/veterinary'})
+      this.$router.back()
     },
   },
   created () {
@@ -257,4 +257,14 @@ export default {
 </script>
 
 <style scoped>
+.portalDetailWapper{
+  margin:10px;
+  margin-bottom: 0;
+}
+.portalDetailTitle{
+  margin: 10px 10px 0px 12px
+}
+.portalDetailContentBody{
+  overflow:visible;
+}
 </style>
