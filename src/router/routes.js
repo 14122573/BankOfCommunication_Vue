@@ -558,6 +558,10 @@ const appRoutes = [{
           meta: { title: '录入函审结果',  authCode: 'S020108',menuPath: true, hideInBread:false, menuIcon: 'appstore', openMode: 'spa' }
         },
         {
+          path: '/ttbz/reviewform/Reviewconclusion', name: 'Reviewconclusion',
+          meta: { title: '复审结论管理', authCode: 'S020111',menuPath: true, hideInBread:false,menuIcon: 'appstore', menuIcon: 'appstore', openMode: 'spa' }
+        },
+        {
           path: '/ttbz/publicAnnouncement/BulletinAndPublish', name: '/ttbz/publicAnnouncement/BulletinAndPublish',
           meta: { title: '公示发布管理', authCode: 'S020109',menuPath: true, hideInBread:false, menuIcon: 'appstore', openMode: 'spa' }
         },
@@ -596,7 +600,11 @@ const appRoutes = [{
         },
         {
           path: '/ssdw/enroll/ssdwEnroll', name: '/ssdw/enroll/ssdwEnroll',
-          meta: { title: '能力验证计划报名审批', menuPath:true, authCode:'S060106', hideInBread:false, menuIcon: 'appstore', openMode: 'spa'}
+          meta: { title: '能力验证计划报名初审', menuPath:true, authCode:'S060106', hideInBread:false, menuIcon: 'appstore', openMode: 'spa'}
+        },
+        {
+          path: '/ssdw/enroll/ssdwEnrollReview', name: '/ssdw/enroll/ssdwEnrollReview',
+          meta: { title: '能力验证计划报名复审', menuPath:true, authCode:'S060114', hideInBread:false, menuIcon: 'appstore', openMode: 'spa'}
         },
         {
           path: '/ssdw/sample/ssdwSample', name: '/ssdw/sample/ssdwSample',
@@ -622,6 +630,14 @@ const appRoutes = [{
           path: '/ssdw/report/ssdwReportDown', name: '/ssdw/report/ssdwReportDown',
           meta: { title: '总结报告下载', menuPath:true, authCode:'S060113', hideInBread:false, menuIcon: 'appstore', openMode: 'spa'}
         },
+        {
+          path: '/ssdw/mould /ssdwMould', name: '/ssdw/mould/ ssdwMould',
+          meta: { title: '模板管理', menuPath:true, authCode:'S060115', hideInBread:false, menuIcon: 'appstore', openMode: 'spa'}
+        },
+        {
+          path: '/ssdw/nodeConfig/list', name: '/ssdw/nodeConfig/list',
+          meta: { title: '流程配置', menuPath:true, authCode:'S060116', hideInBread:false, menuIcon: 'appstore', openMode: 'spa'}
+        },
       ]
     },
     //学术会议
@@ -631,14 +647,49 @@ const appRoutes = [{
       component: contentWrapper,
       meta: { title: '中国水产学会学术会议管理', menuPath: true, authCode: 'S1001', menuIcon: 'barcode', hideInBread: true },
       children: [
-      // 会议管理路由
         {
-          path: '/xshy/release/acmMeetingRelease', name: '/xshy/release/acmMeetingRelease',
+          path:'/lshy/menber/acmBoardMenber',
+          name: '/lshy/menber/acmBoardMenber',
+          meta: { title: '理事成员管理', menuPath: true, authCode: 'S100107', hideInBread: false, menuIcon: 'team', openMode: 'spa' },
+        },
+        {
+          path:'/lshy/meeting/acmBoardMeeting',
+          name: '/lshy/meeting/acmBoardMeeting',
+          meta: { title: '理事会议管理', menuPath: true, authCode: 'S100104', hideInBread: false, menuIcon: 'table', openMode: 'spa' },
+        },
+        {
+          path:'/lshy/meeting/acmBoardMeetingIssueStatis',
+          name: '/lshy/meeting/acmBoardMeetingIssueStatis',
+          meta: { title: '理事议题结果', menuPath: true, authCode: 'S100105', hideInBread: false, menuIcon: 'table', openMode: 'spa' },
+        },
+        {
+          path: '/lshy/meetingMem/acmBoardMeetingIssueVote', name: '/lshy/meetingMem/acmBoardMeetingIssueVote',
+          meta: { title: '理事议题投票', menuPath: true, authCode: 'S100112', hideInBread: false, menuIcon: 'table', openMode: 'spa' },
+        },
+      ]
+    },
+    //学术会议
+    {
+      path: '/lshy',
+      name: 'lshy',
+      component: contentWrapper,
+      meta: { title: '中国水产学会理事会议', menuPath: true, authCode: 'S1001', menuIcon: 'barcode', hideInBread: true },
+      children: [
+        {
+          path:'/xshy/release/acmMeetingRelease',name: '/xshy/release/acmMeetingRelease',
           meta: { title: '会议管理', menuPath: true, authCode: 'S100102', hideInBread: false, menuIcon: 'sound', openMode: 'spa'  },
         },
         {
-          path: '/xshy/push/acmPushNotf', name: '/xshy/push/acmPushNotf',
+          path: '/xshy/push/acmPushNotf',name: '/xshy/push/acmPushNotf',
           meta: { title: '会议信息推送', menuPath: true, authCode: 'S100103', hideInBread: false, menuIcon: 'bell', openMode: 'spa'  },
+        },
+        {
+          path: '/xshy /pushConfig/acmPushNotfConfig', name: '/xshy /pushConfig/acmPushNotfConfig ',
+          meta: { title: '短信配置管理', menuPath: true, authCode: 'S100110', hideInBread: true, menuIcon: 'form' },
+        },
+        {
+          path: '/xshy /pushEmailConfig/acmPushNotfEmailConfig', name: '/xshy /pushEmailConfig/acmPushNotfEmailConfig ',
+          meta: { title: '邮件配置管理', menuPath: true, authCode: 'S100111', hideInBread: true, menuIcon: 'team' },
         },
         {
           path: '/xshy/sign/acmMeetingHome', name: '/xshy/sign/acmMeetingHome',
@@ -647,35 +698,6 @@ const appRoutes = [{
         {
           path: '/xshy/sign/acmMeetingSignSingle', name: '/xshy/sign/acmMeetingSignSingle',
           meta: { title: '报名历史', menuPath: true, authCode: 'S100110', hideInBread: false, menuIcon: 'table', openMode: 'spa'  },
-        },
-        {
-          path: '/xshy/sign/acmMeetingSign', name: '/xshy/sign/acmMeetingSign',
-          meta: { title: '报名信息管理', menuPath: true, authCode: 'S100108', hideInBread: false, menuIcon: 'form', openMode: 'spa'  },
-        },
-        // 理事投票路由
-        {
-          path: '/xshy/menber/acmBoardMenber', name: '/xshy/menber/acmBoardMenber',
-          meta: { title: '理事成员管理', menuPath: true, authCode: 'S100107', hideInBread: false, menuIcon: 'team', openMode: 'spa' },
-        },
-        {
-          path: '/xshy/meeting/acmBoardMeetingIssue', name: '/xshy/meeting/acmBoardMeetingIssue',
-          meta: { title: '理事议题库', menuPath: true, authCode: 'S100106', hideInBread: false, menuIcon: 'table', openMode: 'spa' },
-        },
-        {
-          path: '/xshy/meeting/acmBoardMeeting', name: '/xshy/meeting/acmBoardMeeting',
-          meta: { title: '理事会议管理', menuPath: true, authCode: 'S100104', hideInBread: false, menuIcon: 'table', openMode: 'spa' },
-        },
-        {
-          path: '/xshy/meeting/acmBoardMeetingIssueStatis', name: '/xshy/meeting/acmBoardMeetingIssueStatis',
-          meta: { title: '理事议题结果', menuPath: true, authCode: 'S100105', hideInBread: false, menuIcon: 'table', openMode: 'spa' },
-        },
-        {
-          path: '/xshy/meetingMem/acmBoardMeetingMem', name: '/xshy/meetingMem/acmBoardMeetingMem',
-          meta: { title: '理事会议管理', menuPath: true, authCode: 'S100111', hideInBread: false, menuIcon: 'table', openMode: 'spa' },
-        },
-        {
-          path: '/xshy/meetingMem/acmBoardMeetingIssueVote', name: '/xshy/meetingMem/acmBoardMeetingIssueVote',
-          meta: { title: '理事议题投票', menuPath: true, authCode: 'S100112', hideInBread: false, menuIcon: 'table', openMode: 'spa' },
         },
       ]
     },
@@ -799,6 +821,10 @@ const appRoutes = [{
         path: '/scsd/selectDateEntry',
         name: '/scsd/selectDateEntry',
         meta: { title: '查看所有新品种推广', menuPath: true, authCode:'S050110', menuIcon: 'cluster', hideInBread: false, openMode: 'spa' },
+      },
+      {
+        path: '/scsd/nodeConfig/list',name: '/scsd/nodeConfig/list',
+        meta: { title: '流程配置', menuPath: true, authCode:'S050111', menuIcon: 'appstore', hideInBread: false, openMode: 'spa' },
       }
       ]
     },
@@ -853,7 +879,12 @@ const appRoutes = [{
           path: '/scylzc/allApplyInfo/list',
           name: '/scylzc/allApplyInfo/list',
           meta: { title: '查看全部申报信息', menuPath: true, authCode: 'S050306', menuIcon: 'team', hideInBread: false, openMode: 'spa'},
+        },
+        {
+          path: '/scylzc/nodeConfig/list ', name: '/scylzc/nodeConfig/list ',
+          meta: { title: '流程配置', menuPath: true, authCode:'S050308', menuIcon: 'appstore', hideInBread: false, openMode: 'spa' },
         }
+
       ]
     },
     //水产原良种复查
@@ -908,7 +939,7 @@ const appRoutes = [{
         {
           path: '/ylzcre/allApplyInfo/list',
           name: '/ylzcre/allApplyInfo/list',
-          meta: { title: '查看全部申报信息', menuPath: true, authCode: 'S050207', menuIcon: 'team', hideInBread: false }, openMode: 'spa'
+          meta: { title: '查看全部申报信息', menuPath: true, authCode: 'S050207', menuIcon: 'team', hideInBread: false, openMode: 'spa' }
         }
       ]
     },
