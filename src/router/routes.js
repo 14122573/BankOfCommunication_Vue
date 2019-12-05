@@ -558,8 +558,8 @@ const appRoutes = [{
           meta: { title: '录入函审结果',  authCode: 'S020108',menuPath: true, hideInBread:false, menuIcon: 'appstore', openMode: 'spa' }
         },
         {
-          path: '/ttbz/reviewform/Reviewconclusion', name: 'Reviewconclusion',
-          meta: { title: '复审结论管理', authCode: 'S020111',menuPath: true, hideInBread:false,menuIcon: 'appstore', menuIcon: 'appstore', openMode: 'spa' }
+          path: '/ttbz/reviewform/Reviewconclusion', name: '/ttbz/reviewform/Reviewconclusion',
+          meta: { title: '复审结论管理', authCode: 'S020111',menuPath: true, hideInBread:false,menuIcon: 'appstore', openMode: 'spa' }
         },
         {
           path: '/ttbz/publicAnnouncement/BulletinAndPublish', name: '/ttbz/publicAnnouncement/BulletinAndPublish',
