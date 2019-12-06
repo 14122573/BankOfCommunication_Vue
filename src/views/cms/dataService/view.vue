@@ -204,21 +204,21 @@
 								<a-col span="8">
 									<a-row type="flex" justify="start" class="detailsPartLine">
 										<a-col span="24">
-											<DetailsItem :labelSpan='12' :textSpan="12" :label='"发证时间"' :text='detail.lssuingTime'></DetailsItem>
+											<DetailsItem :labelSpan='7' :textSpan="17" :label='"发证时间"' :text='detail.lssuingTime'></DetailsItem>
 										</a-col>
 									</a-row>
 								</a-col>
 								<a-col span="8">
 									<a-row type="flex" justify="start" class="detailsPartLine">
 										<a-col span="24">
-											<DetailsItem :labelSpan='12' :textSpan="12" :label='"证书类别"' :text='detail.certificateType'></DetailsItem>
+											<DetailsItem :labelSpan='7' :textSpan="17" :label='"证书类别"' :text='detail.certificateType'></DetailsItem>
 										</a-col>
 									</a-row>
 								</a-col>
 								<a-col span="8">
 									<a-row type="flex" justify="start" class="detailsPartLine">
 										<a-col span="24">
-											<DetailsItem :labelSpan='12' :textSpan="12" :label='"发证单位"' :text='detail.certificationUnit'></DetailsItem>
+											<DetailsItem :labelSpan='7' :textSpan="17" :label='"发证单位"' :text='detail.certificationUnit'></DetailsItem>
 										</a-col>
 									</a-row>
 								</a-col>

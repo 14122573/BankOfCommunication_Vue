@@ -26,7 +26,7 @@
             </a-form-item>
           </a-col>
           <!-- 省市县区 -->
-					<a-col span="8" v-if="simpleSearchForm == false">
+					<a-col span="8" v-show="simpleSearchForm==false">
             <a-form-item label="区域选择" class="formItem" :label-col="{span:7}" :wrapper-col="{span:17}">
               <a-cascader
                 v-decorator="['area']"
@@ -51,7 +51,7 @@
         <a-card size="small"  v-for="(item,i) in formList" :key="i" :title="item.name" style="width: 23%; float:left; margin:1% ">
           <a href="javascript:void(0)" slot="extra" @click.prevent="toView(item.publicInfoId,item.type)">查看</a>
           <p v-bind="colSpa">性&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;别:&nbsp;{{item.gender== 0 ? '男':'女'}}</p>
-          <p>执业类别:{{item.profession}}</p>
+          <p>执业类别:&nbsp;{{item.profession}}</p>
           <p v-if="item.education==0">最高学历:&nbsp;小学</p>
           <p v-else-if="item.education==1">最高学历:&nbsp;初中</p>
           <p v-else-if="item.education==2">最高学历:&nbsp;中专/高中</p>
@@ -65,7 +65,7 @@
           <p>学校类别:&nbsp;{{item.schoolType}}</p>
           <p>工作单位:&nbsp;{{item.unit}}</p>
           <p>资格证号:&nbsp;{{item.qualificationNumber}}</p>
-          <p>居住地&nbsp;&nbsp;&nbsp;:&nbsp;{{item.address}}</p>
+          <p>居住地&nbsp;&nbsp;&nbsp;&nbsp;:&nbsp;{{item.address}}</p>
         </a-card>
       </div>
       <div class="NoformListShow" v-else>
@@ -255,15 +255,21 @@ export default {
     // 查询按钮
     search() {
       sessionStorage.setItem('isReload', true)
-      this.getList()
-      this.arr = this.veterinaryForm.getFieldValue('area') || []
-      // console.log(this.simpleSearchForm)
+      // 判断是否简单搜索,是则初始化省市县数据
+      // console.log(!this.simpleSearchForm)
+      if (!this.simpleSearchForm) {
+        this.getList()
+      } else {
+        this.veterinaryForm.setFieldsValue({'area': []})
+        this.getList()
+      }
     },
     // 重置按钮
     reset() {
       this.veterinaryForm.resetFields()
       this.formList=[]
       this.arr=[]
+      sessionStorage.removeItem('isReload')
       // this.getList()
     },
     // 查询列表
@@ -273,8 +279,6 @@ export default {
       let cityId= areas[1] || ''
       let countyId= areas[2] || ''
       let townId= areas[3] || ''
-
-
       // 将搜索条件拼接为一个对象
       let searchParams = Object.assign({},{
         // 兽医类型
@@ -300,7 +304,9 @@ export default {
         } else {
           this.$message.error(res.msg)
         }
+        //
         // 存储当前页面列表的搜索信息
+        //
         this.$com.storeSearchParams(
           this.$route.name,
           '1',
