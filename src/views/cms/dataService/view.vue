@@ -156,24 +156,24 @@
 								<a-col span="8">
 									<a-row type="flex" justify="start" class="detailsPartLine">
 										<a-col span="24">
-											<DetailsItem :labelSpan='7' :textSpan="17" :label='"培训开始时间"' :text='detail.trainStartTime'></DetailsItem>
+											<DetailsItem :labelSpan='7' :textSpan="17" :label='"培训开始时间"' :text='detail.trainStartTime || " "'></DetailsItem>
 										</a-col>
                     <a-col span="24">
-											<DetailsItem :labelSpan='7' :textSpan="17" :label='"培训内容"' :text='detail.trainingContents'></DetailsItem>
+											<DetailsItem :labelSpan='7' :textSpan="17" :label='"培训内容"' :text='detail.trainingContents || " " '></DetailsItem>
 										</a-col>
 									</a-row>
 								</a-col>
 								<a-col span="8">
 									<a-row type="flex" justify="start" class="detailsPartLine">
 										<a-col span="24">
-											<DetailsItem :labelSpan='7' :textSpan="17" :label='"培训结束时间"' :text='detail.trainEndTime'></DetailsItem>
+											<DetailsItem :labelSpan='7' :textSpan="17" :label='"培训结束时间"' :text='detail.trainEndTime || " "'></DetailsItem>
 										</a-col>
 									</a-row>
 								</a-col>
 								<a-col span="8">
 									<a-row type="flex" justify="start" class="detailsPartLine">
 										<a-col span="24">
-											<DetailsItem :labelSpan='7' :textSpan="17" :label='"培训地点"' :text='detail.trainingVenue'></DetailsItem>
+											<DetailsItem :labelSpan='7' :textSpan="17" :label='"培训地点"' :text='detail.trainingVenue || " "'></DetailsItem>
 										</a-col>
 									</a-row>
 								</a-col>
