@@ -26,6 +26,7 @@ export default {
     showModal() {
       this.visible = true
     },
+    // 根据是否有token跳转到对应的兽医页面
     toVeterinary() {
       if (typeof(this.$cookie.get('token')) == 'undefined') {
         this.$router.push({ name: '/veterinary'})
