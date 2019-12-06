@@ -394,7 +394,6 @@ export default {
 </script>
 <style scoped>
   .portalDetailWapper{
-    width: 100%;
     position: relative;
     background-color: #fff;
     margin:16px;
@@ -402,6 +401,9 @@ export default {
   }
   .portalDetailContentWapper{
     padding: 20px;
+  }
+  .portalDetailContentBody{
+    overflow: hidden;
   }
   /* .veterinaryForm{
     margin-top: 50px;
@@ -419,18 +421,18 @@ export default {
   } */
   .NoformListShow p{
       text-align: center;
-      line-height:280px;
+      line-height:200px;
       color: #ccc;
       position: relative;
   }
   .noImg{
       position: absolute;
-      top: 45%;
+      top: 15%;
       left: 50%;
       transform: translate(-50%,-50%)
   }
   .algin-right {
     margin-right: 10px;
-
+    margin-top: 4px;
   }
 </style>
