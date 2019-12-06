@@ -419,6 +419,9 @@ export default {
     text-overflow:ellipsis;
     white-space: nowrap;
   } */
+  .NoformListShow {
+    position: relative;
+  }
   .NoformListShow p{
       text-align: center;
       line-height:200px;
@@ -427,7 +430,7 @@ export default {
   }
   .noImg{
       position: absolute;
-      top: 15%;
+      top: 30%;
       left: 50%;
       transform: translate(-50%,-50%)
   }
