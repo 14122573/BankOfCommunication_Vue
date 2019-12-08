@@ -98,8 +98,7 @@ export default {
           { required: true, message: '请选择类型!' }
         ]
       },
-      formList:[
-      ],
+      formList:[],
       options: {
         areas: [],
       },
