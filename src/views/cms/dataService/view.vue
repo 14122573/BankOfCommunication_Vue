@@ -260,7 +260,11 @@ export default {
   },
   methods: {
     handleReturn() {
-      this.$router.push({name:'/veterinary'})
+      if (this.$route.name.indexOf('home') < 0) {
+        this.$router.push({name:'/veterinary'})
+      } else {
+        this.$router.push({name:'homeVeterinaryList'})
+      }
     },
   },
   created () {

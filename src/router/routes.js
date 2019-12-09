@@ -117,7 +117,7 @@ const appRoutes = [{
     },
     {
       path: '/home/veterinaryView', name: 'homeVeterinaryView', component: VeterinaryView,
-      meta: { title: '数据' },
+      meta: { title: '数据服务' },
     },
     {
       path: '/noauth', name: 'noautherr', component: TipsNoAuth,
