@@ -150,7 +150,7 @@
 					</div>
       <!-- 培训 -->
 					<div class="layoutMargin detailsPartSection" v-if="!detail.practisingId">
-						<p id="contact" class="detailsPartTitle">培训情况</p>
+						<p id="train" class="detailsPartTitle">培训情况</p>
 						<div style="margin:0 16px;">
 							<a-row type="flex" justify="start">
 								<a-col span="8">
@@ -182,7 +182,7 @@
 					</div>
       <!-- 注册情况 -->
 					<div class="layoutMargin detailsPartSection" v-if="detail.practisingId">
-						<p id="workArea" class="detailsPartTitle">注册情况</p>
+						<p id="register" class="detailsPartTitle">注册情况</p>
 						<div style="margin:0 16px;">
 							<a-row type="flex" justify="start" class="detailsPartLine">
 								<a-col span="24">
@@ -198,7 +198,7 @@
 					</div>
       <!-- 技术职称 -->
 					<div class="layoutMargin detailsPartSection" v-if="detail.veterinarianId">
-						<p id="relatedManagement" class="detailsPartTitle">技术职称或职业技能鉴定情况</p>
+						<p id="ertificate" class="detailsPartTitle">技术职称或职业技能鉴定情况</p>
 						<div style="margin:0 16px;">
 							<a-row type="flex" justify="start">
 								<a-col span="8">
@@ -238,9 +238,9 @@
         <a-anchor v-show="!changeSmall"  :offsetTop="260" :getContainer="()=> this.$refs['portalDetailContentBody']">
           <a-anchor-link href="#basic" title="兽医信息" />
           <a-anchor-link href="#experience" title="教育情况" />
-          <a-anchor-link v-if="!detail.practisingId" href="#contact" title="培训情况" />
-          <a-anchor-link v-if="detail.practisingId" href="#workArea" title="注册情况" />
-          <a-anchor-link v-if="detail.veterinarianId" href="#relatedManagement" title="职称/技能鉴定情况" />
+          <a-anchor-link v-if="!detail.practisingId" href="#train" title="培训情况" />
+          <a-anchor-link v-if="detail.practisingId" href="#register" title="注册情况" />
+          <a-anchor-link v-if="detail.veterinarianId" href="#ertificate" title="职称/技能鉴定情况" />
         </a-anchor>
       </div>
 		</div>
