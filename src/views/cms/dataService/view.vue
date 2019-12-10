@@ -1,7 +1,7 @@
 <template>
 	<div class="portalDetailWapper">
 		<div class="portalDetailTitle">
-			<span class="title">兽医详情</span>
+      <span class="title">查看兽医详情</span>
 			<div class="detailOperations">
 				<a-button @click="handleReturn"> 返回 </a-button>
 			</div>
@@ -9,7 +9,7 @@
 		<div class="portalDetailContentWapper">
 			<div class="portalDetailContentBody" ref='portalDetailContentBody'>
 				<template >
-<!-- 个人 -->
+      <!-- 个人 -->
 					<div class="layoutMargin detailsPartSection">
 						<p id="basic" v-if="detail.veterinarianId" class="detailsPartTitle">乡村兽医信息</p>
 						<p id="basic" v-else-if="detail.practisingId" class="detailsPartTitle">执业兽医信息</p>
@@ -102,7 +102,7 @@
 							</a-row>
 						</div>
 					</div>
-<!-- 教育 -->
+      <!-- 教育 -->
 					<div class="layoutMargin detailsPartSection" >
 						<p id="experience" class="detailsPartTitle">教育情况</p>
 						<div style="margin:0 16px;">
@@ -148,41 +148,41 @@
 							</a-row>
 						</div>
 					</div>
-<!-- 培训 -->
+      <!-- 培训 -->
 					<div class="layoutMargin detailsPartSection" v-if="!detail.practisingId">
-						<p id="contact" class="detailsPartTitle">培训情况</p>
+						<p id="train" class="detailsPartTitle">培训情况</p>
 						<div style="margin:0 16px;">
 							<a-row type="flex" justify="start">
 								<a-col span="8">
 									<a-row type="flex" justify="start" class="detailsPartLine">
 										<a-col span="24">
-											<DetailsItem :labelSpan='7' :textSpan="17" :label='"培训开始时间"' :text='detail.trainStartTime'></DetailsItem>
+											<DetailsItem :labelSpan='7' :textSpan="17" :label='"培训开始时间"' :text='detail.trainStartTime || " "'></DetailsItem>
 										</a-col>
                     <a-col span="24">
-											<DetailsItem :labelSpan='7' :textSpan="17" :label='"培训内容"' :text='detail.trainingContents'></DetailsItem>
+											<DetailsItem :labelSpan='7' :textSpan="17" :label='"培训内容"' :text='detail.trainingContents || " " '></DetailsItem>
 										</a-col>
 									</a-row>
 								</a-col>
 								<a-col span="8">
 									<a-row type="flex" justify="start" class="detailsPartLine">
 										<a-col span="24">
-											<DetailsItem :labelSpan='7' :textSpan="17" :label='"培训结束时间"' :text='detail.trainEndTime'></DetailsItem>
+											<DetailsItem :labelSpan='7' :textSpan="17" :label='"培训结束时间"' :text='detail.trainEndTime || " "'></DetailsItem>
 										</a-col>
 									</a-row>
 								</a-col>
 								<a-col span="8">
 									<a-row type="flex" justify="start" class="detailsPartLine">
 										<a-col span="24">
-											<DetailsItem :labelSpan='7' :textSpan="17" :label='"培训地点"' :text='detail.trainingVenue'></DetailsItem>
+											<DetailsItem :labelSpan='7' :textSpan="17" :label='"培训地点"' :text='detail.trainingVenue || " "'></DetailsItem>
 										</a-col>
 									</a-row>
 								</a-col>
 							</a-row>
 						</div>
 					</div>
-<!-- 注册情况 -->
+      <!-- 注册情况 -->
 					<div class="layoutMargin detailsPartSection" v-if="detail.practisingId">
-						<p id="workArea" class="detailsPartTitle">注册情况</p>
+						<p id="register" class="detailsPartTitle">注册情况</p>
 						<div style="margin:0 16px;">
 							<a-row type="flex" justify="start" class="detailsPartLine">
 								<a-col span="24">
@@ -196,9 +196,9 @@
 							</a-row>
 						</div>
 					</div>
-<!-- 技术职称 -->
+      <!-- 技术职称 -->
 					<div class="layoutMargin detailsPartSection" v-if="detail.veterinarianId">
-						<p id="relatedManagement" class="detailsPartTitle">技术职称或职业技能鉴定情况</p>
+						<p id="ertificate" class="detailsPartTitle">技术职称或职业技能鉴定情况</p>
 						<div style="margin:0 16px;">
 							<a-row type="flex" justify="start">
 								<a-col span="8">
@@ -223,11 +223,26 @@
 									</a-row>
 								</a-col>
 							</a-row>
-
 						</div>
 					</div>
 				</template>
 			</div>
+      <!-- 右侧锚点 -->
+      <div class="target">
+        <div class="icon" v-show="changeSmall">
+          <a-icon type="environment" @click="changeSmall=false"/>
+        </div>
+        <div class="icon" v-show="!changeSmall">
+          <a-icon type="double-right" @click="changeSmall=true"/>
+        </div>
+        <a-anchor v-show="!changeSmall"  :offsetTop="260" :getContainer="()=> this.$refs['portalDetailContentBody']">
+          <a-anchor-link href="#basic" title="兽医信息" />
+          <a-anchor-link href="#experience" title="教育情况" />
+          <a-anchor-link v-if="!detail.practisingId" href="#train" title="培训情况" />
+          <a-anchor-link v-if="detail.practisingId" href="#register" title="注册情况" />
+          <a-anchor-link v-if="detail.veterinarianId" href="#ertificate" title="职称/技能鉴定情况" />
+        </a-anchor>
+      </div>
 		</div>
 	</div>
 </template>
@@ -237,13 +252,19 @@ export default {
   data() {
     return {
       detail: {},
+      changeSmall:false
+
     }
   },
   mounted() {
   },
   methods: {
     handleReturn() {
-      this.$router.back()
+      if (this.$route.name.indexOf('home') < 0) {
+        this.$router.push({name:'/veterinary'})
+      } else {
+        this.$router.push({name:'homeVeterinaryList'})
+      }
     },
   },
   created () {
@@ -257,14 +278,22 @@ export default {
 </script>
 
 <style scoped>
-.portalDetailWapper{
-  margin:10px;
-  margin-bottom: 0;
-}
-.portalDetailTitle{
-  margin: 10px 10px 0px 12px
-}
-.portalDetailContentBody{
-  overflow:visible;
-}
+	.target {
+		position: absolute;
+		z-index: 10;
+		right: 33px;
+		top: 260px;
+		padding: 10px 8px;
+		border-radius: 2px;
+		background: white;
+		-moz-box-shadow: -1px 0px 5px #878787;
+		-webkit-box-shadow: -1px 0px 5px #878787;
+		box-shadow: -1px 0px 5px #878787;
+	}
+
+	.target .icon {
+		text-align: right;
+		cursor: pointer;
+		color: #1890ff;
+	}
 </style>
