@@ -655,33 +655,13 @@ const appRoutes = [{
       meta: { title: '中国水产学会学术会议管理', menuPath: true, authCode: 'S1001', menuIcon: 'barcode', hideInBread: true },
       children: [
         {
-          path:'/lshy/menber/acmBoardMenber',
-          name: '/lshy/menber/acmBoardMenber',
-          meta: { title: '理事成员管理', menuPath: true, authCode: 'S100107', hideInBread: false, menuIcon: 'team', openMode: 'spa' },
+          path: '/xshy/pushConfig/acmPushNotfConfig', name: '/xshy/pushConfig/acmPushNotfConfig',
+          meta: { title: '短信配置管理', menuPath: true, authCode: 'S100120', hideInBread: true, menuIcon: 'form', openMode: 'spa'  },
         },
         {
-          path:'/lshy/meeting/acmBoardMeeting',
-          name: '/lshy/meeting/acmBoardMeeting',
-          meta: { title: '理事会议管理', menuPath: true, authCode: 'S100104', hideInBread: false, menuIcon: 'table', openMode: 'spa' },
+          path: '/xshy/pushEmailConfig/acmPushNotfEmailConfig', name: '/xshy/pushEmailConfig/acmPushNotfEmailConfig',
+          meta: { title: '邮件配置管理', menuPath: true, authCode: 'S100121', hideInBread: true, menuIcon: 'team', openMode: 'spa'  },
         },
-        {
-          path:'/lshy/meeting/acmBoardMeetingIssueStatis',
-          name: '/lshy/meeting/acmBoardMeetingIssueStatis',
-          meta: { title: '理事议题结果', menuPath: true, authCode: 'S100105', hideInBread: false, menuIcon: 'table', openMode: 'spa' },
-        },
-        {
-          path: '/lshy/meetingMem/acmBoardMeetingIssueVote', name: '/lshy/meetingMem/acmBoardMeetingIssueVote',
-          meta: { title: '理事议题投票', menuPath: true, authCode: 'S100112', hideInBread: false, menuIcon: 'table', openMode: 'spa' },
-        },
-      ]
-    },
-    //学术会议
-    {
-      path: '/lshy',
-      name: 'lshy',
-      component: contentWrapper,
-      meta: { title: '中国水产学会理事会议', menuPath: true, authCode: 'S1001', menuIcon: 'barcode', hideInBread: true },
-      children: [
         {
           path:'/xshy/release/acmMeetingRelease',name: '/xshy/release/acmMeetingRelease',
           meta: { title: '会议管理', menuPath: true, authCode: 'S100102', hideInBread: false, menuIcon: 'sound', openMode: 'spa'  },
@@ -705,6 +685,34 @@ const appRoutes = [{
         {
           path: '/xshy/sign/acmMeetingSignSingle', name: '/xshy/sign/acmMeetingSignSingle',
           meta: { title: '报名历史', menuPath: true, authCode: 'S100110', hideInBread: false, menuIcon: 'table', openMode: 'spa'  },
+        },
+      ]
+    },
+    //学术会议
+    {
+      path: '/lshy',
+      name: 'lshy',
+      component: contentWrapper,
+      meta: { title: '中国水产学会理事会议', menuPath: true, authCode: 'S1001', menuIcon: 'barcode', hideInBread: true },
+      children: [
+        {
+          path:'/lshy/menber/acmBoardMenber',
+          name: '/lshy/menber/acmBoardMenber',
+          meta: { title: '理事成员管理', menuPath: true, authCode: 'S100107', hideInBread: false, menuIcon: 'team', openMode: 'spa' },
+        },
+        {
+          path:'/lshy/meeting/acmBoardMeeting',
+          name: '/lshy/meeting/acmBoardMeeting',
+          meta: { title: '理事会议管理', menuPath: true, authCode: 'S100104', hideInBread: false, menuIcon: 'table', openMode: 'spa' },
+        },
+        {
+          path:'/lshy/meeting/acmBoardMeetingIssueStatis',
+          name: '/lshy/meeting/acmBoardMeetingIssueStatis',
+          meta: { title: '理事议题结果', menuPath: true, authCode: 'S100105', hideInBread: false, menuIcon: 'table', openMode: 'spa' },
+        },
+        {
+          path: '/lshy/meetingMem/acmBoardMeetingIssueVote', name: '/lshy/meetingMem/acmBoardMeetingIssueVote',
+          meta: { title: '理事议题投票', menuPath: true, authCode: 'S100112', hideInBread: false, menuIcon: 'table', openMode: 'spa' },
         },
       ]
     },
@@ -832,6 +840,10 @@ const appRoutes = [{
       {
         path: '/scsd/nodeConfig/list',name: '/scsd/nodeConfig/list',
         meta: { title: '流程配置', menuPath: true, authCode:'S050111', menuIcon: 'appstore', hideInBread: false, openMode: 'spa' },
+      },
+      {
+        path: '/scsd/category/list', name: '/scsd/category/list',
+        meta: { title: '品种类别信息维护', menuPath:true, authCode:'S050112', hideInBread:false, menuIcon: 'appstore', openMode: 'spa' }
       }
       ]
     },
