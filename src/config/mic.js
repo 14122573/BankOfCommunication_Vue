@@ -10,42 +10,43 @@
 let MicConfig = []
 switch (process.env.NODE_ENV) {
 case 'devol': // 本地线上部署环境下
-  MicConfig = [{
-    baseUrl: 'http://scsd.tao.com',
-    resourceName: 'scsd',
-    micId: 'mic:scsd',
-    pathPrefix: '/scsd'
-  },
-  {
-    baseUrl: 'http://txc.tao.com', // 科普基地
-    resourceName: 'kpjd',
-    micId: 'mic:kpjd',
-    pathPrefix: '/kpjd'
-  },
-  {
-    baseUrl: 'http://scylzc.tao.com', // 原良种验收
-    resourceName: 'scylzc',
-    micId: 'mic:scylzc',
-    pathPrefix: '/scylzc'
-  },
-  {
-    baseUrl: 'http://ylzcre.tao.com', // 原良种复查
-    resourceName: 'ylzcre',
-    micId: 'mic:ylzcre',
-    pathPrefix: '/ylzcre'
-  },
-  {
-    baseUrl: 'http://yysygl.tao.com',// 渔业兽医
-    resourceName: 'yysygl',
-    micId: 'mic:yysygl',
-    pathPrefix: '/yysygl'
-  },
-  {
-    baseUrl: 'http://fljps.tao.com',// 范蠡奖
-    resourceName: 'fljps',
-    micId: 'mic:fljps',
-    pathPrefix: '/fljps'
-  }
+  MicConfig = [
+    {
+      baseUrl: 'http://scsd.tao.com',
+      resourceName: 'scsd',
+      micId: 'mic:scsd',
+      pathPrefix: '/scsd'
+    },
+    {
+      baseUrl: 'http://txc.tao.com', // 科普基地
+      resourceName: 'kpjd',
+      micId: 'mic:kpjd',
+      pathPrefix: '/kpjd'
+    },
+    {
+      baseUrl: 'http://scylzc.tao.com', // 原良种验收
+      resourceName: 'scylzc',
+      micId: 'mic:scylzc',
+      pathPrefix: '/scylzc'
+    },
+    {
+      baseUrl: 'http://ylzcre.tao.com', // 原良种复查
+      resourceName: 'ylzcre',
+      micId: 'mic:ylzcre',
+      pathPrefix: '/ylzcre'
+    },
+    {
+      baseUrl: 'http://yysygl.tao.com',// 渔业兽医
+      resourceName: 'yysygl',
+      micId: 'mic:yysygl',
+      pathPrefix: '/yysygl'
+    },
+    {
+      baseUrl: 'http://fljps.tao.com',// 范蠡奖
+      resourceName: 'fljps',
+      micId: 'mic:fljps',
+      pathPrefix: '/fljps'
+    }
   ]
   break
 case 'sit': // sit环境下
@@ -141,17 +142,17 @@ case 'production': // 生产环境下
   break
 default: // 默认环境下（开发环境）
   MicConfig = [{
-    baseUrl: 'http://scsd.tao.com',
-    resourceName: 'scsd',
-    micId: 'mic:scsd',
-    pathPrefix: '/scsd'
+    baseUrl: 'http://scylzc.tao.com', // 原良种验收
+    resourceName: 'scylzc',
+    micId: 'mic:scylzc',
+    pathPrefix: '/scylzc'
   },
   {
-    baseUrl: 'http://txc.tao.com', // 科普基地
-    resourceName: 'kpjd',
-    micId: 'mic:kpjd',
-    pathPrefix: '/kpjd'
-  }
+    baseUrl: 'http://ylzcre.tao.com', // 原良种复查
+    resourceName: 'ylzcre',
+    micId: 'mic:ylzcre',
+    pathPrefix: '/ylzcre'
+  },
   ]
   break
 };
