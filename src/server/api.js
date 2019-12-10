@@ -133,6 +133,6 @@ export default {
   PUT_EDIT_MANUAL: '/service-release/release/handbook/{id}', // 编辑手册
   DELETE_MANUAL: '/service-release/release/handbook/{id}', // 删除手册
   // 兽医
-  GET_VETERINARYALL:'http://iftp.omniview.pro/api/veterinary/veterinary/public/doctor/publicInfo/allpub',// 全部兽医
-  GET_VETERINARY:'http://iftp.omniview.pro/api/veterinary/veterinary/public/doctor/publicInfo/pub/{id}/{type}'// 单个兽医
+  GET_VETERINARYALL:'/veterinary/veterinary/public/doctor/publicInfo/allpub',// 全部兽医
+  GET_VETERINARY:'/veterinary/veterinary/public/doctor/publicInfo/pub/{id}/{type}'// 单个兽医
 }
