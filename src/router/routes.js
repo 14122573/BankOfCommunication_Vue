@@ -655,14 +655,6 @@ const appRoutes = [{
       meta: { title: '中国水产学会学术会议管理', menuPath: true, authCode: 'S1001', menuIcon: 'barcode', hideInBread: true },
       children: [
         {
-          path: '/xshy/pushConfig/acmPushNotfConfig', name: '/xshy/pushConfig/acmPushNotfConfig',
-          meta: { title: '短信配置管理', menuPath: true, authCode: 'S100120', hideInBread: true, menuIcon: 'form', openMode: 'spa'  },
-        },
-        {
-          path: '/xshy/pushEmailConfig/acmPushNotfEmailConfig', name: '/xshy/pushEmailConfig/acmPushNotfEmailConfig',
-          meta: { title: '邮件配置管理', menuPath: true, authCode: 'S100121', hideInBread: true, menuIcon: 'team', openMode: 'spa'  },
-        },
-        {
           path:'/xshy/release/acmMeetingRelease',name: '/xshy/release/acmMeetingRelease',
           meta: { title: '会议管理', menuPath: true, authCode: 'S100102', hideInBread: false, menuIcon: 'sound', openMode: 'spa'  },
         },
@@ -671,12 +663,12 @@ const appRoutes = [{
           meta: { title: '会议信息推送', menuPath: true, authCode: 'S100103', hideInBread: false, menuIcon: 'bell', openMode: 'spa'  },
         },
         {
-          path: '/xshy/pushConfig/acmPushNotfConfig', name: '/xshy/pushConfig/acmPushNotfConfig',
-          meta: { title: '短信配置管理', menuPath: true, authCode: 'S100110', hideInBread: true, menuIcon: 'form' },
+          path: '/lshy/pushConfig/acmPushNotfConfig', name: '/lshy/pushConfig/acmPushNotfConfig',
+          meta: { title: '短信配置管理', menuPath: true, authCode: 'S100120', hideInBread: true, menuIcon: 'form', openMode: 'spa'  },
         },
         {
-          path: '/xshy/pushEmailConfig/acmPushNotfEmailConfig', name: '/xshy/pushEmailConfig/acmPushNotfEmailConfig',
-          meta: { title: '邮件配置管理', menuPath: true, authCode: 'S100111', hideInBread: true, menuIcon: 'team' },
+          path: '/lshy/pushEmailConfig/acmPushNotfEmailConfig', name: '/lshy/pushEmailConfig/acmPushNotfEmailConfig',
+          meta: { title: '邮件配置管理', menuPath: true, authCode: 'S100121', hideInBread: true, menuIcon: 'team', openMode: 'spa'  },
         },
         {
           path: '/xshy/sign/acmMeetingHome', name: '/xshy/sign/acmMeetingHome',
