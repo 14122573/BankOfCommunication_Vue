@@ -685,26 +685,26 @@ const appRoutes = [{
       path: '/lshy',
       name: 'lshy',
       component: contentWrapper,
-      meta: { title: '中国水产学会理事会议', menuPath: true, authCode: 'S1001', menuIcon: 'barcode', hideInBread: true },
+      meta: { title: '中国水产学会理事会议', menuPath: true, authCode: 'S1003', menuIcon: 'barcode', hideInBread: true },
       children: [
         {
           path:'/lshy/menber/acmBoardMenber',
           name: '/lshy/menber/acmBoardMenber',
-          meta: { title: '理事成员管理', menuPath: true, authCode: 'S100107', hideInBread: false, menuIcon: 'team', openMode: 'spa' },
+          meta: { title: '理事成员管理', menuPath: true, authCode: 'S100307', hideInBread: false, menuIcon: 'team', openMode: 'spa' },
         },
         {
           path:'/lshy/meeting/acmBoardMeeting',
           name: '/lshy/meeting/acmBoardMeeting',
-          meta: { title: '理事会议管理', menuPath: true, authCode: 'S100104', hideInBread: false, menuIcon: 'table', openMode: 'spa' },
+          meta: { title: '理事会议管理', menuPath: true, authCode: 'S100304', hideInBread: false, menuIcon: 'table', openMode: 'spa' },
         },
         {
           path:'/lshy/meeting/acmBoardMeetingIssueStatis',
           name: '/lshy/meeting/acmBoardMeetingIssueStatis',
-          meta: { title: '理事议题结果', menuPath: true, authCode: 'S100105', hideInBread: false, menuIcon: 'table', openMode: 'spa' },
+          meta: { title: '理事议题结果', menuPath: true, authCode: 'S100305', hideInBread: false, menuIcon: 'table', openMode: 'spa' },
         },
         {
           path: '/lshy/meetingMem/acmBoardMeetingIssueVote', name: '/lshy/meetingMem/acmBoardMeetingIssueVote',
-          meta: { title: '理事议题投票', menuPath: true, authCode: 'S100112', hideInBread: false, menuIcon: 'table', openMode: 'spa' },
+          meta: { title: '理事议题投票', menuPath: true, authCode: 'S100312', hideInBread: false, menuIcon: 'table', openMode: 'spa' },
         },
       ]
     },
