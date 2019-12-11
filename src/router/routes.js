@@ -663,11 +663,11 @@ const appRoutes = [{
           meta: { title: '会议信息推送', menuPath: true, authCode: 'S100103', hideInBread: false, menuIcon: 'bell', openMode: 'spa'  },
         },
         {
-          path: '/lshy/pushConfig/acmPushNotfConfig', name: '/lshy/pushConfig/acmPushNotfConfig',
+          path: '/xshy/pushConfig/acmPushNotfConfig', name: '/xshy/pushConfig/acmPushNotfConfig',
           meta: { title: '短信配置管理', menuPath: true, authCode: 'S100120', hideInBread: true, menuIcon: 'form', openMode: 'spa'  },
         },
         {
-          path: '/lshy/pushEmailConfig/acmPushNotfEmailConfig', name: '/lshy/pushEmailConfig/acmPushNotfEmailConfig',
+          path: '/xshy/pushEmailConfig/acmPushNotfEmailConfig', name: '/xshy/pushEmailConfig/acmPushNotfEmailConfig',
           meta: { title: '邮件配置管理', menuPath: true, authCode: 'S100121', hideInBread: true, menuIcon: 'team', openMode: 'spa'  },
         },
         {
