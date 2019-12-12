@@ -328,8 +328,8 @@ export default {
         this.opeation.tips = '注销后，该账号将被使用'
         break
       case '4':
-        this.opeation.title = '您确认要注销该账号吗？'
-        this.opeation.tips = '注销后，该账号将被使用'
+        this.opeation.title = '您确认要重置账号密码吗？'
+        this.opeation.tips = '重置后，需要使用新密码登录'
         break
       default:
         break

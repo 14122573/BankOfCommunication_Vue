@@ -12,7 +12,7 @@
 					</a-form-item>
 				</a-col>
 				<a-col offset='6' span="16" v-if="isShow">
-					<testStrong id="strong" :width="90" :pwd='resetData.getFieldValue("newPwd")' v-show='passwordStrength'></testStrong>
+					<testStrong id="strong" :width="90" :pwd='!resetData.getFieldValue("newPwd")?"":resetData.getFieldValue("newPwd")' v-show='passwordStrength'></testStrong>
 				</a-col>
 				<a-col span="24">
 					<a-form-item label="重复密码" v-bind="colSpe">
@@ -88,6 +88,7 @@ export default {
     },
     //密码重复密码校验
     validateToNextPassword(rule, value, callback) {
+      const form = this.resetData
       if (!value || value == undefined || value.split(' ').join('').length === 0) {
         callback('请输入新密码！')
         this.passwordStrength = false

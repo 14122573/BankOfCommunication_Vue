@@ -33,11 +33,25 @@ export function checkStrong(sValue) {
   return modes
 }
 export default {
-  props: ['pwd','width'],
+
+  props: {
+    pwd:{
+      type:String,
+      default(){
+        return ''
+      }
+    },
+    width:{
+      type:[String,Number]
+    }
+  },
   data() {
     return {
       msgText: '',
     }
+  },
+  mounted(){
+    console.log('test',this.pwd)
   },
   computed: {
     returnStyle(){

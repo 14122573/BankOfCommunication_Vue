@@ -60,7 +60,7 @@
 						</a-form-item>
 					</a-col>
 					<a-col offset='6' span="16">
-						<testStrong id="strong" :width="90" :pwd='resetData.getFieldValue("newPwd")' v-show='passwordStrength'></testStrong>
+						<testStrong id="strong" :width="90" :pwd='!resetData.getFieldValue("newPwd")?"":resetData.getFieldValue("newPwd")' v-show='passwordStrength'></testStrong>
 					</a-col>
 					<a-col span="24">
 						<a-form-item label="重复密码" :label-col="{span:6}" :wrapper-col="{span:16}">
