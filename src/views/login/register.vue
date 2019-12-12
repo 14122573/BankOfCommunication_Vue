@@ -45,7 +45,7 @@
                     <a-icon slot="prefix" type="lock" style="color: rgba(0,0,0,.25)" />
                   </a-input>
                 </a-form-item>
-									<testStrong :pwd="formRegister.getFieldValue('password')"  :width="75" v-show="passwordStrength"></testStrong>
+									<testStrong :pwd="!formRegister.getFieldValue('password')?'':formRegister.getFieldValue('password')"  :width="75" v-show="passwordStrength"></testStrong>
               </a-col>
               <a-col span="7">
                 <input type="password" style="display: none;">

@@ -90,7 +90,7 @@
 					<a-icon slot="prefix" type="lock" style="color: rgba(0,0,0,.25)" />
 				</a-input>
 			</a-form-item>
-			<testStrong :pwd='formRegister.getFieldValue("pwd")'  v-show='passwordStrength'></testStrong>
+			<testStrong :pwd='!formRegister.getFieldValue("pwd")?"":formRegister.getFieldValue("pwd")'  v-show='passwordStrength'></testStrong>
 			<a-form-item>
 				<a-input v-decorator="[
 		  						'rePassword',
@@ -191,23 +191,23 @@ export default {
     //密码重复密码校验
     validateToNextPassword(rule, value, callback) {
       const form = this.formRegister
-	  if(!value || value == undefined || value.split(' ').join('').length === 0){
-	    callback('请输入密码！')
-	    this.passwordStrength=false
-	  }else{
-	    if(!this.$com.checkPassword(value)){
-	      callback('请输入6位以上的数字字母组合！')
-	      this.passwordStrength=false
-	    }else{
-	       if (value && this.confirmDirty) {
-	        form.validateFields(['rePassword'], {
-	          force: true
-	        })
-	      }
-	      callback()
-	      this.passwordStrength=true
-	    }
-	  }
+      if(!value || value == undefined || value.split(' ').join('').length === 0){
+        callback('请输入密码！')
+        this.passwordStrength=false
+      }else{
+        if(!this.$com.checkPassword(value)){
+          callback('请输入6位以上的数字字母组合！')
+          this.passwordStrength=false
+        }else{
+          if (value && this.confirmDirty) {
+            form.validateFields(['rePassword'], {
+              force: true
+            })
+          }
+          callback()
+          this.passwordStrength=true
+        }
+      }
     },
     compareToFirstPassword(rule, value, callback) {
       const form = this.formRegister
