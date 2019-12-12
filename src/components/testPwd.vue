@@ -50,9 +50,6 @@ export default {
       msgText: '',
     }
   },
-  mounted(){
-    console.log('test',this.pwd)
-  },
   computed: {
     returnStyle(){
       if(this.width){
