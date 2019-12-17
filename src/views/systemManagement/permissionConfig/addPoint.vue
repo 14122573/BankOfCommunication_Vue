@@ -27,7 +27,7 @@
               </a-col>
               <a-col span="8">
                 <a-form-item label="功能点编码" :label-col="{span:8}" :wrapper-col="{span:16}">
-                  <a-input :addonBefore="createForm.type?createForm.type:''" v-decorator="['pointKey',{rules:pointCodeFormRule}]" placeholder="请输入"></a-input>
+                  <a-input :addonBefore="createForm.type?createForm.type:''" v-decorator="['pointKey',{rules:!createForm.type?formRules.pointCodeRequir:formRules.pointCodeNoRequir}]" placeholder="请输入"></a-input>
                 </a-form-item>
               </a-col>
             </a-row>
@@ -103,15 +103,6 @@ export default {
     this.getRoleTree()
     this.getSysCodOptions()
     this.isReady = true
-  },
-  computed:{
-    pointCodeFormRule(){
-      if(!this.createForm.type){
-        return this.formRules.pointCodeRequir
-      }else{
-        return this.formRules.pointCodeNoRequir
-      }
-    }
   },
   methods:{
     /**

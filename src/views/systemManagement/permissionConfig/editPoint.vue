@@ -28,7 +28,7 @@
                 </a-col>
                 <a-col span="8">
                   <a-form-item label="功能点编码" :label-col="{span:8}" :wrapper-col="{span:16}">
-                    <a-input :addonBefore="editForm.type?editForm.type:''" v-decorator="['pointKey',{validateTrigger:'blur',rules:pointCodeFormRule}]" placeholder="请输入"></a-input>
+                    <a-input :addonBefore="editForm.type?editForm.type:''" v-decorator="['pointKey',{validateTrigger:'blur',rules:!editForm.type?this.formRules.pointCodeRequir:this.formRules.pointCodeNoRequir}]" placeholder="请输入"></a-input>
                   </a-form-item>
                 </a-col>
               </a-row>
@@ -150,13 +150,6 @@ export default {
     this.preparate.isReady = true
   },
   computed:{
-    pointCodeFormRule(){
-      if(!this.editForm.type){
-        return this.formRules.pointCodeRequir
-      }else{
-        return this.formRules.pointCodeNoRequir
-      }
-    }
   },
   watch:{
     pointDetail(){
