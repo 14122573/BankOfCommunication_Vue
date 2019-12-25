@@ -133,8 +133,14 @@ export default {
       let nextRouter = ''
       for(let i=0;i<micSysRouters.length;i++){
         let micSysRouter = micSysRouters[i]
-        if( micSysRouter.type=='detail'){
-          nextRouter = micSysRouter.routerName
+        if(sysCode =='S0401'){
+          if( micSysRouter.type=='detail' && reviewTypeCode == micSysRouter.reviewTypeCode){
+            nextRouter = micSysRouter.routerName
+          }
+        }else{
+          if( micSysRouter.type=='detail'){
+            nextRouter = micSysRouter.routerName
+          }
         }
       }
       // 根据系统判断跳转子系统方式
@@ -174,6 +180,14 @@ export default {
         })
         break
       case 'S0201': // 团体标准
+        this.$router.push({
+          name:nextRouter,
+          query:{
+            id:taskCode
+          }
+        })
+        break
+      case 'S0401': // 海洋牧场
         this.$router.push({
           name:nextRouter,
           query:{

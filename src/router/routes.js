@@ -1058,100 +1058,140 @@ const appRoutes = [{
       name: 'hymc',
       component: contentWrapper,
       meta: { title: '国家级海洋牧场示范区管理', menuPath: true, authCode: 'S0401', menuIcon: 'barcode', hideInBread: true },
-      children: [{
-        path: '/hymc/system/McManage',name: '/hymc/system/McManage',
-        meta: {title: '海洋牧场管理',menuPath: true,authCode: 'S040102',menuIcon: 'appstore',hideInBread: false,openMode: 'spa'}
-      },
-      {
-        path: '/hymc/system/YjManage',name: '/hymc/system/YjManage',
-        meta: {title: '人工鱼礁管理',menuPath: true,authCode: 'S040103',menuIcon: 'appstore',hideInBread: false,openMode: 'spa'}
-      },
-      {
-        path: '/hymc/user/ManageUnit',name: '/hymc/user/ManageUnit',
-        meta: {title: '管护单位信息',menuPath: true,authCode: 'S040125',menuIcon: 'appstore',hideInBread: false,openMode: 'spa'}
-      },
-      {
-        path: '/hymc/evaluateHy/ExpertPf',name: '/hymc/evaluateHy/ExpertPf',
-        meta: {title: '海洋牧场专家评分',menuPath: true,authCode: 'S040104',menuIcon: 'appstore',hideInBread: false,openMode: 'spa'}
-      },
-      {
-        path: '/hymc/evaluateHy/ProjectDemo',name: '/hymc/evaluateHy/ProjectDemo',
-        meta: {title: '海洋牧场项目模板',menuPath: true,authCode: 'S040105',menuIcon: 'appstore',hideInBread: false,openMode: 'spa'}
-      },
-      {
-        path: '/hymc/evaluateHy/ProjectApproval', name: '/hymc/evaluateHy/ProjectApproval',
-        meta: {title: '海洋牧场项目审批管理',menuPath: true,authCode: 'S040106',menuIcon: 'appstore',hideInBread: false,openMode: 'spa'}
-      },
-      {
-        path: '/hymc/evaluateHy/ProjectApproval/CqExpert', name: '/hymc/evaluateHy/ProjectApproval/CqExpert',
-        meta: {title: '海洋牧场组织专家',menuPath: true,authCode: 'S040101',menuIcon: 'appstore',hideInBread: false,openMode: 'spa'}
-      },
-      {
-        path: '/hymc/evaluateHy/YearPs',name: '/hymc/evaluateHy/YearPs',
-        meta: {title: '海洋牧场提交年度评审',menuPath: true,authCode: 'S040107',menuIcon: 'appstore',hideInBread: false,openMode: 'spa'}
-      },
-      {
-        path: '/hymc/ReviewManageHy/ReProjectApproval', name: '/hymc/ReviewManageHy/ReProjectApproval',
-        meta: {title: '海洋牧场复查管理',menuPath: true,authCode: 'S040119',menuIcon: 'appstore',hideInBread: false,openMode: 'spa'}
-      },
-      {
-        path: '/hymc/ReviewManageHy/ReviewExpertPf',name: '/hymc/ReviewManageHy/ReviewExpertPf',
-        meta: {title: '海洋牧场复查专家评分',menuPath: true,authCode: 'S040120',menuIcon: 'appstore',hideInBread: false,openMode: 'spa'}
-      },
-      {
-        path: '/hymc/evaluateYj/YjExpertPf',name: '/hymc/evaluateYj/YjExpertPf',
-        meta: {title: '人工鱼礁专家评分',menuPath: true,authCode: 'S040110',menuIcon: 'appstore',hideInBread: false,openMode: 'spa'}
-      },
-      {
-        path: '/hymc/evaluateYj/ProjectDemo',name: '/hymc/evaluateYj/ProjectDemo',
-        meta: {title: '人工鱼礁项目模板',menuPath: true,authCode: 'S040111',menuIcon: 'appstore',hideInBread: false,openMode: 'spa'}
-      },
-      {
-        path: '/hymc/evaluateYj/ProjectApproval',name: '/hymc/evaluateYj/ProjectApproval',
-        meta: {title: '人工鱼礁项目审批管理',menuPath: true,authCode: 'S040112',menuIcon: 'appstore',hideInBread: false,openMode: 'spa'}
-      },
-      {
-        path: '/hymc/evaluateYj/ProjectApproval/YjCqExpert',
-        name: '/hymc/evaluateYj/ProjectApproval/YjCqExpert',
-        meta: {title: '人工鱼礁组织专家',menuPath: true,authCode: 'S040118',menuIcon: 'appstore',hideInBread: false,openMode: 'spa'}
-      },
-      {
-        path: '/hymc/evaluateYj/YearPs',name: '/hymc/evaluateYj/YearPs',
-        meta: {title: '人工鱼礁提交年度评审',menuPath: true,authCode: 'S040113',menuIcon: 'appstore',hideInBread: false,openMode: 'spa'}
-      },
-      {
-        path: '/hymc/evaluateYj/ProjectAccept',name: '/hymc/evaluateYj/ProjectAccept',
-        meta: {title: '人工鱼礁提请验收',menuPath: true,authCode: 'S040121',menuIcon: 'appstore',hideInBread: false,openMode: 'spa'}
-      },
-      {
-        path: '/hymc/evaluateYj/AcceptExpert',name: '/hymc/evaluateYj/AcceptExpert',
-        meta: {title: '人工鱼礁验收组织专家',menuPath: true,authCode: 'S040122',menuIcon: 'appstore',hideInBread: false,openMode: 'spa'}
-      },
-      {
-        path: '/hymc/evaluateYj/AcceptExpertYs',name: '/hymc/evaluateYj/AcceptExpertYs',
-        meta: {title: '人工鱼礁项目专家验收',menuPath: true,authCode: 'S040124',menuIcon: 'appstore',hideInBread: false,openMode: 'spa'}
-      },
-      {
-        path: '/hymc/evaluateYj/ProjectCheck',name: '/hymc/evaluateYj/ProjectCheck',
-        meta: {title: '人工鱼礁验收管理',menuPath: true,authCode: 'S040123',menuIcon: 'appstore',hideInBread: false,openMode: 'spa'}
-      },
-      {
-        path: '/hymc/video',name: '/hymc/video',
-        meta: {title: '视频和监控',menuPath: true,authCode: 'S040117',menuIcon: 'appstore',hideInBread: false,openMode: 'spa'}
-      },
-      {
-        path: '/hymc/means',name: '/hymc/means',
-        meta: {title: '资料下载',menuPath: true,authCode: 'S040116',menuIcon: 'appstore',hideInBread: false,openMode: 'spa'}
-      },
-      {
-        path:'/hymc/ReviewManageHy/ProjectApprovalUser',
-        name:'/hymc/ReviewManageHy/ProjectApprovalUser',
-        meta: {title: '资源效果评价',menuPath: true,authCode: 'S040127',menuIcon: 'appstore',},
-      },
-      {
-        path: '/hymc/evaluateHy/ReviewExpert',name: '/hymc/evaluateHy/ReviewExpert',
-        meta: {title: '复查组织专家',menuPath: true,authCode: 'S040126',menuIcon: 'appstore',}
-      },
+      children: [
+        {
+          path: '/hymc/ReviewManageHy/ReviewScoreInfo/:id', name: '/hymc/ReviewManageHy/ReviewScoreInfo/:id',
+          meta: { title: '海洋牧场复查评分',menuPath: false, authCode: 'S04012802', menuIcon: 'appstore',hideInBread: false,openMode: 'spa' },
+        },
+        {
+          path: '/hymc/evaluateHy/YearPs/CheckReview/:id', name: '/hymc/evaluateHy/YearPs/CheckReview/:id',
+          meta: { title: '海洋牧场复查详情',menuPath: false, authCode: 'S04010702', menuIcon: 'appstore',hideInBread: false,openMode: 'spa' }
+        },
+        {
+          path: '/hymc/evaluateHy/ScoreInfo/:id', name: '/hymc/evaluateHy/ScoreInfo/:id',
+          meta: { title: '海洋牧场年度评审',menuPath: false, authCode: 'S04010402', menuIcon: 'appstore',hideInBread: false,openMode: 'spa'}
+        },
+        {
+          path: '/hymc/evaluateHy/YearPs/CheckYearPs/:id',
+          name: '/hymc/evaluateHy/YearPs/CheckYearPs/:id',
+          meta: { title: '查看海洋牧场年度评审',menuPath: false, authCode: 'S04010702', menuIcon: 'appstore',hideInBread: false,openMode: 'spa'}
+        },
+        {
+          path: '/hymc/evaluateYj/YjScoreInfo/:id',
+          name: '/hymc/evaluateYj/YjScoreInfo/:id',
+          meta: { title: '查看人工鱼礁年度评审',menuPath: false, authCode: 'S04011002', menuIcon: 'appstore',hideInBread: false,openMode: 'spa' }
+        },
+        {
+          path: '/hymc/evaluateYj/YearPs/CheckYearPs/:id',
+          name: '/hymc/evaluateYj/YearPs/CheckYearPs/:id',
+          meta: { title: '人工鱼礁年度评审',menuPath: false, authCode: 'S04011302', menuIcon: 'appstore',hideInBread: false,openMode: 'spa' }
+        },
+        {
+          path: '/hymc/evaluateYj/AcceptExpertEdit/:id',
+          name: '/hymc/evaluateYj/AcceptExpertEdit/:id',
+          meta: { title: '人工鱼礁项目专家验收编辑',menuPath: false, authCode: 'S04012803', menuIcon: 'appstore',hideInBread: false,openMode: 'spa' }
+        },
+        {
+          path: '/hymc/evaluateYj/ProjectAccept/ProjectAcceptSee/:id',
+          name: '/hymc/evaluateYj/ProjectAccept/ProjectAcceptSee',
+          meta: {title: '查看验收',menuPath: false, authCode: 'S04012805', menuIcon: 'appstore',hideInBread: false,openMode: 'spa' }
+        },
+
+
+        {
+          path: '/hymc/system/McManage',name: '/hymc/system/McManage',
+          meta: {title: '海洋牧场管理',menuPath: true,authCode: 'S040102',menuIcon: 'appstore',hideInBread: false,openMode: 'spa'}
+        },
+        {
+          path: '/hymc/system/YjManage',name: '/hymc/system/YjManage',
+          meta: {title: '人工鱼礁管理',menuPath: true,authCode: 'S040103',menuIcon: 'appstore',hideInBread: false,openMode: 'spa'}
+        },
+        {
+          path: '/hymc/user/ManageUnit',name: '/hymc/user/ManageUnit',
+          meta: {title: '管护单位信息',menuPath: true,authCode: 'S040125',menuIcon: 'appstore',hideInBread: false,openMode: 'spa'}
+        },
+        {
+          path: '/hymc/evaluateHy/ExpertPf',name: '/hymc/evaluateHy/ExpertPf',
+          meta: {title: '海洋牧场专家评分',menuPath: true,authCode: 'S040104',menuIcon: 'appstore',hideInBread: false,openMode: 'spa'}
+        },
+        {
+          path: '/hymc/evaluateHy/ProjectDemo',name: '/hymc/evaluateHy/ProjectDemo',
+          meta: {title: '海洋牧场项目模板',menuPath: true,authCode: 'S040105',menuIcon: 'appstore',hideInBread: false,openMode: 'spa'}
+        },
+        {
+          path: '/hymc/evaluateHy/ProjectApproval', name: '/hymc/evaluateHy/ProjectApproval',
+          meta: {title: '海洋牧场项目审批管理',menuPath: true,authCode: 'S040106',menuIcon: 'appstore',hideInBread: false,openMode: 'spa'}
+        },
+        {
+          path: '/hymc/evaluateHy/ProjectApproval/CqExpert', name: '/hymc/evaluateHy/ProjectApproval/CqExpert',
+          meta: {title: '海洋牧场组织专家',menuPath: true,authCode: 'S040101',menuIcon: 'appstore',hideInBread: false,openMode: 'spa'}
+        },
+        {
+          path: '/hymc/evaluateHy/YearPs',name: '/hymc/evaluateHy/YearPs',
+          meta: {title: '海洋牧场提交年度评审',menuPath: true,authCode: 'S040107',menuIcon: 'appstore',hideInBread: false,openMode: 'spa'}
+        },
+        {
+          path: '/hymc/ReviewManageHy/ReProjectApproval', name: '/hymc/ReviewManageHy/ReProjectApproval',
+          meta: {title: '海洋牧场复查管理',menuPath: true,authCode: 'S040119',menuIcon: 'appstore',hideInBread: false,openMode: 'spa'}
+        },
+        {
+          path: '/hymc/ReviewManageHy/ReviewExpertPf',name: '/hymc/ReviewManageHy/ReviewExpertPf',
+          meta: {title: '海洋牧场复查专家评分',menuPath: true,authCode: 'S040120',menuIcon: 'appstore',hideInBread: false,openMode: 'spa'}
+        },
+        {
+          path: '/hymc/evaluateYj/YjExpertPf',name: '/hymc/evaluateYj/YjExpertPf',
+          meta: {title: '人工鱼礁专家评分',menuPath: true,authCode: 'S040110',menuIcon: 'appstore',hideInBread: false,openMode: 'spa'}
+        },
+        {
+          path: '/hymc/evaluateYj/ProjectDemo',name: '/hymc/evaluateYj/ProjectDemo',
+          meta: {title: '人工鱼礁项目模板',menuPath: true,authCode: 'S040111',menuIcon: 'appstore',hideInBread: false,openMode: 'spa'}
+        },
+        {
+          path: '/hymc/evaluateYj/ProjectApproval',name: '/hymc/evaluateYj/ProjectApproval',
+          meta: {title: '人工鱼礁项目审批管理',menuPath: true,authCode: 'S040112',menuIcon: 'appstore',hideInBread: false,openMode: 'spa'}
+        },
+        {
+          path: '/hymc/evaluateYj/ProjectApproval/YjCqExpert',
+          name: '/hymc/evaluateYj/ProjectApproval/YjCqExpert',
+          meta: {title: '人工鱼礁组织专家',menuPath: true,authCode: 'S040118',menuIcon: 'appstore',hideInBread: false,openMode: 'spa'}
+        },
+        {
+          path: '/hymc/evaluateYj/YearPs',name: '/hymc/evaluateYj/YearPs',
+          meta: {title: '人工鱼礁提交年度评审',menuPath: true,authCode: 'S040113',menuIcon: 'appstore',hideInBread: false,openMode: 'spa'}
+        },
+        {
+          path: '/hymc/evaluateYj/ProjectAccept',name: '/hymc/evaluateYj/ProjectAccept',
+          meta: {title: '人工鱼礁提请验收',menuPath: true,authCode: 'S040121',menuIcon: 'appstore',hideInBread: false,openMode: 'spa'}
+        },
+        {
+          path: '/hymc/evaluateYj/AcceptExpert',name: '/hymc/evaluateYj/AcceptExpert',
+          meta: {title: '人工鱼礁验收组织专家',menuPath: true,authCode: 'S040122',menuIcon: 'appstore',hideInBread: false,openMode: 'spa'}
+        },
+        {
+          path: '/hymc/evaluateYj/AcceptExpertYs',name: '/hymc/evaluateYj/AcceptExpertYs',
+          meta: {title: '人工鱼礁项目专家验收',menuPath: true,authCode: 'S040124',menuIcon: 'appstore',hideInBread: false,openMode: 'spa'}
+        },
+        {
+          path: '/hymc/evaluateYj/ProjectCheck',name: '/hymc/evaluateYj/ProjectCheck',
+          meta: {title: '人工鱼礁验收管理',menuPath: true,authCode: 'S040123',menuIcon: 'appstore',hideInBread: false,openMode: 'spa'}
+        },
+        {
+          path: '/hymc/video',name: '/hymc/video',
+          meta: {title: '视频和监控',menuPath: true,authCode: 'S040117',menuIcon: 'appstore',hideInBread: false,openMode: 'spa'}
+        },
+        {
+          path: '/hymc/means',name: '/hymc/means',
+          meta: {title: '资料下载',menuPath: true,authCode: 'S040116',menuIcon: 'appstore',hideInBread: false,openMode: 'spa'}
+        },
+        {
+          path:'/hymc/ReviewManageHy/ProjectApprovalUser',
+          name:'/hymc/ReviewManageHy/ProjectApprovalUser',
+          meta: {title: '资源效果评价',menuPath: true,authCode: 'S040127',menuIcon: 'appstore',},
+        },
+        {
+          path: '/hymc/evaluateHy/ReviewExpert',name: '/hymc/evaluateHy/ReviewExpert',
+          meta: {title: '复查组织专家',menuPath: true,authCode: 'S040126',menuIcon: 'appstore',}
+        },
       ]
     },
 

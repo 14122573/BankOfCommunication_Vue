@@ -173,6 +173,14 @@ export default {
           }
         })
         break
+      case 'S0401': // 海洋牧场
+        this.$router.push({
+          name:nextRouter,
+          query:{
+            id:taskCode
+          }
+        })
+        break
       case 'S1002': // 中国水产学会团体标准函审
         this.$router.push({
           name:nextRouter,

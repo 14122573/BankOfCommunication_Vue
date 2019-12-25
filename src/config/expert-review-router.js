@@ -91,6 +91,56 @@ let expertReviewRouter = {
       routerName:'/fljps/flaReportDetail/flaReportDetail',
       authCode: 'S10020802',
     },
+  ],
+  'S0401':[ //海洋牧场
+    {
+      type:'review',
+      reviewTypeCode:'HYMCFCWritten',
+      routerName:'/hymc/ReviewManageHy/ReviewScoreInfo/:id',
+      authCode: 'S04012802',
+    },
+    {
+      type:'detail',
+      reviewTypeCode:'HYMCFCWritten',
+      routerName:'/hymc/evaluateHy/YearPs/CheckReview/:id',
+      authCode: 'S04010702',
+    },
+    {
+      type:'review',
+      reviewTypeCode:'HYMCWritten',
+      routerName:'/hymc/evaluateHy/ScoreInfo/:id',
+      authCode: 'S04010402',
+    },
+    {
+      type:'detail',
+      reviewTypeCode:'HYMCWritten',
+      routerName:'/hymc/evaluateHy/YearPs/CheckYearPs/:id',
+      authCode: 'S04010702',
+    },
+    {
+      type:'review',
+      reviewTypeCode:'HYMCYJWritten',
+      routerName:'/hymc/evaluateYj/YjScoreInfo/:id',
+      authCode: 'S04011002',
+    },
+    {
+      type:'detail',
+      reviewTypeCode:'HYMCYJWritten',
+      routerName:'/hymc/evaluateYj/YearPs/CheckYearPs/:id',
+      authCode: 'S04011302',
+    },
+    {
+      type:'review',
+      reviewTypeCode:'HYMCYJYSWritten',
+      routerName:'/hymc/evaluateYj/AcceptExpertEdit/:id',
+      authCode: 'S04012803',
+    },
+    {
+      type:'detail',
+      reviewTypeCode:'HYMCYJYSWritten',
+      routerName:'/hymc/evaluateYj/ProjectAccept/ProjectAcceptSee/:id',
+      authCode: 'S04012805',
+    },
   ]
 }
 
