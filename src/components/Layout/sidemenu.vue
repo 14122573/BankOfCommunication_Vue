@@ -44,7 +44,6 @@
 <script>
 import {navigateToUrl} from 'single-spa'
 import common from '@/util/common'
-// import { OutsideUrls } from '@/config/outside-config'
 export default {
   name: 'SideMenu',
   props: {
