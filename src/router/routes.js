@@ -95,7 +95,7 @@ const VeterinaryView = () => import('@/views/cms/dataService/view')
      * meta.openMode 标记此路由点击后展示打开的方式。若值为normal，可不设置此字段
      *               spa 注册子前端项目的路由。注，此时设置的router.name为子项目展现路由名称的name，且需带上子项目名称前缀。如：/{micname}/{子项目router.name}，且无需设定router.component
      *               normal 本项目中自有路由
-     *               outsite 新开标签页打开，此打开方式将不嵌套layout。对应读取的跳转链接在，config/outside-config.js下。对象键值名需与router.name、router.meta.authCode保持一致
+     *               outsite 新开标签页打开，此打开方式将不嵌套layout。对应读取的跳转链接在数据库配置中。对象键值名需与router.name、router.meta.authCode保持一致
      */
 const appRoutes = [{
   path: '/',
@@ -513,6 +513,10 @@ const appRoutes = [{
           path: '/fljps/recomanage/flaRecConf', name: '/fljps/recomanage/flaRecConf',
           meta: { title: '推荐材料审查', menuPath: true, authCode: 'S100207', hideInBread: false, menuIcon: 'sound', openMode: 'spa' },
         },
+        {
+          path: '/fljps/node/nodeConfig',name:'/fljps/node/nodeConfig',
+          meta: {title:'流程配置',menuPath:true,authCode:'S100213',hideInBread:false,menuIcon:'appstore', openMode: 'spa'}
+        }
       ]
     },
     //团体标准
@@ -780,8 +784,18 @@ const appRoutes = [{
         meta: { title: '新品申报', menuPath: true, authCode: 'S050101', menuIcon: 'exception', hideInBread: false, openMode: 'spa' },
       },
       {
+        path: '/scsd/post/scsdExamCheck/view/:id',
+        name: '/scsd/post/scsdExamCheck/view/:id',
+        meta: { title: '专家函审', menuPath:false, authCode:'S05010106', menuIcon: 'exception', hideInBread:false, openMode: 'spa'}
+      },
+      {
+        path: '/scsd/post/scsdLocalCheck/view/:id',
+        name: '/scsd/post/scsdLocalCheck/view/:id',
+        meta: { title: '专家现场审查', menuPath:false, authCode:'S05010106', menuIcon: 'exception', hideInBread:false, openMode: 'spa'}
+      },
+      {
         path: '/scsd/post/scsdPost/view/:id',
-        name: '/scsd/post/scsdPost/view',
+        name: '/scsd/post/scsdPost/view/:id',
         meta: { title: '查看申报信息', menuPath: false, authCode: 'S05010106', hideInBread: false, openMode: 'spa' },
       },
       {
@@ -1010,6 +1024,138 @@ const appRoutes = [{
           meta: { title: '渔业执业兽医', menuPath: true, authCode: 'S060204', hideInBread: true, menuIcon: 'appstore', openMode: 'spa'  },
         },]
     },
+    {
+      path: '/dyzh',
+      name: 'dyzh',
+      component: contentWrapper,
+      meta: { title: '稻鱼综合种养 ', menuPath: true, authCode: 'S1301', menuIcon: 'barcode', hideInBread: true },
+      children: [
+        {
+          path: '/dyzh/ecologicalFishery/BasicInfor',
+          name: '/dyzh/ecologicalFishery/BasicInfor',
+          meta: { title: '基础信息', menuPath: true, menuIcon: 'appstore',authCode: 'S130101',hideInBread: false,openMode: 'spa' }
+        },
+        {
+          path: '/dyzh/ecologicalFishery/RiceFishInfor',
+          name: '/dyzh/ecologicalFishery/RiceFishInfor',
+          meta: { title: '稻渔综合种养主体信息', menuPath: true, menuIcon: 'appstore',authCode: 'S130102',hideInBread: false,openMode: 'spa' }
+        },
+        {
+          path: '/dyzh/ecologicalFishery/PolicyInfor',
+          name: '/dyzh/ecologicalFishery/PolicyInfor',
+          meta: { title: '政策信息', menuPath: true, menuIcon: 'appstore',authCode: 'S130103',hideInBread: false,openMode: 'spa' }
+        },
+        {
+          path: '/dyzh/ecologicalFishery/Statistics',
+          name: '/dyzh/ecologicalFishery/Statistics',
+          meta: { title: '数据统计', menuPath: true, menuIcon: 'appstore',authCode: 'S130104',hideInBread: false,openMode: 'spa' }
+        }
+      ]
+    },
+    //海洋牧场
+    {
+      path: '/hymc',
+      name: 'hymc',
+      component: contentWrapper,
+      meta: { title: '国家级海洋牧场示范区管理', menuPath: true, authCode: 'S0401', menuIcon: 'barcode', hideInBread: true },
+      children: [{
+        path: '/hymc/system/McManage',name: '/hymc/system/McManage',
+        meta: {title: '海洋牧场管理',menuPath: true,authCode: 'S040102',menuIcon: 'appstore',hideInBread: false,openMode: 'spa'}
+      },
+      {
+        path: '/hymc/system/YjManage',name: '/hymc/system/YjManage',
+        meta: {title: '人工鱼礁管理',menuPath: true,authCode: 'S040103',menuIcon: 'appstore',hideInBread: false,openMode: 'spa'}
+      },
+      {
+        path: '/hymc/user/ManageUnit',name: '/hymc/user/ManageUnit',
+        meta: {title: '管护单位信息',menuPath: true,authCode: 'S040125',menuIcon: 'appstore',hideInBread: false,openMode: 'spa'}
+      },
+      {
+        path: '/hymc/evaluateHy/ExpertPf',name: '/hymc/evaluateHy/ExpertPf',
+        meta: {title: '海洋牧场专家评分',menuPath: true,authCode: 'S040104',menuIcon: 'appstore',hideInBread: false,openMode: 'spa'}
+      },
+      {
+        path: '/hymc/evaluateHy/ProjectDemo',name: '/hymc/evaluateHy/ProjectDemo',
+        meta: {title: '海洋牧场项目模板',menuPath: true,authCode: 'S040105',menuIcon: 'appstore',hideInBread: false,openMode: 'spa'}
+      },
+      {
+        path: '/hymc/evaluateHy/ProjectApproval', name: '/hymc/evaluateHy/ProjectApproval',
+        meta: {title: '海洋牧场项目审批管理',menuPath: true,authCode: 'S040106',menuIcon: 'appstore',hideInBread: false,openMode: 'spa'}
+      },
+      {
+        path: '/hymc/evaluateHy/ProjectApproval/CqExpert', name: '/hymc/evaluateHy/ProjectApproval/CqExpert',
+        meta: {title: '海洋牧场组织专家',menuPath: true,authCode: 'S040101',menuIcon: 'appstore',hideInBread: false,openMode: 'spa'}
+      },
+      {
+        path: '/hymc/evaluateHy/YearPs',name: '/hymc/evaluateHy/YearPs',
+        meta: {title: '海洋牧场提交年度评审',menuPath: true,authCode: 'S040107',menuIcon: 'appstore',hideInBread: false,openMode: 'spa'}
+      },
+      {
+        path: '/hymc/ReviewManageHy/ReProjectApproval', name: '/hymc/ReviewManageHy/ReProjectApproval',
+        meta: {title: '海洋牧场复查管理',menuPath: true,authCode: 'S040119',menuIcon: 'appstore',hideInBread: false,openMode: 'spa'}
+      },
+      {
+        path: '/hymc/ReviewManageHy/ReviewExpertPf',name: '/hymc/ReviewManageHy/ReviewExpertPf',
+        meta: {title: '海洋牧场复查专家评分',menuPath: true,authCode: 'S040120',menuIcon: 'appstore',hideInBread: false,openMode: 'spa'}
+      },
+      {
+        path: '/hymc/evaluateYj/YjExpertPf',name: '/hymc/evaluateYj/YjExpertPf',
+        meta: {title: '人工鱼礁专家评分',menuPath: true,authCode: 'S040110',menuIcon: 'appstore',hideInBread: false,openMode: 'spa'}
+      },
+      {
+        path: '/hymc/evaluateYj/ProjectDemo',name: '/hymc/evaluateYj/ProjectDemo',
+        meta: {title: '人工鱼礁项目模板',menuPath: true,authCode: 'S040111',menuIcon: 'appstore',hideInBread: false,openMode: 'spa'}
+      },
+      {
+        path: '/hymc/evaluateYj/ProjectApproval',name: '/hymc/evaluateYj/ProjectApproval',
+        meta: {title: '人工鱼礁项目审批管理',menuPath: true,authCode: 'S040112',menuIcon: 'appstore',hideInBread: false,openMode: 'spa'}
+      },
+      {
+        path: '/hymc/evaluateYj/ProjectApproval/YjCqExpert',
+        name: '/hymc/evaluateYj/ProjectApproval/YjCqExpert',
+        meta: {title: '人工鱼礁组织专家',menuPath: true,authCode: 'S040118',menuIcon: 'appstore',hideInBread: false,openMode: 'spa'}
+      },
+      {
+        path: '/hymc/evaluateYj/YearPs',name: '/hymc/evaluateYj/YearPs',
+        meta: {title: '人工鱼礁提交年度评审',menuPath: true,authCode: 'S040113',menuIcon: 'appstore',hideInBread: false,openMode: 'spa'}
+      },
+      {
+        path: '/hymc/evaluateYj/ProjectAccept',name: '/hymc/evaluateYj/ProjectAccept',
+        meta: {title: '人工鱼礁提请验收',menuPath: true,authCode: 'S040121',menuIcon: 'appstore',hideInBread: false,openMode: 'spa'}
+      },
+      {
+        path: '/hymc/evaluateYj/AcceptExpert',name: '/hymc/evaluateYj/AcceptExpert',
+        meta: {title: '人工鱼礁验收组织专家',menuPath: true,authCode: 'S040122',menuIcon: 'appstore',hideInBread: false,openMode: 'spa'}
+      },
+      {
+        path: '/hymc/evaluateYj/AcceptExpertYs',name: '/hymc/evaluateYj/AcceptExpertYs',
+        meta: {title: '人工鱼礁项目专家验收',menuPath: true,authCode: 'S040124',menuIcon: 'appstore',hideInBread: false,openMode: 'spa'}
+      },
+      {
+        path: '/hymc/evaluateYj/ProjectCheck',name: '/hymc/evaluateYj/ProjectCheck',
+        meta: {title: '人工鱼礁验收管理',menuPath: true,authCode: 'S040123',menuIcon: 'appstore',hideInBread: false,openMode: 'spa'}
+      },
+      {
+        path: '/hymc/video',name: '/hymc/video',
+        meta: {title: '视频和监控',menuPath: true,authCode: 'S040117',menuIcon: 'appstore',hideInBread: false,openMode: 'spa'}
+      },
+      {
+        path: '/hymc/means',name: '/hymc/means',
+        meta: {title: '资料下载',menuPath: true,authCode: 'S040116',menuIcon: 'appstore',hideInBread: false,openMode: 'spa'}
+      },
+      {
+        path:'/hymc/ReviewManageHy/ProjectApprovalUser',
+        name:'/hymc/ReviewManageHy/ProjectApprovalUser',
+        meta: {title: '资源效果评价',menuPath: true,authCode: 'S040127',menuIcon: 'appstore',},
+      },
+      {
+        path: '/hymc/evaluateHy/ReviewExpert',name: '/hymc/evaluateHy/ReviewExpert',
+        meta: {title: '复查组织专家',menuPath: true,authCode: 'S040126',menuIcon: 'appstore',}
+      },
+      ]
+    },
+
+
     //智慧报表管理
     {
       path: '/bbgl',
@@ -1057,12 +1203,6 @@ const appRoutes = [{
       name: 'XXYY',
       component: TipsOutsite,
       meta: { title: '休闲渔业品牌管理系统', menuPath: true, menuIcon: 'experiment', authCode: 'XXYY', hideInBread: false, openMode: 'outsite' }
-    },
-    {
-      path: '/HYMC/:sysname',
-      name: 'HYMC',
-      component: TipsOutsite,
-      meta: { title: '海洋牧场', menuPath: true, menuIcon: 'experiment', authCode: 'HYMC', hideInBread: false, openMode: 'outsite' }
     },
     {
       path: '/TGTX/:sysname',

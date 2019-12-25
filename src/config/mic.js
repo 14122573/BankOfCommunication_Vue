@@ -122,6 +122,18 @@ case 'sit': // sit环境下
     micId: 'mic:fljps',
     pathPrefix: '/fljps'
   },
+  {
+    baseUrl: 'http://iftp.omniview.pro/dyzh', // 稻鱼综合种养
+    resourceName: 'dyzh',
+    micId: 'mic:dyzh',
+    pathPrefix: '/dyzh'
+  },
+  {
+    baseUrl: 'http://iftp.omniview.pro/hymc', // 海洋牧场
+    resourceName: 'hymc',
+    micId: 'mic:hymc',
+    pathPrefix: '/hymc'
+  },
   ]
   break
 case 'uat': // uat环境下
@@ -142,6 +154,11 @@ case 'production': // 生产环境下
   break
 default: // 默认环境下（开发环境）
   MicConfig = [{
+    baseUrl: 'http://scsd.tao.com',
+    resourceName: 'scsd',
+    micId: 'mic:scsd',
+    pathPrefix: '/scsd'
+  },{
     baseUrl: 'http://scylzc.tao.com', // 原良种验收
     resourceName: 'scylzc',
     micId: 'mic:scylzc',

@@ -62,6 +62,7 @@
             <p v-else-if="item.education==5">最高学历:&nbsp;硕士研究生</p>
             <p v-else-if="item.education==6">最高学历:&nbsp;博士研究生</p>
             <p v-else-if="item.education==7">最高学历:&nbsp;博士后</p>
+            <p v-else >最高学历:</p>
             <p>毕业院校:&nbsp;{{item.graduationSchool}}</p>
             <p>所学专业:&nbsp;{{item.speciality}}</p>
             <p>学校类别:&nbsp;{{item.schoolType}}</p>
@@ -305,6 +306,8 @@ export default {
         url: this.$api.GET_VETERINARYALL,
         params: searchParams
       }).then(res => {
+        console.log(res)
+
         if (res.code === '200') {
           this.formList = this.$com.confirm(res, 'data.content', [])
           // console.log(this.formList)
@@ -396,13 +399,15 @@ export default {
     position: relative;
     background-color: #fff;
     margin:16px;
-    overflow-x:hidden;
+    /* overflow-x:hidden; */
+    height:auto;
   }
   .portalDetailContentWapper{
     padding: 20px;
   }
   .portalDetailContentBody{
     overflow: hidden;
+    height:auto;
   }
   /* .veterinaryForm{
     margin-top: 50px;
@@ -412,12 +417,12 @@ export default {
 	/* .page-row {
 		margin-top: 20px;
   } */
-  /* .formListShow p{
+  .formListShow p{
     width:100%;
     overflow:hidden;
     text-overflow:ellipsis;
     white-space: nowrap;
-  } */
+  }
   .NoformListShow {
     position: relative;
   }
@@ -436,5 +441,8 @@ export default {
   .algin-right {
     margin-right: 10px;
     margin-top: 4px;
+  }
+  .formListShow{
+    /* height: auto; */
   }
 </style>

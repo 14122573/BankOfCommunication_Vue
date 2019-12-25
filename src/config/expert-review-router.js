@@ -12,18 +12,18 @@ let expertReviewRouter = {
     {
       type:'review',
       reviewTypeCode:'SCSDWritten',
-      routerName:'/scsd/post/scsdPost/view',
-      authCode: 'S050104',
+      routerName:'/scsd/post/scsdExamCheck/view/:id',
+      authCode: 'S05010106',
     },
     {
       type:'review',
       reviewTypeCode:'SCSDScene',
-      routerName:'/scsd/post/scsdPost/view',
-      authCode: 'S050105',
+      routerName:'/scsd/post/scsdLocalCheck/view/:id',
+      authCode: 'S05010106',
     },
     {
       type:'detail',
-      routerName:'/scsd/post/scsdPost/view',
+      routerName:'/scsd/post/scsdPost/view/:id',
       authCode: 'S05010106',
     },
   ],
