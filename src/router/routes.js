@@ -1096,8 +1096,6 @@ const appRoutes = [{
           name: '/hymc/evaluateYj/ProjectAccept/ProjectAcceptSee',
           meta: {title: '查看验收',menuPath: false, authCode: 'S04012805', menuIcon: 'appstore',hideInBread: false,openMode: 'spa' }
         },
-
-
         {
           path: '/hymc/system/McManage',name: '/hymc/system/McManage',
           meta: {title: '海洋牧场管理',menuPath: true,authCode: 'S040102',menuIcon: 'appstore',hideInBread: false,openMode: 'spa'}
@@ -1186,11 +1184,11 @@ const appRoutes = [{
         {
           path:'/hymc/ReviewManageHy/ProjectApprovalUser',
           name:'/hymc/ReviewManageHy/ProjectApprovalUser',
-          meta: {title: '资源效果评价',menuPath: true,authCode: 'S040127',menuIcon: 'appstore',},
+          meta: {title: '资源效果评价',menuPath: true,authCode: 'S040127',menuIcon: 'appstore',hideInBread: false,openMode: 'spa'},
         },
         {
           path: '/hymc/evaluateHy/ReviewExpert',name: '/hymc/evaluateHy/ReviewExpert',
-          meta: {title: '复查组织专家',menuPath: true,authCode: 'S040126',menuIcon: 'appstore',}
+          meta: {title: '复查组织专家',menuPath: true,authCode: 'S040126',menuIcon: 'appstore',hideInBread: false,openMode: 'spa'}
         },
       ]
     },
