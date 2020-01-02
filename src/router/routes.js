@@ -1024,11 +1024,12 @@ const appRoutes = [{
           meta: { title: '渔业执业兽医', menuPath: true, authCode: 'S060204', hideInBread: true, menuIcon: 'appstore', openMode: 'spa'  },
         },]
     },
+    //稻鱼综合种养
     {
       path: '/dyzh',
       name: 'dyzh',
       component: contentWrapper,
-      meta: { title: '稻鱼综合种养 ', menuPath: true, authCode: 'S1301', menuIcon: 'barcode', hideInBread: true },
+      meta: { title: '稻鱼综合种养', menuPath: true, authCode: 'S1301', menuIcon: 'barcode', hideInBread: true },
       children: [
         {
           path: '/dyzh/ecologicalFishery/BasicInfor',
@@ -1038,7 +1039,7 @@ const appRoutes = [{
         {
           path: '/dyzh/ecologicalFishery/RiceFishInfor',
           name: '/dyzh/ecologicalFishery/RiceFishInfor',
-          meta: { title: '稻渔综合种养主体信息', menuPath: true, menuIcon: 'appstore',authCode: 'S130102',hideInBread: false,openMode: 'spa' }
+          meta: { title: '种养主体信息', menuPath: true, menuIcon: 'appstore',authCode: 'S130102',hideInBread: false,openMode: 'spa' }
         },
         {
           path: '/dyzh/ecologicalFishery/PolicyInfor',
@@ -1048,7 +1049,26 @@ const appRoutes = [{
         {
           path: '/dyzh/ecologicalFishery/Statistics',
           name: '/dyzh/ecologicalFishery/Statistics',
-          meta: { title: '数据统计', menuPath: true, menuIcon: 'appstore',authCode: 'S130104',hideInBread: false,openMode: 'spa' }
+          meta: { title: '统计分析', menuPath: true, menuIcon: 'appstore',authCode: 'S130104',hideInBread: false,openMode: 'spa' }
+        }
+      ]
+    },
+    //稻鱼综合种养
+    {
+      path: '/styy',
+      name: 'styy',
+      component: contentWrapper,
+      meta: { title: '大水面生态渔业 ', menuPath: true, authCode: 'S1401', menuIcon: 'barcode', hideInBread: true },
+      children: [
+        {
+          path: '/styy/bigWaterSurface/WaterInfor',
+          name: '/styy/bigWaterSurface/WaterInfor',
+          meta: { title: '大水面生态渔业主体信息', menuPath: true, menuIcon: 'appstore',authCode: 'S140101',hideInBread: false,openMode: 'spa' }
+        },
+        {
+          path: '/styy/bigWaterSurface/PolicyInfor',
+          name: '/styy/bigWaterSurface/PolicyInfor',
+          meta: { title: '种养主体信息', menuPath: true, menuIcon: 'appstore',authCode: 'S140102',hideInBread: false,openMode: 'spa' }
         }
       ]
     },
