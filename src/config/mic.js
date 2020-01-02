@@ -134,6 +134,12 @@ case 'sit': // sit环境下
     micId: 'mic:hymc',
     pathPrefix: '/hymc'
   },
+  {
+    baseUrl: 'http://iftp.omniview.pro/styy', // 大水面生态渔业
+    resourceName: 'styy',
+    micId: 'mic:styy',
+    pathPrefix: '/styy'
+  },
   ]
   break
 case 'uat': // uat环境下
