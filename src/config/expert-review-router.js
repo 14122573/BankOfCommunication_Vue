@@ -92,6 +92,56 @@ let expertReviewRouter = {
       authCode: 'S10020802',
     },
   ],
+  'SO301':[ //休闲渔业
+    {
+      type:'review',
+      reviewTypeCode:'ZMYCWritten',
+      routerName:'/xxyy/beautifulFish/projectListSbPf',
+      authCode: 'S03010402',
+    },
+    {
+      type:'detail',
+      reviewTypeCode:'ZMYCWritten',
+      routerName:'/xxyy/beautifulFish/projectListSbPfCheck/:id',
+      authCode: 'S03010403',
+    },
+    {
+      type:'review',
+      reviewTypeCode:'SFJDWritten',
+      routerName:'/xxyy/demonstrationBase/baseProjectListSbPf',
+      authCode: 'S03010402',
+    },
+    {
+      type:'detail',
+      reviewTypeCode:'SFJDWritten',
+      routerName:'/xxyy/demonstrationBase/baseProjectListSbPfCheck',
+      authCode: 'S03010403',
+    },
+    {
+      type:'review',
+      reviewTypeCode:'YXWHJWritten',
+      routerName:'/xxyy/culturalFestivals/festProjectListSbPf',
+      authCode: 'S03010402',
+    },
+    {
+      type:'detail',
+      reviewTypeCode:'YXWHJWritten',
+      routerName:'/xxyy/culturalFestivals/festProjectListSbPfCheck/:id',
+      authCode: 'S03010403',
+    },
+    {
+      type:'review',
+      reviewTypeCode:'JCSSWritten',
+      routerName:'/xxyy/excitingEvents/eventProjectListSbPf',
+      authCode: 'S03010402',
+    },
+    {
+      type:'detail',
+      reviewTypeCode:'JCSSWritten',
+      routerName:'/xxyy/excitingEvents/eventProjectListSbPfCheck',
+      authCode: 'S03010403',
+    },
+  ],
   'S0401':[ //海洋牧场
     {
       type:'review',

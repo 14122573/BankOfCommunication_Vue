@@ -135,6 +135,12 @@ case 'sit': // sit环境下
     pathPrefix: '/hymc'
   },
   {
+    baseUrl: 'http://iftp.omniview.pro/xxyy', // 休闲渔业
+    resourceName: 'xxyy',
+    micId: 'mic:xxyy',
+    pathPrefix: '/xxyy'
+  },
+  {
     baseUrl: 'http://iftp.omniview.pro/styy', // 大水面生态渔业
     resourceName: 'styy',
     micId: 'mic:styy',

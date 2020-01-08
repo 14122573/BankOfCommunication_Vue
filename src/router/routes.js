@@ -1212,8 +1212,123 @@ const appRoutes = [{
         },
       ]
     },
-
-
+    //休闲渔业
+    {
+      path: '/xxyy',
+      name: 'xxyy',
+      component: contentWrapper,
+      meta: { title: '休闲渔业品牌管理', menuPath: true, authCode: 'S0301', menuIcon: 'barcode', hideInBread: true },
+      children: [
+        {
+          path: '/xxyy/system/ManageUnit', name: '/xxyy/system/ManageUnit',
+          meta: { title: '品牌申报单位管理', menuPath: true, menuIcon: 'appstore', authCode: 'S030119', hideInBread: false, openMode: 'spa' }
+        },
+        {
+          path: '/xxyy/beautifulFish/projectTemplate', name: '/xxyy/beautifulFish/projectTemplate',
+          meta: { title: '项目模板管理', menuPath: true, menuIcon: 'appstore', authCode: 'S030101', hideInBread: false, openMode: 'spa' }
+        },
+        {
+          path: '/xxyy/beautifulFish/projectList', name: '/xxyy/beautifulFish/projectList',
+          meta: { title: '中国最美渔村项目审批管理', menuPath: true, menuIcon: 'appstore', authCode: 'S030102', hideInBread: false, openMode: 'spa' }
+        },
+        {
+          path: '/xxyy/beautifulFish/expertExtraction', name: '/xxyy/beautifulFish/expertExtraction',
+          meta: { title: '中国最美渔村抽取专家', menuPath: true, menuIcon: 'appstore', authCode: 'S030118', hideInBread: false, openMode: 'spa' }
+        },
+        {
+          path: '/xxyy/beautifulFish/annualReview', name: '/xxyy/beautifulFish/annualReview',
+          meta: { title: '中国最美渔村提交年度评审', menuPath: true, menuIcon: 'appstore', authCode: 'S030103', hideInBread: false, openMode: 'spa' }
+        },
+        {
+          path: '/xxyy/beautifulFish/expertRating', name: '/xxyy/beautifulFish/expertRating',
+          meta: { title: '中国最美渔村专家评分', menuPath: true, menuIcon: 'appstore', authCode: 'S030104', hideInBread: false, openMode: 'spa' }
+        },
+        {
+          path: '/xxyy/demonstrationBase/baseProjectList', name: '/xxyy/demonstrationBase/baseProjectList',
+          meta: { title: '全国休闲渔业示范基地项目审批管理', menuPath: true, menuIcon: 'appstore', authCode: 'S030105', hideInBread: false, openMode: 'spa' }
+        },
+        {
+          path: '/xxyy/demonstrationBase/baseExpertExtraction', name: '/xxyy/demonstrationBase/baseExpertExtraction',
+          meta: { title: '全国休闲渔业示范基地抽取专家', menuPath: true, menuIcon: 'appstore', authCode: 'S030117', hideInBread: false, openMode: 'spa' }
+        },
+        {
+          path: '/xxyy/demonstrationBase/baseAnnualReview', name: '/xxyy/demonstrationBase/baseAnnualReview',
+          meta: { title: '全国休闲渔业示范基地提交年度评审', menuPath: true, menuIcon: 'appstore', authCode: 'S030106', hideInBread: false, openMode: 'spa' }
+        },
+        {
+          path: '/xxyy/demonstrationBase/expertRating', name: '/xxyy/demonstrationBase/expertRating',
+          meta: { title: '全国休闲渔业示范基地专家评分', menuPath: true, menuIcon: 'appstore', authCode: 'S030107', hideInBread: false, openMode: 'spa' }
+        },
+        {
+          path: '/xxyy/culturalFestivals/festProjectList', name: '/xxyy/culturalFestivals/festProjectList',
+          meta: { title: '中国渔业优秀文化节庆会展项目审批管理', menuPath: true, menuIcon: 'appstore', authCode: 'S030108', hideInBread: false, openMode: 'spa' }
+        },
+        {
+          path: '/xxyy/culturalFestivals/FestExpertExtraction', name: '/xxyy/culturalFestivals/FestExpertExtraction',
+          meta: { title: '中国渔业优秀文化节庆会展抽取专家', menuPath: true, menuIcon: 'appstore', authCode: 'S030116', hideInBread: false, openMode: 'spa' }
+        },
+        {
+          path: '/xxyy/culturalFestivals/festAnnualReview', name: '/xxyy/culturalFestivals/festAnnualReview',
+          meta: { title: '中国渔业优秀文化节庆（会展）提交年度评审', menuPath: true, menuIcon: 'appstore', authCode: 'S030109', hideInBread: false, openMode: 'spa' }
+        },
+        {
+          path: '/xxyy/culturalFestivals/expertRating', name: '/xxyy/culturalFestivals/expertRating',
+          meta: { title: '中国渔业优秀文化节庆（会展）专家评分', menuPath: true, menuIcon: 'appstore', authCode: 'S030110', hideInBread: false, openMode: 'spa' }
+        },
+        {
+          path: '/xxyy/excitingEvents/eventProjectList', name: '/xxyy/excitingEvents/eventProjectList',
+          meta: { title: '中国渔业精彩赛事项目审批管理', menuPath: true, menuIcon: 'appstore', authCode: 'S030111', hideInBread: false, openMode: 'spa' }
+        },
+        {
+          path: '/xxyy/excitingEvents/eventExpertExtraction', name: '/xxyy/excitingEvents/eventExpertExtraction',
+          meta: { title: '中国渔业精彩赛事抽取专家', menuPath: true, menuIcon: 'appstore', authCode: 'S030115', hideInBread: false, openMode: 'spa' }
+        },
+        {
+          path: '/xxyy/excitingEvents/eventAnnualReview', name: '/xxyy/excitingEvents/eventAnnualReview',
+          meta: { title: '中国渔业精彩赛事提交年度评审', menuPath: true, menuIcon: 'appstore', authCode: 'S030112', hideInBread: false, openMode: 'spa' }
+        },
+        {
+          path: '/xxyy/excitingEvents/expertRating', name: '/xxyy/excitingEvents/expertRating',
+          meta: { title: '中国渔业精彩赛事专家评分', menuPath: true, menuIcon: 'appstore', authCode: 'S030113', hideInBread: false, openMode: 'spa' }
+        },
+        {
+          path: '/xxyy/logo/logoInfo', name: '/xxyy/logo/logoInfo',
+          meta: { title: '标识使用申请', menuPath: true, menuIcon: 'appstore', authCode: 'S030114', hideInBread: false, openMode: 'spa' }
+        },
+        {
+          path: '/xxyy/beautifulFish/projectListSbPf/:id', name: '/xxyy/beautifulFish/projectListSbPf',
+          meta: { title: '中国最美渔村专家评分', authCode: 'S03010402', menuIcon: 'appstore', hideInBread: false, openMode: 'spa' }
+        },
+        {
+          path: '/xxyy/beautifulFish/projectListSbPfCheck/:id', name: '/xxyy/beautifulFish/projectListSbPfCheck/:id',
+          meta: { title: '中国最美渔村专家评分查看', authCode: 'S03010403', menuIcon: 'appstore', hideInBread: false, openMode: 'spa' }
+        },
+        {
+          path: '/xxyy/demonstrationBase/baseProjectListSbPf/:id', name: '/xxyy/demonstrationBase/baseProjectListSbPf',
+          meta: { title: '全国休闲渔业示范基地专家评分', authCode: 'S03010402', menuIcon: 'appstore', hideInBread: false, openMode: 'spa' }
+        },
+        {
+          path: '/xxyy/demonstrationBase/baseProjectListSbPfCheck/:id', name: '/xxyy/demonstrationBase/baseProjectListSbPfCheck',
+          meta: { title: '全国休闲渔业示范基地专家评分查看', authCode: 'S03010403', menuIcon: 'appstore', hideInBread: false, openMode: 'spa' }
+        },
+        {
+          path: '/xxyy/culturalFestivals/festProjectListSbPf/:id', name: '/xxyy/culturalFestivals/festProjectListSbPf',
+          meta: { title: '中国渔业优秀文化节庆会展专家评分', authCode: 'S03010402', menuIcon: 'appstore', hideInBread: false, openMode: 'spa' }
+        },
+        {
+          path: '/xxyy/culturalFestivals/festProjectListSbPfCheck/:id', name: '/xxyy/culturalFestivals/festProjectListSbPfCheck/:id',
+          meta: { title: '中国渔业优秀文化节专家评分查看', authCode: 'S03010403', menuIcon: 'appstore', hideInBread: false, openMode: 'spa' }
+        },
+        {
+          path: '/xxyy/excitingEvents/eventProjectListSbPf/:id', name: '/xxyy/excitingEvents/eventProjectListSbPf',
+          meta: { title: '中国渔业精彩赛事专家评分', authCode: 'S03010402', menuIcon: 'appstore', hideInBread: false, openMode: 'spa' }
+        },
+        {
+          path: '/xxyy/excitingEvents/eventProjectListSbPfCheck/:id', name: '/xxyy/excitingEvents/eventProjectListSbPfCheck',
+          meta: { title: '中国渔业精彩赛事专家评分查看', authCode: 'S03010403', menuIcon: 'appstore', hideInBread: false, openMode: 'spa' }
+        }
+      ]
+    },
     //智慧报表管理
     {
       path: '/bbgl',
@@ -1256,12 +1371,12 @@ const appRoutes = [{
       component: TipsOutsite,
       meta: { title: '“水产智能”健康养殖生产与大数据管理系统', menuPath: true, menuIcon: 'experiment', authCode: 'SCZN', hideInBread: false, openMode: 'outsite' }
     },
-    {
-      path: '/XXYY/:sysname',
-      name: 'XXYY',
-      component: TipsOutsite,
-      meta: { title: '休闲渔业品牌管理系统', menuPath: true, menuIcon: 'experiment', authCode: 'XXYY', hideInBread: false, openMode: 'outsite' }
-    },
+    // {
+    //   path: '/XXYY/:sysname',
+    //   name: 'XXYY',
+    //   component: TipsOutsite,
+    //   meta: { title: '休闲渔业品牌管理系统', menuPath: true, menuIcon: 'experiment', authCode: 'XXYY', hideInBread: false, openMode: 'outsite' }
+    // },
     {
       path: '/TGTX/:sysname',
       name: 'TGTX',

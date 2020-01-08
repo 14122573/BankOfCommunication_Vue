@@ -133,7 +133,7 @@ export default {
       let nextRouter = ''
       for(let i=0;i<micSysRouters.length;i++){
         let micSysRouter = micSysRouters[i]
-        if(sysCode =='S0401'){
+        if(this.$com.oneOf(sysCode,['S0401','SO301'])){
           if( micSysRouter.type=='detail' && reviewTypeCode == micSysRouter.reviewTypeCode){
             nextRouter = micSysRouter.routerName
           }
@@ -188,6 +188,14 @@ export default {
         })
         break
       case 'S0401': // 海洋牧场
+        this.$router.push({
+          name:nextRouter,
+          query:{
+            id:taskCode
+          }
+        })
+        break
+      case 'S0301': // 休闲渔业
         this.$router.push({
           name:nextRouter,
           query:{
