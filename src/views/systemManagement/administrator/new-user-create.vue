@@ -363,7 +363,7 @@ export default {
         areaCode: this.areaCode
       }
       if (!this.isAdminator) {
-        params.parentId = this.$store.state.userInfos.group.id
+        params.parentId = this.$store.state.userInfos.group?this.$store.state.userInfos.group.id:''
       }
       this.$ajax.get({
         url: this.$api.GET_ORGANIZATION_LIST,
