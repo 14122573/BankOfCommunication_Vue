@@ -547,14 +547,14 @@ const appRoutes = [{
           meta: { title: '函审管理', authCode: 'S020106',menuPath: true, hideInBread:false, menuIcon: 'appstore', openMode: 'spa' },
           children:[
             {
-              path: '/ttbz/organizationExpert/standardExpertDetail', name: '/ttbz/organizationExpert/standardExpertDetail',
-              meta: { title: '查看申报内容', menuPath: false, authCode: 'S02010601', hideInBread:false, menuIcon: 'appstore', openMode: 'spa' }
-            },
-            {
               path: '/ttbz/letterReviewmanager/letterReview/addLetterReview', name: '/ttbz/letterReviewmanager/letterReview/addLetterReview',
               meta: { title: '标准申报函审结论录入', menuPath: false, authCode: 'S02010602', hideInBread:false, menuIcon: 'appstore', openMode: 'spa' }
             },
           ]
+        },
+        {
+          path: '/ttbz/organizationExpert/standardExpertDetail', name: '/ttbz/organizationExpert/standardExpertDetail',
+          meta: { title: '查看申报内容', menuPath: false, authCode: 'S02010601', hideInBread:false, menuIcon: 'appstore', openMode: 'spa' }
         },
         {
           path: '/ttbz/meetingReview/review', name: '/ttbz/meetingReview/review',
