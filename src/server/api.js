@@ -21,6 +21,9 @@ default: // 默认环境下（开发环境）
 
 export default {
   BASE_URL,
+  // 全局远程配置文件
+  CONFIGS_EXPORTREVIEW_ROUTERS: BASE_URL.replace('/api','')+'/attr/exportReviewRouterConfigs.json', //portal专家库评审各子系统内容的菜单跳转配置文件
+  CONFIGS_MICSYSTEMS_ROUTERS: BASE_URL.replace('/api','')+'/attr/micRouters.json', // 接入portal的子项目路由
   // 用户信息
   GET_USER_INFO: '/service-user/user/login/user/info', // 获取用户信息
   POST_LOGIN: '/service-user/user/public/login', //登录
