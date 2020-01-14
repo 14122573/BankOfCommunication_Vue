@@ -4,8 +4,14 @@
       <template v-for="(item,index) in list">
         <a-breadcrumb-item :key="index">
           <template v-if="!item.hideBread">
-            <router-link v-if="item.showBreadPath" style="color:#1890ff" class="navlink" :to="item.path">{{item.title}}</router-link>
-            <span v-else>{{item.title}}</span>
+            <template v-if="item.openMode=='spa'">
+              <span v-if="item.showBreadPath" style="color:#1890ff" class="navlink" @click="navigateTo(item.path)">{{item.title}}</span>
+              <span v-else>{{item.title}}</span>
+            </template>
+            <template v-else>
+              <router-link v-if="item.showBreadPath" style="color:#1890ff" class="navlink" :to="item.path">{{item.title}}</router-link>
+              <span v-else>{{item.title}}</span>
+            </template>
           </template>
           <span v-else>{{item.title}}</span>
         </a-breadcrumb-item>
@@ -13,11 +19,13 @@
     </a-breadcrumb>
   </div>
 </template>
-<style>
+<style scoped>
+.navlink{ cursor: pointer;color:#1890ff}
 /* .portalNavBar.ant-breadcrumb .navlink { color: #1890ff} */
 </style>
 
 <script>
+import {navigateToUrl} from 'single-spa'
 // 不够严谨，临时制造，需要改进
 import {checkHideInBread} from '@/util/mixins'
 import {routes} from '@/router/routes'
@@ -42,6 +50,14 @@ export default {
     this.getRoutes()
   },
   methods: {
+    /**
+     * 调用single-spa方法加载子项目页面
+     * @param {String} path 子项目页面路由地址
+     */
+    navigateTo(path){
+      console.log(path)
+      navigateToUrl(path)
+    },
     /**
      * @param {Object} navItem 当前展示路由的完整父子级中的一个路由节点
      * @returns {Object} hideBread 是否隐藏在面包屑中，true为隐藏
@@ -87,7 +103,7 @@ export default {
           navList.push({ title: '首页', routerName:'home', path: '/home' })
           if(parentRoute){
             // console.log('navbar in ',to,parentRoute)
-            navList.push({ title: parentRoute.meta.title, routerName: parentRoute.name, path: parentRoute.path })
+            navList.push({ title: parentRoute.meta.title, routerName: parentRoute.name, path: parentRoute.path, openMode:!parentRoute.meta.openMode?'normal':parentRoute.meta.openMode})
           }
         }
         to.matched.forEach((element,index) => {
@@ -97,25 +113,28 @@ export default {
                 navList.push({
                   title: element.meta.title,
                   routerName:element.name,
-                  path: element.path
+                  path: element.path,
+                  openMode:!element.meta.openMode?'normal':element.meta.openMode
                 })
               }else{
                 navList.push({ title: '首页', routerName:'home', path: '/home' })
                 navList.push({
                   title: element.meta.title,
                   routerName:element.name,
-                  path: element.path
+                  path: element.path,
+                  openMode:!element.meta.openMode?'normal':element.meta.openMode
                 })
               }
             }else{
-              navList.push({ title: '首页', routerName:'home', path: '/home' })
+              navList.push({ title: '首页', routerName:'home', path: '/home', openMode:'normal' })
             }
           }else {
             if('/'!=element.path && ''!=element.path && '/home'!=element.path){
               navList.push({
                 title: element.meta.title,
                 routerName:element.name,
-                path: element.path
+                path: element.path,
+                openMode: !element.meta.openMode?'normal':element.meta.openMode
               })
             }
           }
@@ -128,6 +147,8 @@ export default {
       })
       this.list = navList
       this.$cookie.set('NavbarList', JSON.stringify(navList))
+
+      console.log(this.list)
     }
   },
 }
