@@ -1,6 +1,5 @@
 import { routes } from '@/router/routes.js'
 import common from '@/util/common'
-
 export const permission = {
   methods: {
     /**

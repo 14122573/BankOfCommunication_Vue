@@ -56,7 +56,7 @@ import NavBar from '@/components/Layout/navbar'
 import Loader from '@/components/Loader/loader'
 import zh_CN from 'ant-design-vue/lib/locale-provider/zh_CN'
 import { permission, } from '@/util/mixins'
-import '@/config/mic'
+import '@/config/micSystemRecourceConfig'
 import Login from '@/views/login/login'
 
 export default {
