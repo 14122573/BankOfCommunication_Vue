@@ -55,7 +55,6 @@ export default {
      * @param {String} path 子项目页面路由地址
      */
     navigateTo(path){
-      console.log(path)
       navigateToUrl(path)
     },
     /**
@@ -147,8 +146,6 @@ export default {
       })
       this.list = navList
       this.$cookie.set('NavbarList', JSON.stringify(navList))
-
-      console.log(this.list)
     }
   },
 }

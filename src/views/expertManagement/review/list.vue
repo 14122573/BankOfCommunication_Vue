@@ -59,7 +59,7 @@
 </template>
 <script>
 import {navigateToUrl} from 'single-spa'
-import { ExpertReviewRouters } from '@/config/expert-review-router'
+// import { ExpertReviewRouters } from '@/config/expert-review-router'
 import axios from 'axios'
 export default {
   data(){

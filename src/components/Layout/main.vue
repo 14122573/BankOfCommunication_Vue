@@ -56,9 +56,7 @@ import NavBar from '@/components/Layout/navbar'
 import Loader from '@/components/Loader/loader'
 import zh_CN from 'ant-design-vue/lib/locale-provider/zh_CN'
 import { permission, } from '@/util/mixins'
-import {
-  MicConfigs
-} from '@/config/mic'
+import '@/config/mic'
 import Login from '@/views/login/login'
 
 export default {
@@ -114,6 +112,8 @@ export default {
     },
     $route(to, from) {
       this.calcBackTopTarget() // 切换页面时获取返回顶部按钮的dom依据
+      let MicConfigs = this.$store.state.micSystemResourceConfig?this.$store.state.micSystemResourceConfig[process.env.NODE_ENV=='development'?'sit':process.env.NODE_ENV]:[]
+      // console.log('calcBackTopTarget',MicConfigs)
       if (MicConfigs.length > 0) {
         // 根据配置文件的子项目路由前缀自动识别state.showSpaContent应该是true还是false
         this.showSpaContent = MicConfigs.some(item => to.path.startsWith(item.pathPrefix))
