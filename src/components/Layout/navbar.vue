@@ -50,7 +50,12 @@ export default {
     this.getRoutes()
   },
   methods: {
+    /**
+     * 调用single-spa方法加载子项目页面
+     * @param {String} path 子项目页面路由地址
+     */
     navigateTo(path){
+      console.log(path)
       navigateToUrl(path)
     },
     /**
