@@ -1068,7 +1068,7 @@ const appRoutes = [{
         {
           path: '/styy/bigWaterSurface/PolicyInfor',
           name: '/styy/bigWaterSurface/PolicyInfor',
-          meta: { title: '种养主体信息', menuPath: true, menuIcon: 'appstore',authCode: 'S140102',hideInBread: false,openMode: 'spa' }
+          meta: { title: '政策信息', menuPath: true, menuIcon: 'appstore',authCode: 'S140102',hideInBread: false,openMode: 'spa' }
         }
       ]
     },
