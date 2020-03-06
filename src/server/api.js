@@ -48,6 +48,7 @@ export default {
   PUT_PERSONAL_RESET_PWD: 'service-user/user/pwd', // 个人中心重置密码
   PUT_USER_PHONE: '/service-user/user/phone/{phone}/{code}', // 登录用户修改手机号
   PUT_EDIT_USER: '/service-user/user/user', // 登录用户修改个人信息
+  POST_BIND_TEMPUSERINFO_BIND: '/service-user/user/public/temp/bind/info', // 临时账号，绑定手机及用户信息
 
   // 系统配置
   // 系统配置 -- 权限配置管理

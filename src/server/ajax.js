@@ -73,7 +73,7 @@ const reponseCodeHandler = (res) => {
 }
 
 const showErrPage= (api,routername,code)=>{
-  if(Common.oneOf(routername,['login','register','bindPhone'])){
+  if(Common.oneOf(routername,['login','register','bindPhone','bindTemporarayAccount'])){
     if(!Common.oneOf(api,['/service-release/release/public/news'])){
       router.push({
         name: 'outerNetworkerr'

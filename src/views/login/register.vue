@@ -242,7 +242,7 @@ export default {
             url: this.$api.POST_CHECK_PHONE_CODE.replace('{type}', 'register').replace('{phone}', phone).replace('{code}', code)
           }).then(res => {
             if (res.code != '200') {
-              callback(res.data.msg)
+              callback(res.msg)
             } else {
               callback()
             }
@@ -336,7 +336,7 @@ export default {
             if (res.code == '200') {
               this.showSuccess = true
             } else {
-              this.err.tips = res.data.msg
+              this.err.tips = res.msg
               this.err.showTips = true
             }
           })
