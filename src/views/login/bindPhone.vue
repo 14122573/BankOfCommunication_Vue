@@ -464,7 +464,7 @@ export default {
             params: params
           }).then(res => {
             if (res.code != '200') {
-              callback(res.data.msg)
+              callback(res.msg)
             } else {
               callback()
               this.disablePhone = true
@@ -499,7 +499,7 @@ export default {
                   this.tips = '请完善以下信息!'
                 }
               } else {
-                callback(res.data.msg)
+                callback(res.msg)
               }
             })
           }

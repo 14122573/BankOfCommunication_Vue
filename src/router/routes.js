@@ -11,6 +11,7 @@ const LoginPage = () => import ('@/views/login/login')
 const RegisterPage = () => import ('@/views/login/register')
 const OldSysLogout = () => import ('@/views/login/oldSysLogout')
 const BindPhone = () => import ('@/views/login/bindPhone')
+const BindTemporarayAccount = () => import ('@/views/login/bindTemporarayAccount')
 // 个人信息
 const PersonCenter = () => import ('@/views/personal/person-center')
 // const PersonExpert = () => import ('@/views/personal/expert')
@@ -465,6 +466,10 @@ let appRoutes = [{
 },
 {
   path: '/bindPhone', name: 'bindPhone', component: BindPhone,
+  meta: { title: '选择系统绑定手机号', },
+},
+{
+  path: '/bindTemporarayAccount', name: 'bindTemporarayAccount', component: BindTemporarayAccount,
   meta: { title: '选择系统绑定手机号', },
 },
 {
