@@ -160,7 +160,7 @@ export default {
           //检查生效起始时间设置，并存储或提示
           if(this.formData.openEffectStart){
             if(!this.noticeCreateForm.getFieldValue('startTime')){
-              this.$com.getFormValidErrTips(vm,err,'请填写生效起始时间！')
+              this.$com.getFormValidErrTips(this,err,'请填写生效起始时间！')
               return
             }else{
               this.formData.startTime = this.$moment(this.noticeCreateForm.getFieldValue('startTime')).format(this.timeFormat)
@@ -171,7 +171,7 @@ export default {
           //检查生效截止时间设置，并存储或提示
           if(this.formData.openEffectEnd){
             if(!this.noticeCreateForm.getFieldValue('endTime')){
-              this.$com.getFormValidErrTips(vm,err,'请填写生效截止时间！')
+              this.$com.getFormValidErrTips(this,err,'请填写生效截止时间！')
               return
             }else{
               this.formData.endTime = this.$moment(this.noticeCreateForm.getFieldValue('endTime')).format(this.timeFormat)
@@ -181,7 +181,7 @@ export default {
           }
           //检查生效截止时间设置，并存储或提示
           if(this.formData.content.length<1){
-            this.$com.getFormValidErrTips(vm,err,'请填写通知公告正文内容！')
+            this.$com.getFormValidErrTips(this,err,'请填写通知公告正文内容！')
             return
           }
           const attachments = this.uploadFileList.map(item => {
@@ -212,7 +212,7 @@ export default {
             }
           })
         }else{
-          this.$com.getFormValidErrTips(vm,err)
+          this.$com.getFormValidErrTips(this,err)
         }
       })
     }
