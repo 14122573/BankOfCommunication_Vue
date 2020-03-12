@@ -182,7 +182,7 @@ let appRoutes = [{
           path: '/systemManagement/organization',
           name: '/systemManagement/organization',
           component: Organization,
-          meta: { title: '组织机构管理', menuPath: true, authCode: 'super', menuIcon: 'cluster', hideInBread: false, openMode: 'normal' },
+          meta: { title: '组织机构管理', menuPath: true, authCode: 'P01000', menuIcon: 'cluster', hideInBread: false, openMode: 'normal' },
           children: [{
             path: '/systemManagement/organization/create',
             name: '/systemManagement/organization/create',
@@ -208,7 +208,7 @@ let appRoutes = [{
           path: '/systemManagement/role',
           name: '/systemManagement/role',
           component: RoleManagement,
-          meta: { title: '角色管理', menuPath: true, authCode: 'super', menuIcon: 'cluster', hideInBread: false, openMode: 'normal' },
+          meta: { title: '角色管理', menuPath: true, authCode: 'P02000', menuIcon: 'cluster', hideInBread: false, openMode: 'normal' },
           children: [{
             path: '/systemManagement/role/create',
             name: '/systemManagement/role/create',
