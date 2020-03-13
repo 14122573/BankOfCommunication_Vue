@@ -118,8 +118,6 @@ export default {
       this.$emit('on-success',false)
     },
     handleCreate(){
-      console.log('area',this.tempAccountCreateForm.getFieldValue('area'))
-      console.log('group',this.tempAccountCreateForm.getFieldValue('group'))
       this.tempAccountCreateForm.validateFields(err => {
         if (!err) {
           let createParams = Object.assign({},this.createDatas,{
