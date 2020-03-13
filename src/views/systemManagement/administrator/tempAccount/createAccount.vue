@@ -118,11 +118,13 @@ export default {
       this.$emit('on-success',false)
     },
     handleCreate(){
+      console.log('area',this.tempAccountCreateForm.getFieldValue('area'))
+      console.log('group',this.tempAccountCreateForm.getFieldValue('group'))
       this.tempAccountCreateForm.validateFields(err => {
         if (!err) {
           let createParams = Object.assign({},this.createDatas,{
             'area':{
-              id:this.tempAccountCreateForm.getFieldValue('area')
+              id:this.isAdminator?this.tempAccountCreateForm.getFieldValue('area'):this.tempAccountCreateForm.getFieldValue('area').key
             },
             'group':{
               id:this.tempAccountCreateForm.getFieldValue('group')
@@ -156,6 +158,7 @@ export default {
         datas.forEach((ele, index) => {
           this.administrativeRegions.push(this.getTreeNode(ele, index))
         })
+        console.log('getArea',this.administrativeRegions)
       })
     },
     getTreeNode(item, index) {
