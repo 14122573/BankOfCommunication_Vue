@@ -9,11 +9,11 @@
 				</a-col>
 				<a-col span="6" v-if="!simpleSearchForm">
 					<a-form-item label="行政区域" :label-col="formItemLabelCol" :wrapper-col="formItemWrapperCol">
-						<a-select v-model="searchForm['a.id']" v-if="isAdminator !== true" placeholder="请选择" @change="onChangeTree"
+						<!-- <a-select v-model="searchForm['a.id']" v-if="isAdminator !== true" placeholder="请选择" @change="onChangeTree"
 						 showSearch allowClear>
 							<a-select-option v-for="(item,index) in treeData" :key="index" :value="item.id">{{item.title}}</a-select-option>
-						</a-select>
-						<a-tree-select v-else :treeData="treeData" :loadData="onLoadData" :defaultValue="defaultValue" show-line v-model="searchForm['a.id']"
+						</a-select> -->
+						<a-tree-select  :treeData="treeData" :loadData="onLoadData" :defaultValue="defaultValue" show-line v-model="searchForm['a.id']"
 						 :dropdownStyle="{ maxHeight: '200px', overflow: 'auto' }" placeholder='请选择' allowClear @change="onChangeTree">
 						</a-tree-select>
 					</a-form-item>
