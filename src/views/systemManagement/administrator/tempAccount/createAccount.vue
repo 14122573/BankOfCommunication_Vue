@@ -17,11 +17,11 @@
 				</a-col>
         <a-col span="20">
           <a-form-item label="所属区域" :label-col="{span:8}" :wrapper-col="{span:16}">
-            <a-select v-if="isAdminator !== true" placeholder="请选择" labelInValue @change="onChangeTree" showSearch
+            <!-- <a-select v-if="isAdminator !== true" placeholder="请选择" labelInValue @change="onChangeTree" showSearch
               v-decorator="['area',searchFormRules.area]">
               <a-select-option v-for="(item,index) in administrativeRegions" :key="index" :value="item.id">{{item.title}}</a-select-option>
-            </a-select>
-            <a-tree-select v-else :treeData="administrativeRegions" v-decorator="['area',searchFormRules.area]" :loadData="onLoadData"
+            </a-select> -->
+            <a-tree-select :treeData="administrativeRegions" v-decorator="['area',searchFormRules.area]" :loadData="onLoadData"
               :dropdownStyle="{ maxHeight: '200px', overflow: 'auto' }" placeholder='请选择' allowClear @change="onChangeTree">
             </a-tree-select>
           </a-form-item>
@@ -118,13 +118,12 @@ export default {
       this.$emit('on-success',false)
     },
     handleCreate(){
-      console.log('area',this.tempAccountCreateForm.getFieldValue('area'))
-      console.log('group',this.tempAccountCreateForm.getFieldValue('group'))
       this.tempAccountCreateForm.validateFields(err => {
         if (!err) {
           let createParams = Object.assign({},this.createDatas,{
             'area':{
-              id:this.isAdminator?this.tempAccountCreateForm.getFieldValue('area'):this.tempAccountCreateForm.getFieldValue('area').key
+              // id:this.isAdminator?this.tempAccountCreateForm.getFieldValue('area'):this.tempAccountCreateForm.getFieldValue('area').key
+              id:this.tempAccountCreateForm.getFieldValue('area')
             },
             'group':{
               id:this.tempAccountCreateForm.getFieldValue('group')
