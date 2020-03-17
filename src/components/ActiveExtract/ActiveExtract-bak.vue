@@ -6,15 +6,12 @@
       <a-icon @click="deleteFilter" type="minus-square" />
     </a-col>
     <a-col :span="4">
-      <a-select @change="handleTypeChange($event, basic)" v-model="basic.type">
+      <a-select v-model="basic.type">
         <a-select-option v-for="option in typeOptions" :key="option.name" :value="option.value">{{option.name}}</a-select-option>
       </a-select>
     </a-col>
     <a-col :span="7">
-      <a-select v-show="needSelect(basic)" v-model="basic.andValue">
-        <a-select-option v-for="option in needSelect(basic)" :key="option.id" :value="option.id">{{option.name}}</a-select-option>
-      </a-select>
-      <a-input v-show="!needSelect(basic)" v-model="basic.andValue"/>
+      <a-input v-model="basic.andValue"></a-input>
     </a-col>
     <a-col :span="2">
       <a-select v-model="basic.contain">
@@ -22,10 +19,7 @@
       </a-select>
     </a-col>
     <a-col :span="7">
-      <a-select v-show="needSelect(basic)" v-model="basic.containValue">
-        <a-select-option v-for="option in needSelect(basic)" :key="option.id" :value="option.id">{{option.name}}</a-select-option>
-      </a-select>
-      <a-input v-show="!needSelect(basic)" v-model="basic.containValue"/>
+      <a-input v-model="basic.containValue"></a-input>
     </a-col>
     <a-col :span="2">
       <a-select v-model="basic.equals">
@@ -41,15 +35,12 @@
         </a-select>
       </a-col>
       <a-col :span="4">
-        <a-select @change="handleTypeChange($event, filter)" v-model="filter.type">
+        <a-select v-model="filter.type">
           <a-select-option v-for="option in typeOptions" :key="option.name" :value="option.value">{{option.name}}</a-select-option>
         </a-select>
       </a-col>
       <a-col :span="7">
-        <a-select v-show="needSelect(filter)" v-model="filter.andValue">
-          <a-select-option v-for="option in needSelect(filter)" :key="option.id" :value="option.id">{{option.name}}</a-select-option>
-        </a-select>
-        <a-input v-show="!needSelect(filter)" v-model="filter.andValue"/>
+        <a-input v-model="filter.andValue"></a-input>
       </a-col>
       <a-col :span="2">
         <a-select v-model="filter.contain">
@@ -57,10 +48,7 @@
         </a-select>
       </a-col>
       <a-col :span="7">
-        <a-select v-show="needSelect(filter)" v-model="filter.containValue">
-          <a-select-option v-for="option in needSelect(filter)" :key="option.id" :value="option.id">{{option.name}}</a-select-option>
-        </a-select>
-        <a-input v-show="!needSelect(filter)" v-model="filter.containValue"/>
+        <a-input v-model="filter.containValue"></a-input>
       </a-col>
       <a-col :span="2">
         <a-select v-model="filter.equals">
@@ -85,9 +73,9 @@
   <a-tabs v-model="curTab" @change="handleTabChange">
     <a-tab-pane tab="筛选结果" key="1"/>
     <a-tab-pane :tab="tabText" key="2"/>
-    <a-row slot="tabBarExtraContent" v-show="!isView">
+    <a-row slot="tabBarExtraContent">
       <a-button @click="handleSelect">{{selectBtn}}</a-button>
-      <a-button @click="handleConfirm" type="primary" v-if="isConfirm">{{saveBtn}}</a-button>
+      <a-button @click="handleConfirm" type="primary">{{saveBtn}}</a-button>
     </a-row>
   </a-tabs>
   <a-table
@@ -102,7 +90,7 @@
   <a-table
   v-show="curTab == '2'"
   size="small"
-  :columns="isView?columns.slice(0, columns.length - 1):columns"
+  :columns="columns"
   :dataSource="data2"
   :pagination="pagination2"
   rowKey="id"
@@ -122,18 +110,16 @@ export default {
   name: 'ActiveExtract',
   data() {
     return {
-      isConfirm:false,
-      isView:false,
       curTab: '1',
       typeOptions: [
         {name: '姓名', value: '1'},
         {name: '工作单位', value: '2'},
-        {name: '单位性质', value: '3', requestType: '1', options: []},
-        {name: '行政职务', value: '4', requestType: '2', options: []},
-        {name: '职称', value: '5', requestType: '3', options: []},
+        {name: '单位性质', value: '3'},
+        {name: '行政职务', value: '4'},
+        {name: '职称', value: '5'},
         {name: '所学专业', value: '6'},
-        {name: '最高学历', value: '7', requestType: '4', options: []},
-        {name: '研究方向', value: '8', requestType: '8', options: []},
+        {name: '最高学历', value: '7'},
+        {name: '研究方向', value: '8'},
         {name: '主题词', value: '9'},
       ],
       andOptions: [
@@ -211,52 +197,24 @@ export default {
       selectedRowKeys: [],
       selectedRows: [],
       selectedList: [],
-      url: 'http://iftp.omniview.pro/api/service-expert/expert/dictionary/',
     }
   },
   mounted() {
-    // this.handleCheck()
-    this.getOptions()
     this.handleReset()
   },
   methods: {
-    // 获取选择框下拉选项
-    getOptions() {
-      this.typeOptions.forEach(item => {
-        if (!item.requestType) return
-        this.$ajax.get({
-          url: this.url + item.requestType,
-        }).then(res => {
-          item.options = (res.data && res.data.content) || []
-        })
-      })
-    },
-    // 主键值改变则清除行里的两个值
-    handleTypeChange(val, row) {
-      this.$delete(row, 'andValue')
-      this.$delete(row, 'containValue')
-    },
-    // 判断需要用输入框则返回选项列表，否则返回false默认使用input
-    needSelect(row) {
-      const curType = this.typeOptions.find(item => item.value == row.type)
-      if (curType && curType.requestType) {
-        return curType.options
-      }
-      return false
-    },
     handleSearch() {
       const {pageNo, pageSize} = this.pagination
       const params = {
         pageNo,
         pageSize,
-        itemList: [this.basic, ...this.filters],
-        extractionNo: this.extractionNo,
+        itemList: [this.basic, ...this.filters]
       }
       this.$emit('search', params, this.initData)
     },
     initData(res) {
       this.curTab = '1'
-      this.data = [...this.$com.confirm(res, 'data.content.expertList', [])]
+      this.data = this.$com.confirm(res, 'data.content', [])
       this.pagination.total = this.$com.confirm(res, 'data.totalRows', 0)
     },
     onPageChange(page) {
@@ -283,7 +241,7 @@ export default {
     onSelectChange(selectedRowKeys, selectedRows) {
       this.selectedRowKeys = selectedRowKeys
       // this.selectedRows.push(...selectedRows)
-      this.selectedRows = [...selectedRows]
+      this.selectedRows = [...selectedRows] // 改成这样
     },
     handleReset() {
       this.pagination.pageNo = 1
@@ -291,11 +249,9 @@ export default {
       this.basic = {
         and: this.andOptions[0].value,
         type: this.typeOptions[0].value,
-        contain: this.containOptions[1].value,
-        equals: this.equalsOptions[1].value,
-        andValue: ''
+        contain: this.containOptions[0].value,
+        equals: this.equalsOptions[0].value,
       }
-      this.extractionNo = 2
       // this.handleSearch()
     },
     handleTabChange(key) {
@@ -324,7 +280,6 @@ export default {
       this.$emit('select', this.data2)
     },
     handleSelect() { // 选中专家
-      this.selectedList = []
       this.selectedList.push(...this.selectedRows)
       // 去重并提取
       const reducer = (arr, cur) => arr.indexOf(cur) >= 0 ? arr : [...arr, cur]
@@ -344,11 +299,9 @@ export default {
         }
         this.$emit('select', result)
       })
-      this.curTab = '1'
     },
     handleConfirm() { // 确认专家
       this.$emit('confirm', this.selectedList)
-      this.curTab = '1'
     },
   },
   computed: {
@@ -360,18 +313,18 @@ export default {
       return '选中专家列表'
     },
     selectBtn() {
-      // const len = this.selectedRowKeys.length
-      // if (len > 0) {
-      //   return `选中（已勾选${len}项）`
-      // }
+      const len = this.selectedRowKeys.length
+      if (len > 0) {
+        return `选中（已勾选${len}项）`
+      }
       return '选中'
     },
     saveBtn() {
-      // const len = this.selectedList.length
-      // if (len > 0) {
-      //   return `确认（已选中${len}项）`
-      // }
-      return '专家确认'
+      const len = this.selectedList.length
+      if (len > 0) {
+        return `确认（已选中${len}项）`
+      }
+      return '确认'
     },
   },
 }
