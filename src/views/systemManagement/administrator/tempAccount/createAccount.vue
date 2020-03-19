@@ -94,12 +94,17 @@ export default {
   },
   beforeCreate() {
     // 获取表单中可选的角色清单
+    let curUserRoles = this.$store.state.userInfos.roleIds
+    let sparams = {
+      pageNo: 1,
+      pageSize: 10000
+    }
+    if(!!curUserRoles){
+      sparams['id_in'] = curUserRoles
+    }
     this.$ajax.get({
       url: this.$api.GET_ROLE_LIST,
-      params: {
-        pageNo: 1,
-        pageSize: 10000
-      }
+      params: sparams
     }).then(res => {
       this.roleList = this.$com.confirm(res, 'data.content', [])
     })
