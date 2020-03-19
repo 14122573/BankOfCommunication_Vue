@@ -128,6 +128,7 @@ export default {
   mounted() {
     const token = this.$cookie.get('token')
     if (token) {
+      console.log(11)
       this.getInfo()
     }
   },
