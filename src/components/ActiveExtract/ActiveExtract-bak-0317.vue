@@ -1,120 +1,121 @@
 <template>
-  <a-card class="extract-container">
-    <a-row :gutter="6">
-      <a-col :span="2" class="extract-btns">
-        <a-icon @click="addFilter" type="plus-square" />
-        <a-icon @click="deleteFilter" type="minus-square" />
+<a-card class="extract-container">
+  <a-row :gutter="6">
+    <a-col :span="2" class="extract-btns">
+      <a-icon @click="addFilter" type="plus-square" />
+      <a-icon @click="deleteFilter" type="minus-square" />
+    </a-col>
+    <a-col :span="4">
+      <a-select @change="handleTypeChange($event, basic)" v-model="basic.type">
+        <a-select-option v-for="option in typeOptions" :key="option.name" :value="option.value">{{option.name}}</a-select-option>
+      </a-select>
+    </a-col>
+    <a-col :span="7">
+      <a-select v-show="needSelect(basic)" v-model="basic.andValue">
+        <a-select-option v-for="option in needSelect(basic)" :key="option.id" :value="option.id">{{option.name}}</a-select-option>
+      </a-select>
+      <a-input v-show="!needSelect(basic)" v-model="basic.andValue"/>
+    </a-col>
+    <a-col :span="2">
+      <a-select v-model="basic.contain">
+        <a-select-option v-for="option in containOptions" :key="option.name" :value="option.value">{{option.name}}</a-select-option>
+      </a-select>
+    </a-col>
+    <a-col :span="7">
+      <a-select v-show="needSelect(basic)" v-model="basic.containValue">
+        <a-select-option v-for="option in needSelect(basic)" :key="option.id" :value="option.id">{{option.name}}</a-select-option>
+      </a-select>
+      <a-input v-show="!needSelect(basic)" v-model="basic.containValue"/>
+    </a-col>
+    <a-col :span="2">
+      <a-select v-model="basic.equals">
+        <a-select-option v-for="option in equalsOptions" :key="option.name" :value="option.value">{{option.name}}</a-select-option>
+      </a-select>
+    </a-col>
+  </a-row>
+  <template v-if="filters.length > 0">
+    <a-row v-for="(filter, index) in filters" :key="index" :gutter="6">
+      <a-col :span="2">
+        <a-select v-model="filter.and">
+          <a-select-option v-for="option in andOptions" :key="option.name" :value="option.value">{{option.name}}</a-select-option>
+        </a-select>
       </a-col>
       <a-col :span="4">
-        <a-select @change="handleTypeChange($event, basic)" v-model="basic.type">
+        <a-select @change="handleTypeChange($event, filter)" v-model="filter.type">
           <a-select-option v-for="option in typeOptions" :key="option.name" :value="option.value">{{option.name}}</a-select-option>
         </a-select>
       </a-col>
       <a-col :span="7">
-        <a-select v-show="needSelect(basic)" v-model="basic.andValue">
-          <a-select-option v-for="option in needSelect(basic)" :key="option.id" :value="option.id">{{option.name}}</a-select-option>
+        <a-select v-show="needSelect(filter)" v-model="filter.andValue">
+          <a-select-option v-for="option in needSelect(filter)" :key="option.id" :value="option.id">{{option.name}}</a-select-option>
         </a-select>
-        <a-input v-show="!needSelect(basic)" v-model="basic.andValue"/>
+        <a-input v-show="!needSelect(filter)" v-model="filter.andValue"/>
       </a-col>
       <a-col :span="2">
-        <a-select v-model="basic.contain">
+        <a-select v-model="filter.contain">
           <a-select-option v-for="option in containOptions" :key="option.name" :value="option.value">{{option.name}}</a-select-option>
         </a-select>
       </a-col>
       <a-col :span="7">
-        <a-select v-show="needSelect(basic)" v-model="basic.containValue">
-          <a-select-option v-for="option in needSelect(basic)" :key="option.id" :value="option.id">{{option.name}}</a-select-option>
+        <a-select v-show="needSelect(filter)" v-model="filter.containValue">
+          <a-select-option v-for="option in needSelect(filter)" :key="option.id" :value="option.id">{{option.name}}</a-select-option>
         </a-select>
-        <a-input v-show="!needSelect(basic)" v-model="basic.containValue"/>
+        <a-input v-show="!needSelect(filter)" v-model="filter.containValue"/>
       </a-col>
       <a-col :span="2">
-        <a-select v-model="basic.equals">
+        <a-select v-model="filter.equals">
           <a-select-option v-for="option in equalsOptions" :key="option.name" :value="option.value">{{option.name}}</a-select-option>
         </a-select>
       </a-col>
     </a-row>
-    <template v-if="filters.length > 0">
-      <a-row v-for="(filter, index) in filters" :key="index" :gutter="6">
-        <a-col :span="2">
-          <a-select v-model="filter.and">
-            <a-select-option v-for="option in andOptions" :key="option.name" :value="option.value">{{option.name}}</a-select-option>
-          </a-select>
-        </a-col>
-        <a-col :span="4">
-          <a-select @change="handleTypeChange($event, filter)" v-model="filter.type">
-            <a-select-option v-for="option in typeOptions" :key="option.name" :value="option.value">{{option.name}}</a-select-option>
-          </a-select>
-        </a-col>
-        <a-col :span="7">
-          <a-select v-show="needSelect(filter)" v-model="filter.andValue">
-            <a-select-option v-for="option in needSelect(filter)" :key="option.id" :value="option.id">{{option.name}}</a-select-option>
-          </a-select>
-          <a-input v-show="!needSelect(filter)" v-model="filter.andValue"/>
-        </a-col>
-        <a-col :span="2">
-          <a-select v-model="filter.contain">
-            <a-select-option v-for="option in containOptions" :key="option.name" :value="option.value">{{option.name}}</a-select-option>
-          </a-select>
-        </a-col>
-        <a-col :span="7">
-          <a-select v-show="needSelect(filter)" v-model="filter.containValue">
-            <a-select-option v-for="option in needSelect(filter)" :key="option.id" :value="option.id">{{option.name}}</a-select-option>
-          </a-select>
-          <a-input v-show="!needSelect(filter)" v-model="filter.containValue"/>
-        </a-col>
-        <a-col :span="2">
-          <a-select v-model="filter.equals">
-            <a-select-option v-for="option in equalsOptions" :key="option.name" :value="option.value">{{option.name}}</a-select-option>
-          </a-select>
-        </a-col>
-      </a-row>
-    </template>
-    <a-row :gutter="6">
-      <a-col :span="2"><div style="margin: 5px 0;text-align:right;">抽取人数：</div></a-col>
-      <a-col :span="4">
-        <a-input-number v-model="extractionNo" :min="1" style="width: 100%;"/>
-      </a-col>
-      <a-col :span="2" :offset="isView?16:14">
-        <a-button @click="handleReset" type="primary" block ghost>重置</a-button>
-      </a-col>
-      <a-col :span="2">
-        <a-button @click="handleSearch" type="primary" block v-if="!isView">筛选</a-button>
-      </a-col>
+  </template>
+  <a-row :gutter="6">
+    <a-col :span="2"><div style="margin: 5px 0;text-align:right;">抽取人数：</div></a-col>
+    <a-col :span="4">
+      <a-input-number v-model="extractionNo" :min="1" style="width: 100%;"/>
+    </a-col>
+    <a-col :span="2" :offset="14">
+      <a-button @click="handleReset" type="primary" block ghost>重置</a-button>
+    </a-col>
+    <a-col :span="2">
+      <a-button @click="handleSearch" type="primary" block>筛选</a-button>
+    </a-col>
+  </a-row>
+  <a-divider dashed style="margin: 10px 0"/>
+  <a-tabs v-model="curTab" @change="handleTabChange">
+    <a-tab-pane tab="筛选结果" key="1"/>
+    <a-tab-pane :tab="tabText" key="2"/>
+    <a-row slot="tabBarExtraContent" v-show="!isView">
+      <a-button @click="handleSelect">{{selectBtn}}</a-button>
+      <!-- <a-button @click="handleConfirm" type="primary" v-if="isConfirm">{{saveBtn}}</a-button> -->
+      <a-button @click="handleConfirm" type="primary">{{saveBtn}}</a-button>
     </a-row>
-    <a-divider dashed style="margin: 10px 0"/>
-    <a-tabs v-model="curTab" @change="handleTabChange">
-      <a-tab-pane tab="筛选结果" key="1"/>
-      <a-tab-pane :tab="tabText" key="2"/>
-      <a-row slot="tabBarExtraContent">
-        <a-button @click="handleSelect" v-if="!isView && curTab=='1'">{{selectBtn}}</a-button>
-        <a-button @click="handleConfirm" type="primary" v-if="isConfirm && curTab=='2'">{{saveBtn}}</a-button>
-      </a-row>
-    </a-tabs>
-    <a-table
-      v-show="curTab == '1'"
-      size="small"
-      :rowSelection="{selectedRowKeys: selectedRowKeys, onChange: onSelectChange}"
-      :columns="columns.slice(0, columns.length - 1)"
-      :dataSource="data"
-      :pagination="pagination"
-      rowKey="id"
-      />
-    <a-table
-      v-show="curTab == '2'"
-      size="small"
-      :columns="isView?columns.slice(0, columns.length - 1):columns"
-      :dataSource="data2"
-      :pagination="pagination2"
-      rowKey="id"
-      >
-      <template slot="operation" slot-scope="text, record">
-        <a-popconfirm
-          title="确认将此专家移出选中列表？"
-          @confirm="handleDelete(record)"
-        ><a-button type="danger" size="small">移出</a-button></a-popconfirm>
-      </template>
-    </a-table>
-  </a-card>
+  </a-tabs>
+  <a-table
+  v-show="curTab == '1'"
+  size="small"
+  :rowSelection="{selectedRowKeys: selectedRowKeys, onChange: onSelectChange}"
+  :columns="columns.slice(0, columns.length - 1)"
+  :dataSource="data"
+  :pagination="pagination"
+  rowKey="id"
+  />
+  <a-table
+  v-show="curTab == '2'"
+  size="small"
+  :columns="isView?columns.slice(0, columns.length - 1):columns"
+  :dataSource="data2"
+  :pagination="pagination2"
+  rowKey="id"
+  >
+    <template slot="operation" slot-scope="text, record">
+      <a-popconfirm
+        title="确认将此专家移出选中列表？"
+        @confirm="handleDelete(record)"
+      ><a-button type="danger" size="small">移出</a-button></a-popconfirm>
+    </template>
+  </a-table>
+</a-card>
 </template>
 
 <script>
@@ -212,14 +213,6 @@ export default {
       selectedRows: [],
       selectedList: [],
       url: 'http://iftp.omniview.pro/api/service-expert/expert/dictionary/',
-      // optionTypes: [
-      //   {name: '单位性质', type: 1},
-      //   {name: '职务', type: 2},
-      //   {name: '职称', type: 3},
-      //   {name: '学历', type: 4},
-      //   {name: '学位', type: 5},
-      //   {name: '研究方向', type: 8},
-      // ],
     }
   },
   mounted() {
@@ -252,32 +245,14 @@ export default {
       }
       return false
     },
-    filteringSearchParams(){
-      const org = [].concat([this.basic, ...this.filters])
-      const filtering = []
-      org.forEach(oneFilter =>{
-        if((!!oneFilter.containValue && oneFilter.containValue=='') ){
-          delete oneFilter['containValue']
-        }
-        if((!!oneFilter.andValue && oneFilter.andValue=='') ){
-          delete oneFilter['andValue']
-        }
-        if(!!oneFilter.andValue || !!oneFilter.containValue){
-          filtering.push(oneFilter)
-        }
-      })
-      return filtering
-    },
     handleSearch() {
       const {pageNo, pageSize} = this.pagination
-      let filteredItemList = this.filteringSearchParams()
       const params = {
         pageNo,
         pageSize,
-        itemList: filteredItemList,
+        itemList: [this.basic, ...this.filters],
         extractionNo: this.extractionNo,
       }
-      this.filteringSearchParams()
       this.$emit('search', params, this.initData)
     },
     initData(res) {
@@ -298,8 +273,8 @@ export default {
       if (len >= this.typeOptions.length - 1) return
       this.filters.push({
         and: this.andOptions[0].value,
-        contain: this.containOptions[1].value,
-        equals: this.equalsOptions[1].value,
+        contain: this.containOptions[0].value,
+        equals: this.equalsOptions[0].value,
         type: this.typeOptions[len + 1].value,
       })
     },

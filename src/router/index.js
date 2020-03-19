@@ -34,14 +34,16 @@ router.beforeEach((to, from, next) => {
     } else {
       let uneedTokenRouter=['/veterinary/view','/veterinary','/cms/noticePublish','/cms/noticePublish/view','/cms/knowledgePublish/view','/cms/knowledgeAnonymous','upperLimitErr','register','oldSysLogout','outerNetworkerr']
       // console.log(to.name,Common.oneOf(to.name,uneedTokenRouter) )
-      if (Common.oneOf(to.name,uneedTokenRouter) || (to.name == 'bindPhone' && canEnterBind == '200')) {
+      // if (Common.oneOf(to.name,uneedTokenRouter) || (to.name == 'bindPhone' && canEnterBind == '200')) {
+      if (Common.oneOf(to.name,uneedTokenRouter) || (Common.oneOf(to.name,['bindPhone','bindTemporarayAccount']) && canEnterBind == '200')) {
         next()
       } else {
         next('/login')
       }
     }
   } else { // 已经登录
-    if (Common.oneOf(to.name,['login','bindPhone'])) {
+    // if (Common.oneOf(to.name,['login','bindPhone'])) {
+    if (Common.oneOf(to.name,['login','bindPhone','bindTemporarayAccount'])) {
       next('/home')
     } else {
       next()

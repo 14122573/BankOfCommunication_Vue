@@ -21,6 +21,11 @@ default: // 默认环境下（开发环境）
 
 export default {
   BASE_URL,
+  // 全局远程配置文件
+  CONFIGS_EXPORTREVIEW_ROUTERS: BASE_URL.replace('/api','')+'/attr/exportReviewRouterConfigs.json', //portal专家库评审各子系统内容的菜单跳转配置文件
+  CONFIGS_MICSYSTEMS_ROUTERS: BASE_URL.replace('/api','')+'/attr/micRouters.json', // 接入portal的子项目路由
+  CONFIGS_MICSYSTEMS_LIST: BASE_URL.replace('/api','')+'/attr/micSystemConfigs.json', // 接入portal的子系统部署地址及唯一识别码的配置清单
+  // 用户信息
   // 用户信息
   GET_USER_INFO: '/service-user/user/login/user/info', // 获取用户信息
   POST_LOGIN: '/service-user/user/public/login', //登录
@@ -43,6 +48,7 @@ export default {
   PUT_PERSONAL_RESET_PWD: 'service-user/user/pwd', // 个人中心重置密码
   PUT_USER_PHONE: '/service-user/user/phone/{phone}/{code}', // 登录用户修改手机号
   PUT_EDIT_USER: '/service-user/user/user', // 登录用户修改个人信息
+  POST_BIND_TEMPUSERINFO_BIND: '/service-user/user/public/temp/bind/info', // 临时账号，绑定手机及用户信息
 
   // 系统配置
   // 系统配置 -- 权限配置管理
@@ -78,6 +84,15 @@ export default {
   PUT_EDIT_ORGANIZATION_LIST: '/service-permission/perm/group/{id}', //修改组织机构
   DELETE_ORGANIZATION_LIST: '/service-permission/perm/group/{id}', //删除组织机构
   GET_ORGANIZATION_LIST_DETAIL: '/service-permission/perm/group/{id}', //组织机构详情
+  // 系统配置 -- 用户管理 -- 临时账号管理
+  GET_TEMPACCOUT_BATCH_LIST:'/service-user/user/temp/acct/batch',//批次列表
+  POST_TEMPACCOUT_CREATE: '/service-user/user/temp/accounts', //批量添加临时账号
+  PUT_TEMPACCOUT_BATCH_CREATE: '/service-user/user/temp/acct/produce', //生成临时数据批次
+  GET_TEMPACCOUT_EXCEL_BY_BATCH: '/service-user/user/export/temp/acct?batch={batchids}&token={token}', //导出临时账号
+  GET_TEMPACCOUT_LIST: '/service-user/user/temp/accounts', //临时账号列表
+  DELETE_TEMPACCOUT: '/service-user/user/temp/account?ids={ids}', //批量删除临时账户
+
+
   // 系统配置 --- 基础信息
   GET_SYSBASICINFO_BREED_LIST: '/service-expert/expert/breed', // 获取水产品种大类列表
   POST_SYSBASICINFO_BREED: '/service-expert/expert/breed', //新增水产品种大类

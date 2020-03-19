@@ -152,7 +152,7 @@ export default {
             }
           })
         }else{
-          this.$com.getFormValidErrTips(vm,err)
+          this.$com.getFormValidErrTips(this,err)
         }
       })
     },

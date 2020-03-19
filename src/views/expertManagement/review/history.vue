@@ -34,11 +34,12 @@
 </template>
 <script>
 import {navigateToUrl} from 'single-spa'
-import { ExpertReviewRouters } from '@/config/expert-review-router'
+import axios from 'axios'
 export default {
   data(){
     return{
       expertId:!this.$store.state.userInfos?'':this.$store.state.userInfos.id,
+      ExpertReviewRouters:null, // 专家库，各子系统评审路由配置
       simpleSearchForm:true, // 展示、收取简单搜索开关，true为简单搜索
       preparate:{
         isReady:false
@@ -89,9 +90,25 @@ export default {
     this.reviewHisSearchForm = this.$form.createForm(this)
   },
   mounted(){
-    this.getSysCodOptions()
-    this.getReviewTypeList()
-    this.getFinishReviewList()
+    // 获取远程portal专家库评审各子系统内容的菜单跳转配置文件，
+    const newInstance = axios.create({
+      baseURL: '',
+      timeout: 5000,
+      headers: {'Content-type': 'multipart/form-data'}
+    })
+    newInstance.get(this.$api.CONFIGS_EXPORTREVIEW_ROUTERS).then(res => {
+      if(res.status == 200){
+        // 获取成功，存储配置文件结果
+        this.ExpertReviewRouters = this.$com.confirm(res, 'data', {})
+        // 继续请求页面数据
+        this.getSysCodOptions()
+        this.getReviewTypeList()
+        this.getFinishReviewList()
+      }else{
+        // 获取失败，展示提示文字
+        this.$message.error('获取配置文件错误')
+      }
+    })
 
   },
   computed:{
@@ -133,7 +150,7 @@ export default {
       let nextRouter = ''
       for(let i=0;i<micSysRouters.length;i++){
         let micSysRouter = micSysRouters[i]
-        if(sysCode =='S0401'){
+        if(this.$com.oneOf(sysCode,['S0401','SO301'])){
           if( micSysRouter.type=='detail' && reviewTypeCode == micSysRouter.reviewTypeCode){
             nextRouter = micSysRouter.routerName
           }
@@ -146,66 +163,46 @@ export default {
       // 根据系统判断跳转子系统方式
       switch (sysCode) {
       case 'S0501':// 新品种审核
-        this.$router.push({
-          name:nextRouter,
-          params:{id:taskCode},
-          query:{
-            sourceRoutePath:this.$route.path,
-            sourceRouteType:'portal'
-          }
-        })
+        navigateToUrl(nextRouter.replace(':id',taskCode)+'?showType=check&sourceRouteType=portal&sourceRoutePath='+this.$route.path)
+        // this.$router.push({
+        //   name:nextRouter,
+        //   params:{id:taskCode},
+        //   query:{
+        //     sourceRoutePath:this.$route.path,
+        //     sourceRouteType:'portal'
+        //   }
+        // })
         break
       case 'S0502': // 原良种复查
-        this.$router.push({
-          name:nextRouter,
-          query:{
-            id:taskCode
-          }
-        })
+        navigateToUrl(nextRouter+'?id='+taskCode)
         break
       case 'S0503': // 原良种验收
-        this.$router.push({
-          name:nextRouter,
-          query:{
-            id:taskCode
-          }
-        })
+        navigateToUrl(nextRouter+'?id='+taskCode)
         break
       case 'S0101': // 科普教育基地
-        this.$router.push({
-          name:nextRouter,
-          query:{
-            id:taskCode
-          }
-        })
+        navigateToUrl(nextRouter+'?id='+taskCode)
         break
       case 'S0201': // 团体标准
-        this.$router.push({
-          name:nextRouter,
-          query:{
-            id:taskCode
-          }
-        })
+        navigateToUrl(nextRouter+'?id='+taskCode)
         break
       case 'S0401': // 海洋牧场
-        this.$router.push({
-          name:nextRouter,
-          query:{
-            id:taskCode
-          }
-        })
+        navigateToUrl(nextRouter.replace(':id',taskCode))
+        break
+      case 'S0301': // 休闲渔业
+        navigateToUrl(nextRouter.replace(':id',taskCode))
         break
       case 'S1002': // 中国水产学会团体标准函审
-        this.$router.push({
-          name:nextRouter,
-          params:{
-            id:taskCode
-          },
-          query:{
-            sourceRoutePath:this.$route.path,
-            sourceRouteType:'portal'
-          }
-        })
+        navigateToUrl(nextRouter.replace(':id',taskCode)+'?sourceRouteType=portal&sourceRoutePath='+this.$route.path)
+        // this.$router.push({
+        //   name:nextRouter,
+        //   params:{
+        //     id:taskCode
+        //   },
+        //   query:{
+        //     sourceRoutePath:this.$route.path,
+        //     sourceRouteType:'portal'
+        //   }
+        // })
         break
       default:
         break

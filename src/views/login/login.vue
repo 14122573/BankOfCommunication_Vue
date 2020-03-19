@@ -256,6 +256,13 @@ export default {
             id: gainDatas
           }
         })
+      } else if(res.msg == 'tempInfo'){
+        this.$router.push({
+          name: 'bindTemporarayAccount',
+          query: {
+            id: gainDatas
+          }
+        })
       } else if (res.msg == 'success') {
         this.$com.setToken(gainDatas.access_token, gainDatas.refresh_token)
         if (gainDatas.redirectUrl) {

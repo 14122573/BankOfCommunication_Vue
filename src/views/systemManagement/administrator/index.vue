@@ -11,6 +11,9 @@
 			<a-tab-pane v-if="$permission('P03300')" tab="新用户管理" key="3">
 				<NewUser :roleList="roleList" />
 			</a-tab-pane>
+			<a-tab-pane v-if="$permission('P03400')" tab="临时账户管理" key="4">
+				<TempUser :roleList="roleList" />
+			</a-tab-pane>
 		</a-tabs>
 	</div>
   <RouterWapper v-else></RouterWapper>
@@ -20,12 +23,14 @@
 import Pendingpermissions from './pending-permissions'
 import OldUser from './old-user'
 import NewUser from './new-user'
+import TempUser from './tempAccount/temp-user'
 export default {
   name: 'Administrator',
   components: {
     Pendingpermissions,
     OldUser,
-    NewUser
+    NewUser,
+    TempUser
   },
   data() {
     return {

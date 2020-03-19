@@ -60,11 +60,11 @@
 						</a-col>
 						<a-col span="8">
 							<a-form-item label="所属区域" v-bind="colSpe">
-								<a-select v-if="isAdminator !== true" placeholder="请选择" labelInValue @change="onChangeTree" showSearch
+								<!-- <a-select v-if="isAdminator !== true" placeholder="请选择" labelInValue @change="onChangeTree" showSearch
 								 v-decorator="['area',searchFormRules.area]">
 									<a-select-option v-for="(item,index) in administrativeRegions" :key="index" :value="item.id">{{item.title}}</a-select-option>
-								</a-select>
-								<a-tree-select v-else :treeData="administrativeRegions" v-decorator="['area',searchFormRules.area]" :loadData="onLoadData"
+								</a-select> -->
+								<a-tree-select :treeData="administrativeRegions" v-decorator="['area',searchFormRules.area]" :loadData="onLoadData"
 								 :dropdownStyle="{ maxHeight: '200px', overflow: 'auto' }" placeholder='请选择' allowClear @change="onChangeTree">
 								</a-tree-select>
 							</a-form-item>
@@ -343,13 +343,13 @@ export default {
       })
     },
     onChangeTree(value, label) {
-      if (this.isAdminator != true) {
-        this.areaCode = value.key
-        this.areaName = value.label
-      } else {
-        this.areaCode = value
-        this.areaName = label[0]
-      }
+      // if (this.isAdminator != true) {
+      //   this.areaCode = value.key
+      //   this.areaName = value.label
+      // } else {
+      this.areaCode = value
+      this.areaName = label[0]
+      // }
       this.groupLists = []
       this.searchForm.setFieldsValue({
         group: ''
@@ -362,9 +362,9 @@ export default {
         pageNo: 1,
         areaCode: this.areaCode
       }
-      if (!this.isAdminator) {
-        params.parentId = this.$store.state.userInfos.group.id
-      }
+      // if (!this.isAdminator) {
+      //   params.parentId = this.$store.state.userInfos.group?this.$store.state.userInfos.group.id:''
+      // }
       this.$ajax.get({
         url: this.$api.GET_ORGANIZATION_LIST,
         params: params
@@ -416,15 +416,15 @@ export default {
       }).then(res => {
         this.detail = res.data.content
         if (this.detail.area != null) {
-          if (!this.isAdminator) {
-            let obj = {
-              key: this.detail.area.id,
-              label: this.detail.area.areaName
-            }
-            this.onChangeTree(obj)
-          } else {
-            this.onChangeTree(this.detail.area.id, [this.detail.area.areaName])
-          }
+          // if (!this.isAdminator) {
+          //   let obj = {
+          //     key: this.detail.area.id,
+          //     label: this.detail.area.areaName
+          //   }
+          //   this.onChangeTree(obj)
+          // } else {
+          this.onChangeTree(this.detail.area.id, [this.detail.area.areaName])
+          // }
         }
         const {
           mail,
@@ -467,14 +467,14 @@ export default {
           zipCode,
         }
         setDatas.group = this.detail.group != null ? this.detail.group.id : ''
-        if (this.isAdminator) {
-          setDatas.area = this.detail.area != null ? this.detail.area.areaName : ''
-        } else {
-          setDatas.area = {
-            label: this.detail.area.areaName,
-            key: this.detail.area.id
-          }
-        }
+        // if (this.isAdminator) {
+        setDatas.area = this.detail.area != null ? this.detail.area.areaName : ''
+        // } else {
+        //   setDatas.area = {
+        //     label: this.detail.area.areaName,
+        //     key: this.detail.area.id
+        //   }
+        // }
         setDatas.notes = userRoleIDs
         this.roles = userRoleIDs
         this.searchForm.setFieldsValue(setDatas)

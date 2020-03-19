@@ -2,7 +2,7 @@
   <div class="workpaceBg">
     <div class="loader" v-if="$store.state.isLoadingResource">
       <div>
-        <a-spin tip="子项目资源载入中..." :spinning="$store.state.isLoadingResource" size="large"/>
+        <a-spin tip="子系统资源载入中..." :spinning="$store.state.isLoadingResource" size="large"/>
       </div>
       <div style="width: 30%;">
         <a-progress :percent="$store.state.loadingProgress" status="active"/>
