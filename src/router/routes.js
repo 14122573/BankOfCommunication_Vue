@@ -78,9 +78,10 @@ const ManualList = () => import('@/views/cms/manual/list')
 const ManualFileList = () => import('@/views/cms/manual/file-list')
 const ManualView = () => import('@/views/cms/manual/manual-view')
 // 数据服务 - 渔业兽医
-// const Veterinary = () => import('@/views/cms/dataService/veterinary')
 const VeterinaryList = () => import('@/views/cms/dataService/veterinaryList')
 const VeterinaryView = () => import('@/views/cms/dataService/view')
+// example
+const ExtractExample = () => import('@/components/ActiveExtract/example')
 
 
 /**
@@ -290,6 +291,11 @@ let appRoutes = [{
         hideInBread: true
       },
       children: [{
+        path: '/expertManagement/extractExample',
+        name: '/expertManagement/extractExample',
+        component: ExtractExample,
+        meta: { title: '收取样例', menuPath: true, authCode: 'P12000', menuIcon: 'user', hideInBread: false, openMode: 'normal' }
+      },{
         path: '/expertManagement/talent',
         name: '/expertManagement/talent',
         component: Talent,
