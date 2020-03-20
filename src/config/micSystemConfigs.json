@@ -1,0 +1,153 @@
+{
+  "devol":[
+    {
+      "baseUrl": "http://scsd.tao.com",
+      "resourceName": "scsd",
+      "micId": "mic:scsd",
+      "pathPrefix": "/scsd"
+    },
+    {
+      "baseUrl": "http://txc.tao.com",
+      "resourceName": "kpjd",
+      "micId": "mic:kpjd",
+      "pathPrefix": "/kpjd"
+    },
+    {
+      "baseUrl": "http://scylzc.tao.com",
+      "resourceName": "scylzc",
+      "micId": "mic:scylzc",
+      "pathPrefix": "/scylzc"
+    },
+    {
+      "baseUrl": "http://ylzcre.tao.com",
+      "micId": "mic:ylzcre",
+      "pathPrefix": "/ylzcre"
+    },
+    {
+      "baseUrl": "http://yysygl.tao.com",
+      "resourceName": "yysygl",
+      "micId": "mic:yysygl",
+      "pathPrefix": "/yysygl"
+    },
+    {
+      "baseUrl": "http://fljps.tao.com",
+      "resourceName": "fljps",
+      "micId": "mic:fljps",
+      "pathPrefix": "/fljps"
+    }
+  ],
+  "sit":[
+    {
+      "baseUrl": "http://scsd.omniview.pro",
+      "resourceName": "scsd",
+      "micId": "mic:scsd",
+      "pathPrefix": "/scsd"
+    },
+    {
+      "baseUrl": "http://scylzc.omniview.pro",
+      "resourceName": "scylzc",
+      "micId": "mic:scylzc",
+      "pathPrefix": "/scylzc"
+    },
+    {
+      "baseUrl": "http://ylzcre.omniview.pro",
+      "resourceName": "ylzcre",
+      "micId": "mic:ylzcre",
+      "pathPrefix": "/ylzcre"
+    },
+    {
+      "baseUrl": "http://bbgl.omniview.pro",
+      "resourceName": "bbgl",
+      "micId": "mic:bbgl",
+      "pathPrefix": "/bbgl"
+    },
+    {
+      "baseUrl": "http://zlzs.omniview.pro",
+      "resourceName": "zlzs",
+      "micId": "mic:zlzs",
+      "pathPrefix": "/zlzs"
+    },
+    {
+      "baseUrl": "http://yysygl.omniview.pro",
+      "resourceName": "yysygl",
+      "micId": "mic:yysygl",
+      "pathPrefix": "/yysygl"
+    },
+    {
+      "baseUrl": "http://kpjd.omniview.pro",
+      "resourceName": "kpjd",
+      "micId": "mic:kpjd",
+      "pathPrefix": "/kpjd"
+    },
+    {
+      "baseUrl": "http://xshy.omniview.pro",
+      "resourceName": "xshy",
+      "micId": "mic:xshy",
+      "pathPrefix": "/xshy"
+    },
+    {
+      "baseUrl": "http://iftp.omniview.pro/lshy",
+      "resourceName": "lshy",
+      "micId": "mic:lshy",
+      "pathPrefix": "/lshy"
+    },
+    {
+      "baseUrl": "http://ssdw.omniview.pro",
+      "resourceName": "ssdw",
+      "micId": "mic:ssdw",
+      "pathPrefix": "/ssdw"
+    },
+    {
+      "baseUrl": "http://pjsf.omniview.pro",
+      "resourceName": "ttbz",
+      "micId": "mic:ttbz",
+      "pathPrefix": "/ttbz"
+    },
+    {
+      "baseUrl": "http://fljps.omniview.pro",
+      "resourceName": "fljps",
+      "micId": "mic:fljps",
+      "pathPrefix": "/fljps"
+    },
+    {
+      "baseUrl": "http://iftp.omniview.pro/dyzh",
+      "resourceName": "dyzh",
+      "micId": "mic:dyzh",
+      "pathPrefix": "/dyzh"
+    },
+    {
+      "baseUrl": "http://iftp.omniview.pro/hymc",
+      "resourceName": "hymc",
+      "micId": "mic:hymc",
+      "pathPrefix": "/hymc"
+    },
+    {
+      "baseUrl": "http://iftp.omniview.pro/xxyy",
+      "resourceName": "xxyy",
+      "micId": "mic:xxyy",
+      "pathPrefix": "/xxyy"
+    },
+    {
+      "baseUrl": "http://iftp.omniview.pro/styy",
+      "resourceName": "styy",
+      "micId": "mic:styy",
+      "pathPrefix": "/styy"
+    }
+  ],
+  "uat":[
+    {
+      "baseUrl": "http://scsd.szjoin.net",
+      "resourceName": "scsd",
+      "micId": "mic:scsd",
+      "pathPrefix": "/scsd"
+    }
+  ] ,
+  "production":[
+    {
+      "baseUrl": "http://znyj.nftec.agri.cn/zlaq",
+      "resourceName": "zlzs",
+      "micId": "mic:zlzs",
+      "pathPrefix": "/zlzs"
+    }
+  ]
+}

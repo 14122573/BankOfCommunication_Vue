@@ -3,7 +3,8 @@
     @search="handleSearch"
     @select="handleSelect"
     @confirm="handleConfirm"
-    @check="handleCheck"/>
+    @check="handleCheck"
+    @viewConfirmed="handleViewConfirmed"/>
 </template>
 
 <script>
@@ -25,6 +26,12 @@ export default {
       }).then(res => {
         callBack(res)
       })
+    },
+    handleViewConfirmed(params, callBack) {
+      // 发请求查看被选中的专家列表后执行回调
+      /**
+       * 例如 this.$ajax.get({参数}).then(callback)
+       */
     },
     handleCheck(params, callBack) {
       // 发请求查看被选中的专家列表后执行回调
