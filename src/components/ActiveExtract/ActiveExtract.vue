@@ -69,18 +69,12 @@
         </a-col>
       </a-row>
     </template>
-    <a-row :gutter="6">
-      <a-col :span="2"><div style="margin: 5px 0;text-align:right;">抽取人数：</div></a-col>
-      <a-col :span="4">
-        <a-input-number v-model="extractionNo" :min="1" style="width: 100%;"/>
-      </a-col>
-      <!-- <a-col :span="2" :offset="isView?16:14"> -->
-      <a-col :span="2" :offset="14">
+    <a-row :gutter="6" type="flex" justify="end">
+      <a-col :span="2" >
         <a-button @click="handleReset" type="primary" block ghost>重置</a-button>
       </a-col>
       <a-col :span="2">
-        <!-- <a-button @click="handleSearch" type="primary" block v-if="!isView">筛选</a-button> -->
-        <a-button @click="handleSearch" type="primary" block >筛选</a-button>
+        <a-button @click="handleSearch" type="primary" block>筛选</a-button>
       </a-col>
     </a-row>
     <a-divider dashed style="margin: 10px 0"/>
@@ -163,7 +157,7 @@ export default {
       ],
       basic: {},
       filters: [],
-      extractionNo: 2,
+      // extractionNo: 2,
       columns: [
         {
           title: '姓名',
@@ -287,7 +281,7 @@ export default {
         pageNo,
         pageSize,
         itemList: filteredItemList,
-        extractionNo: this.extractionNo,
+        extractionNo: 100000,
       }
       this.filteringSearchParams()
       this.$emit('search', params, this.initData)
@@ -337,7 +331,7 @@ export default {
         equals: this.equalsOptions[1].value,
         andValue: ''
       }
-      this.extractionNo = 2
+      // this.extractionNo = 2
       // this.handleSearch()
     },
     /**
@@ -357,15 +351,18 @@ export default {
       default:
         break
       }
-      console.log('handleTabChange',key)
     },
     handleConfirmed(){
-      const {pageNo, pageSize} = this.pagination2
+      const {pageNo, pageSize} = this.paginationConfirmedExpert
       const params = {
         pageNo,
         pageSize,
       }
       this.$emit('viewConfirmed', params, this.initConfirmedExpertData)
+    },
+    initConfirmedExpertData(res){
+      this.confirmedExpertData = this.$com.confirm(res, 'data.content', [])
+      this.paginationConfirmedExpert.total = this.$com.confirm(res, 'data.totalRows', 0)
     },
     handleCheck() {
       const {pageNo, pageSize} = this.pagination2
@@ -374,10 +371,6 @@ export default {
         pageSize,
       }
       this.$emit('check', params, this.initData2)
-    },
-    initConfirmedExpertData(res){
-      this.confirmedExpertData = this.$com.confirm(res, 'data.content', [])
-      this.paginationConfirmedExpert.total = this.$com.confirm(res, 'data.totalRows', 0)
     },
     initData2(res) {
       this.data2 = this.$com.confirm(res, 'data.content', [])
@@ -409,7 +402,7 @@ export default {
         }
         this.$emit('select', result)
       })
-      this.curTab = '1'
+      // this.curTab = '1'
     },
     handleConfirm() { // 确认专家
       this.$emit('confirm', this.selectedList)
