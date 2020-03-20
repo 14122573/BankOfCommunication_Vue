@@ -103,6 +103,7 @@ export default {
   POST_EXPERT_BASE: '/service-expert/expert/dictionary', //新增专家字典信息列表接口，
   PUT_EXPERT_BASE: '/service-expert/expert/dictionary/{id}', //修改专家字典信息列表接口，
   DELETE_EXPERT_BASE: '/service-expert/expert/dictionary/{id}', //删除专家字典信息列表接口，
+  GET_EXPERT_PROF_LV: '/service-expert/prof/lv', // 获取专家库职称级别列表
   GET_EXPERT_LIST: '/service-expert/expert/expert', //专家库列表
   GET_EXPERT_DETAIL: '/service-expert/expert/expert/{experId}', //专家库明细
   DICTIONARY_TYPE_GET: '/service-expert/expert/dictionary/{type}', //字典
