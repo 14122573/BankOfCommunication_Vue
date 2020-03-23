@@ -11,10 +11,11 @@
         </a-select>
       </a-col>
       <a-col :span="7">
-        <a-select v-show="needSelect(basic)" v-model="basic.andValue">
-          <a-select-option v-for="option in needSelect(basic)" :key="option.id" :value="option.id">{{option.name}}</a-select-option>
+        <a-select v-show="needSelect(basic).type=='select'" v-model="basic.andValue">
+          <a-select-option v-for="option in needSelect(basic).options" :key="option.id" :value="option.id">{{option.name}}</a-select-option>
         </a-select>
-        <a-input v-show="!needSelect(basic)" v-model="basic.andValue"/>
+        <a-cascader v-show="needSelect(basic).type=='cascader'" :options="needSelect(basic).options" placeholder='请选择' @change="(value, selectedOptions) => {onCascaderChange(value,selectedOptions,basic,'andValue')}" changeOnSelect />
+        <a-input v-show="needSelect(basic).type=='input'" v-model="basic.andValue"/>
       </a-col>
       <a-col :span="2">
         <a-select v-model="basic.contain">
@@ -22,10 +23,11 @@
         </a-select>
       </a-col>
       <a-col :span="7">
-        <a-select v-show="needSelect(basic)" v-model="basic.containValue">
-          <a-select-option v-for="option in needSelect(basic)" :key="option.id" :value="option.id">{{option.name}}</a-select-option>
+        <a-select v-show="needSelect(basic).type=='select'" v-model="basic.containValue">
+          <a-select-option v-for="option in needSelect(basic).options" :key="option.id" :value="option.id">{{option.name}}</a-select-option>
         </a-select>
-        <a-input v-show="!needSelect(basic)" v-model="basic.containValue"/>
+        <a-cascader placeholder='请选择' v-show="needSelect(basic).type=='cascader'" :options="needSelect(basic).options" @change="(value, selectedOptions) => {onCascaderChange(value,selectedOptions,basic,'containValue')}" changeOnSelect />
+        <a-input v-show="needSelect(basic).type=='input'" v-model="basic.containValue"/>
       </a-col>
       <a-col :span="2">
         <a-select v-model="basic.equals">
@@ -46,10 +48,11 @@
           </a-select>
         </a-col>
         <a-col :span="7">
-          <a-select v-show="needSelect(filter)" v-model="filter.andValue">
-            <a-select-option v-for="option in needSelect(filter)" :key="option.id" :value="option.id">{{option.name}}</a-select-option>
+          <a-select v-show="needSelect(filter).type=='select'" v-model="filter.andValue">
+            <a-select-option v-for="option in needSelect(filter).options" :key="option.id" :value="option.id">{{option.name}}</a-select-option>
           </a-select>
-          <a-input v-show="!needSelect(filter)" v-model="filter.andValue"/>
+          <a-cascader placeholder='请选择' v-show="needSelect(filter).type=='cascader'" :options="needSelect(basic).options" @change="(value, selectedOptions) => {onCascaderChange(value,selectedOptions,filter,'andValue')}" changeOnSelect />
+          <a-input v-show="needSelect(filter).type=='input'" v-model="filter.andValue"/>
         </a-col>
         <a-col :span="2">
           <a-select v-model="filter.contain">
@@ -57,10 +60,11 @@
           </a-select>
         </a-col>
         <a-col :span="7">
-          <a-select v-show="needSelect(filter)" v-model="filter.containValue">
-            <a-select-option v-for="option in needSelect(filter)" :key="option.id" :value="option.id">{{option.name}}</a-select-option>
+          <a-select v-show="needSelect(filter).type=='select'" v-model="filter.containValue">
+            <a-select-option v-for="option in needSelect(filter).options" :key="option.id" :value="option.id">{{option.name}}</a-select-option>
           </a-select>
-          <a-input v-show="!needSelect(filter)" v-model="filter.containValue"/>
+          <a-cascader placeholder='请选择' v-show="needSelect(filter).type=='cascader'" :options="needSelect(basic).options" @change="(value, selectedOptions) => {onCascaderChange(value,selectedOptions,filter,'containValue')}" changeOnSelect />
+          <a-input v-show="!needSelect(filter).type=='input'" v-model="filter.containValue"/>
         </a-col>
         <a-col :span="2">
           <a-select v-model="filter.equals">
@@ -225,7 +229,11 @@ export default {
       selectedRowKeys: [],
       selectedRows: [],
       selectedList: [],
-      url: 'http://iftp.omniview.pro/api/service-expert/expert/dictionary/',
+      url: {
+        dictionary:'http://iftp.omniview.pro/api/service-expert/expert/dictionary/',
+        profTree:'http://iftp.omniview.pro/api/service-expert/expert/prof/tree',
+
+      },
     }
   },
   mounted() {
@@ -238,10 +246,33 @@ export default {
     getOptions() {
       this.typeOptions.forEach(item => {
         if (!item.requestType) return
+        let ajaxUrl = this.url['dictionary'] + item.requestType
+        if(item.requestType=='3'){ //职称要换另一个接口
+          ajaxUrl = this.url['profTree']
+        }
         this.$ajax.get({
-          url: this.url + item.requestType,
+          url: ajaxUrl,
         }).then(res => {
-          item.options = (res.data && res.data.content) || []
+          if(item.requestType=='3'){ //需要按级联选择组件options的结构重组内容
+            let optionDatas =  (res.data && res.data.content) || {}
+            item.options = []
+            for(let key in optionDatas){
+              let optionChildren = []
+              optionDatas[key].forEach(item =>{
+                optionChildren.push({
+                  value:item.id,
+                  label:item.name
+                })
+              })
+              item.options.push({
+                value: key,
+                label: key,
+                children: [].concat(optionChildren),
+              })
+            }
+          }else{
+            item.options = (res.data && res.data.content) || []
+          }
         })
       })
     },
@@ -250,13 +281,49 @@ export default {
       this.$delete(row, 'andValue')
       this.$delete(row, 'containValue')
     },
-    // 判断需要用输入框则返回选项列表，否则返回false默认使用input
+    /**
+     * 判断需要用的表单组件
+     * @param {Object} row 当前设置使用的抽取条件对象
+     * @returns {Object} {
+     *                    type:'cascader/select/input',需要使用的组件类型
+     *                    options:[] 当type为cascader/select时，此项为可选范围
+     *                    }
+     */
     needSelect(row) {
       const curType = this.typeOptions.find(item => item.value == row.type)
       if (curType && curType.requestType) {
+        if(curType.requestType=='3'){
+          return {
+            type:'cascader',
+            options:curType.options
+          }
+        }else{
+          return {
+            type:'select',
+            options:curType.options
+          }
+        }
         return curType.options
       }
-      return false
+      return {
+        type:'input'
+      }
+    },
+    /**
+     * 监听级联的change事件，将选中value重组后，赋值obj[path]
+     * @param {Array} value 级联已选中的value数组
+     * @param {Object} selectedOptions 级联已选中的option对象数组 { value:'',lable:'',options:[...]}
+     * @param {Object} obj 当前操作的筛选条件对象
+     * @param {String} path 当前操作筛选条件对象，需要存放已选级联内容的key值
+     */
+    onCascaderChange(value, selectedOptions,obj,path){
+      obj[path] = ''
+      selectedOptions.forEach((element,index) => {
+        if(index>0){
+          obj[path] += ','
+        }
+        obj[path] += element.label
+      })
     },
     filteringSearchParams(){
       const org = [].concat([this.basic, ...this.filters])
@@ -439,7 +506,7 @@ export default {
 .extract-container .ant-row {
   margin-bottom: 6px;
 }
-.extract-container .ant-select {
+.extract-container .ant-select, .extract-container .ant-cascader-picker {
   width: 100%;
 }
 .extract-btns {
