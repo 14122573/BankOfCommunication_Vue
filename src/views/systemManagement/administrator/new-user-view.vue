@@ -2,7 +2,7 @@
   <div class="portalDetailWapper">
     <div class="portalDetailTitle">
       <span :class="showInfo?'title bule':'title underLine'" @click="showInfo?changeShow(true):changeShow(false)"
-        style="padding:0px;margin-left:16px;">账户信息</span>
+        style="padding:0px;margin-left:32px;">账户信息</span>
       <a-divider type="vertical" />
       <span :class="showInfo?'title underLine':'title bule'" @click="showInfo?changeShow(false):changeShow(true)"
         style="padding:0px;">人员信息</span>

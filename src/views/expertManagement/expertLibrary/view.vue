@@ -18,17 +18,17 @@
 								</a-row>
 								<a-row type="flex" justify="start" class="detailsPartLine">
 									<a-col span="24">
-										<DetailsItem :labelSpan='8' :textSpan="16" :label='"工作单位"' :text='detail.workCompany'></DetailsItem>
+										<DetailsItem :labelSpan='8' :textSpan="16" :label='"出生年月"' :text='detail.birthday.slice(0,7)'></DetailsItem>
+									</a-col>
+								</a-row>
+								<a-row type="flex" justify="start" class="detailsPartLine">
+									<a-col span="24">
+										<DetailsItem :labelSpan='8' :textSpan="16" :label='"电子邮箱"' :text='detail.email'></DetailsItem>
 									</a-col>
 								</a-row>
 								<a-row type="flex" justify="start" class="detailsPartLine">
 									<a-col span="24">
 										<DetailsItem :labelSpan='8' :textSpan="16" :label='"单位性质"' :text='detail.companyNatureName'></DetailsItem>
-									</a-col>
-								</a-row>
-								<a-row type="flex" justify="start" class="detailsPartLine">
-									<a-col span="24">
-										<DetailsItem :labelSpan='8' :textSpan="16" :label='"职务"' :text='detail.position'></DetailsItem>
 									</a-col>
 								</a-row>
 								<!-- <a-row type="flex" justify="start" class="detailsPartLine">
@@ -50,12 +50,12 @@
 								</a-row>
 								<a-row type="flex" justify="start" class="detailsPartLine">
 									<a-col span="24">
-										<DetailsItem :labelSpan='8' :textSpan="16" :label='"单位地址"' :text='detail.companyAddress'></DetailsItem>
+										<DetailsItem :labelSpan='8' :textSpan="16" :label='"政治面貌"' :text='detail.politicName'></DetailsItem>
 									</a-col>
 								</a-row>
 								<a-row type="flex" justify="start" class="detailsPartLine">
 									<a-col span="24">
-										<DetailsItem :labelSpan='8' :textSpan="16" :label='"职称"' :text='detail.jobTitleName'></DetailsItem>
+										<DetailsItem :labelSpan='8' :textSpan="16" :label='"工作单位"' :text='detail.workCompany'></DetailsItem>
 									</a-col>
 								</a-row>
 								<a-row type="flex" justify="start" class="detailsPartLine">
@@ -72,6 +72,29 @@
 									<a-col span="16">
 										<img v-if="detail.portraitImg!='暂无'" style="width:165px;height:185px" :src="detail.portraitImg" alt="">
 										<span v-else>暂无</span>
+									</a-col>
+								</a-row>
+							</a-col>
+						</a-row>
+						<a-row type="flex" justify="start">
+							<a-col span="8">
+								<a-row type="flex" justify="start" class="detailsPartLine">
+									<a-col span="24">
+										<DetailsItem :labelSpan='8' :textSpan="16" :label='"职务"' :text='detail.position'></DetailsItem>
+									</a-col>
+								</a-row>
+							</a-col>
+							<a-col span="8">
+								<a-row type="flex" justify="start" class="detailsPartLine">
+									<a-col span="24">
+										<DetailsItem :labelSpan='8' :textSpan="16" :label='"职称"' :text='getJobTitleName(detail.jobTitleName)'></DetailsItem>
+									</a-col>
+								</a-row>
+							</a-col>
+							<a-col span="16">
+								<a-row type="flex" justify="start" class="detailsPartLine">
+									<a-col span="24">
+										<DetailsItem :labelSpan='4' :textSpan="20" :label='"单位地址"' :text='detail.companyAddress'></DetailsItem>
 									</a-col>
 								</a-row>
 							</a-col>
@@ -165,7 +188,7 @@
 										<!-- <template v-if="text.length>0">{{text}}</template>
 										<slot name='detailContent'></slot> -->
 										<a-table v-if="detail.achievements!='[{}]'" class="portalTable" :dataSource="JSON.parse(detail.achievements)" 
-											:columns="achievementsColumns" size="small" rowKey="index" :pagination="false">
+											:columns="achievementsColumns" size="small" rowKey="name" :pagination="false">
 										</a-table>
 										<span v-else >暂无</span>
 									</a-col>
@@ -311,10 +334,15 @@ export default {
     this.getDetail()
   },
   methods: {
+    //获取职称
+    getJobTitleName(name){
+	  return (name.split(','))[0]
+    },
     getDetail() {
       this.$ajax.get({
         url: this.$api.GET_EXPERT_DETAIL.replace('{experId}', this.id)
       }).then(res => {
+        console.log(res)
         let data = this.$com.confirm(res, 'data.content', {})
         for (let i in data) {
           if (data[i] == null || data[i] == undefined) {

@@ -29,3 +29,6 @@
   background: #fff;
   border: 1px solid #1890ff;
 }
+.ant-btn-dashed{
+  border-color: #1890FF;
+}

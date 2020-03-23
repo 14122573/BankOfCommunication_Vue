@@ -54,7 +54,7 @@
 								</a-select>
 							</a-form-item>
 						</a-col>
-						<a-col span="8">
+						<a-col span="8" v-if="!fromCenter">
 							<a-form-item label="所属区域" v-bind="colSpe">
 								<!-- <a-select v-if="isAdminator !== true" placeholder="请选择" labelInValue @change="onChangeTree" showSearch
 								 v-decorator="['area',searchFormRules.area]">
@@ -65,7 +65,7 @@
 								</a-tree-select>
 							</a-form-item>
 						</a-col>
-						<a-col span="8">
+						<a-col span="8" v-if="!fromCenter">
 							<a-form-item label="组织机构" v-bind="colSpe">
 								<a-select v-decorator="['group',searchFormRules.group]" allowClear placeholder='请选择'>
 									<a-select-option v-for="(item,index) in groupLists" :key="index" :value="item.id">{{item.groupName}}</a-select-option>

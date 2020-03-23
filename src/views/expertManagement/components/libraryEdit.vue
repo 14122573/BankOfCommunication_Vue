@@ -65,8 +65,8 @@
                       </a-form-item>
                     </a-col>
                     <a-col span="12">
-                      <a-form-item label="工作单位" v-bind="colSpa">
-                        <a-input v-decorator="['workCompany',{rules:rules.workCompany}]" placeholder="请输入"></a-input>
+                      <a-form-item label="电子邮箱" v-bind="colSpa">
+                        <a-input v-decorator="['email',{rules:rules.email}]" placeholder="请输入"></a-input>
                       </a-form-item>
                     </a-col>
                   </a-row>
@@ -93,6 +93,11 @@
               </a-row>
               <a-row>
                 <a-col span="8">
+                  <a-form-item label="工作单位" v-bind="colSpa">
+                    <a-input v-decorator="['workCompany',{rules:rules.workCompany}]" placeholder="请输入"></a-input>
+                  </a-form-item>
+                </a-col>
+                <a-col span="8">
                   <a-form-item label="单位性质" v-bind="colSpa">
                     <a-select v-decorator="['companyNature',{rules:rules.companyNature}]" :options="options.companyNatureList" placeholder="请选择"></a-select>
                   </a-form-item>
@@ -108,13 +113,13 @@
                     /> -->
                   </a-form-item>
                 </a-col>
+              </a-row>
+              <a-row >
                 <a-col span="8">
                   <a-form-item label="办公电话" v-bind="colSpa">
                     <a-input v-decorator="['companyPhone',{rules:rules.companyPhone}]" placeholder="请输入"></a-input>
                   </a-form-item>
                 </a-col>
-              </a-row>
-              <a-row >
                 <!-- <a-col span="8">
                     <a-form-item label="所在部门" v-bind="colSpa">
                       <a-input v-decorator="['belongDepartment',{rules:rules.belongDepartment}]" placeholder="请输入"></a-input>
@@ -136,11 +141,6 @@
                   <a-form-item label="职务" v-bind="colSpa">
                     <a-input v-decorator="['position',{rules:rules.position}]" placeholder="请输入"></a-input>
                     <!-- <a-select v-decorator="['position',{rules:rules.position}]" :options="options.positionList" placeholder="请选择"></a-select> -->
-                  </a-form-item>
-                </a-col>
-                <a-col span="8">
-                  <a-form-item label="电子邮箱" v-bind="colSpa">
-                    <a-input v-decorator="['email',{rules:rules.email}]" placeholder="请输入"></a-input>
                   </a-form-item>
                 </a-col>
                 <a-col span="8">
@@ -230,7 +230,7 @@ export default {
       if (!value) {
         callback()
       } else {
-        if (!this.$com.checkPhone(value) && !this.$com.checkTel(value)) {
+        if (!/^[\d-]+$/.test(value)) {
           callback('电话号码不合法！')
         } else {
           callback()
@@ -594,7 +594,7 @@ export default {
         var children=this.options.jobTitleList[j].children
         for(var i=0;i<children.length;i++){
           if(children[i].value==data.jobTitle){
-            data.jobTitleName=children[i].label
+            data.jobTitleName=children[i].label+','+this.options.jobTitleList[j].value
           }
         }
       }
