@@ -63,7 +63,7 @@
           </a-col>
         </a-row>
         <a-row>
-          <a-col span="20" offset="3"><a-button class="addNewData" @click="addAchievements" type="dashed" block>新增一条成果</a-button></a-col>
+          <a-col span="20" offset="3"><a-button class="addNewData" @click="addAchievements" type="dashed" block>+ 新增一条成果</a-button></a-col>
         </a-row>
         <!-- <a-row>
           <a-col span="16">

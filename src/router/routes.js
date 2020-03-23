@@ -21,8 +21,6 @@ const SysBasicInfo = () => import ('@/views/systemManagement/basicInformation/in
 const Organization = () => import ('@/views/systemManagement/organization/list')
 const OrganizationCreate = () => import ('@/views/systemManagement/organization/create')
 const OrganizationView = () => import ('@/views/systemManagement/organization/view')
-//行政区划
-const Administrative = () => import ('@/views/systemManagement/administrative/list')
 // 角色管理
 const RoleManagement = () => import ('@/views/systemManagement/role/list')
 const RoleCreate = () => import ('@/views/systemManagement/role/add')
@@ -204,32 +202,6 @@ let appRoutes = [{
             component: OrganizationCreate,
             meta: { title: '组织机构编辑', menuPath: false, authCode: 'P01003', menuIcon: 'cluster', hideInBread: false, openMode: 'normal' }
           },
-          ]
-        },
-        //行政区划维护
-        {
-          path: '/systemManagement/administrative',
-          name: '/systemManagement/administrative',
-          component: Administrative,
-          meta: { title: '行政区划维护', menuPath: true, authCode: 'P04200', menuIcon: 'cluster', hideInBread: false, openMode: 'normal' },
-          children: [//{
-          //   path: '/systemManagement/organization/create',
-          //   name: '/systemManagement/organization/create',
-          //   component: OrganizationCreate,
-          //   meta: { title: '组织机构创建', menuPath: false, authCode: 'P01001', menuIcon: 'cluster', hideInBread: false, openMode: 'normal' }
-          // },
-          // {
-          //   path: '/systemManagement/organization/view',
-          //   name: '/systemManagement/organization/view',
-          //   component: OrganizationView,
-          //   meta: { title: '组织机构查看', menuPath: false, uthCode: 'P01002', menuIcon: 'cluster', hideInBread: false, openMode: 'normal' }
-          // },
-          // {
-          //   path: '/systemManagement/organization/edit',
-          //   name: '/systemManagement/organization/edit',
-          //   component: OrganizationCreate,
-          //   meta: { title: '组织机构编辑', menuPath: false, authCode: 'P01003', menuIcon: 'cluster', hideInBread: false, openMode: 'normal' }
-          // },
           ]
         },
         // RoleManagement角色管理

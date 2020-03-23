@@ -118,7 +118,6 @@ export default {
       this.$ajax.get({
         url: this.$api.GET_USER_DETAIL.replace('{id}', this.$route.query.id)
       }).then(res => {
-        console.log(res)
         this.detail = res.data.content
         this.getTree()
         this.getDefaultRole(this.detail.roleIds)

@@ -5,6 +5,9 @@
 			<a-tab-pane v-if="$permission('P04100')" tab="水产品种大类" key="breed">
 				<basicInfo :baseType='"breed"' />
 			</a-tab-pane>
+      <a-tab-pane v-if="$permission('P04200')" tab="行政区划" key="division">
+				<Administrative />
+			</a-tab-pane>
 		</a-tabs>
 	</div>
   <RouterWapper v-else></RouterWapper>
@@ -12,10 +15,12 @@
 </template>
 <script>
 import basicInfo from './components/list'
+import Administrative from './administrative/list'
 export default {
   name: 'SysBasic',
   components: {
     basicInfo,
+    Administrative,
   },
   data() {
     return {

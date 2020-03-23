@@ -92,8 +92,8 @@
                 </a-col>
               </a-row>
               <a-row>
-                <a-col span="8">
-                  <a-form-item label="工作单位" v-bind="colSpa">
+                <a-col span="16">
+                  <a-form-item label="工作单位" v-bind="textSpa">
                     <a-input v-decorator="['workCompany',{rules:rules.workCompany}]" placeholder="请输入"></a-input>
                   </a-form-item>
                 </a-col>
@@ -102,8 +102,10 @@
                     <a-select v-decorator="['companyNature',{rules:rules.companyNature}]" :options="options.companyNatureList" placeholder="请选择"></a-select>
                   </a-form-item>
                 </a-col>
-                <a-col span="8">
-                  <a-form-item label="单位地址" v-bind="colSpa">
+              </a-row>
+              <a-row>
+                <a-col span="16">
+                  <a-form-item label="单位地址" v-bind="textSpa">
                     <a-input v-decorator="['companyAddress',{rules:rules.companyAddress}]" placeholder="请输入"></a-input>
                     <!-- <a-cascader
                       v-decorator="['companyAddressId',{rules:rules.companyAddress}]"
@@ -111,6 +113,11 @@
                       :loadData="getAreas"
                       placeholder="请选择"
                     /> -->
+                  </a-form-item>
+                </a-col>
+                <a-col span="8">
+                  <a-form-item label="邮编" v-bind="colSpa">
+                    <a-input v-decorator="['postcode']" placeholder="请输入"></a-input>
                   </a-form-item>
                 </a-col>
               </a-row>
@@ -141,13 +148,6 @@
                   <a-form-item label="职务" v-bind="colSpa">
                     <a-input v-decorator="['position',{rules:rules.position}]" placeholder="请输入"></a-input>
                     <!-- <a-select v-decorator="['position',{rules:rules.position}]" :options="options.positionList" placeholder="请选择"></a-select> -->
-                  </a-form-item>
-                </a-col>
-              </a-row>
-              <a-row >
-                <a-col span="8">
-                  <a-form-item label="邮编" v-bind="colSpa">
-                    <a-input v-decorator="['postcode']" placeholder="请输入"></a-input>
                   </a-form-item>
                 </a-col>
               </a-row>

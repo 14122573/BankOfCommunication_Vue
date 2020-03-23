@@ -255,6 +255,13 @@
 					</div>
 				</div> -->
 			</template>
+			<template v-else>
+				<div class="layoutMargin layoutPadding detailsPartSection">
+					<a-alert message="暂无数据" type="success">
+						<p slot="description"> 该账户在暂无人员信息数据 </p>
+					</a-alert>
+				</div>
+			</template>
 		</div>
 		<!-- <div class="target">
 			<div class="icon" v-show="changeSmall">
