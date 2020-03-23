@@ -1,7 +1,7 @@
 <template>
 <div class="routerWapper">
 	<div v-if="$route.name == '/systemManagement/administrator'" class="layoutMargin layoutPadding" >
-		<a-tabs :animated="false" :activeKey="key" @change="callback">
+		<a-tabs :animated="false" :defaultActiveKey="2" :activeKey="key" @change="callback">
 			<!-- <a-tab-pane v-if="$permission('P03100')" tab="待分配权限" key="1">
 				<Pendingpermissions />
 			</a-tab-pane> -->
@@ -75,7 +75,7 @@ export default {
   beforeRouteEnter(to, from, next) {
     next(vm => {
       if (from.name!=null&&from.path.indexOf('administrator') == -1) {
-        vm.$store.commit('SET_TABNAME', '1')
+        vm.$store.commit('SET_TABNAME', '2')
       }
     })
   }
