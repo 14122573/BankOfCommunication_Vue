@@ -44,7 +44,7 @@
         <a-row :gutter="10" v-for="(item, i) in achievementsList" :key="i">
           <a-col span="7" :offset="1">
             <a-form-item :label="i > 0 ? `主要成果${i + 1}` : '主要成果1'" v-bind="col">
-              <a-select v-decorator="[`achievements[${i}].type`]" :options="options.awardTypeList" placeholder="请选择成果类别"></a-select>
+              <a-select v-decorator="[`achievements[${i}].type`]" allowClear :options="options.awardTypeList" placeholder="请选择成果类别"></a-select>
             </a-form-item>
           </a-col>
           <a-col span="10">
@@ -63,7 +63,7 @@
           </a-col>
         </a-row>
         <a-row>
-          <a-col span="20" offset="3"><a-button @click="addAchievements" type="dashed" block>新增一条成果</a-button></a-col>
+          <a-col span="20" offset="3"><a-button class="addNewData" @click="addAchievements" type="dashed" block>新增一条成果</a-button></a-col>
         </a-row>
         <!-- <a-row>
           <a-col span="16">
@@ -195,13 +195,14 @@ export default {
   methods: {
     initialData(data) {
       var jobSpace=JSON.parse(JSON.stringify(data))
-      console.log(jobSpace)
-      this.researchDirectionTags=jobSpace.researchDirection.split('、')
-      this.topicWordTags=jobSpace.topicWord.split('、')
+      this.researchDirectionTags=jobSpace.researchDirection?jobSpace.researchDirection.split('、'):[]
+      this.topicWordTags=jobSpace.topicWord?jobSpace.topicWord.split('、'):[]
       this.$delete(data, 'researchDirection')
       this.$delete(data, 'topicWord')
       for(let i=0;i<data.achievements.length;i++){
-        data.achievements[i].date=this.$moment(data.achievements[i].date,'YYYY-MM')
+        if(data.achievements[i].date){
+          data.achievements[i].date=this.$moment(data.achievements[i].date,'YYYY-MM')
+        }
       }
       this.setRows(data.achievements)
       this.$nextTick(() => {
@@ -238,9 +239,16 @@ export default {
     //组装topicWordTags数组
     handleInputTopicWord() {
       const inputValue = this.formSpace.getFieldValue('topicWord')?this.formSpace.getFieldValue('topicWord'):''
-      let tags = this.topicWordTags
-      if (inputValue && tags.indexOf(inputValue) === -1) {
-        this.topicWordTags.push(inputValue)
+      if(inputValue && inputValue!=''){
+        let tags = this.topicWordTags
+        if (inputValue && tags.indexOf(inputValue) === -1) {
+          this.topicWordTags.push(inputValue)
+        }
+      }else{
+        this.$modal.error({
+          title: '请先输入内容！',
+          okText: '确认',
+        })
       }
     },
     //删除researchDirectionTags
@@ -251,9 +259,16 @@ export default {
     //组装researchDirectionTags数组
     handleInputResearchDirection() {
       const inputValue = this.formSpace.getFieldValue('researchDirection')?this.formSpace.getFieldValue('researchDirection'):''
-      let tags = this.researchDirectionTags
-      if (inputValue && tags.indexOf(inputValue) === -1) {
-        this.researchDirectionTags.push(inputValue)
+      if(inputValue && inputValue!=''){
+        let tags = this.researchDirectionTags
+        if (inputValue && tags.indexOf(inputValue) === -1) {
+          this.researchDirectionTags.push(inputValue)
+        }
+      }else{
+        this.$modal.error({
+          title: '请先输入内容！',
+          okText: '确认',
+        })
       }
     },
   },
@@ -282,5 +297,8 @@ export default {
   white-space:normal;
   height:auto;
   word-break:break-all;
+}
+.addNewData{
+  border-color: #1890FF;
 }
 </style>

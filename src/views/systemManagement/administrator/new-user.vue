@@ -53,7 +53,7 @@
 		<p class="gayLine noline"></p>
 		<div class='portalTableOperates'>
 			<a-button icon='plus' v-if="$permission('P03303')" type="primary" @click='handleAdd'>添加账户</a-button>
-      <a-button icon='plus' v-if="$permission('P03308')" type="primary" @click='exportInfo' style="margin-left:20px;">导出数据</a-button>
+      <a-button icon='upload' v-if="$permission('P03308')" type="primary" @click='exportInfo' style="margin-left:20px;">导出数据</a-button>
 		</div>
 		<a-table size='small' class="portalTable" :columns="columns" :dataSource="dataTable" rowKey='id' :pagination='pagination'>
 			<span slot="action" slot-scope="text, record">

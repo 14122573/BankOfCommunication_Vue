@@ -31,6 +31,11 @@
 										<DetailsItem :labelSpan='8' :textSpan="16" :label='"单位性质"' :text='detail.companyNatureName'></DetailsItem>
 									</a-col>
 								</a-row>
+								<a-row type="flex" justify="start" class="detailsPartLine">
+									<a-col span="24">
+										<DetailsItem :labelSpan='8' :textSpan="16" :label='"职务"' :text='detail.position'></DetailsItem>
+									</a-col>
+								</a-row>
 								<!-- <a-row type="flex" justify="start" class="detailsPartLine">
 									<a-col span="24">
 										<DetailsItem :labelSpan='8' :textSpan="16" :label='"主要社会兼职"' :text='detail.partTime'></DetailsItem>
@@ -63,6 +68,11 @@
 										<DetailsItem :labelSpan='8' :textSpan="16" :label='"办公电话"' :text='detail.companyPhone'></DetailsItem>
 									</a-col>
 								</a-row>
+								<a-row type="flex" justify="start" class="detailsPartLine">
+									<a-col span="24">
+										<DetailsItem :labelSpan='8' :textSpan="16" :label='"职称"' :text='getJobTitleName(detail.jobTitleName)'></DetailsItem>
+									</a-col>
+								</a-row>
 							</a-col>
 							<a-col span="8">
 								<a-row type="flex" justify="start" class="detailsPartLine">
@@ -77,20 +87,6 @@
 							</a-col>
 						</a-row>
 						<a-row type="flex" justify="start">
-							<a-col span="8">
-								<a-row type="flex" justify="start" class="detailsPartLine">
-									<a-col span="24">
-										<DetailsItem :labelSpan='8' :textSpan="16" :label='"职务"' :text='detail.position'></DetailsItem>
-									</a-col>
-								</a-row>
-							</a-col>
-							<a-col span="8">
-								<a-row type="flex" justify="start" class="detailsPartLine">
-									<a-col span="24">
-										<DetailsItem :labelSpan='8' :textSpan="16" :label='"职称"' :text='getJobTitleName(detail.jobTitleName)'></DetailsItem>
-									</a-col>
-								</a-row>
-							</a-col>
 							<a-col span="16">
 								<a-row type="flex" justify="start" class="detailsPartLine">
 									<a-col span="24">
@@ -189,6 +185,9 @@
 										<slot name='detailContent'></slot> -->
 										<a-table v-if="detail.achievements!='[{}]'" class="portalTable" :dataSource="JSON.parse(detail.achievements)" 
 											:columns="achievementsColumns" size="small" rowKey="name" :pagination="false">
+											<span  slot="date" slot-scope="text, record">
+												{{record.date?record.date.slice(0,7):''}}
+											</span>
 										</a-table>
 										<span v-else >暂无</span>
 									</a-col>
@@ -207,7 +206,7 @@
 										<a-table v-if="detail.workExperience!='[{}]'" class="portalTable" :dataSource="JSON.parse(detail.workExperience)" 
 											:columns="workExperienceColumns" size="small" rowKey="type" :pagination="false">
 											<span  slot="date" slot-scope="text, record">
-												{{record.date[0]}} 至 {{record.date[1]}}
+												{{(record.date && record.date.length)>1?record.date[0].slice(0,7)+' 至 '+record.date[1].slice(0,7):''}}
 											</span>
 										</a-table>
 										<span v-else >暂无</span>
@@ -308,6 +307,9 @@ export default {
         dataIndex: 'date',
         key: 'date',
         width:'40%',
+        scopedSlots: {
+          customRender: 'date',
+        },
 	  }],
 	  workExperienceColumns:[{
         title: '名称',
@@ -342,7 +344,6 @@ export default {
       this.$ajax.get({
         url: this.$api.GET_EXPERT_DETAIL.replace('{experId}', this.id)
       }).then(res => {
-        console.log(res)
         let data = this.$com.confirm(res, 'data.content', {})
         for (let i in data) {
           if (data[i] == null || data[i] == undefined) {

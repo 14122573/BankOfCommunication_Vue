@@ -53,7 +53,7 @@
         </a-col>
       </a-row>
       <a-row>
-        <a-col span="20" offset="3"><a-button @click="addExperience" type="dashed" block>新增一条经历</a-button></a-col>
+        <a-col span="20" offset="3"><a-button class="addNewData" @click="addExperience" type="dashed" block>新增一条经历</a-button></a-col>
       </a-row>
       <!-- <a-row>
         <a-col span="16">
@@ -189,8 +189,8 @@ export default {
     initialData(data) {
       let workExperience=data.workExperience
       for(let i=0;i<workExperience.length;i++){
-        let date=workExperience[i].date
-        if(date.length>1){
+        let date=workExperience[i].date?workExperience[i].date:[]
+        if(JSON.stringify(date)!='[]' && date.length>1){
           let workDate=[]
           workDate[0]=this.$moment(date[0],'YYYY-MM')
           workDate[1]=this.$moment(date[1],'YYYY-MM')
@@ -233,5 +233,8 @@ export default {
 }
 .del-btn:hover {
   color: red;
+}
+.addNewData{
+  border-color: #1890FF;
 }
 </style>

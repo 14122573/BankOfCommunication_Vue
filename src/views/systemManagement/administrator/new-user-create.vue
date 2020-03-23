@@ -256,8 +256,9 @@ export default {
               if (res.code == '200') {
                 let _this=this
                 this.$modal.confirm({
-                  title: '新增成功！',
-                  content: '是否继续完善人员信息？',
+                  title: '新增成功！是否继续完善人员信息？',
+                  type:'success',
+                  icon:'check',
                   onOk() {
                     _this.$router.push({
                       name: '/systemManagement/administrator/edit',

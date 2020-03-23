@@ -44,7 +44,7 @@
                     <a-col span="12">
                       <a-form-item label="出生年月" v-bind="colSpa">
                         <!-- <a-date-picker v-decorator="['birthday',{rules:rules.birthday}]" @change="setAge"/> -->
-                        <a-month-picker v-decorator="['birthday',{rules:rules.birthday}]" @change="setAge"/>
+                        <a-month-picker v-decorator="['birthday',{rules:rules.birthday}]" :disabledDate="disabledDate" @change="setAge"/>
                       </a-form-item>
                     </a-col>
                     <a-col span="12">
@@ -143,6 +143,8 @@
                     <!-- <a-select v-decorator="['position',{rules:rules.position}]" :options="options.positionList" placeholder="请选择"></a-select> -->
                   </a-form-item>
                 </a-col>
+              </a-row>
+              <a-row >
                 <a-col span="8">
                   <a-form-item label="邮编" v-bind="colSpa">
                     <a-input v-decorator="['postcode']" placeholder="请输入"></a-input>
@@ -231,7 +233,7 @@ export default {
         callback()
       } else {
         if (!/^[\d-]+$/.test(value)) {
-          callback('电话号码不合法！')
+          callback('电话不合法！只支持数字和-')
         } else {
           callback()
         }
@@ -336,6 +338,10 @@ export default {
     })
   },
   methods: {
+    //出生日期不能选到当前日期之后
+    disabledDate(current) {
+      return current && current > this.$moment().endOf('day')
+    },
     //   查询options
     getOptions() {
       let api = this.$api.DICTIONARY_TYPE_GET
@@ -571,7 +577,7 @@ export default {
                 item.date = [date[0] ? this.changeDateData(date[0]) : null, date[1] ? this.changeDateData(date[1]) : null]
               }
               item.index = index
-            }else if(typeof item.date=='object' && !Array.isArray(item.date)){
+            }else if(typeof item.date=='object' && !Array.isArray(item.date) &&item.date!=null){
               if (item.type) {
                 this.options.awardTypeList.forEach(option => {
                   if (option.value === item.type) {
@@ -598,7 +604,6 @@ export default {
           }
         }
       }
-      console.log(data.jobTitleName)
       data.birthday =this.changeDateData(data.birthday)// this.$moment(data.birthday).format('YYYY-MM')
       data.workExperience = JSON.stringify(transformDate('workExperience'))
       data.achievements = JSON.stringify(transformDate('achievements'))
@@ -620,7 +625,6 @@ export default {
         methods = 'post'
         msg = '新增成功！'
       }
-      console.log(data)
       this.$ajax[methods]({
         url: link,
         params: data
@@ -639,7 +643,6 @@ export default {
         url: this.$api.GET_EXPERT_DETAIL.replace('{experId}',this.currentId),
         hideLoading: false
       }).then(res => {
-        console.log(res)
         let loginPhone=this.$route.query.loginPhone
         let {
           name,
@@ -697,15 +700,20 @@ export default {
             return []
           }
         }
+        var jobTitleFlag=false
         for(let i=0;i<this.options.jobTitleList.length;i++){//组装职称关联选择的值
           var option=this.options.jobTitleList[i]
           for(let j=0;j<option.children.length;j++){
             if(option.children[j].value==jobTitle){
+              jobTitleFlag=true
               jobTitle=[]
               jobTitle[0]=option.value
               jobTitle[1]=option.children[j].value
             }
           }
+        }
+        if(!jobTitleFlag){
+          jobTitle=[]
         }
         // this.setAreaOptions(companyAddressId) // 设置省市区级联选择框的回显
         this.$nextTick(() => {
@@ -787,13 +795,33 @@ export default {
           personalPhoto.fileId = this.fileList[0].uid
         }
       }
+      var jobStudy=this.$refs.jobStudy.formJob.getFieldsValue()
+      var workExperienceDate=this.$refs.jobStudy.workExperienceDate
+      var jobSpace= this.$refs.jobSpace.formSpace.getFieldsValue()
+      if(this.validationForm(jobStudy.workExperience,workExperienceDate)==false){
+        this.$modal.error({
+          title: '表单验证未通过',
+          content: '请将"工作/学习经历"填写完整',
+          okText: '确认',
+          cancelText: '取消',
+        })
+        return false
+      }else if(this.validationForm(jobSpace.achievements)==false){
+        this.$modal.error({
+          title: '表单验证未通过',
+          content: '请将"主要成果"填写完整',
+          okText: '确认',
+          cancelText: '取消',
+        })
+        return false
+      }
       if (formsAll) {
         var jobStudy=this.$refs.jobStudy.formJob.getFieldsValue()
         var workExperienceDate=this.$refs.jobStudy.workExperienceDate
         for(let i=0;i<jobStudy.workExperience.length;i++){
           jobStudy.workExperience[i].date=workExperienceDate[i]
         }
-        var jobSpace= this.$refs.jobSpace.formSpace.getFieldsValue()
+        
         jobSpace.researchDirection=this.$refs.jobSpace.researchDirectionTags.join('、')
         jobSpace.topicWord=this.$refs.jobSpace.topicWordTags.join('、')
         let data = Object.assign({},
@@ -811,7 +839,53 @@ export default {
           cancelText: '取消',
         })
       }
-    }
+    },
+    validationForm(data,date){
+      if(date){
+        if(data.length==date.length && data.length>1){
+          for(let i=0;i<data.length;i++){
+            for(var key in data[i]){
+              if(data[i][key]==null ||data[i][key]==undefined ||data[i][key]==''){
+                return false
+              }
+            }
+          }
+          for(let i=0;i<date.length;i++){
+            if(!date[i] || date[i].length<1){
+              return false
+            }
+          }
+        }else if(data.length==1 && date.length<=1){
+          if((data[0].name==undefined ||data[0].name=='')&&(data[0].content==undefined ||data[0].content=='')&&(!date[0] || date[0].length<1)){
+            return true
+          }else if(data[0].name &&data[0].content &&date[0].length>1){
+            return true
+          }else{
+            return false
+          }
+        }else{
+          return false
+        }
+      }else{
+        if(data.length==1){
+          if((data[0].type==undefined ||data[0].type=='')&&(data[0].content==undefined ||data[0].content=='')&&(data[0].date==undefined ||data[0].date=='')){
+            return true
+          }else if(data[0].type &&data[0].content &&data[0].date){
+            return true   
+          }else{
+            return false
+          }
+        }else{
+          for(let i=0;i<data.length;i++){
+            for(var key in data[i]){
+              if(data[i][key]==null ||data[i][key]==undefined ||data[i][key]==''){
+                return false
+              }
+            }
+          }
+        }
+      }
+    },
   },
 }
 </script>
