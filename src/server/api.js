@@ -84,7 +84,6 @@ export default {
   PUT_EDIT_ORGANIZATION_LIST: '/service-permission/perm/group/{id}', //修改组织机构
   DELETE_ORGANIZATION_LIST: '/service-permission/perm/group/{id}', //删除组织机构
   GET_ORGANIZATION_LIST_DETAIL: '/service-permission/perm/group/{id}', //组织机构详情
-  GET_JOB_TITLE_TREE:'/service-expert/prof/tree',//职称树形结构
   // 系统配置 -- 用户管理 -- 临时账号管理
   GET_TEMPACCOUT_BATCH_LIST:'/service-user/user/temp/acct/batch',//批次列表
   POST_TEMPACCOUT_CREATE: '/service-user/user/temp/accounts', //批量添加临时账号
@@ -104,7 +103,8 @@ export default {
   POST_EXPERT_BASE: '/service-expert/expert/dictionary', //新增专家字典信息列表接口，
   PUT_EXPERT_BASE: '/service-expert/expert/dictionary/{id}', //修改专家字典信息列表接口，
   DELETE_EXPERT_BASE: '/service-expert/expert/dictionary/{id}', //删除专家字典信息列表接口，
-  GET_EXPERT_PROF_LV: '/service-expert/prof/lv', // 获取专家库职称级别列表
+  GET_EXPERT_PROF_LV: '/service-expert/expert/prof/lv', // 获取专家库职称级别列表
+  GET_JOB_TITLE_TREE:'/service-expert/expert/prof/tree',//职称树形结构
   GET_EXPERT_LIST: '/service-expert/expert/expert', //专家库列表
   GET_EXPERT_DETAIL: '/service-expert/expert/expert/{experId}', //专家库明细
   DICTIONARY_TYPE_GET: '/service-expert/expert/dictionary/{type}', //字典
