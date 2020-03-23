@@ -21,6 +21,8 @@ const SysBasicInfo = () => import ('@/views/systemManagement/basicInformation/in
 const Organization = () => import ('@/views/systemManagement/organization/list')
 const OrganizationCreate = () => import ('@/views/systemManagement/organization/create')
 const OrganizationView = () => import ('@/views/systemManagement/organization/view')
+//行政区划
+const Administrative = () => import ('@/views/systemManagement/administrative/list')
 // 角色管理
 const RoleManagement = () => import ('@/views/systemManagement/role/list')
 const RoleCreate = () => import ('@/views/systemManagement/role/add')
@@ -204,6 +206,32 @@ let appRoutes = [{
           },
           ]
         },
+        //行政区划维护
+        {
+          path: '/systemManagement/administrative',
+          name: '/systemManagement/administrative',
+          component: Administrative,
+          meta: { title: '行政区划维护', menuPath: true, authCode: 'P04200', menuIcon: 'cluster', hideInBread: false, openMode: 'normal' },
+          children: [//{
+          //   path: '/systemManagement/organization/create',
+          //   name: '/systemManagement/organization/create',
+          //   component: OrganizationCreate,
+          //   meta: { title: '组织机构创建', menuPath: false, authCode: 'P01001', menuIcon: 'cluster', hideInBread: false, openMode: 'normal' }
+          // },
+          // {
+          //   path: '/systemManagement/organization/view',
+          //   name: '/systemManagement/organization/view',
+          //   component: OrganizationView,
+          //   meta: { title: '组织机构查看', menuPath: false, uthCode: 'P01002', menuIcon: 'cluster', hideInBread: false, openMode: 'normal' }
+          // },
+          // {
+          //   path: '/systemManagement/organization/edit',
+          //   name: '/systemManagement/organization/edit',
+          //   component: OrganizationCreate,
+          //   meta: { title: '组织机构编辑', menuPath: false, authCode: 'P01003', menuIcon: 'cluster', hideInBread: false, openMode: 'normal' }
+          // },
+          ]
+        },
         // RoleManagement角色管理
         {
           path: '/systemManagement/role',
@@ -246,7 +274,13 @@ let appRoutes = [{
             path: '/systemManagement/administrator/editNewUser',
             name: '/systemManagement/administrator/editNewUser',
             component: CreateNewUser,
-            meta: { title: '新增用户信息修改', menuPath: false, authCode: 'P03302', menuIcon: 'cluster', hideInBread: false, openMode: 'normal' },
+            meta: { title: '账户信息修改', menuPath: false, authCode: 'P03302', menuIcon: 'cluster', hideInBread: false, openMode: 'normal' },
+          },
+          {
+            path: '/systemManagement/administrator/edit',
+            name: '/systemManagement/administrator/edit',
+            component: LibraryEdit,
+            meta: { title: '人员信息修改', menuPath: false, authCode: 'P11003', menuIcon: 'user', hideInBread: false, openMode: 'normal' }
           },
           {
             path: '/systemManagement/administrator/newUserView',
@@ -297,74 +331,74 @@ let appRoutes = [{
         //   component: ExtractExample,
         //   meta: { title: '收取样例', menuPath: true, authCode: 'P12000', menuIcon: 'user', hideInBread: false, openMode: 'normal' }
         // },
-        {
-          path: '/expertManagement/talent',
-          name: '/expertManagement/talent',
-          component: Talent,
-          meta: { title: '人才库', menuPath: true, authCode: 'P12000', menuIcon: 'user', hideInBread: false, openMode: 'normal' },
-          children: [{
-            path: '/expertManagement/talent/upload',
-            name: '/expertManagement/talent/upload',
-            component: TalentUpload,
-            meta: { title: '导入人才库', menuPath: false, authCode: 'P12001', menuIcon: 'user', hideInBread: false, openMode: 'normal' }
-          },
-          {
-            path: '/expertManagement/talent/create',
-            name: '/expertManagement/talent/create',
-            component: LibraryEdit,
-            meta: { title: '新增人才账号', menuPath: false, authCode: 'P12001', menuIcon: 'user', hideInBread: false, openMode: 'normal' }
-          },
-          {
-            path: '/expertManagement/talent/edit',
-            name: '/expertManagement/talent/edit',
-            component: LibraryEdit,
-            meta: { title: '修改人才账号', menuPath: false, authCode: 'P12003', menuIcon: 'user', hideInBread: false, openMode: 'normal' }
-          },
-          {
-            path: '/expertManagement/talent/view',
-            name: '/expertManagement/talent/view',
-            component: LibraryView,
-            meta: { title: '查看人才账号', menuPath: false, authCode: 'P12002', menuIcon: 'user', hideInBread: false, openMode: 'normal' }
-          },
-          ]
-        },
-        {
-          path: '/expertManagement/expertLibrary',
-          name: '/expertManagement/expertLibrary',
-          component: ExpertLibrary,
-          meta: { title: '专家库', menuPath: true, authCode: 'P11000', menuIcon: 'user', hideInBread: false, openMode: 'normal' },
-          children: [{
-            path: '/expertManagement/expertLibrary/create',
-            name: '/expertManagement/expertLibrary/create',
-            component: LibraryEdit,
-            meta: { title: '新增专家账号', menuPath: false, authCode: 'P11001', menuIcon: 'user', hideInBread: false, openMode: 'normal' }
-          },
-          {
-            path: '/expertManagement/expertLibrary/edit',
-            name: '/expertManagement/expertLibrary/edit',
-            component: LibraryEdit,
-            meta: { title: '修改专家账号', menuPath: false, authCode: 'P11003', menuIcon: 'user', hideInBread: false, openMode: 'normal' }
-          },
-          {
-            path: '/expertManagement/expertLibrary/view',
-            name: '/expertManagement/expertLibrary/view',
-            component: LibraryView,
-            meta: { title: '查看专家账号', menuPath: false, authCode: 'P11002', menuIcon: 'user', hideInBread: false, openMode: 'normal' }
-          },
-          {
-            path: '/expertManagement/expertLibrary/select',
-            name: '/expertManagement/expertLibrary/select',
-            component: ExpertLibrarySelect,
-            meta: { title: '选择专家账号', menuPath: false, authCode: 'P11001', menuIcon: 'user', hideInBread: false, openMode: 'normal' }
-          },
-          {
-            path: '/expertManagement/expertLibrary/upload',
-            name: '/expertManagement/expertLibrary/upload',
-            component: ExpertLibraryUpload,
-            meta: { title: '导入专家账号', menuPath: false, authCode: 'P11001', menuIcon: 'user', hideInBread: false, openMode: 'normal' }
-          }
-          ]
-        },
+        // {
+        //   path: '/expertManagement/talent',
+        //   name: '/expertManagement/talent',
+        //   component: Talent,
+        //   meta: { title: '人才库', menuPath: true, authCode: 'P12000', menuIcon: 'user', hideInBread: false, openMode: 'normal' },
+        //   children: [{
+        //     path: '/expertManagement/talent/upload',
+        //     name: '/expertManagement/talent/upload',
+        //     component: TalentUpload,
+        //     meta: { title: '导入人才库', menuPath: false, authCode: 'P12001', menuIcon: 'user', hideInBread: false, openMode: 'normal' }
+        //   },
+        //   {
+        //     path: '/expertManagement/talent/create',
+        //     name: '/expertManagement/talent/create',
+        //     component: LibraryEdit,
+        //     meta: { title: '新增人才账号', menuPath: false, authCode: 'P12001', menuIcon: 'user', hideInBread: false, openMode: 'normal' }
+        //   },
+        //   {
+        //     path: '/expertManagement/talent/edit',
+        //     name: '/expertManagement/talent/edit',
+        //     component: LibraryEdit,
+        //     meta: { title: '修改人才账号', menuPath: false, authCode: 'P12003', menuIcon: 'user', hideInBread: false, openMode: 'normal' }
+        //   },
+        //   {
+        //     path: '/expertManagement/talent/view',
+        //     name: '/expertManagement/talent/view',
+        //     component: LibraryView,
+        //     meta: { title: '查看人才账号', menuPath: false, authCode: 'P12002', menuIcon: 'user', hideInBread: false, openMode: 'normal' }
+        //   },
+        //   ]
+        // },
+        // {
+        //   path: '/expertManagement/expertLibrary',
+        //   name: '/expertManagement/expertLibrary',
+        //   component: ExpertLibrary,
+        //   meta: { title: '专家库', menuPath: true, authCode: 'P11000', menuIcon: 'user', hideInBread: false, openMode: 'normal' },
+        //   children: [{
+        //     path: '/expertManagement/expertLibrary/create',
+        //     name: '/expertManagement/expertLibrary/create',
+        //     component: LibraryEdit,
+        //     meta: { title: '新增专家账号', menuPath: false, authCode: 'P11001', menuIcon: 'user', hideInBread: false, openMode: 'normal' }
+        //   },
+        //   {
+        //     path: '/expertManagement/expertLibrary/edit',
+        //     name: '/expertManagement/expertLibrary/edit',
+        //     component: LibraryEdit,
+        //     meta: { title: '人员信息修改', menuPath: false, authCode: 'P11003', menuIcon: 'user', hideInBread: false, openMode: 'normal' }
+        //   },
+        //   {
+        //     path: '/expertManagement/expertLibrary/view',
+        //     name: '/expertManagement/expertLibrary/view',
+        //     component: LibraryView,
+        //     meta: { title: '查看专家账号', menuPath: false, authCode: 'P11002', menuIcon: 'user', hideInBread: false, openMode: 'normal' }
+        //   },
+        //   {
+        //     path: '/expertManagement/expertLibrary/select',
+        //     name: '/expertManagement/expertLibrary/select',
+        //     component: ExpertLibrarySelect,
+        //     meta: { title: '选择专家账号', menuPath: false, authCode: 'P11001', menuIcon: 'user', hideInBread: false, openMode: 'normal' }
+        //   },
+        //   {
+        //     path: '/expertManagement/expertLibrary/upload',
+        //     name: '/expertManagement/expertLibrary/upload',
+        //     component: ExpertLibraryUpload,
+        //     meta: { title: '导入专家账号', menuPath: false, authCode: 'P11001', menuIcon: 'user', hideInBread: false, openMode: 'normal' }
+        //   }
+        //   ]
+        // },
         {
           path: '/expertManagement/reiview',
           name: '/expertManagement/reiview',

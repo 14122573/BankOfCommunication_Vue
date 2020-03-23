@@ -9,8 +9,7 @@
 		</div>
 		<div class="portalDetailContentWapper">
 			<a-form class="protalForm portalDetailContentBody" :form="searchForm">
-				<div class="layoutMargin detailsPartSection">
-					<p class="detailsPartTitle">账户信息</p>
+				<div class="layoutMargin layoutPadding detailsPartSection">
 					<a-row class="formItemLine">
 						<a-col span="8">
 							<a-form-item class="formItem" label="姓名" v-bind="colSpe">
@@ -47,9 +46,6 @@
 							</a-form-item>
 						</a-col>
 					</a-row>
-				</div>
-				<div v-if="!fromCenter" class="layoutMargin detailsPartSection">
-					<p class="detailsPartTitle">账户信息</p>
 					<a-row class="formItemLine">
 						<a-col span="8" v-if="!fromCenter">
 							<a-form-item label="角色名称" v-bind="colSpe">
@@ -256,10 +252,26 @@ export default {
               url: this.$api.POST_ADD_USER,
               params: values
             }).then(res => {
+              console.log(res)
               if (res.code == '200') {
-                this.$message.success('新增成功！')
-                this.$router.push({
-                  name: '/systemManagement/administrator'
+                let _this=this
+                this.$modal.confirm({
+                  title: '新增成功！',
+                  content: '是否继续完善人员信息？',
+                  onOk() {
+                    _this.$router.push({
+                      name: '/systemManagement/administrator/edit',
+                      query: {
+                        id: res.data.content,
+                        loginPhone:_this.searchForm.getFieldValue('phone'),
+                      }
+                    })
+                  },
+                  onCancel() {
+                    _this.$router.push({
+                      name: '/systemManagement/administrator'
+                    })
+                  },
                 })
               }
             })
