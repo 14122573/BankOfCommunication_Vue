@@ -1,8 +1,6 @@
 <template>
-<a-form :form="formJob">
-  <div class="layoutMargin detailsPartSection">
+<a-form :form="formJob" style="margin-bottom:25px;">
   <!-- 工作学习经历 -->
-    <p class="detailsPartTitle" id="job">工作学习经历</p>
     <div style="margin:0 16px;">
       <a-row>
         <a-col span="8">
@@ -11,12 +9,12 @@
           </a-form-item>
         </a-col>
         <a-col span="8">
-          <a-form-item label="学历" v-bind="colSpa">
+          <a-form-item label="最高学历" v-bind="colSpa">
             <a-select v-decorator="['education',{rules:rules.education}]" :options="options.educationList" placeholder="请选择"></a-select>
           </a-form-item>
         </a-col>
         <a-col span="8">
-          <a-form-item label="学位" v-bind="colSpa">
+          <a-form-item label="最高学位" v-bind="colSpa">
             <a-select v-decorator="['bachelor',{rules:rules.bachelor}]" :options="options.bachelorList" placeholder="请选择"></a-select>
           </a-form-item>
         </a-col>
@@ -30,18 +28,24 @@
       </a-row>
       <a-row :gutter="10" v-for="(item, i) in expeirenceList" :key="i">
         <a-col span="10">
-          <a-form-item :label="i > 0 ? `工作/学习经历${i + 1}` : '工作/学习经历'" v-bind="col">
-            <a-range-picker v-decorator="[`workExperience[${i}].date`,{rules:rules.experience.date}]"/>
+          <a-form-item :label="i > 0 ? `工作/学习经历${i + 1}` : '工作/学习经历1'" v-bind="col">
+            <!-- <a-range-picker format="YYYY-MM" 
+              v-decorator="[`workExperience[${i}].date`,{rules:rules.experience.date}]"
+            /> -->
+            <a-range-picker :value="workExperienceDate[i]"
+              :placeholder="['开始时间', '结束时间']" format="YYYY-MM" @change="(value)=>handleChange(value, i)"
+              :mode="mode" @panelChange="(value, mode)=>handlePanelChange(value, mode,i)"
+            />
           </a-form-item>
         </a-col>
         <a-col span="6">
           <a-form-item>
-            <a-input v-decorator="[`workExperience[${i}].name`,{rules:rules.experience.name}]" placeholder="请输入单位/学校" />
+            <a-input v-decorator="[`workExperience[${i}].name` ]" placeholder="请输入单位/学校" />
           </a-form-item>
         </a-col>
         <a-col span="6">
           <a-form-item>
-            <a-input v-decorator="[`workExperience[${i}].content`,{rules:rules.experience.content}]" placeholder="请输入主要内容" />
+            <a-input v-decorator="[`workExperience[${i}].content` ]" placeholder="请输入主要内容" />
           </a-form-item>
         </a-col>
         <a-col span="2">
@@ -59,9 +63,8 @@
         </a-col>
       </a-row> -->
     </div>
-  </div>
-  <div class="layoutMargin detailsPartSection">
-    <!-- 联系信息 -->
+  <!-- 联系信息 -->
+  <!-- <div class="layoutMargin detailsPartSection">
     <p class="detailsPartTitle" id="message">联系信息</p>
     <div style="margin:0 16px;">
       <a-row class="formItemLine">
@@ -82,7 +85,7 @@
         </a-col>
       </a-row>
     </div>
-  </div>
+  </div> -->
 </a-form>
 </template>
 <script>
@@ -126,6 +129,8 @@ export default {
         labelCol: { span: 8 },
         wrapperCol: { span: 16 }
       },
+      mode: ['month', 'month'],
+      workExperienceDate: [],//工作时间
       rules: {
         // 工作学习经历
         graduatedSchool: [
@@ -166,8 +171,33 @@ export default {
     }
   },
   methods: {
+    handleChange(value,i) {
+      this.workExperienceDate [i]= value
+    },
+    handlePanelChange(value, mode,i) {
+      // console.log(value, mode,i,this.formJob.getFieldValue('workExperience'))
+      // var str='workExperience['+i+'].date'
+      // this.formJob.setFieldsValue({
+      //   str:value
+      // })
+      this.workExperienceDate [i]= value
+      this.mode = [
+        mode[0] === 'date' ? 'month' : mode[0],
+        mode[1] === 'date' ? 'month' : mode[1],
+      ]
+    },
     initialData(data) {
-      this.setRows(data.workExperience)
+      let workExperience=data.workExperience
+      for(let i=0;i<workExperience.length;i++){
+        let date=workExperience[i].date
+        if(date.length>1){
+          let workDate=[]
+          workDate[0]=this.$moment(date[0],'YYYY-MM')
+          workDate[1]=this.$moment(date[1],'YYYY-MM')
+          this.workExperienceDate.push(workDate)
+        }
+      }
+      this.setRows(workExperience)
       this.$nextTick(() => {
         this.formJob.setFieldsValue(data)
       })
@@ -177,12 +207,13 @@ export default {
       rows.forEach(item => {
         result.push({})
       })
-      this.expeirenceList = result.length <= 0 ? [{}] : []
+      this.expeirenceList = result.length <= 0 ? [{}] : result
     },
     addExperience() {
       this.expeirenceList.push({})
     },
     deleteExperience(i) {
+      this.workExperienceDate.splice(i, 1)
       const workExperience = this.formJob.getFieldValue('workExperience')
       this.expeirenceList.splice(i, 1)
       workExperience.splice(i, 1)

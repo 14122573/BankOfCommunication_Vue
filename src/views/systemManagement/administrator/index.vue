@@ -1,17 +1,17 @@
 <template>
 <div class="routerWapper">
 	<div v-if="$route.name == '/systemManagement/administrator'" class="layoutMargin layoutPadding" >
-		<a-tabs :animated="false" :activeKey="key" @change="callback">
-			<a-tab-pane v-if="$permission('P03100')" tab="待分配权限" key="1">
+		<a-tabs :animated="false" :defaultActiveKey="2" :activeKey="key" @change="callback">
+			<!-- <a-tab-pane v-if="$permission('P03100')" tab="待分配权限" key="1">
 				<Pendingpermissions />
-			</a-tab-pane>
-			<a-tab-pane v-if="$permission('P03200')" tab="老用户管理" key="2">
+			</a-tab-pane> -->
+			<a-tab-pane v-if="$permission('P03200')" tab="老用户管理" key="1">
 				<OldUser :roleList="roleList" />
 			</a-tab-pane>
-			<a-tab-pane v-if="$permission('P03300')" tab="新用户管理" key="3">
+			<a-tab-pane v-if="$permission('P03300')" tab="新用户管理" key="2">
 				<NewUser :roleList="roleList" />
 			</a-tab-pane>
-			<a-tab-pane v-if="$permission('P03400')" tab="临时账户管理" key="4">
+			<a-tab-pane v-if="$permission('P03400')" tab="临时账户管理" key="3">
 				<TempUser :roleList="roleList" />
 			</a-tab-pane>
 		</a-tabs>
@@ -75,7 +75,7 @@ export default {
   beforeRouteEnter(to, from, next) {
     next(vm => {
       if (from.name!=null&&from.path.indexOf('administrator') == -1) {
-        vm.$store.commit('SET_TABNAME', '1')
+        vm.$store.commit('SET_TABNAME', '2')
       }
     })
   }
