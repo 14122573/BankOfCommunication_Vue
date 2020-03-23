@@ -84,6 +84,7 @@ export default {
   PUT_EDIT_ORGANIZATION_LIST: '/service-permission/perm/group/{id}', //修改组织机构
   DELETE_ORGANIZATION_LIST: '/service-permission/perm/group/{id}', //删除组织机构
   GET_ORGANIZATION_LIST_DETAIL: '/service-permission/perm/group/{id}', //组织机构详情
+  GET_JOB_TITLE_TREE:'http://yapi.omniview.pro/mock/185/service-expert/prof/tree',//职称树形结构
   // 系统配置 -- 用户管理 -- 临时账号管理
   GET_TEMPACCOUT_BATCH_LIST:'/service-user/user/temp/acct/batch',//批次列表
   POST_TEMPACCOUT_CREATE: '/service-user/user/temp/accounts', //批量添加临时账号
