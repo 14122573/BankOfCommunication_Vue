@@ -385,12 +385,18 @@ export default {
       })
     },
     getRoleLists() {
+      let curUserRoles = this.$store.state.userInfos.roleIds
+      let sparams = {
+        pageNo: 1,
+        pageSize: 10000
+      }
+      if(!!curUserRoles){
+        sparams['id_in'] = curUserRoles
+      }
+      console.log(this.$store.state.userInfos,sparams)
       this.$ajax.get({
         url: this.$api.GET_ROLE_LIST,
-        params: {
-          pageNo: 1,
-          pageSize: 10000
-        }
+        params: sparams
       }).then(res => {
         this.roleList = this.$com.confirm(res, 'data.content', [])
         if (this.$route.query.id) {

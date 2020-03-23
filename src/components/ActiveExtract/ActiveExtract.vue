@@ -69,25 +69,22 @@
         </a-col>
       </a-row>
     </template>
-    <a-row :gutter="6">
-      <a-col :span="2"><div style="margin: 5px 0;text-align:right;">抽取人数：</div></a-col>
-      <a-col :span="4">
-        <a-input-number v-model="extractionNo" :min="1" style="width: 100%;"/>
-      </a-col>
-      <a-col :span="2" :offset="isView?16:14">
+    <a-row :gutter="6" type="flex" justify="end">
+      <a-col :span="2" >
         <a-button @click="handleReset" type="primary" block ghost>重置</a-button>
       </a-col>
       <a-col :span="2">
-        <a-button @click="handleSearch" type="primary" block v-if="!isView">筛选</a-button>
+        <a-button @click="handleSearch" type="primary" block>筛选</a-button>
       </a-col>
     </a-row>
     <a-divider dashed style="margin: 10px 0"/>
     <a-tabs v-model="curTab" @change="handleTabChange">
       <a-tab-pane tab="筛选结果" key="1"/>
       <a-tab-pane :tab="tabText" key="2"/>
+      <a-tab-pane tab="确认专家列表" key="3"/>
       <a-row slot="tabBarExtraContent">
-        <a-button @click="handleSelect" v-if="!isView && curTab=='1'">{{selectBtn}}</a-button>
-        <a-button @click="handleConfirm" type="primary" v-if="isConfirm && curTab=='2'">{{saveBtn}}</a-button>
+        <a-button @click="handleSelect" v-if="curTab=='1'">{{selectBtn}}</a-button>
+        <a-button @click="handleConfirm" type="primary" v-if="curTab=='2'">{{saveBtn}}</a-button>
       </a-row>
     </a-tabs>
     <a-table
@@ -114,6 +111,14 @@
         ><a-button type="danger" size="small">移出</a-button></a-popconfirm>
       </template>
     </a-table>
+    <a-table
+      v-show="curTab == '3'"
+      size="small"
+      :columns="isView?columns.slice(0, columns.length - 1):columns"
+      :dataSource="confirmedExpertData"
+      :pagination="paginationConfirmedExpert"
+      rowKey="id"
+      />
   </a-card>
 </template>
 
@@ -129,12 +134,12 @@ export default {
         {name: '姓名', value: '1'},
         {name: '工作单位', value: '2'},
         {name: '单位性质', value: '3', requestType: '1', options: []},
-        {name: '行政职务', value: '4', requestType: '2', options: []},
+        {name: '职务', value: '4', requestType: '2', options: []},
         {name: '职称', value: '5', requestType: '3', options: []},
         {name: '所学专业', value: '6'},
         {name: '最高学历', value: '7', requestType: '4', options: []},
         {name: '研究方向', value: '8', requestType: '8', options: []},
-        {name: '主题词', value: '9'},
+        {name: '关键词', value: '9'},
       ],
       andOptions: [
         {name: '并且', value: '1'},
@@ -152,7 +157,7 @@ export default {
       ],
       basic: {},
       filters: [],
-      extractionNo: 2,
+      // extractionNo: 2,
       columns: [
         {
           title: '姓名',
@@ -167,7 +172,7 @@ export default {
           dataIndex: 'workCompany',
         },
         {
-          title: '行政职务',
+          title: '职务',
           dataIndex: 'positionName',
           width: 100,
         },
@@ -208,18 +213,19 @@ export default {
         onChange: this.onPageChange2
       },
       data2: [],
+      paginationConfirmedExpert: {
+        pageNo: 1,
+        pageSize: 10,
+        total: 0,
+        defaultCurrent: 1,
+        showQuickJumper: true,
+        onChange: this.onPageChangeConfirmedExperts
+      },
+      confirmedExpertData: [],
       selectedRowKeys: [],
       selectedRows: [],
       selectedList: [],
       url: 'http://iftp.omniview.pro/api/service-expert/expert/dictionary/',
-      // optionTypes: [
-      //   {name: '单位性质', type: 1},
-      //   {name: '职务', type: 2},
-      //   {name: '职称', type: 3},
-      //   {name: '学历', type: 4},
-      //   {name: '学位', type: 5},
-      //   {name: '研究方向', type: 8},
-      // ],
     }
   },
   mounted() {
@@ -275,7 +281,7 @@ export default {
         pageNo,
         pageSize,
         itemList: filteredItemList,
-        extractionNo: this.extractionNo,
+        extractionNo: 100000,
       }
       this.filteringSearchParams()
       this.$emit('search', params, this.initData)
@@ -292,6 +298,10 @@ export default {
     onPageChange2(page) {
       this.pagination2.pageNo = page
       this.handleCheck()
+    },
+    onPageChangeConfirmedExperts(page) {
+      this.paginationConfirmedExpert.pageNo = page
+      this.handleConfirmed()
     },
     addFilter() {
       const len = this.filters.length
@@ -321,16 +331,38 @@ export default {
         equals: this.equalsOptions[1].value,
         andValue: ''
       }
-      this.extractionNo = 2
+      // this.extractionNo = 2
       // this.handleSearch()
     },
+    /**
+     * 根据tab页切换，调用对应的方法，加载对应列表数据
+     * @param {String} key tab的key标识
+     */
     handleTabChange(key) {
-      if (key == '1') {
-        // this.handleSearch()
-      } else if (key == '2') {
+      switch (key) {
+      case '1': // 显示“筛选结果”
+        break
+      case '2': // 显示“选中专家”
         this.handleCheck()
-        // this.data2 = this.selectedList
+        break
+      case '3': // 显示“确认专家”
+        this.handleConfirmed()
+        break
+      default:
+        break
       }
+    },
+    handleConfirmed(){
+      const {pageNo, pageSize} = this.paginationConfirmedExpert
+      const params = {
+        pageNo,
+        pageSize,
+      }
+      this.$emit('viewConfirmed', params, this.initConfirmedExpertData)
+    },
+    initConfirmedExpertData(res){
+      this.confirmedExpertData = this.$com.confirm(res, 'data.content', [])
+      this.paginationConfirmedExpert.total = this.$com.confirm(res, 'data.totalRows', 0)
     },
     handleCheck() {
       const {pageNo, pageSize} = this.pagination2
@@ -370,7 +402,7 @@ export default {
         }
         this.$emit('select', result)
       })
-      this.curTab = '1'
+      // this.curTab = '1'
     },
     handleConfirm() { // 确认专家
       this.$emit('confirm', this.selectedList)

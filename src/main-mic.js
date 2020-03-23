@@ -7,6 +7,10 @@ import store from './store'
 
 (async function loadApp(){
 
+  // const micSystemRecourceConfigAll = require('@/config/micSystemConfigs.json')
+  // const micSystemRecourceConfigDev = micSystemRecourceConfigAll.devol
+  // console.log(micSystemRecourceConfigDev)
+
   window.isSpa = true
   await registerApplication('layout', () => import('@/index.js'), () => true)
   window.onload = async () => {
@@ -26,6 +30,7 @@ import store from './store'
           micSystemRecourceConfig = Common.confirm(res, 'data', {})
           store.commit('SET_MICSYSTEMS_RESOURCE_CONFIG', micSystemRecourceConfig)
           MicSystemsList = micSystemRecourceConfig[process.env.NODE_ENV=='development'?'sit':process.env.NODE_ENV]
+          // MicSystemsList = micSystemRecourceConfigDev
 
           // 当页面加载好了，有了#content元素后才加载子项目，避免刷新后空白的问题
           let progress = 0
