@@ -345,12 +345,13 @@ export default {
   methods: {
     //获取职称
     getJobTitleName(name){
-	  return (name.split(','))[0]
+	  return (name.split(','))[1]
     },
     getDetail() {
       this.$ajax.get({
         url: this.$api.GET_EXPERT_DETAIL.replace('{experId}', this.id)
       }).then(res => {
+        console.log(res)
         let data = this.$com.confirm(res, 'data.content', {})
         for (let i in data) {
           if (data[i] == null || data[i] == undefined) {

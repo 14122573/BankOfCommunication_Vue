@@ -600,7 +600,7 @@ export default {
         var children=this.options.jobTitleList[j].children
         for(var i=0;i<children.length;i++){
           if(children[i].value==data.jobTitle){
-            data.jobTitleName=children[i].label+','+this.options.jobTitleList[j].value
+            data.jobTitleName=this.options.jobTitleList[j].value+','+children[i].label
           }
         }
       }

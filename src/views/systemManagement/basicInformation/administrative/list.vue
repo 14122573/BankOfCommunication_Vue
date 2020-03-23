@@ -1,10 +1,10 @@
 <template>
   <div class="wrapper">
-      <!-- <div class="institutionalTree">
-        <a-tree showLine @select="onSelect" @expand="expand" :expandedKeys="expandedKeys" v-if="selectedKeys.length>0"
+      <div class="institutionalTree">
+        <a-tree showLine @select="onSelect" @expand="expand" :expandedKeys="expandedKeys" 
           :treeData="treeData" :selectedKeys="selectedKeys" :loadData="onLoadData">
         </a-tree>
-      </div> -->
+      </div>
   </div>
 </template>
 
@@ -18,18 +18,22 @@ export default {
       treeData: [],
     }
   },
+  mounted(){
+    this.getArea()
+  },
   methods:{
     onSelect(selectedKeys, info) {
-      this.pagination.pageNo = 1
-      this.pagination.current = 1
-      this.areaCode = selectedKeys[0]
-      this.transData.area = info.node.dataRef
-      if (!this.areaCode) {
-        this.areaCode = 'all'
-        // this.getLists()
-      } else {
-        // this.getLists()
-      }
+      console.log(selectedKeys, info)
+      // this.pagination.pageNo = 1
+      // this.pagination.current = 1
+      // this.areaCode = selectedKeys[0]
+      // this.transData.area = info.node.dataRef
+      // if (!this.areaCode) {
+      //   this.areaCode = 'all'
+      //   // this.getLists()
+      // } else {
+      //   // this.getLists()
+      // }
     },
     expand(expandedKeys) {
       console.log(expandedKeys)
@@ -54,7 +58,42 @@ export default {
         }]
         console.log(this.treeData)
         this.areaCode = 'all'
-        this.getLists()
+        // this.getLists()
+      })
+    },
+    getTreeNode(item, index) {
+      let childrenNode = {
+        title: item.areaName,
+        id: item.id,
+        key: item.id,
+        parentId: item.parentId
+      }
+      if (item.id.length == '9') {
+        childrenNode.isLeaf = true
+      }
+      return childrenNode
+    },
+    onLoadData(treeNode) {
+      return new Promise(resolve => {
+        if (treeNode.dataRef.children) {
+          resolve()
+          return
+        }
+        this.$ajax.get({
+          url: this.$api.GET_AREA_NEXT,
+          params: {
+            parentId: treeNode.dataRef.id
+          }
+        }).then(res => {
+          let datas = this.$com.confirm(res, 'data.content', [])
+          let array = []
+          datas.forEach((ele, index) => {
+            array.push(this.getTreeNode(ele, index))
+          })
+          treeNode.dataRef.children = array
+          this.treeData = [...this.treeData]
+          resolve()
+        })
       })
     },
   },
