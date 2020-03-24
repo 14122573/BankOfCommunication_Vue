@@ -39,9 +39,10 @@ export default {
        * 例如 this.$ajax.get({参数}).then(callback)
        */
     },
-    handleSelect(list) {
+    handleSelect(list,callBack) {
       // 发请求选中专家
       console.log(list)
+      callBack()
 
     },
     handleConfirm(list) {
