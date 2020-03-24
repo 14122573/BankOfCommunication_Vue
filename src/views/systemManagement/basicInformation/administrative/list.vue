@@ -1,10 +1,18 @@
 <template>
   <div class="wrapper">
-      <div class="institutionalTree">
-        <a-tree showLine @select="onSelect" @expand="expand" :expandedKeys="expandedKeys" 
-          :treeData="treeData" :selectedKeys="selectedKeys" :loadData="onLoadData">
-        </a-tree>
-      </div>
+    <a-row>
+      <a-col span="22">
+        <div class="institutionalTree">
+          <a-tree showLine @select="onSelect" @expand="expand" :expandedKeys="expandedKeys" :autoExpandParent="true"
+            :treeData="treeData" :selectedKeys="selectedKeys" :loadData="onLoadData">
+          </a-tree>
+        </div>
+      </a-col>
+      <a-col span="2">
+        <a-button type="primary" html-type="submit">添加</a-button>
+      </a-col>
+    </a-row>
+      
   </div>
 </template>
 

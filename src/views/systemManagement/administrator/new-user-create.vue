@@ -211,6 +211,7 @@ export default {
     handleReturn() {
       this.$router.back()
     },
+    //添加账户
     handleAdd() {
       this.searchForm.validateFields((err, values) => {
         if (!err) {
@@ -254,8 +255,10 @@ export default {
             }).then(res => {
               if (res.code == '200') {
                 let _this=this
-                this.$modal.success({
+                this.$modal.confirm({
                   title: '新增成功！是否继续完善人员信息？',
+                  type:'success',
+                  icon:'check-circle',
                   onOk() {
                     _this.$router.push({
                       name: '/systemManagement/administrator/edit',

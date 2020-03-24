@@ -2,7 +2,7 @@
   <a-row type="flex" justify="center" align="top" class="detailContent">
     <a-col :span="labelSpan" class="label">{{label}}：</a-col>
     <a-col :span="textSpan" class="text">
-      <template v-if="text.length>0">{{text}}</template>
+      <template v-if="newText.length>0">{{newText}}</template>
       <slot name='detailContent'></slot>
     </a-col>
   </a-row>
@@ -28,18 +28,35 @@ export default {
     text:{
       type: String,
       default() {
-        return ''
+        return '暂无'
       }
     }
   },
   data() {
     return {
-      pointColor:''
+      pointColor:'',
+      newText:''
     }
   },
   computed: {
   },
+  watch:{
+    text(){
+      if(this.text==null ||this.text==undefined ||this.text==''){
+        this.newText='暂无'
+      }else{
+        this.newText=this.text
+      }
+    },
+  },
   created(){
+  },
+  mounted(){
+    if(this.text==null ||this.text==undefined ||this.text==''){
+      this.newText='暂无'
+    }else{
+      this.newText=this.text
+    }
   },
   methods: {
   }
