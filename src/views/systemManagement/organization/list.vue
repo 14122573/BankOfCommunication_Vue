@@ -251,6 +251,7 @@ export default {
           key: 'all',
           children: trees
         }]
+        console.log(this.treeData)
         this.areaCode = 'all'
         this.getLists()
       })
@@ -337,6 +338,7 @@ export default {
       }
     },
     expand(expandedKeys) {
+      console.log(expandedKeys)
       this.expandedKeys = expandedKeys
     },
     handleEdit(record) {

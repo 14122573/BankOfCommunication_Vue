@@ -9,6 +9,13 @@
 						<a-input :placeholder="name.formPlaceHolder"  v-decorator="['title',rules.title]"> </a-input>
 					</a-form-item>
 				</a-col>
+        <a-col span="24" v-if="baseType=='3'">
+					<a-form-item label="职称级别" v-bind="colSpe">
+            <a-select placeholder="请选择职称所属级别" v-decorator="['lv',rules.lv]">
+              <a-select-option v-for="(lv,index) in lvOptions" :key="index" :value="lv.key">{{lv.value}}</a-select-option>
+            </a-select>
+					</a-form-item>
+				</a-col>
 			</a-row>
 		</a-form>
 	</a-modal>
@@ -38,6 +45,7 @@ export default {
   },
   data() {
     return {
+      lvOptions:[],
       isShow: false,
       colSpe: {
         labelCol: {
@@ -51,6 +59,10 @@ export default {
         title: {
           validateTrigger: 'blur',
           rules: [{ required: true, message: '请输入名称' }]
+        },
+        lv: {
+          validateTrigger: 'blur',
+          rules: [{ required: true, message: '请选择' }]
         }
       },
       name:{
@@ -62,6 +74,20 @@ export default {
   },
   beforeCreate() {
     this.editForm = this.$form.createForm(this)
+    this.$ajax.get({
+      url: this.$api.GET_EXPERT_PROF_LV
+    }).then(res => {
+      if (res.code === '200') {
+        this.lvOptions = []
+        let lvs = this.$com.confirm(res, 'data.content', [])
+        for(let i=0;i<lvs.length;i++){
+          this.lvOptions.push({
+            key:lvs[i],
+            value:lvs[i]
+          })
+        }
+      }
+    })
   },
   watch: {
     baseType(){
@@ -73,6 +99,10 @@ export default {
       if(this.isShow){
         this.$nextTick(function () {
           this.editForm.setFieldsValue({ title: !this.item.name?'': this.item.name })
+          if(this.baseType=='3'){
+            this.editForm.setFieldsValue({ lv: !this.item.lv?'': this.item.lv })
+          }
+
         })
       }
     }
@@ -133,17 +163,24 @@ export default {
       }
       this.$nextTick(function () {
         this.editForm.setFieldsValue({ title: !this.item.name?'': this.item.name })
+        if(this.baseType=='3'){
+          this.editForm.setFieldsValue({ lv: !this.item.lv?'': this.item.lv })
+        }
       })
     },
     handleOk() {
       this.editForm.validateFields(err => {
         if (!err) {
+          let putParams = {
+            type: this.baseType,
+            name: this.editForm.getFieldValue('title')
+          }
+          if(this.baseType=='3'){
+            putParams['lv'] = this.editForm.getFieldValue('lv')
+          }
           this.$ajax.put({
             url: this.$api.PUT_EXPERT_BASE.replace('{id}', this.item.id),
-            params: {
-              type: this.baseType,
-              name: this.editForm.getFieldValue('title')
-            }
+            params: putParams
           }).then(res => {
             if (res.code === '200') {
               this.$message.success('修改成功')

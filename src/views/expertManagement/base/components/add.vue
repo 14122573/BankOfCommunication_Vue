@@ -9,6 +9,13 @@
 						<a-input :placeholder="name.formPlaceHolder"  v-decorator="['title',rules.title]"> </a-input>
 					</a-form-item>
 				</a-col>
+        <a-col span="24" v-if="baseType=='3'">
+					<a-form-item label="职称级别" v-bind="colSpe">
+            <a-select placeholder="请选择职称所属级别" v-decorator="['lv',rules.lv]">
+              <a-select-option v-for="(lv,index) in lvOptions" :key="index" :value="lv.key">{{lv.value}}</a-select-option>
+            </a-select>
+					</a-form-item>
+				</a-col>
 			</a-row>
 		</a-form>
 	</a-modal>
@@ -34,6 +41,7 @@ export default {
   },
   data() {
     return {
+      lvOptions:[],
       isShow: false,
       colSpe: {
         labelCol: {
@@ -47,6 +55,10 @@ export default {
         title: {
           validateTrigger: 'blur',
           rules: [{ required: true, message: '请输入名称' }]
+        },
+        lv: {
+          validateTrigger: 'blur',
+          rules: [{ required: true, message: '请选择' }]
         }
       },
       name:{
@@ -58,6 +70,20 @@ export default {
   },
   beforeCreate() {
     this.createForm = this.$form.createForm(this)
+    this.$ajax.get({
+      url: this.$api.GET_EXPERT_PROF_LV
+    }).then(res => {
+      if (res.code === '200') {
+        this.lvOptions = []
+        let lvs = this.$com.confirm(res, 'data.content', [])
+        for(let i=0;i<lvs.length;i++){
+          this.lvOptions.push({
+            key:lvs[i],
+            value:lvs[i]
+          })
+        }
+      }
+    })
   },
   watch: {
     baseType(){
@@ -126,12 +152,16 @@ export default {
     handleOk() {
       this.createForm.validateFields(err => {
         if (!err) {
+          let postParams = {
+            type: this.baseType,
+            name: this.createForm.getFieldValue('title')
+          }
+          if(this.baseType =='3'){
+            postParams['lv'] = this.createForm.getFieldValue('lv')
+          }
           this.$ajax.post({
             url: this.$api.POST_EXPERT_BASE,
-            params: {
-              type: this.baseType,
-              name: this.createForm.getFieldValue('title')
-            }
+            params: postParams
           }).then(res => {
             if (res.code === '200') {
               this.$message.success('添加成功')

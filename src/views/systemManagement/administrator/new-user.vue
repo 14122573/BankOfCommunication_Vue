@@ -53,11 +53,12 @@
 		<p class="gayLine noline"></p>
 		<div class='portalTableOperates'>
 			<a-button icon='plus' v-if="$permission('P03303')" type="primary" @click='handleAdd'>添加账户</a-button>
+      <a-button icon='cloud-download' ghost v-if="$permission('P03308')" type="primary" @click='exportInfo' style="margin-left:20px;">导出数据</a-button>
 		</div>
 		<a-table size='small' class="portalTable" :columns="columns" :dataSource="dataTable" rowKey='id' :pagination='pagination'>
 			<span slot="action" slot-scope="text, record">
 				<span class="actionBtn" v-if="$permission('P03301')" @click="viewBtn(record)">查看<a-divider type="vertical" /></span>
-				<span class="actionBtn" v-if="record.status!=8 && $permission('P03302')" @click="$router.push({name: '/systemManagement/administrator/editNewUser',query:{id:record.id}})">修改<a-divider type="vertical" /></span>
+				<!-- <span class="actionBtn" v-if="record.status!=8 && $permission('P03302')" @click="$router.push({name: '/systemManagement/administrator/editNewUser',query:{id:record.id}})">修改<a-divider type="vertical" /></span> -->
 				<a-dropdown>
 					<span class="actionBtn" v-if="record.status!=8" > 更多
 						<a-icon type="down" />
@@ -72,14 +73,18 @@
 					</a-menu>
 				</a-dropdown>
 			</span>
-			<span slot="group" slot-scope="text, record">
-				{{record.group!=null?record.group.groupName: "暂无"}}
-			</span>
-			<span slot="area" slot-scope="text, record">
-				{{record.area!=null?record.area.areaName: "暂无"}}
+			<span slot="dept" slot-scope="text, record">
+				{{record.dept!=null?record.dept: "暂无"}}
 			</span>
 			<span slot="roleNames" slot-scope="text, record">
-				{{record.roleNames!=null?record.roleNames: "暂无"}}
+        <a-tooltip placement="top">
+          <template slot="title">
+            <span>{{record.roleNames!=null?record.roleNames: "暂无"}}</span>
+          </template>
+          <div class="roleNames">
+            {{record.roleNames!=null?record.roleNames: "暂无"}}
+          </div>
+        </a-tooltip>
 			</span>
 			<span slot="status" slot-scope="text, record">
 				<userStatus :status="record.status" />
@@ -137,42 +142,34 @@ export default {
         onChange: this.pageChange
       },
       searchForm: {
-        checkedList: ['1']
+        checkedList: ['1','0']
       },
       defaultValue:'',
       dataTable: [],
       columns: [
         {
-          title: '姓名',
-          dataIndex: 'name',
-          key: 'name'
-        },{
           title: '账号',
           dataIndex: 'phone',
           key: 'phone',
         },{
+          title: '姓名',
+          dataIndex: 'name',
+          key: 'name'
+        },{
+          title: '工作单位',
+          dataIndex: 'dept',
+          key: 'dept',
+          width: 100,
+          scopedSlots: {
+            customRender: 'dept'
+          }
+        },{
           title: '角色名称',
           dataIndex: 'roleNames',
           key: 'roleNames',
-          width: 100,
+          width: '120px',
           scopedSlots: {
             customRender: 'roleNames'
-          }
-        },{
-          title: '所属组织机构',
-          dataIndex: 'group',
-          key: 'group',
-          width: 100,
-          scopedSlots: {
-            customRender: 'group'
-          }
-        },{
-          title: '所属行政区域',
-          dataIndex: 'area',
-          key: 'area',
-          width: 100,
-          scopedSlots: {
-            customRender: 'area'
           }
         },{
           title: '用户状态',
@@ -201,6 +198,9 @@ export default {
       ],
       plainOptions: [
         {
+          text: '待分配',
+          value: '0'
+        },{
           text: '正常',
           value: '1'
         },{
@@ -250,12 +250,15 @@ export default {
     this.getArea()
   },
   methods: {
+    //关闭更多搜索
     closeMoreSearch(){
       this.simpleSearchForm = true
     },
+    //展示更多搜索
     showMoreSearch(){
       this.simpleSearchForm = false
     },
+    //分页
     pageChange(current) {
       this.pagination.current = current
       this.pagination.pageNo = current
@@ -276,7 +279,7 @@ export default {
       delete this.searchForm['ui.roleIds_in']
       delete this.searchForm['ui.areaId']
       delete this.searchForm['ui.groupId']
-      this.searchForm.checkedList = ['1']
+      this.searchForm.checkedList = ['1','0']
       this.getList()
     },
     // 查询列表
@@ -302,6 +305,7 @@ export default {
         name: '/systemManagement/administrator/createNewUser'
       })
     },
+    //跳转详情页面
     viewBtn(record) {
       this.$router.push({
         name: '/systemManagement/administrator/newUserView',
@@ -463,7 +467,27 @@ export default {
           this.getList()
         }
       })
-    }
+    },
+    exportInfo(){
+      console.log(this.searchForm)
+      // var token=this.$cookie.get('token')
+      // if(this.searchForm.getFieldValue('streetId')){
+      //   if(this.searchForm.getFieldValue('createTime_bet')==[] || this.searchForm.getFieldValue('createTime_bet')==undefined){
+      //     var streetId=this.searchForm.getFieldValue('streetId')
+      //     var temperature_bet=this.searchForm.getFieldValue('temperature_bet')?this.searchForm.getFieldValue('temperature_bet'):''
+      //     var createTime_bet=''
+      //   }else{
+      //     var createTime_bet=this.$moment(this.searchForm.getFieldValue('createTime_bet')[0]).format('YYYY-MM-DD')+','+this.$moment(this.searchForm.getFieldValue('createTime_bet')[1]).format('YYYY-MM-DD')
+      //     var streetId=this.searchForm.getFieldValue('streetId')
+      //     var temperature_bet=this.searchForm.getFieldValue('temperature_bet')?this.searchForm.getFieldValue('temperature_bet'):''
+      //   }
+      //   var url=this.$api.GET_EXPORT_INFO_LIST+'?streetId='+streetId+'&createTime_bet='+createTime_bet+'&temperature_bet='+temperature_bet+'&token='+token
+      //   window.open(url)
+      // }else{
+      //   this.$message.error('请先选择街道',5)
+      //   return false
+      // }
+    },
   }
 }
 </script>
@@ -471,4 +495,10 @@ export default {
 	.opeationTable {
 		margin: 10px 0;
 	}
+  .roleNames{
+    width: 120px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
 </style>

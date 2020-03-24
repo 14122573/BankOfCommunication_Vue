@@ -9,8 +9,7 @@
 		</div>
 		<div class="portalDetailContentWapper">
 			<a-form class="protalForm portalDetailContentBody" :form="searchForm">
-				<div class="layoutMargin detailsPartSection">
-					<p class="detailsPartTitle">账户信息</p>
+				<div class="layoutMargin layoutPadding detailsPartSection">
 					<a-row class="formItemLine">
 						<a-col span="8">
 							<a-form-item class="formItem" label="姓名" v-bind="colSpe">
@@ -47,9 +46,6 @@
 							</a-form-item>
 						</a-col>
 					</a-row>
-				</div>
-				<div v-if="!fromCenter" class="layoutMargin detailsPartSection">
-					<p class="detailsPartTitle">账户信息</p>
 					<a-row class="formItemLine">
 						<a-col span="8" v-if="!fromCenter">
 							<a-form-item label="角色名称" v-bind="colSpe">
@@ -58,7 +54,7 @@
 								</a-select>
 							</a-form-item>
 						</a-col>
-						<a-col span="8">
+						<a-col span="8" v-if="!fromCenter">
 							<a-form-item label="所属区域" v-bind="colSpe">
 								<!-- <a-select v-if="isAdminator !== true" placeholder="请选择" labelInValue @change="onChangeTree" showSearch
 								 v-decorator="['area',searchFormRules.area]">
@@ -69,7 +65,7 @@
 								</a-tree-select>
 							</a-form-item>
 						</a-col>
-						<a-col span="8">
+						<a-col span="8" v-if="!fromCenter">
 							<a-form-item label="组织机构" v-bind="colSpe">
 								<a-select v-decorator="['group',searchFormRules.group]" allowClear placeholder='请选择'>
 									<a-select-option v-for="(item,index) in groupLists" :key="index" :value="item.id">{{item.groupName}}</a-select-option>
@@ -257,9 +253,23 @@ export default {
               params: values
             }).then(res => {
               if (res.code == '200') {
-                this.$message.success('新增成功！')
-                this.$router.push({
-                  name: '/systemManagement/administrator'
+                let _this=this
+                this.$modal.success({
+                  title: '新增成功！是否继续完善人员信息？',
+                  onOk() {
+                    _this.$router.push({
+                      name: '/systemManagement/administrator/edit',
+                      query: {
+                        id: res.data.content,
+                        loginPhone:_this.searchForm.getFieldValue('phone'),
+                      }
+                    })
+                  },
+                  onCancel() {
+                    _this.$router.push({
+                      name: '/systemManagement/administrator'
+                    })
+                  },
                 })
               }
             })
@@ -373,12 +383,17 @@ export default {
       })
     },
     getRoleLists() {
+      let curUserRoles = this.$store.state.userInfos.roleIds
+      let sparams = {
+        pageNo: 1,
+        pageSize: 10000
+      }
+      if(!!curUserRoles){
+        sparams['id_in'] = curUserRoles
+      }
       this.$ajax.get({
         url: this.$api.GET_ROLE_LIST,
-        params: {
-          pageNo: 1,
-          pageSize: 10000
-        }
+        params: sparams
       }).then(res => {
         this.roleList = this.$com.confirm(res, 'data.content', [])
         if (this.$route.query.id) {

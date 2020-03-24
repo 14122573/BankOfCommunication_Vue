@@ -1,71 +1,81 @@
 <template>
-<div class="portalDetailWapper">
-  <div class="portalDetailTitle">
-    <span class="title">查看新用户信息</span>
-    <div class="detailOperations">
+  <div class="portalDetailWapper">
+    <div class="portalDetailTitle">
+      <span :class="showInfo?'title bule':'title underLine'" @click="showInfo?changeShow(true):changeShow(false)"
+        style="padding:0px;margin-left:32px;">账户信息</span>
+      <a-divider type="vertical" />
+      <span :class="showInfo?'title underLine':'title bule'" @click="showInfo?changeShow(false):changeShow(true)"
+        style="padding:0px;">人员信息</span>
+      <div class="detailOperations" v-if="!showInfo">
         <a-button type="primary" ghost @click='handleReturn'>返回</a-button>
-        <a-button type="primary" v-if="$permission('P03302')" @click='handleEdit'>修改</a-button>
-    </div>
-  </div>
-  <div class="portalDetailContentWapper">
-    <div class="portalDetailContentBody">
-      <div class="layoutMargin detailsPartSection">
-        <p class="detailsPartTitle">账户信息</p>
-        <a-row :gutter="8" class="detailsPartLine">
-          <a-col span="8">
-            <DetailsItem :labelSpan='8' :textSpan="16" :label='"姓名"' :text='!detail.name?"暂无":detail.name'></DetailsItem>
-          </a-col>
-          <a-col span="8">
-            <DetailsItem :labelSpan='8' :textSpan="16" :label='"账户"' :text='!detail.phone?"暂无":detail.phone'></DetailsItem>
-          </a-col>
-          <a-col span="8">
-            <DetailsItem :labelSpan='8' :textSpan="16" :label='"邮箱"' :text='!detail.mail?"暂无":detail.mail'></DetailsItem>
-          </a-col>
-        </a-row>
-        <a-row :gutter="8" class="detailsPartLine">
-          <a-col span="8">
-            <DetailsItem :labelSpan='8' :textSpan="16" :label='"单位名称"' :text='!detail.dept?"暂无":detail.dept'></DetailsItem>
-          </a-col>
-          <a-col span="8">
-            <DetailsItem :labelSpan='8' :textSpan="16" :label='"邮编"' :text='!detail.zipCode?"暂无":detail.zipCode'></DetailsItem>
-          </a-col>
-        </a-row>
-        <a-row :gutter="8" class="detailsPartLine">
-          <a-col span="16">
-            <a-row type="flex" justify="start">
-              <a-col span="4" style="text-align:right;color:#999">地址：</a-col>
-              <a-col span="18">
-                {{detail.addr || "暂无"}}
-              </a-col>
-            </a-row>
-          </a-col>
-        </a-row>
+        <a-button type="primary" v-if="$permission('P03302')" @click='handleEdit(1)'>修改</a-button>
       </div>
-      <div class="layoutMargin detailsPartSection">
-        <p class="detailsPartTitle">权限信息</p>
-        <a-row :gutter="8" class="detailsPartLine">
-          <a-col span="8">
-            <DetailsItem :labelSpan='8' :textSpan="16" :label='"角色名称"' :text='!detail.roleNames?"暂无":detail.roleNames'></DetailsItem>
-          </a-col>
-          <a-col span="8">
-            <DetailsItem :labelSpan='8' :textSpan="16" :label='"组织机构名称"' :text='(!detail.group||!detail.group.groupName)?"暂无":detail.group.groupName'></DetailsItem>
-          </a-col>
-          <a-col span="8">
-            <DetailsItem :labelSpan='8' :textSpan="16" :label='"所属行政区域"' :text='(!detail.area||!detail.area.areaName)?"暂无":detail.area.areaName'></DetailsItem>
-          </a-col>
-        </a-row>
-        <div class="layoutMargin detailsPartLine" >
-          <a-tree class="portalRoleTree" v-if="detailReady==2" checkable :treeData="treeData" v-model="checkedKeys" disabled />
+      <div class="detailOperations" v-else>
+        <a-button type="primary" ghost @click="handleReturn"> 返回 </a-button>
+        <a-button type="primary" v-if="$permission('P11003')" @click="handleEdit(2)">修改</a-button>
+      </div>
+    </div>
+    <div v-if="!showInfo" class="portalDetailContentWapper">
+      <div class="portalDetailContentBody">
+        <div class="layoutMargin layoutPadding detailsPartSection">
+          <a-row :gutter="8" class="detailsPartLine">
+            <a-col span="8">
+              <DetailsItem :labelSpan='8' :textSpan="16" :label='"姓名"' :text='!detail.name?"暂无":detail.name'></DetailsItem>
+            </a-col>
+            <a-col span="8">
+              <DetailsItem :labelSpan='8' :textSpan="16" :label='"账户"' :text='!detail.phone?"暂无":detail.phone'></DetailsItem>
+            </a-col>
+            <a-col span="8">
+              <DetailsItem :labelSpan='8' :textSpan="16" :label='"邮箱"' :text='!detail.mail?"暂无":detail.mail'></DetailsItem>
+            </a-col>
+          </a-row>
+          <a-row :gutter="8" class="detailsPartLine">
+            <a-col span="8">
+              <DetailsItem :labelSpan='8' :textSpan="16" :label='"单位名称"' :text='!detail.dept?"暂无":detail.dept'></DetailsItem>
+            </a-col>
+            <a-col span="8">
+              <DetailsItem :labelSpan='8' :textSpan="16" :label='"邮编"' :text='!detail.zipCode?"暂无":detail.zipCode'></DetailsItem>
+            </a-col>
+          </a-row>
+          <a-row :gutter="8" class="detailsPartLine">
+            <a-col span="16">
+              <a-row type="flex" justify="start">
+                <a-col span="4" style="text-align:right;color:#999">地址：</a-col>
+                <a-col span="18">
+                  {{detail.addr || "暂无"}}
+                </a-col>
+              </a-row>
+            </a-col>
+          </a-row>
+          <a-row :gutter="8" class="detailsPartLine">
+            <a-col span="8">
+              <DetailsItem :labelSpan='8' :textSpan="16" :label='"角色名称"' :text='!detail.roleNames?"暂无":detail.roleNames'></DetailsItem>
+            </a-col>
+            <a-col span="8">
+              <DetailsItem :labelSpan='8' :textSpan="16" :label='"组织机构名称"' :text='(!detail.group||!detail.group.groupName)?"暂无":detail.group.groupName'></DetailsItem>
+            </a-col>
+            <a-col span="8">
+              <DetailsItem :labelSpan='8' :textSpan="16" :label='"所属行政区域"' :text='(!detail.area||!detail.area.areaName)?"暂无":detail.area.areaName'></DetailsItem>
+            </a-col>
+          </a-row>
+          <div class="layoutMargin detailsPartLine" >
+            <a-tree class="portalRoleTree" v-if="detailReady==2" checkable :treeData="treeData" v-model="checkedKeys" disabled />
+          </div>
         </div>
       </div>
     </div>
-  </div>
+    <ExpertLibaryView v-else :id="$route.query.id" :loginPhone='detail.phone'/>
   </div>
 </template>
 <script>
+import ExpertLibaryView from '@/views/expertManagement/expertLibrary/view'
 export default {
+  components:{
+    ExpertLibaryView,
+  },
   data() {
     return {
+      showInfo:false,
       defaultExpandedKeys: [],
       checkedKeys: [],
       detail: {},
@@ -77,16 +87,32 @@ export default {
     this.getDetail()
   },
   methods: {
+    changeShow(bool){
+      if(bool){
+        this.showInfo=!this.showInfo
+      }
+    },
     handleReturn() {
       this.$router.back()
     },
-    handleEdit() {
-      this.$router.push({
-        name: '/systemManagement/administrator/editNewUser',
-        query: {
-          id: this.$route.query.id
-        }
-      })
+    handleEdit(num) {
+      if(num==1){
+        this.$router.push({
+          name: '/systemManagement/administrator/editNewUser',
+          query: {
+            id: this.$route.query.id
+          }
+        })
+      }else if(num==2){
+        this.$router.push({
+          name: '/systemManagement/administrator/edit',
+          query: {
+            id: this.$route.query.id,
+            loginPhone:this.detail.phone,
+          }
+        })
+      }
+      
     },
     getDetail() {
       this.$ajax.get({
@@ -146,4 +172,6 @@ export default {
 </script>
 <style scoped>
 	.position { margin-left: 5px; color: #1890ff; cursor: pointer; }
+  .underLine { border-bottom: 2px solid #1890ff;}
+  .bule { color: #1890ff;cursor: pointer;}
 </style>
