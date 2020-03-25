@@ -73,6 +73,7 @@ export default {
       zh_CN,
       collapsed: false,
       username: '',
+      loginPhone:'',
       showPurePage: false,
       tidingsCount: 0,
       showSpaContent: false,
@@ -104,9 +105,10 @@ export default {
     })
   },
   watch: {
-    '$store.state.userName': {
+    '$store.state.userInfos': {
       handler: function(val) {
-        this.username = val
+        this.username = val.username
+        this.loginPhone= val.phone
       },
       deep: true
     },
@@ -184,7 +186,11 @@ export default {
         this.$router.push({ name: 'person' })
         break
       case 'expert':
-        this.$router.push({ name: '/person/expert' })
+        this.$router.push({ name: '/person/expert' ,
+          query:{
+            loginPhone:this.loginPhone
+          }
+        })
         break
       case 'logout':
         this.plogout()
