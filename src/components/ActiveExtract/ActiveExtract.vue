@@ -1,5 +1,6 @@
 <template>
   <a-card class="extract-container">
+    <!-- <a-spin :spinning="spinning"></a-spin> -->
     <a-row :gutter="6">
       <a-col :span="2" class="extract-btns">
         <a-icon @click="addFilter" type="plus-square" />
@@ -131,6 +132,7 @@ export default {
   name: 'ActiveExtract',
   data() {
     return {
+      // spinning:false,
       isConfirm:false,
       isView:false,
       curTab: '1',
@@ -231,8 +233,7 @@ export default {
       selectedList: [],
       url: {
         dictionary:'http://iftp.omniview.pro/api/service-expert/expert/dictionary/',
-        profTree:'http://iftp.omniview.pro/api/service-expert/expert/prof/tree',
-
+        profTree:'http://iftp.omniview.pro/api/service-expert/expert/prof/tree'
       },
     }
   },
@@ -351,12 +352,16 @@ export default {
         extractionNo: 100000,
       }
       this.filteringSearchParams()
+      // 开启loading层
+      this.$store.commit('SET_LOADING',true)
       this.$emit('search', params, this.initData)
     },
     initData(res) {
       this.curTab = '1'
       this.data = [...this.$com.confirm(res, 'data.content.expertList', [])]
       this.pagination.total = this.$com.confirm(res, 'data.totalRows', 0)
+      // 关闭loading层
+      this.$store.commit('SET_LOADING',false)
     },
     onPageChange(page) {
       this.pagination.pageNo = page
@@ -398,6 +403,7 @@ export default {
         equals: this.equalsOptions[1].value,
         andValue: ''
       }
+      this.data = []
       // this.extractionNo = 2
       // this.handleSearch()
     },
@@ -442,11 +448,15 @@ export default {
     initData2(res) {
       this.data2 = this.$com.confirm(res, 'data.content', [])
       this.pagination2.total = this.$com.confirm(res, 'data.totalRows', 0)
+      this.handleReset()
     },
     handleDelete({id}) {
       const index = this.data2.findIndex(item => item.id == id)
       this.data2.splice(index, 1)
-      this.$emit('select', this.data2)
+      this.$emit('select', this.data2, (res) => {
+        //关闭loading层
+        this.$store.commit('SET_LOADING',false)
+      })
     },
     handleSelect() { // 选中专家
       this.selectedList = []
@@ -461,19 +471,28 @@ export default {
         pageNo,
         pageSize,
       }
+      //开启loading层
+      this.$store.commit('SET_LOADING',true)
+
       this.$emit('check', params, (res) => {
         const data = this.$com.confirm(res, 'data.content', [])
         let result = this.selectedList
         if (data.length > 0) {
           result = [...data, ...this.selectedList]
         }
-        this.$emit('select', result)
+        this.$emit('select', result, (res) => {
+          //关闭loading层
+          this.$store.commit('SET_LOADING',false)
+        })
       })
-      // this.curTab = '1'
     },
     handleConfirm() { // 确认专家
+      //开启loading层
+      this.$store.commit('SET_LOADING',true)
       this.$emit('confirm', this.selectedList)
-      this.curTab = '1'
+      //关闭loading层
+      this.$store.commit('SET_LOADING',false)
+      this.curTab = '3'
     },
   },
   computed: {
