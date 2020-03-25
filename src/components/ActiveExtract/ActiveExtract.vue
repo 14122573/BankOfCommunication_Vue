@@ -88,7 +88,7 @@
       <a-tab-pane :tab="tabText" key="2"/>
       <a-tab-pane tab="确认专家列表" key="3"/>
       <a-row slot="tabBarExtraContent">
-        <a-button @click="handleSelect" v-if="curTab=='1'">{{selectBtn}}</a-button>
+        <a-button @click="handleSelect" v-if="curTab=='1'" :disabled='!selectedRows.length>0'>{{selectBtn}}</a-button>
         <a-button @click="handleConfirm" type="primary" v-if="curTab=='2'">{{saveBtn}}</a-button>
       </a-row>
     </a-tabs>
@@ -404,6 +404,9 @@ export default {
         andValue: ''
       }
       this.data = []
+      this.selectedRowKeys=[]
+      this.selectedRows=[]
+      this.selectedList=[]
       // this.extractionNo = 2
       // this.handleSearch()
     },

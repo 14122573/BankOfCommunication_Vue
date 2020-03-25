@@ -107,8 +107,8 @@ export default {
   watch: {
     '$store.state.userInfos': {
       handler: function(val) {
-        this.username = val.username
-        this.loginPhone= val.phone
+        this.username = !val.username?'':val.username
+        this.loginPhone= !val.phone?'':val.phone
       },
       deep: true
     },
