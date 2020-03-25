@@ -245,6 +245,7 @@ export default {
             })
           }
         } else {
+          console.log('jumpOpeation chooseSystemLists  choose',this.$store.state.chooseSystemLists)
           this.$router.push({
             name: 'bindPhone'
           })
