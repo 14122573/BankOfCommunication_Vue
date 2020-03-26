@@ -13,7 +13,7 @@
         <a-row type="flex" justify="start" align='top' :gutter="12" style="margin-bottom:10px">
           <a-col span='24' class="sectionBox">
             <div class="section">
-              <!-- <PendingReview /> -->
+              <PendingReview />
             </div>
           </a-col>
           <a-col span='24' class="sectionBox">
