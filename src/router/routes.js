@@ -383,12 +383,12 @@ let appRoutes = [{
             meta: { title: '历史评审', menuPath: false, authCode: 'P13000', menuIcon: 'user', hideInBread: false, openMode: 'normal' }
           }]
         },
-        {
-          path: '/expertManagement/base',
-          name: '/expertManagement/base',
-          component: ExpertBase,
-          meta: { title: '专家基础信息维护', menuPath: true, authCode: 'P14000', menuIcon: 'edit', hideInBread: false, openMode: 'normal' }
-        }
+        // {
+        //   path: '/expertManagement/base',
+        //   name: '/expertManagement/base',
+        //   component: ExpertBase,
+        //   meta: { title: '专家基础信息维护', menuPath: true, authCode: 'P14000', menuIcon: 'edit', hideInBread: false, openMode: 'normal' }
+        // }
       ]
     },
     //内容发布

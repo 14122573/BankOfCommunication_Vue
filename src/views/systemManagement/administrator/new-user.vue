@@ -64,6 +64,7 @@
 						<a-icon type="down" />
           </span>
 					<a-menu slot="overlay" @click='(event)=>{showOpeations(event.key,record)}'>
+            <a-menu-item class="actionBtn" key="5" v-if="record.status==0 && $permission('P03305')"> 权限分配 </a-menu-item>
 						<a-menu-item class="actionBtn" key="4" v-if="(record.status==1 ||record.status==9)&& $permission('P03306')"> 重置密码
 						</a-menu-item>
 						<a-menu-item class="actionBtn" key="2" v-if="record.status==1 && $permission('P03305')"> 禁用 </a-menu-item>
@@ -338,7 +339,7 @@ export default {
       default:
         break
       }
-      if (key != 4) {
+      if (key != 4 && key !=5) {
         this.$modal.confirm({
           title: this.opeation.title,
           content: this.opeation.tips,
@@ -349,7 +350,14 @@ export default {
             vm.handleOk()
           },
         })
-      } else {
+      } else if(key == 5){
+        // console.log(key, item)
+        this.$router.push({path :'/systemManagement/administrator/distribution',
+          query:{
+            id:item.id
+          }
+        })
+      }else {
         this.resetPwdShow = true
       }
     },
