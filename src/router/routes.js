@@ -38,19 +38,19 @@ const CreateNewUser = () => import ('@/views/systemManagement/administrator/new-
 const NewUserView = () => import ('@/views/systemManagement/administrator/new-user-view')
 // 专家管理人员
 const LibraryEdit = () => import('@/views/expertManagement/components/libraryEdit') // 人才库、专家库、专家个人信息的新增及修改共用组件
-const LibraryView = () => import('@/views/expertManagement/components/libraryView') // 人才库、专家库、专家个人信息的查看共用组件
-const ExpertBase = () => import ('@/views/expertManagement/base/index')
-const Talent = () => import ('@/views/expertManagement/talent/list')
-const TalentUpload = () => import ('@/views/expertManagement/talent/upload')
+// const LibraryView = () => import('@/views/expertManagement/components/libraryView') // 人才库、专家库、专家个人信息的查看共用组件
+// const ExpertBase = () => import ('@/views/expertManagement/base/index')
+// const Talent = () => import ('@/views/expertManagement/talent/list')
+// const TalentUpload = () => import ('@/views/expertManagement/talent/upload')
 // const TalentCreate = () => import ('@/views/expertManagement/talent/create')
 // const TalentView = () => import ('@/views/expertManagement/talent/view')
-const ExpertLibrary = () => import ('@/views/expertManagement/expertLibrary/list')
+// const ExpertLibrary = () => import ('@/views/expertManagement/expertLibrary/list')
 // const ExpertLibraryCreate = () => import ('@/views/expertManagement/expertLibrary/create')
-const ExpertLibrarySelect = () => import ('@/views/expertManagement/expertLibrary/select')
+// const ExpertLibrarySelect = () => import ('@/views/expertManagement/expertLibrary/select')
 // const ExpertLibraryView = () => import ('@/views/expertManagement/expertLibrary/view')
-const ExpertLibraryUpload = () => import ('@/views/expertManagement/expertLibrary/upload')
-const ProjectReview = () => import ('@/views/expertManagement/review/list')
-const ProjectReviewHistory = () => import ('@/views/expertManagement/review/history')
+// const ExpertLibraryUpload = () => import ('@/views/expertManagement/expertLibrary/upload')
+// const ProjectReview = () => import ('@/views/expertManagement/review/list')
+// const ProjectReviewHistory = () => import ('@/views/expertManagement/review/history')
 const demo = () => import ('@/views/demo/use-ueditor')
 // 内容管理-知识文库
 const KnowledgeList = () => import ('@/views/cms/knowledge/list')
@@ -285,112 +285,112 @@ let appRoutes = [{
       ]
     },
     // 专家库
-    {
-      path: '/expertManagement',
-      name: 'expertManagement',
-      component: contentWrapper,
-      meta: {
-        title: '专家人员管理',
-        menuPath: true,
-        authCode: 'P10000',
-        menuIcon: 'team',
-        hideInBread: true
-      },
-      children: [
-        // {
-        //   path: '/expertManagement/extractExample',
-        //   name: '/expertManagement/extractExample',
-        //   component: ExtractExample,
-        //   meta: { title: '收取样例', menuPath: true, authCode: 'P12000', menuIcon: 'user', hideInBread: false, openMode: 'normal' }
-        // },
-        // {
-        //   path: '/expertManagement/talent',
-        //   name: '/expertManagement/talent',
-        //   component: Talent,
-        //   meta: { title: '人才库', menuPath: true, authCode: 'P12000', menuIcon: 'user', hideInBread: false, openMode: 'normal' },
-        //   children: [{
-        //     path: '/expertManagement/talent/upload',
-        //     name: '/expertManagement/talent/upload',
-        //     component: TalentUpload,
-        //     meta: { title: '导入人才库', menuPath: false, authCode: 'P12001', menuIcon: 'user', hideInBread: false, openMode: 'normal' }
-        //   },
-        //   {
-        //     path: '/expertManagement/talent/create',
-        //     name: '/expertManagement/talent/create',
-        //     component: LibraryEdit,
-        //     meta: { title: '新增人才账号', menuPath: false, authCode: 'P12001', menuIcon: 'user', hideInBread: false, openMode: 'normal' }
-        //   },
-        //   {
-        //     path: '/expertManagement/talent/edit',
-        //     name: '/expertManagement/talent/edit',
-        //     component: LibraryEdit,
-        //     meta: { title: '修改人才账号', menuPath: false, authCode: 'P12003', menuIcon: 'user', hideInBread: false, openMode: 'normal' }
-        //   },
-        //   {
-        //     path: '/expertManagement/talent/view',
-        //     name: '/expertManagement/talent/view',
-        //     component: LibraryView,
-        //     meta: { title: '查看人才账号', menuPath: false, authCode: 'P12002', menuIcon: 'user', hideInBread: false, openMode: 'normal' }
-        //   },
-        //   ]
-        // },
-        // {
-        //   path: '/expertManagement/expertLibrary',
-        //   name: '/expertManagement/expertLibrary',
-        //   component: ExpertLibrary,
-        //   meta: { title: '专家库', menuPath: true, authCode: 'P11000', menuIcon: 'user', hideInBread: false, openMode: 'normal' },
-        //   children: [{
-        //     path: '/expertManagement/expertLibrary/create',
-        //     name: '/expertManagement/expertLibrary/create',
-        //     component: LibraryEdit,
-        //     meta: { title: '新增专家账号', menuPath: false, authCode: 'P11001', menuIcon: 'user', hideInBread: false, openMode: 'normal' }
-        //   },
-        //   {
-        //     path: '/expertManagement/expertLibrary/edit',
-        //     name: '/expertManagement/expertLibrary/edit',
-        //     component: LibraryEdit,
-        //     meta: { title: '人员信息修改', menuPath: false, authCode: 'P11003', menuIcon: 'user', hideInBread: false, openMode: 'normal' }
-        //   },
-        //   {
-        //     path: '/expertManagement/expertLibrary/view',
-        //     name: '/expertManagement/expertLibrary/view',
-        //     component: LibraryView,
-        //     meta: { title: '查看专家账号', menuPath: false, authCode: 'P11002', menuIcon: 'user', hideInBread: false, openMode: 'normal' }
-        //   },
-        //   {
-        //     path: '/expertManagement/expertLibrary/select',
-        //     name: '/expertManagement/expertLibrary/select',
-        //     component: ExpertLibrarySelect,
-        //     meta: { title: '选择专家账号', menuPath: false, authCode: 'P11001', menuIcon: 'user', hideInBread: false, openMode: 'normal' }
-        //   },
-        //   {
-        //     path: '/expertManagement/expertLibrary/upload',
-        //     name: '/expertManagement/expertLibrary/upload',
-        //     component: ExpertLibraryUpload,
-        //     meta: { title: '导入专家账号', menuPath: false, authCode: 'P11001', menuIcon: 'user', hideInBread: false, openMode: 'normal' }
-        //   }
-        //   ]
-        // },
-        {
-          path: '/expertManagement/reiview',
-          name: '/expertManagement/reiview',
-          component: ProjectReview,
-          meta: { title: '项目评审', menuPath: true, authCode: 'P13000', menuIcon: 'edit', hideInBread: false, openMode: 'normal' },
-          children: [{
-            path: '/expertManagement/reiview/history',
-            name: '/expertManagement/reiview/history',
-            component: ProjectReviewHistory,
-            meta: { title: '历史评审', menuPath: false, authCode: 'P13000', menuIcon: 'user', hideInBread: false, openMode: 'normal' }
-          }]
-        },
-        // {
-        //   path: '/expertManagement/base',
-        //   name: '/expertManagement/base',
-        //   component: ExpertBase,
-        //   meta: { title: '专家基础信息维护', menuPath: true, authCode: 'P14000', menuIcon: 'edit', hideInBread: false, openMode: 'normal' }
-        // }
-      ]
-    },
+    // {
+    //   path: '/expertManagement',
+    //   name: 'expertManagement',
+    //   component: contentWrapper,
+    //   meta: {
+    //     title: '专家人员管理',
+    //     menuPath: true,
+    //     authCode: 'P10000',
+    //     menuIcon: 'team',
+    //     hideInBread: true
+    //   },
+    //   children: [
+    // {
+    //   path: '/expertManagement/extractExample',
+    //   name: '/expertManagement/extractExample',
+    //   component: ExtractExample,
+    //   meta: { title: '收取样例', menuPath: true, authCode: 'P12000', menuIcon: 'user', hideInBread: false, openMode: 'normal' }
+    // },
+    // {
+    //   path: '/expertManagement/talent',
+    //   name: '/expertManagement/talent',
+    //   component: Talent,
+    //   meta: { title: '人才库', menuPath: true, authCode: 'P12000', menuIcon: 'user', hideInBread: false, openMode: 'normal' },
+    //   children: [{
+    //     path: '/expertManagement/talent/upload',
+    //     name: '/expertManagement/talent/upload',
+    //     component: TalentUpload,
+    //     meta: { title: '导入人才库', menuPath: false, authCode: 'P12001', menuIcon: 'user', hideInBread: false, openMode: 'normal' }
+    //   },
+    //   {
+    //     path: '/expertManagement/talent/create',
+    //     name: '/expertManagement/talent/create',
+    //     component: LibraryEdit,
+    //     meta: { title: '新增人才账号', menuPath: false, authCode: 'P12001', menuIcon: 'user', hideInBread: false, openMode: 'normal' }
+    //   },
+    //   {
+    //     path: '/expertManagement/talent/edit',
+    //     name: '/expertManagement/talent/edit',
+    //     component: LibraryEdit,
+    //     meta: { title: '修改人才账号', menuPath: false, authCode: 'P12003', menuIcon: 'user', hideInBread: false, openMode: 'normal' }
+    //   },
+    //   {
+    //     path: '/expertManagement/talent/view',
+    //     name: '/expertManagement/talent/view',
+    //     component: LibraryView,
+    //     meta: { title: '查看人才账号', menuPath: false, authCode: 'P12002', menuIcon: 'user', hideInBread: false, openMode: 'normal' }
+    //   },
+    //   ]
+    // },
+    // {
+    //   path: '/expertManagement/expertLibrary',
+    //   name: '/expertManagement/expertLibrary',
+    //   component: ExpertLibrary,
+    //   meta: { title: '专家库', menuPath: true, authCode: 'P11000', menuIcon: 'user', hideInBread: false, openMode: 'normal' },
+    //   children: [{
+    //     path: '/expertManagement/expertLibrary/create',
+    //     name: '/expertManagement/expertLibrary/create',
+    //     component: LibraryEdit,
+    //     meta: { title: '新增专家账号', menuPath: false, authCode: 'P11001', menuIcon: 'user', hideInBread: false, openMode: 'normal' }
+    //   },
+    //   {
+    //     path: '/expertManagement/expertLibrary/edit',
+    //     name: '/expertManagement/expertLibrary/edit',
+    //     component: LibraryEdit,
+    //     meta: { title: '人员信息修改', menuPath: false, authCode: 'P11003', menuIcon: 'user', hideInBread: false, openMode: 'normal' }
+    //   },
+    //   {
+    //     path: '/expertManagement/expertLibrary/view',
+    //     name: '/expertManagement/expertLibrary/view',
+    //     component: LibraryView,
+    //     meta: { title: '查看专家账号', menuPath: false, authCode: 'P11002', menuIcon: 'user', hideInBread: false, openMode: 'normal' }
+    //   },
+    //   {
+    //     path: '/expertManagement/expertLibrary/select',
+    //     name: '/expertManagement/expertLibrary/select',
+    //     component: ExpertLibrarySelect,
+    //     meta: { title: '选择专家账号', menuPath: false, authCode: 'P11001', menuIcon: 'user', hideInBread: false, openMode: 'normal' }
+    //   },
+    //   {
+    //     path: '/expertManagement/expertLibrary/upload',
+    //     name: '/expertManagement/expertLibrary/upload',
+    //     component: ExpertLibraryUpload,
+    //     meta: { title: '导入专家账号', menuPath: false, authCode: 'P11001', menuIcon: 'user', hideInBread: false, openMode: 'normal' }
+    //   }
+    //   ]
+    // },
+    // {
+    //   path: '/expertManagement/reiview',
+    //   name: '/expertManagement/reiview',
+    //   component: ProjectReview,
+    //   meta: { title: '项目评审', menuPath: true, authCode: 'P13000', menuIcon: 'edit', hideInBread: false, openMode: 'normal' },
+    //   children: [{
+    //     path: '/expertManagement/reiview/history',
+    //     name: '/expertManagement/reiview/history',
+    //     component: ProjectReviewHistory,
+    //     meta: { title: '历史评审', menuPath: false, authCode: 'P13000', menuIcon: 'user', hideInBread: false, openMode: 'normal' }
+    //   }]
+    // },
+    // {
+    //   path: '/expertManagement/base',
+    //   name: '/expertManagement/base',
+    //   component: ExpertBase,
+    //   meta: { title: '专家基础信息维护', menuPath: true, authCode: 'P14000', menuIcon: 'edit', hideInBread: false, openMode: 'normal' }
+    // }
+    //   ]
+    // },
     //内容发布
     {
       path: '/cms', name: 'cms', component: contentWrapper,

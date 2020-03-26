@@ -1,10 +1,10 @@
 <template>
   <div class="portalDetailWapper">
     <div class="portalDetailTitle">
-      <span :class="showInfo?'title bule':'title underLine'" @click="showInfo?changeShow(true):changeShow(false)"
+      <span :class="showInfo?'title transparent':'title underLine bule'" @click="showInfo?changeShow(true):changeShow(false)"
         style="padding:0px;margin-left:32px;">账户信息</span>
       <a-divider type="vertical" />
-      <span :class="showInfo?'title underLine':'title bule'" @click="showInfo?changeShow(false):changeShow(true)"
+      <span :class="showInfo?'title underLine bule':'title transparent'" @click="showInfo?changeShow(false):changeShow(true)"
         style="padding:0px;">人员信息</span>
       <div class="detailOperations" v-if="!showInfo">
         <a-button type="primary" ghost @click='handleReturn'>返回</a-button>
@@ -12,7 +12,7 @@
       </div>
       <div class="detailOperations" v-else>
         <a-button type="primary" ghost @click="handleReturn"> 返回 </a-button>
-        <a-button type="primary" v-if="$permission('P11003')" @click="handleEdit(2)">修改</a-button>
+        <a-button type="primary" v-if="$permission('P03302')" @click="handleEdit(2)">修改</a-button>
       </div>
     </div>
     <div v-if="!showInfo" class="portalDetailContentWapper">
@@ -173,5 +173,6 @@ export default {
 <style scoped>
 	.position { margin-left: 5px; color: #1890ff; cursor: pointer; }
   .underLine { border-bottom: 2px solid #1890ff;}
-  .bule { color: #1890ff;cursor: pointer;}
+  .bule { color: #1890ff;}
+  .transparent { font-weight: normal; color: rgba(0, 0, 0, 0.5); cursor: pointer;}
 </style>
