@@ -386,10 +386,9 @@ export default {
       this.$ajax.get({
         url: this.$api.GET_SELECT_SYSTEM + links
       }).then(res => {
-        let gainDatas = res.data.content
+        let gainDatas =  this.$com.confirm(res, 'data.content', {})
         // let lists = JSON.parse(this.$cookie.get('systemLists'))
         let lists = this.$store.state.chooseSystemLists
-
         this.$com.setOldSysAccounts(gainDatas.access_token, gainDatas.refresh_token, lists)
         if (gainDatas.redirectUrl) {
           this.$cookie.set('canEnterBind', '500')
@@ -398,13 +397,14 @@ export default {
           if (gainDatas.isNew === false && gainDatas.haveNewPerm === false) {
             this.$cookie.set('canEnterBind', '500')
             const openUrl = gainDatas.url + '?userId=' + gainDatas.userId + '&accessToken=' + gainDatas.access_token +
-								'&refreshToken=' + gainDatas.refresh_token
+                '&refreshToken=' + gainDatas.refresh_token
+            console.log('goLogin openUrl',openUrl)
             window.open(openUrl, '_parent')
           } else {
             this.$com.setToken(gainDatas.access_token, gainDatas.refresh_token)
-            this.$router.push({
-              name: 'home',
-            })
+            // this.$router.push({
+            //   name: 'home',
+            // })
           }
         }
       })
