@@ -98,7 +98,6 @@ export default {
         status_in: '1',
         topDate_desc:'desc',
       })
-      console.log(searchParms)
 
       this.$ajax.get({
         url: this.$api.GET_CMS_NOTICE_LIST,

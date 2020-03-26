@@ -115,7 +115,6 @@ export default {
      */
     getAttachments(){
       let attachments = !this.knowledgeDetails.attachments?[]:this.knowledgeDetails.attachments
-      console.log(attachments)
 
       // let attachments = testArr
       for(let i=0;i<attachments.length;i++){

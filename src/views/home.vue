@@ -13,7 +13,12 @@
         <a-row type="flex" justify="start" align='top' :gutter="12" style="margin-bottom:10px">
           <a-col span='24' class="sectionBox">
             <div class="section">
-              <VotePublish/>
+              <PendingReview />
+            </div>
+          </a-col>
+          <a-col span='24' class="sectionBox">
+            <div class="section">
+              <VotePublish />
             </div>
           </a-col>
         </a-row>
@@ -113,12 +118,15 @@ import NoticePublish from '@/views/cms/noticePublish/noticeInLogin'
 import KnowledgePublish from '@/views/cms/knowledgePublish/authInHome'
 import VotePublish from '@/views/cms/vote/voteInHome'
 import ManualPublish from '@/views/cms/manual/manualInHome'
+import PendingReview from '@/views/expertManagement/review/listNew'
+
 // 引入数据服务的组件
 import DataService from '@/views/cms/dataService/dataService'
 
 export default {
   mixins: [permission],
   components: {
+    PendingReview,
     NoticePublish,
     KnowledgePublish,
     VotePublish,

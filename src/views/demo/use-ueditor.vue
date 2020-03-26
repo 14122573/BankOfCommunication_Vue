@@ -51,7 +51,6 @@ export default {
   watch:{
     'ueditor.formContent': {
       handler: function(val) {
-        console.log(val)
         // this.username = val
       },
       deep: true
@@ -62,7 +61,6 @@ export default {
       instance.setContent(this.ueditor.formContent)
       instance.addListener('contentChange', () => {
         this.ueditor.formContent = instance.getContent()
-        console.log('editorReady',this.ueditor.formContent )
       })
     },
 

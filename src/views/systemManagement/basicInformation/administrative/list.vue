@@ -1,20 +1,46 @@
 <template>
   <div class="wrapper">
     <a-row>
-      <a-col span="18">
+      <a-col span="15">
         <div class="institutionalTree">
-          <a-tree showLine @select="onSelect" @expand="expand" :expandedKeys="expandedKeys" :autoExpandParent="true"
+          <a-tree v-if="showTree" showLine @select="onSelect" @expand="expand" :expandedKeys="expandedKeys" :autoExpandParent="true"
             :treeData="treeData" :selectedKeys="selectedKeys" :loadData="onLoadData">
           </a-tree>
         </div>
       </a-col>
-      <a-col span="6">
-        <a-button type="primary" html-type="submit">添加</a-button>
-        <a-button type="primary" html-type="submit">修改</a-button>
-        <a-button type="primary" html-type="submit">删除</a-button>
+      <a-col span="9">
+        <a-button type="primary" :disabled="disabled" html-type="submit" @click="addBranch('添加同级行政区')">添加同级行政区</a-button>
+        <a-button type="primary" :disabled="disabled" html-type="submit" @click="addBranch('修改行政区')">修改行政区</a-button>
+        <a-button type="primary" :disabled="disabled" html-type="submit" @click="deleteBranch">删除行政区</a-button>
       </a-col>
     </a-row>
-      
+
+    <a-modal
+      :title="title"
+      :visible="visible"
+      @cancel="handleCancel"
+      :footer="null"
+      :bodyStyle="{padding:'24px 50px'}"
+    >
+      <a-form class="protalForm" :form="form">
+        <a-row>
+          <a-col span="24">
+            <a-form-item class="formItem" label="请输入行政区名" :label-col="{span:8}" :wrapper-col="{span:16}">
+              <a-input placeholder="请输入行政区名" v-decorator="['branchName',{
+                validateTrigger: 'blur',
+                rules: [{ required: true, message: '请输入行政区名' }]
+              }]" />
+            </a-form-item>
+          </a-col>
+        </a-row>
+      </a-form>
+      <a-row>
+        <a-col span="24">
+          <a-button type="primary" @click="submitForm" style="margin-top:20px;float:right;">确定</a-button>
+        </a-col>
+      </a-row>
+    </a-modal>
+
   </div>
 </template>
 
@@ -23,9 +49,17 @@ export default {
   name:'Administrative',
   data(){
     return {
-      expandedKeys: ['all'],
-      selectedKeys: [],
-      treeData: [],
+      showTree:false,
+      form:this.$form.createForm(this),
+      expandedKeys: [],
+      area:['all'],
+      selectedKeys: [],//当前点击的分支key
+      treeData: [],//保存树数据的数组
+      targetArea:{},//当前点击的分支对象
+      disabled:true,
+      title:'',
+      visible:false,
+      branchName:'',
     }
   },
   mounted(){
@@ -33,16 +67,119 @@ export default {
     this.getArea()
   },
   methods:{
+    /***
+     * 点击分支事件
+     * selectedKeys {array} 当前点击的分支key
+     * info {object} 分支的事件对象
+     */
     onSelect(selectedKeys, info) {
-      console.log(selectedKeys, info)
-      this.selectedKeys = [String(selectedKeys[0])]
-      // this.transData.area = info.node.dataRef
+      if(selectedKeys.length>0 && selectedKeys[0]!='all'){
+        this.disabled=false
+        this.targetArea=info
+        this.selectedKeys = selectedKeys
+      }else{
+        this.disabled=true
+        this.targetArea=info
+        this.selectedKeys = selectedKeys
+      }
     },
+    //关闭弹框
+    handleCancel(){
+      this.visible=false
+    },
+    //点击添加或修改分支按钮
+    addBranch(title){
+      this.title=title
+      this.visible=true
+    },
+    //提价添加或修改的表单
+    submitForm(){
+      this.form.validateFields((err, values) => {
+        if (!err) {
+          if(this.title=='添加同级行政区'){
+            this.$ajax.post({
+              url: this.$api.POST_ADD_AREA,
+              params: {
+                areaName: this.form.getFieldValue('branchName'),
+                parentId: this.targetArea.node.dataRef.parentId
+              }
+            }).then(res => {
+              this.visible=false
+              this.showTree=false
+              if(res.code=='200'){
+                this.$message.success('添加成功')
+                this.treeData=[]
+                this.getArea()
+              } else {
+                this.$message.info(res.msg,10)
+              }
+            })
+          }else if(this.title=='修改行政区'){
+            this.$ajax.put({
+              url: this.$api.PUT_REVISE_AREA.replace('{id}',this.selectedKeys[0]),
+              params: {
+                areaName: this.form.getFieldValue('branchName'),
+                parentId: this.targetArea.node.dataRef.parentId
+              }
+            }).then(res => {
+              this.visible=false
+              this.showTree=false
+              if(res.code=='200'){
+                this.$message.success('修改成功')
+                this.treeData=[]
+                this.getArea()
+              } else {
+                this.$message.info(res.msg,10)
+              }
+            })
+          }
+        }
+      })
+    },
+    /**
+     * 删除分支
+     */
+    deleteBranch(){
+      var _this=this
+      this.$modal.confirm({
+        title: '确定要删除吗？',
+        onOk() {
+          _this.$ajax.delete({
+            url: _this.$api.DELETE_AREA.replace('{id}',_this.selectedKeys[0]),
+          }).then(res => {
+            _this.showTree=false   
+            if(res.code=='200'){
+              _this.$message.success('删除成功')
+              _this.getArea()
+            } else {
+              _this.$message.info(res.msg,10)
+            }
+          })
+        },
+        onCancel() {
+        },
+      })
+    },
+    /**
+     * 展开关闭分支事件
+     * expandedKeys {array} 当前展开/关闭的分支key
+     */
     expand(expandedKeys) {
-      console.log(expandedKeys)
-      console.log(this.expandedKeys)
-      // this.expandedKeys = expandedKeys
+      var index=-1
+      for(var i=0;i<this.expandedKeys.length;i++){
+        if(expandedKeys.indexOf(this.expandedKeys[i])<0){
+          index=i
+        }
+      }
+      if(index>=0){
+        this.area = expandedKeys.slice(0,index)
+        this.expandedKeys = expandedKeys.slice(0,index)
+      }else{
+        this.area = expandedKeys
+        this.expandedKeys = expandedKeys
+      }
     },
+    //获取树的数据
     getArea() {
       this.$ajax.get({
         url: this.$api.GET_AREA_NEXT,
@@ -60,8 +197,8 @@ export default {
           key: 'all',
           children: trees
         }]
-        console.log(this.treeData)
-        this.expandedKeys=['all']
+        this.expandedKeys=this.area
+        this.showTree=true
       })
     },
     getTreeNode(item, index) {
@@ -81,7 +218,6 @@ export default {
      *  treeNade {object} 当前点击的节点
      */
     onLoadData(treeNode) {
-      console.log(treeNode)
       return new Promise(resolve => {
         if (treeNode.dataRef.children) {
           resolve()

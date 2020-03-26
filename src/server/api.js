@@ -80,10 +80,16 @@ export default {
   POST_ADD_USER: '/service-user/user/account', //管理员新增用户
   GET_USER_DETAIL: '/service-user/user/account/{id}', //新用户详情
   PUT_USER_LIST: '/service-user/user/account/{id}', //新用户修改
+  GET_EXPORT_USER_LIST: BASE_URL+'/service-user/user/export/users', //新用户导出
   POST_ADD_ORGANIZATION_LIST: '/service-permission/perm/group', //新增组织机构
   PUT_EDIT_ORGANIZATION_LIST: '/service-permission/perm/group/{id}', //修改组织机构
   DELETE_ORGANIZATION_LIST: '/service-permission/perm/group/{id}', //删除组织机构
   GET_ORGANIZATION_LIST_DETAIL: '/service-permission/perm/group/{id}', //组织机构详情
+  //系统管理 -- 行政区划维护
+  POST_ADD_AREA: '/service-user/user/area', //新增行政区
+  PUT_REVISE_AREA: '/service-user/user/area/{id}', //修改行政区
+  DELETE_AREA: '/service-user/user/area/{id}', //删除行政区
+
   // 系统配置 -- 用户管理 -- 临时账号管理
   GET_TEMPACCOUT_BATCH_LIST:'/service-user/user/temp/acct/batch',//批次列表
   POST_TEMPACCOUT_CREATE: '/service-user/user/temp/accounts', //批量添加临时账号

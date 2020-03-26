@@ -83,12 +83,17 @@
 </template>
 
 <script>
+
+
+
+
 export default {
   beforeCreate() {
     this.searchForm = this.$form.createForm(this)
   },
   data() {
     return {
+      exclusionRoleIds:['999999','899999','133333','144444','155555','166666','177777','188888','199999','1000000','122221','122222','122223','122224','122225','122226','122227','122228','122231','122232','122233','122234'],
       dateFormat: 'YYYY-MM-DD',
       colSpe: {
         labelCol: {
@@ -411,6 +416,7 @@ export default {
         let params = item.map((it) => {
           return it.key
         })
+        this.checkedKeys = []
         this.$ajax.get({
           url: this.$api.ROLE_DETAIL.replace('{id}', params)
         }).then(res => {
@@ -457,7 +463,7 @@ export default {
         let datas = this.detail.roleIds != null ? this.detail.roleIds.split(',') : []
         let userRoleIDs = []
         for(var i=0;i<datas.length;i++){
-          if(userRoleIDs.indexOf(datas[i]) == -1){
+          if(!this.$com.oneOf(datas[i],userRoleIDs) && !this.$com.oneOf(datas[i],this.exclusionRoleIds)){
             userRoleIDs.push(datas[i])
           }
         }
