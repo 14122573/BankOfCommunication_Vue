@@ -8,7 +8,7 @@
         <div v-for="(review,index) in reviewSingleList" :key="index">
           <a-row type="flex" justify="space-between" align="middle" :gutter='16' >
             <a-col :span="17" style="display:flex;align-items: center;">
-              <p>{{review.companyCode}} 申报(请) “{{review.taskName}}”</p>
+              <p>{{review.companyCode}} 申报(请) “{{systemName(review.systemCode)}}”</p>
             </a-col>
             <a-col :span="7" class="algin-right">
               <span class="contentOperate" @click="goMicReview(review.systemCode,review.busCode,review.taskCode)">去评审</span>
@@ -99,7 +99,7 @@ export default {
       for(let i=0;i<this.sysListForSearch.length;i++){
         let item = this.sysListForSearch[i]
         if(code ==item.value) {
-          name = item.label
+          name = item.reviewName
         }
       }
       return name
@@ -194,9 +194,49 @@ export default {
         if(res.code === '200'){
           let data = this.$com.confirm(res, 'data.content', [])
           this.sysListForSearch = data.map((item) => {
+            let name=''
+            switch (item.sysCode) {
+            case 'S1001':
+              name='中国水产学会学术会议管理'
+              break
+            case 'S1002':
+              name='范蠡奖评审'
+              break
+            case 'S0201':
+              name='中国水产学会团体标准管理'
+              break
+            case 'S0601':
+              name='水生动物防疫系统实验室能力验证'
+              break
+            case 'S1003':
+              name='中国水产学会理事会议'
+              break
+            case 'S0101':
+              name='科普教育基地申报管理'
+              break
+            case 'S0501':
+              name='水产新品种审定'
+              break
+            case 'S0503':
+              name='水产原良种场验收审定'
+              break
+            case 'S0502':
+              name='水产原良种场复查审定'
+              break
+            case 'S0401':
+              name='国家级海洋牧场示范区管理'
+              break
+            case 'S0301':
+              name='休闲渔业品牌管理'
+              break
+            default:
+              name=item.sysName
+              break
+            }
             return {
               label: item.sysName,
-              value: item.sysCode
+              value: item.sysCode,
+              reviewName:name
             }
           })
         }else{
