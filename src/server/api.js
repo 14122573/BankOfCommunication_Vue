@@ -80,6 +80,7 @@ export default {
   POST_ADD_USER: '/service-user/user/account', //管理员新增用户
   GET_USER_DETAIL: '/service-user/user/account/{id}', //新用户详情
   PUT_USER_LIST: '/service-user/user/account/{id}', //新用户修改
+  GET_EXPORT_USER_LIST: BASE_URL+'/service-user/user/export/users', //新用户导出
   POST_ADD_ORGANIZATION_LIST: '/service-permission/perm/group', //新增组织机构
   PUT_EDIT_ORGANIZATION_LIST: '/service-permission/perm/group/{id}', //修改组织机构
   DELETE_ORGANIZATION_LIST: '/service-permission/perm/group/{id}', //删除组织机构

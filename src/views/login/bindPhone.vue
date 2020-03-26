@@ -398,7 +398,6 @@ export default {
             this.$cookie.set('canEnterBind', '500')
             const openUrl = gainDatas.url + '?userId=' + gainDatas.userId + '&accessToken=' + gainDatas.access_token +
                 '&refreshToken=' + gainDatas.refresh_token
-            console.log('goLogin openUrl',openUrl)
             window.open(openUrl, '_parent')
           } else {
             this.$com.setToken(gainDatas.access_token, gainDatas.refresh_token)

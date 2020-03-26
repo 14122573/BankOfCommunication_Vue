@@ -58,13 +58,13 @@
 		<a-table size='small' class="portalTable" :columns="columns" :dataSource="dataTable" rowKey='id' :pagination='pagination'>
 			<span slot="action" slot-scope="text, record">
 				<span class="actionBtn" v-if="$permission('P03301')" @click="viewBtn(record)">查看<a-divider type="vertical" /></span>
-				<!-- <span class="actionBtn" v-if="record.status!=8 && $permission('P03302')" @click="$router.push({name: '/systemManagement/administrator/editNewUser',query:{id:record.id}})">修改<a-divider type="vertical" /></span> -->
-				<a-dropdown>
+				<!-- <span class="actionBtn" v-if="record.status==0 && $permission('P03102')" @click="$router.push({name: '/systemManagement/administrator/distribution',query:{id:record.id}})">权限分配</span> -->
+				<a-dropdown >
 					<span class="actionBtn" v-if="record.status!=8" > 更多
 						<a-icon type="down" />
           </span>
 					<a-menu slot="overlay" @click='(event)=>{showOpeations(event.key,record)}'>
-            <a-menu-item class="actionBtn" key="5" v-if="record.status==0 && $permission('P03305')"> 权限分配 </a-menu-item>
+            <a-menu-item class="actionBtn" key="5" v-if="record.status==0 && $permission('P03102')"> 权限分配 </a-menu-item>
 						<a-menu-item class="actionBtn" key="4" v-if="(record.status==1 ||record.status==9)&& $permission('P03306')"> 重置密码
 						</a-menu-item>
 						<a-menu-item class="actionBtn" key="2" v-if="record.status==1 && $permission('P03305')"> 禁用 </a-menu-item>
@@ -351,7 +351,6 @@ export default {
           },
         })
       } else if(key == 5){
-        // console.log(key, item)
         this.$router.push({path :'/systemManagement/administrator/distribution',
           query:{
             id:item.id
@@ -477,24 +476,17 @@ export default {
       })
     },
     exportInfo(){
-      console.log(this.searchForm)
-      // var token=this.$cookie.get('token')
-      // if(this.searchForm.getFieldValue('streetId')){
-      //   if(this.searchForm.getFieldValue('createTime_bet')==[] || this.searchForm.getFieldValue('createTime_bet')==undefined){
-      //     var streetId=this.searchForm.getFieldValue('streetId')
-      //     var temperature_bet=this.searchForm.getFieldValue('temperature_bet')?this.searchForm.getFieldValue('temperature_bet'):''
-      //     var createTime_bet=''
-      //   }else{
-      //     var createTime_bet=this.$moment(this.searchForm.getFieldValue('createTime_bet')[0]).format('YYYY-MM-DD')+','+this.$moment(this.searchForm.getFieldValue('createTime_bet')[1]).format('YYYY-MM-DD')
-      //     var streetId=this.searchForm.getFieldValue('streetId')
-      //     var temperature_bet=this.searchForm.getFieldValue('temperature_bet')?this.searchForm.getFieldValue('temperature_bet'):''
-      //   }
-      //   var url=this.$api.GET_EXPORT_INFO_LIST+'?streetId='+streetId+'&createTime_bet='+createTime_bet+'&temperature_bet='+temperature_bet+'&token='+token
-      //   window.open(url)
-      // }else{
-      //   this.$message.error('请先选择街道',5)
-      //   return false
-      // }
+      let searchForm=JSON.parse(JSON.stringify(this.searchForm))
+      searchForm['oa.status_in']=searchForm.checkedList.join(',')
+      if (searchForm.checkedList) delete searchForm.checkedList
+
+      var token=this.$cookie.get('token')
+      let params=''
+      for(var key in searchForm){
+        params=params+key+'='+searchForm[key]+'&'
+      }
+      var url=this.$api.GET_EXPORT_USER_LIST+'?'+params+'ui.createTime_desc=1&token='+token
+      window.open(url)
     },
   }
 }

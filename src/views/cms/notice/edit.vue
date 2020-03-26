@@ -129,7 +129,6 @@ export default {
           this.formData.openEffectStart = this.$com.oneOf(this.noticeDetail.startTime,['',this.defaultEffectTime.startTime])?false:true
           this.formData.openEffectEnd = this.$com.oneOf(this.noticeDetail.endTime,['',this.defaultEffectTime.endTime])?false:true
 
-          console.log(this.noticeDetail.content)
 
           // 附件
           if(Array.isArray(this.noticeDetail.attachments)){

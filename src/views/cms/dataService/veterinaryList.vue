@@ -249,8 +249,6 @@ export default {
           }
         })
         this.options.areas = result
-        console.log(result)
-        console.log(ids)
 
         // 表单的area赋值
         //   ???
@@ -306,7 +304,6 @@ export default {
         url: this.$api.GET_VETERINARYALL,
         params: searchParams
       }).then(res => {
-        console.log(res)
 
         if (res.code === '200') {
           this.formList = this.$com.confirm(res, 'data.content', [])

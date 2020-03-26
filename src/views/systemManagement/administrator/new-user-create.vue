@@ -404,7 +404,6 @@ export default {
         params: sparams
       }).then(res => {
         this.roleList = this.$com.confirm(res, 'data.content', [])
-        console.log('getRoleLists',this.roleList)
         if (this.$route.query.id) {
           this.getDetail()
         }

@@ -280,7 +280,6 @@ export default {
             'attachments': this.arrangeFileList()
           })
           delete  postParams.videoUrlList
-          console.log(postParams)
 
           this.$ajax.post({
             url: this.$api.POST_CMS_KNOWLEDGE,

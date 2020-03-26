@@ -162,7 +162,6 @@ export default {
         datas.forEach((ele, index) => {
           this.administrativeRegions.push(this.getTreeNode(ele, index))
         })
-        console.log('getArea',this.administrativeRegions)
       })
     },
     getTreeNode(item, index) {

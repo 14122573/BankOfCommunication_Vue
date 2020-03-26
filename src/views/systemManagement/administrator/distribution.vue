@@ -95,6 +95,7 @@ export default {
         }).then(res => {
           if (res.code === '200') {
             let data = this.$com.confirm(res, 'data.content', [])
+            this.checkedKeys = []
             for(let i=0;i<data.length;i++){
               if(false ===data[i].canDelete){
               }else{
@@ -147,7 +148,7 @@ export default {
         })
       }
     },
-    //   查询options
+    //   查询options 获取角色名称的options
     getOptions() {
       let info = this.$store.state.userInfos
       let optionList = [{
@@ -241,6 +242,7 @@ export default {
         })
       })
     },
+    // 行政区域修改---
     onChangeTree(value, label, extra) {
       this.options.organList = []
       this.formData.resetFields('organ')

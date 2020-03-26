@@ -256,7 +256,6 @@ export default {
       }).then(res=>{
         if(res.code === '200'){
           this.reviewList = this.$com.confirm(res, 'data.content', [])
-          console.log('sssss',this.reviewList)
           this.initCollapseDefaultKey()
         }else{
           this.$message.error(res.msg)
