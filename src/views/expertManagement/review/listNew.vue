@@ -2,22 +2,28 @@
   <div class="reviewSection">
     <a-row class="reviewInHomeTitle" type="flex" justify="space-between" align="middle" :gutter='16' >
       <a-col :span="18"><a-divider class="divider" type="vertical" /><span class="title">待办评审</span></a-col>
-      <!-- <a-col :span="6" class="algin-right"><span v-if='noticeList.length>0' @click="$router.push({name:'/cms/noticePublish'})" class="more">查看全部</span></a-col> -->
     </a-row>
     <template v-if="sysListForSearch.length>0 && reviewTypeList.length>0 && preparate.isReady">
-      <div v-for="(review,index) in reviewSingleList" :key="index">
-        <a-row type="flex" justify="space-between" align="middle" :gutter='16' >
-          <a-col :span="17" style="display:flex;align-items: center;">
-            <p>{{review.companyCode}} 申报(请) “{{review.taskName}}”</p>
-          </a-col>
-          <a-col :span="7" class="algin-right">
-            <span class="contentOperate" @click="goMicReview(review.systemCode,review.busCode,review.taskCode)">去评审</span>
-          </a-col>
-        </a-row>
-      </div>
-      <div style="padding:16px 0 8px;height:50px;">
-          <a-pagination style="float:right" size="small" @change="onPageChange" :pageSize="reviewListPage.pageSize" :current="reviewListPage.current" :total="reviewListPage.total" />
-      </div>
+      <template v-if="reviewList.length>0">
+        <div v-for="(review,index) in reviewSingleList" :key="index">
+          <a-row type="flex" justify="space-between" align="middle" :gutter='16' >
+            <a-col :span="17" style="display:flex;align-items: center;">
+              <p>{{review.companyCode}} 申报(请) “{{review.taskName}}”</p>
+            </a-col>
+            <a-col :span="7" class="algin-right">
+              <span class="contentOperate" @click="goMicReview(review.systemCode,review.busCode,review.taskCode)">去评审</span>
+            </a-col>
+          </a-row>
+        </div>
+        <div style="padding-top:16px;height:50px;">
+            <a-pagination style="float:right" size="small" @change="onPageChange" :pageSize="reviewListPage.pageSize" :current="reviewListPage.current" :total="reviewListPage.total" />
+        </div>
+      </template>
+      <template v-else>
+        <a-alert message="暂无数据" type="info" >
+          <p slot="description"> 您暂无需要评审的内容 </p>
+        </a-alert>
+      </template>
     </template>
     <template v-else>
       <a-skeleton active />
@@ -26,7 +32,6 @@
 </template>
 <script>
 import {navigateToUrl} from 'single-spa'
-// import { ExpertReviewRouters } from '@/config/expert-review-router'
 import axios from 'axios'
 export default {
   data(){
@@ -51,6 +56,17 @@ export default {
       }
     }
   },
+  watch:{
+    '$store.state.userInfos': {
+      handler: function(val) {
+        if(!!val){
+          this.expertId = !val.id?'':val.id
+          this.getReviewList()
+        }
+      },
+      deep: true
+    },
+  },
   mounted(){
     // 获取远程portal专家库评审各子系统内容的菜单跳转配置文件，
     const newInstance = axios.create({
@@ -65,7 +81,7 @@ export default {
         // 继续请求页面数据
         this.getReviewTypeList()
         this.getSysCodOptions()
-        this.getReviewList(this.expertId)
+        this.getReviewList()
       }else{
         // 获取失败，展示提示文字
         this.$message.error('获取配置文件错误')
@@ -192,6 +208,9 @@ export default {
      * 根据专家id，获取待评审数据
      */
     getReviewList(){
+      if(this.expertId==''){
+        return
+      }
       this.$ajax.get({
         url: this.$api.GET_EXPERT_REVIEW_TODO_LIST.replace('{expertId}', this.expertId),
         params: {status:0}
@@ -229,7 +248,7 @@ export default {
 }
 </script>
 <style scoped>
-.reviewSection {margin: 0 16px; padding-top: 16px;}
+.reviewSection {margin: 0 16px; padding-top: 16px; padding-bottom: 16px;}
 .reviewInHomeTitle { margin-bottom: 16px; padding-bottom: 8px; border-bottom: 1px solid  rgba(0,0,0,0.1)}
 .reviewInHomeTitle .divider{ font-size: 16px; background-color:#1890ff; height: 16px; width: 5px; border-radius: 4px;}
 .reviewInHomeTitle .title{ font-size: 16px;}
