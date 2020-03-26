@@ -18,9 +18,9 @@ const PersonCenter = () => import ('@/views/personal/person-center')
 // 系统管理
 const SysBasicInfo = () => import ('@/views/systemManagement/basicInformation/index')
 // 组织机构
-const Organization = () => import ('@/views/systemManagement/organization/list')
-const OrganizationCreate = () => import ('@/views/systemManagement/organization/create')
-const OrganizationView = () => import ('@/views/systemManagement/organization/view')
+// const Organization = () => import ('@/views/systemManagement/organization/list')
+// const OrganizationCreate = () => import ('@/views/systemManagement/organization/create')
+// const OrganizationView = () => import ('@/views/systemManagement/organization/view')
 // 角色管理
 const RoleManagement = () => import ('@/views/systemManagement/role/list')
 const RoleCreate = () => import ('@/views/systemManagement/role/add')
@@ -179,31 +179,31 @@ let appRoutes = [{
           },
           ]
         },
-        {
-          path: '/systemManagement/organization',
-          name: '/systemManagement/organization',
-          component: Organization,
-          meta: { title: '组织机构管理', menuPath: true, authCode: 'P01000', menuIcon: 'cluster', hideInBread: false, openMode: 'normal' },
-          children: [{
-            path: '/systemManagement/organization/create',
-            name: '/systemManagement/organization/create',
-            component: OrganizationCreate,
-            meta: { title: '组织机构创建', menuPath: false, authCode: 'P01001', menuIcon: 'cluster', hideInBread: false, openMode: 'normal' }
-          },
-          {
-            path: '/systemManagement/organization/view',
-            name: '/systemManagement/organization/view',
-            component: OrganizationView,
-            meta: { title: '组织机构查看', menuPath: false, uthCode: 'P01002', menuIcon: 'cluster', hideInBread: false, openMode: 'normal' }
-          },
-          {
-            path: '/systemManagement/organization/edit',
-            name: '/systemManagement/organization/edit',
-            component: OrganizationCreate,
-            meta: { title: '组织机构编辑', menuPath: false, authCode: 'P01003', menuIcon: 'cluster', hideInBread: false, openMode: 'normal' }
-          },
-          ]
-        },
+        // {
+        //   path: '/systemManagement/organization',
+        //   name: '/systemManagement/organization',
+        //   component: Organization,
+        //   meta: { title: '组织机构管理', menuPath: true, authCode: 'P01000', menuIcon: 'cluster', hideInBread: false, openMode: 'normal' },
+        //   children: [{
+        //     path: '/systemManagement/organization/create',
+        //     name: '/systemManagement/organization/create',
+        //     component: OrganizationCreate,
+        //     meta: { title: '组织机构创建', menuPath: false, authCode: 'P01001', menuIcon: 'cluster', hideInBread: false, openMode: 'normal' }
+        //   },
+        //   {
+        //     path: '/systemManagement/organization/view',
+        //     name: '/systemManagement/organization/view',
+        //     component: OrganizationView,
+        //     meta: { title: '组织机构查看', menuPath: false, uthCode: 'P01002', menuIcon: 'cluster', hideInBread: false, openMode: 'normal' }
+        //   },
+        //   {
+        //     path: '/systemManagement/organization/edit',
+        //     name: '/systemManagement/organization/edit',
+        //     component: OrganizationCreate,
+        //     meta: { title: '组织机构编辑', menuPath: false, authCode: 'P01003', menuIcon: 'cluster', hideInBread: false, openMode: 'normal' }
+        //   },
+        //   ]
+        // },
         // RoleManagement角色管理
         {
           path: '/systemManagement/role',
