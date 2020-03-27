@@ -271,8 +271,7 @@ export default {
             })
           })
           this.reviewListPage.total = this.reviewList.length
-          this.reviewSingleList = this.reviewList.slice(0,10)
-          // console.log(this.reviewListPage.total, this.reviewList,this.reviewSingleList)
+          this.reviewSingleList = this.reviewList.slice(0,this.reviewListPage.pageSize)
         }else{
           this.$message.error(res.msg)
         }
@@ -282,7 +281,7 @@ export default {
     onPageChange(val){
       this.reviewListPage.pageNo = val
       this.reviewListPage.current = val
-      this.reviewSingleList = this.reviewList.slice((val-1)*this.reviewListPage.pageSize,((val-1)*this.reviewListPage.pageSize+10))
+      this.reviewSingleList = this.reviewList.slice((val-1)*this.reviewListPage.pageSize,((val-1)*this.reviewListPage.pageSize+this.reviewListPage.pageSize))
     }
   }
 }
