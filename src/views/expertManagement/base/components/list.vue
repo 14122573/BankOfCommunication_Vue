@@ -12,8 +12,11 @@
     <div class="box" v-for="(item,index) in list" :key="index">
       <div class="inner">
         <div class="content">
-          <p class="name">{{item.name}}</p>
-          <DataOperatorInList :creator='!item.creator?"":item.creator' :lastOperator='!item.operator?"":item.operator'></DataOperatorInList>
+          <p class="name">{{item.name}} <br /> 
+            <span v-if="item.lv">({{item.lv}})</span>
+          </p>
+
+          <DataOperatorInList :creator='!item.creator?"":item.creator' :lv='!item.lv?"":item.lv' :lastOperator='!item.operator?"":item.operator'></DataOperatorInList>
         </div>
         <div class="operate">
           <template>

@@ -1,5 +1,6 @@
 <template>
   <div>
+    <!-- <p class="operatorInfo"><span class="label">级别:&nbsp;</span>{{lv}}</p> -->
     <p class="operatorInfo"><span class="label">创建人:&nbsp;</span>{{getCreator}}</p>
     <p class="operatorInfo"><span class="label">最后修改人:&nbsp;</span>{{getLastOperator}}</p>
   </div>
@@ -12,7 +13,10 @@ export default {
     },
     lastOperator:{
       type:String
-    }
+    },
+    lv:{
+      type:String
+    },
   },
   computed:{
     getCreator(){
