@@ -200,10 +200,10 @@ export default {
               name='中国水产学会学术会议管理'
               break
             case 'S1002':
-              name='范蠡奖评审'
+              name='中国水产学会范蠡科学技术奖'
               break
             case 'S0201':
-              name='中国水产学会团体标准管理'
+              name='中国水产学会团体标准'
               break
             case 'S0601':
               name='水生动物防疫系统实验室能力验证'
@@ -212,22 +212,22 @@ export default {
               name='中国水产学会理事会议'
               break
             case 'S0101':
-              name='科普教育基地申报管理'
+              name='中国水产学会科普教育基地'
               break
             case 'S0501':
-              name='水产新品种审定'
+              name='水产新品种'
               break
             case 'S0503':
-              name='水产原良种场验收审定'
+              name='水产原良种场验收'
               break
             case 'S0502':
-              name='水产原良种场复查审定'
+              name='水产原良种场复查'
               break
             case 'S0401':
-              name='国家级海洋牧场示范区管理'
+              name='国家级海洋牧场示范区'
               break
             case 'S0301':
-              name='休闲渔业品牌管理'
+              name='国家级休闲渔业品牌'
               break
             default:
               name=item.sysName
@@ -271,8 +271,7 @@ export default {
             })
           })
           this.reviewListPage.total = this.reviewList.length
-          this.reviewSingleList = this.reviewList.slice(0,10)
-          // console.log(this.reviewListPage.total, this.reviewList,this.reviewSingleList)
+          this.reviewSingleList = this.reviewList.slice(0,this.reviewListPage.pageSize)
         }else{
           this.$message.error(res.msg)
         }
@@ -282,7 +281,7 @@ export default {
     onPageChange(val){
       this.reviewListPage.pageNo = val
       this.reviewListPage.current = val
-      this.reviewSingleList = this.reviewList.slice((val-1)*this.reviewListPage.pageSize,((val-1)*this.reviewListPage.pageSize+10))
+      this.reviewSingleList = this.reviewList.slice((val-1)*this.reviewListPage.pageSize,((val-1)*this.reviewListPage.pageSize+this.reviewListPage.pageSize))
     }
   }
 }
