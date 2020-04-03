@@ -33,6 +33,7 @@
 								</span>
 								<a-menu slot="overlay" @click="handleClick">
 									<a-menu-item key="person">账户信息</a-menu-item>
+									<a-menu-item v-if="showTransferDatas" key="transferDatas">转移个人数据</a-menu-item>
 									<a-menu-item v-if="$permission('P21001')" key="expert">专家个人信息</a-menu-item>
 									<a-menu-item key="logout">退出登录</a-menu-item>
 								</a-menu>
@@ -79,6 +80,7 @@ export default {
       showSpaContent: false,
       backTopTarget: null,
       showBacktop: false,
+      showTransferDatas:false
     }
   },
   created() {
@@ -110,6 +112,7 @@ export default {
         if(!!val){
           this.username = !val.username?'':val.username
           this.loginPhone= !val.phone?'':val.phone
+          this.setTransferDatas()
         }
       },
       deep: true
@@ -141,6 +144,19 @@ export default {
     },
   },
   methods: {
+    /**
+     * 判断当前登录人，是否有权可转移个人在子业务系统中的申报数据
+     */
+    setTransferDatas(){
+      let allDeclarationRoles = ['133333','144444','155555','166666','177777','188888','199999','1000000']
+      let result = false
+      let curUserRoleIds = !this.$store.state.userInfos?[]:(!this.$store.state.userInfos.roleIds?['999999']:this.$store.state.userInfos.roleIds.split(','))
+      curUserRoleIds.every((x)=>{
+        if(allDeclarationRoles.includes(x)){
+          this.showTransferDatas = true
+        }
+      })
+    },
     /**
 			 * @param {boolean} isOnlyClear 是否需要调用接口登出 ； false，不需要；
 			 */
@@ -186,6 +202,9 @@ export default {
       switch(key){
       case 'person':
         this.$router.push({ name: 'person' })
+        break
+      case 'transferDatas':
+        this.$router.push({ name: '/person/transferDatas' })
         break
       case 'expert':
         this.$router.push({ name: '/person/expert' ,
