@@ -152,10 +152,10 @@ export default {
         navigateToUrl(nextRouter+'?id='+taskCode)
         break
       case 'S0401': // 海洋牧场
-        navigateToUrl(nextRouter.replace(':id',taskCode))
+        navigateToUrl(nextRouter+'?id='+taskCode)
         break
       case 'S0301': // 休闲渔业
-        navigateToUrl(nextRouter.replace(':id',taskCode))
+        navigateToUrl(nextRouter+'?id='+taskCode)
         break
       case 'S1002': // 中国水产学会团体标准函审
         navigateToUrl(nextRouter.replace(':id',taskCode)+'?sourceRouteType=portal&sourceRoutePath='+this.$route.path)
