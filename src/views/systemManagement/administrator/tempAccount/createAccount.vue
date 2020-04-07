@@ -162,6 +162,15 @@ export default {
         datas.forEach((ele, index) => {
           this.administrativeRegions.push(this.getTreeNode(ele, index))
         })
+        let national={
+          title: '中国',
+          value: '999999',
+          id: '999999',
+          key: '999999',
+          parentId: null,
+          children: null
+        }
+        this.administrativeRegions.splice(0,0,national)
       })
     },
     getTreeNode(item, index) {
@@ -177,7 +186,7 @@ export default {
     },
     onLoadData(treeNode) {
       return new Promise((resolve) => {
-        if (treeNode.dataRef.children) {
+        if (treeNode.dataRef.children || treeNode.value=='999999') {
           resolve()
           return
         }
