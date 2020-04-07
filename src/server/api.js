@@ -15,7 +15,7 @@ case 'production': // 生产环境下
 default: // 默认环境下（开发环境）
   // BASE_URL = 'http://fish.omniview.pro/api'
   BASE_URL = 'http://iftp.omniview.pro/api'
-  MOCK_URL = 'http://47.100.45.230:30000/mock/267'
+  MOCK_URL = 'http://yapi.omniview.pro/mock/183'
   break
 };
 
@@ -49,6 +49,11 @@ export default {
   PUT_USER_PHONE: '/service-user/user/phone/{phone}/{code}', // 登录用户修改手机号
   PUT_EDIT_USER: '/service-user/user/user', // 登录用户修改个人信息
   POST_BIND_TEMPUSERINFO_BIND: '/service-user/user/public/temp/bind/info', // 临时账号，绑定手机及用户信息
+  // 用户在子业务系统中的数据
+  GET_EXPERT_REVIEW_TODO_LIST: '/service-expert/expert/extract/{expertId}', //专家待评审项目。获取当前接口传参专家需要评审的数据,? status:0-未完成 1-完成 null/""-全部
+  GET_DECLARATION_LIST:MOCK_URL+'/service-user/user/datas',  //获取申报人，在子业务系统提交过的所有材料
+  GET_DECLARATION_TARGETUSER_LIST:MOCK_URL+'/assign/users',  //查找接收申报数据的用户列表
+  PUT_DECLARATION_TRANSFER:MOCK_URL+'/move/datas',  //提交数据转移
 
   // 系统配置
   // 系统配置 -- 权限配置管理
@@ -98,7 +103,6 @@ export default {
   GET_TEMPACCOUT_LIST: '/service-user/user/temp/accounts', //临时账号列表
   DELETE_TEMPACCOUT: '/service-user/user/temp/account?ids={ids}', //批量删除临时账户
 
-
   // 系统配置 --- 基础信息
   GET_SYSBASICINFO_BREED_LIST: '/service-expert/expert/breed', // 获取水产品种大类列表
   POST_SYSBASICINFO_BREED: '/service-expert/expert/breed', //新增水产品种大类
@@ -121,8 +125,7 @@ export default {
   EXPORT_TYPE_EDIT: '/service-expert/expert/expert/{experId}',
   UPLOAD_TEMP: '/zuul/service-file/file/upload/1/temp', //上传图片
   TEMPLAT_DOWNLOAD_EXPERT_AND_TALENT: '/template/导入模版.xlsx', //专家库人才库导入模板下载
-  // 专家管理--项目评审
-  GET_EXPERT_REVIEW_TODO_LIST: '/service-expert/expert/extract/{expertId}', //获取当前接口传参专家需要评审的数据,? status:0-未完成 1-完成 null/""-全部
+
   // 内容发布
   // 如果是本地开发的话会跨域，故设置了webpack代理，具体设置在/config/index.js的dev.proxyTable中
   GET_UEDITOR_SERVICE_URL: (process.env.NODE_ENV === 'development' ? '/ueditorDevBase' : BASE_URL)+'/service-release/release/public/ueditor/execute', //ueditor 文件上传配置service_url地址
