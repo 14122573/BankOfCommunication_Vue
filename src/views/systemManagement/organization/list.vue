@@ -78,68 +78,69 @@ export default {
   data() {
     return {
       searchForm: {},
-      options: {
-        nameOptions: [{
+      options   : {
+        nameOptions: [ {
           label: '1',
           value: '1'
-        }],
-        spaceOptions: [{
+        } ],
+        spaceOptions: [ {
           label: '1',
           value: '1'
-        }]
+        } ]
       },
       dataSource: [],
-      columns: [
+      columns   : [
         {
-          title: '组织机构',
+          title    : '组织机构',
           dataIndex: 'groupName',
-          key: 'groupName'
+          key      : 'groupName'
         },{
-          title: '联系人',
-          dataIndex: 'contact',
-          width: 150,
-          key: 'contact',
+          title      : '联系人',
+          dataIndex  : 'contact',
+          width      : 150,
+          key        : 'contact',
           scopedSlots: {
             customRender: 'contact'
           }
         },{
-          title: '地址',
-          width: 180,
+          title    : '地址',
+          width    : 180,
           dataIndex: 'addr',
-          key: 'addr'
+          key      : 'addr'
         },{
-          title: '操作人',
-          width: 150,
-          dataIndex: 'creator',
-          key: 'creator',
+          title      : '操作人',
+          width      : 150,
+          dataIndex  : 'creator',
+          key        : 'creator',
           scopedSlots: {
             customRender: 'operator'
           }
         },{
-          title: '操作',
-          dataIndex: 'action',
-          width: 160,
+          title      : '操作',
+          dataIndex  : 'action',
+          width      : 160,
           scopedSlots: {
             customRender: 'action'
           }
         }
       ],
-      areaCode: '',
+      areaCode    : '',
       opeationItem: {},
-      treeData: [],
+      treeData    : [],
       selectedKeys: [],
-      expandedKeys: ['all'],
-      transData: {},
-      pagination: {
-        pageNo: 1,
-        pageSize: 10,
-        total: 0,
-        current: 1,
-        defaultCurrent: 1,
+      expandedKeys: [ 'all' ],
+      transData   : {},
+      pagination  : {
+        pageNo         : 1,
+        pageSize       : 10,
+        total          : 0,
+        current        : 1,
+        defaultCurrent : 1,
         showQuickJumper: true,
-        onChange: this.pageChange
+        onChange       : this.pageChange
       },
-      simpleSearchForm:true // 展示、收取简单搜索开关，true为简单搜索
+      // 展示、收取简单搜索开关，true为简单搜索
+      simpleSearchForm: true
     }
   },
   mounted() {
@@ -147,29 +148,29 @@ export default {
       this.getArea()
     }
   },
-  computed:{
+  computed: {
     formItemLabelCol(){
       let labelCol = {}
       if(this.simpleSearchForm){
-        labelCol = {span: 0}
+        labelCol = { span: 0 }
       }else{
-        labelCol = {span: 8}
+        labelCol = { span: 8 }
       }
       return labelCol
     },
     formItemWrapperCol(){
       let wrapperCol = {}
       if(this.simpleSearchForm){
-        wrapperCol = {span: 24}
+        wrapperCol = { span: 24 }
       }else{
-        wrapperCol = {span: 16}
+        wrapperCol = { span: 16 }
       }
       return wrapperCol
     }
   },
   watch: {
     areaCode() {
-      this.selectedKeys = [String(this.areaCode)]
+      this.selectedKeys = [ String(this.areaCode) ]
     }
   },
   methods: {
@@ -190,10 +191,10 @@ export default {
       let vm = this
       this.opeationItem = record
       this.$modal.confirm({
-        title: '是否确认删除此组织机构？',
-        content: '此操作不可撤销',
-        okText: '确认删除',
-        okType: 'danger',
+        title     : '是否确认删除此组织机构？',
+        content   : '此操作不可撤销',
+        okText    : '确认删除',
+        okType    : 'danger',
         cancelText: '取消',
         onOk() {
           vm.handleOk()
@@ -223,11 +224,11 @@ export default {
       }
       const params = Object.assign(options, {
         pageSize: this.pagination.pageSize,
-        pageNo: this.pagination.pageNo,
+        pageNo  : this.pagination.pageNo,
         areaCode: this.areaCode == 'all' ? '' : this.areaCode
       })
       this.$ajax.get({
-        url: this.$api.GET_ORGANIZATION_LIST,
+        url   : this.$api.GET_ORGANIZATION_LIST,
         params: params
       }).then(res => {
         this.dataSource = this.$com.confirm(res, 'data.content', [])
@@ -236,7 +237,7 @@ export default {
     },
     getArea() {
       this.$ajax.get({
-        url: this.$api.GET_AREA_NEXT,
+        url   : this.$api.GET_AREA_NEXT,
         params: {
           parentId: 999999
         }
@@ -246,20 +247,20 @@ export default {
         datas.forEach((ele, index) => {
           trees.push(this.getTreeNode(ele, index))
         })
-        this.treeData = [{
-          title: '全部',
-          key: 'all',
+        this.treeData = [ {
+          title   : '全部',
+          key     : 'all',
           children: trees
-        }]
+        } ]
         this.areaCode = 'all'
         this.getLists()
       })
     },
     getTreeNode(item, index) {
       let childrenNode = {
-        title: item.areaName,
-        id: item.id,
-        key: item.id,
+        title   : item.areaName,
+        id      : item.id,
+        key     : item.id,
         parentId: item.parentId
       }
       if (item.id.length == '9') {
@@ -274,7 +275,7 @@ export default {
           return
         }
         this.$ajax.get({
-          url: this.$api.GET_AREA_NEXT,
+          url   : this.$api.GET_AREA_NEXT,
           params: {
             parentId: treeNode.dataRef.id
           }
@@ -285,7 +286,7 @@ export default {
             array.push(this.getTreeNode(ele, index))
           })
           treeNode.dataRef.children = array
-          this.treeData = [...this.treeData]
+          this.treeData = [ ...this.treeData ]
           resolve()
         })
       })
@@ -324,14 +325,14 @@ export default {
     handleAdd() {
       if (this.areaCode && this.areaCode !== 'all') {
         this.$router.push({
-          name: '/systemManagement/organization/create',
+          name : '/systemManagement/organization/create',
           query: {
             data: JSON.stringify(this.transData)
           }
         })
       } else {
         this.$modal.warning({
-          title: '提示',
+          title  : '提示',
           content: '请先选择具体的行政区域节点再去新增！'
         })
       }
@@ -342,15 +343,15 @@ export default {
     handleEdit(record) {
       if (this.areaCode && this.areaCode !== 'all') {
         this.$router.push({
-          name: '/systemManagement/organization/edit',
+          name : '/systemManagement/organization/edit',
           query: {
-            id: record.id,
+            id  : record.id,
             data: JSON.stringify(this.transData)
           }
         })
       } else {
         this.$modal.warning({
-          title: '提示',
+          title  : '提示',
           content: '请先选择具体的行政区域节点再去修改！'
         })
       }

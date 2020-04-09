@@ -86,15 +86,15 @@ export default {
   name: 'talent-upload',
   data() {
     return {
-      headers: {},
-      fileList: [],
-      uploading: false,
-      fileName: '',
-      uploadConfig:{
-        acceptTypesArray:['xsl','xlsx'],
-        acceptTypes:'.xsl,.xlsx'
+      headers     : {},
+      fileList    : [],
+      uploading   : false,
+      fileName    : '',
+      uploadConfig: {
+        acceptTypesArray: [ 'xsl','xlsx' ],
+        acceptTypes     : '.xsl,.xlsx'
       },
-      result:{},
+      result: {},
     }
   },
   methods: {
@@ -109,14 +109,14 @@ export default {
       message += !isLtMaxFileSize?'文件需小于200M；':''
       if(isAccept && isLtMaxFileSize){
         this.fileList=[]
-        this.fileList = [...this.fileList, file]
+        this.fileList = [ ...this.fileList, file ]
       	this.fileName = file.name
         return true
       }else{
         this.$modal.error({
-          title: '上传文件验证未通过',
-          content: message,
-          okText: '确认',
+          title     : '上传文件验证未通过',
+          content   : message,
+          okText    : '确认',
           cancelText: '取消',
         })
         return false
@@ -141,8 +141,8 @@ export default {
       this.result={}
 	  this.$ajax.post(
 		  {
-			  url:this.$api.IMPORT_EXPERT_ALL+'/1',
-			  params:formData
+			  url   : this.$api.IMPORT_EXPERT_ALL+'/1',
+			  params: formData
 		  }
 	  ).then((res)=>{
         if(res.code == '200'){

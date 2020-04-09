@@ -37,7 +37,7 @@
 <script>
 import ProfessionalTitle from './components/list'
 export default {
-  name: 'ExpertBase',
+  name      : 'ExpertBase',
   components: {
     ProfessionalTitle,
   },

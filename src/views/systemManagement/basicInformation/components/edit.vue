@@ -22,26 +22,26 @@
 
 <script>
 export default {
-  name:'changePassword',
+  name : 'changePassword',
   props: {
-    item:{
-      type:Object,
-      required:true,
+    item: {
+      type    : Object,
+      required: true,
     },
-    baseType:{
-      type:String,
-      required:true
+    baseType: {
+      type    : String,
+      required: true
     },
-    resetShow:{
-      type:Boolean,
-      required:true
+    resetShow: {
+      type    : Boolean,
+      required: true
     }
   },
   data() {
     return {
-      apis:{
-        put:'',
-        detail:''
+      apis: {
+        put   : '',
+        detail: ''
       },
       isShow: false,
       colSpe: {
@@ -55,17 +55,17 @@ export default {
       rules: {
         title: {
           validateTrigger: 'blur',
-          rules: [{ required: true, message: '请输入名称' }]
+          rules          : [ { required: true, message: '请输入名称' } ]
         },
         breedUnit: {
           validateTrigger: 'blur',
-          rules: [{ required: true, message: '请输入计量单位' }]
+          rules          : [ { required: true, message: '请输入计量单位' } ]
         }
       },
-      name:{
-        modalTitle:'',
-        formLabel:'',
-        formPlaceHolder:''
+      name: {
+        modalTitle     : '',
+        formLabel      : '',
+        formPlaceHolder: ''
       }
     }
   },
@@ -123,7 +123,7 @@ export default {
       this.editForm.validateFields(err => {
         if (!err) {
           this.$ajax.put({
-            url: this.apis.put.replace('{id}', this.item.id),
+            url   : this.apis.put.replace('{id}', this.item.id),
             params: {
               name: this.editForm.getFieldValue('title'),
               unit: this.editForm.getFieldValue('breedUnit')

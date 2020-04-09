@@ -20,7 +20,7 @@ export default {
   },
   methods: {
     toHome(){
-      this.$router.push({name:'home'})
+      this.$router.push({ name: 'home' })
     },
     toLogin(){
       this.$com.handleLogOut()

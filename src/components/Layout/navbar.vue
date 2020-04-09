@@ -25,10 +25,10 @@
 </style>
 
 <script>
-import {navigateToUrl} from 'single-spa'
+import { navigateToUrl } from 'single-spa'
 // 不够严谨，临时制造，需要改进
-import {checkHideInBread} from '@/util/mixins'
-import {routes} from '@/router/routes'
+import { checkHideInBread } from '@/util/mixins'
+import { routes } from '@/router/routes'
 export default {
   name: 'NavBar',
   data() {
@@ -42,7 +42,7 @@ export default {
     if(list && list.length>0){
       this.list = JSON.parse(list)
     }else{
-      this.list = [{title: '首页',routerName:'home', path: '/home'}]
+      this.list = [ { title: '首页',routerName: 'home', path: '/home' } ]
     }
     this.list.forEach((element)=>{
       this.checkPath(element)
@@ -57,6 +57,7 @@ export default {
     navigateTo(path){
       navigateToUrl(path)
     },
+
     /**
      * @param {Object} navItem 当前展示路由的完整父子级中的一个路由节点
      * @returns {Object} hideBread 是否隐藏在面包屑中，true为隐藏
@@ -99,10 +100,10 @@ export default {
       if(to && to.matched && Array.isArray(to.matched)){
         if (!to.name) {
           const parentRoute = this.routeList.find(item => to.path.startsWith(item.path))
-          navList.push({ title: '首页', routerName:'home', path: '/home' })
+          navList.push({ title: '首页', routerName: 'home', path: '/home' })
           if(parentRoute){
             // console.log('navbar in ',to,parentRoute)
-            navList.push({ title: parentRoute.meta.title, routerName: parentRoute.name, path: parentRoute.path, openMode:!parentRoute.meta.openMode?'normal':parentRoute.meta.openMode})
+            navList.push({ title: parentRoute.meta.title, routerName: parentRoute.name, path: parentRoute.path, openMode: !parentRoute.meta.openMode?'normal':parentRoute.meta.openMode })
           }
         }
         to.matched.forEach((element,index) => {
@@ -110,36 +111,36 @@ export default {
             if (element.path.indexOf('/')>=0) {
               if('/'===element.path || '/home'===element.path){
                 navList.push({
-                  title: element.meta.title,
-                  routerName:element.name,
-                  path: element.path,
-                  openMode:!element.meta.openMode?'normal':element.meta.openMode
+                  title     : element.meta.title,
+                  routerName: element.name,
+                  path      : element.path,
+                  openMode  : !element.meta.openMode?'normal':element.meta.openMode
                 })
               }else{
-                navList.push({ title: '首页', routerName:'home', path: '/home' })
+                navList.push({ title: '首页', routerName: 'home', path: '/home' })
                 navList.push({
-                  title: element.meta.title,
-                  routerName:element.name,
-                  path: element.path,
-                  openMode:!element.meta.openMode?'normal':element.meta.openMode
+                  title     : element.meta.title,
+                  routerName: element.name,
+                  path      : element.path,
+                  openMode  : !element.meta.openMode?'normal':element.meta.openMode
                 })
               }
             }else{
-              navList.push({ title: '首页', routerName:'home', path: '/home', openMode:'normal' })
+              navList.push({ title: '首页', routerName: 'home', path: '/home', openMode: 'normal' })
             }
           }else {
             if('/'!=element.path && ''!=element.path && '/home'!=element.path){
               navList.push({
-                title: element.meta.title,
-                routerName:element.name,
-                path: element.path,
-                openMode: !element.meta.openMode?'normal':element.meta.openMode
+                title     : element.meta.title,
+                routerName: element.name,
+                path      : element.path,
+                openMode  : !element.meta.openMode?'normal':element.meta.openMode
               })
             }
           }
         })
       } else {
-        navList = [{title: '首页', path: '/'}]
+        navList = [ { title: '首页', path: '/' } ]
       }
       navList.forEach((element)=>{
         this.checkPath(element)

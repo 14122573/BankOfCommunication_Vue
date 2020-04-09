@@ -110,93 +110,93 @@ export default {
   name: 'ActiveExtract',
   data() {
     return {
-      curTab: '1',
+      curTab     : '1',
       typeOptions: [
-        {name: '姓名', value: '1'},
-        {name: '工作单位', value: '2'},
-        {name: '单位性质', value: '3'},
-        {name: '行政职务', value: '4'},
-        {name: '职称', value: '5'},
-        {name: '所学专业', value: '6'},
-        {name: '最高学历', value: '7'},
-        {name: '研究方向', value: '8'},
-        {name: '主题词', value: '9'},
+        { name: '姓名', value: '1' },
+        { name: '工作单位', value: '2' },
+        { name: '单位性质', value: '3' },
+        { name: '行政职务', value: '4' },
+        { name: '职称', value: '5' },
+        { name: '所学专业', value: '6' },
+        { name: '最高学历', value: '7' },
+        { name: '研究方向', value: '8' },
+        { name: '主题词', value: '9' },
       ],
       andOptions: [
-        {name: '并且', value: '1'},
-        {name: '或者', value: '2'},
-        {name: '不含', value: '3'},
+        { name: '并且', value: '1' },
+        { name: '或者', value: '2' },
+        { name: '不含', value: '3' },
       ],
       containOptions: [
-        {name: '并含', value: '1'},
-        {name: '或含', value: '2'},
-        {name: '不含', value: '3'},
+        { name: '并含', value: '1' },
+        { name: '或含', value: '2' },
+        { name: '不含', value: '3' },
       ],
       equalsOptions: [
-        {name: '精确', value: '1'},
-        {name: '模糊', value: '2'},
+        { name: '精确', value: '1' },
+        { name: '模糊', value: '2' },
       ],
-      basic: {},
-      filters: [],
+      basic       : {},
+      filters     : [],
       extractionNo: 2,
-      columns: [
+      columns     : [
         {
-          title: '姓名',
+          title    : '姓名',
           dataIndex: 'name',
         },
         {
-          title: '性别',
+          title    : '性别',
           dataIndex: 'sex',
         },
         {
-          title: '工作单位',
+          title    : '工作单位',
           dataIndex: 'workCompany',
         },
         {
-          title: '行政职务',
+          title    : '行政职务',
           dataIndex: 'positionName',
-          width: 100,
+          width    : 100,
         },
         {
-          title: '职称',
+          title    : '职称',
           dataIndex: 'jobTitleName',
         },
         {
-          title: '研究方向',
+          title    : '研究方向',
           dataIndex: 'researchDirectionName',
         },
         {
-          title: '登录账号',
+          title    : '登录账号',
           dataIndex: 'phone',
         },
         {
-          title: '操作',
-          dataIndex: 'operation',
-          align: 'center',
+          title      : '操作',
+          dataIndex  : 'operation',
+          align      : 'center',
           scopedSlots: { customRender: 'operation' },
         },
       ],
       pagination: {
-        pageNo: 1,
-        pageSize: 10,
-        total: 0,
-        defaultCurrent: 1,
+        pageNo         : 1,
+        pageSize       : 10,
+        total          : 0,
+        defaultCurrent : 1,
         showQuickJumper: true,
-        onChange: this.onPageChange
+        onChange       : this.onPageChange
       },
-      data: [],
+      data       : [],
       pagination2: {
-        pageNo: 1,
-        pageSize: 10,
-        total: 0,
-        defaultCurrent: 1,
+        pageNo         : 1,
+        pageSize       : 10,
+        total          : 0,
+        defaultCurrent : 1,
         showQuickJumper: true,
-        onChange: this.onPageChange2
+        onChange       : this.onPageChange2
       },
-      data2: [],
+      data2          : [],
       selectedRowKeys: [],
-      selectedRows: [],
-      selectedList: [],
+      selectedRows   : [],
+      selectedList   : [],
     }
   },
   mounted() {
@@ -204,11 +204,11 @@ export default {
   },
   methods: {
     handleSearch() {
-      const {pageNo, pageSize} = this.pagination
+      const { pageNo, pageSize } = this.pagination
       const params = {
         pageNo,
         pageSize,
-        itemList: [this.basic, ...this.filters]
+        itemList: [ this.basic, ...this.filters ]
       }
       this.$emit('search', params, this.initData)
     },
@@ -229,10 +229,10 @@ export default {
       const len = this.filters.length
       if (len >= this.typeOptions.length - 1) return
       this.filters.push({
-        and: this.andOptions[0].value,
+        and    : this.andOptions[0].value,
         contain: this.containOptions[0].value,
-        equals: this.equalsOptions[0].value,
-        type: this.typeOptions[len + 1].value,
+        equals : this.equalsOptions[0].value,
+        type   : this.typeOptions[len + 1].value,
       })
     },
     deleteFilter() {
@@ -241,16 +241,17 @@ export default {
     onSelectChange(selectedRowKeys, selectedRows) {
       this.selectedRowKeys = selectedRowKeys
       // this.selectedRows.push(...selectedRows)
-      this.selectedRows = [...selectedRows] // 改成这样
+      this.selectedRows = [ ...selectedRows ]
+      // 改成这样
     },
     handleReset() {
       this.pagination.pageNo = 1
       this.filters = []
       this.basic = {
-        and: this.andOptions[0].value,
-        type: this.typeOptions[0].value,
+        and    : this.andOptions[0].value,
+        type   : this.typeOptions[0].value,
         contain: this.containOptions[0].value,
-        equals: this.equalsOptions[0].value,
+        equals : this.equalsOptions[0].value,
       }
       // this.handleSearch()
     },
@@ -263,7 +264,7 @@ export default {
       }
     },
     handleCheck() {
-      const {pageNo, pageSize} = this.pagination2
+      const { pageNo, pageSize } = this.pagination2
       const params = {
         pageNo,
         pageSize,
@@ -274,19 +275,20 @@ export default {
       this.data2 = this.$com.confirm(res, 'data.content', [])
       this.pagination2.total = this.$com.confirm(res, 'data.totalRows', 0)
     },
-    handleDelete({id}) {
+    handleDelete({ id }) {
       const index = this.data2.findIndex(item => item.id == id)
       this.data2.splice(index, 1)
       this.$emit('select', this.data2)
     },
-    handleSelect() { // 选中专家
+    handleSelect() {
+      // 选中专家
       this.selectedList.push(...this.selectedRows)
       // 去重并提取
-      const reducer = (arr, cur) => arr.indexOf(cur) >= 0 ? arr : [...arr, cur]
+      const reducer = (arr, cur) => arr.indexOf(cur) >= 0 ? arr : [ ...arr, cur ]
       this.selectedList = this.selectedList.reduce(reducer, [])
       this.selectedRowKeys = []
       this.selectedRows = []
-      const {pageNo, pageSize} = this.pagination2
+      const { pageNo, pageSize } = this.pagination2
       const params = {
         pageNo,
         pageSize,
@@ -295,12 +297,13 @@ export default {
         const data = this.$com.confirm(res, 'data.content', [])
         let result = this.selectedList
         if (data.length > 0) {
-          result = [...data, ...this.selectedList]
+          result = [ ...data, ...this.selectedList ]
         }
         this.$emit('select', result)
       })
     },
-    handleConfirm() { // 确认专家
+    handleConfirm() {
+      // 确认专家
       this.$emit('confirm', this.selectedList)
     },
   },

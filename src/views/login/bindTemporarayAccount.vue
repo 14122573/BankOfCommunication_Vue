@@ -130,11 +130,11 @@
 <script>
 import testStrong from '@/components/testPwd'
 import Loader from '@/components/Loader/loader'
-import {encryptDes} from '@/util/des-cryptojs'
+import { encryptDes } from '@/util/des-cryptojs'
 import FrameTop from '@/views/login/components/frameTop'
 import FrameFooter from '@/views/login/components/footer'
 export default {
-  name: 'Register',
+  name      : 'Register',
   components: {
     Loader,
     testStrong,
@@ -145,23 +145,23 @@ export default {
   },
   data() {
     return {
-      tempUserId:'',
+      tempUserId       : '',
       disPhoneCheckCode: true,
-      sendCodeBtnText: '发送验证码',
-      allowSendCode: true,
-      sendCodeTimer: null,
-      isInCountdown:false,
-      confirmDirty: false,
-      err: {
-        tips:'',
-        showTips:false
+      sendCodeBtnText  : '发送验证码',
+      allowSendCode    : true,
+      sendCodeTimer    : null,
+      isInCountdown    : false,
+      confirmDirty     : false,
+      err              : {
+        tips    : '',
+        showTips: false
       },
       // showSuccess:false,
-      inputAutoType:{
-        password:'text',
-        mail:true
+      inputAutoType: {
+        password: 'text',
+        mail    : true
       },
-      passwordStrength:false
+      passwordStrength: false
     }
   },
   mounted() {
@@ -177,6 +177,7 @@ export default {
     mailBlur() {
       this.inputAutoType.mail = false
     },
+
     /**
      * 处理密码被浏览器自动填充值
      * 当未获取焦点时，设置type为text，否则为password
@@ -185,8 +186,9 @@ export default {
       this.inputAutoType.password = 'password'
     },
     toLogin(){
-      this.$router.push({name:'login'})
+      this.$router.push({ name: 'login' })
     },
+
     /**
      * 校验手机号
      */
@@ -219,6 +221,7 @@ export default {
         }
       }
     },
+
     /**
      * 手机验证码校验
      */
@@ -244,6 +247,7 @@ export default {
         }
       }
     },
+
     /**
      * 密码重复密码校验
      */
@@ -258,7 +262,7 @@ export default {
           this.passwordStrength=false
         }else{
           if (value && this.confirmDirty) {
-					  form.validateFields(['rePassword'], {
+					  form.validateFields([ 'rePassword' ], {
 					    force: true
 					  })
           }
@@ -268,6 +272,7 @@ export default {
       }
 
     },
+
     /**
      * 校验两次密码一致
      */
@@ -279,6 +284,7 @@ export default {
         callback()
       }
     },
+
     /**
      * 效验邮政编码
      */
@@ -297,6 +303,7 @@ export default {
       const value = e.target.value
       this.confirmDirty = this.confirmDirty || !!value
     },
+
     /**
      *
      */
@@ -309,21 +316,21 @@ export default {
       this.formTempAccoutInfo.validateFields((err, values) => {
         if (!err) {
           let params = {
-            'userId':this.tempUserId,
-            'pwd':encryptDes(values.password),
-            'code':values.code,
-            'userInfo':{
-              'mail':values.mail,
-              'name':values.name,
-              'dept':values.dept,
-              'phone':values.phone,
-              'addr':values.addr,
-              'zipCode':values.zipCode
+            'userId'  : this.tempUserId,
+            'pwd'     : encryptDes(values.password),
+            'code'    : values.code,
+            'userInfo': {
+              'mail'   : values.mail,
+              'name'   : values.name,
+              'dept'   : values.dept,
+              'phone'  : values.phone,
+              'addr'   : values.addr,
+              'zipCode': values.zipCode
             }
           }
 
           this.$ajax.post({
-            url: this.$api.POST_BIND_TEMPUSERINFO_BIND,
+            url   : this.$api.POST_BIND_TEMPUSERINFO_BIND,
             params: params
           }).then(res => {
             if (res.code == '200') {
@@ -344,6 +351,7 @@ export default {
         }
       })
     },
+
     /**
      * 发送手机验证码
      */
@@ -372,9 +380,9 @@ export default {
         })
       } else {
         this.$modal.error({
-          title: '提示',
-          content: '请先填写手机号！',
-          okText: '确认',
+          title     : '提示',
+          content   : '请先填写手机号！',
+          okText    : '确认',
           cancelText: '取消',
         })
       }

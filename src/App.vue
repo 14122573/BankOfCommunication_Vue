@@ -10,6 +10,11 @@ export default {
   name: 'Portal',
   // endChange
   created() {
+
+    var obj = {
+      'one'  : 1,
+      'seven': 7
+    }
     // let token = this.$cookie.get('token')
     // if (token !=undefined && token !=null && 'String'==typeof token) {
     //   this.$ajax.post({

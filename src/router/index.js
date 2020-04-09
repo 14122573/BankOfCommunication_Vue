@@ -19,8 +19,8 @@ router.beforeEach((to, from, next) => {
   // 使刷新页面后侧边菜单可以记住上一次的展开、选中状态
   if (to && to.name) {
     store.commit('SET_DEFAULTMENU_STATUS', {
-      defaultSelectedKeys: [(to && to.name) || ''],
-      defaultOpenKeys: [(to && to.matched) ? (to.matched[to.matched.length - 1].parent && to.matched[to.matched.length - 1].parent.name) : ''],
+      defaultSelectedKeys: [ (to && to.name) || '' ],
+      defaultOpenKeys    : [ (to && to.matched) ? (to.matched[to.matched.length - 1].parent && to.matched[to.matched.length - 1].parent.name) : '' ],
     })
   }
 
@@ -32,10 +32,10 @@ router.beforeEach((to, from, next) => {
     if (to.name == 'login') {
       next()
     } else {
-      let uneedTokenRouter=['/veterinary/view','/veterinary','/cms/noticePublish','/cms/noticePublish/view','/cms/knowledgePublish/view','/cms/knowledgeAnonymous','upperLimitErr','register','oldSysLogout','outerNetworkerr']
+      let uneedTokenRouter=[ '/veterinary/view','/veterinary','/cms/noticePublish','/cms/noticePublish/view','/cms/knowledgePublish/view','/cms/knowledgeAnonymous','upperLimitErr','register','oldSysLogout','outerNetworkerr' ]
       // console.log(to.name,Common.oneOf(to.name,uneedTokenRouter) )
       // if (Common.oneOf(to.name,uneedTokenRouter) || (to.name == 'bindPhone' && canEnterBind == '200')) {
-      if (Common.oneOf(to.name,uneedTokenRouter) || (Common.oneOf(to.name,['bindPhone','bindTemporarayAccount']) && canEnterBind == '200')) {
+      if (Common.oneOf(to.name,uneedTokenRouter) || (Common.oneOf(to.name,[ 'bindPhone','bindTemporarayAccount' ]) && canEnterBind == '200')) {
         next()
       } else {
         next('/login')
@@ -43,7 +43,7 @@ router.beforeEach((to, from, next) => {
     }
   } else { // 已经登录
     // if (Common.oneOf(to.name,['login','bindPhone'])) {
-    if (Common.oneOf(to.name,['login','bindPhone','bindTemporarayAccount'])) {
+    if (Common.oneOf(to.name,[ 'login','bindPhone','bindTemporarayAccount' ])) {
       next('/home')
     } else {
       next()

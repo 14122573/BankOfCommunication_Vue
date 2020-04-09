@@ -69,27 +69,27 @@ export default {
       }
     }
     return {
-      isReady:false,
-      createForm :{
-        permIds:[]
+      isReady   : false,
+      createForm: {
+        permIds: []
       },
-      sysListForSearch:[],
-      formRules:{
+      sysListForSearch: [],
+      formRules       : {
         // 相关管理信息
-        pointName:[
+        pointName: [
           { required: true, whitespace: true, message: '请填写功能点名称' }
         ],
         pointCodeRequir: [
           { required: true, whitespace: true, message: '请填写功能点编码' },
           { validator: validatePointCode }
         ],
-        pointCodeNoRequir:[
+        pointCodeNoRequir: [
           { validator: validatePointCode }
         ]
       },
-      tree:{
-        roleTreeData:[],
-        roleTreeDataArranged:[]
+      tree: {
+        roleTreeData        : [],
+        roleTreeDataArranged: []
       },
 
     }
@@ -104,7 +104,7 @@ export default {
     this.getSysCodOptions()
     this.isReady = true
   },
-  methods:{
+  methods: {
     /**
      * 监听所属权限选择，获取已选权限id数组
      * @param {String} select 当前已选权限id数组
@@ -112,6 +112,7 @@ export default {
     handlePermsChange(select){
       this.createForm.permIds = select
     },
+
     /**
      * 监听系统选择，获取选择系统的名称
      * @param {String} select 当前选择的系统code
@@ -128,16 +129,16 @@ export default {
       this.porintCreateForm.validateFields(err => {
         if (!err) {
           let postParams = Object.assign({},this.createForm ,{
-            'pointName':this.porintCreateForm.getFieldValue('pointName'),
-            'pointKey':(!this.createForm.type?'':this.createForm.type)+this.porintCreateForm.getFieldValue('pointKey')
+            'pointName': this.porintCreateForm.getFieldValue('pointName'),
+            'pointKey' : (!this.createForm.type?'':this.createForm.type)+this.porintCreateForm.getFieldValue('pointKey')
           })
           this.$ajax.post({
-            url: this.$api.POST_PREMSPOINT,
+            url   : this.$api.POST_PREMSPOINT,
             params: postParams
           }).then(res => {
             if (res.code === '200') {
               this.$message.success('添加成功')
-              this.$router.push({name:'/systemManagement/permissionConfig/point'})
+              this.$router.push({ name: '/systemManagement/permissionConfig/point' })
             }
           })
         }else{
@@ -145,12 +146,13 @@ export default {
         }
       })
     },
+
     /**
      * 查询权限树
      */
     getRoleTree(){
       this.$ajax.get({
-        url:this.$api.GET_ALL_ROLE + '?isTree=true&isAll=true'
+        url: this.$api.GET_ALL_ROLE + '?isTree=true&isAll=true'
       }).then(res=>{
         if(!!res.data && !!res.data.content){
           let data=res.data.content
@@ -170,16 +172,17 @@ export default {
             }
           })
           this.tree.roleTreeDataArranged.push({
-            'title':'初始化权限',
-            'key':'-1',
-            'permKey':'',
-            'canDelete':false,
-            'isHide':true,
-            'children':[].concat(initializedRoleTree)
+            'title'    : '初始化权限',
+            'key'      : '-1',
+            'permKey'  : '',
+            'canDelete': false,
+            'isHide'   : true,
+            'children' : [].concat(initializedRoleTree)
           })
         }
       })
     },
+
     /**
      * 根据tree渲染数据所需结构，重组数据
      * @param {Object} item 单个权限对象
@@ -187,11 +190,11 @@ export default {
      */
     initRoleTreeNode(item){
       let childrenNode={
-        'title':item.permName,
-        'key':item.id,
-        'permKey':!item.permKey?'':item.permKey,
-        'canDelete':item.canDelete===false?false:true,
-        'isHide':item.isHide,
+        'title'    : item.permName,
+        'key'      : item.id,
+        'permKey'  : !item.permKey?'':item.permKey,
+        'canDelete': item.canDelete===false?false:true,
+        'isHide'   : item.isHide,
       }
       if(item.childList && item.childList.length){
         childrenNode.children = []
@@ -202,13 +205,14 @@ export default {
       }
       return childrenNode
     },
+
     /**
      * 获取可选的子系统清单
      */
     getSysCodOptions(){
       this.$ajax.get({
-        url: this.$api.SYSTEM_LIST_ALL_GET,
-        params:{type:'1'}
+        url   : this.$api.SYSTEM_LIST_ALL_GET,
+        params: { type: '1' }
       }).then(res=>{
         if(res.code === '200'){
           let data = this.$com.confirm(res, 'data.content', [])

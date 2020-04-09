@@ -71,25 +71,25 @@ import { permission, } from '@/util/mixins'
 import ChangePassword from '@/views/personal/changePassword'
 import ChangePhone from './changePhone'
 export default {
-  name: 'PersonCenter',
-  mixins: [permission],
+  name      : 'PersonCenter',
+  mixins    : [ permission ],
   components: {
     ChangePassword,
     ChangePhone,
   },
   data() {
     return {
-      userInfo: {},
-      isShowChangePwd:false,
-      showPhoneModal: false,
-      micSysConfigs:[]
+      userInfo       : {},
+      isShowChangePwd: false,
+      showPhoneModal : false,
+      micSysConfigs  : []
     }
   },
   created(){
     if(this.$route.name == 'person'){
       // 获取目前接入portal的所有新系统、老系统配置
       this.$ajax.get({
-        url:this.$api.SYSTEM_LIST_ALL_GET
+        url: this.$api.SYSTEM_LIST_ALL_GET
       }).then(res=>{
         if(res.code === '200'){
           this.micSysConfigs= this.$com.confirm(res, 'data.content', [])
@@ -105,7 +105,7 @@ export default {
       this.getData()
     }
   },
-  computed:{
+  computed: {
     showChangePwd(){
       return this.isShowChangePwd
     },
@@ -125,9 +125,9 @@ export default {
       })
     },
     toEditInfo() {
-      const {id} = this.userInfo
+      const { id } = this.userInfo
       this.$router.push({
-        name: '/systemManagement/administrator/editNewUser',
+        name : '/systemManagement/administrator/editNewUser',
         query: {
           id,
           fromCenter: '1',
@@ -140,6 +140,7 @@ export default {
     closeChangePwdModal(){
       this.isShowChangePwd = false
     },
+
     /**
      * 根据权限，获取权限子系统清单
      * @returns {Array}

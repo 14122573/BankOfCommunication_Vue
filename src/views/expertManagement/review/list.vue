@@ -58,23 +58,24 @@
   </div>
 </template>
 <script>
-import {navigateToUrl} from 'single-spa'
+import { navigateToUrl } from 'single-spa'
 // import { ExpertReviewRouters } from '@/config/expert-review-router'
 import axios from 'axios'
 export default {
   data(){
     return{
-      expertId:!this.$store.state.userInfos?'':this.$store.state.userInfos.id,
-      ExpertReviewRouters:null, // 专家库，各子系统评审路由配置
-      preparate:{
-        isReady:0,
-        defaultActiveKey:''
+      expertId           : !this.$store.state.userInfos?'':this.$store.state.userInfos.id,
+      // 专家库，各子系统评审路由配置
+      ExpertReviewRouters: null,
+      preparate          : {
+        isReady         : 0,
+        defaultActiveKey: ''
       },
-      searchForm:{},
-      sysListForSearch:[],
-      reviewTypeList:[],
-      reviewDatas:[],
-      reviewList:[]
+      searchForm      : {},
+      sysListForSearch: [],
+      reviewTypeList  : [],
+      reviewDatas     : [],
+      reviewList      : []
     }
   },
   mounted(){
@@ -83,7 +84,7 @@ export default {
       const newInstance = axios.create({
         baseURL: '',
         timeout: 5000,
-        headers: {'Content-type': 'multipart/form-data'}
+        headers: { 'Content-type': 'multipart/form-data' }
       })
       newInstance.get(this.$api.CONFIGS_EXPORTREVIEW_ROUTERS).then(res => {
         if(res.status == 200){
@@ -101,7 +102,7 @@ export default {
 
     }
   },
-  methods:{
+  methods: {
     /**
      * 根据syscode获取系统名称
      * @param {String} code 系统code
@@ -117,6 +118,7 @@ export default {
       }
       return name
     },
+
     /**
      * 根据syscode获取系统名称
      * @param {String} code 系统code
@@ -132,6 +134,7 @@ export default {
       }
       return name
     },
+
     /**
      * 根据子系统code及申报材料ID，跳转至对应子系统申报材料详情页
      * @param {String} sysCode 子系统code
@@ -149,53 +152,43 @@ export default {
       }
       // 根据系统判断跳转子系统方式
       switch (sysCode) {
-      case 'S0501': // 新品种审核
+      case 'S0501':
+      // 新品种审核
         navigateToUrl(nextRouter.replace(':id',taskCode)+'?showType=check&sourceRouteType=portal&sourceRoutePath='+this.$route.path)
-        // this.$router.push({
-        //   name:nextRouter,
-        //   params:{id:taskCode},
-        //   query:{
-        //     showType:'check',
-        //     sourceRoutePath:this.$route.path,
-        //     sourceRouteType:'portal'
-        //   }
-        // })
         break
-      case 'S0502': // 原良种复查
+      case 'S0502':
+      // 原良种复查
         navigateToUrl(nextRouter+'?id='+taskCode)
         break
-      case 'S0503': // 原良种验收
+      case 'S0503':
+      // 原良种验收
         navigateToUrl(nextRouter+'?id='+taskCode)
         break
-      case 'S0101': // 科普教育基地
+      case 'S0101':
+      // 科普教育基地
         navigateToUrl(nextRouter+'?id='+taskCode)
         break
-      case 'S0201': // 团体标准
+      case 'S0201':
+      // 团体标准
         navigateToUrl(nextRouter+'?id='+taskCode)
         break
-      case 'S0401': // 海洋牧场
+      case 'S0401':
+      // 海洋牧场
         navigateToUrl(nextRouter.replace(':id',taskCode))
         break
-      case 'S0301': // 休闲渔业
+      case 'S0301':
+      // 休闲渔业
         navigateToUrl(nextRouter.replace(':id',taskCode))
         break
-      case 'S1002': // 中国水产学会团体标准函审
+      case 'S1002':
+      // 中国水产学会团体标准函审
         navigateToUrl(nextRouter.replace(':id',taskCode)+'?sourceRouteType=portal&sourceRoutePath='+this.$route.path)
-        // this.$router.push({
-        //   name:nextRouter,
-        //   params:{
-        //     id:taskCode
-        //   },
-        //   query:{
-        //     sourceRoutePath:this.$route.path,
-        //     sourceRouteType:'portal'
-        //   }
-        // })
         break
       default:
         break
       }
     },
+
     /**
      * 获取折叠面板默认展开的key值
      */
@@ -205,12 +198,13 @@ export default {
         this.preparate.defaultActiveKey = this.reviewList[0].systemCode+'-'+this.reviewList[0].busCode
       }
     },
+
     /**
      * 获取专家抽取业务类型清单
      */
     getReviewTypeList(){
       this.$ajax.get({
-        url:this.$api.GET_EXPERT_BASE_LIST.replace('{type}', '9')
+        url: this.$api.GET_EXPERT_BASE_LIST.replace('{type}', '9')
       }).then(res=>{
         if(res.code === '200'){
           let data = this.$com.confirm(res, 'data.content', [])
@@ -225,6 +219,7 @@ export default {
         }
       })
     },
+
     /**
      * 获取可选的子系统清单
      */
@@ -245,13 +240,14 @@ export default {
         }
       })
     },
+
     /**
      * 根据专家id，获取待评审数据
      */
     getReviewList(){
-      let params = Object.assign({status:0},this.searchForm)
+      let params = Object.assign({ status: 0 },this.searchForm)
       this.$ajax.get({
-        url: this.$api.GET_EXPERT_REVIEW_TODO_LIST.replace('{expertId}', this.expertId),
+        url   : this.$api.GET_EXPERT_REVIEW_TODO_LIST.replace('{expertId}', this.expertId),
         params: params
       }).then(res=>{
         if(res.code === '200'){

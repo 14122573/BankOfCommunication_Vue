@@ -54,18 +54,18 @@
 export default {
   data() {
     return {
-      id:this.$route.params.id,
-      noticeDetail:{},
-      defaultEffectTime:{
-        startTime:'1900-01-01 00:00:00',
-        endTime:'2099-01-01 00:00:00'
+      id               : this.$route.params.id,
+      noticeDetail     : {},
+      defaultEffectTime: {
+        startTime: '1900-01-01 00:00:00',
+        endTime  : '2099-01-01 00:00:00'
       }
     }
   },
   mounted() {
     this.getDetail()
   },
-  computed:{
+  computed: {
     /**
      * 组装需要展示的文件数组
      * @returns {Array}  [{name:带文件后缀的文件名称；url：已上传的文件地址},...]
@@ -76,8 +76,8 @@ export default {
       for(let i=0;i<attachments.length;i++){
         if(attachments[i].type=='1'){
           fileList.push({
-            name:attachments[i].fileName,
-            url:attachments[i].filePath
+            name: attachments[i].fileName,
+            url : attachments[i].filePath
           })
         }
       }

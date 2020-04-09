@@ -27,7 +27,7 @@ export default {
   },
   data() {
     return {
-      show:false,
+      show: false,
       // localConfig:{
       //   'lang': {
       //     'month': '月',

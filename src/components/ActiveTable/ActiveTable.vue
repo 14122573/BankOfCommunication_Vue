@@ -63,7 +63,7 @@
 
 <script>
 export default {
-  name: 'ActiveTable',
+  name : 'ActiveTable',
   props: {
     columns: {
       type: Array,
@@ -72,7 +72,7 @@ export default {
       }
     },
     rowKey: {
-      type: String,
+      type   : String,
       default: ''
     },
     data: {
@@ -82,66 +82,66 @@ export default {
       }
     },
     size: {
-      type: String,
+      type   : String,
       default: 'small'
     },
     bordered: {
-      type: Boolean,
+      type   : Boolean,
       default: false,
     },
     stripe: {
       // 是否显示斑马纹
-      type: Boolean,
+      type   : Boolean,
       default: false,
     },
     rowSelect: {
       // 开启单行选择
-      type: Boolean,
+      type   : Boolean,
       default: false,
     },
     multiSelect: {
       // 开启多选
-      type: Boolean,
+      type   : Boolean,
       default: false
     },
     multiSelectDisabled: {
       // 开启多选后， 是否disable多选的checkbox
-      type: Boolean,
+      type   : Boolean,
       default: false
     },
     multiSelectDefaultChecked: {
       // 开启多选后，根据此key来判断每行默认选中状态
-      type: [Boolean, String, Function],
+      type   : [ Boolean, String, Function ],
       default: ''
     },
     rowSelection: {
-      type: Object,
+      type   : Object,
       default: () => {
         return {}
       }
     },
     showPager: {
-      type: Boolean,
+      type   : Boolean,
       default: false,
     },
     total: {
       type: Number,
     },
     currentPage: {
-      type: Number,
+      type   : Number,
       default: 1,
     },
     pageSize: {
-      type: Number,
+      type   : Number,
       default: 10,
     }
   },
   data() {
     return {
       selectedRowKeys: [],
-      selectedRows: {},
-      renderItems: [],
-      slotItems: [],
+      selectedRows   : {},
+      renderItems    : [],
+      slotItems      : [],
     }
   },
   methods: {
@@ -163,13 +163,13 @@ export default {
       if (!this.rowSelect) return {}
       return {
         props: {},
-        on: {
+        on   : {
           click: () => {
             // 选中项
             this.selectedRows = record
             // 选中项主键
-            this.selectedRowKeys = [record[this.rowKey]]
-            this.$emit('on-select-change', [record[this.rowKey]], record)
+            this.selectedRowKeys = [ record[this.rowKey] ]
+            this.$emit('on-select-change', [ record[this.rowKey] ], record)
           }
         }
       }
@@ -182,7 +182,7 @@ export default {
       return {
         props: {
           defaultChecked: record[this.multiSelectDefaultChecked],
-          disabled: this.multiSelectDisabled
+          disabled      : this.multiSelectDisabled
         }
       }
     }
@@ -201,7 +201,7 @@ export default {
     },
     pagination () {
       if (!this.showPager) return false
-      return { showQuickJumper: true, total: this.total, current: this.currentPage, pageSize:this.pageSize }
+      return { showQuickJumper: true, total: this.total, current: this.currentPage, pageSize: this.pageSize }
     },
     layout() {
       /* eslint-disable */

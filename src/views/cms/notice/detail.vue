@@ -71,27 +71,27 @@
 export default {
   data() {
     return {
-      id:this.$route.params.id,
-      ready:false,
-      noticeDetail:{},
-      defaultEffectTime:{
-        startTime:'1900-01-01 00:00:00',
-        endTime:'2099-01-01 00:00:00'
+      id               : this.$route.params.id,
+      ready            : false,
+      noticeDetail     : {},
+      defaultEffectTime: {
+        startTime: '1900-01-01 00:00:00',
+        endTime  : '2099-01-01 00:00:00'
       }
     }
   },
   mounted() {
     this.getDetail()
   },
-  computed:{
+  computed: {
     /**
      * 根据传入的状态key值，返回需要展示的状态文字和颜色
      * @returns {Object} name:状态名；color：状态文字颜色
      */
     getStatusTag(){
       let statusTag = {
-        name:'',
-        color:''
+        name : '',
+        color: ''
       }
       switch (this.noticeDetail.status) {
       case '0':
@@ -113,14 +113,15 @@ export default {
       }
       return statusTag
     },
+
     /**
      * 根据传入的置顶状态key值，返回需要展示的状态文字和颜色
      * @returns {Object} name:文献内容类型名；color：状态文字颜色
      */
     getPlacementTag(){
       let statusTag = {
-        name:'',
-        color:''
+        name : '',
+        color: ''
       }
       switch (this.noticeDetail.isTop) {
       case '0':
@@ -138,6 +139,7 @@ export default {
       }
       return statusTag
     },
+
     /**
      * 组装需要展示的文件数组
      * @returns {Array}  [{name:带文件后缀的文件名称；url：已上传的文件地址},...]
@@ -148,8 +150,8 @@ export default {
       for(let i=0;i<attachments.length;i++){
         if(attachments[i].type=='1'){
           fileList.push({
-            name:attachments[i].fileName,
-            url:attachments[i].filePath
+            name: attachments[i].fileName,
+            url : attachments[i].filePath
           })
         }
       }
@@ -165,8 +167,8 @@ export default {
       toStatusName = !toStatusName?'':toStatusName
       let toStatus = ''
       let opeation = {
-        title:'',
-        tips:''
+        title: '',
+        tips : ''
       }
       switch (toStatusName) {
       case 'publish':
@@ -182,13 +184,13 @@ export default {
       default:
         break
       }
-      if(this.$com.oneOf(toStatusName,['publish','recall'])){
+      if(this.$com.oneOf(toStatusName,[ 'publish','recall' ])){
         let vm = this
         this.$modal.confirm({
-          title: opeation.title,
-          content: opeation.tips,
-          okText: '确认',
-          okType: 'danger',
+          title     : opeation.title,
+          content   : opeation.tips,
+          okText    : '确认',
+          okType    : 'danger',
           cancelText: '取消',
           onOk() {
             vm.doChangeStatus(toStatus)
@@ -196,6 +198,7 @@ export default {
         })
       }
     },
+
     /**
      * 更改指定数据发布状态
      * @param {String} id 被操作数据key
@@ -210,21 +213,23 @@ export default {
         if(res.code=='200'){
           let successMsg = status=='1'?'发布成功':'撤回成功'
           this.$message.success(successMsg)
-          this.$router.push({name:'/cms/notice'})
+          this.$router.push({ name: '/cms/notice' })
         }
       })
     },
+
     /**
      * 进入修改页面
      */
     goToEdit(){
       this.$router.push({
-        name:'/cms/notice/edit',
-        params:{
+        name  : '/cms/notice/edit',
+        params: {
           id: this.noticeDetail.id,
         }
       })
     },
+
     /**
      * 获取详情
      */

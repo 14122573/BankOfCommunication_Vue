@@ -52,55 +52,56 @@
 export default {
   data() {
     return {
-      searchForm: {},
-      simpleSearchForm:true, // 展示、收取简单搜索开关，true为简单搜索
-      dateFormat: 'YYYY-MM-DD',
-      pagination: {
-        pageNo: 1,
-        pageSize: 10,
-        total: 0,
-        current: 1,
-        defaultCurrent: 1,
+      searchForm      : {},
+      // 展示、收取简单搜索开关，true为简单搜索
+      simpleSearchForm: true,
+      dateFormat      : 'YYYY-MM-DD',
+      pagination      : {
+        pageNo         : 1,
+        pageSize       : 10,
+        total          : 0,
+        current        : 1,
+        defaultCurrent : 1,
         showQuickJumper: true,
-        onChange: this.onChange
+        onChange       : this.onChange
       },
       params: {
         'ui.createTime_desc': '0',
-        status: '0'
+        status              : '0'
       },
-      time: [],
-      total: 0,
-      data: [],
+      time   : [],
+      total  : 0,
+      data   : [],
       columns: [
         {
-          title: '姓名',
+          title    : '姓名',
           dataIndex: 'name',
-          key: 'name'
+          key      : 'name'
         },{
-          title: '账号',
-          width: 240,
+          title    : '账号',
+          width    : 240,
           dataIndex: 'phone',
-          key: 'phone'
+          key      : 'phone'
         },{
-          title: '邮箱',
+          title    : '邮箱',
           dataIndex: 'mail',
-          key: 'mail'
+          key      : 'mail'
         },{
-          title: '单位',
+          title    : '单位',
           dataIndex: 'dept',
-          key: 'dept'
+          key      : 'dept'
         },{
-          title:'注册时间',
-          dataIndex: 'createTime',
-          key: 'createTime',
-          width: 240,
+          title      : '注册时间',
+          dataIndex  : 'createTime',
+          key        : 'createTime',
+          width      : 240,
           scopedSlots: {
             customRender: 'createTime'
           }
         },{
-          title: '操作',
-          dataIndex: 'action',
-          key: 'action',
+          title      : '操作',
+          dataIndex  : 'action',
+          key        : 'action',
           scopedSlots: {
             customRender: 'action'
           }
@@ -108,22 +109,22 @@ export default {
       ]
     }
   },
-  computed:{
+  computed: {
     formItemLabelCol(){
       let labelCol = {}
       if(this.simpleSearchForm){
-        labelCol = {span: 0}
+        labelCol = { span: 0 }
       }else{
-        labelCol = {span: 8}
+        labelCol = { span: 8 }
       }
       return labelCol
     },
     formItemWrapperCol(){
       let wrapperCol = {}
       if(this.simpleSearchForm){
-        wrapperCol = {span: 24}
+        wrapperCol = { span: 24 }
       }else{
-        wrapperCol = {span: 16}
+        wrapperCol = { span: 16 }
       }
       return wrapperCol
     }
@@ -159,9 +160,9 @@ export default {
     getList() {
       let searchParams = Object.assign({},this.searchForm,{
         'ui.phone_l': !this.searchPendingUserForm.getFieldValue('ui.phone_l')?'':this.searchPendingUserForm.getFieldValue('ui.phone_l'),
-        name_l: !this.searchPendingUserForm.getFieldValue('name_l')?'':this.searchPendingUserForm.getFieldValue('name_l'),
-        mail_l: !this.searchPendingUserForm.getFieldValue('mail_l')?'':this.searchPendingUserForm.getFieldValue('mail_l'),
-        dept_l: !this.searchPendingUserForm.getFieldValue('dept_l')?'':this.searchPendingUserForm.getFieldValue('dept_l')
+        'name_l'    : !this.searchPendingUserForm.getFieldValue('name_l')?'':this.searchPendingUserForm.getFieldValue('name_l'),
+        'mail_l'    : !this.searchPendingUserForm.getFieldValue('mail_l')?'':this.searchPendingUserForm.getFieldValue('mail_l'),
+        'dept_l'    : !this.searchPendingUserForm.getFieldValue('dept_l')?'':this.searchPendingUserForm.getFieldValue('dept_l')
       })
       if (searchParams.createTime_desc) {
         searchParams['ui.createTime_btw'] = searchParams.createTime_desc.join(',')
@@ -169,10 +170,10 @@ export default {
       }
       // if (params.createTime_desc) params.createTime_desc=params.createTime_desc.join(',');
       this.$ajax.get({
-        url: this.$api.USER_LIST_TYPE_GET.replace('{type}', 'new'),
+        url   : this.$api.USER_LIST_TYPE_GET.replace('{type}', 'new'),
         params: Object.assign({},searchParams, this.params, {
           pageSize: this.pagination.pageSize,
-          pageNo: this.pagination.pageNo
+          pageNo  : this.pagination.pageNo
         })
       }).then(res => {
         if (res.code === '200') {
@@ -187,9 +188,9 @@ export default {
           this.pagination,
           Object.assign({},this.searchForm,{
             'ui.phone_l': !this.searchPendingUserForm.getFieldValue('ui.phone_l')?'':this.searchPendingUserForm.getFieldValue('ui.phone_l'),
-            name_l: !this.searchPendingUserForm.getFieldValue('name_l')?'':this.searchPendingUserForm.getFieldValue('name_l'),
-            mail_l: !this.searchPendingUserForm.getFieldValue('mail_l')?'':this.searchPendingUserForm.getFieldValue('mail_l'),
-            dept_l: !this.searchPendingUserForm.getFieldValue('dept_l')?'':this.searchPendingUserForm.getFieldValue('dept_l')
+            'name_l'    : !this.searchPendingUserForm.getFieldValue('name_l')?'':this.searchPendingUserForm.getFieldValue('name_l'),
+            'mail_l'    : !this.searchPendingUserForm.getFieldValue('mail_l')?'':this.searchPendingUserForm.getFieldValue('mail_l'),
+            'dept_l'    : !this.searchPendingUserForm.getFieldValue('dept_l')?'':this.searchPendingUserForm.getFieldValue('dept_l')
           })
         )
       })
@@ -201,7 +202,7 @@ export default {
     // 查看按钮
     viewBtn(item) {
       this.$router.push({
-        name: '/systemManagement/administrator/pendingView',
+        name : '/systemManagement/administrator/pendingView',
         query: {
           id: item.id
         }
@@ -210,12 +211,13 @@ export default {
     // 权限分配按钮
     distributionBtn(item) {
       this.$router.push({
-        name: '/systemManagement/administrator/distribution',
+        name : '/systemManagement/administrator/distribution',
         query: {
           id: item.id
         }
       })
     },
+
     /**
      * 从vuex中或已存储的搜索条件，判断此条件是否为当前路由的 。如果是则使用
      */

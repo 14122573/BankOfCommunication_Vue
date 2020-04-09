@@ -17,15 +17,15 @@
 export default {
   props: {
     sysCode: {
-      type:String,
-      default:''
+      type   : String,
+      default: ''
     }
   },
   data () {
     return {
-      sysListForSearch:[],
-      value: this.sysCode,
-      systemName: '',
+      sysListForSearch: [],
+      value           : this.sysCode,
+      systemName      : '',
     }
   },
   beforeCreate() {
@@ -34,13 +34,13 @@ export default {
   created(){
     this.getSysCodOptions()
     this.$nextTick(()=>{
-      this.sysForm.setFieldsValue({sysCode:this.value})
+      this.sysForm.setFieldsValue({ sysCode: this.value })
     })
   },
-  watch:{
+  watch: {
     sysCode(){
       this.value = this.sysCode
-      this.sysForm.setFieldsValue({sysCode:this.value})
+      this.sysForm.setFieldsValue({ sysCode: this.value })
       this.systemName = this.initSysName(this.value)
     }
   },
@@ -58,6 +58,7 @@ export default {
       this.systemName = name
       return name
     },
+
     /**
      * 监听系统选择，获取选择系统的名称
      * @param {String} select 当前选择的系统code
@@ -69,15 +70,16 @@ export default {
           this.systemName =  element.label
         }
       })
-      this.$emit('change', {sysCode:this.value,sysName:this.systemName})
+      this.$emit('change', { sysCode: this.value,sysName: this.systemName })
     },
+
     /**
      * 获取可选的子系统清单
      */
     getSysCodOptions(){
       this.$ajax.get({
-        url: this.$api.SYSTEM_LIST_ALL_GET,
-        params:{type:'1'}
+        url   : this.$api.SYSTEM_LIST_ALL_GET,
+        params: { type: '1' }
       }).then(res=>{
         if(res.code === '200'){
           let data = this.$com.confirm(res, 'data.content', [])

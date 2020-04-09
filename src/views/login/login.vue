@@ -73,7 +73,7 @@
 </template>
 <script>
 import { permission } from '@/util/mixins'
-import { encryptDes} from '@/util/des-cryptojs'
+import { encryptDes } from '@/util/des-cryptojs'
 import testStrong from '@/components/testPwd'
 import ResetPassword from '@/views/login/resetPassword'
 import opeationSuccess from '@/views/login/success'
@@ -92,28 +92,30 @@ export default {
     FrameTop,
     FrameFooter,
   },
-  mixins: [permission],
+  mixins: [ permission ],
   beforeCreate() {
     this.formLogin = this.$form.createForm(this)
     this.formRegister = this.$form.createForm(this)
   },
   data() {
     return {
-      pageType: 'login',
+      pageType    : 'login',
       loginFailMsg: '',
       visibleError: false,
-      isType: 'text',
-      remember: false, // 设置是否7天免登录
-      successText: '',
-      errorCount: 0,
-      figure: Math.random()
+      isType      : 'text',
+      // 设置是否7天免登录
+      remember    : false,
+      successText : '',
+      errorCount  : 0,
+      figure      : Math.random()
     }
   },
   mounted() {
     this.setUrl()
+    // 7天免登录默认是false
     this.$cookie.set('KeepLogin', false, {
       expires: 7
-    }) // 7天免登录默认是false
+    })
   },
   computed: {
     sysCode() {
@@ -164,7 +166,7 @@ export default {
         if (!err) {
           let params = {
             'username': values.username,
-            'pwd': encryptDes(values.pwd)
+            'pwd'     : encryptDes(values.pwd)
           }
           if (this.redirectUrlPrefix != 'null') {
             params.redirectUrl = this.$cookie.get('redirectUrl')
@@ -174,7 +176,7 @@ export default {
             params.reqId = this.figure
           }
           this.$ajax.post({
-            url: this.$api.POST_LOGIN,
+            url   : this.$api.POST_LOGIN,
             params: params
           }).then(res => {
             if (res.code == '200') {
@@ -232,7 +234,7 @@ export default {
               } else {
                 //去绑定
                 this.$router.push({
-                  name: 'bindPhone',
+                  name : 'bindPhone',
                   query: {
                     id: gainDatas
                   }
@@ -251,14 +253,14 @@ export default {
         }
       } else if (res.msg == 'bind') {
         this.$router.push({
-          name: 'bindPhone',
+          name : 'bindPhone',
           query: {
             id: gainDatas
           }
         })
       } else if(res.msg == 'tempInfo'){
         this.$router.push({
-          name: 'bindTemporarayAccount',
+          name : 'bindTemporarayAccount',
           query: {
             id: gainDatas
           }
@@ -340,10 +342,10 @@ export default {
     },
     threeTimesShowCode(id) {
       if (!this.$cookie.get('threeTime')) {
-        let datas = [{
+        let datas = [ {
           userId: id,
-          count: 1
-        }]
+          count : 1
+        } ]
         this.setTime(datas)
       } else {
         let lists = JSON.parse(this.$cookie.get('threeTime'))
@@ -358,7 +360,7 @@ export default {
         if (!flag) {
           lists.push({
             userId: id,
-            count: 1
+            count : 1
           })
         }
         this.setTime(lists)

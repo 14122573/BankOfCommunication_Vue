@@ -303,61 +303,61 @@
 	
 <script>
 export default {
-  props:{
-    id:{
-      type:String,
-      required:true,
-      default:''
+  props: {
+    id: {
+      type    : String,
+      required: true,
+      default : ''
     },
-    loginPhone:{
-      type:String,
-      required:true,
-      default:''
+    loginPhone: {
+      type    : String,
+      required: true,
+      default : ''
     },
   },
   data() {
     return {
-      detail: {},
-	  changeSmall:false,
-	  achievementsColumns:[{
-        title: '主要成果',
+      detail             : {},
+	  changeSmall        : false,
+	  achievementsColumns: [ {
+        title    : '主要成果',
         dataIndex: 'typeName',
-        key: 'typeName',
-        width:'30%',
+        key      : 'typeName',
+        width    : '30%',
 	  },{
-        title: '内容',
+        title    : '内容',
         dataIndex: 'content',
-        key: 'content',
-        width:'30%',
+        key      : 'content',
+        width    : '30%',
 	  },{
-        title: '日期',
-        dataIndex: 'date',
-        key: 'date',
-        width:'40%',
+        title      : '日期',
+        dataIndex  : 'date',
+        key        : 'date',
+        width      : '40%',
         scopedSlots: {
           customRender: 'date',
         },
-	  }],
-	  workExperienceColumns:[{
-        title: '名称',
+	  } ],
+	  workExperienceColumns: [ {
+        title    : '名称',
         dataIndex: 'name',
-        key: 'name',
-        width:'30%',
+        key      : 'name',
+        width    : '30%',
 	  },{
-        title: '内容',
+        title    : '内容',
         dataIndex: 'content',
-        key: 'content',
-        width:'30%',
+        key      : 'content',
+        width    : '30%',
 	  },{
-        title: '日期',
-        dataIndex: 'date',
-        key: 'date',
-        width:'40%',
+        title      : '日期',
+        dataIndex  : 'date',
+        key        : 'date',
+        width      : '40%',
         scopedSlots: {
           customRender: 'date',
         },
-	  }],
-	  show:false,
+	  } ],
+	  show: false,
     }
   },
   mounted() {

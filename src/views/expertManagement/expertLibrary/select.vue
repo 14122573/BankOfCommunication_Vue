@@ -77,7 +77,7 @@ export default {
   data() {
     return {
       roleList: [],
-      colSpe: {
+      colSpe  : {
         labelCol: {
           span: 8
         },
@@ -89,42 +89,42 @@ export default {
         'ui.createTime_desc': 1,
       },
       pagination: {
-        pageNo: 1,
-        pageSize: 10,
-        total: 0,
-        defaultCurrent: 1,
+        pageNo         : 1,
+        pageSize       : 10,
+        total          : 0,
+        defaultCurrent : 1,
         showQuickJumper: true,
-        onChange: this.pageChange
+        onChange       : this.pageChange
       },
       searchForm: {
 
       },
       dataTable: [],
-      columns: [{
-        title: '姓名',
+      columns  : [ {
+        title    : '姓名',
         dataIndex: 'name'
       },
       {
-        title: '账号',
+        title    : '账号',
         dataIndex: 'phone'
       },
       {
-        title: '账户角色',
-        dataIndex: 'roleNames',
+        title      : '账户角色',
+        dataIndex  : 'roleNames',
         scopedSlots: {
           customRender: 'roleNames'
         }
       },
       {
-        title: '组织机构',
-        dataIndex: 'group',
+        title      : '组织机构',
+        dataIndex  : 'group',
         scopedSlots: {
           customRender: 'group'
         }
       },
       {
-        title: '行政区域',
-        dataIndex: 'area',
+        title      : '行政区域',
+        dataIndex  : 'area',
         scopedSlots: {
           customRender: 'area'
         }
@@ -132,14 +132,14 @@ export default {
       ],
       opeation: {
         title: '',
-        tips: '',
-        type: '',
-        item: null
+        tips : '',
+        type : '',
+        item : null
       },
-      treeData: [],
-      isAdminator: '',
-      areaCode: '',
-      groupLists: [],
+      treeData    : [],
+      isAdminator : '',
+      areaCode    : '',
+      groupLists  : [],
       rowSelection: {
         onChange: this.tableSelectChange
       },
@@ -176,13 +176,13 @@ export default {
     getList() {
       let options = JSON.parse(JSON.stringify(this.searchForm))
       const params = Object.assign(options, {
-        pageNo: this.pagination.pageNo,
-        pageSize: this.pagination.pageSize,
-        'oa.status_in': '0,1',
+        pageNo              : this.pagination.pageNo,
+        pageSize            : this.pagination.pageSize,
+        'oa.status_in'      : '0,1',
         'ui.createTime_desc': '1'
       })
       this.$ajax.get({
-        url: this.$api.GET_USER_EXPERT_LIST,
+        url   : this.$api.GET_USER_EXPERT_LIST,
         params: params
       }).then(res => {
         this.dataTable = res.data.content
@@ -191,7 +191,7 @@ export default {
     },
     getArea() {
       this.$ajax.get({
-        url: this.$api.GET_AREA_NEXT,
+        url   : this.$api.GET_AREA_NEXT,
         params: {
           parentId: this.isAdminator ? '999999' : this.$store.state.userInfos.area.id
         }
@@ -204,10 +204,10 @@ export default {
     },
     getTreeNode(item, index) {
       let childrenNode = {
-        title: item.areaName,
-        value: item.id,
-        id: item.id,
-        key: item.id,
+        title   : item.areaName,
+        value   : item.id,
+        id      : item.id,
+        key     : item.id,
         parentId: item.parentId,
         children: item.childList
       }
@@ -220,7 +220,7 @@ export default {
           return
         }
         this.$ajax.get({
-          url: this.$api.GET_AREA_NEXT,
+          url   : this.$api.GET_AREA_NEXT,
           params: {
             parentId: treeNode.dataRef.id
           }
@@ -231,7 +231,7 @@ export default {
             array.push(this.getTreeNode(ele, index))
           })
           treeNode.dataRef.children = array
-          this.treeData = [...this.treeData]
+          this.treeData = [ ...this.treeData ]
           resolve()
         })
       })
@@ -244,14 +244,14 @@ export default {
     getListGroup() {
       const params = {
         pageSize: 10000,
-        pageNo: 1,
+        pageNo  : 1,
         areaCode: this.areaCode
       }
       if (!this.isAdminator) {
         params.parentId = this.$store.state.userInfos.group.id
       }
       this.$ajax.get({
-        url: this.$api.GET_ORGANIZATION_LIST,
+        url   : this.$api.GET_ORGANIZATION_LIST,
         params: params
       }).then(res => {
         this.groupLists = this.$com.confirm(res, 'data.content', [])
@@ -260,9 +260,9 @@ export default {
     // 查询角色列表
     getRoleList() {
       this.$ajax.get({
-        url: this.$api.GET_ROLE_LIST,
+        url   : this.$api.GET_ROLE_LIST,
         params: {
-          pageNo: 1,
+          pageNo  : 1,
           pageSize: 10000
         }
       }).then(res => {
@@ -285,16 +285,16 @@ export default {
     handleAdd() {
       if (this.selectedRowKeys.length > 0) {
         this.$ajax.put({
-          url: this.$api.PUT_CHANGE_EXPERT,
+          url   : this.$api.PUT_CHANGE_EXPERT,
           params: this.selectedRowKeys
         }).then(res => {
           this.$router.push({
-						 name:'/expertManagement/expertLibrary'
+						 name: '/expertManagement/expertLibrary'
 					 })
         })
       } else {
         this.$modal.warning({
-          title: '提示',
+          title  : '提示',
           content: '请至少选择一条数据！',
         })
       }

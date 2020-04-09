@@ -10,17 +10,17 @@
 <script>
 import ActiveExtract from './ActiveExtract'
 export default {
-  name: 'Example',
-  components: {ActiveExtract},
-  methods: {
+  name      : 'Example',
+  components: { ActiveExtract },
+  methods   : {
     handleSearch(params, callBack) {
-      console.log(params)
+      // console.log(params)
 
       // 发请求筛选专家后执行回调
       this.$ajax.get({
-        url: this.$api.GET_EXPERT_LIST,
+        url   : this.$api.GET_EXPERT_LIST,
         params: {
-          pageNo: params.pageNo,
+          pageNo  : params.pageNo,
           pageSize: params.pageSize,
         },
       }).then(res => {
@@ -41,13 +41,13 @@ export default {
     },
     handleSelect(list,callBack) {
       // 发请求选中专家
-      console.log(list)
+      // console.log(list)
       callBack()
 
     },
     handleConfirm(list) {
       // 发请求确认专家
-      console.log(list)
+      // console.log(list)
     },
   }
 }

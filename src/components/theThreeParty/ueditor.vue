@@ -12,7 +12,7 @@ import '../../../static/ueditor/ueditor.all.min.js'
 import '../../../static/ueditor/lang/zh-cn/zh-cn.js'
 
 export default {
-  name: 'UE',
+  name : 'UE',
   props: {
     value: {
       default: function() {
@@ -21,11 +21,11 @@ export default {
     },
     //配置可以传递进来
     ueditorConfig: {
-      type:Object,
-      default:()=>{
+      type   : Object,
+      default: ()=>{
         return {
-          serverUrl:'',
-          toolbars:[[
+          serverUrl: '',
+          toolbars : [ [
             'undo', 'redo', '|',
             'bold', 'italic', 'underline', 'fontborder', 'strikethrough', 'superscript', 'subscript', 'removeformat', 'formatmatch', 'autotypeset', 'blockquote', 'pasteplain', '|', 'forecolor', 'backcolor', 'insertorderedlist', 'insertunorderedlist', 'selectall', 'cleardoc', '|',
             'rowspacingtop', 'rowspacingbottom', 'lineheight', '|',
@@ -33,9 +33,9 @@ export default {
             'directionalityltr', 'directionalityrtl', 'indent', '|',
             'justifyleft', 'justifycenter', 'justifyright', 'justifyjustify', '|', 'touppercase', 'tolowercase', '|',
             'link', 'unlink'
-          ]],
-          zIndex:1,
-          initialFrameHeight:300
+          ] ],
+          zIndex            : 1,
+          initialFrameHeight: 300
         }
       }
     }
@@ -46,7 +46,7 @@ export default {
       randomId: 'editor_' + (Math.random() * 100000000000000000),
       //编辑器实例
       instance: null,
-      ready: false,
+      ready   : false,
     }
   },
   watch: {

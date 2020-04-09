@@ -70,17 +70,17 @@
 <script>
 import ExpertLibaryView from '@/views/expertManagement/expertLibrary/view'
 export default {
-  components:{
+  components: {
     ExpertLibaryView,
   },
   data() {
     return {
-      showInfo:false,
+      showInfo           : false,
       defaultExpandedKeys: [],
-      checkedKeys: [],
-      detail: {},
-      treeData: [],
-      detailReady:0
+      checkedKeys        : [],
+      detail             : {},
+      treeData           : [],
+      detailReady        : 0
     }
   },
   mounted() {
@@ -98,21 +98,21 @@ export default {
     handleEdit(num) {
       if(num==1){
         this.$router.push({
-          name: '/systemManagement/administrator/editNewUser',
+          name : '/systemManagement/administrator/editNewUser',
           query: {
             id: this.$route.query.id
           }
         })
       }else if(num==2){
         this.$router.push({
-          name: '/systemManagement/administrator/edit',
+          name : '/systemManagement/administrator/edit',
           query: {
-            id: this.$route.query.id,
-            loginPhone:this.detail.phone,
+            id        : this.$route.query.id,
+            loginPhone: this.detail.phone,
           }
         })
       }
-      
+
     },
     getDetail() {
       this.$ajax.get({
@@ -139,7 +139,7 @@ export default {
     getTreeData(item, index) {
       let childrenNode = {
         title: item.permName,
-        key: item.id,
+        key  : item.id,
         value: item.id
       }
       if (item.childList && item.childList.length) {
@@ -159,6 +159,7 @@ export default {
           let data = res.data.content
           for(let i=0;i<data.length;i++){
             if(false ===data[i].canDelete){
+              // 无逻辑
             }else{
               this.checkedKeys.push(data[i].id)
             }

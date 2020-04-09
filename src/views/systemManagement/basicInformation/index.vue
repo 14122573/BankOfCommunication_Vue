@@ -57,7 +57,7 @@ import basicInfo from './components/list'
 import Administrative from './administrative/list'
 import ProfessionalTitle from './../../expertManagement/base/components/list'
 export default {
-  name: 'SysBasic',
+  name      : 'SysBasic',
   components: {
     basicInfo,
     Administrative,

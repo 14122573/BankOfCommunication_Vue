@@ -138,12 +138,12 @@ Vue.config.productionTip = false
 const vueLifecycles = singleSpaVue({
   Vue,
   appOptions: {
-    el: '#portal',
+    el    : '#portal',
     router,
     store,
     render: h => h('div', {
       attrs: { id: 'Layout' }
-    }, [h(App)]),
+    }, [ h(App) ]),
   },
 })
 

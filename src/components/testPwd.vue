@@ -29,20 +29,22 @@ export function checkStrong(sValue) {
   case 4:
     return sValue.length < 10 ? 3 : 4
     break
+  default:
+    break
   }
   return modes
 }
 export default {
 
   props: {
-    pwd:{
-      type:String,
+    pwd: {
+      type: String,
       default(){
         return ''
       }
     },
-    width:{
-      type:[String,Number]
+    width: {
+      type: [ String,Number ]
     }
   },
   data() {
@@ -54,7 +56,7 @@ export default {
     returnStyle(){
       if(this.width){
         return{
-          width:this.width+'px'
+          width: this.width+'px'
         }
       }
     }

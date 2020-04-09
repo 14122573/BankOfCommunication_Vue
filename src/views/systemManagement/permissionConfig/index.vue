@@ -60,33 +60,35 @@ export default {
   },
   data() {
     return {
-      tree:{
-        roleTreeData:[],
-        roleTreeDataArranged:[]
+      tree: {
+        roleTreeData        : [],
+        roleTreeDataArranged: []
       },
-      selectedNode:{
-        key:'',
-        node:null,
-        parent:null
+      selectedNode: {
+        key   : '',
+        node  : null,
+        parent: null
       },
-      createPerm:{
-        parentDetail:{
-          key:'0',
-          name:'根节点',
-          isHide:false //默认可分配
+      createPerm: {
+        parentDetail: {
+          key   : '0',
+          name  : '根节点',
+          //默认可分配
+          isHide: false
         },
-        showModal:false
+        showModal: false
       },
-      editPerm:{
-        parentDetail:{
-          key:'0',
-          name:'根节点',
-          isHide:false //默认可分配
+      editPerm: {
+        parentDetail: {
+          key   : '0',
+          name  : '根节点',
+          //默认可分配
+          isHide: false
         },
-        permDetail:null,
-        parentId:'0',
-        parentName:'根节点',
-        showModal:false
+        permDetail: null,
+        parentId  : '0',
+        parentName: '根节点',
+        showModal : false
       }
     }
   },
@@ -95,7 +97,7 @@ export default {
       this.getRoleTree()
     }
   },
-  watch:{
+  watch: {
     'tree.roleTreeData': {
       handler: function(val) {
         let initializedRoleTree = []
@@ -110,21 +112,21 @@ export default {
           }
         })
         this.tree.roleTreeDataArranged.push({
-          'titleName':'初始化权限',
-          'title':'初始化权限',
-          'key':'-1',
-          'permKey':'',
-          'pointSet':[],
-          'canDelete':false,
-          'isHide':true,
-          'scopedSlots':{title:'treeTitle'},
-          'children':[].concat(initializedRoleTree)
+          'titleName'  : '初始化权限',
+          'title'      : '初始化权限',
+          'key'        : '-1',
+          'permKey'    : '',
+          'pointSet'   : [],
+          'canDelete'  : false,
+          'isHide'     : true,
+          'scopedSlots': { title: 'treeTitle' },
+          'children'   : [].concat(initializedRoleTree)
         })
       },
       deep: true
     },
   },
-  computed:{
+  computed: {
     disAddRoleNode(){
       if(!!this.selectedNode.node){
         if(!this.selectedNode.parent){
@@ -138,9 +140,11 @@ export default {
     },
     disEditRoleNode(){
       if(!!this.selectedNode.node){
-        if('-1'==this.selectedNode.node.key){ // 当为重组权限树时手动添加的树节点时，不可编辑
+        if('-1'==this.selectedNode.node.key){
+          // 当为重组权限树时手动添加的树节点时，不可编辑
           return true
-        }else{ // 否则可修改
+        }else{
+          // 否则可修改
           return false
         }
       }else{
@@ -169,9 +173,9 @@ export default {
       this.editPerm.parentDetail.name='根节点'
       this.editPerm.parentDetail.isHide = false
       this.selectedNode = {
-        key:'',
-        node:null,
-        parent:null
+        key   : '',
+        node  : null,
+        parent: null
       }
       this.getRoleTree()
       // }
@@ -183,15 +187,15 @@ export default {
       this.createPerm.parentDetail.name ='根节点'
       this.createPerm.parentDetail.isHide = false
       this.selectedNode = {
-        key:'',
-        node:null,
-        parent:null
+        key   : '',
+        node  : null,
+        parent: null
       }
       this.getRoleTree()
       // }
     },
     goToPointMeg(){
-      this.$router.push({name:'/systemManagement/permissionConfig/point'})
+      this.$router.push({ name: '/systemManagement/permissionConfig/point' })
     },
     findRoleNode(){
       let roleNode = null
@@ -199,9 +203,9 @@ export default {
     handleEditRoleNode(){
       this.editPerm.permDetail = this.selectedNode.node
       this.editPerm.parentDetail = {
-        key:!this.selectedNode.parent?'0':this.selectedNode.parent.key,
-        name:!this.selectedNode.parent?'根节点':this.selectedNode.parent.title,
-        isHide:!this.selectedNode.parent?false:this.selectedNode.parent.isHide
+        key   : !this.selectedNode.parent?'0':this.selectedNode.parent.key,
+        name  : !this.selectedNode.parent?'根节点':this.selectedNode.parent.title,
+        isHide: !this.selectedNode.parent?false:this.selectedNode.parent.isHide
       }
       this.editPerm.showModal = true
     },
@@ -216,10 +220,10 @@ export default {
     handleDelRoleNode(){
       let vm = this
       this.$modal.confirm({
-        title: '是否确认删除’'+this.selectedNode.node.title+'‘？',
-        content: '此操作不可撤销',
-        okText: '确认删除',
-        okType: 'danger',
+        title     : '是否确认删除’'+this.selectedNode.node.title+'‘？',
+        content   : '此操作不可撤销',
+        okText    : '确认删除',
+        okType    : 'danger',
         cancelText: '取消',
         onOk() {
           vm.confirmDelRoleNode()
@@ -236,12 +240,13 @@ export default {
         }
       })
     },
+
     /**
      * 查询权限树
      */
     getRoleTree(){
       this.$ajax.get({
-        url:this.$api.GET_ALL_ROLE + '?isTree=true&isAll=true'
+        url: this.$api.GET_ALL_ROLE + '?isTree=true&isAll=true'
       }).then(res=>{
         if(!!res.data && !!res.data.content){
           let data=res.data.content
@@ -260,6 +265,7 @@ export default {
       })
       return ids
     },
+
     /**
      * 根据tree渲染数据所需结构，重组数据
      * @param {Object} item 单个权限对象
@@ -267,14 +273,14 @@ export default {
      */
     initRoleTreeNode(item){
       let childrenNode={
-        'titleName':item.permName,
-        'title':item.permName,
-        'key':item.id,
-        'permKey':!item.permKey?'':item.permKey,
-        'pointSet':this.getPointsIds(!item.points?[]:item.points),
-        'canDelete':item.canDelete===false?false:true,
-        'isHide':item.isHide,
-        'scopedSlots':{title:'treeTitle'}
+        'titleName'  : item.permName,
+        'title'      : item.permName,
+        'key'        : item.id,
+        'permKey'    : !item.permKey?'':item.permKey,
+        'pointSet'   : this.getPointsIds(!item.points?[]:item.points),
+        'canDelete'  : item.canDelete===false?false:true,
+        'isHide'     : item.isHide,
+        'scopedSlots': { title: 'treeTitle' }
       }
       if(item.childList && item.childList.length){
         childrenNode.children = []
@@ -285,28 +291,29 @@ export default {
       }
       return childrenNode
     },
+
     /**
      * 触发树节点选中事件，存储选中节点
      * @param {String} selectedKeys 选中节点的key
      * @param {Object} node 选中节点对象
      */
-    onSelect (selectedKeys, {selected, selectedNodes, node, event}) {
+    onSelect (selectedKeys, { selected, selectedNodes, node, event }) {
       if(selectedKeys.length>0){
         this.selectedNode['key'] = selectedKeys[0]
         this.selectedNode['node'] = {
-          'title':selectedNodes[0].data.props.titleName,
-          'canDelete':selectedNodes[0].data.props.canDelete,
-          'permKey':selectedNodes[0].data.props.permKey,
-          'pointSet':selectedNodes[0].data.props.pointSet,
-          'key':selectedNodes[0].data.key,
-          'isHide':selectedNodes[0].data.props.isHide
+          'title'    : selectedNodes[0].data.props.titleName,
+          'canDelete': selectedNodes[0].data.props.canDelete,
+          'permKey'  : selectedNodes[0].data.props.permKey,
+          'pointSet' : selectedNodes[0].data.props.pointSet,
+          'key'      : selectedNodes[0].data.key,
+          'isHide'   : selectedNodes[0].data.props.isHide
         }
         this.selectedNode['parent'] = !node.$parent.dataRef?null:Object.assign({},node.$parent.dataRef)
       }else{
         this.selectedNode = {
-          key:'',
-          node:null,
-          parent:null
+          key   : '',
+          node  : null,
+          parent: null
         }
       }
     }

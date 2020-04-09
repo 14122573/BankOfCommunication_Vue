@@ -141,7 +141,7 @@
 import jobStudy from '@/views/expertManagement/components/jobStudy'
 import jobSpace from '@/views/expertManagement/components/jobSpace'
 export default {
-  name: 'talent-create',
+  name      : 'talent-create',
   components: { jobStudy, jobSpace },
   beforeCreate() {
     this.form = this.$form.createForm(this)
@@ -160,7 +160,7 @@ export default {
           }).then(res => {
             if (res.data.content === false) {
               callback()
-              this.$refs.jobStudy.formJob.setFieldsValue({phone:value})
+              this.$refs.jobStudy.formJob.setFieldsValue({ phone: value })
             } else {
               callback('已存在此用户!')
             }
@@ -180,41 +180,41 @@ export default {
       }
     }
     return {
-      changeSmall:false,
-      options: {
-        sexList: [{ label: '男', value: '男' }, { label: '女', value: '女' }],
-        minorityList: [],
-        companyNatureList: [],
-        positionList: [],
-        jobTitleList: [],
-        workAreaList: [],
-        professionGroupList: [],
+      changeSmall: false,
+      options    : {
+        sexList              : [ { label: '男', value: '男' }, { label: '女', value: '女' } ],
+        minorityList         : [],
+        companyNatureList    : [],
+        positionList         : [],
+        jobTitleList         : [],
+        workAreaList         : [],
+        professionGroupList  : [],
         researchDirectionList: [],
-        educationList: [],
-        bachelorList: [],
+        educationList        : [],
+        bachelorList         : [],
       },
       colSpa: {
-        labelCol: { span: 10 },
+        labelCol  : { span: 10 },
         wrapperCol: { span: 12 }
       },
       textSpa: {
-        labelCol: { span: 5 },
+        labelCol  : { span: 5 },
         wrapperCol: { span: 18 }
       },
       previewVisible: false,
-      previewImage: '',
-      fileList: [],
-      fileUpload:{
-        acceptTypes:'.jpg,.jpeg',
-        acceptTypesArray:['jpg','jpeg']
+      previewImage  : '',
+      fileList      : [],
+      fileUpload    : {
+        acceptTypes     : '.jpg,.jpeg',
+        acceptTypesArray: [ 'jpg','jpeg' ]
       },
       rules: {
-        loginPhone:[
+        loginPhone: [
           { required: true, whitespace: true, message: '请输入联系电话!' },
           { validator: validatePhone }
         ],
-        name: [{ required: true, whitespace: true, message: '请输入姓名!' }],
-        sex: [{ required: true, whitespace: true, message: '请选择性别!' }],
+        name    : [ { required: true, whitespace: true, message: '请输入姓名!' } ],
+        sex     : [ { required: true, whitespace: true, message: '请选择性别!' } ],
         minority: [
           { required: true, whitespace: true, message: '请选择民族!' }
         ],
@@ -248,20 +248,29 @@ export default {
     getOptions() {
       let api = this.$api.DICTIONARY_TYPE_GET
       const items = [
-        { type: '0', name: 'minorityList' }, //民族
-        { type: '1', name: 'companyNatureList' }, //单位性质
-        { type: '2', name: 'positionList' }, //职务
-        { type: '3', name: 'jobTitleList' }, //职称
-        { type: '4', name: 'educationList' }, //学历
-        { type: '5', name: 'bachelorList' }, //学位
-        { type: '6', name: 'workAreaList' }, //工作领域
-        { type: '7', name: 'professionGroupList' }, //专业组别
-        { type: '8', name: 'researchDirectionList' } //主要研究方向
+        //民族
+        { type: '0', name: 'minorityList' },
+        //单位性质
+        { type: '1', name: 'companyNatureList' },
+        //职务
+        { type: '2', name: 'positionList' },
+        //职称
+        { type: '3', name: 'jobTitleList' },
+        //学历
+        { type: '4', name: 'educationList' },
+        //学位
+        { type: '5', name: 'bachelorList' },
+        //工作领域
+        { type: '6', name: 'workAreaList' },
+        //专业组别
+        { type: '7', name: 'professionGroupList' },
+        //主要研究方向
+        { type: '8', name: 'researchDirectionList' }
       ]
       return items.map(item => {
         this.$ajax
           .get({
-            url: api.replace('{type}', item.type),
+            url        : api.replace('{type}', item.type),
             hideLoading: false
           })
           .then(res => {
@@ -299,9 +308,9 @@ export default {
         return true
       }else{
         this.$modal.error({
-          title: '上传文件验证未通过',
-          content: message,
-          okText: '确认',
+          title     : '上传文件验证未通过',
+          content   : message,
+          okText    : '确认',
           cancelText: '取消',
         })
         return false
@@ -312,17 +321,17 @@ export default {
       formData.append('file', data.file)
       data.onProgress()
       this.$ajax.post({
-        url: this.$api.UPLOAD_TEMP,
+        url   : this.$api.UPLOAD_TEMP,
         params: formData
       }).then(res => {
         if (res.code === '200') {
           let data = this.$com.confirm(res, 'data.content', {})
           this.fileList = []
           this.fileList.push({
-            uid: data.id,
-            name: data.name,
+            uid   : data.id,
+            name  : data.name,
             status: 'done',
-            url: data.path
+            url   : data.path
           })
         } else {
           this.$message.error(res.msg)
@@ -336,27 +345,36 @@ export default {
     // 整理数据
     forMat(data) {
       const items = [
-        { key: 'minority', list: 'minorityList', value: 'minorityName' }, //民族
+        //民族
+        { key: 'minority', list: 'minorityList', value: 'minorityName' },
+        //单位性质
         {
-          key: 'companyNature',
-          list: 'companyNatureList',
+          key  : 'companyNature',
+          list : 'companyNatureList',
           value: 'companyNatureName'
-        }, //单位性质
-        { key: 'position', list: 'positionList', value: 'positionName' }, //职务
-        { key: 'jobTitle', list: 'jobTitleList', value: 'jobTitleName' }, //职称
-        { key: 'education', list: 'educationList', value: 'educationName' }, //学历
-        { key: 'bachelor', list: 'bachelorList', value: 'bachelorName' }, //学位
-        { key: 'workArea', list: 'workAreaList', value: 'workAreaName' }, //工作领域
+        },
+        //职务
+        { key: 'position', list: 'positionList', value: 'positionName' },
+        //职称
+        { key: 'jobTitle', list: 'jobTitleList', value: 'jobTitleName' },
+        //学历
+        { key: 'education', list: 'educationList', value: 'educationName' },
+        //学位
+        { key: 'bachelor', list: 'bachelorList', value: 'bachelorName' },
+        //工作领域
+        { key: 'workArea', list: 'workAreaList', value: 'workAreaName' },
+        //专业组别
         {
-          key: 'professionGroup',
-          list: 'professionGroupList',
+          key  : 'professionGroup',
+          list : 'professionGroupList',
           value: 'professionGroupName'
-        }, //专业组别
+        },
+        //主要研究方向
         {
-          key: 'researchDirection',
-          list: 'researchDirectionList',
+          key  : 'researchDirection',
+          list : 'researchDirectionList',
           value: 'researchDirectionName'
-        } //主要研究方向
+        }
       ]
       items.forEach(item => {
         this.options[item.list].forEach(option => {
@@ -377,7 +395,7 @@ export default {
       }
       data.type='1'
       this.$ajax[methods]({
-        url: link,
+        url   : link,
         params: data
       }).then(res => {
         if (res.code === '200') {
@@ -388,7 +406,7 @@ export default {
     },
     getDetail() {
       this.$ajax.get({
-        url: this.$api.GET_EXPERT_DETAIL.replace( '{experId}', this.$route.query.id ),
+        url        : this.$api.GET_EXPERT_DETAIL.replace( '{experId}', this.$route.query.id ),
         hideLoading: false
       }).then(res => {
         let {
@@ -455,10 +473,10 @@ export default {
           })
           if(portraitImg != null){
             this.fileList.push({
-              uid: '-1',
-              name: portraitImg,
+              uid   : '-1',
+              name  : portraitImg,
               status: 'done',
-              url: portraitImg
+              url   : portraitImg
             })
           }
         })
@@ -481,10 +499,13 @@ export default {
       })
 
       let personalPhoto = {}
-      if(this.fileList.length>0){ //当有上传一寸照时，作如下判断
-        if(this.fileList[0].uid == '-1'){ // 说明未修改一寸照
+      if(this.fileList.length>0){
+        //当有上传一寸照时，作如下判断
+        if(this.fileList[0].uid == '-1'){
+          // 说明未修改一寸照
           personalPhoto.portraitImg = this.fileList[0].name
-        }else{ // 说明有修改一寸照
+        }else{
+          // 说明有修改一寸照
           personalPhoto.fileId = this.fileList[0].uid
         }
       }
@@ -498,9 +519,9 @@ export default {
         this.forMat(data)
       } else {
         this.$modal.error({
-          title: '表单验证未通过',
-          content: '请检查输入',
-          okText: '确认',
+          title     : '表单验证未通过',
+          content   : '请检查输入',
+          okText    : '确认',
           cancelText: '取消',
         })
       }

@@ -1,6 +1,5 @@
 <template>
-	<a-modal :maskClosable="false" cancelText="取消" okText="确认" @ok="handleOk" @cancel="handleCancel" :width="600"
-	 title="修改权限" :visible="isShow">
+	<a-modal :maskClosable="false" cancelText="取消" okText="确认" @ok="handleOk" @cancel="handleCancel" :width="600" title="修改权限" :visible="isShow">
 		<a-form class="layoutMargin" :form="permEditForm">
       <a-row type="flex" justify="start" align="middle">
         <a-col span="24">
@@ -37,38 +36,38 @@
 
 <script>
 export default {
-  name:'EditPermBranch',
+  name : 'EditPermBranch',
   props: {
-    parentNode:{
-      type:Object,
-      required:true,
+    parentNode: {
+      type    : Object,
+      required: true,
     },
-    perm:{
-      type:Object,
-      required:true,
+    perm: {
+      type    : Object,
+      required: true,
     },
-    timestamp:{
-      type:Number,
-      required:true
+    timestamp: {
+      type    : Number,
+      required: true
     },
-    resetShow:{
-      type:Boolean,
-      required:true
+    resetShow: {
+      type    : Boolean,
+      required: true
     }
   },
   data() {
     return {
-      isShow: false,
-      pointsArray:[],
-      pointsList:null,
-      editForm:{
-        pointSet:[]
+      isShow     : false,
+      pointsArray: [],
+      pointsList : null,
+      editForm   : {
+        pointSet: []
       },
-      formRules:{
-        permName:[
+      formRules: {
+        permName: [
           { required: true, whitespace: true, message: '请输入权限分支名称' }
         ],
-        isHide:[
+        isHide: [
           { required: true, whitespace: true, message: '请选择是否可分配' }
         ]
       },
@@ -77,16 +76,18 @@ export default {
   beforeCreate() {
     this.permEditForm = this.$form.createForm(this)
   },
-  computed:{
+  computed: {
     /**
      * 当父级权限是不可分配的（isHide==true）,则子集权限也不可分配。
      * @returns {Boolean}
      */
     isDisabaleDistribution(){
       if(this.parentNode.isHide){
-        return true // 不可用
+        // 不可用
+        return true
       }else{
-        return false // 可用
+        // 可用
+        return false
       }
     }
   },
@@ -96,9 +97,9 @@ export default {
       this.resetForm()
       if(this.perm.title){
         this.$nextTick(function () {
-          this.permEditForm.setFieldsValue({permName:this.perm.title})
-          this.permEditForm.setFieldsValue({isHide:this.perm.isHide?'1':'0'})
-          this.permEditForm.getFieldDecorator('pointIds',{initialValue:this.perm.pointSet})
+          this.permEditForm.setFieldsValue({ permName: this.perm.title })
+          this.permEditForm.setFieldsValue({ isHide: this.perm.isHide?'1':'0' })
+          this.permEditForm.getFieldDecorator('pointIds',{ initialValue: this.perm.pointSet })
         })
       }
     },
@@ -108,9 +109,9 @@ export default {
         if(this.perm.title){
           // 初始化表单值
           this.$nextTick(function () {
-            this.permEditForm.setFieldsValue({permName:this.perm.title})
-            this.permEditForm.setFieldsValue({isHide:this.perm.isHide?'1':'0'})
-            this.permEditForm.getFieldDecorator('pointIds',{initialValue:this.perm.pointSet})
+            this.permEditForm.setFieldsValue({ permName: this.perm.title })
+            this.permEditForm.setFieldsValue({ isHide: this.perm.isHide?'1':'0' })
+            this.permEditForm.getFieldDecorator('pointIds',{ initialValue: this.perm.pointSet })
           })
         }
       }
@@ -121,9 +122,9 @@ export default {
     // 初始化表单值
     if(this.perm.title){
       this.$nextTick(function () {
-        this.permEditForm.setFieldsValue({permName:this.perm.title})
-        this.permEditForm.setFieldsValue({isHide:this.perm.isHide?'1':'0'})
-        this.permEditForm.getFieldDecorator('pointIds',{initialValue:this.perm.pointSet})
+        this.permEditForm.setFieldsValue({ permName: this.perm.title })
+        this.permEditForm.setFieldsValue({ isHide: this.perm.isHide?'1':'0' })
+        this.permEditForm.getFieldDecorator('pointIds',{ initialValue: this.perm.pointSet })
       })
     }
 
@@ -136,10 +137,11 @@ export default {
     handlePointChange(select){
       for(let i=0;i<select.length;i++){
         this.editForm.pointSet.push({
-          id:select[i]
+          id: select[i]
         })
       }
     },
+
     /**
      * 搜索获取功能点清单
      */
@@ -153,8 +155,8 @@ export default {
           this.pointsArray = []
           for(let item in this.pointsList){
             this.pointsArray.push({
-              name:item,
-              children:[].concat(this.pointsList[item])
+              name    : item,
+              children: [].concat(this.pointsList[item])
             })
           }
         }else{
@@ -167,11 +169,12 @@ export default {
       let selected = []
       for(let i=0;i<pointSetArr.length;i++){
         selected.push({
-          id:pointSetArr[i]
+          id: pointSetArr[i]
         })
       }
       return selected
     },
+
     /**
      * 提交创建权限分支
      */
@@ -179,14 +182,14 @@ export default {
       this.permEditForm.validateFields(err => {
         if (!err) {
           let parentPermid = this.parentNode.key=='-1'?'0':this.parentNode.key
-          let putParams = Object.assign({parentId:parentPermid},{
-            'permName':this.permEditForm.getFieldValue('permName'),
-            'isHide':this.permEditForm.getFieldValue('isHide')=='0'?false:true,
-            'pointSet':this.getSelectPointSetObject(this.permEditForm.getFieldValue('pointIds'))
+          let putParams = Object.assign({ parentId: parentPermid },{
+            'permName': this.permEditForm.getFieldValue('permName'),
+            'isHide'  : this.permEditForm.getFieldValue('isHide')=='0'?false:true,
+            'pointSet': this.getSelectPointSetObject(this.permEditForm.getFieldValue('pointIds'))
           })
 
           this.$ajax.put({
-            url: this.$api.PUT_PREMSBRANCH.replace('{id}', this.perm.key),
+            url   : this.$api.PUT_PREMSBRANCH.replace('{id}', this.perm.key),
             params: putParams
           }).then(res => {
             if (res.code === '200') {
@@ -200,6 +203,7 @@ export default {
         }
       })
     },
+
     /**
      * 取消创建权限分支
      */

@@ -22,14 +22,14 @@ export default {
       if (info.file.status === 'done') {
         // this.$message.success(`${info.file.name} file uploaded successfully`)
         this.$modal.success({
-          title: '文件上传成功',
+          title  : '文件上传成功',
           content: `${info.file.name} file uploaded successfully`
         })
       } else if (info.file.status === 'error') {
         this.$modal.error({
-          title: '提交错误',
-          content: `${info.file.name} 上传失败.`,
-          okText: '确认',
+          title     : '提交错误',
+          content   : `${info.file.name} 上传失败.`,
+          okText    : '确认',
           cancelText: '取消',
         })
         // this.$message.error(`${info.file.name} file upload failed.`)

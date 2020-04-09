@@ -37,12 +37,12 @@ export default {
   name: 'VoteResult',
   data() {
     return {
-      voteId: null,
+      voteId : null,
       content: {},
     }
   },
   mounted() {
-    const {query} = this.$route
+    const { query } = this.$route
     if (query && query.id) {
       this.voteId = query.id
       this.getResult()
@@ -58,15 +58,15 @@ export default {
     },
     handleSubmit() {
       const config = {
-        title: '公布投票结果',
+        title  : '公布投票结果',
         content: '是否确认公布投票结果？',
-        msg: '公布成功',
+        msg    : '公布成功',
       }
       this.$modal.confirm({
-        title: config.title,
+        title  : config.title,
         content: config.content,
-        onOk: () => {
-          const {id, name, description, startTime, endTime} = this.content
+        onOk   : () => {
+          const { id, name, description, startTime, endTime } = this.content
           const subjects = this.$com.confirm(this.content, 'subjects', [])
           let content = `
             <h2 style="text-align: center">${name}</h2>
@@ -93,22 +93,22 @@ export default {
               </div>
             `
             this.$ajax.post({
-              url: this.$api.POST_CMS_NOTICE,
+              url   : this.$api.POST_CMS_NOTICE,
               params: {
-                title: name,
+                title : name,
                 startTime,
                 endTime,
                 content,
-                isTop: '0',
+                isTop : '0',
                 isVote: '1',
                 status: '1',
                 voteId: id,
               }
             }).then(() => {
               this.$modal.success({
-                title: '成功',
+                title  : '成功',
                 content: config.msg,
-                okText: '确认',
+                okText : '确认',
               })
               this.$nextTick(() => this.$router.back())
             })

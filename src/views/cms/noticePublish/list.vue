@@ -49,13 +49,13 @@ export default {
   },
   data() {
     return {
-      isReady:false,
-      noticeList:[],
+      isReady   : false,
+      noticeList: [],
       pagination: {
-        pageNo: 1,
-        pageSize: 10,
-        total: 0,
-        current: 1,
+        pageNo        : 1,
+        pageSize      : 10,
+        total         : 0,
+        current       : 1,
         defaultCurrent: 1,
       },
     }
@@ -69,15 +69,16 @@ export default {
   watch: {
 
   },
-  methods:{
+  methods: {
     goToView(id){
       this.$router.push({
-        name:'/cms/noticePublish/view',
-        params:{
-          id:id
+        name  : '/cms/noticePublish/view',
+        params: {
+          id: id
         }
       })
     },
+
     /**
      * 记录翻页，并获取当前页的数据
      * @param {Number} current 当前页码
@@ -87,20 +88,21 @@ export default {
       this.pagination.pageNo = current
       this.getNoticeList()
     },
+
     /**
      * 调用接口，查询表单要求的通知公告资料
      */
     getNoticeList(){
       let searchParms
       searchParms = Object.assign({},{
-        pageNo: this.pagination.pageNo,
-        pageSize: this.pagination.pageSize,
-        status_in: '1',
-        topDate_desc:'desc',
+        pageNo      : this.pagination.pageNo,
+        pageSize    : this.pagination.pageSize,
+        status_in   : '1',
+        topDate_desc: 'desc',
       })
 
       this.$ajax.get({
-        url: this.$api.GET_CMS_NOTICE_LIST,
+        url   : this.$api.GET_CMS_NOTICE_LIST,
         params: searchParms
       }).then(res => {
         if(!!res && !!res.code && res.code =='200'){
