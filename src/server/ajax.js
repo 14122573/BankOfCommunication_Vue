@@ -21,7 +21,7 @@ const reponseCodeHandler = (res) => {
   const code = res.data && res.data.code
   if ('string' == typeof code) {
     if (code == '200') {
-
+      // 无逻辑
     } else if (code == '911') {
       const params = {
         grant_type   : 'refresh_token',

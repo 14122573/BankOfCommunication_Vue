@@ -14,7 +14,7 @@ export default {
   components: { ActiveExtract },
   methods   : {
     handleSearch(params, callBack) {
-      console.log(params)
+      // console.log(params)
 
       // 发请求筛选专家后执行回调
       this.$ajax.get({
@@ -41,13 +41,13 @@ export default {
     },
     handleSelect(list,callBack) {
       // 发请求选中专家
-      console.log(list)
+      // console.log(list)
       callBack()
 
     },
     handleConfirm(list) {
       // 发请求确认专家
-      console.log(list)
+      // console.log(list)
     },
   }
 }

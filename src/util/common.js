@@ -196,7 +196,9 @@ export default {
 
     Store.commit('SET_CLEAR')
     Cookie.remove('token')
-    if ('true' == Cookie.get('keepLogin')) {} else {
+    if ('true' == Cookie.get('keepLogin')) {
+      // 无逻辑
+    } else {
       Cookie.remove('refresh_token')
       Cookie.remove('oldSysAccountsList')
     }

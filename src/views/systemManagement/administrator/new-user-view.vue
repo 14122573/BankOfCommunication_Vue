@@ -112,7 +112,7 @@ export default {
           }
         })
       }
-      
+
     },
     getDetail() {
       this.$ajax.get({
@@ -159,6 +159,7 @@ export default {
           let data = res.data.content
           for(let i=0;i<data.length;i++){
             if(false ===data[i].canDelete){
+              // 无逻辑
             }else{
               this.checkedKeys.push(data[i].id)
             }
