@@ -295,9 +295,9 @@ export default {
   name: 'LibraryView',
   data() {
     return {
-      isExpert: true,
-      detail: {},
-      changeSmall:false
+      isExpert   : true,
+      detail     : {},
+      changeSmall: false
     }
   },
   mounted() {
@@ -334,15 +334,15 @@ export default {
     handleEdit() {
       if (this.isExpert) {
         this.$router.push({
-          name: '/expertManagement/expertLibrary/edit',
+          name : '/expertManagement/expertLibrary/edit',
           query: {
             id: this.$route.query.id
           }
         })
       } else {
         this.$router.push({
-          name: '/expertManagement/talent/edit',
-          query:{id:this.$route.query.id}
+          name : '/expertManagement/talent/edit',
+          query: { id: this.$route.query.id }
         })
       }
     }

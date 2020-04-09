@@ -84,6 +84,8 @@
       case 'upload':
         return insertUpload()
         break
+      default:
+        break
       }
     }
     dialog.oncancel = function(){
@@ -215,7 +217,7 @@
   function createAlignButton( ids ) {
     for ( var i = 0, ci; ci = ids[i++]; ) {
       var floatContainer = $G( ci ),
-        nameMaps = {'none':lang['default'], 'left':lang.floatLeft, 'right':lang.floatRight, 'center':lang.block}
+        nameMaps = { 'none':lang['default'], 'left':lang.floatLeft, 'right':lang.floatRight, 'center':lang.block }
       for ( var j in nameMaps ) {
         var div = document.createElement( 'div' )
         div.setAttribute( 'name', j )
@@ -504,10 +506,10 @@
         })
 
         $li.on('mouseenter', function () {
-          $btns.stop().animate({height: 30})
+          $btns.stop().animate({ height: 30 })
         })
         $li.on('mouseleave', function () {
-          $btns.stop().animate({height: 0})
+          $btns.stop().animate({ height: 0 })
         })
 
         $btns.on('click', 'span', function () {
@@ -523,6 +525,8 @@
             break
           case 2:
             file.rotation -= 90
+            break
+          default:
             break
           }
 
@@ -630,6 +634,8 @@
               $upload.text(lang.uploadStart)
             }
             break
+          default:
+            break
           }
 
           state = val
@@ -710,6 +716,8 @@
           break
         case 'stopUpload':
           setState('paused', files)
+          break
+        default:
           break
         }
       })

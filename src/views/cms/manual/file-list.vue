@@ -45,9 +45,9 @@ export default {
   name: 'ManualFileList',
   data() {
     return {
-      list: [],
-      total: 0,
-      pageNo: 1,
+      list    : [],
+      total   : 0,
+      pageNo  : 1,
       pageSize: 10,
     }
   },
@@ -57,7 +57,7 @@ export default {
   methods: {
     getList() {
       const params = {
-        pageNo: this.pageNo,
+        pageNo  : this.pageNo,
         pageSize: this.pageSize,
       }
       this.$ajax.get({

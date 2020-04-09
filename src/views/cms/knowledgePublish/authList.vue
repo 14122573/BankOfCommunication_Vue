@@ -64,28 +64,28 @@ export default {
   },
   data() {
     return {
-      isReady:false,
-      simpleSearchForm:true, // 展示、收取简单搜索开关，true为简单搜索
-      searchFormOption:{
-        type:[{
+      isReady         : false,
+      simpleSearchForm: true, // 展示、收取简单搜索开关，true为简单搜索
+      searchFormOption: {
+        type: [ {
           label: '视频',
           value: '0'
         },{
           label: 'PDF',
           value: '1'
-        }],
+        } ],
       },
-      defaultSearchForm:{
+      defaultSearchForm: {
         // type:['0','1'],
-        anonymous:['0','1']
+        anonymous: [ '0','1' ]
       },
-      searchForm:{},
-      knowledgeList:[],
-      pagination: {
-        pageNo: 1,
-        pageSize: 10,
-        total: 0,
-        current: 1,
+      searchForm   : {},
+      knowledgeList: [],
+      pagination   : {
+        pageNo        : 1,
+        pageSize      : 10,
+        total         : 0,
+        current       : 1,
         defaultCurrent: 1,
       },
     }
@@ -102,25 +102,25 @@ export default {
     this.getKnowLedgeList()
     // }
   },
-  watch:{
+  watch: {
 
   },
-  computed:{
+  computed: {
     formItemLabelCol(){
       let labelCol = {}
       if(this.simpleSearchForm){
-        labelCol = {span: 0}
+        labelCol = { span: 0 }
       }else{
-        labelCol = {span: 8}
+        labelCol = { span: 8 }
       }
       return labelCol
     },
     formItemWrapperCol(){
       let wrapperCol = {}
       if(this.simpleSearchForm){
-        wrapperCol = {span: 24}
+        wrapperCol = { span: 24 }
       }else{
-        wrapperCol = {span: 16}
+        wrapperCol = { span: 16 }
       }
       return wrapperCol
     }
@@ -134,12 +134,13 @@ export default {
     },
     goToView(id){
       this.$router.push({
-        name:'/cms/knowledgePublish/view',
-        params:{
-          id:id
+        name  : '/cms/knowledgePublish/view',
+        params: {
+          id: id
         }
       })
     },
+
     /**
      * 将一维数据键值数组，转为指定字串串链接的字符串
      * @param {Array} keyArray 包含数据key的一维数组
@@ -164,14 +165,15 @@ export default {
       this.searchForm ={
         // status_in:this.toKeyString(this.defaultSearchForm.status,','),
         // type_in:this.toKeyString(this.defaultSearchForm.type,','),
-        anonymous_in:this.toKeyString(this.defaultSearchForm.anonymous,',')
+        anonymous_in: this.toKeyString(this.defaultSearchForm.anonymous,',')
       }
       this.pagination.current = 1
       this.pagination.pageNo = 1
-      this.knowledgeSearchForm.setFieldsValue({title:'',author:''})
+      this.knowledgeSearchForm.setFieldsValue({ title: '',author: '' })
 
       this.getKnowLedgeList()
     },
+
     /**
      * 记录翻页，并获取当前页的数据
      * @param {Number} current 当前页码
@@ -181,22 +183,23 @@ export default {
       this.pagination.pageNo = current
       this.getKnowLedgeList()
     },
+
     /**
      * 调用结构，查询表单要求的知识文库资料
      */
     getKnowLedgeList(){
       let searchParms
       searchParms = Object.assign({},this.searchForm,{
-        title_l:!this.knowledgeSearchForm.getFieldValue('title')?'':this.knowledgeSearchForm.getFieldValue('title'),
-        author_l:!this.knowledgeSearchForm.getFieldValue('author')?'':this.knowledgeSearchForm.getFieldValue('author'),
-        status_in: '1',
-        createTime_desc:'desc'
+        title_l        : !this.knowledgeSearchForm.getFieldValue('title')?'':this.knowledgeSearchForm.getFieldValue('title'),
+        author_l       : !this.knowledgeSearchForm.getFieldValue('author')?'':this.knowledgeSearchForm.getFieldValue('author'),
+        status_in      : '1',
+        createTime_desc: 'desc'
       },{
-        pageNo: this.pagination.pageNo,
+        pageNo  : this.pagination.pageNo,
         pageSize: this.pagination.pageSize
       })
       this.$ajax.get({
-        url: this.$api.GET_CMS_KNOWLEDGE_LIST,
+        url   : this.$api.GET_CMS_KNOWLEDGE_LIST,
         params: searchParms
       }).then(res => {
         this.pagination.total = this.$com.confirm(res, 'data.totalRows', 0)

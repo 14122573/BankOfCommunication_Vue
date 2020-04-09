@@ -85,30 +85,30 @@ export default {
   data() {
     return {
       colSpa: {
-        labelCol: { span: 10 },
+        labelCol  : { span: 10 },
         wrapperCol: { span: 12 }
       },
       textSpa: {
-        labelCol: { span: 5 },
+        labelCol  : { span: 5 },
         wrapperCol: { span: 18 }
       },
-      arr:[],
-      rules:{
+      arr  : [],
+      rules: {
         // 相关管理信息
-        type:[
+        type: [
           { required: true, message: '请选择类型!' }
         ]
       },
-      formList:[],
-      options: {
+      formList: [],
+      options : {
         areas: [],
       },
-      simpleSearchForm:true, //
-      pagination: {
+      simpleSearchForm: true, //
+      pagination      : {
       },
     }
   },
-  computed:{
+  computed: {
   },
   methods: {
     closeMoreSearch(){
@@ -125,7 +125,7 @@ export default {
     toView(id,type){
       if (typeof(this.$cookie.get('token')) == 'undefined') {
         this.$router.push({
-          name: '/veterinary/view',
+          name : '/veterinary/view',
           query: {
             id,
             type,
@@ -133,7 +133,7 @@ export default {
         })
       }else{
         this.$router.push({
-          name: 'homeVeterinaryView',
+          name : 'homeVeterinaryView',
           query: {
             id,
             type,
@@ -144,7 +144,7 @@ export default {
     },
     // 返回前一页
     backPage() {
-      this.$router.push({name:'home'})
+      this.$router.push({ name: 'home' })
       sessionStorage.removeItem('isReload')
     },
     async getAreas(selectedOptions) { // 初始化或者根据选择来获取省市区级联选择框的数据
@@ -154,7 +154,7 @@ export default {
         targetOption.loading = true
       }
       await this.$ajax.get({
-        url: this.$api.GET_PUBLIC_AREA_NEXT,
+        url   : this.$api.GET_PUBLIC_AREA_NEXT,
         params: {
           parentId: targetOption ? targetOption.value : '999999',
         },
@@ -163,8 +163,8 @@ export default {
         const datas = this.$com.confirm(res, 'data.content', [])
         const result = datas.map(item => {
           return {
-            label: item.areaName,
-            value: item.id,
+            label : item.areaName,
+            value : item.id,
             isLeaf: item.lv > 3,
           }
         })
@@ -174,7 +174,7 @@ export default {
         } else {
           this.options.areas = result
         }
-        this.options.areas = [...this.options.areas]
+        this.options.areas = [ ...this.options.areas ]
         // console.log(this.options.areas)
       })
     },
@@ -183,21 +183,21 @@ export default {
       if (!ids || ids.length <= 0) return
       await this.$ajax.all(
         this.$ajax.get({
-          url: this.$api.GET_PUBLIC_AREA_NEXT,
+          url   : this.$api.GET_PUBLIC_AREA_NEXT,
           params: {
             parentId: ids[0],
           },
           hideLoading: true,
         }),
         this.$ajax.get({
-          url: this.$api.GET_PUBLIC_AREA_NEXT,
+          url   : this.$api.GET_PUBLIC_AREA_NEXT,
           params: {
             parentId: ids[1],
           },
           hideLoading: true,
         }),
         this.$ajax.get({
-          url: this.$api.GET_PUBLIC_AREA_NEXT,
+          url   : this.$api.GET_PUBLIC_AREA_NEXT,
           params: {
             parentId: ids[2],
           },
@@ -207,7 +207,7 @@ export default {
         const lv2 = this.$com.confirm(res[0], 'data.content', [])
         const lv3 = this.$com.confirm(res[1], 'data.content', [])
         const lv4 = this.$com.confirm(res[2], 'data.content', [])
-        const result = [...this.options.areas]
+        const result = [ ...this.options.areas ]
         result.forEach(l1 => {
           if (l1.value == ids[0]) {
             const children = []
@@ -219,8 +219,8 @@ export default {
                     const children = []
                     l3.children = lv4.map(l3 => {
                       return {
-                        label: l3.areaName,
-                        value: l3.id,
+                        label : l3.areaName,
+                        value : l3.id,
                         isLeaf: l3.lv > 3,
                       }
                     })
@@ -229,10 +229,10 @@ export default {
                 })
                 l2.children = children.map(l2 => {
                   return {
-                    label: l2.areaName,
-                    value: l2.id,
-                    isLeaf: l2.lv > 3,
-                    children:l2.children
+                    label   : l2.areaName,
+                    value   : l2.id,
+                    isLeaf  : l2.lv > 3,
+                    children: l2.children
                   }
                 })
               }
@@ -240,9 +240,9 @@ export default {
             })
             l1.children = children.map(l1 => {
               return {
-                label: l1.areaName,
-                value: l1.id,
-                isLeaf: l1.lv > 3,
+                label   : l1.areaName,
+                value   : l1.id,
+                isLeaf  : l1.lv > 3,
                 children: l1.children,
               }
             })
@@ -265,7 +265,7 @@ export default {
       if (!this.simpleSearchForm) {
         this.getList()
       } else {
-        this.veterinaryForm.setFieldsValue({'area': []})
+        this.veterinaryForm.setFieldsValue({ 'area': [] })
         this.getList()
       }
     },
@@ -287,21 +287,21 @@ export default {
       // 将搜索条件拼接为一个对象
       let searchParams = Object.assign({},{
         // 兽医类型
-        type: !this.veterinaryForm.getFieldValue('type')?'3':this.veterinaryForm.getFieldValue('type'),
+        type      : !this.veterinaryForm.getFieldValue('type')?'3':this.veterinaryForm.getFieldValue('type'),
         // 文本搜索值
-        info: !this.veterinaryForm.getFieldValue('info')?'':this.veterinaryForm.getFieldValue('info'),
+        info      : !this.veterinaryForm.getFieldValue('info')?'':this.veterinaryForm.getFieldValue('info'),
         // 省
         provinceId: !provinceId ? '' : provinceId,
         // 市
-        cityId:!cityId ? '' : cityId,
+        cityId    : !cityId ? '' : cityId,
         // 县
-        countyId:!countyId ? '' : countyId,
+        countyId  : !countyId ? '' : countyId,
         // 街道
-        townId: !townId ? '' : townId,
+        townId    : !townId ? '' : townId,
       })
       // console.log(searchParams)
       await this.$ajax.get({
-        url: this.$api.GET_VETERINARYALL,
+        url   : this.$api.GET_VETERINARYALL,
         params: searchParams
       }).then(res => {
 
@@ -321,21 +321,22 @@ export default {
           searchParams,
           Object.assign({},this.searchForm,{
             // 兽医类型
-            type: !searchParams.type?'':searchParams.type,
+            type      : !searchParams.type?'':searchParams.type,
             // 文本搜索值
-            info: !searchParams.info?'':searchParams.info,
+            info      : !searchParams.info?'':searchParams.info,
             // 省
             provinceId: !searchParams.provinceId?'':searchParams.provinceId,
             // 市
-            cityId: !searchParams.cityId?'':searchParams.cityId,
+            cityId    : !searchParams.cityId?'':searchParams.cityId,
             // 县
-            countyId: !searchParams.countyId?'':searchParams.countyId,
+            countyId  : !searchParams.countyId?'':searchParams.countyId,
             // 街道
-            townId: !searchParams.townId?'':searchParams.townId,
+            townId    : !searchParams.townId?'':searchParams.townId,
           })
         )
       })
     },
+
     /**
      * 从vuex中或已存储的搜索条件，判断此条件是否为当前路由的 。如果是则使用
      */

@@ -60,27 +60,28 @@ export default {
   components: { cpdf },
   data() {
     return {
-      id:this.$route.params.id,
-      knowledgeDetails:{},
-      videoUrlList:[],
-      fileList:[],
-      ready:false
+      id              : this.$route.params.id,
+      knowledgeDetails: {},
+      videoUrlList    : [],
+      fileList        : [],
+      ready           : false
     }
   },
   mounted() {
     this.getDetail()
   },
-  computed:{
+  computed: {
   },
   methods: {
     goBackList(){
       let token = this.$cookie.get('token')
       if (token !=undefined && token !=null && 'string'==typeof token) {
-        this.$router.push({name:'/cms/knowledgePublish'})
+        this.$router.push({ name: '/cms/knowledgePublish' })
       }else{
-        this.$router.push({name:'/cms/knowledgeAnonymous'})
+        this.$router.push({ name: '/cms/knowledgeAnonymous' })
       }
     },
+
     /**
      * 获取详情
      */
@@ -95,7 +96,7 @@ export default {
             //为非匿名浏览，就需要token
             let token = this.$cookie.get('token')
             if (!token) { // 不满足非匿名浏览条件，先去登录
-              this.$router.push({name:'login'})
+              this.$router.push({ name: 'login' })
             }else{ // 满足条件，做数据整理展示
               this.getAttachments()
             }
@@ -110,6 +111,7 @@ export default {
         }
       })
     },
+
     /**
      * 整理知识文库中需要展示的附件内容
      */
@@ -121,8 +123,8 @@ export default {
         switch (attachments[i].type) {
         case '1'://附件
           this.fileList.push({
-            name:attachments[i].fileName,
-            path:attachments[i].filePath
+            name: attachments[i].fileName,
+            path: attachments[i].filePath
           })
           break
         case '2'://视频

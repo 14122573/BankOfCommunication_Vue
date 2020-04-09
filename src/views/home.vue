@@ -124,7 +124,7 @@ import PendingReview from '@/views/expertManagement/review/listNew'
 import DataService from '@/views/cms/dataService/dataService'
 
 export default {
-  mixins: [permission],
+  mixins    : [ permission ],
   components: {
     PendingReview,
     NoticePublish,

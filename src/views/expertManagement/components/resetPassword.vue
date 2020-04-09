@@ -32,16 +32,16 @@ export default {
   components: {
     testStrong
   },
-  props: ['resetPwdShow'],
+  props: [ 'resetPwdShow' ],
   beforeCreate() {
     this.resetData = this.$form.createForm(this)
   },
   data() {
     return {
       passwordStrength: false,
-      pswType: 'text',
-      isShow: false,
-      colSpe: {
+      pswType         : 'text',
+      isShow          : false,
+      colSpe          : {
         labelCol: {
           span: 6
         },
@@ -52,20 +52,20 @@ export default {
       rules: {
         newPwd: {
           validateTrigger: 'blur',
-          rules: [{
-            required: true,
+          rules          : [ {
+            required : true,
             validator: this.validateToNextPassword,
-          }]
+          } ]
         },
         rePassword: {
           validateTrigger: 'blur',
-          rules: [{
-            required: true,
+          rules          : [ {
+            required  : true,
             whitespace: true,
-            message: '请再次输入新密码!'
+            message   : '请再次输入新密码!'
           }, {
             validator: this.compareToFirstPassword,
-          }]
+          } ]
         }
       }
     }
@@ -97,7 +97,7 @@ export default {
           this.passwordStrength = false
         } else {
           if (value && this.confirmDirty) {
-            form.validateFields(['rePassword'], {
+            form.validateFields([ 'rePassword' ], {
               force: true
             })
           }

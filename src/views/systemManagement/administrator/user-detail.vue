@@ -31,22 +31,22 @@
 </template>
 <script>
 export default {
-  props:{
-    id:{
-      type:String,
-      default:null
+  props: {
+    id: {
+      type   : String,
+      default: null
     }
   },
   data(){
     return{
-      detail:{},
+      detail: {},
     }
   },
-  methods:{
+  methods: {
     getDetail(){
       if(this.id !== null){
         this.$ajax.get({
-          url:this.$api.USER_ACCOUNT_DETAIL.replace('{id}',this.id)
+          url: this.$api.USER_ACCOUNT_DETAIL.replace('{id}',this.id)
         }).then((res)=>{
           if(res.code === '200'){
             let data = this.$com.confirm(res, 'data.content', {})
@@ -61,7 +61,7 @@ export default {
   mounted(){
     this.getDetail()
   },
-  filters:{
+  filters: {
     txt(value){
       if(value !== null && value !== ''){
         return value

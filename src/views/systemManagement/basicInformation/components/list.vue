@@ -37,11 +37,11 @@ import CreatBase from './add'
 import EditBase from './edit'
 import DataOperatorInList from '@/views/systemManagement/components/dataOperatorInList'
 export default {
-  name:'ExpertListByType',
+  name : 'ExpertListByType',
   props: {
-    baseType:{
-      type:String,
-      required:true
+    baseType: {
+      type    : String,
+      required: true
     }
   },
   components: {
@@ -50,17 +50,17 @@ export default {
   },
   data() {
     return {
-      apis:{
-        list:'',
-        delete:'',
+      apis: {
+        list  : '',
+        delete: '',
       },
-      isReady:false,
-      list:[],
-      deleteData:null,
-      editData:null,
-      isShow:{
-        createModal:false,
-        editModal:false
+      isReady   : false,
+      list      : [],
+      deleteData: null,
+      editData  : null,
+      isShow    : {
+        createModal: false,
+        editModal  : false
       }
     }
   },
@@ -72,7 +72,7 @@ export default {
   mounted(){
     this.preparate()
   },
-  methods:{
+  methods: {
     preparate(){
       switch(this.baseType){
       case 'breed':
@@ -107,7 +107,7 @@ export default {
     //   查询列表
     getList(){
       this.$ajax.get({
-        url:this.apis.list
+        url: this.apis.list
       }).then(res=>{
         if(res.code === '200'){
           this.list= this.$com.confirm(res, 'data.content', [])
@@ -123,10 +123,10 @@ export default {
         let vm = this
         this.deleteData = item
         this.$modal.confirm({
-          title: '是否确认删除此数据？',
-          content: '此操作不可撤销',
-          okText: '确认',
-          okType: 'danger',
+          title     : '是否确认删除此数据？',
+          content   : '此操作不可撤销',
+          okText    : '确认',
+          okType    : 'danger',
           cancelText: '取消',
           onOk() {
             vm.confirmDelete()

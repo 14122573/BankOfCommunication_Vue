@@ -6,10 +6,10 @@
 
 <script>
 export default {
-  name: 'ChangePhone',
+  name : 'ChangePhone',
   props: {
     value: {
-      type: Boolean,
+      type   : Boolean,
       default: false,
     },
   },
@@ -35,36 +35,36 @@ export default {
       }
     }
     return {
-      disableBtn: true,
+      disableBtn  : true,
       disableInput: true,
-      timer: null,
-      btnTxt: '获取验证码',
-      layout: [
+      timer       : null,
+      btnTxt      : '获取验证码',
+      layout      : [
         {
           newPhone: {
-            label: '新手机号',
-            type: 'input',
-            width: 24,
+            label   : '新手机号',
+            type    : 'input',
+            width   : 24,
             validate: {
-              rules: [{required: true, validator: phoneValidator}]
+              rules: [ { required: true, validator: phoneValidator } ]
             }
           },
           phoneCode: {
-            label: '验证码',
-            width: 24,
+            label   : '验证码',
+            width   : 24,
             validate: {
-              rules: [{required: true, validator: codeValidator}],
+              rules: [ { required: true, validator: codeValidator } ],
             },
-            render:(h) => {
+            render: (h) => {
               return h('a-row', [
                 h('a-input', {
                   props: {
                     placeholder: '验证码',
-                    disabled: this.disableInput,
+                    disabled   : this.disableInput,
                   },
                   on: {
-                    change:({target}) => {
-                      const {value} = target
+                    change: ({ target }) => {
+                      const { value } = target
                       this.model.phoneCode = value
                     }
                   },
@@ -114,14 +114,14 @@ export default {
     handleSubmit() {
       this.$refs.form.validate(err => {
         if (err) return
-        const {newPhone, phoneCode} = this.model
+        const { newPhone, phoneCode } = this.model
         this.$ajax.put({
           url: this.$api.PUT_USER_PHONE.replace('{phone}', newPhone).replace('{code}', phoneCode)
         }).then(res => {
           this.$modal.success({
-            title: '成功',
+            title  : '成功',
             content: '修改成功',
-            okText: '确认',
+            okText : '确认',
           })
           this.handleCancel()
           this.$emit('success')

@@ -19,14 +19,14 @@
 <script>
 import UserDetail from './user-detail'
 export default {
-  name: 'pendingPermissions-view',
-  components:{UserDetail},
-  methods:{
+  name      : 'pendingPermissions-view',
+  components: { UserDetail },
+  methods   : {
     toDistribution(){
       this.$router.push({
-        name:'/systemManagement/administrator/distribution',
-        query:{
-          id:this.$route.query.id
+        name : '/systemManagement/administrator/distribution',
+        query: {
+          id: this.$route.query.id
         }
       })
     }

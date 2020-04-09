@@ -58,7 +58,7 @@
 import CMSDataStatus from '@/views/cms/components/cmsStatus'
 import DataOperatorInList from '@/views/systemManagement/components/dataOperatorInList'
 export default {
-  name: 'VoteList',
+  name      : 'VoteList',
   components: {
     CMSDataStatus,
     DataOperatorInList,
@@ -66,45 +66,45 @@ export default {
   data() {
     return {
       expand: false,
-      model: {
-        status: ['0','1','2','3'],
+      model : {
+        status: [ '0','1','2','3' ],
       },
-      total: 0,
+      total      : 0,
       currentPage: 1,
-      pageSize: 10,
-      columns: [
+      pageSize   : 10,
+      columns    : [
         {
-          title: '名称',
+          title    : '名称',
           dataIndex: 'name',
-          align: 'left',
-          width: 300,
+          align    : 'left',
+          width    : 300,
         },
         {
-          title: '投票开始日期',
-          type: 'date',
+          title    : '投票开始日期',
+          type     : 'date',
           dataIndex: 'startTime',
-          align: 'center',
+          align    : 'center',
         },
         {
-          title: '投票结束日期',
-          type: 'date',
+          title    : '投票结束日期',
+          type     : 'date',
           dataIndex: 'endTime',
-          align: 'center',
+          align    : 'center',
         },
         {
-          title: '发布状态',
-          dataIndex: 'status',
+          title      : '发布状态',
+          dataIndex  : 'status',
           scopedSlots: { customRender: 'status' }
         },
         {
-          title: '操作人',
-          dataIndex: 'operator',
+          title      : '操作人',
+          dataIndex  : 'operator',
           scopedSlots: { customRender: 'operator' }
         },
         {
-          title: '操作',
-          dataIndex: 'actions',
-          width: 200,
+          title      : '操作',
+          dataIndex  : 'actions',
+          width      : 200,
           scopedSlots: { customRender: 'actions' }
         },
       ],
@@ -119,34 +119,34 @@ export default {
       return [
         {
           name: {
-            label: '名称',
-            type: 'input',
-            width: this.expand ? 12 : 8,
-            offset: this.expand ? 0 : 10,
+            label      : '名称',
+            type       : 'input',
+            width      : this.expand ? 12 : 8,
+            offset     : this.expand ? 0 : 10,
             placeholder: '请输入投票名称',
           },
           date: {
-            label: '投票时间',
-            type: 'daterange',
-            width: 12,
+            label : '投票时间',
+            type  : 'daterange',
+            width : 12,
             hidden: !this.expand,
           },
           status: {
-            label: '发布状态',
-            type: 'checkbox',
-            width: 18,
+            label  : '发布状态',
+            type   : 'checkbox',
+            width  : 18,
             options: [
-              {label: '草稿', value: '0'},
-              {label: '已发布', value: '1'},
-              {label: '结束', value: '2'},
-              {label: '已结果公示', value: '3'},
+              { label: '草稿', value: '0' },
+              { label: '已发布', value: '1' },
+              { label: '结束', value: '2' },
+              { label: '已结果公示', value: '3' },
             ],
             hidden: !this.expand,
           },
           btns: {
-            width: 6,
+            width : 6,
             custom: true,
-            render:(h) => {
+            render: (h) => {
               return h('div', {
                 style: {
                   paddingTop: '4px',
@@ -154,7 +154,7 @@ export default {
               }, [
                 h('a-button', {
                   props: {
-                    type: 'primary',
+                    type : 'primary',
                     ghost: true,
                   },
                   style: {
@@ -194,49 +194,49 @@ export default {
     handleExpand() {
       this.expand = !this.expand
     },
-    deleteVote({id}) {
+    deleteVote({ id }) {
       this.$modal.confirm({
-        title: '删除投票',
+        title  : '删除投票',
         content: '是否确认删除该草稿投票信息？删除后将不会出现在列表中',
-        okType: 'danger',
-        onOk: () => {
+        okType : 'danger',
+        onOk   : () => {
           this.$ajax.delete({
             url: this.$api.DELETE_VOTE.replace('{id}', id)
           }).then(() => {
             this.$modal.success({
-              title: '成功',
+              title  : '成功',
               content: '删除成功',
-              okText: '确认',
+              okText : '确认',
             })
             this.getList()
           })
         },
       })
     },
-    changeStatus({id}, status) {
+    changeStatus({ id }, status) {
       let config = {
-        title: '发布投票',
+        title  : '发布投票',
         content: '是否确认发布投票？',
-        msg: '发布成功',
+        msg    : '发布成功',
       }
       if (status == '2') {
         config = {
-          title: '关闭投票',
+          title  : '关闭投票',
           content: '是否确认关闭投票？关闭后，投票将被置为“结束”不能再进行用户投票',
-          msg: '关闭成功',
+          msg    : '关闭成功',
         }
       }
       this.$modal.confirm({
-        title: config.title,
+        title  : config.title,
         content: config.content,
-        onOk: () => {
+        onOk   : () => {
           this.$ajax.put({
             url: this.$api.PUT_VOTE_STATUS.replace('{id}', id).replace('{status}', status)
           }).then(() => {
             this.$modal.success({
-              title: '成功',
+              title  : '成功',
               content: config.msg,
-              okText: '确认',
+              okText : '确认',
             })
             this.getList()
           })
@@ -249,16 +249,16 @@ export default {
       }
       return Math.floor((option / total) * 100)
     },
-    publicResult({id, name, description, startTime, endTime}) {
+    publicResult({ id, name, description, startTime, endTime }) {
       const config = {
-        title: '公布投票结果',
+        title  : '公布投票结果',
         content: '是否确认公布投票结果？',
-        msg: '公布成功',
+        msg    : '公布成功',
       }
       this.$modal.confirm({
-        title: config.title,
+        title  : config.title,
         content: config.content,
-        onOk: () => {
+        onOk   : () => {
           this.$ajax.get({
             url: this.$api.GET_VOTE_RESULT.replace('{id}', id),
           }).then(res => {
@@ -288,22 +288,22 @@ export default {
                 </div>
               `
               this.$ajax.post({
-                url: this.$api.POST_CMS_NOTICE,
+                url   : this.$api.POST_CMS_NOTICE,
                 params: {
-                  title: name,
+                  title : name,
                   startTime,
                   endTime,
                   content,
-                  isTop: '0',
+                  isTop : '0',
                   isVote: '1',
                   status: '1',
                   voteId: id,
                 }
               }).then(() => {
                 this.$modal.success({
-                  title: '成功',
+                  title  : '成功',
                   content: config.msg,
-                  okText: '确认',
+                  okText : '确认',
                 })
                 this.getList()
               })
@@ -313,14 +313,14 @@ export default {
       })
     },
     getList() {
-      const {name = null, status, date = []} = this.model
+      const { name = null, status, date = [] } = this.model
       const params = {
-        name_l: name,
-        status_in: status.join(','),
+        name_l      : name,
+        status_in   : status.join(','),
         startTime_gt: date[0] || null,
-        endTime_lt: date[1] || null,
-        pageNo: this.currentPage,
-        pageSize: this.pageSize,
+        endTime_lt  : date[1] || null,
+        pageNo      : this.currentPage,
+        pageSize    : this.pageSize,
       }
       this.$ajax.get({
         url: this.$api.GET_VOTE_LIST,
@@ -331,7 +331,7 @@ export default {
       })
     },
     routerTo(name, data = null) {
-      const config = {name: name}
+      const config = { name: name }
       if (data) {
         config.query = {
           id: data.id
@@ -341,12 +341,12 @@ export default {
     },
     handleReset() {
       this.model = {
-        status: ['0','1','2','3'],
+        status: [ '0','1','2','3' ],
       }
       this.currentPage = 1
       this.getList()
     },
-    handlePageChange({current}) {
+    handlePageChange({ current }) {
       this.currentPage = current
       this.getList()
     },

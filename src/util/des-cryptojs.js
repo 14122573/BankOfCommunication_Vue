@@ -22,8 +22,8 @@ export const decryptDes = (message) => {
     },
     keyHex,
     {
-      iv: ivHex,
-      mode: cryptoJs.mode.CBC,
+      iv     : ivHex,
+      mode   : cryptoJs.mode.CBC,
       padding: cryptoJs.pad.Pkcs7
     }
   )

@@ -60,20 +60,20 @@ export default {
   data() {
     return {
       searchForm: {
-        roleName_l:''
+        roleName_l: ''
       },
-      roleList:[],
-      deleteData:{},
-      params:{
-        pageNo:1,
-        pageSize:20,
-        createTime_desc:'1'
+      roleList  : [],
+      deleteData: {},
+      params    : {
+        pageNo         : 1,
+        pageSize       : 20,
+        createTime_desc: '1'
       },
-      total:0,
-      groups:require('@/assets/images/group.png'),
+      total : 0,
+      groups: require('@/assets/images/group.png'),
     }
   },
-  methods:{
+  methods: {
     // 查询按钮
     search(){
       this.params.pageNo=1
@@ -92,8 +92,8 @@ export default {
     //   查询列表
     getList(){
       this.$ajax.get({
-        url:this.$api.GET_ROLE_LIST,
-        params:Object.assign(this.searchForm,this.params)
+        url   : this.$api.GET_ROLE_LIST,
+        params: Object.assign(this.searchForm,this.params)
       }).then(res=>{
         if(res.code === '200'){
           this.total=res.data.totalRows
@@ -106,7 +106,7 @@ export default {
           this.$route.name,
           this.params,
           {
-            'roleName_l':!this.searchForm.roleName_l ? '':this.searchForm.roleName_l
+            'roleName_l': !this.searchForm.roleName_l ? '':this.searchForm.roleName_l
           }
         )
 
@@ -114,7 +114,7 @@ export default {
     },
     addBtn(){
       this.$router.push({
-        name:'/systemManagement/role/create',
+        name: '/systemManagement/role/create',
       })
     },
     //   删除按钮
@@ -122,16 +122,16 @@ export default {
       let vm = this
       if(item.userCount !== null && item.userCount !== '' && item.userCount != 0){
         this.$modal.warning({
-          title: '无法删除此角色',
+          title  : '无法删除此角色',
           content: '此角色还有员工未被分配，请先处理该角色下所有员工的调岗操作'
         })
       }else{
         this.deleteData = item
         this.$modal.confirm({
-          title: '是否确认删除此角色？',
-          content: '此操作不可撤销',
-          okText: '确认',
-          okType: 'danger',
+          title     : '是否确认删除此角色？',
+          content   : '此操作不可撤销',
+          okText    : '确认',
+          okType    : 'danger',
           cancelText: '取消',
           onOk() {
             vm.handleOkDelete()
@@ -142,23 +142,24 @@ export default {
     // 修改按钮
     edit(item){
       this.$router.push({
-        name:'/systemManagement/role/edit',
-        query:{
-          type:'edit',
-          id:item.id,
+        name : '/systemManagement/role/edit',
+        query: {
+          type: 'edit',
+          id  : item.id,
         }
       })
     },
     // 查看按钮
     view(item){
       this.$router.push({
-        name:'/systemManagement/role/view',
-        query:{
-          type:'view',
-          id:item.id,
+        name : '/systemManagement/role/view',
+        query: {
+          type: 'view',
+          id  : item.id,
         }
       })
     },
+
     /**
      * 从vuex中或已存储的搜索条件，判断此条件是否为当前路由的 。如果是则使用
      */
@@ -180,7 +181,7 @@ export default {
     },
     handleOkDelete(){
       this.$ajax.delete({
-        url:this.$api.DELETE_CHARACTER.replace('{id}',this.deleteData.id),
+        url: this.$api.DELETE_CHARACTER.replace('{id}',this.deleteData.id),
       }).then(res=>{
         if(res.code === '200'){
           this.$message.success('删除成功')

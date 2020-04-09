@@ -24,14 +24,14 @@ const reponseCodeHandler = (res) => {
 
     } else if (code == '911') {
       const params = {
-        grant_type: 'refresh_token',
-        client_id: 'house',
+        grant_type   : 'refresh_token',
+        client_id    : 'house',
         client_secret: 'house',
-        refreshToken: Cookie.get('refresh_token'),
+        refreshToken : Cookie.get('refresh_token'),
       }
       request({
-        method: 'POST',
-        url: api.REFRESH_TOKEN_POST,
+        method     : 'POST',
+        url        : api.REFRESH_TOKEN_POST,
         params,
         contentType: 'application/x-www-form-urlencoded;charset=UTF-8',
       }).then(res => {
@@ -49,22 +49,22 @@ const reponseCodeHandler = (res) => {
     } else if (code == '429') {//同一对外IP，2s内请求超过100次
       router.push({ name: 'upperLimitErr' })
     }else if (code == '710' || code == '720') {
-      if(Common.oneOf(currentMethod.toLocaleLowerCase(),['post','put','delete'])){
+      if(Common.oneOf(currentMethod.toLocaleLowerCase(),[ 'post','put','delete' ])){
         Modal.error({
-          title: '提交错误',
-          content: !res.data.msg?'':res.data.msg,
-          okText: '确认',
+          title     : '提交错误',
+          content   : !res.data.msg?'':res.data.msg,
+          okText    : '确认',
           cancelText: '取消',
         })
       }
     }else if (code == '912') {
       //在refresh token 里的返回里已做处理，这里不做额外提示
     }else{
-      if(Common.oneOf(currentMethod.toLocaleLowerCase(),['post','put','delete'])){
+      if(Common.oneOf(currentMethod.toLocaleLowerCase(),[ 'post','put','delete' ])){
         Modal.error({
-          title: '提交错误',
-          content: '系统异常',
-          okText: '确认',
+          title     : '提交错误',
+          content   : '系统异常',
+          okText    : '确认',
           cancelText: '取消',
         })
       }
@@ -73,8 +73,8 @@ const reponseCodeHandler = (res) => {
 }
 
 const showErrPage= (api,routername,code)=>{
-  if(Common.oneOf(routername,['login','register','bindPhone','bindTemporarayAccount'])){
-    if(!Common.oneOf(api,['/service-release/release/public/news'])){
+  if(Common.oneOf(routername,[ 'login','register','bindPhone','bindTemporarayAccount' ])){
+    if(!Common.oneOf(api,[ '/service-release/release/public/news' ])){
       router.push({
         name: 'outerNetworkerr'
       })
@@ -98,6 +98,7 @@ const errorHandler = (err) => {
     case 404: // 网络请求不存在,跳转统一报错页面
       showErrPage(currentApi,currentRouterName)
       break
+
     /** 强说home页的请求报500就跳过去了，无法进行下一步操作，故此先注释掉 */
     // case 500:
     //   const code = err.response.data && err.response.data.code
@@ -107,6 +108,7 @@ const errorHandler = (err) => {
       showErrPage(currentApi,currentRouterName)
       break
     }
+
     /**超时了就跳转了且无法进行下一步操作，故此先注释掉 */
   // } else if (err.toString().indexOf('timeout') != -1) { // 统一到网络异常页面
   //   showErrPage(currentApi,currentRouterName)
@@ -165,7 +167,7 @@ const request = ({ method, url, params, contentType = 'application/json;charset=
     url,
     headers: {
       'X-Requested-With': 'XMLHttpRequest',
-      'Content-Type': contentType,
+      'Content-Type'    : contentType,
     },
     cancelToken: new CancelToken((c) => {
       cancelRequest = c

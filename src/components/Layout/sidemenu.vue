@@ -42,38 +42,38 @@
 </template>
 
 <script>
-import {navigateToUrl} from 'single-spa'
+import { navigateToUrl } from 'single-spa'
 import common from '@/util/common'
 export default {
-  name: 'SideMenu',
+  name : 'SideMenu',
   props: {
-    menuMode:{
-      type: String,
+    menuMode: {
+      type    : String,
       required: true,
       validator (value) {
-        return common.oneOf(value, ['inline', 'vertical'])
+        return common.oneOf(value, [ 'inline', 'vertical' ])
       }
     }
   },
   data(){
     return{
-      userInfo:null,
-      openKeys: [],
+      userInfo           : null,
+      openKeys           : [],
       defaultSelectedKeys: [],
-      defaultOpenKeys: [],
-      micSysConfigs:[],
-      oldSysUrls:{}
+      defaultOpenKeys    : [],
+      micSysConfigs      : [],
+      oldSysUrls         : {}
     }
   },
   created() {
-    const {defaultSelectedKeys, defaultOpenKeys} = this.$store.state.defaultMenuStatus
+    const { defaultSelectedKeys, defaultOpenKeys } = this.$store.state.defaultMenuStatus
     this.defaultSelectedKeys = defaultSelectedKeys || []
     this.defaultOpenKeys = (defaultOpenKeys.length <= 0 || !defaultOpenKeys[0]) ? [] : defaultOpenKeys
 
     // 获取目前接入portal的所有新系统、老系统配置
     if (this.$cookie.get('token')) {
       this.$ajax.get({
-        url:this.$api.SYSTEM_LIST_ALL_GET
+        url: this.$api.SYSTEM_LIST_ALL_GET
       }).then(res=>{
         if(res.code === '200'){
           this.micSysConfigs= this.$com.confirm(res, 'data.content', [])
@@ -124,12 +124,13 @@ export default {
       }
       return redirctUrl==''?false:redirctUrl
     },
+
     /**
      * 根据菜单打开方式，做不同动作
      * @param {Object} menu 菜单的route对象
      *
      */
-    navigateTo({item, key},menu) {
+    navigateTo({ item, key },menu) {
       if(menu.meta){
         let openMode = menu.meta.openMode?menu.meta.openMode:'normal'
         switch (openMode) {
@@ -140,28 +141,28 @@ export default {
             let href = this.getRedirctUrl(key)
             if(href) {
               this.$router.push({
-                name: menu.name,
+                name  : menu.name,
                 params: {
                   sysname: menu.meta.title
-                }})
+                } })
               window.open(href, '_blank')
             }else{
-              this.$router.push({name: 'noautherr'})
+              this.$router.push({ name: 'noautherr' })
             }
           }
           break
         case 'normal':
-          this.$router.push({name: menu.name})
+          this.$router.push({ name: menu.name })
           break
         case 'spa':
           navigateToUrl(key)
           break
         default:
-          this.$router.push({name: menu.name})
+          this.$router.push({ name: menu.name })
           break
         }
       }else{
-        this.$router.push({name: menu.name})
+        this.$router.push({ name: menu.name })
       }
     },
     // 点击菜单，收起其他展开的所有菜单
@@ -171,9 +172,10 @@ export default {
       if (menuKeys.indexOf(latestOpenKey) === -1) {
         this.defaultOpenKeys = openKeys
       } else {
-        this.defaultOpenKeys = latestOpenKey ? [latestOpenKey] : []
+        this.defaultOpenKeys = latestOpenKey ? [ latestOpenKey ] : []
       }
     },
+
     /**
      * 遍历左侧菜单,根据目标跳转路由的route.name找到目标路由在左侧菜单的父级
      * 通常此方法解决的是 专家库-》专家评审 跳转到子项目
@@ -199,8 +201,10 @@ export default {
         }
       }
       return {
-        openKeys :openKeys, // 当前需要展开的一级菜单的route.name
-        selectedKeys :selectedKeys // 当前需要默认选中的二级菜单的route.name
+        // 当前需要展开的一级菜单的route.name
+        openKeys    : openKeys,
+        // 当前需要默认选中的二级菜单的route.name
+        selectedKeys: selectedKeys
       }
     }
   },
@@ -208,14 +212,16 @@ export default {
     $route(to) {
       if (!to.name) return
       // if (this.defaultSelectedKeys.indexOf(to.name) < 0) {
-      if (to.name.indexOf(this.defaultSelectedKeys[0]) < 0){ // 当前路由不为选定路由或选定路由的子集，则清空设置
+      if (to.name.indexOf(this.defaultSelectedKeys[0]) < 0){
+        // 当前路由不为选定路由或选定路由的子集，则清空设置
         // 遍历左侧菜单，找到to路由的父级
         let defaultMenuKeys = this.findDefaultMenuKeys(to.name)
         //没有找到，清空设置
         if(''==defaultMenuKeys.openKeys){
           this.defaultSelectedKeys = []
           this.defaultOpenKeys = []
-        }else{//找到了，定位左侧菜单，并存储左侧菜单展开设置
+        }else{
+          //找到了，定位左侧菜单，并存储左侧菜单展开设置
           this.defaultOpenKeys = []
           this.defaultOpenKeys.push(defaultMenuKeys.openKeys)
           this.defaultSelectedKeys = []
@@ -223,12 +229,13 @@ export default {
         }
         this.$store.commit('SET_DEFAULTMENU_STATUS', {
           defaultSelectedKeys: this.defaultSelectedKeys,
-          defaultOpenKeys: this.defaultOpenKeys,
+          defaultOpenKeys    : this.defaultOpenKeys,
         })
-      }else{ // 否则就保存现有的菜单展开设置
+      }else{
+        // 否则就保存现有的菜单展开设置
         this.$store.commit('SET_DEFAULTMENU_STATUS', {
           defaultSelectedKeys: this.defaultSelectedKeys,
-          defaultOpenKeys: this.defaultOpenKeys,
+          defaultOpenKeys    : this.defaultOpenKeys,
         })
       }
     },

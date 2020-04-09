@@ -100,14 +100,14 @@
 <script>
 import Vue from 'vue'
 export default {
-  name: 'ActiveFormItem',
+  name : 'ActiveFormItem',
   props: {
     entry: {
-      type: String,
+      type    : String,
       required: true,
     },
     item: {
-      type: Object,
+      type    : Object,
       required: true,
     },
     model: {
@@ -125,7 +125,7 @@ export default {
   },
   data() {
     return {
-      curData: null,
+      curData  : null,
       component: null,
     }
   },
@@ -133,7 +133,7 @@ export default {
     if (this.item.render) {
       this.component = Vue.component(this.entry, {
         render: this.item.render,
-        props: this.item.props,
+        props : this.item.props,
       })
     }
   },
@@ -163,12 +163,12 @@ export default {
     validate() {
       if (this.item.type == 'checkbox') {
         // 如果是CheckBox的话初始化要是个数组
-        return [this.entry, Object.assign(this.item.validate || {}, {initialValue: []})]
+        return [ this.entry, Object.assign(this.item.validate || {}, { initialValue: [] }) ]
       }
       if (this.item.type == 'upload') {
-        return [this.entry, Object.assign(this.item.validate || {}, {valuePropName: 'fileList'  , getValueFromEvent: this.normFile})]
+        return [ this.entry, Object.assign(this.item.validate || {}, { valuePropName: 'fileList'  , getValueFromEvent: this.normFile }) ]
       }
-      return [this.entry, this.item.validate || {}]
+      return [ this.entry, this.item.validate || {} ]
     },
     // 默认placeholder
     placeholder() {
@@ -180,7 +180,7 @@ export default {
         return '请输入'
       }
       if (item.type == 'daterange') {
-        return ['开始日期', '结束日期']
+        return [ '开始日期', '结束日期' ]
       }
       return '请选择'
     },
@@ -195,7 +195,7 @@ export default {
       return {
         style: {
           display: 'inline-block',
-          width: `calc(90% - ${this.labelWidth}px)`
+          width  : `calc(90% - ${this.labelWidth}px)`
         }
       }
     }

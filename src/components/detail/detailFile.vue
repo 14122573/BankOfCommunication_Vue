@@ -28,34 +28,36 @@
 </template>
 <script>
 export default {
-  name: 'DetailFiles',
+  name : 'DetailFiles',
   props: {
-    labelSpan:{
-      type: Number,
-      default:10
+    labelSpan: {
+      type   : Number,
+      default: 10
     },
-    textSpan:{
-      type: Number,
-      default:14
+    textSpan: {
+      type   : Number,
+      default: 14
     },
-    label:{
-      type: String,
+    label: {
+      type   : String,
       default: null,
     },
+
     /**
      * 需要展示的文件列表
      * [{name:文件名, url:文件链接}]
      */
-    files:{
+    files: {
       type: Array,
       default() {
         return []
       }
     },
+
     /**
      * 需要展示的网络视频列表
      */
-    file:{
+    file: {
       type: Array,
       default() {
         return []
@@ -64,14 +66,14 @@ export default {
   },
   data() {
     return {
-      fileList:[],
-      netList:[],
-      visibleOrgPic:false,
-      orgPic:{
-        'url':'',
-        'name':''
+      fileList     : [],
+      netList      : [],
+      visibleOrgPic: false,
+      orgPic       : {
+        'url' : '',
+        'name': ''
       },
-      orgPicUrl:''
+      orgPicUrl: ''
     }
   },
   computed: {
@@ -80,19 +82,19 @@ export default {
     if(Array.isArray(this.files)){
       for(let i=0;i<this.files.length;i++){
         this.fileList.push({
-          'name':this.files[i].name,
-          'fileType':this.getFileType(this.files[i].name),
+          'name'    : this.files[i].name,
+          'fileType': this.getFileType(this.files[i].name),
           // 'uid':this.files[i].uid,
-          'url':this.files[i].url,
+          'url'     : this.files[i].url,
         })
       }
     }
     if(Array.isArray(this.file)){
       for(let i=0;i<this.file.length;i++){
         this.netList.push({
-          'name':this.file[i],
-          'fileType':'',
-          'url':this.file[i],
+          'name'    : this.file[i],
+          'fileType': '',
+          'url'     : this.file[i],
         })
       }
     }
@@ -113,10 +115,11 @@ export default {
     handleOk(){
       this.visibleOrgPic = false
       this.orgPic = {
-        'url':'',
-        'name':''
+        'url' : '',
+        'name': ''
       }
     },
+
     /**
      * 获取文件后缀名，判别文件为图片（pic）或文件（file）
      * @param {String} name
@@ -128,9 +131,9 @@ export default {
       if(arr.length>0){
         let len = arr.length
         let suffix = arr[len-1].toLowerCase()
-        if(this.$com.oneOf(suffix,['jpeg','jpg','gif','png'])){
+        if(this.$com.oneOf(suffix,[ 'jpeg','jpg','gif','png' ])){
           return 'pic'
-        }else if(this.$com.oneOf(suffix,['pdf','txt','doc','docx','xlsx','xls','xlsm','ppt','pptx'])){
+        }else if(this.$com.oneOf(suffix,[ 'pdf','txt','doc','docx','xlsx','xls','xlsm','ppt','pptx' ])){
           return 'file'
         }else{
           return ''

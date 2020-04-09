@@ -11,7 +11,7 @@ if(!store.state.micSystemResourceConfig){
   const newInstance = axios.create({
     baseURL: '',
     timeout: 5000,
-    headers: {'Content-type': 'multipart/form-data'}
+    headers: { 'Content-type': 'multipart/form-data' }
   })
 
   newInstance.get(API.CONFIGS_MICSYSTEMS_LIST).then(res => {

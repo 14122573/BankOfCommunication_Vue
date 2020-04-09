@@ -6,10 +6,10 @@
 
 <script>
 export default {
-  name: 'Loader',
+  name : 'Loader',
   props: {
     msg: {
-      type: String,
+      type   : String,
       default: '加载中...',
     }
   }

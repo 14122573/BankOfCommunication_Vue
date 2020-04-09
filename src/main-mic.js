@@ -1,5 +1,5 @@
 import 'babel-polyfill'
-import {registerApplication, start} from 'single-spa'
+import { registerApplication, start } from 'single-spa'
 import axios from 'axios'
 import API from '@/server/api'
 import Common from '@/util/common'
@@ -22,7 +22,7 @@ import store from './store'
       const newInstance = axios.create({
         baseURL: '',
         timeout: 5000,
-        headers: {'Content-type': 'multipart/form-data'}
+        headers: { 'Content-type': 'multipart/form-data' }
       })
       newInstance.get(API.CONFIGS_MICSYSTEMS_LIST).then(res => {
         if(res.status == 200){
@@ -34,15 +34,15 @@ import store from './store'
 
           // 当页面加载好了，有了#content元素后才加载子项目，避免刷新后空白的问题
           let progress = 0
-          store.commit('SET_LOADING_PROGRESS', {progress, len: MicSystemsList.length})
+          store.commit('SET_LOADING_PROGRESS', { progress, len: MicSystemsList.length })
           // 循环已接入子系统配置
           for(let i=0;i<MicSystemsList.length;i++){
             // 读取子项目配置
             Promise.resolve(loadResource(MicSystemsList[i].baseUrl)).then(() => {
               registerApplication(MicSystemsList[i].resourceName, () => Promise.resolve(window[MicSystemsList[i].micId]),  pathPrefix(MicSystemsList[i].pathPrefix))
-              store.commit('SET_LOADING_PROGRESS', {progress: progress += 1, len: MicSystemsList.length})
+              store.commit('SET_LOADING_PROGRESS', { progress: progress += 1, len: MicSystemsList.length })
             }).catch(() => {
-              store.commit('SET_LOADING_PROGRESS', {progress: progress += 1, len: MicSystemsList.length})
+              store.commit('SET_LOADING_PROGRESS', { progress: progress += 1, len: MicSystemsList.length })
             })
           }
         }
@@ -51,15 +51,15 @@ import store from './store'
       MicSystemsList = micSystemRecourceConfig[process.env.NODE_ENV=='development'?'sit':process.env.NODE_ENV]
       // 当页面加载好了，有了#content元素后才加载子项目，避免刷新后空白的问题
       let progress = 0
-      store.commit('SET_LOADING_PROGRESS', {progress, len: MicSystemsList.length})
+      store.commit('SET_LOADING_PROGRESS', { progress, len: MicSystemsList.length })
       // 循环已接入子系统配置
       for(let i=0;i<MicSystemsList.length;i++){
         // 读取子项目配置
         Promise.resolve(loadResource(MicSystemsList[i].baseUrl)).then(() => {
           registerApplication(MicSystemsList[i].resourceName, () => Promise.resolve(window[MicSystemsList[i].micId]),  pathPrefix(MicSystemsList[i].pathPrefix))
-          store.commit('SET_LOADING_PROGRESS', {progress: progress += 1, len: MicSystemsList.length})
+          store.commit('SET_LOADING_PROGRESS', { progress: progress += 1, len: MicSystemsList.length })
         }).catch(() => {
-          store.commit('SET_LOADING_PROGRESS', {progress: progress += 1, len: MicSystemsList.length})
+          store.commit('SET_LOADING_PROGRESS', { progress: progress += 1, len: MicSystemsList.length })
         })
       }
     }

@@ -37,14 +37,14 @@
 import testStrong from '@/components/testPwd'
 import { encryptDes } from '@/util/des-cryptojs'
 export default {
-  name:'changePassword',
+  name      : 'changePassword',
   components: {
     testStrong
   },
   props: {
-    resetPwdShow:{
-      type:Boolean,
-      required:true
+    resetPwdShow: {
+      type    : Boolean,
+      required: true
     }
   },
   beforeCreate() {
@@ -53,9 +53,9 @@ export default {
   data() {
     return {
       passwordStrength: false,
-      pswType: 'text',
-      isShow: false,
-      colSpe: {
+      pswType         : 'text',
+      isShow          : false,
+      colSpe          : {
         labelCol: {
           span: 6
         },
@@ -66,26 +66,26 @@ export default {
       rules: {
         oldPwd: {
           validateTrigger: 'blur',
-          rules: [{
+          rules          : [ {
             required: true
-          }]
+          } ]
         },
         newPwd: {
           validateTrigger: 'blur',
-          rules: [{
-            required: true,
+          rules          : [ {
+            required : true,
             validator: this.validateToNextPassword,
-          }]
+          } ]
         },
         rePassword: {
           validateTrigger: 'blur',
-          rules: [{
-            required: true,
+          rules          : [ {
+            required  : true,
             whitespace: true,
-            message: '请再次输入新密码!'
+            message   : '请再次输入新密码!'
           }, {
             validator: this.compareToFirstPassword,
-          }]
+          } ]
         }
       }
     }
@@ -100,10 +100,10 @@ export default {
       this.resetData.validateFields(err => {
         if (!err) {
           this.$ajax.put({
-            url: this.$api.PUT_PERSONAL_RESET_PWD,
+            url   : this.$api.PUT_PERSONAL_RESET_PWD,
             params: {
-              old: encryptDes(this.resetData.getFieldValue('oldPwd')),
-              newPwd: encryptDes(this.resetData.getFieldValue('newPwd')),
+              old     : encryptDes(this.resetData.getFieldValue('oldPwd')),
+              newPwd  : encryptDes(this.resetData.getFieldValue('newPwd')),
               renewPwd: encryptDes(this.resetData.getFieldValue('rePassword'))
             }
           }).then(res => {
@@ -129,7 +129,7 @@ export default {
           this.passwordStrength = false
         } else {
           if (value && this.confirmDirty) {
-            this.resetData.validateFields(['rePassword'], {
+            this.resetData.validateFields([ 'rePassword' ], {
               force: true
             })
           }

@@ -67,6 +67,8 @@
       setAlign(editor.getOpt('imageManagerInsertAlign'))
       searchImage = searchImage || new SearchImage()
       break
+    default:
+      break
     }
   }
 
@@ -100,6 +102,8 @@
       case 'search':
         list = searchImage.getInsertList()
         remote = true
+        break
+      default:
         break
       }
 
@@ -491,10 +495,10 @@
         })
 
         $li.on('mouseenter', function () {
-          $btns.stop().animate({height: 30})
+          $btns.stop().animate({ height: 30 })
         })
         $li.on('mouseleave', function () {
-          $btns.stop().animate({height: 0})
+          $btns.stop().animate({ height: 0 })
         })
 
         $btns.on('click', 'span', function () {
@@ -510,6 +514,8 @@
             break
           case 2:
             file.rotation -= 90
+            break
+          default:
             break
           }
 
@@ -617,6 +623,8 @@
               $upload.text(lang.uploadStart)
             }
             break
+          default:
+            break
           }
 
           state = val
@@ -697,6 +705,8 @@
           break
         case 'stopUpload':
           setState('paused', files)
+          break
+        default:
           break
         }
       })

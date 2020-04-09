@@ -100,80 +100,80 @@ const ExtractExample = () => import('@/components/ActiveExtract/example')
      *               normal 本项目中自有路由
      *               outsite 新开标签页打开，此打开方式将不嵌套layout。对应读取的跳转链接在数据库配置中。对象键值名需与router.name、router.meta.authCode保持一致
      */
-let appRoutes = [{
-  path: '/',
-  name: 'Layout',
-  redirect: '/login',
+let appRoutes = [ {
+  path     : '/',
+  name     : 'Layout',
+  redirect : '/login',
   component: contentWrapper,
-  children: [
+  children : [
     {
-      path: '/home', name: 'home', component: HomePage,
-      meta: { title: '首页' },
+      path     : '/home', name     : 'home', component: HomePage,
+      meta     : { title: '首页' },
     },
     {
-      path: '/demo', name: 'demo', component: demo,
-      meta: { title: 'demo', },
+      path     : '/demo', name     : 'demo', component: demo,
+      meta     : { title: 'demo', },
     },
     {
-      path: '/home/homeVeterinaryList', name: 'homeVeterinaryList', component: VeterinaryList,
-      meta: { title: '兽医' },
+      path     : '/home/homeVeterinaryList', name     : 'homeVeterinaryList', component: VeterinaryList,
+      meta     : { title: '兽医' },
     },
     {
-      path: '/home/veterinaryView', name: 'homeVeterinaryView', component: VeterinaryView,
-      meta: { title: '数据服务' },
+      path     : '/home/veterinaryView', name     : 'homeVeterinaryView', component: VeterinaryView,
+      meta     : { title: '数据服务' },
     },
     {
-      path: '/noauth', name: 'noautherr', component: TipsNoAuth,
-      meta: { title: '没有权限', },
+      path     : '/noauth', name     : 'noautherr', component: TipsNoAuth,
+      meta     : { title: '没有权限', },
     },
     {
-      path: '/innerNetworkerr',
-      name: 'innerNetworkerr',
+      path     : '/innerNetworkerr',
+      name     : 'innerNetworkerr',
       component: TipsInnerNetworkErr,
-      meta: { title: '系统异常', },
+      meta     : { title: '系统异常', },
     },
     {
-      path: '/person', name: 'person', component: PersonCenter,
-      meta: { title: '账户信息' },
+      path     : '/person', name     : 'person', component: PersonCenter,
+      meta     : { title: '账户信息' },
     },
     {
-      path: '/person/expert', name: '/person/expert', component: LibraryEdit,
-      meta: { title: '专家个人信息维护' },
+      path     : '/person/expert', name     : '/person/expert', component: LibraryEdit,
+      meta     : { title: '专家个人信息维护' },
     },
     // 系统管理
     {
-      path: '/systemManagement', name: 'systemManagement', component: contentWrapper,
-      meta: { title: '系统管理', menuPath: true, authCode: 'P00000', menuIcon: 'setting', hideInBread: true },
-      children: [
+      path     : '/systemManagement', name     : 'systemManagement', component: contentWrapper,
+      meta     : { title: '系统管理', menuPath: true, authCode: 'P00000', menuIcon: 'setting', hideInBread: true },
+      children : [
       //角色权限配置
         {
-          path: '/systemManagement/permissionConfig',
-          name: '/systemManagement/permissionConfig',
+          path     : '/systemManagement/permissionConfig',
+          name     : '/systemManagement/permissionConfig',
           component: RolePermissionConfig,
-          meta: { title: '角色权限配置', menuPath: true, authCode: 'super', menuIcon: 'cluster', hideInBread: false, openMode: 'normal' },
-          children: [{
-            path: '/systemManagement/permissionConfig/point',
-            name: '/systemManagement/permissionConfig/point',
+          meta     : { title: '角色权限配置', menuPath: true, authCode: 'super', menuIcon: 'cluster', hideInBread: false, openMode: 'normal' },
+          children : [ {
+            path     : '/systemManagement/permissionConfig/point',
+            name     : '/systemManagement/permissionConfig/point',
             component: RolePermissionPoint,
-            meta: { title: '功能点管理', menuPath: false, authCode: 'super', menuIcon: 'cluster', hideInBread: false, openMode: 'normal' },
-            children:[
+            meta     : { title: '功能点管理', menuPath: false, authCode: 'super', menuIcon: 'cluster', hideInBread: false, openMode: 'normal' },
+            children : [
               {
-                path: '/systemManagement/permissionConfig/point/add',
-                name: '/systemManagement/permissionConfig/point/add',
+                path     : '/systemManagement/permissionConfig/point/add',
+                name     : '/systemManagement/permissionConfig/point/add',
                 component: RolePermissionAddPoint,
-                meta: { title: '添加功能点', menuPath: false, authCode: 'super', menuIcon: 'cluster', hideInBread: false, openMode: 'normal' },
+                meta     : { title: '添加功能点', menuPath: false, authCode: 'super', menuIcon: 'cluster', hideInBread: false, openMode: 'normal' },
               },
               {
-                path: '/systemManagement/permissionConfig/point/addBatch',
-                name: '/systemManagement/permissionConfig/point/addBatch',
+                path     : '/systemManagement/permissionConfig/point/addBatch',
+                name     : '/systemManagement/permissionConfig/point/addBatch',
                 component: RolePermissionAddPointBatch,
-                meta: { title: '批量添加功能点', menuPath: false, authCode: 'super', menuIcon: 'cluster', hideInBread: false, openMode: 'normal' },
+                meta     : { title: '批量添加功能点', menuPath: false, authCode: 'super', menuIcon: 'cluster', hideInBread: false, openMode: 'normal' },
               },
               {
-                path: '/systemManagement/permissionConfig/point/edit',
-                name: '/systemManagement/permissionConfig/point/edit',
+                path     : '/systemManagement/permissionConfig/point/edit',
+                name     : '/systemManagement/permissionConfig/point/edit',
                 component: RolePermissionEditPoint,
-                meta: { title: '编辑功能点', menuPath: false, authCode: 'super', menuIcon: 'cluster', hideInBread: false, openMode: 'normal' },
+                meta     : { title: '编辑功能点', menuPath: false, authCode: 'super', menuIcon: 'cluster', hideInBread: false, openMode: 'normal' },
               }
             ]
           },
@@ -206,81 +206,81 @@ let appRoutes = [{
         // },
         // RoleManagement角色管理
         {
-          path: '/systemManagement/role',
-          name: '/systemManagement/role',
+          path     : '/systemManagement/role',
+          name     : '/systemManagement/role',
           component: RoleManagement,
-          meta: { title: '角色管理', menuPath: true, authCode: 'P02000', menuIcon: 'cluster', hideInBread: false, openMode: 'normal' },
-          children: [{
-            path: '/systemManagement/role/create',
-            name: '/systemManagement/role/create',
+          meta     : { title: '角色管理', menuPath: true, authCode: 'P02000', menuIcon: 'cluster', hideInBread: false, openMode: 'normal' },
+          children : [ {
+            path     : '/systemManagement/role/create',
+            name     : '/systemManagement/role/create',
             component: RoleCreate,
-            meta: { title: '角色创建', menuPath: false, authCode: 'P02001', menuIcon: 'cluster', hideInBread: false, openMode: 'normal' }
+            meta     : { title: '角色创建', menuPath: false, authCode: 'P02001', menuIcon: 'cluster', hideInBread: false, openMode: 'normal' }
           },
           {
-            path: '/systemManagement/role/edit',
-            name: '/systemManagement/role/edit',
+            path     : '/systemManagement/role/edit',
+            name     : '/systemManagement/role/edit',
             component: RoleCreate,
-            meta: { title: '角色修改', menuPath: false, authCode: 'P02003', menuIcon: 'cluster', hideInBread: false, openMode: 'normal' }
+            meta     : { title: '角色修改', menuPath: false, authCode: 'P02003', menuIcon: 'cluster', hideInBread: false, openMode: 'normal' }
           },
           {
-            path: '/systemManagement/role/view',
-            name: '/systemManagement/role/view',
+            path     : '/systemManagement/role/view',
+            name     : '/systemManagement/role/view',
             component: RoleCreate,
-            meta: { title: '角色查看', menuPath: false, authCode: 'P02002', menuIcon: 'cluster', hideInBread: false, openMode: 'normal' }
+            meta     : { title: '角色查看', menuPath: false, authCode: 'P02002', menuIcon: 'cluster', hideInBread: false, openMode: 'normal' }
           },
           ]
         },
         // AdministratorManagement管理员管理
         {
-          path: '/systemManagement/administrator',
-          name: '/systemManagement/administrator',
+          path     : '/systemManagement/administrator',
+          name     : '/systemManagement/administrator',
           component: AdministratorManagement,
-          meta: { title: '用户管理', menuPath: true, authCode: 'P03000', menuIcon: 'cluster', hideInBread: false, openMode: 'normal' },
-          children: [{
-            path: '/systemManagement/administrator/createNewUser',
-            name: '/systemManagement/administrator/createNewUser',
+          meta     : { title: '用户管理', menuPath: true, authCode: 'P03000', menuIcon: 'cluster', hideInBread: false, openMode: 'normal' },
+          children : [ {
+            path     : '/systemManagement/administrator/createNewUser',
+            name     : '/systemManagement/administrator/createNewUser',
             component: CreateNewUser,
-            meta: { title: '新增用户信息', menuPath: false, authCode: 'P03303', menuIcon: 'cluster', hideInBread: false, openMode: 'normal' },
+            meta     : { title: '新增用户信息', menuPath: false, authCode: 'P03303', menuIcon: 'cluster', hideInBread: false, openMode: 'normal' },
           },
           {
-            path: '/systemManagement/administrator/editNewUser',
-            name: '/systemManagement/administrator/editNewUser',
+            path     : '/systemManagement/administrator/editNewUser',
+            name     : '/systemManagement/administrator/editNewUser',
             component: CreateNewUser,
-            meta: { title: '账户信息修改', menuPath: false, authCode: 'P03302', menuIcon: 'cluster', hideInBread: false, openMode: 'normal' },
+            meta     : { title: '账户信息修改', menuPath: false, authCode: 'P03302', menuIcon: 'cluster', hideInBread: false, openMode: 'normal' },
           },
           {
-            path: '/systemManagement/administrator/edit',
-            name: '/systemManagement/administrator/edit',
+            path     : '/systemManagement/administrator/edit',
+            name     : '/systemManagement/administrator/edit',
             component: LibraryEdit,
-            meta: { title: '人员信息修改', menuPath: false, authCode: 'P11003', menuIcon: 'user', hideInBread: false, openMode: 'normal' }
+            meta     : { title: '人员信息修改', menuPath: false, authCode: 'P11003', menuIcon: 'user', hideInBread: false, openMode: 'normal' }
           },
           {
-            path: '/systemManagement/administrator/newUserView',
-            name: '/systemManagement/administrator/newUserView',
+            path     : '/systemManagement/administrator/newUserView',
+            name     : '/systemManagement/administrator/newUserView',
             component: NewUserView,
-            meta: { title: '查看新用户信息', menuPath: false, authCode: 'P03301', menuIcon: 'cluster', hideInBread: false, openMode: 'normal' },
+            meta     : { title: '查看新用户信息', menuPath: false, authCode: 'P03301', menuIcon: 'cluster', hideInBread: false, openMode: 'normal' },
           },
           {
-            path: '/systemManagement/administrator/pendingView',
-            name: '/systemManagement/administrator/pendingView',
+            path     : '/systemManagement/administrator/pendingView',
+            name     : '/systemManagement/administrator/pendingView',
             component: PendingView,
-            meta: { title: '待分配权限查看', menuPath: false, authCode: 'P03101', menuIcon: 'cluster', hideInBread: false, openMode: 'normal' },
+            meta     : { title: '待分配权限查看', menuPath: false, authCode: 'P03101', menuIcon: 'cluster', hideInBread: false, openMode: 'normal' },
           },
           {
-            path: '/systemManagement/administrator/distribution',
-            name: '/systemManagement/administrator/distribution',
+            path     : '/systemManagement/administrator/distribution',
+            name     : '/systemManagement/administrator/distribution',
             component: Distribution,
-            meta: { title: '权限分配', menuPath: false, authCode: 'P03102', menuIcon: 'cluster', hideInBread: false, openMode: 'normal' },
+            meta     : { title: '权限分配', menuPath: false, authCode: 'P03102', menuIcon: 'cluster', hideInBread: false, openMode: 'normal' },
           },
           ]
         },
         // 公共基础信息维护
         {
-          path: '/systemManagement/basic',
-          name: '/systemManagement/basic',
+          path     : '/systemManagement/basic',
+          name     : '/systemManagement/basic',
           component: SysBasicInfo,
-          meta: { title: '基础信息维护', menuPath: true, authCode: 'P04000', menuIcon: 'cluster', hideInBread: false, openMode: 'normal' },
-          children: []
+          meta     : { title: '基础信息维护', menuPath: true, authCode: 'P04000', menuIcon: 'cluster', hideInBread: false, openMode: 'normal' },
+          children : []
         },
       ]
     },
@@ -393,76 +393,76 @@ let appRoutes = [{
     // },
     //内容发布
     {
-      path: '/cms', name: 'cms', component: contentWrapper,
-      meta: { title: '内容管理', menuPath: true, authCode: 'P30000', menuIcon: 'file-text', hideInBread: true },
-      children:[
+      path     : '/cms', name     : 'cms', component: contentWrapper,
+      meta     : { title: '内容管理', menuPath: true, authCode: 'P30000', menuIcon: 'file-text', hideInBread: true },
+      children : [
         {
-          path: '/cms/knowledge', name: '/cms/knowledge', component: KnowledgeList,
-          meta: { title: '知识文库管理', menuPath: true, authCode: 'P32000', menuIcon: 'file-text', hideInBread: false },
-          children:[
+          path     : '/cms/knowledge', name     : '/cms/knowledge', component: KnowledgeList,
+          meta     : { title: '知识文库管理', menuPath: true, authCode: 'P32000', menuIcon: 'file-text', hideInBread: false },
+          children : [
             {
-              path: '/cms/knowledge/create', name: '/cms/knowledge/create', component: KnowledgeCreate,
-              meta: { title: '新建知识文献', menuPath: false, authCode: 'P32001', menuIcon: 'file-text', hideInBread: false },
+              path     : '/cms/knowledge/create', name     : '/cms/knowledge/create', component: KnowledgeCreate,
+              meta     : { title: '新建知识文献', menuPath: false, authCode: 'P32001', menuIcon: 'file-text', hideInBread: false },
             },
             {
-              path: '/cms/knowledge/edit/:id', name: '/cms/knowledge/edit', component: KnowledgeEdit,
-              meta: { title: '修改知识文献', menuPath: false, authCode: 'P32001', menuIcon: 'file-text', hideInBread: false },
+              path     : '/cms/knowledge/edit/:id', name     : '/cms/knowledge/edit', component: KnowledgeEdit,
+              meta     : { title: '修改知识文献', menuPath: false, authCode: 'P32001', menuIcon: 'file-text', hideInBread: false },
             },{
-              path: '/cms/knowledge/:id', name: '/cms/knowledge/details', component: KnowledgeDetail,
-              meta: { title: '查看知识文献详情', menuPath: false, authCode: 'P33003', menuIcon: 'file-text', hideInBread: false },
+              path     : '/cms/knowledge/:id', name     : '/cms/knowledge/details', component: KnowledgeDetail,
+              meta     : { title: '查看知识文献详情', menuPath: false, authCode: 'P33003', menuIcon: 'file-text', hideInBread: false },
             }
           ]
         },
         {
-          path: '/cms/knowledgePublish', name: '/cms/knowledgePublish', component: KnowledgePublishedList,
-          meta: { title: '知识文献', menuPath: false, menuIcon: 'file-text', hideInBread: false },
+          path     : '/cms/knowledgePublish', name     : '/cms/knowledgePublish', component: KnowledgePublishedList,
+          meta     : { title: '知识文献', menuPath: false, menuIcon: 'file-text', hideInBread: false },
         },
         {
-          path: '/cms/notice', name: '/cms/notice', component: NoticeList,
-          meta: { title: '通知公告管理', menuPath: true, authCode: 'P31000', menuIcon: 'file-text', hideInBread: false },
-          children:[
+          path     : '/cms/notice', name     : '/cms/notice', component: NoticeList,
+          meta     : { title: '通知公告管理', menuPath: true, authCode: 'P31000', menuIcon: 'file-text', hideInBread: false },
+          children : [
             {
-              path: '/cms/notice/create', name: '/cms/notice/create', component: NoticeCreate,
-              meta: { title: '新建通知公告', menuPath: false, authCode: 'P31001', menuIcon: 'file-text', hideInBread: false },
+              path     : '/cms/notice/create', name     : '/cms/notice/create', component: NoticeCreate,
+              meta     : { title: '新建通知公告', menuPath: false, authCode: 'P31001', menuIcon: 'file-text', hideInBread: false },
             },
             {
-              path: '/cms/notice/edit/:id', name: '/cms/notice/edit', component: NoticeEdit,
-              meta: { title: '修改通知公告', menuPath: false, authCode: 'P31001', menuIcon: 'file-text', hideInBread: false },
+              path     : '/cms/notice/edit/:id', name     : '/cms/notice/edit', component: NoticeEdit,
+              meta     : { title: '修改通知公告', menuPath: false, authCode: 'P31001', menuIcon: 'file-text', hideInBread: false },
             },{
-              path: '/cms/notice/:id', name: '/cms/notice/details', component: NoticeDetail,
-              meta: { title: '通知公告详情', menuPath: false, authCode: 'P31005', menuIcon: 'file-text', hideInBread: false },
+              path     : '/cms/notice/:id', name     : '/cms/notice/details', component: NoticeDetail,
+              meta     : { title: '通知公告详情', menuPath: false, authCode: 'P31005', menuIcon: 'file-text', hideInBread: false },
             }
           ]
         },
         {
-          path: '/cms/manual', name: '/cms/manual', component: ManualList,
-          meta: { title: '操作手册管理', menuPath: true, authCode: 'P34000', menuIcon: 'file-text', hideInBread: false },
-          children: [
+          path     : '/cms/manual', name     : '/cms/manual', component: ManualList,
+          meta     : { title: '操作手册管理', menuPath: true, authCode: 'P34000', menuIcon: 'file-text', hideInBread: false },
+          children : [
             {
-              path: '/cms/manual/file-list', name: '/cms/manual/file-list', component: ManualFileList,
-              meta: { title: '操作手册列表', menuPath: false, authCode: 'P34000', menuIcon: 'file-text', hideInBread: false },
+              path     : '/cms/manual/file-list', name     : '/cms/manual/file-list', component: ManualFileList,
+              meta     : { title: '操作手册列表', menuPath: false, authCode: 'P34000', menuIcon: 'file-text', hideInBread: false },
             },
           ],
         },
         {
-          path: '/cms/vote', name: '/cms/vote', component: VoteList,
-          meta: { title: '投票管理', menuPath: true, authCode: 'P33000', menuIcon: 'file-text', hideInBread: false },
-          children: [
+          path     : '/cms/vote', name     : '/cms/vote', component: VoteList,
+          meta     : { title: '投票管理', menuPath: true, authCode: 'P33000', menuIcon: 'file-text', hideInBread: false },
+          children : [
             {
-              path: '/cms/vote/edit', name: '/cms/vote/edit', component: VoteEdit,
-              meta: { title: '投票详情', menuPath: false, authCode: 'P33001', menuIcon: 'file-text', hideInBread: false },
+              path     : '/cms/vote/edit', name     : '/cms/vote/edit', component: VoteEdit,
+              meta     : { title: '投票详情', menuPath: false, authCode: 'P33001', menuIcon: 'file-text', hideInBread: false },
             },
             {
-              path: '/cms/vote/result', name: '/cms/vote/result', component: VoteResult,
-              meta: { title: '投票结果预览', menuPath: false, authCode: 'P33005', menuIcon: 'file-text', hideInBread: false },
+              path     : '/cms/vote/result', name     : '/cms/vote/result', component: VoteResult,
+              meta     : { title: '投票结果预览', menuPath: false, authCode: 'P33005', menuIcon: 'file-text', hideInBread: false },
             },
             {
-              path: '/cms/vote/view', name: '/cms/vote/view', component: VoteView,
-              meta: { title: '投票信息查看', menuPath: false, authCode: 'P33003', menuIcon: 'file-text', hideInBread: false },
+              path     : '/cms/vote/view', name     : '/cms/vote/view', component: VoteView,
+              meta     : { title: '投票信息查看', menuPath: false, authCode: 'P33003', menuIcon: 'file-text', hideInBread: false },
             },
             {
-              path: '/cms/vote/qr-list', name: '/cms/vote/qr-list', component: VoteQrList,
-              meta: { title: '投票二维码列表', menuPath: false, authCode: 'P33000', menuIcon: 'file-text', hideInBread: false },
+              path     : '/cms/vote/qr-list', name     : '/cms/vote/qr-list', component: VoteQrList,
+              meta     : { title: '投票二维码列表', menuPath: false, authCode: 'P33000', menuIcon: 'file-text', hideInBread: false },
             },
           ]
         }
@@ -471,61 +471,61 @@ let appRoutes = [{
   ],
 },
 {
-  path: '/login', name: 'login', component: LoginPage,
-  meta: { title: '登录' },
+  path     : '/login', name     : 'login', component: LoginPage,
+  meta     : { title: '登录' },
 },
 {
-  path: '/register', name: 'register', component: RegisterPage,
-  meta: { title: '注册' },
+  path     : '/register', name     : 'register', component: RegisterPage,
+  meta     : { title: '注册' },
 },
 {
-  path: '/bindPhone', name: 'bindPhone', component: BindPhone,
-  meta: { title: '选择系统绑定手机号', },
+  path     : '/bindPhone', name     : 'bindPhone', component: BindPhone,
+  meta     : { title: '选择系统绑定手机号', },
 },
 {
-  path: '/bindTemporarayAccount', name: 'bindTemporarayAccount', component: BindTemporarayAccount,
-  meta: { title: '选择系统绑定手机号', },
+  path     : '/bindTemporarayAccount', name     : 'bindTemporarayAccount', component: BindTemporarayAccount,
+  meta     : { title: '选择系统绑定手机号', },
 },
 {
-  path: '/oldSysLogout', name: 'oldSysLogout', component: OldSysLogout,
-  meta: { title: '老系统安全登出', },
+  path     : '/oldSysLogout', name     : 'oldSysLogout', component: OldSysLogout,
+  meta     : { title: '老系统安全登出', },
 },
 {
-  path: '/outerNetworkerr', name: 'outerNetworkerr', component: TipsNetworkErr,
-  meta: { title: '网络错误', },
+  path     : '/outerNetworkerr', name     : 'outerNetworkerr', component: TipsNetworkErr,
+  meta     : { title: '网络错误', },
 },
 {
-  path: '/error-page', name: 'error-page', component: ErrorPage,
-  meta: { title: '404', },
+  path     : '/error-page', name     : 'error-page', component: ErrorPage,
+  meta     : { title: '404', },
 },
 {
-  path: '/upperLimitErr', name: 'upperLimitErr', component: TipsUpperLimitErr,
-  meta: { title: '访问频繁', },
+  path     : '/upperLimitErr', name     : 'upperLimitErr', component: TipsUpperLimitErr,
+  meta     : { title: '访问频繁', },
 },
 // 匿名浏览知识文库
-{ path: '/cms/knowledgeAnonymous', name: '/cms/knowledgeAnonymous', component: KnowledgePublishedAnonymousList,
-  meta: { title: '知识文献', menuPath: false, menuIcon: 'file-text', hideInBread: false },
+{ path     : '/cms/knowledgeAnonymous', name     : '/cms/knowledgeAnonymous', component: KnowledgePublishedAnonymousList,
+  meta     : { title: '知识文献', menuPath: false, menuIcon: 'file-text', hideInBread: false },
 },
-{ path: '/cms/knowledgePublish/:id', name: '/cms/knowledgePublish/view', component: KnowledgeView,
-  meta: { title: '浏览知识文献', menuPath: false, menuIcon: 'file-text', hideInBread: false },
+{ path     : '/cms/knowledgePublish/:id', name     : '/cms/knowledgePublish/view', component: KnowledgeView,
+  meta     : { title: '浏览知识文献', menuPath: false, menuIcon: 'file-text', hideInBread: false },
 },
 // 浏览通知公告
-{ path: '/cms/noticePublish', name: '/cms/noticePublish', component: NoticePublishedList,
-  meta: { title: '通知公告', menuPath: false, menuIcon: 'file-text', hideInBread: false },
+{ path     : '/cms/noticePublish', name     : '/cms/noticePublish', component: NoticePublishedList,
+  meta     : { title: '通知公告', menuPath: false, menuIcon: 'file-text', hideInBread: false },
 },
-{ path: '/cms/noticePublish/:id', name: '/cms/noticePublish/view', component: NoticeView,
-  meta: { title: '浏览通知公告', menuPath: false, menuIcon: 'file-text', hideInBread: false },
+{ path     : '/cms/noticePublish/:id', name     : '/cms/noticePublish/view', component: NoticeView,
+  meta     : { title: '浏览通知公告', menuPath: false, menuIcon: 'file-text', hideInBread: false },
 },
 // 浏览操作手册
-{ path: '/cms/manualPublish', name: '/cms/manualPublish', component: ManualView,
-  meta: { title: '操作手册', menuPath: false, menuIcon: 'file-text', hideInBread: false },
+{ path     : '/cms/manualPublish', name     : '/cms/manualPublish', component: ManualView,
+  meta     : { title: '操作手册', menuPath: false, menuIcon: 'file-text', hideInBread: false },
 },
 // 渔业兽医
-{ path: '/veterinary', name: '/veterinary', component: VeterinaryList,
-  meta: { title: '渔业兽医', menuPath: false, menuIcon: 'file-text', hideInBread: false },
+{ path     : '/veterinary', name     : '/veterinary', component: VeterinaryList,
+  meta     : { title: '渔业兽医', menuPath: false, menuIcon: 'file-text', hideInBread: false },
 },
-{ path: '/veterinary/view', name: '/veterinary/view', component: VeterinaryView,
-  meta: { title: '渔业兽医', menuPath: false, menuIcon: 'file-text', hideInBread: false },
+{ path     : '/veterinary/view', name     : '/veterinary/view', component: VeterinaryView,
+  meta     : { title: '渔业兽医', menuPath: false, menuIcon: 'file-text', hideInBread: false },
 },
 ]
 

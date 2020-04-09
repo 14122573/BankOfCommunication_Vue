@@ -25,7 +25,7 @@ import OldUser from './old-user'
 import NewUser from './new-user'
 import TempUser from './tempAccount/temp-user'
 export default {
-  name: 'Administrator',
+  name      : 'Administrator',
   components: {
     Pendingpermissions,
     OldUser,
@@ -44,9 +44,9 @@ export default {
     // 查询角色列表
     getRoleList() {
       this.$ajax.get({
-        url: this.$api.GET_ROLE_LIST,
+        url   : this.$api.GET_ROLE_LIST,
         params: {
-          pageNo: 1,
+          pageNo  : 1,
           pageSize: 10000
         }
       }).then(res => {

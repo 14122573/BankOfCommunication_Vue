@@ -22,17 +22,17 @@
 export default {
   props: {
     permIds: {
-      type:Array,
-      required:true
+      type    : Array,
+      required: true
     }
   },
   data () {
     return {
-      tree:{
-        roleTreeData:[],
-        roleTreeDataArranged:[]
+      tree: {
+        roleTreeData        : [],
+        roleTreeDataArranged: []
       },
-      permIDArr:this.permIds,
+      permIDArr: this.permIds,
     }
   },
   beforeCreate() {
@@ -41,13 +41,13 @@ export default {
   created(){
     this.getRoleTree()
     this.$nextTick(()=>{
-      this.pointPermsForm.getFieldDecorator('permIds',{initialValue:this.permIDArr})
+      this.pointPermsForm.getFieldDecorator('permIds',{ initialValue: this.permIDArr })
     })
   },
-  watch:{
+  watch: {
     permIds(){
       this.permIDArr = this.permIds
-      this.pointPermsForm.setFieldsValue({permIds:this.permIDArr})
+      this.pointPermsForm.setFieldsValue({ permIds: this.permIDArr })
     }
   },
   methods: {
@@ -59,12 +59,13 @@ export default {
       this.permIDArr = select
       this.$emit('change', this.permIDArr)
     },
+
     /**
      * 查询权限树
      */
     getRoleTree(){
       this.$ajax.get({
-        url:this.$api.GET_ALL_ROLE + '?isTree=true&isAll=true'
+        url: this.$api.GET_ALL_ROLE + '?isTree=true&isAll=true'
       }).then(res=>{
         if(!!res.data && !!res.data.content){
           let data=res.data.content
@@ -84,16 +85,17 @@ export default {
             }
           })
           this.tree.roleTreeDataArranged.push({
-            'title':'初始化权限',
-            'key':'-1',
-            'permKey':'',
-            'canDelete':false,
-            'isHide':true,
-            'children':[].concat(initializedRoleTree)
+            'title'    : '初始化权限',
+            'key'      : '-1',
+            'permKey'  : '',
+            'canDelete': false,
+            'isHide'   : true,
+            'children' : [].concat(initializedRoleTree)
           })
         }
       })
     },
+
     /**
      * 根据tree渲染数据所需结构，重组数据
      * @param {Object} item 单个权限对象
@@ -101,11 +103,11 @@ export default {
      */
     initRoleTreeNode(item){
       let childrenNode={
-        'title':item.permName,
-        'key':item.id,
-        'permKey':!item.permKey?'':item.permKey,
-        'canDelete':item.canDelete===false?false:true,
-        'isHide':item.isHide,
+        'title'    : item.permName,
+        'key'      : item.id,
+        'permKey'  : !item.permKey?'':item.permKey,
+        'canDelete': item.canDelete===false?false:true,
+        'isHide'   : item.isHide,
       }
       if(item.childList && item.childList.length){
         childrenNode.children = []

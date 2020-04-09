@@ -104,7 +104,7 @@ import DataOperatorInList from '@/views/systemManagement/components/dataOperator
 import { encryptDes } from '@/util/des-cryptojs'
 
 export default {
-  name: 'new-user',
+  name      : 'new-user',
   components: {
     userStatus,
     resetPassword,
@@ -112,7 +112,7 @@ export default {
   },
   props: {
     roleList: {
-      type: Array,
+      type   : Array,
       default: () => {
         return []
       }
@@ -120,9 +120,10 @@ export default {
   },
   data() {
     return {
-      dateFormat: 'YYYY-MM-DD',
-      simpleSearchForm:true, // 展示、收取简单搜索开关，true为简单搜索
-      colSpe: {
+      dateFormat      : 'YYYY-MM-DD',
+      // 展示、收取简单搜索开关，true为简单搜索
+      simpleSearchForm: true,
+      colSpe          : {
         labelCol: {
           span: 8
         },
@@ -134,64 +135,64 @@ export default {
         'ui.createTime_desc': 1,
       },
       pagination: {
-        pageNo: 1,
-        pageSize: 10,
-        total: 0,
-        current: 1,
-        defaultCurrent: 1,
+        pageNo         : 1,
+        pageSize       : 10,
+        total          : 0,
+        current        : 1,
+        defaultCurrent : 1,
         showQuickJumper: true,
-        onChange: this.pageChange
+        onChange       : this.pageChange
       },
       searchForm: {
-        checkedList: ['1','0']
+        checkedList: [ '1','0' ]
       },
-      defaultValue:'',
-      dataTable: [],
-      columns: [
+      defaultValue: '',
+      dataTable   : [],
+      columns     : [
         {
-          title: '账号',
+          title    : '账号',
           dataIndex: 'phone',
-          key: 'phone',
+          key      : 'phone',
         },{
-          title: '姓名',
+          title    : '姓名',
           dataIndex: 'name',
-          key: 'name'
+          key      : 'name'
         },{
-          title: '工作单位',
-          dataIndex: 'dept',
-          key: 'dept',
-          width: 100,
+          title      : '工作单位',
+          dataIndex  : 'dept',
+          key        : 'dept',
+          width      : 100,
           scopedSlots: {
             customRender: 'dept'
           }
         },{
-          title: '角色名称',
-          dataIndex: 'roleNames',
-          key: 'roleNames',
-          width: '120px',
+          title      : '角色名称',
+          dataIndex  : 'roleNames',
+          key        : 'roleNames',
+          width      : '120px',
           scopedSlots: {
             customRender: 'roleNames'
           }
         },{
-          title: '用户状态',
-          dataIndex: 'status',
-          key: 'status',
-          width: 80,
+          title      : '用户状态',
+          dataIndex  : 'status',
+          key        : 'status',
+          width      : 80,
           scopedSlots: {
             customRender: 'status'
           }
         },{
-          title: '操作人',
-          width: 150,
-          dataIndex: 'creator',
-          key: 'creator',
+          title      : '操作人',
+          width      : 150,
+          dataIndex  : 'creator',
+          key        : 'creator',
           scopedSlots: {
             customRender: 'operator'
           }
         },{
-          title: '操作',
-          key: 'operation',
-          width: 180,
+          title      : '操作',
+          key        : 'operation',
+          width      : 180,
           scopedSlots: {
             customRender: 'action'
           }
@@ -199,48 +200,48 @@ export default {
       ],
       plainOptions: [
         {
-          text: '待分配',
+          text : '待分配',
           value: '0'
         },{
-          text: '正常',
+          text : '正常',
           value: '1'
         },{
-          text: '禁用',
+          text : '禁用',
           value: '9'
         },{
-          text: '已注销',
+          text : '已注销',
           value: '8'
         }
       ],
       opeation: {
         title: '',
-        tips: '',
-        type: '',
-        item: null
+        tips : '',
+        type : '',
+        item : null
       },
-      treeData: [],
-      isAdminator: '',
-      areaCode: '',
-      groupLists: [],
+      treeData    : [],
+      isAdminator : '',
+      areaCode    : '',
+      groupLists  : [],
       resetPwdShow: false
     }
   },
-  computed:{
+  computed: {
     formItemLabelCol(){
       let labelCol = {}
       if(this.simpleSearchForm){
-        labelCol = {span: 0}
+        labelCol = { span: 0 }
       }else{
-        labelCol = {span: 8}
+        labelCol = { span: 8 }
       }
       return labelCol
     },
     formItemWrapperCol(){
       let wrapperCol = {}
       if(this.simpleSearchForm){
-        wrapperCol = {span: 24}
+        wrapperCol = { span: 24 }
       }else{
-        wrapperCol = {span: 16}
+        wrapperCol = { span: 16 }
       }
       return wrapperCol
     }
@@ -280,7 +281,7 @@ export default {
       delete this.searchForm['ui.roleIds_in']
       delete this.searchForm['ui.areaId']
       delete this.searchForm['ui.groupId']
-      this.searchForm.checkedList = ['1','0']
+      this.searchForm.checkedList = [ '1','0' ]
       this.getList()
     },
     // 查询列表
@@ -290,11 +291,11 @@ export default {
         '1'
       if (options.checkedList) delete options.checkedList
       const params = Object.assign(options, this.params, {
-        pageNo: this.pagination.pageNo,
+        pageNo  : this.pagination.pageNo,
         pageSize: this.pagination.pageSize
       })
       this.$ajax.get({
-        url: this.$api.USER_LIST_TYPE_GET.replace('{type}', '/new'),
+        url   : this.$api.USER_LIST_TYPE_GET.replace('{type}', '/new'),
         params: params
       }).then(res => {
         this.dataTable = this.$com.confirm(res, 'data.content', [])
@@ -309,7 +310,7 @@ export default {
     //跳转详情页面
     viewBtn(record) {
       this.$router.push({
-        name: '/systemManagement/administrator/newUserView',
+        name : '/systemManagement/administrator/newUserView',
         query: {
           id: record.id
         }
@@ -341,19 +342,19 @@ export default {
       }
       if (key != 4 && key !=5) {
         this.$modal.confirm({
-          title: this.opeation.title,
-          content: this.opeation.tips,
-          okText: '确认',
-          okType: 'danger',
+          title     : this.opeation.title,
+          content   : this.opeation.tips,
+          okText    : '确认',
+          okType    : 'danger',
           cancelText: '取消',
           onOk() {
             vm.handleOk()
           },
         })
       } else if(key == 5){
-        this.$router.push({path :'/systemManagement/administrator/distribution',
-          query:{
-            id:item.id
+        this.$router.push({ path : '/systemManagement/administrator/distribution',
+          query: {
+            id: item.id
           }
         })
       }else {
@@ -364,17 +365,22 @@ export default {
       let key = this.opeation.type
       let apiUrl = ''
       switch (key) {
-      case '1': //启用操作
+      case '1':
+      //启用操作
         apiUrl = this.$api.CHECK_USER_STATUS.replace('{type}', 'new').replace('{id}', this.opeation.item.id).replace(
           '{status}', '1')
         break
-      case '2': //禁用操作
+      case '2':
+      //禁用操作
         apiUrl = this.$api.CHECK_USER_STATUS.replace('{type}', 'new').replace('{id}', this.opeation.item.id).replace(
           '{status}', '9')
         break
-      case '3': //注销操作
+      case '3':
+      //注销操作
         apiUrl = this.$api.CHECK_USER_STATUS.replace('{type}', 'new').replace('{id}', this.opeation.item.id).replace(
           '{status}', '8')
+        break
+      default:
         break
       }
       this.$ajax.put({
@@ -388,7 +394,7 @@ export default {
     },
     getArea() {
       this.$ajax.get({
-        url: this.$api.GET_AREA_NEXT,
+        url   : this.$api.GET_AREA_NEXT,
         params: {
           parentId: this.isAdminator ? '999999' : this.$store.state.userInfos.area.id
         }
@@ -401,10 +407,10 @@ export default {
     },
     getTreeNode(item, index) {
       let childrenNode = {
-        title: item.areaName,
-        value: item.id,
-        id: item.id,
-        key: item.id,
+        title   : item.areaName,
+        value   : item.id,
+        id      : item.id,
+        key     : item.id,
         parentId: item.parentId,
         children: item.childList
       }
@@ -417,7 +423,7 @@ export default {
           return
         }
         this.$ajax.get({
-          url: this.$api.GET_AREA_NEXT,
+          url   : this.$api.GET_AREA_NEXT,
           params: {
             parentId: treeNode.dataRef.id
           }
@@ -428,7 +434,7 @@ export default {
             array.push(this.getTreeNode(ele, index))
           })
           treeNode.dataRef.children = array
-          this.treeData = [...this.treeData]
+          this.treeData = [ ...this.treeData ]
           resolve()
         })
       })
@@ -442,14 +448,14 @@ export default {
     getListGroup() {
       const params = {
         pageSize: 10000,
-        pageNo: 1,
+        pageNo  : 1,
         areaCode: this.areaCode
       }
       if (!this.isAdminator) {
         params.parentId = this.$store.state.userInfos.group.id
       }
       this.$ajax.get({
-        url: this.$api.GET_ORGANIZATION_LIST,
+        url   : this.$api.GET_ORGANIZATION_LIST,
         params: params
       }).then(res => {
         this.groupLists = this.$com.confirm(res, 'data.content', [])
@@ -461,10 +467,10 @@ export default {
     },
     handleResetOk(values) {
       this.$ajax.put({
-        url: this.$api.USER_UPDATE_PWD,
+        url   : this.$api.USER_UPDATE_PWD,
         params: {
-          id: this.opeation.item.id,
-          type: 'new',
+          id    : this.opeation.item.id,
+          type  : 'new',
           newPwd: encryptDes(values.newPwd)
         }
       }).then(res => {

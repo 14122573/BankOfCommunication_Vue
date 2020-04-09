@@ -5,10 +5,10 @@
 </template>
 <script>
 export default {
-  props:{
-    status:{
-      type:String,
-      default:null
+  props: {
+    status: {
+      type   : String,
+      default: null
     }
   }
 }

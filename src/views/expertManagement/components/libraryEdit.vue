@@ -192,7 +192,7 @@
 import jobStudy from '@/views/expertManagement/components/jobStudy'
 import jobSpace from '@/views/expertManagement/components/jobSpace'
 export default {
-  name: 'LibraryEdit',
+  name      : 'LibraryEdit',
   components: { jobStudy, jobSpace },
   data() {
     const validatePhone = (rule, value, callback) => {
@@ -204,12 +204,12 @@ export default {
         } else {
           let links='?phone=' + value
           this.$ajax.get({
-            url: this.$api.GET_CHECK_PHONE_EXIST + links,
+            url        : this.$api.GET_CHECK_PHONE_EXIST + links,
             hideLoading: true,
           }).then(res => {
             if (res.data.content === false) {
               callback()
-              this.$refs.jobStudy.formJob.setFieldsValue({phone:value})
+              this.$refs.jobStudy.formJob.setFieldsValue({ phone: value })
             } else {
               callback('已存在此用户!')
             }
@@ -240,52 +240,52 @@ export default {
       }
     }
     return {
-      isExpert: true, // 判断的依据， true为专家库， false为人才库
-      currentId: null,
-      form: this.$form.createForm(this),
-      age: null,
-      changeSmall:false,
-      options: {
-        sexList: [{ label: '男', value: '男' }, { label: '女', value: '女' }],
-        minorityList: [],
-        companyNatureList: [],
+      isExpert   : true, // 判断的依据， true为专家库， false为人才库
+      currentId  : null,
+      form       : this.$form.createForm(this),
+      age        : null,
+      changeSmall: false,
+      options    : {
+        sexList            : [ { label: '男', value: '男' }, { label: '女', value: '女' } ],
+        minorityList       : [],
+        companyNatureList  : [],
         // positionList: [],
-        jobTitleList: [],
-        workAreaList: [],
+        jobTitleList       : [],
+        workAreaList       : [],
         professionGroupList: [],
         // researchDirectionList: [],
-        educationList: [],
-        bachelorList: [],
-        provinceConfirmList: [{ label: '是', value: '是' },{ label: '否', value: '否' }],
-        unitConfirmList: [{ label: '是', value: '是' },{ label: '否', value: '否' }],
-        politicsList: [],
-        awardTypeList: [],
-        areas: [],
+        educationList      : [],
+        bachelorList       : [],
+        provinceConfirmList: [ { label: '是', value: '是' },{ label: '否', value: '否' } ],
+        unitConfirmList    : [ { label: '是', value: '是' },{ label: '否', value: '否' } ],
+        politicsList       : [],
+        awardTypeList      : [],
+        areas              : [],
       },
       colSpa: {
-        labelCol: { span: 10 },
+        labelCol  : { span: 10 },
         wrapperCol: { span: 12 }
       },
       textSpa: {
-        labelCol: { span: 5 },
+        labelCol  : { span: 5 },
         wrapperCol: { span: 18 }
       },
       previewVisible: false,
-      previewImage: '',
-      fileList: [],
-      fileUpload:{
-        acceptTypes:'.jpg,.jpeg',
-        acceptTypesArray:['jpg','jpeg']
+      previewImage  : '',
+      fileList      : [],
+      fileUpload    : {
+        acceptTypes     : '.jpg,.jpeg',
+        acceptTypesArray: [ 'jpg','jpeg' ]
       },
       rules: {
-        loginPhone:[
+        loginPhone: [
           { required: true, whitespace: true, message: '请输入联系电话!' },
           { validator: validatePhone }
         ],
-        name: [{ required: true, whitespace: true, message: '请输入姓名!' }],
-        sex: [{ required: true, whitespace: true, message: '请选择性别!' }],
-        birthday: [{ required: true, message: '请选择出生日期!' }],
-        politic: [{ required: true, whitespace: true, message: '请选择政治面貌!' }],
+        name    : [ { required: true, whitespace: true, message: '请输入姓名!' } ],
+        sex     : [ { required: true, whitespace: true, message: '请选择性别!' } ],
+        birthday: [ { required: true, message: '请选择出生日期!' } ],
+        politic : [ { required: true, whitespace: true, message: '请选择政治面貌!' } ],
         minority: [
           { required: true, whitespace: true, message: '请选择民族!' }
         ],
@@ -300,11 +300,11 @@ export default {
           { required: true, whitespace: true, message: '请选择单位性质!' }
         ],
         companyAddress: [
-          { required: true, message: '请输入单位所在地！'},
+          { required: true, message: '请输入单位所在地！' },
         ],
         companyPhone: [
           { required: true, whitespace: true, message: '请输入单位联系电话!' },
-          {validator: validateCompanyPhone}
+          { validator: validateCompanyPhone }
         ],
         belongDepartment: [
           { required: true, whitespace: true, message: '请输入所在部门!' }
@@ -315,7 +315,7 @@ export default {
         position: [
           { required: true, whitespace: true, message: '请输入职务!' }
         ],
-        email:[
+        email: [
           { required: true, whitespace: true, message: '请输入电子邮件!' }
         ],
       }
@@ -355,13 +355,13 @@ export default {
         { type: '6', name: 'workAreaList' }, //工作领域
         { type: '7', name: 'professionGroupList' }, //专业组别
         // { type: '8', name: 'researchDirectionList' }, //主要研究方向
-        {type: '10', name: 'awardTypeList'}, // 获奖成果类别
+        { type: '10', name: 'awardTypeList' }, // 获奖成果类别
         { type: '11', name: 'politicsList' } //政治面貌
       ]
       return items.map(item => {
         this.$ajax
           .get({
-            url: api.replace('{type}', item.type),
+            url        : api.replace('{type}', item.type),
             hideLoading: false
           })
           .then(res => {
@@ -505,9 +505,9 @@ export default {
         return true
       }else{
         this.$modal.error({
-          title: '上传文件验证未通过',
-          content: message,
-          okText: '确认',
+          title     : '上传文件验证未通过',
+          content   : message,
+          okText    : '确认',
           cancelText: '取消',
         })
         return false
@@ -518,17 +518,17 @@ export default {
       formData.append('file', data.file)
       data.onProgress()
       this.$ajax.post({
-        url: this.$api.UPLOAD_TEMP,
+        url   : this.$api.UPLOAD_TEMP,
         params: formData
       }).then(res => {
         if (res.code === '200') {
           let data = this.$com.confirm(res, 'data.content', {})
           this.fileList = []
           this.fileList.push({
-            uid: data.id,
-            name: data.name,
+            uid   : data.id,
+            name  : data.name,
             status: 'done',
-            url: data.path
+            url   : data.path
           })
         }
       })
@@ -541,15 +541,15 @@ export default {
     forMat(data) {
       const items = [
         { key: 'minority', list: 'minorityList', value: 'minorityName' }, //民族
-        { key: 'companyNature', list: 'companyNatureList', value: 'companyNatureName'}, //单位性质
+        { key: 'companyNature', list: 'companyNatureList', value: 'companyNatureName' }, //单位性质
         // { key: 'position', list: 'positionList', value: 'positionName' }, //职务
         // { key: 'jobTitle', list: 'jobTitleList', value: 'jobTitleName' }, //职称
         { key: 'education', list: 'educationList', value: 'educationName' }, //学历
         { key: 'bachelor', list: 'bachelorList', value: 'bachelorName' }, //学位
         { key: 'workArea', list: 'workAreaList', value: 'workAreaName' }, //工作领域
-        { key: 'professionGroup', list: 'professionGroupList', value: 'professionGroupName'}, //专业组别
+        { key: 'professionGroup', list: 'professionGroupList', value: 'professionGroupName' }, //专业组别
         // { key: 'researchDirection', list: 'researchDirectionList', value: 'researchDirectionName'}, //主要研究方向
-        {key: 'politic', list: 'politicsList', value: 'politicName'}, // 政治面貌
+        { key: 'politic', list: 'politicsList', value: 'politicName' }, // 政治面貌
       ]
       items.forEach(item => {
         this.options[item.list].forEach(option => {
@@ -559,7 +559,7 @@ export default {
         })
       })
       const transformDate = (key) => { // 格式化动态添加的行数据中的日期，并加序号
-        const list = [...data[key]]
+        const list = [ ...data[key] ]
         if (list && list.length > 0) {
           const result = list.map((item, index) => {
             if (item.date && item.date.length > 0) {
@@ -570,11 +570,11 @@ export default {
                   }
                 })
               }
-              const date = [...item.date]
+              const date = [ ...item.date ]
               if(!Array.isArray(item.date)){
                 item.date = this.changeDateData(item.date)
               }else{
-                item.date = [date[0] ? this.changeDateData(date[0]) : null, date[1] ? this.changeDateData(date[1]) : null]
+                item.date = [ date[0] ? this.changeDateData(date[0]) : null, date[1] ? this.changeDateData(date[1]) : null ]
               }
               item.index = index
             }else if(typeof item.date=='object' && !Array.isArray(item.date) &&item.date!=null){
@@ -626,7 +626,7 @@ export default {
         msg = '新增成功！'
       }
       this.$ajax[methods]({
-        url: link,
+        url   : link,
         params: data
       }).then(res => {
         if (res.code === '200') {
@@ -640,7 +640,7 @@ export default {
     },
     getDetail() {
       this.$ajax.get({
-        url: this.$api.GET_EXPERT_DETAIL.replace('{experId}',this.currentId),
+        url        : this.$api.GET_EXPERT_DETAIL.replace('{experId}',this.currentId),
         hideLoading: false
       }).then(res => {
         let loginPhone=this.$route.query.loginPhone
@@ -684,11 +684,11 @@ export default {
           if (list && list.length > 0) {
             const result = list.map((item, index) => {
               if (item.date && item.date.length > 0) {
-                const date = [...item.date]
+                const date = [ ...item.date ]
                 if(typeof item.date=='string'){
                   item.date = this.changeDateData(item.date)
                 }else{
-                  item.date = [date[0] ? this.changeDateData(date[0]) : null, date[1] ? this.changeDateData(date[1]) : null]
+                  item.date = [ date[0] ? this.changeDateData(date[0]) : null, date[1] ? this.changeDateData(date[1]) : null ]
                 }
                 
                 this.$delete(item, 'index')
@@ -760,10 +760,10 @@ export default {
           })
           if(portraitImg != null){
             this.fileList.push({
-              uid: '-1',
-              name: portraitImg,
+              uid   : '-1',
+              name  : portraitImg,
               status: 'done',
-              url: portraitImg
+              url   : portraitImg
             })
           }
         })
@@ -800,17 +800,17 @@ export default {
       var jobSpace= this.$refs.jobSpace.formSpace.getFieldsValue()
       if(this.validationForm(jobStudy.workExperience,workExperienceDate)==false){
         this.$modal.error({
-          title: '表单验证未通过',
-          content: '请将"工作/学习经历"填写完整',
-          okText: '确认',
+          title     : '表单验证未通过',
+          content   : '请将"工作/学习经历"填写完整',
+          okText    : '确认',
           cancelText: '取消',
         })
         return false
       }else if(this.validationForm(jobSpace.achievements)==false){
         this.$modal.error({
-          title: '表单验证未通过',
-          content: '请将"主要成果"填写完整',
-          okText: '确认',
+          title     : '表单验证未通过',
+          content   : '请将"主要成果"填写完整',
+          okText    : '确认',
           cancelText: '取消',
         })
         return false
@@ -833,9 +833,9 @@ export default {
         this.forMat(data)
       } else {
         this.$modal.error({
-          title: '表单验证未通过',
-          content: '请检查输入',
-          okText: '确认',
+          title     : '表单验证未通过',
+          content   : '请检查输入',
+          okText    : '确认',
           cancelText: '取消',
         })
       }

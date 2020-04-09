@@ -25,13 +25,13 @@ import Vue from 'vue'
 import moment from 'moment'
 import ActiveFormItem from './ActiveFormItem'
 export default {
-  name: 'ActiveForm',
+  name      : 'ActiveForm',
   components: {
     ActiveFormItem
   },
   props: {
     layout: {
-      type: Array,
+      type    : Array,
       required: true
     },
     model: {
@@ -70,14 +70,15 @@ export default {
     custom(entry, render, props) {
       return Vue.component(entry, {
         render: render,
-        props: props,
+        props : props,
       })
     },
     // 表单验证，上级组件可以通过this.$refs来调用此函数
     validate (callback) {
       this.form.validateFields((err, values) => {
         if (err) {
-          this.$com.getFormValidErrTips(this, err) // 这边是后来加的需求，说要全局弹窗
+          // 这边是后来加的需求，说要全局弹窗
+          this.$com.getFormValidErrTips(this, err)
         }
         callback(err, values)
       })
@@ -110,9 +111,9 @@ export default {
           } else if (dateItem.type == 'daterange') {
             if (isMomentToString) {
               if (!moment.isMoment(model[key][0]) || !moment.isMoment(model[key][1])) return model
-              model[key] = [moment(model[key][0]).format(dateItem.format || 'YYYY-MM-DD'), moment(model[key][1]).format(dateItem.format || 'YYYY-MM-DD')]
+              model[key] = [ moment(model[key][0]).format(dateItem.format || 'YYYY-MM-DD'), moment(model[key][1]).format(dateItem.format || 'YYYY-MM-DD') ]
             } else {
-              model[key] = [moment(model[key][0], dateItem.format || 'YYYY-MM-DD'), moment(model[key][1], dateItem.format || 'YYYY-MM-DD')]
+              model[key] = [ moment(model[key][0], dateItem.format || 'YYYY-MM-DD'), moment(model[key][1], dateItem.format || 'YYYY-MM-DD') ]
             }
           }
         }

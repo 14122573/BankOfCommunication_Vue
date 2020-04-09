@@ -61,8 +61,8 @@ import '@/config/micSystemRecourceConfig'
 import Login from '@/views/login/login'
 
 export default {
-  name: 'Layout',
-  mixins: [permission],
+  name      : 'Layout',
+  mixins    : [ permission ],
   components: {
     NavBar,
     Loader,
@@ -72,22 +72,22 @@ export default {
   data() {
     return {
       zh_CN,
-      collapsed: false,
-      username: '',
-      loginPhone:'',
-      showPurePage: false,
-      tidingsCount: 0,
-      showSpaContent: false,
-      backTopTarget: null,
-      showBacktop: false,
-      showTransferDatas:false
+      collapsed        : false,
+      username         : '',
+      loginPhone       : '',
+      showPurePage     : false,
+      tidingsCount     : 0,
+      showSpaContent   : false,
+      backTopTarget    : null,
+      showBacktop      : false,
+      showTransferDatas: false
     }
   },
   created() {
     let token = this.$cookie.get('token')
     if (token != undefined && token != null) {
       this.$ajax.post({
-        url: this.$api.CHECKTOKEN_POST,
+        url   : this.$api.CHECKTOKEN_POST,
         params: {}
       }).then(res => {
         this.getInfo()
@@ -118,7 +118,8 @@ export default {
       deep: true
     },
     $route(to, from) {
-      this.calcBackTopTarget() // 切换页面时获取返回顶部按钮的dom依据
+      this.calcBackTopTarget()
+      // 切换页面时获取返回顶部按钮的dom依据
       let MicConfigs = this.$store.state.micSystemResourceConfig?this.$store.state.micSystemResourceConfig[process.env.NODE_ENV=='development'?'sit':process.env.NODE_ENV]:[]
       // console.log('calcBackTopTarget',MicConfigs)
       if (MicConfigs.length > 0) {
@@ -148,15 +149,16 @@ export default {
      * 判断当前登录人，是否有权可转移个人在子业务系统中的申报数据
      */
     setTransferDatas(){
-      let allDeclarationRoles = ['133333','144444','155555','166666','177777','188888','199999','1000000']
+      let allDeclarationRoles = [ '133333','144444','155555','166666','177777','188888','199999','1000000' ]
       let result = false
-      let curUserRoleIds = !this.$store.state.userInfos?[]:(!this.$store.state.userInfos.roleIds?['999999']:this.$store.state.userInfos.roleIds.split(','))
+      let curUserRoleIds = !this.$store.state.userInfos?[]:(!this.$store.state.userInfos.roleIds?[ '999999' ]:this.$store.state.userInfos.roleIds.split(','))
       curUserRoleIds.every((x)=>{
         if(allDeclarationRoles.includes(x)){
           this.showTransferDatas = true
         }
       })
     },
+
     /**
 			 * @param {boolean} isOnlyClear 是否需要调用接口登出 ； false，不需要；
 			 */
@@ -174,9 +176,9 @@ export default {
         this.$cookie.remove('NavbarList')
       } else {
         this.$ajax.post({
-          url: this.$api.POST_LOGOUT,
+          url   : this.$api.POST_LOGOUT,
           params: {
-            refreshToken:this.$cookie.get('refresh_token')
+            refreshToken: this.$cookie.get('refresh_token')
           }
         }).then(res => {
           this.$store.commit('SET_CLEAR')
@@ -207,14 +209,16 @@ export default {
         this.$router.push({ name: '/person/transferDatas' })
         break
       case 'expert':
-        this.$router.push({ name: '/person/expert' ,
-          query:{
-            loginPhone:this.loginPhone
+        this.$router.push({ name : '/person/expert' ,
+          query: {
+            loginPhone: this.loginPhone
           }
         })
         break
       case 'logout':
         this.plogout()
+        break
+      default:
         break
       }
     },

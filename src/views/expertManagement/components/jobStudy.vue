@@ -90,23 +90,23 @@
 </template>
 <script>
 export default {
-  name:'jobStudy',
-  props:{
-    colSpa:{
-      type:Object,
-      default:()=>{
+  name : 'jobStudy',
+  props: {
+    colSpa: {
+      type   : Object,
+      default: ()=>{
         return {}
       }
     },
-    textSpa:{
-      type:Object,
-      default:()=>{
+    textSpa: {
+      type   : Object,
+      default: ()=>{
         return {}
       }
     },
-    options:{
-      type:Object,
-      default:()=>{
+    options: {
+      type   : Object,
+      default: ()=>{
         return {}
       }
     }
@@ -125,13 +125,13 @@ export default {
     }
     return {
       formJob: this.$form.createForm(this),
-      col: {
-        labelCol: { span: 8 },
+      col    : {
+        labelCol  : { span: 8 },
         wrapperCol: { span: 16 }
       },
-      mode: ['month', 'month'],
+      mode              : [ 'month', 'month' ],
       workExperienceDate: [],//工作时间
-      rules: {
+      rules             : {
         // 工作学习经历
         graduatedSchool: [
           { required: true, whitespace: true, message: '请输入毕业院校!' }
@@ -155,19 +155,19 @@ export default {
         ],
         email: [
           {
-            required: true,
-            type: 'email',
+            required  : true,
+            type      : 'email',
             whitespace: true,
-            message: '请输入电子邮箱!'
+            message   : '请输入电子邮箱!'
           }
         ],
         experience: {
-          date: [{ required: true, message: '请选择起止时间!' }],
-          name: [{ required: true, message: '请输入单位/学校!' }],
-          content: [{ required: true, message: '请输入主要内容!' }],
+          date   : [ { required: true, message: '请选择起止时间!' } ],
+          name   : [ { required: true, message: '请输入单位/学校!' } ],
+          content: [ { required: true, message: '请输入主要内容!' } ],
         },
       },
-      expeirenceList: [{}],
+      expeirenceList: [ {} ],
     }
   },
   methods: {
@@ -207,7 +207,7 @@ export default {
       rows.forEach(item => {
         result.push({})
       })
-      this.expeirenceList = result.length <= 0 ? [{}] : result
+      this.expeirenceList = result.length <= 0 ? [ {} ] : result
     },
     addExperience() {
       this.expeirenceList.push({})

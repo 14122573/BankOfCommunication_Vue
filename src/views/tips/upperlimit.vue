@@ -17,10 +17,10 @@ export default {
   name: 'UpperLimitErr',
   data() {
     return {
-      waitSeconds:30,
-      allowUse:false,
-      allowUseTimer:null,
-      waitText:''
+      waitSeconds  : 30,
+      allowUse     : false,
+      allowUseTimer: null,
+      waitText     : ''
     }
   },
   created() {
@@ -43,7 +43,7 @@ export default {
       this.allowUse = true
     },
     toHome(){
-      this.$router.push({name:'home'})
+      this.$router.push({ name: 'home' })
     },
     toLogin(){
       this.$com.handleLogOut()

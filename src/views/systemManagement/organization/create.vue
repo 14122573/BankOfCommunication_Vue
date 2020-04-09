@@ -78,56 +78,56 @@ export default {
       },
       options: {
         areaLists: [],
-        upLists: [],
+        upLists  : [],
       },
       rules: {
         groupName: {
           validateTrigger: 'blur',
-          rules: [{
-            required: true,
+          rules          : [ {
+            required  : true,
             whitespace: true,
-            message: '请输入组织机构名称!'
-          }]
+            message   : '请输入组织机构名称!'
+          } ]
         },
         contact: {
           validateTrigger: 'blur',
-          rules: [{
-            required: true,
+          rules          : [ {
+            required  : true,
             whitespace: true,
-            message: '请输入联系人!'
-          }]
+            message   : '请输入联系人!'
+          } ]
         },
         contactPhone: {
           validateTrigger: 'blur',
-          rules: [{
-            required: true,
+          rules          : [ {
+            required  : true,
             whitespace: true,
-            message: '请输入联系电话!'
+            message   : '请输入联系电话!'
           }, {
             validator: this.validatePhone
-          }]
+          } ]
         },
         addr: {
           validateTrigger: 'blur',
-          rules: [{
-            required: true,
+          rules          : [ {
+            required  : true,
             whitespace: true,
-            message: '请输入地址!'
-          }]
+            message   : '请输入地址!'
+          } ]
         },
         areaCode: {
           validateTrigger: 'blur',
-          rules: [{
-            required: true,
+          rules          : [ {
+            required  : true,
             whitespace: true,
-            message: '请输入行政区名称!'
-          }]
+            message   : '请输入行政区名称!'
+          } ]
         }
       }
     }
   },
   mounted() {
-    this.options.areaLists = [JSON.parse(this.$route.query.data).area]
+    this.options.areaLists = [ JSON.parse(this.$route.query.data).area ]
     this.getUpLists(JSON.parse(this.$route.query.data).area.parentId)
     if (this.$route.query.id) {
       this.getDetail()
@@ -140,13 +140,13 @@ export default {
           values.areaName = JSON.parse(this.$route.query.data).area.title
           if (!this.$route.query.id) {
             this.$ajax.post({
-              url: this.$api.POST_ADD_ORGANIZATION_LIST,
+              url   : this.$api.POST_ADD_ORGANIZATION_LIST,
               params: values
             }).then(res => {
               if (res.code == '200') {
                 this.$modal.success({
-                  title:'提示',
-                  content:'新增成功!'
+                  title  : '提示',
+                  content: '新增成功!'
                 })
                 this.$router.push({
                   name: '/systemManagement/organization'
@@ -155,7 +155,7 @@ export default {
             })
           } else {
             this.$ajax.put({
-              url: this.$api.PUT_EDIT_ORGANIZATION_LIST.replace('{id}',this.$route.query.id),
+              url   : this.$api.PUT_EDIT_ORGANIZATION_LIST.replace('{id}',this.$route.query.id),
               params: values
             }).then(res => {
               if (res.code == '200') {
@@ -186,11 +186,11 @@ export default {
     getUpLists(query) {
       const params = {
         pageSize: 1000,
-        pageNo: 1,
+        pageNo  : 1,
         areaCode: query
       }
       this.$ajax.get({
-        url: this.$api.GET_ORGANIZATION_LIST,
+        url   : this.$api.GET_ORGANIZATION_LIST,
         params: params
       }).then(res => {
         this.options.upLists = this.$com.confirm(res, 'data.content', [])
@@ -200,9 +200,9 @@ export default {
       this.$ajax.get({
         url: this.$api.GET_ORGANIZATION_LIST_DETAIL.replace('{id}', this.$route.query.id)
       }).then(res => {
-        let {addr,contact,contactPhone,areaCode,groupName}=this.$com.confirm(res, 'data.content', {})
+        let { addr,contact,contactPhone,areaCode,groupName }=this.$com.confirm(res, 'data.content', {})
         let parentId=this.$com.confirm(res, 'data.content.parentId', '0')=='0'?'':this.$com.confirm(res, 'data.content.parentId', '0')
-        this.organizationForm.setFieldsValue({addr,contact,contactPhone,areaCode,parentId,groupName})
+        this.organizationForm.setFieldsValue({ addr,contact,contactPhone,areaCode,parentId,groupName })
       })
     }
   }

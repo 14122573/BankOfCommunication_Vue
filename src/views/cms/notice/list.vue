@@ -84,10 +84,10 @@ export default {
   },
   data() {
     return {
-      isReady:false,
-      simpleSearchForm:true, // 展示、收取简单搜索开关，true为简单搜索
-      searchFormOption:{
-        status:[{
+      isReady         : false,
+      simpleSearchForm: true, // 展示、收取简单搜索开关，true为简单搜索
+      searchFormOption: {
+        status: [ {
           label: '草稿',
           value: '0'
         },{
@@ -96,66 +96,66 @@ export default {
         },{
           label: '已失效',
           value: '2'
-        }]
+        } ]
       },
-      defaultSearchForm:{
-        status:['0','1']
+      defaultSearchForm: {
+        status: [ '0','1' ]
       },
-      searchForm:{},
-      noticeList:[],
-      listColumns:[
+      searchForm : {},
+      noticeList : [],
+      listColumns: [
         {
-          title: '标题',
+          title    : '标题',
           dataIndex: 'title',
-          key: 'title'
+          key      : 'title'
         },{
-          title: '生效时间段',
-          dataIndex: 'startTime',
-          key: 'startTime',
-          width: 210,
+          title      : '生效时间段',
+          dataIndex  : 'startTime',
+          key        : 'startTime',
+          width      : 210,
           scopedSlots: {
             customRender: 'effectTime'
           }
         },{
-          title: '置顶否',
-          dataIndex: 'isTop',
-          key: 'isTop',
-          width: 180,
+          title      : '置顶否',
+          dataIndex  : 'isTop',
+          key        : 'isTop',
+          width      : 180,
           scopedSlots: {
             customRender: 'placement'
           }
         },{
-          title: '状态',
-          dataIndex: 'status',
-          key: 'status',
-          width: 140,
+          title      : '状态',
+          dataIndex  : 'status',
+          key        : 'status',
+          width      : 140,
           scopedSlots: {
             customRender: 'noticeStatus'
           }
         },{
-          title: '操作人',
-          width: 150,
-          dataIndex: 'creator',
-          key: 'creator',
+          title      : '操作人',
+          width      : 150,
+          dataIndex  : 'creator',
+          key        : 'creator',
           scopedSlots: {
             customRender: 'operator'
           }
         },{
-          title: '操作',
-          key: 'operation',
-          width: 180,
+          title      : '操作',
+          key        : 'operation',
+          width      : 180,
           scopedSlots: {
             customRender: 'action'
           }
-        }],
+        } ],
       pagination: {
-        pageNo: 1,
-        pageSize: 10,
-        total: 0,
-        current: 1,
-        defaultCurrent: 1,
+        pageNo         : 1,
+        pageSize       : 10,
+        total          : 0,
+        current        : 1,
+        defaultCurrent : 1,
         showQuickJumper: true,
-        onChange: this.onPageChange
+        onChange       : this.onPageChange
       },
     }
   },
@@ -170,25 +170,25 @@ export default {
       this.getNoticeList()
     }
   },
-  watch:{
+  watch: {
 
   },
-  computed:{
+  computed: {
     formItemLabelCol(){
       let labelCol = {}
       if(this.simpleSearchForm){
-        labelCol = {span: 0}
+        labelCol = { span: 0 }
       }else{
-        labelCol = {span: 8}
+        labelCol = { span: 8 }
       }
       return labelCol
     },
     formItemWrapperCol(){
       let wrapperCol = {}
       if(this.simpleSearchForm){
-        wrapperCol = {span: 24}
+        wrapperCol = { span: 24 }
       }else{
-        wrapperCol = {span: 16}
+        wrapperCol = { span: 16 }
       }
       return wrapperCol
     }
@@ -200,6 +200,7 @@ export default {
     showMoreSearch(){
       this.simpleSearchForm = false
     },
+
     /**
      * 根据列表操作类型，弹窗用户确认后执行相应操作或请求
      * @param {String} eventKey 操作类型，发布：publish；删除：delete；撤回：recall
@@ -207,8 +208,8 @@ export default {
      */
     doListOpeations(eventKey, data) {
       let opeation = {
-        title:'',
-        tips:''
+        title: '',
+        tips : ''
       }
       let toStatus = ''
       switch (eventKey) {
@@ -240,26 +241,27 @@ export default {
       default:
         break
       }
-      if(this.$com.oneOf(eventKey,['publish','delete','recall','top','down'])){
+      if(this.$com.oneOf(eventKey,[ 'publish','delete','recall','top','down' ])){
         let vm = this
         this.$modal.confirm({
-          title: opeation.title,
-          content: opeation.tips,
-          okText: '确认',
-          okType: 'danger',
+          title     : opeation.title,
+          content   : opeation.tips,
+          okText    : '确认',
+          okType    : 'danger',
           cancelText: '取消',
           onOk() {
             if(eventKey=='delete'){
               vm.toDoDelete(data.id)
-            }else if(vm.$com.oneOf(eventKey,['publish','recall'])){
+            }else if(vm.$com.oneOf(eventKey,[ 'publish','recall' ])){
               vm.toChangeStatus(data.id,toStatus)
-            }else if(vm.$com.oneOf(eventKey,['top','down'])){
+            }else if(vm.$com.oneOf(eventKey,[ 'top','down' ])){
               vm.toChangePlacement(data.id,toStatus)
             }
           },
         })
       }
     },
+
     /**
      * 更改指定数据的置顶状态
      * @param {String} id 被操作数据key
@@ -276,6 +278,7 @@ export default {
         }
       })
     },
+
     /**
      * 删除指定数据
      * @param {String} id 被删除数据key
@@ -290,6 +293,7 @@ export default {
         }
       })
     },
+
     /**
      * 更改指定数据发布状态
      * @param {String} id 被操作数据key
@@ -307,6 +311,7 @@ export default {
         }
       })
     },
+
     /**
      * 将一维数据键值数组，转为指定字串串链接的字符串
      * @param {Array} keyArray 包含数据key的一维数组
@@ -323,6 +328,7 @@ export default {
       }
       return keyString
     },
+
     /**
      * 监听搜索表单中文库状态选项勾选内容变更，并暂存勾选结果
      * @param {Array} selecteds 已勾选项的key
@@ -330,6 +336,7 @@ export default {
     onStatusChange(selecteds){
       this.searchForm.status_in = this.toKeyString(selecteds,',')
     },
+
     /**
      * 进入数据操作页面
      * @param {String} type 页面类型， 创建：create；修改：edit；详情：detail
@@ -341,22 +348,22 @@ export default {
       switch (type) {
       case 'create':
         this.$router.push({
-          name:'/cms/notice/create',
+          name: '/cms/notice/create',
         })
         break
       case 'detail':
         this.$router.push({
-          name:'/cms/notice/details',
-          params:{
-            id:id
+          name  : '/cms/notice/details',
+          params: {
+            id: id
           }
         })
         break
       case 'edit':
         this.$router.push({
-          name:'/cms/notice/edit',
-          params:{
-            id:id
+          name  : '/cms/notice/edit',
+          params: {
+            id: id
           }
         })
         break
@@ -364,19 +371,21 @@ export default {
         break
       }
     },
+
     /**
      * 重置列表表单项内容，并重获取数据
      */
     reset(){
       this.searchForm ={
-        status_in:this.toKeyString(this.defaultSearchForm.status,',')
+        'status_in': this.toKeyString(this.defaultSearchForm.status,',')
       }
       this.pagination.current = 1
       this.pagination.pageNo = 1
-      this.noticeSearchForm.setFieldsValue({title:'', status: this.defaultSearchForm.status})
+      this.noticeSearchForm.setFieldsValue({ title: '', status: this.defaultSearchForm.status })
 
       this.getNoticeList()
     },
+
     /**
      * 记录翻页，并获取当前页的数据
      * @param {Number} current 当前页码
@@ -386,19 +395,20 @@ export default {
       this.pagination.pageNo = current
       this.getNoticeList()
     },
+
     /**
      * 调用接口，查询表单要求的通知公告资料
      */
     getNoticeList(){
       let searchParms
       searchParms = Object.assign({},this.searchForm,{
-        title_l:!this.noticeSearchForm.getFieldValue('title')?'':this.noticeSearchForm.getFieldValue('title')
+        'title_l': !this.noticeSearchForm.getFieldValue('title')?'':this.noticeSearchForm.getFieldValue('title')
       },{
-        pageNo: this.pagination.pageNo,
+        pageNo  : this.pagination.pageNo,
         pageSize: this.pagination.pageSize,
       })
       this.$ajax.get({
-        url: this.$api.GET_CMS_NOTICE_LIST,
+        url   : this.$api.GET_CMS_NOTICE_LIST,
         params: searchParms
       }).then(res => {
         this.pagination.total = this.$com.confirm(res, 'data.totalRows', 0)

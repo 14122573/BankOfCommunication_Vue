@@ -40,63 +40,63 @@
 <script>
 import SelectTargetUser from '@/views/personal/transferDatas/selectUser'
 export default {
-  name: 'transferPersonalDatas',
+  name      : 'transferPersonalDatas',
   components: {
     SelectTargetUser
   },
   data() {
     return {
-      modalControlers:false,
-      allSystemCodes:'',
-      sysListForSearch:[],
-      declarationDatas:[],
-      columns: [
+      modalControlers : false,
+      allSystemCodes  : '',
+      sysListForSearch: [],
+      declarationDatas: [],
+      columns         : [
         {
-          title: '申请(报)材料名称',
+          title    : '申请(报)材料名称',
           dataIndex: 'title',
-          key: 'title',
+          key      : 'title',
         },{
-          title: '提交时间',
+          title    : '提交时间',
           dataIndex: 'time',
-          key: 'time',
-          width: 180
+          key      : 'time',
+          width    : 180
         },{
-          title: '审请(报)状态',
+          title    : '审请(报)状态',
           dataIndex: 'status',
-          key: 'status',
-          width: 130
+          key      : 'status',
+          width    : 130
         },{
-          title: '所属系统',
-          dataIndex: 'systemCode',
-          key: 'systemCode',
-          width: 240,
+          title      : '所属系统',
+          dataIndex  : 'systemCode',
+          key        : 'systemCode',
+          width      : 240,
           scopedSlots: {
             customRender: 'system'
           }
         },{
-          title: '操作',
-          key: 'operation',
-          width: 100,
+          title      : '操作',
+          key        : 'operation',
+          width      : 100,
           scopedSlots: {
             customRender: 'action'
           }
         }
       ],
       pagination: {
-        pageNo: 1,
-        pageSize: 10,
-        total: 0,
-        current: 1,
-        defaultCurrent: 1,
+        pageNo         : 1,
+        pageSize       : 10,
+        total          : 0,
+        current        : 1,
+        defaultCurrent : 1,
         showQuickJumper: true,
-        onChange: this.onPageChange
+        onChange       : this.onPageChange
       },
-      selecteds:{
-        selectedDatas:[],
-        confirmDatas:[],
-        targetUserId:''
+      selecteds: {
+        selectedDatas: [],
+        confirmDatas : [],
+        targetUserId : ''
       },
-      rowSelection:{
+      rowSelection: {
         onChange: (selectedRowKeys, selectedRows) => {
           this.selecteds.selectedDatas = selectedRows
         }
@@ -112,7 +112,7 @@ export default {
   mounted() {
     this.getLists()
   },
-  computed:{
+  computed: {
   },
   methods: {
     /**
@@ -128,13 +128,14 @@ export default {
       }
       if(this.selecteds.confirmDatas.length==0){
         this.$modal.warning({
-          title: '未选择需转移数据',
+          title  : '未选择需转移数据',
           content: '请勾选至少一条申报(请)数据'
         })
       }else{
         this.modalControlers = true
       }
     },
+
     /**
      * 关闭批量创建账号弹窗表单，并根据传参判断是否重载列表
      * @param {Boolean} isReload 是否重载列表
@@ -145,6 +146,7 @@ export default {
         this.getLists()
       }
     },
+
     /**
      * 获取子系统
      * @param {String} code 系统编码
@@ -161,6 +163,7 @@ export default {
       }
       return name
     },
+
     /**
      * 清空表单搜索条件，展示默认列表内容
      */
@@ -168,6 +171,7 @@ export default {
       this.datasSearchForm.resetFields()
       this.getLists()
     },
+
     /**
      * 监听分页变化，调用数据查询
      * @param {Int} val 当前选择的分页
@@ -193,9 +197,9 @@ export default {
         params['title'] = options.title
       }
       this.$ajax.get({
-        url:this.$api.GET_DECLARATION_LIST,
-        params:Object.assign({},params,{
-          pageNo: this.pagination.pageNo,
+        url   : this.$api.GET_DECLARATION_LIST,
+        params: Object.assign({},params,{
+          pageNo  : this.pagination.pageNo,
           pageSize: this.pagination.pageSize
         })
       }).then(res=>{
@@ -207,13 +211,14 @@ export default {
         }
       })
     },
+
     /**
      * 获取可选的子系统清单
      */
     getSysCodOptions(){
       this.$ajax.get({
-        url: this.$api.SYSTEM_LIST_ALL_GET,
-        params:{type:'1'}
+        url   : this.$api.SYSTEM_LIST_ALL_GET,
+        params: { type: '1' }
       }).then(res=>{
         if(res.code === '200'){
           let data = this.$com.confirm(res, 'data.content', [])

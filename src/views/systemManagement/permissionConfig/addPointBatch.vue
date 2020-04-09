@@ -103,69 +103,74 @@ export default {
   data() {
 
     return {
-      isReady:false,
-      sysListForSearch:[],
-      tree:{
-        roleTreeData:[],
-        roleTreeDataArranged:[]
+      isReady         : false,
+      sysListForSearch: [],
+      tree            : {
+        roleTreeData        : [],
+        roleTreeDataArranged: []
       },
-      dataSource:[{
-        key: '0',
-        type:'', // 所属系统编码
-        typeName:'', // 所属系统名称
-        pointName:'', // 功能点名称
-        pointKey:'', // 功能点编码
-        permIds:[] // 功能点归属权限id
-      }],
-      dataCount:1,
-      batchSetForm:{
-        sysCode:'',
-        pointName:'',
-        pointCode:'',
-        pointPermIds:[]
+      dataSource: [ {
+        key      : '0',
+        // 所属系统编码
+        type     : '',
+        // 所属系统名称
+        typeName : '',
+        // 功能点名称
+        pointName: '',
+        // 功能点编码
+        pointKey : '',
+        // 功能点归属权限id
+        permIds  : []
+      } ],
+      dataCount   : 1,
+      batchSetForm: {
+        sysCode     : '',
+        pointName   : '',
+        pointCode   : '',
+        pointPermIds: []
       },
-      tableColumns: [{
-        title: '业务子系统名称',
-        dataIndex: 'type',
-        width: '20%',
+      tableColumns: [ {
+        title      : '业务子系统名称',
+        dataIndex  : 'type',
+        width      : '20%',
         scopedSlots: {
           filterDropdown: 'filterDropdown',
-          filterIcon: 'filterIcon',
-          customRender: 'system'
+          filterIcon    : 'filterIcon',
+          customRender  : 'system'
         },
       }, {
-        title: '功能点名称',
-        dataIndex: 'pointName',
-        width: '20%',
+        title      : '功能点名称',
+        dataIndex  : 'pointName',
+        width      : '20%',
         scopedSlots: {
           filterDropdown: 'filterDropdown',
-          filterIcon: 'filterIcon',
-          customRender: 'pointName'
+          filterIcon    : 'filterIcon',
+          customRender  : 'pointName'
         },
       }, {
-        title: '功能点编码',
-        dataIndex: 'pointKey',
-        width: '20%',
+        title      : '功能点编码',
+        dataIndex  : 'pointKey',
+        width      : '20%',
         scopedSlots: {
           filterDropdown: 'filterDropdown',
-          filterIcon: 'filterIcon',
-          customRender: 'pointKey'
+          filterIcon    : 'filterIcon',
+          customRender  : 'pointKey'
         },
       }, {
-        title: '归属权限',
-        dataIndex: 'permIds',
-        width: '30%',
+        title      : '归属权限',
+        dataIndex  : 'permIds',
+        width      : '30%',
         scopedSlots: {
           filterDropdown: 'filterDropdown',
-          filterIcon: 'filterIcon',
-          customRender: 'permIds'
+          filterIcon    : 'filterIcon',
+          customRender  : 'permIds'
         },
       },{
-        title: '操作',
-        dataIndex: 'operation',
-        width: '10%',
+        title      : '操作',
+        dataIndex  : 'operation',
+        width      : '10%',
         scopedSlots: { customRender: 'operation' },
-      }],
+      } ],
     }
   },
   watch: {
@@ -178,9 +183,9 @@ export default {
     this.getSysCodOptions()
     this.isReady = true
   },
-  computed:{
+  computed: {
   },
-  methods:{
+  methods: {
     /**
      * 判断列表批量设置时，当前展开的下拉框是否可以提交
      * @param {String} dataIndex table列的字段名
@@ -189,20 +194,26 @@ export default {
     disableBatchSet(dataIndex){
       let dis = false
       if('pointKey' === dataIndex && !this.$com.checkNumber(this.batchSetForm.pointCode)){
-        if(!!this.batchSetForm.sysCode && this.batchSetForm.sysCode.length>0){ // 如果已经有系统code
-          if(!this.batchSetForm.pointCode){ // 没有输入功能code数字位，则效验通过
+        if(!!this.batchSetForm.sysCode && this.batchSetForm.sysCode.length>0){
+          // 如果已经有系统code
+          if(!this.batchSetForm.pointCode){
+            // 没有输入功能code数字位，则效验通过
             dis = true
           }else{
-            if(!this.$com.checkNumber(this.batchSetForm.pointCode)){ // 有输入功能code数字位，必须为数字才效验通过
+            if(!this.$com.checkNumber(this.batchSetForm.pointCode)){
+              // 有输入功能code数字位，必须为数字才效验通过
               dis = true
             }else{
               dis = false
             }
           }
-        }else{ // 如果没有系统code
-          if(!this.batchSetForm.pointCode){  // 没有输入过功能code数字位，则效验不通过
+        }else{
+          // 如果没有系统code
+          if(!this.batchSetForm.pointCode){
+            // 没有输入过功能code数字位，则效验不通过
             dis = true
-          }else{ // 有输入功能code数字位，必须为数字才效验通过
+          }else{
+            // 有输入功能code数字位，必须为数字才效验通过
             if(!this.$com.checkNumber(this.batchSetForm.pointCode)){
               dis = true
             }else{
@@ -216,6 +227,7 @@ export default {
       }
       return dis
     },
+
     /**
      * 监听table批量设置表单字段的change事件，获取保存对应的值
      * @param {String,Array} select 对应输入项的值
@@ -239,6 +251,7 @@ export default {
         break
       }
     },
+
     /**
      * 批量设置指定table列的值
      * @param {String} dataIndex table列的字段名
@@ -272,6 +285,7 @@ export default {
       }
       confirm()
     },
+
     /**
      * 取消批量指定table列的值
      * @param {String} dataIndex table列的字段名
@@ -295,37 +309,45 @@ export default {
         break
       }
     },
+
     /**
      * 添加一条空数据
      */
     addTableLine(){
       const { dataCount, dataSource } = this
       const newData = {
-        key: dataCount,
-        type:'', // 所属系统编码
-        typeName:'', // 所属系统名称
-        pointName:'', // 功能点名称
-        pointKey:'', // 功能点编码
-        permIds:[] // 功能点归属权限id
+        key      : dataCount,
+        // 所属系统编码
+        type     : '',
+        // 所属系统名称
+        typeName : '',
+        // 功能点名称
+        pointName: '',
+        // 功能点编码
+        pointKey : '',
+        // 功能点归属权限id
+        permIds  : []
       }
-      this.dataSource = [...dataSource, newData]
+      this.dataSource = [ ...dataSource, newData ]
       this.dataCount = dataCount + 1
     },
+
     /**
      * 删除table指定key 的数据
      * @param {String} key 本次添加中的功能点数据的key值
      */
     onTableLineDelete (key) {
-      const dataSource = [...this.dataSource]
+      const dataSource = [ ...this.dataSource ]
       this.dataSource = dataSource.filter(item => item.key !== key)
     },
+
     /**
      * 监听单元格中功能点所属业务系统的change事件，获取子组件传递的更改后的值
      * @param {String} key 本次变更的功能点数据的key值
      * @param {Object} value 本次变更的功能点数据的业务系统值 {sysCode:业务系统code,sysName:业务子系统名称}
      */
     onSystemChange (key, value) {
-      const dataSource = [...this.dataSource]
+      const dataSource = [ ...this.dataSource ]
       const target = dataSource.find(item => item.key === key)
       if (target) {
         target['type'] = value.sysCode
@@ -333,6 +355,7 @@ export default {
         this.dataSource = dataSource
       }
     },
+
     /**
      * 监听单元格中功能点名称的change事件，获取子组件传递的更改后的值
      * @param {String} key 本次变更的功能点数据的key值
@@ -340,7 +363,7 @@ export default {
      * @param {String} value 本次变更的功能点数据的名称
      */
     onPointChange (key, dataIndex, value) {
-      const dataSource = [...this.dataSource]
+      const dataSource = [ ...this.dataSource ]
       const target = dataSource.find(item => item.key === key)
       if (target) {
         target[dataIndex] = value
@@ -350,45 +373,51 @@ export default {
     createPointBatch(){
       let pushData = []
       let errs = {
-        pointKey:false
+        pointKey: false
       }
       pushData = this.dataSource.map((item) => {
         if(!item.pointKey || !item.pointName){
           errs.pointKey = true
         }
         return {
-          type:item.type, // 所属系统编码
-          typeName:item.typeName, // 所属系统名称
-          pointName:item.pointName, // 功能点名称
-          pointKey:item.pointKey, // 功能点编码
-          permIds:item.permIds // 功能点归属权限id
+          // 所属系统编码
+          type     : item.type,
+          // 所属系统名称
+          typeName : item.typeName,
+          // 功能点名称
+          pointName: item.pointName,
+          // 功能点编码
+          pointKey : item.pointKey,
+          // 功能点归属权限id
+          permIds  : item.permIds
         }
       })
       if(!errs.pointKey){
         this.$ajax.post({
-          url: this.$api.POST_PREMSPOINT_BATCH,
+          url   : this.$api.POST_PREMSPOINT_BATCH,
           params: pushData
         }).then(res => {
           if (res.code === '200') {
             this.$message.success('添加成功')
-            this.$router.push({name:'/systemManagement/permissionConfig/point'})
+            this.$router.push({ name: '/systemManagement/permissionConfig/point' })
           }
         })
       }else{
         this.$modal.error({
-          title: '表单验证未通过',
-          content: '功能编码或功能名称不能为空！',
-          okText: '确认',
+          title     : '表单验证未通过',
+          content   : '功能编码或功能名称不能为空！',
+          okText    : '确认',
           cancelText: '取消',
         })
       }
     },
+
     /**
      * 查询权限树
      */
     getRoleTree(){
       this.$ajax.get({
-        url:this.$api.GET_ALL_ROLE + '?isTree=true&isAll=true'
+        url: this.$api.GET_ALL_ROLE + '?isTree=true&isAll=true'
       }).then(res=>{
         if(!!res.data && !!res.data.content){
           let data=res.data.content
@@ -408,16 +437,17 @@ export default {
             }
           })
           this.tree.roleTreeDataArranged.push({
-            'title':'初始化权限',
-            'key':'-1',
-            'permKey':'',
-            'canDelete':false,
-            'isHide':true,
-            'children':[].concat(initializedRoleTree)
+            'title'    : '初始化权限',
+            'key'      : '-1',
+            'permKey'  : '',
+            'canDelete': false,
+            'isHide'   : true,
+            'children' : [].concat(initializedRoleTree)
           })
         }
       })
     },
+
     /**
      * 根据tree渲染数据所需结构，重组数据
      * @param {Object} item 单个权限对象
@@ -425,11 +455,11 @@ export default {
      */
     initRoleTreeNode(item){
       let childrenNode={
-        'title':item.permName,
-        'key':item.id,
-        'permKey':!item.permKey?'':item.permKey,
-        'canDelete':item.canDelete===false?false:true,
-        'isHide':item.isHide,
+        'title'    : item.permName,
+        'key'      : item.id,
+        'permKey'  : !item.permKey?'':item.permKey,
+        'canDelete': item.canDelete===false?false:true,
+        'isHide'   : item.isHide,
       }
       if(item.childList && item.childList.length){
         childrenNode.children = []
@@ -440,13 +470,14 @@ export default {
       }
       return childrenNode
     },
+
     /**
      * 获取可选的子系统清单
      */
     getSysCodOptions(){
       this.$ajax.get({
-        url: this.$api.SYSTEM_LIST_ALL_GET,
-        params:{type:'1'}
+        url   : this.$api.SYSTEM_LIST_ALL_GET,
+        params: { type: '1' }
       }).then(res=>{
         if(res.code === '200'){
           let data = this.$com.confirm(res, 'data.content', [])

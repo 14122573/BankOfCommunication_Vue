@@ -24,30 +24,30 @@
 <script>
 import common from '@/util/common'
 export default {
-  name:'changePassword',
+  name : 'changePassword',
   props: {
-    item:{
-      type:Object,
-      required:true,
+    item: {
+      type    : Object,
+      required: true,
     },
-    baseType:{
-      type:String,
-      required:true,
+    baseType: {
+      type    : String,
+      required: true,
       validator (value) {
         // 0-民族 1-单位性质 2-职务 3-职称 4-学历 5-学位 6-工作领域 7-专业组别 8-研究方向
-        return common.oneOf(value, ['0', '1', '2', '3', '4', '5', '6', '7', '8'])
+        return common.oneOf(value, [ '0', '1', '2', '3', '4', '5', '6', '7', '8' ])
       }
     },
-    resetShow:{
-      type:Boolean,
-      required:true
+    resetShow: {
+      type    : Boolean,
+      required: true
     }
   },
   data() {
     return {
-      lvOptions:[],
-      isShow: false,
-      colSpe: {
+      lvOptions: [],
+      isShow   : false,
+      colSpe   : {
         labelCol: {
           span: 6
         },
@@ -58,17 +58,17 @@ export default {
       rules: {
         title: {
           validateTrigger: 'blur',
-          rules: [{ required: true, message: '请输入名称' }]
+          rules          : [ { required: true, message: '请输入名称' } ]
         },
         lv: {
           validateTrigger: 'blur',
-          rules: [{ required: true, message: '请选择' }]
+          rules          : [ { required: true, message: '请选择' } ]
         }
       },
-      name:{
-        modalTitle:'',
-        formLabel:'',
-        formPlaceHolder:''
+      name: {
+        modalTitle     : '',
+        formLabel      : '',
+        formPlaceHolder: ''
       }
     }
   },
@@ -82,8 +82,8 @@ export default {
         let lvs = this.$com.confirm(res, 'data.content', [])
         for(let i=0;i<lvs.length;i++){
           this.lvOptions.push({
-            key:lvs[i],
-            value:lvs[i]
+            key  : lvs[i],
+            value: lvs[i]
           })
         }
       }
@@ -179,7 +179,7 @@ export default {
             putParams['lv'] = this.editForm.getFieldValue('lv')
           }
           this.$ajax.put({
-            url: this.$api.PUT_EXPERT_BASE.replace('{id}', this.item.id),
+            url   : this.$api.PUT_EXPERT_BASE.replace('{id}', this.item.id),
             params: putParams
           }).then(res => {
             if (res.code === '200') {

@@ -1,5 +1,5 @@
 import Vue from 'vue'
-import {PermissionFilter} from './permission-filter'
+import { PermissionFilter } from './permission-filter'
 
 const PermissionControl = Vue.directive('permission', {
   bind: function (el, binding, vnode) { // 对于没有权限的按钮在虚拟DOM阶段将其注释掉，不渲染出来
