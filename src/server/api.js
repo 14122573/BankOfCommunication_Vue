@@ -56,9 +56,9 @@ export default {
   POST_BIND_TEMPUSERINFO_BIND    : '/service-user/user/public/temp/bind/info', // 临时账号，绑定手机及用户信息
   // 用户在子业务系统中的数据
   GET_EXPERT_REVIEW_TODO_LIST    : '/service-expert/expert/extract/{expertId}', //专家待评审项目。获取当前接口传参专家需要评审的数据,? status:0-未完成 1-完成 null/""-全部
-  GET_DECLARATION_LIST           : MOCK_URL+'/service-user/user/datas',  //获取申报人，在子业务系统提交过的所有材料
-  GET_DECLARATION_TARGETUSER_LIST: MOCK_URL+'/assign/users',  //查找接收申报数据的用户列表
-  PUT_DECLARATION_TRANSFER       : MOCK_URL+'/move/datas',  //提交数据转移
+  GET_DECLARATION_LIST           : '/service-user/user/user/datas',  //获取申报人，在子业务系统提交过的所有材料
+  GET_DECLARATION_TARGETUSER_LIST: '/service-user/user/assign/users',  //查找接收申报数据的用户列表
+  PUT_DECLARATION_TRANSFER       : '/service-user/user/move/datas',  //提交数据转移
 
   // 系统配置
   // 系统配置 -- 权限配置管理

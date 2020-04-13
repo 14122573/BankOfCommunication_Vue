@@ -163,12 +163,12 @@ export default {
           this.administrativeRegions.push(this.getTreeNode(ele, index))
         })
         let national={
-          title: '中国',
-          value: '999999',
-          id: '999999',
-          key: '999999',
-          parentId: null,
-          children: null
+          'title'   : '中国',
+          'value'   : '999999',
+          'id'      : '999999',
+          'key'     : '999999',
+          'parentId': null,
+          'children': null
         }
         this.administrativeRegions.splice(0,0,national)
       })

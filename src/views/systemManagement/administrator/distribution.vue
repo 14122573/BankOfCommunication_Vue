@@ -262,24 +262,24 @@ export default {
           this.organData.push(this.getOrganTree(ele, index))
         })
         let national={
-          title: '中国',
-          value: '999999',
-          id: '999999',
-          key: '999999',
-          parentId: null,
-          children: null
+          'title'   : '中国',
+          'value'   : '999999',
+          'id'      : '999999',
+          'key'     : '999999',
+          'parentId': null,
+          'children': null
         }
         this.organData.splice(0,0,national)
       })
     },
     getOrganTree(item, index) {
       let childrenNode = {
-        title   : item.areaName,
-        value   : item.id,
-        id      : item.id,
-        key     : item.id,
-        parentId: item.parentId,
-        children: item.childList
+        'title'   : item.areaName,
+        'value'   : item.id,
+        'id'      : item.id,
+        'key'     : item.id,
+        'parentId': item.parentId,
+        'children': item.childList
       }
       return childrenNode
     },
