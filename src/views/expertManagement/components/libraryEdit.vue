@@ -406,7 +406,7 @@ export default {
     //   this.$ajax.get({
     //     url: this.$api.GET_AREA_NEXT,
     //     params: {
-    //       parentId: targetOption ? targetOption.value.split('#')[0] : '999999',
+    //       parentId: targetOption ? targetOption.value.split('#')[0] : '0',
     //     },
     //     hideLoading: true,
     //   }).then(res => {

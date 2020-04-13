@@ -156,7 +156,7 @@ export default {
       await this.$ajax.get({
         url   : this.$api.GET_PUBLIC_AREA_NEXT,
         params: {
-          parentId: targetOption ? targetOption.value : '999999',
+          parentId: targetOption ? targetOption.value : '0',
         },
         hideLoading: true,
       }).then(res => {

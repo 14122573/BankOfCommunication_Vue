@@ -193,7 +193,7 @@ export default {
       this.$ajax.get({
         url   : this.$api.GET_AREA_NEXT,
         params: {
-          parentId: this.isAdminator ? '999999' : this.$store.state.userInfos.area.id
+          parentId: this.isAdminator ? '0' : this.$store.state.userInfos.area.id
         }
       }).then(res => {
         let datas = this.$com.confirm(res, 'data.content', [])
