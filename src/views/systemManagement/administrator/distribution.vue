@@ -265,12 +265,12 @@ export default {
     },
     getOrganTree(item, index) {
       let childrenNode = {
-        title   : item.areaName,
-        value   : item.id,
-        id      : item.id,
-        key     : item.id,
-        parentId: item.parentId,
-        children: item.childList
+        'title'   : item.areaName,
+        'value'   : item.id,
+        'id'      : item.id,
+        'key'     : item.id,
+        'parentId': item.parentId,
+        'children': item.childList
       }
       return childrenNode
     },

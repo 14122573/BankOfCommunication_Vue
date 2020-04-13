@@ -91,6 +91,7 @@ export default {
         params: {}
       }).then(res => {
         this.getInfo()
+        this.setTransferDatas()
       })
     } else {
       this.plogout(true)
@@ -149,14 +150,26 @@ export default {
      * 判断当前登录人，是否有权可转移个人在子业务系统中的申报数据
      */
     setTransferDatas(){
-      let allDeclarationRoles = [ '133333','144444','155555','166666','177777','188888','199999','1000000' ]
-      let result = false
-      let curUserRoleIds = !this.$store.state.userInfos?[]:(!this.$store.state.userInfos.roleIds?[ '999999' ]:this.$store.state.userInfos.roleIds.split(','))
-      curUserRoleIds.every((x)=>{
-        if(allDeclarationRoles.includes(x)){
-          this.showTransferDatas = true
-        }
-      })
+      // to do: 捷安：能力验证、范蠡奖 菜单待定（系统重做）
+      // to do: 黄明：大水面、海洋牧场， 休闲渔业（系统重做）
+      let allDeclarationCodes = [ 'S060104','S060107','S060108','S060109','S060110','S060112','S050101','S050109','S050301','S050201','S050202','S010101','S010107','S020101','S020103' ]
+      let authCodeList=[]
+      if(!!this.$store.state.userInfos){
+        this.$ajax.get({
+          url: this.$api.GET_USER_PEIMISSION
+        }).then(res=>{
+          if(res.data!=undefined && res.data!=null && res.data.content!=undefined && res.data.content!=null){
+            // 当前用户全部权限编码，包含菜单及功能操作
+            authCodeList = this.$com.confirm(res, 'data.content', [])
+            // 判断当前用户是否拥有 申报单位用户类型的菜单权限
+            authCodeList.forEach(element => {
+              if(allDeclarationCodes.includes(element)){
+                this.showTransferDatas = true
+              }
+            })
+          }
+        })
+      }
     },
 
     /**
