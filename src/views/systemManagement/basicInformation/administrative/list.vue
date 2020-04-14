@@ -189,7 +189,7 @@ export default {
       this.$ajax.get({
         url   : this.$api.GET_AREA_NEXT,
         params: {
-          parentId: 999999
+          parentId: 0
         }
       }).then(res => {
         let datas = this.$com.confirm(res, 'data.content', [])

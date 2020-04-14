@@ -155,22 +155,13 @@ export default {
       this.$ajax.get({
         url   : this.$api.GET_AREA_NEXT,
         params: {
-          parentId: this.isAdminator ? '999999' : this.$store.state.userInfos.area.id
+          parentId: this.isAdminator ? '0' : this.$store.state.userInfos.area.id
         }
       }).then(res => {
         let datas = this.$com.confirm(res, 'data.content', [])
         datas.forEach((ele, index) => {
           this.administrativeRegions.push(this.getTreeNode(ele, index))
         })
-        let national={
-          'title'   : '中国',
-          'value'   : '999999',
-          'id'      : '999999',
-          'key'     : '999999',
-          'parentId': null,
-          'children': null
-        }
-        this.administrativeRegions.splice(0,0,national)
       })
     },
     getTreeNode(item, index) {
@@ -186,7 +177,7 @@ export default {
     },
     onLoadData(treeNode) {
       return new Promise((resolve) => {
-        if (treeNode.dataRef.children || treeNode.value=='999999') {
+        if (treeNode.dataRef.children) {
           resolve()
           return
         }

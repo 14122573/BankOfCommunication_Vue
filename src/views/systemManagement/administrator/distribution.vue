@@ -22,11 +22,11 @@
             </a-col>
             <a-col span="8">
               <a-form-item label="所属行政区域" :label-col="labelCol" :wrapper-col="wrapperCol">
-                <a-select v-if="isAdminator !== true" placeholder="11请选择" :options="options.areaList" @change="areaChange"
+                <a-select v-if="isAdminator !== true" placeholder="请选择" :options="options.areaList" @change="areaChange"
                 :filterOption="filterOption" v-decorator="['area',{rules: [rules.required],validateTrigger:'change'}]"
                 showSearch allowClear />
                 <a-tree-select v-else :treeData="organData" :loadData="onLoadData" showLine :dropdownStyle="{ maxHeight: '200px', overflow: 'auto' }"
-                placeholder='112请选择' allowClear v-decorator="['area',{rules: [rules.required],validateTrigger:'change'} ]"
+                placeholder='请选择' allowClear v-decorator="['area',{rules: [rules.required],validateTrigger:'change'} ]"
                 @change="onChangeTree">
                 </a-tree-select>
               </a-form-item>
@@ -223,7 +223,7 @@ export default {
     // 行政区域修改---
     onLoadData(treeNode) {
       return new Promise((resolve) => {
-        if (treeNode.dataRef.children || treeNode.value=='999999') {
+        if (treeNode.dataRef.children) {
           resolve()
           return
         }
@@ -254,22 +254,13 @@ export default {
       this.$ajax.get({
         url   : this.$api.GET_AREA_NEXT,
         params: {
-          parentId: this.isAdminator ? '999999' : this.$store.state.userInfos.area.id
+          parentId: this.isAdminator ? '0' : this.$store.state.userInfos.area.id
         }
       }).then(res => {
         let datas = this.$com.confirm(res, 'data.content', [])
         datas.forEach((ele, index) => {
           this.organData.push(this.getOrganTree(ele, index))
         })
-        let national={
-          'title'   : '中国',
-          'value'   : '999999',
-          'id'      : '999999',
-          'key'     : '999999',
-          'parentId': null,
-          'children': null
-        }
-        this.organData.splice(0,0,national)
       })
     },
     getOrganTree(item, index) {
