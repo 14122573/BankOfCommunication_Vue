@@ -112,7 +112,10 @@ export default {
   mounted() {
     this.getLists()
   },
-  computed: {
+  watch: {
+    allSystemCodes(){
+      this.getLists()
+    }
   },
   methods: {
     /**
@@ -184,6 +187,7 @@ export default {
     getLists(){
       const options = this.$com.dealObjectValue(this.datasSearchForm.getFieldsValue())
       let params = {}
+      // console.log(!options.systemCode,this.allSystemCodes)
       if(!options.systemCode){
         params['systemCode'] = this.allSystemCodes
       }else{

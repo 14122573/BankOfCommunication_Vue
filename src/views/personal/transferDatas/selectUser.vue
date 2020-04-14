@@ -5,7 +5,7 @@
       <a-row type="flex" justify="space-between" align="middle">
         <a-col span="16">
           <a-form-item class='formItem' label="账户(手机号)" :label-col="{span:8}" :wrapper-col="{span:16}">
-            <a-input placeholder="请输入" v-decorator="['phone']" />
+            <a-input placeholder="请输入" v-decorator="['phone_l']" />
           </a-form-item>
         </a-col>
         <a-col span="8" class="algin-right">
@@ -116,6 +116,7 @@ export default {
       this.needsAuthCodes=[]
       this.pagination.pageNo = 1
       this.pagination.current = 1
+      this.getLists()
     },
     handleCancel(){
       this.resetForm()
@@ -127,9 +128,9 @@ export default {
      * @param {Object} targetUser 当前选中目标用户的数据
      */
     toTransfer(targetUser){
-      let hasAuth = this.checkAuthCode(targetUser.authCodes)
+      let hasAuth = this.checkAuthCode(targetUser.permKey)
       if(hasAuth){
-        this.$ajax({
+        this.$ajax.put({
           url   : this.$api.PUT_DECLARATION_TRANSFER,
           params: {
             targetUserId: targetUser.id,
@@ -158,14 +159,22 @@ export default {
      * @returns {Boolean} true 拥有全部权限
      */
     checkAuthCode(userCodes){
-      if(!(userCodes instanceof Array)||((userCodes.length < this.needsAuthCodes.length))){
+      let userCodesArray = !userCodes?[]:userCodes.split(',')
+      if(!(userCodesArray instanceof Array)||((userCodesArray.length < this.needsAuthCodes.length))){
         return false
       }
-      let needsAuthCodeStr= this.needsAuthCodes.toString()
-      for (var i = 0 ;i < userCodes.length;i++) {
-        if(needsAuthCodeStr.indexOf(userCodes[i]) < 0) return false
+      let unInNum = 0
+      this.needsAuthCodes.forEach(code => {
+        console.log(code,userCodesArray.includes(code))
+        if(!userCodesArray.includes(code)){
+          unInNum ++
+        }
+      })
+      if(unInNum>0){
+        return false
+      }else{
+        return true
       }
-      return true
     },
 
     /**
