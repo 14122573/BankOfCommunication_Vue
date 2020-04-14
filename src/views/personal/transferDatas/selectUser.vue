@@ -5,7 +5,7 @@
       <a-row type="flex" justify="space-between" align="middle">
         <a-col span="16">
           <a-form-item class='formItem' label="账户(手机号)" :label-col="{span:8}" :wrapper-col="{span:16}">
-            <a-input placeholder="请输入" v-decorator="['phone']" />
+            <a-input placeholder="请输入" v-decorator="['phone_l']" />
           </a-form-item>
         </a-col>
         <a-col span="8" class="algin-right">
@@ -24,59 +24,59 @@
 </template>
 <script>
 export default {
-  name: 'transferTargetUser',
+  name : 'transferTargetUser',
   props: {
-    resetShow:{
-      type:Boolean,
-      required:true
+    resetShow: {
+      type    : Boolean,
+      required: true
     },
-    transferDatas:{
-      type:Array,
-      required:true
+    transferDatas: {
+      type    : Array,
+      required: true
     }
   },
   data() {
     return {
-      isShow:false,
-      userDatas:[],
-      needsAuthCodes:[],
-      columns: [
+      isShow        : false,
+      userDatas     : [],
+      needsAuthCodes: [],
+      columns       : [
         {
-          title: '账号',
+          title    : '账号',
           dataIndex: 'phone',
-          key: 'phone',
-          width: 120
+          key      : 'phone',
+          width    : 120
         },{
-          title: '姓名',
+          title    : '姓名',
           dataIndex: 'name',
-          key: 'name',
-          width: 100
+          key      : 'name',
+          width    : 100
         },{
-          title: '单位',
+          title    : '单位',
           dataIndex: 'dept',
-          key: 'dept',
-          width: 130
+          key      : 'dept',
+          width    : 130
         },{
-          title: '地址',
+          title    : '地址',
           dataIndex: 'companyAddress',
-          key: 'companyAddress',
+          key      : 'companyAddress',
         },{
-          title: '操作',
-          key: 'operation',
-          width: 80,
+          title      : '操作',
+          key        : 'operation',
+          width      : 80,
           scopedSlots: {
             customRender: 'action'
           }
         }
       ],
       pagination: {
-        pageNo: 1,
-        pageSize: 10,
-        total: 0,
-        current: 1,
-        defaultCurrent: 1,
+        pageNo         : 1,
+        pageSize       : 10,
+        total          : 0,
+        current        : 1,
+        defaultCurrent : 1,
         showQuickJumper: true,
-        onChange: this.onPageChange
+        onChange       : this.onPageChange
       },
     }
   },
@@ -116,23 +116,25 @@ export default {
       this.needsAuthCodes=[]
       this.pagination.pageNo = 1
       this.pagination.current = 1
+      this.getLists()
     },
     handleCancel(){
       this.resetForm()
       this.$emit('on-success',false)
     },
+
     /**
      * 验证勾选用户权限合法性，并调用接口实现数据移交
      * @param {Object} targetUser 当前选中目标用户的数据
      */
     toTransfer(targetUser){
-      let hasAuth = this.checkAuthCode(targetUser.authCodes)
+      let hasAuth = this.checkAuthCode(targetUser.permKey)
       if(hasAuth){
-        this.$ajax({
-          url:this.$api.PUT_DECLARATION_TRANSFER,
-          params:{
+        this.$ajax.put({
+          url   : this.$api.PUT_DECLARATION_TRANSFER,
+          params: {
             targetUserId: targetUser.id,
-            datas: this.transferDatas
+            datas       : this.transferDatas
           }
         }).then(res=>{
           if(res.code =='200'){
@@ -145,26 +147,36 @@ export default {
         })
       }else{
         this.$modal.error({
-          title: '移交数据失败',
+          title  : '移交数据失败',
           content: '该用户缺少必要权限，无法使用转移数据'
         })
       }
     },
+
     /**
      * 判断当前选中目标用户，是否拥有需要转移数据全部操作权限
      * @param {Array} userCodes 当前选中目标用户的权限码数组
      * @returns {Boolean} true 拥有全部权限
      */
     checkAuthCode(userCodes){
-      if(!(userCodes instanceof Array)||((userCodes.length < this.needsAuthCodes.length))){
+      let userCodesArray = !userCodes?[]:userCodes.split(',')
+      if(!(userCodesArray instanceof Array)||((userCodesArray.length < this.needsAuthCodes.length))){
         return false
       }
-      let needsAuthCodeStr= this.needsAuthCodes.toString()
-      for (var i = 0 ;i < userCodes.length;i++) {
-        if(needsAuthCodeStr.indexOf(userCodes[i]) < 0) return false
+      let unInNum = 0
+      this.needsAuthCodes.forEach(code => {
+        console.log(code,userCodesArray.includes(code))
+        if(!userCodesArray.includes(code)){
+          unInNum ++
+        }
+      })
+      if(unInNum>0){
+        return false
+      }else{
+        return true
       }
-      return true
     },
+
     /**
      * 监听分页变化，调用数据查询
      * @param {Int} val 当前选择的分页
@@ -177,9 +189,9 @@ export default {
     getLists(){
       const options = this.$com.dealObjectValue(this.userSearchForm.getFieldsValue())
       this.$ajax.get({
-        url:this.$api.GET_DECLARATION_TARGETUSER_LIST,
-        params:Object.assign({},options,{
-          pageNo: this.pagination.pageNo,
+        url   : this.$api.GET_DECLARATION_TARGETUSER_LIST,
+        params: Object.assign({},options,{
+          pageNo  : this.pagination.pageNo,
           pageSize: this.pagination.pageSize
         })
       }).then(res=>{

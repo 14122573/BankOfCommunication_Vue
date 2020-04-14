@@ -72,36 +72,36 @@ export default {
   components: { UeditorCompent, FileUpload },
   data() {
     return {
-      timeFormat:'YYYY-MM-DD HH:mm:ss',
-      noticeCreateForm:this.$form.createForm(this),
-      createFormOption:{
-        isTop:[{
+      timeFormat      : 'YYYY-MM-DD HH:mm:ss',
+      noticeCreateForm: this.$form.createForm(this),
+      createFormOption: {
+        isTop: [ {
           label: '不置顶',
           value: '0'
         },{
           label: '置顶',
           value: '1'
-        }],
+        } ],
       },
-      formData:{
-        isTop:'0',
-        openEffectStart:false,
-        openEffectEnd:false,
-        content:''
+      formData: {
+        isTop          : '0',
+        openEffectStart: false,
+        openEffectEnd  : false,
+        content        : ''
       },
-      defaultEffectTime:{
-        startTime:'1900-01-01 00:00:00',
-        endTime:'2099-01-01 00:00:00'
+      defaultEffectTime: {
+        startTime: '1900-01-01 00:00:00',
+        endTime  : '2099-01-01 00:00:00'
       },
       rules: {
-        title:[
+        title: [
           { required: true, whitespace: true, message: '请输入通知公告标题!' },
         ]
       },
-      uploadFileList:[],
-      uploadConfig:{
-        maxSize:5*1024*1024,
-        acceptTypesArray:['pdf']
+      uploadFileList: [],
+      uploadConfig  : {
+        maxSize         : 5*1024*1024,
+        acceptTypesArray: [ 'pdf' ]
       }
     }
   },
@@ -115,6 +115,7 @@ export default {
     onStartEffectChange(checked){
       this.formData.openEffectStart = checked
     },
+
     /**
      * 监听表单’是否开启生效截止时间‘选项变动，并暂存
      * @param {Boolean} checked true：开启
@@ -122,6 +123,7 @@ export default {
     onEndEffectChange(checked){
       this.formData.openEffectEnd = checked
     },
+
     /**
      * 监听表单’置顶否‘选项变动，并暂存
      * @param {Object} e change事件对象
@@ -129,6 +131,7 @@ export default {
     onPlacmentChange(e){
       this.formData.isTop = e.target.value
     },
+
     /**
      * 监听UEditor内容变更，并存储
      * @param {Object} instance
@@ -140,6 +143,7 @@ export default {
         // console.log('editorReady',this.formData.content )
       })
     },
+
     /**
      * 监听表单’文献PDF附件‘上传变动，并暂存
      * @param {Array} filelist 最新变动已上传的文件对象列表
@@ -149,6 +153,7 @@ export default {
       // console.log(this.uploadFileList)
 
     },
+
     /**
      * 提交表单内容
      * @param {String} type 提交表单内容的数据保存类型，暂存：save；保存并发布：publish
@@ -186,15 +191,15 @@ export default {
           }
           const attachments = this.uploadFileList.map(item => {
             return {
-              fileId: item.uid,
-              type: '1',
+              fileId  : item.uid,
+              type    : '1',
               filePath: item.url,
             }
           })
           let postParams = Object.assign({},this.formData ,{
-            'title':this.noticeCreateForm.getFieldValue('title'),
-            'isVote':'0', // 默认创建的为非投票结果文章
-            'status':type=='save'?'0':'1',
+            'title' : this.noticeCreateForm.getFieldValue('title'),
+            'isVote': '0', // 默认创建的为非投票结果文章
+            'status': type=='save'?'0':'1',
             attachments, // 附件
           })
 
@@ -202,13 +207,13 @@ export default {
           delete postParams.openEffectEnd
 
           this.$ajax.post({
-            url: this.$api.POST_CMS_NOTICE,
+            url   : this.$api.POST_CMS_NOTICE,
             params: postParams
           }).then(res => {
             // console.log(res)
             if (res.code === '200') {
               this.$message.success(type=='save'?'暂存成功':'保存并发布成功')
-              this.$router.push({name:'/cms/notice'})
+              this.$router.push({ name: '/cms/notice' })
             }
           })
         }else{

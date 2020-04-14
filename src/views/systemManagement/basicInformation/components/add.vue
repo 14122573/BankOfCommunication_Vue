@@ -22,21 +22,21 @@
 
 <script>
 export default {
-  name:'changePassword',
+  name : 'changePassword',
   props: {
-    baseType:{
-      type:String,
-      required:true
+    baseType: {
+      type    : String,
+      required: true
     },
-    resetShow:{
-      type:Boolean,
-      required:true
+    resetShow: {
+      type    : Boolean,
+      required: true
     }
   },
   data() {
     return {
-      apis:{
-        post:''
+      apis: {
+        post: ''
       },
       isShow: false,
       colSpe: {
@@ -47,19 +47,19 @@ export default {
           span: 16
         }
       },
-      name:{
-        modalTitle:'新增',
-        formLabel:'名称',
-        formPlaceHolder:'请输入'
+      name: {
+        modalTitle     : '新增',
+        formLabel      : '名称',
+        formPlaceHolder: '请输入'
       },
       rules: {
         title: {
           validateTrigger: 'blur',
-          rules: [{ required: true, message: '请输入名称' }]
+          rules          : [ { required: true, message: '请输入名称' } ]
         },
         breedUnit: {
           validateTrigger: 'blur',
-          rules: [{ required: true, message: '请输入计量单位' }]
+          rules          : [ { required: true, message: '请输入计量单位' } ]
         }
       }
     }
@@ -96,7 +96,7 @@ export default {
       this.createForm.validateFields(err => {
         if (!err) {
           this.$ajax.post({
-            url: this.apis.post,
+            url   : this.apis.post,
             params: {
               name: this.createForm.getFieldValue('title'),
               unit: this.createForm.getFieldValue('breedUnit')

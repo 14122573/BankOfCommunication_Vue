@@ -21,40 +21,40 @@ export default {
   name: 'TableExample',
   data () {
     return {
-      total: 30,
+      total      : 30,
       currentPage: 1,
-      columns: [{
-        title: 'Test',
-        dataIndex: 'test',
+      columns    : [ {
+        title      : 'Test',
+        dataIndex  : 'test',
         scopedSlots: { customRender: 'test' }
       }, {
-        title: 'Name',
+        title    : 'Name',
         dataIndex: 'name',
-        type: 'link',
-        align: 'center',
-        onClick: this.testClick
+        type     : 'link',
+        align    : 'center',
+        onClick  : this.testClick
       }, {
-        title: 'Gender',
-        dataIndex: 'gender',
-        align: 'center',
-        type: 'input',
-        placeholder: '请输入',
+        title         : 'Gender',
+        dataIndex     : 'gender',
+        align         : 'center',
+        type          : 'input',
+        placeholder   : '请输入',
         filterMultiple: false,
-        filters: [
+        filters       : [
           { text: 'Male', value: 'male' },
           { text: 'Female', value: 'female' }
         ]
       }, {
-        title: 'Email',
-        dataIndex: 'email',
-        align: 'center',
-        type: 'select',
+        title      : 'Email',
+        dataIndex  : 'email',
+        align      : 'center',
+        type       : 'select',
         placeholder: '请选择',
-        options: [
+        options    : [
           { label: 'qq', value: '@qq.com' },
           { label: 'gmail', value: '@gmail.com' }
         ]
-      }],
+      } ],
       list: [
         { test: 'aa', id: '1', name: 'test', gender: 'male', email: '@qq.com' },
         { id: '2', name: 'test', gender: 'male', email: '@qq.com' },

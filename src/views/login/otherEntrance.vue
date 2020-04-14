@@ -37,7 +37,7 @@
 import DataService from '@/views/cms/dataService/dataService'
 
 export default {
-  components:{
+  components: {
     DataService
   },
   beforeCreate() {
@@ -53,7 +53,7 @@ export default {
   },
   watch: {
   },
-  methods:{
+  methods: {
     openDataService(){
       this.$refs.dataService.showModal()
     }

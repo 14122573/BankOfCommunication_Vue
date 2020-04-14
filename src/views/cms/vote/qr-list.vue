@@ -26,15 +26,15 @@
 <script>
 import VoteQrCard from '../components/voteQrCard'
 export default {
-  name: 'VoteQrList',
+  name      : 'VoteQrList',
   components: {
     VoteQrCard,
   },
   data() {
     return {
-      list: [],
-      total: 0,
-      pageNo: 1,
+      list    : [],
+      total   : 0,
+      pageNo  : 1,
       pageSize: 10,
     }
   },
@@ -45,8 +45,8 @@ export default {
     getList() {
       const params = {
         status_in: '1',
-        pageNo: this.pageNo,
-        pageSize: this.pageSize,
+        pageNo   : this.pageNo,
+        pageSize : this.pageSize,
       }
       this.$ajax.get({
         url: this.$api.GET_VOTE_LIST,

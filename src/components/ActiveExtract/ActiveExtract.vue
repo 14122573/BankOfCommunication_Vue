@@ -133,107 +133,107 @@ export default {
   data() {
     return {
       // spinning:false,
-      isConfirm:false,
-      isView:false,
-      curTab: '1',
+      isConfirm  : false,
+      isView     : false,
+      curTab     : '1',
       typeOptions: [
-        {name: '姓名', value: '1'},
-        {name: '工作单位', value: '2'},
-        {name: '单位性质', value: '3', requestType: '1', options: []},
-        {name: '职务', value: '4', requestType: '2', options: []},
-        {name: '职称', value: '5', requestType: '3', options: []},
-        {name: '所学专业', value: '6'},
-        {name: '最高学历', value: '7', requestType: '4', options: []},
-        {name: '研究方向', value: '8', requestType: '8', options: []},
-        {name: '关键词', value: '9'},
+        { name: '姓名', value: '1' },
+        { name: '工作单位', value: '2' },
+        { name: '单位性质', value: '3', requestType: '1', options: [] },
+        { name: '职务', value: '4', requestType: '2', options: [] },
+        { name: '职称', value: '5', requestType: '3', options: [] },
+        { name: '所学专业', value: '6' },
+        { name: '最高学历', value: '7', requestType: '4', options: [] },
+        { name: '研究方向', value: '8', requestType: '8', options: [] },
+        { name: '关键词', value: '9' },
       ],
       andOptions: [
-        {name: '并且', value: '1'},
-        {name: '或者', value: '2'},
-        {name: '不含', value: '3'},
+        { name: '并且', value: '1' },
+        { name: '或者', value: '2' },
+        { name: '不含', value: '3' },
       ],
       containOptions: [
-        {name: '并含', value: '1'},
-        {name: '或含', value: '2'},
-        {name: '不含', value: '3'},
+        { name: '并含', value: '1' },
+        { name: '或含', value: '2' },
+        { name: '不含', value: '3' },
       ],
       equalsOptions: [
-        {name: '精确', value: '1'},
-        {name: '模糊', value: '2'},
+        { name: '精确', value: '1' },
+        { name: '模糊', value: '2' },
       ],
-      basic: {},
+      basic  : {},
       filters: [],
       // extractionNo: 2,
       columns: [
         {
-          title: '姓名',
+          title    : '姓名',
           dataIndex: 'name',
         },
         {
-          title: '性别',
+          title    : '性别',
           dataIndex: 'sex',
         },
         {
-          title: '工作单位',
+          title    : '工作单位',
           dataIndex: 'workCompany',
         },
         {
-          title: '职务',
+          title    : '职务',
           dataIndex: 'positionName',
-          width: 100,
+          width    : 100,
         },
         {
-          title: '职称',
+          title    : '职称',
           dataIndex: 'jobTitleName',
         },
         {
-          title: '研究方向',
+          title    : '研究方向',
           dataIndex: 'researchDirectionName',
         },
         {
-          title: '登录账号',
+          title    : '登录账号',
           dataIndex: 'phone',
         },
         {
-          title: '操作',
-          dataIndex: 'operation',
-          align: 'center',
+          title      : '操作',
+          dataIndex  : 'operation',
+          align      : 'center',
           scopedSlots: { customRender: 'operation' },
         },
       ],
       pagination: {
-        pageNo: 1,
-        pageSize: 10,
-        total: 0,
-        defaultCurrent: 1,
+        pageNo         : 1,
+        pageSize       : 10,
+        total          : 0,
+        defaultCurrent : 1,
         showQuickJumper: true,
-        onChange: this.onPageChange
+        onChange       : this.onPageChange
       },
-      data: [],
+      data       : [],
       pagination2: {
-        pageNo: 1,
-        pageSize: 10,
-        total: 0,
-        defaultCurrent: 1,
+        pageNo         : 1,
+        pageSize       : 10,
+        total          : 0,
+        defaultCurrent : 1,
         showQuickJumper: true,
-        onChange: this.onPageChange2
+        onChange       : this.onPageChange2
       },
-      data2: [],
+      data2                    : [],
       paginationConfirmedExpert: {
-        pageNo: 1,
-        pageSize: 10,
-        total: 0,
-        defaultCurrent: 1,
+        pageNo         : 1,
+        pageSize       : 10,
+        total          : 0,
+        defaultCurrent : 1,
         showQuickJumper: true,
-        onChange: this.onPageChangeConfirmedExperts
+        onChange       : this.onPageChangeConfirmedExperts
       },
       confirmedExpertData: [],
-      selectedRowKeys: [],
-      selectedRows: [],
-      selectedList: [],
-      url: {
-        dictionary:'http://iftp.omniview.pro/api/service-expert/expert/dictionary/',
-        profTree:'http://iftp.omniview.pro/api/service-expert/expert/prof/tree'
+      selectedRowKeys    : [],
+      selectedRows       : [],
+      selectedList       : [],
+      url                : {
+        dictionary: 'http://iftp.omniview.pro/api/service-expert/expert/dictionary/',
+        profTree  : 'http://iftp.omniview.pro/api/service-expert/expert/prof/tree'
       },
     }
   },
@@ -248,26 +248,28 @@ export default {
       this.typeOptions.forEach(item => {
         if (!item.requestType) return
         let ajaxUrl = this.url['dictionary'] + item.requestType
-        if(item.requestType=='3'){ //职称要换另一个接口
+        if(item.requestType=='3'){
+          //职称要换另一个接口
           ajaxUrl = this.url['profTree']
         }
         this.$ajax.get({
           url: ajaxUrl,
         }).then(res => {
-          if(item.requestType=='3'){ //需要按级联选择组件options的结构重组内容
+          if(item.requestType=='3'){
+            //需要按级联选择组件options的结构重组内容
             let optionDatas =  (res.data && res.data.content) || {}
             item.options = []
             for(let key in optionDatas){
               let optionChildren = []
               optionDatas[key].forEach(item =>{
                 optionChildren.push({
-                  value:item.id,
-                  label:item.name
+                  value: item.id,
+                  label: item.name
                 })
               })
               item.options.push({
-                value: key,
-                label: key,
+                value   : key,
+                label   : key,
                 children: [].concat(optionChildren),
               })
             }
@@ -282,6 +284,7 @@ export default {
       this.$delete(row, 'andValue')
       this.$delete(row, 'containValue')
     },
+
     /**
      * 判断需要用的表单组件
      * @param {Object} row 当前设置使用的抽取条件对象
@@ -295,21 +298,22 @@ export default {
       if (curType && curType.requestType) {
         if(curType.requestType=='3'){
           return {
-            type:'cascader',
-            options:curType.options
+            type   : 'cascader',
+            options: curType.options
           }
         }else{
           return {
-            type:'select',
-            options:curType.options
+            type   : 'select',
+            options: curType.options
           }
         }
         return curType.options
       }
       return {
-        type:'input'
+        type: 'input'
       }
     },
+
     /**
      * 监听级联的change事件，将选中value重组后，赋值obj[path]
      * @param {Array} value 级联已选中的value数组
@@ -327,7 +331,7 @@ export default {
       })
     },
     filteringSearchParams(){
-      const org = [].concat([this.basic, ...this.filters])
+      const org = [].concat([ this.basic, ...this.filters ])
       const filtering = []
       org.forEach(oneFilter =>{
         if((!!oneFilter.containValue && oneFilter.containValue=='') ){
@@ -343,12 +347,12 @@ export default {
       return filtering
     },
     handleSearch() {
-      const {pageNo, pageSize} = this.pagination
+      const { pageNo, pageSize } = this.pagination
       let filteredItemList = this.filteringSearchParams()
       const params = {
         pageNo,
         pageSize,
-        itemList: filteredItemList,
+        itemList    : filteredItemList,
         extractionNo: 100000,
       }
       this.filteringSearchParams()
@@ -358,7 +362,7 @@ export default {
     },
     initData(res) {
       this.curTab = '1'
-      this.data = [...this.$com.confirm(res, 'data.content.expertList', [])]
+      this.data = [ ...this.$com.confirm(res, 'data.content.expertList', []) ]
       this.pagination.total = this.$com.confirm(res, 'data.totalRows', 0)
       // 关闭loading层
       this.$store.commit('SET_LOADING',false)
@@ -379,10 +383,10 @@ export default {
       const len = this.filters.length
       if (len >= this.typeOptions.length - 1) return
       this.filters.push({
-        and: this.andOptions[0].value,
+        and    : this.andOptions[0].value,
         contain: this.containOptions[1].value,
-        equals: this.equalsOptions[1].value,
-        type: this.typeOptions[len + 1].value,
+        equals : this.equalsOptions[1].value,
+        type   : this.typeOptions[len + 1].value,
       })
     },
     deleteFilter() {
@@ -391,16 +395,16 @@ export default {
     onSelectChange(selectedRowKeys, selectedRows) {
       this.selectedRowKeys = selectedRowKeys
       // this.selectedRows.push(...selectedRows)
-      this.selectedRows = [...selectedRows]
+      this.selectedRows = [ ...selectedRows ]
     },
     handleReset() {
       this.pagination.pageNo = 1
       this.filters = []
       this.basic = {
-        and: this.andOptions[0].value,
-        type: this.typeOptions[0].value,
-        contain: this.containOptions[1].value,
-        equals: this.equalsOptions[1].value,
+        and     : this.andOptions[0].value,
+        type    : this.typeOptions[0].value,
+        contain : this.containOptions[1].value,
+        equals  : this.equalsOptions[1].value,
         andValue: ''
       }
       this.data = []
@@ -410,18 +414,22 @@ export default {
       // this.extractionNo = 2
       // this.handleSearch()
     },
+
     /**
      * 根据tab页切换，调用对应的方法，加载对应列表数据
      * @param {String} key tab的key标识
      */
     handleTabChange(key) {
       switch (key) {
-      case '1': // 显示“筛选结果”
+      case '1':
+      // 显示“筛选结果”
         break
-      case '2': // 显示“选中专家”
+      case '2':
+      // 显示“选中专家”
         this.handleCheck()
         break
-      case '3': // 显示“确认专家”
+      case '3':
+      // 显示“确认专家”
         this.handleConfirmed()
         break
       default:
@@ -429,7 +437,7 @@ export default {
       }
     },
     handleConfirmed(){
-      const {pageNo, pageSize} = this.paginationConfirmedExpert
+      const { pageNo, pageSize } = this.paginationConfirmedExpert
       const params = {
         pageNo,
         pageSize,
@@ -441,7 +449,7 @@ export default {
       this.paginationConfirmedExpert.total = this.$com.confirm(res, 'data.totalRows', 0)
     },
     handleCheck() {
-      const {pageNo, pageSize} = this.pagination2
+      const { pageNo, pageSize } = this.pagination2
       const params = {
         pageNo,
         pageSize,
@@ -453,7 +461,7 @@ export default {
       this.pagination2.total = this.$com.confirm(res, 'data.totalRows', 0)
       this.handleReset()
     },
-    handleDelete({id}) {
+    handleDelete({ id }) {
       const index = this.data2.findIndex(item => item.id == id)
       this.data2.splice(index, 1)
       this.$emit('select', this.data2, (res) => {
@@ -461,15 +469,16 @@ export default {
         this.$store.commit('SET_LOADING',false)
       })
     },
-    handleSelect() { // 选中专家
+    // 选中专家
+    handleSelect() {
       this.selectedList = []
       this.selectedList.push(...this.selectedRows)
       // 去重并提取
-      const reducer = (arr, cur) => arr.indexOf(cur) >= 0 ? arr : [...arr, cur]
+      const reducer = (arr, cur) => arr.indexOf(cur) >= 0 ? arr : [ ...arr, cur ]
       this.selectedList = this.selectedList.reduce(reducer, [])
       this.selectedRowKeys = []
       this.selectedRows = []
-      const {pageNo, pageSize} = this.pagination2
+      const { pageNo, pageSize } = this.pagination2
       const params = {
         pageNo,
         pageSize,
@@ -481,7 +490,7 @@ export default {
         const data = this.$com.confirm(res, 'data.content', [])
         let result = this.selectedList
         if (data.length > 0) {
-          result = [...data, ...this.selectedList]
+          result = [ ...data, ...this.selectedList ]
         }
         this.$emit('select', result, (res) => {
           //关闭loading层
@@ -489,7 +498,8 @@ export default {
         })
       })
     },
-    handleConfirm() { // 确认专家
+    // 确认专家
+    handleConfirm() {
       //开启loading层
       this.$store.commit('SET_LOADING',true)
       this.$emit('confirm', this.selectedList)

@@ -81,14 +81,14 @@ import { encryptDes } from '@/util/des-cryptojs'
 import userStatus from '@/views/systemManagement/components/user-status'
 import testStrong from '@/components/testPwd'
 export default {
-  name: 'old-user',
+  name      : 'old-user',
   components: {
     userStatus,
     testStrong
   },
   props: {
     roleList: {
-      type: Array,
+      type   : Array,
       default: () => {
         return []
       }
@@ -97,55 +97,56 @@ export default {
   data() {
     return {
       searchForm: {
-        checkedList: ['1']
+        checkedList: [ '1' ]
       },
-      simpleSearchForm:true, // 展示、收取简单搜索开关，true为简单搜索
-      dateFormat: 'YYYY-MM-DD',
-      params: {
+      // 展示、收取简单搜索开关，true为简单搜索
+      simpleSearchForm: true,
+      dateFormat      : 'YYYY-MM-DD',
+      params          : {
         'ui.createTime_desc': 1
       },
       pagination: {
-        pageNo: 1,
-        pageSize: 10,
-        total: 0,
-        current:1,
-        defaultCurrent: 1,
+        pageNo         : 1,
+        pageSize       : 10,
+        total          : 0,
+        current        : 1,
+        defaultCurrent : 1,
         showQuickJumper: true,
-        onChange: this.onChange
+        onChange       : this.onChange
       },
-      data: [],
+      data   : [],
       columns: [
         {
-          title: '账号',
+          title    : '账号',
           dataIndex: 'username',
-          key: 'username'
+          key      : 'username'
         },{
-          title: '所属老系统',
-          dataIndex: 'sysDic',
-          key: 'sysDic',
+          title      : '所属老系统',
+          dataIndex  : 'sysDic',
+          key        : 'sysDic',
           scopedSlots: {
             customRender: 'sysDic'
           }
         },{
-          title: '关联手机号',
-          dataIndex: 'phone',
-          key: 'phone',
+          title      : '关联手机号',
+          dataIndex  : 'phone',
+          key        : 'phone',
           scopedSlots: {
             customRender: 'phone'
           }
         },{
-          title: '用户状态',
-          dataIndex: 'status',
-          key: 'status',
-          width: 80,
+          title      : '用户状态',
+          dataIndex  : 'status',
+          key        : 'status',
+          width      : 80,
           scopedSlots: {
             customRender: 'status'
           }
         },{
-          title: '操作',
-          dataIndex: 'action',
-          key: 'action',
-          width: 200,
+          title      : '操作',
+          dataIndex  : 'action',
+          key        : 'action',
+          width      : 200,
           scopedSlots: {
             customRender: 'action'
           }
@@ -153,47 +154,48 @@ export default {
       ],
       plainOptions: [
         {
-          text: '正常',
+          text : '正常',
           value: '1'
         },{
-          text: '禁用',
+          text : '禁用',
           value: '9'
         },{
-          text: '已注销',
+          text : '已注销',
           value: '8'
         }
       ],
       modal: {
         show: false
       },
-      modalData: {},
-      modalStatus: '0', //1-正常  8-注销 9-禁用
+      modalData       : {},
+      //1-正常  8-注销 9-禁用
+      modalStatus     : '0',
       //   重置密码
-      resetPwdShow: false,
-      resetData: this.$form.createForm(this),
-      pswType: 'text',
+      resetPwdShow    : false,
+      resetData       : this.$form.createForm(this),
+      pswType         : 'text',
       passwordStrength: false,
-      systemList: [],
-      resetId: null,
-      confirmDirty: false,
+      systemList      : [],
+      resetId         : null,
+      confirmDirty    : false,
     }
   },
-  computed:{
+  computed: {
     formItemLabelCol(){
       let labelCol = {}
       if(this.simpleSearchForm){
-        labelCol = {span: 0}
+        labelCol = { span: 0 }
       }else{
-        labelCol = {span: 8}
+        labelCol = { span: 8 }
       }
       return labelCol
     },
     formItemWrapperCol(){
       let wrapperCol = {}
       if(this.simpleSearchForm){
-        wrapperCol = {span: 24}
+        wrapperCol = { span: 24 }
       }else{
-        wrapperCol = {span: 16}
+        wrapperCol = { span: 16 }
       }
       return wrapperCol
     }
@@ -238,7 +240,7 @@ export default {
           this.passwordStrength = false
         } else {
           if (value && this.confirmDirty) {
-            form.validateFields(['rePassword'], {
+            form.validateFields([ 'rePassword' ], {
               force: true
             })
           }
@@ -269,7 +271,7 @@ export default {
     reset() {
       delete this.searchForm.username_l
       delete this.searchForm.sysDicId
-      this.searchForm.checkedList = ['1']
+      this.searchForm.checkedList = [ '1' ]
       this.pagination.pageNo = 1
       this.pagination.current = 1
       this.getList()
@@ -289,10 +291,10 @@ export default {
       }
       if (searchParams.checkedList) delete searchParams.checkedList
       this.$ajax.get({
-        url: this.$api.USER_LIST_TYPE_GET.replace('{type}', 'old'),
+        url   : this.$api.USER_LIST_TYPE_GET.replace('{type}', 'old'),
         params: Object.assign(searchParams, this.params,{
-          pageSize:this.pagination.pageSize,
-          pageNo:this.pagination.pageNo
+          pageSize: this.pagination.pageSize,
+          pageNo  : this.pagination.pageNo
         })
       }).then(res => {
         if (res.code === '200') {
@@ -345,10 +347,10 @@ export default {
       this.checkStatus = checkStatus
       let vm = this
       this.$modal.confirm({
-        title: this.modal.content,
-        content: this.modal.tips,
-        okText: '确认',
-        okType: 'danger',
+        title     : this.modal.content,
+        content   : this.modal.tips,
+        okText    : '确认',
+        okType    : 'danger',
         cancelText: '取消',
         onOk() {
           vm.handleOk()
@@ -373,10 +375,10 @@ export default {
       this.resetData.validateFields(err => {
         if (!err) {
           this.$ajax.put({
-            url: this.$api.USER_UPDATE_PWD,
+            url   : this.$api.USER_UPDATE_PWD,
             params: {
-              id: this.resetId,
-              type: 'old',
+              id    : this.resetId,
+              type  : 'old',
               newPwd: encryptDes(this.resetData.getFieldValue('newPwd'))
             }
           }).then(res => {
@@ -397,6 +399,7 @@ export default {
       this.passwordStrength = false
       this.resetData.resetFields()
     },
+
     /**
      * 从vuex中或已存储的搜索条件，判断此条件是否为当前路由的 。如果是则使用
      */

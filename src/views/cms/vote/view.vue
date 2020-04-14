@@ -29,18 +29,18 @@
 <script>
 import CMSDataStatus from '@/views/cms/components/cmsStatus'
 export default {
-  name: 'VoteView',
+  name      : 'VoteView',
   components: {
     CMSDataStatus,
   },
   data() {
     return {
-      voteId: null,
+      voteId : null,
       content: {},
     }
   },
   mounted() {
-    const {query} = this.$route
+    const { query } = this.$route
     if (query && query.id) {
       this.voteId = query.id
       this.getData()

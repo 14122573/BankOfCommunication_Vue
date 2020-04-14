@@ -85,17 +85,15 @@
 <script>
 
 
-
-
 export default {
   beforeCreate() {
     this.searchForm = this.$form.createForm(this)
   },
   data() {
     return {
-      exclusionRoleIds:['999999','899999','133333','144444','155555','166666','177777','188888','199999','1000000','122221','122222','122223','122224','122225','122226','122227','122228','122231','122232','122233','122234'],
-      dateFormat: 'YYYY-MM-DD',
-      colSpe: {
+      exclusionRoleIds: [ '999999','899999','133333','144444','155555','166666','177777','188888','199999','1000000','122221','122222','122223','122224','122225','122226','122227','122228','122231','122232','122233','122234' ],
+      dateFormat      : 'YYYY-MM-DD',
+      colSpe          : {
         labelCol: {
           span: 6
         },
@@ -104,77 +102,78 @@ export default {
         }
       },
       autoExpandParent: true,
-      checkedKeys: [],
-      selectedKeys: [],
-      treeData: [],
-      searchFormRules: {
+      checkedKeys     : [],
+      selectedKeys    : [],
+      treeData        : [],
+      searchFormRules : {
         name: {
           validateTrigger: 'blur',
-          rules: [{
+          rules          : [ {
             required: true,
-            message: '请输入姓名'
-          }]
+            message : '请输入姓名'
+          } ]
         },
         phone: {
           validateTrigger: 'blur',
-          rules: [{
-            required: true,
+          rules          : [ {
+            required : true,
             validator: this.validatePhone
-          }]
+          } ]
         },
         mail: {
           validateTrigger: 'blur',
-          rules: [{
+          rules          : [ {
             required: true,
-            message: '请输入邮箱'
+            message : '请输入邮箱'
           }, {
-            type: 'email',
+            type   : 'email',
             message: '邮箱格式不合法'
-          }]
+          } ]
         },
         zipCode: {
           validateTrigger: 'blur',
-          rules: [{
+          rules          : [ {
             required: true,
-            message: '请输入邮编'
-          }]
+            message : '请输入邮编'
+          } ]
         },
         dept: {
           validateTrigger: 'blur',
-          rules: [{
+          rules          : [ {
             required: true,
-            message: '请输入单位名称'
-          }]
+            message : '请输入单位名称'
+          } ]
         },
         addr: {
           validateTrigger: 'blur',
-          rules: [{
+          rules          : [ {
             required: true,
-            message: '请输入地址'
-          }]
+            message : '请输入地址'
+          } ]
         },
         area: {
           validateTrigger: 'change',
-          rules: [{
+          rules          : [ {
             required: true,
-            message: '请选择所属区域！'
-          }]
+            message : '请选择所属区域！'
+          } ]
         },
         notes: {
           validateTrigger: 'blur',
-          rules: [{
+          rules          : [ {
             required: true,
-            message: '请选择角色名称！'
-          }]
+            message : '请选择角色名称！'
+          } ]
         }
       },
-      isAdminator: '',
+      isAdminator          : '',
       administrativeRegions: [],
-      groupLists: [],
-      areaName: '',
-      roleList: [],
-      roles: [],
-      fromCenter: false, // 是否从个人中心-账户信息跳转过来的
+      groupLists           : [],
+      areaName             : '',
+      roleList             : [],
+      roles                : [],
+      // 是否从个人中心-账户信息跳转过来的
+      fromCenter           : false,
     }
   },
   mounted() {
@@ -182,8 +181,9 @@ export default {
     this.getArea()
     this.getTree()
     this.getRoleLists()
-    const {fromCenter} = this.$route.query
-    this.fromCenter = (fromCenter && fromCenter === '1') // 从个人中心-账户信息跳过来的不能修改手机号
+    const { fromCenter } = this.$route.query
+    // 从个人中心-账户信息跳过来的不能修改手机号
+    this.fromCenter = (fromCenter && fromCenter === '1')
   },
   methods: {
     // 查询权限树
@@ -201,7 +201,7 @@ export default {
     getTreeData(item, index) {
       let childrenNode = {
         title: item.permName,
-        key: item.id,
+        key  : item.id,
         value: item.id
       }
       if (item.childList && item.childList.length) {
@@ -221,7 +221,7 @@ export default {
       this.searchForm.validateFields((err, values) => {
         if (!err) {
           values.area = {
-            id: this.areaCode,
+            id  : this.areaCode,
             name: this.areaName
           }
           let isSelect = this.searchForm.isFieldTouched('group')
@@ -230,7 +230,7 @@ export default {
               let groupId = JSON.parse(JSON.stringify(values.group))
               let data = this.groupLists.find(ele => ele.id == groupId)
               values.group = {
-                id: groupId,
+                id  : groupId,
                 name: data.groupName
               }
             } else {
@@ -239,7 +239,7 @@ export default {
           } else {
             if (this.detail && this.detail.group != null) {
               values.group = {
-                id: this.detail.group.id,
+                id  : this.detail.group.id,
                 name: this.detail.group.groupName
               }
             } else {
@@ -254,21 +254,21 @@ export default {
           })).join(',')
           if (!this.$route.query.id) {
             this.$ajax.post({
-              url: this.$api.POST_ADD_USER,
+              url   : this.$api.POST_ADD_USER,
               params: values
             }).then(res => {
               if (res.code == '200') {
                 let _this=this
                 this.$modal.confirm({
                   title: '新增成功！是否继续完善人员信息？',
-                  type:'success',
-                  icon:'check-circle',
+                  type : 'success',
+                  icon : 'check-circle',
                   onOk() {
                     _this.$router.push({
-                      name: '/systemManagement/administrator/edit',
+                      name : '/systemManagement/administrator/edit',
                       query: {
-                        id: res.data.content,
-                        loginPhone:_this.searchForm.getFieldValue('phone'),
+                        id        : res.data.content,
+                        loginPhone: _this.searchForm.getFieldValue('phone'),
                       }
                     })
                   },
@@ -281,22 +281,23 @@ export default {
               }
             })
           } else {
-            if (this.fromCenter) { // 如果是用户中心-基本信息过来修改的则用此接口
+            if (this.fromCenter) {
+              // 如果是用户中心-基本信息过来修改的则用此接口
               this.$ajax.put({
-                url: this.$api.PUT_EDIT_USER,
+                url   : this.$api.PUT_EDIT_USER,
                 params: values,
               }).then(res => {
                 this.$modal.success({
-                  title: '成功',
+                  title  : '成功',
                   content: '修改成功',
-                  okText: '确认',
+                  okText : '确认',
                 })
                 this.$nextTick(() => this.$router.back())
               })
               return
             }
             this.$ajax.put({
-              url: this.$api.PUT_USER_LIST.replace('{id}', this.$route.query.id),
+              url   : this.$api.PUT_USER_LIST.replace('{id}', this.$route.query.id),
               params: values
             }).then(res => {
               if (res.code == '200') {
@@ -314,45 +315,36 @@ export default {
     },
     getArea() {
       this.$ajax.get({
-        url: this.$api.GET_AREA_NEXT,
+        url   : this.$api.GET_AREA_NEXT,
         params: {
-          parentId: this.isAdminator ? '999999' : this.$store.state.userInfos.area.id
+          parentId: this.isAdminator ? '0' : this.$store.state.userInfos.area.id
         }
       }).then(res => {
         let datas = this.$com.confirm(res, 'data.content', [])
         datas.forEach((ele, index) => {
           this.administrativeRegions.push(this.getTreeNode(ele, index))
         })
-        let national={
-          title: '中国',
-          value: '999999',
-          id: '999999',
-          key: '999999',
-          parentId: null,
-          children: null
-        }
-        this.administrativeRegions.splice(0,0,national)
       })
     },
     getTreeNode(item, index) {
       let childrenNode = {
-        title: item.areaName,
-        value: item.id,
-        id: item.id,
-        key: item.id,
-        parentId: item.parentId,
-        children: item.childList
+        'title'   : item.areaName,
+        'value'   : item.id,
+        'id'      : item.id,
+        'key'     : item.id,
+        'parentId': item.parentId,
+        'children': item.childList
       }
       return childrenNode
     },
     onLoadData(treeNode) {
       return new Promise((resolve) => {
-        if (treeNode.dataRef.children || treeNode.value=='999999') {
+        if (treeNode.dataRef.children) {
           resolve()
           return
         }
         this.$ajax.get({
-          url: this.$api.GET_AREA_NEXT,
+          url   : this.$api.GET_AREA_NEXT,
           params: {
             parentId: treeNode.dataRef.id
           }
@@ -363,7 +355,7 @@ export default {
             array.push(this.getTreeNode(ele, index))
           })
           treeNode.dataRef.children = array
-          this.treeData = [...this.treeData]
+          this.treeData = [ ...this.treeData ]
           resolve()
         })
       })
@@ -385,14 +377,14 @@ export default {
     getListGroup() {
       const params = {
         pageSize: 10000,
-        pageNo: 1,
+        pageNo  : 1,
         areaCode: this.areaCode
       }
       // if (!this.isAdminator) {
       //   params.parentId = this.$store.state.userInfos.group?this.$store.state.userInfos.group.id:''
       // }
       this.$ajax.get({
-        url: this.$api.GET_ORGANIZATION_LIST,
+        url   : this.$api.GET_ORGANIZATION_LIST,
         params: params
       }).then(res => {
         this.groupLists = this.$com.confirm(res, 'data.content', [])
@@ -401,14 +393,14 @@ export default {
     getRoleLists() {
       let curUserRoles = this.$store.state.userInfos.roleIds
       let sparams = {
-        pageNo: 1,
+        pageNo  : 1,
         pageSize: 10000
       }
       if(!!curUserRoles){
         sparams['id_in'] = curUserRoles
       }
       this.$ajax.get({
-        url: this.$api.GET_ROLE_LIST,
+        url   : this.$api.GET_ROLE_LIST,
         params: sparams
       }).then(res => {
         this.roleList = this.$com.confirm(res, 'data.content', [])
@@ -432,6 +424,7 @@ export default {
             let data = res.data.content
             for(let i=0;i<data.length;i++){
               if(false ===data[i].canDelete){
+                // 无逻辑
               }else{
                 this.checkedKeys.push(data[i].id)
               }
@@ -455,7 +448,7 @@ export default {
           //   }
           //   this.onChangeTree(obj)
           // } else {
-          this.onChangeTree(this.detail.area.id, [this.detail.area.areaName])
+          this.onChangeTree(this.detail.area.id, [ this.detail.area.areaName ])
           // }
         }
         const {
@@ -486,7 +479,7 @@ export default {
         // 组装需要展示在用户信息表单“角色名称”项的初始数据
         userRoleIDs.forEach((ele, index) => {
           userRoleIDs[index] = {
-            'key': ele,
+            'key'  : ele,
             'label': userRoleNames[index]
           }
         })

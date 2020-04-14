@@ -71,44 +71,44 @@ export default {
   components: { UeditorCompent, FileUpload },
   data() {
     return {
-      ready:false,
-      id:this.$route.params.id,
-      timeFormat:'YYYY-MM-DD HH:mm:ss',
-      noticeEditForm:this.$form.createForm(this),
-      noticeDetail:{},
-      createFormOption:{
-        isTop:[{
+      ready           : false,
+      id              : this.$route.params.id,
+      timeFormat      : 'YYYY-MM-DD HH:mm:ss',
+      noticeEditForm  : this.$form.createForm(this),
+      noticeDetail    : {},
+      createFormOption: {
+        isTop: [ {
           label: '不置顶',
           value: '0'
         },{
           label: '置顶',
           value: '1'
-        }],
+        } ],
       },
-      st:'',
-      formData:{
-        isTop:'0',
-        openEffectStart:false,
-        openEffectEnd:false,
-        defaultContent:'qwerqwreq',
-        content:''
+      st      : '',
+      formData: {
+        isTop          : '0',
+        openEffectStart: false,
+        openEffectEnd  : false,
+        defaultContent : 'qwerqwreq',
+        content        : ''
       },
-      defaultEffectTime:{
-        startTime:'1900-01-01 00:00:00',
-        endTime:'2099-01-01 00:00:00'
+      defaultEffectTime: {
+        startTime: '1900-01-01 00:00:00',
+        endTime  : '2099-01-01 00:00:00'
       },
       rules: {
-        title:[
+        title: [
           { required: true, whitespace: true, message: '请输入通知公告标题!' },
         ]
       },
-      uploadFileList:{
-        default:[],
-        used:[]
+      uploadFileList: {
+        default: [],
+        used   : []
       },
-      uploadConfig:{
-        maxSize:5*1024*1024,
-        acceptTypesArray:['pdf']
+      uploadConfig: {
+        maxSize         : 5*1024*1024,
+        acceptTypesArray: [ 'pdf' ]
       }
     }
   },
@@ -126,36 +126,36 @@ export default {
           this.noticeDetail = this.$com.confirm(res, 'data.content', {})
           this.formData.defaultContent = this.noticeDetail.content
           this.formData.isTop = this.noticeDetail.isTop
-          this.formData.openEffectStart = this.$com.oneOf(this.noticeDetail.startTime,['',this.defaultEffectTime.startTime])?false:true
-          this.formData.openEffectEnd = this.$com.oneOf(this.noticeDetail.endTime,['',this.defaultEffectTime.endTime])?false:true
+          this.formData.openEffectStart = this.$com.oneOf(this.noticeDetail.startTime,[ '',this.defaultEffectTime.startTime ])?false:true
+          this.formData.openEffectEnd = this.$com.oneOf(this.noticeDetail.endTime,[ '',this.defaultEffectTime.endTime ])?false:true
 
 
           // 附件
           if(Array.isArray(this.noticeDetail.attachments)){
             for(let i=0;i<this.noticeDetail.attachments.length;i++){
               this.uploadFileList.default.push({
-                uid: '-'+(i+1),
-                name: !this.noticeDetail.attachments[i].fileName?'none':this.noticeDetail.attachments[i].fileName,
+                uid   : '-'+(i+1),
+                name  : !this.noticeDetail.attachments[i].fileName?'none':this.noticeDetail.attachments[i].fileName,
                 status: 'done',
-                url: this.noticeDetail.attachments[i].filePath
+                url   : this.noticeDetail.attachments[i].filePath
               })
               this.uploadFileList.used.push({
-                uid: '-'+(i+1),
-                name: !this.noticeDetail.attachments[i].fileName?'none':this.noticeDetail.attachments[i].fileName,
+                uid   : '-'+(i+1),
+                name  : !this.noticeDetail.attachments[i].fileName?'none':this.noticeDetail.attachments[i].fileName,
                 status: 'done',
-                url: this.noticeDetail.attachments[i].filePath
+                url   : this.noticeDetail.attachments[i].filePath
               })
             }
             // console.log(this.noticeDetail.attachments)   // --- 获取原有的文件
           }
           //初始化表单数据
           this.$nextTick(function () {
-            this.noticeEditForm.setFieldsValue({ title:this.noticeDetail.title })
+            this.noticeEditForm.setFieldsValue({ title: this.noticeDetail.title })
             if(this.formData.openEffectStart){
-              this.noticeEditForm.setFieldsValue({ startTime:this.$moment(this.noticeDetail.startTime,this.timeFormat) })
+              this.noticeEditForm.setFieldsValue({ startTime: this.$moment(this.noticeDetail.startTime,this.timeFormat) })
             }
             if(this.formData.openEffectEnd){
-              this.noticeEditForm.setFieldsValue({ endTime:this.$moment(this.noticeDetail.endTime,this.timeFormat) })
+              this.noticeEditForm.setFieldsValue({ endTime: this.$moment(this.noticeDetail.endTime,this.timeFormat) })
             }
           })
 
@@ -166,6 +166,7 @@ export default {
         }
       })
     },
+
     /**
      * 监听表单’是否开启生效起始时间‘选项变动，并暂存
      * @param {Boolean} checked true：开启
@@ -173,6 +174,7 @@ export default {
     onStartEffectChange(checked){
       this.formData.openEffectStart = checked
     },
+
     /**
      * 监听表单’是否开启生效截止时间‘选项变动，并暂存
      * @param {Boolean} checked true：开启
@@ -180,6 +182,7 @@ export default {
     onEndEffectChange(checked){
       this.formData.openEffectEnd = checked
     },
+
     /**
      * 监听表单’置顶否‘选项变动，并暂存
      * @param {Object} e change事件对象
@@ -187,6 +190,7 @@ export default {
     onPlacmentChange(e){
       this.formData.isTop = e.target.value
     },
+
     /**
      * 监听表单’文献PDF附件‘上传变动，并暂存
      * @param {Array} filelist 最新变动已上传的文件对象列表
@@ -196,6 +200,7 @@ export default {
       // console.log(this.uploadFileList)
 
     },
+
     /**
      * 监听UEditor内容变更，并存储
      * @param {Object} instance
@@ -208,25 +213,26 @@ export default {
       })
     },
     arrangeFileList(){
-      const {used} = this.uploadFileList
+      const { used } = this.uploadFileList
       if (!used || used.length <= 0) return []
       return used.map((item,index)=>{
         if(item.uid && item.uid.toString().indexOf('-')==0){// 未修改PDF
           return {
-            type:1,
-            sort:index+1,
-            filePath:item.url,
-            fileName:item.name
+            type    : 1,
+            sort    : index+1,
+            filePath: item.url,
+            fileName: item.name
           }
         }else{ // 新上传的PDF
           return {
-            type:1,
-            sort:index+1,
-            fileId:item.uid
+            type  : 1,
+            sort  : index+1,
+            fileId: item.uid
           }
         }
       })
     },
+
     /**
      * 提交表单内容
      * @param {String} type 提交表单内容的数据保存类型，暂存：save；保存并发布：publish
@@ -263,9 +269,9 @@ export default {
             return
           }
           let postParams = Object.assign({},this.formData ,{
-            'title':this.noticeEditForm.getFieldValue('title'),
-            'isVote':'0', // 默认创建的为非投票结果文章
-            'status':type=='save'?'0':'1',
+            'title'      : this.noticeEditForm.getFieldValue('title'),
+            'isVote'     : '0', // 默认创建的为非投票结果文章
+            'status'     : type=='save'?'0':'1',
             'attachments': this.arrangeFileList()
           })
 
@@ -274,12 +280,12 @@ export default {
           delete postParams.defaultContent
 
           this.$ajax.put({
-            url: this.$api.PUT_CMS_NOTICE_DETAIL.replace('{id}', this.id),
+            url   : this.$api.PUT_CMS_NOTICE_DETAIL.replace('{id}', this.id),
             params: postParams
           }).then(res => {
             if (res.code === '200') {
               this.$message.success(type=='save'?'暂存成功':'保存并发布成功')
-              this.$router.push({name:'/cms/notice'})
+              this.$router.push({ name: '/cms/notice' })
             }
           })
         }else{

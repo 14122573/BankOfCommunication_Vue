@@ -1,101 +1,101 @@
 <template>
-	<div class="portalDetailWapper">
-		<div class="portalDetailTitle" v-if="knowledgeDetails.title">
-			<span class="title">{{knowledgeDetails.title}}</span>
-			<div class="detailOperations">
-				<a-button @click="$router.back()"> 返回 </a-button>
-				<a-button v-if="knowledgeDetails.status=='0' && $permission('P32001')" type="primary" @click="goToEdit"> 修改 </a-button>
-				<a-button v-if="knowledgeDetails.status=='0' && $permission('P32004')" type="primary" @click="toChangeStatus('publish')"> 发布 </a-button>
-				<a-button v-if="knowledgeDetails.status=='1' && $permission('P32004')" type="primary" @click="toChangeStatus('recall')"> 撤回 </a-button>
-			</div>
-		</div>
-		<div class="portalDetailContentWapper">
-			<div class="portalDetailContentBody">
-				<template v-if="knowledgeDetails.title">
-					<div class="layoutMargin detailsPartSection">
-						<p class="detailsPartTitle">基本信息</p>
-						<div style="margin:0 16px;">
-							<a-row type="flex" justify="start">
-								<a-col span="16" style="margin:8px 0;">
-								  <DetailsItem :labelSpan='4' :textSpan="20" :label='"标题"' :text='knowledgeDetails.title'></DetailsItem>
-								</a-col>
-								<a-col span="16" style="margin:8px 0;">
-								  <DetailsItem :labelSpan='4' :textSpan="20" :label='"作者"' :text='knowledgeDetails.author'></DetailsItem>
-								</a-col>
-							</a-row>
-							<a-row type="flex" justify="start">
-								<a-col span="8" style="margin:8px 0;">
-								  <DetailsItem :labelSpan='8' :textSpan="16" :label='"状态"'>
-                    <div slot="detailContent">
-                        <a-tag :color="getStatusTag.color">{{getStatusTag.name}}</a-tag>
-                    </div>
-                  </DetailsItem>
-								</a-col>
-                <a-col span="8" style="margin:8px 0;">
-								  <DetailsItem :labelSpan='8' :textSpan="16" :label='"发布年代"' :text='knowledgeDetails.years'></DetailsItem>
-								</a-col>
-                <a-col span="8" style="margin:8px 0;">
-								  <DetailsItem :labelSpan='8' :textSpan="16" :label='"是否公开"' :text='knowledgeDetails.anonymous=="0"?"公开":"不公开"'></DetailsItem>
-								</a-col>
-							</a-row>
-              <a-row type="flex" justify="start">
-                <a-col span="16" style="margin:8px 0;">
-								  <DetailsFile :labelSpan='4' :textSpan="20" :label='"线上视频地址"' :file='makeVideoList'></DetailsFile>
-								</a-col>
-							</a-row>
-              <a-row type="flex" justify="start">
-                <a-col span="16" style="margin:8px 0;">
-								  <DetailsFile :labelSpan='4' :textSpan="20" :label='"文件信息"' :files='makeFileList'></DetailsFile>
-								</a-col>
-							</a-row>
-						</div>
-					</div>
-          <div class="layoutMargin detailsPartSection">
-						<p class="detailsPartTitle">文献正文内容</p>
-            <div style="margin:0 16px;">
-							<a-row type="flex" justify="start">
-                <a-col span="16" style="margin:8px 0;">
-                  <div v-html="!knowledgeDetails.content?'':knowledgeDetails.content"></div>
-								</a-col>
-							</a-row>
-						</div>
-						<!-- <div style="margin:0 16px;">
-							<a-row type="flex" justify="start">
-                <a-col span="16" style="margin:8px 0;">
-								  <DetailsFile :labelSpan='4' :textSpan="20" :label='"文件信息"' :files='makeFileList'></DetailsFile>
-								</a-col>
-							</a-row>
-						</div> -->
-					</div>
-				</template>
-			</div>
+  <div class="portalDetailWapper">
+    <div class="portalDetailTitle" v-if="knowledgeDetails.title">
+      <span class="title">{{knowledgeDetails.title}}</span>
+      <div class="detailOperations">
+        <a-button @click="$router.back()"> 返回 </a-button>
+        <a-button v-if="knowledgeDetails.status=='0' && $permission('P32001')" type="primary" @click="goToEdit"> 修改 </a-button>
+        <a-button v-if="knowledgeDetails.status=='0' && $permission('P32004')" type="primary" @click="toChangeStatus('publish')"> 发布 </a-button>
+        <a-button v-if="knowledgeDetails.status=='1' && $permission('P32004')" type="primary" @click="toChangeStatus('recall')"> 撤回 </a-button>
+      </div>
+    </div>
+  <div class="portalDetailContentWapper">
+  <div class="portalDetailContentBody">
+  <template v-if="knowledgeDetails.title">
+  <div class="layoutMargin detailsPartSection">
+  <p class="detailsPartTitle">基本信息</p>
+  <div style="margin:0 16px;">
+  <a-row type="flex" justify="start">
+  <a-col span="16" style="margin:8px 0;">
+  <DetailsItem :labelSpan='4' :textSpan="20" :label='"标题"' :text='knowledgeDetails.title'></DetailsItem>
+  </a-col>
+  <a-col span="16" style="margin:8px 0;">
+  <DetailsItem :labelSpan='4' :textSpan="20" :label='"作者"' :text='knowledgeDetails.author'></DetailsItem>
+  </a-col>
+  </a-row>
+  <a-row type="flex" justify="start">
+  <a-col span="8" style="margin:8px 0;">
+  <DetailsItem :labelSpan='8' :textSpan="16" :label='"状态"'>
+  <div slot="detailContent">
+  <a-tag :color="getStatusTag.color">{{getStatusTag.name}}</a-tag>
+  </div>
+  </DetailsItem>
+  </a-col>
+  <a-col span="8" style="margin:8px 0;">
+  <DetailsItem :labelSpan='8' :textSpan="16" :label='"发布年代"' :text='knowledgeDetails.years'></DetailsItem>
+  </a-col>
+  <a-col span="8" style="margin:8px 0;">
+  <DetailsItem :labelSpan='8' :textSpan="16" :label='"是否公开"' :text='knowledgeDetails.anonymous=="0"?"公开":"不公开"'></DetailsItem>
+  </a-col>
+  </a-row>
+  <a-row type="flex" justify="start">
+  <a-col span="16" style="margin:8px 0;">
+  <DetailsFile :labelSpan='4' :textSpan="20" :label='"线上视频地址"' :file='makeVideoList'></DetailsFile>
+  </a-col>
+  </a-row>
+  <a-row type="flex" justify="start">
+  <a-col span="16" style="margin:8px 0;">
+  <DetailsFile :labelSpan='4' :textSpan="20" :label='"文件信息"' :files='makeFileList'></DetailsFile>
+  </a-col>
+  </a-row>
+  </div>
+  </div>
+  <div class="layoutMargin detailsPartSection">
+  <p class="detailsPartTitle">文献正文内容</p>
+  <div style="margin:0 16px;">
+  <a-row type="flex" justify="start">
+  <a-col span="16" style="margin:8px 0;">
+  <div v-html="!knowledgeDetails.content?'':knowledgeDetails.content"></div>
+  </a-col>
+  </a-row>
+  </div>
+  <!-- <div style="margin:0 16px;">
+  <a-row type="flex" justify="start">
+  <a-col span="16" style="margin:8px 0;">
+  <DetailsFile :labelSpan='4' :textSpan="20" :label='"文件信息"' :files='makeFileList'></DetailsFile>
+  </a-col>
+  </a-row>
+  </div> -->
+  </div>
+  </template>
+  </div>
 
-		</div>
-	</div>
+  </div>
+  </div>
 </template>
 
 <script>
 export default {
   data() {
     return {
-      id:this.$route.params.id,
-      ready:false,
-      knowledgeDetails:{},
-      videoUrls:[]
+      id              : this.$route.params.id,
+      ready           : false,
+      knowledgeDetails: {},
+      videoUrls       : []
     }
   },
   mounted() {
     this.getDetail()
   },
-  computed:{
+  computed: {
     /**
      * 根据传入的状态key值，返回需要展示的状态文字和颜色
      * @returns {Object} name:状态名；color：状态文字颜色
      */
     getStatusTag(){
       let statusTag = {
-        name:'',
-        color:''
+        name : '',
+        color: ''
       }
       switch (this.knowledgeDetails.status) {
       case '0':
@@ -117,6 +117,7 @@ export default {
       }
       return statusTag
     },
+
     /**
      * 组装需要展示的线上视频地址数组
      * @returns {Array}  video:['','']
@@ -131,6 +132,7 @@ export default {
       }
       return videoUrlList
     },
+
     /**
      * 组装需要展示的文件数组
      * @returns {Array}  [{name:带文件后缀的文件名称；url：已上传的文件地址},...]
@@ -141,8 +143,8 @@ export default {
       for(let i=0;i<attachments.length;i++){
         if(attachments[i].type=='1'){
           fileList.push({
-            name:attachments[i].fileName,
-            url:attachments[i].filePath
+            name: attachments[i].fileName,
+            url : attachments[i].filePath
           })
         }
 
@@ -159,8 +161,8 @@ export default {
       toStatusName = !toStatusName?'':toStatusName
       let toStatus = ''
       let opeation = {
-        title:'',
-        tips:''
+        title: '',
+        tips : ''
       }
       switch (toStatusName) {
       case 'publish':
@@ -176,13 +178,13 @@ export default {
       default:
         break
       }
-      if(this.$com.oneOf(toStatusName,['publish','recall'])){
+      if(this.$com.oneOf(toStatusName,[ 'publish','recall' ])){
         let vm = this
         this.$modal.confirm({
-          title: opeation.title,
-          content: opeation.tips,
-          okText: '确认',
-          okType: 'danger',
+          title     : opeation.title,
+          content   : opeation.tips,
+          okText    : '确认',
+          okType    : 'danger',
           cancelText: '取消',
           onOk() {
             vm.doChangeStatus(toStatus)
@@ -190,6 +192,7 @@ export default {
         })
       }
     },
+
     /**
      * 更改指定数据发布状态
      * @param {String} id 被操作数据key
@@ -202,10 +205,11 @@ export default {
         if(res.code=='200'){
           let successMsg = status=='1'?'发布成功':'撤回成功'
           this.$message.success(successMsg)
-          this.$router.push({name:'/cms/knowledge'})
+          this.$router.push({ name: '/cms/knowledge' })
         }
       })
     },
+
     /**
      * 进入数据操作页面
      * @param {String} type 页面类型， 创建：create；修改：edit；详情：detail
@@ -213,12 +217,13 @@ export default {
      */
     goToEdit(){
       this.$router.push({
-        name:'/cms/knowledge/edit',
-        params:{
-          id:this.id
+        name  : '/cms/knowledge/edit',
+        params: {
+          id: this.id
         }
       })
     },
+
     /**
      * 获取详情
      */

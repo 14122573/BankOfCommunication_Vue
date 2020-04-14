@@ -35,21 +35,21 @@ font-weight: bold; padding-right:8px; word-break: break-all; display: inline-blo
 <script>
 import common from '@/util/common'
 export default {
-  name:'authInHomeList',
+  name: 'authInHomeList',
   data() {
     return {
-      isReady:false,
-      knowledgeList:[],
-      searchForm:{
+      isReady      : false,
+      knowledgeList: [],
+      searchForm   : {
         // type_in:'0,1',
-        anonymous_in:'0,1',
-        status_in: '1'
+        anonymous_in: '0,1',
+        status_in   : '1'
       },
       pagination: {
-        pageNo: 1,
-        pageSize: 10,
-        total: 0,
-        current: 1,
+        pageNo        : 1,
+        pageSize      : 10,
+        total         : 0,
+        current       : 1,
         defaultCurrent: 1,
       },
     }
@@ -57,27 +57,28 @@ export default {
   mounted() {
     this.getKnowLedgeList()
   },
-  methods:{
+  methods: {
     goToView(id){
       this.$router.push({
-        name:'/cms/knowledgePublish/view',
-        params:{
-          id:id
+        name  : '/cms/knowledgePublish/view',
+        params: {
+          id: id
         }
       })
     },
+
     /**
      * 调用结构，查询表单要求的知识文库资料
      */
     getKnowLedgeList(){
       let searchParms
       searchParms = Object.assign({},this.searchForm,{
-        pageNo: this.pagination.pageNo,
-        pageSize: this.pagination.pageSize,
-        createTime_desc:'desc'
+        pageNo         : this.pagination.pageNo,
+        pageSize       : this.pagination.pageSize,
+        createTime_desc: 'desc'
       })
       this.$ajax.get({
-        url: this.$api.GET_CMS_KNOWLEDGE_LIST,
+        url   : this.$api.GET_CMS_KNOWLEDGE_LIST,
         params: searchParms
       }).then(res => {
         this.pagination.total = this.$com.confirm(res, 'data.totalRows', 0)

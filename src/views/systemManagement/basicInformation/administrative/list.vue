@@ -46,27 +46,30 @@
 
 <script>
 export default {
-  name:'Administrative',
+  name: 'Administrative',
   data(){
     return {
-      showTree:false,
-      form:this.$form.createForm(this),
+      showTree    : false,
+      form        : this.$form.createForm(this),
       expandedKeys: [],
-      area:['all'],
-      selectedKeys: [],//当前点击的分支key
-      treeData: [],//保存树数据的数组
-      targetArea:{},//当前点击的分支对象
-      disabled:true,
-      title:'',
-      visible:false,
-      branchName:'',
+      area        : [ 'all' ],
+      //当前点击的分支key
+      selectedKeys: [],
+      //保存树数据的数组
+      treeData    : [],
+      //当前点击的分支对象
+      targetArea  : {},
+      disabled    : true,
+      title       : '',
+      visible     : false,
+      branchName  : '',
     }
   },
   mounted(){
     // this.expand(['all'])
     this.getArea()
   },
-  methods:{
+  methods: {
     /***
      * 点击分支事件
      * selectedKeys {array} 当前点击的分支key
@@ -98,7 +101,7 @@ export default {
         if (!err) {
           if(this.title=='添加同级行政区'){
             this.$ajax.post({
-              url: this.$api.POST_ADD_AREA,
+              url   : this.$api.POST_ADD_AREA,
               params: {
                 areaName: this.form.getFieldValue('branchName'),
                 parentId: this.targetArea.node.dataRef.parentId
@@ -116,7 +119,7 @@ export default {
             })
           }else if(this.title=='修改行政区'){
             this.$ajax.put({
-              url: this.$api.PUT_REVISE_AREA.replace('{id}',this.selectedKeys[0]),
+              url   : this.$api.PUT_REVISE_AREA.replace('{id}',this.selectedKeys[0]),
               params: {
                 areaName: this.form.getFieldValue('branchName'),
                 parentId: this.targetArea.node.dataRef.parentId
@@ -136,6 +139,7 @@ export default {
         }
       })
     },
+
     /**
      * 删除分支
      */
@@ -147,7 +151,7 @@ export default {
           _this.$ajax.delete({
             url: _this.$api.DELETE_AREA.replace('{id}',_this.selectedKeys[0]),
           }).then(res => {
-            _this.showTree=false   
+            _this.showTree=false
             if(res.code=='200'){
               _this.$message.success('删除成功')
               _this.getArea()
@@ -160,6 +164,7 @@ export default {
         },
       })
     },
+
     /**
      * 展开关闭分支事件
      * expandedKeys {array} 当前展开/关闭的分支key
@@ -182,9 +187,9 @@ export default {
     //获取树的数据
     getArea() {
       this.$ajax.get({
-        url: this.$api.GET_AREA_NEXT,
+        url   : this.$api.GET_AREA_NEXT,
         params: {
-          parentId: 999999
+          parentId: 0
         }
       }).then(res => {
         let datas = this.$com.confirm(res, 'data.content', [])
@@ -192,20 +197,20 @@ export default {
         datas.forEach((ele, index) => {
           trees.push(this.getTreeNode(ele, index))
         })
-        this.treeData = [{
-          title: '全部',
-          key: 'all',
+        this.treeData = [ {
+          title   : '全部',
+          key     : 'all',
           children: trees
-        }]
+        } ]
         this.expandedKeys=this.area
         this.showTree=true
       })
     },
     getTreeNode(item, index) {
       let childrenNode = {
-        title: item.areaName,
-        id: item.id,
-        key: item.id,
+        title   : item.areaName,
+        id      : item.id,
+        key     : item.id,
         parentId: item.parentId
       }
       if (item.id.length == '9') {
@@ -213,6 +218,7 @@ export default {
       }
       return childrenNode
     },
+
     /**
      * 异步加载数据，获取子节点
      *  treeNade {object} 当前点击的节点
@@ -224,7 +230,7 @@ export default {
           return
         }
         this.$ajax.get({
-          url: this.$api.GET_AREA_NEXT,
+          url   : this.$api.GET_AREA_NEXT,
           params: {
             parentId: treeNode.dataRef.id
           }
@@ -235,7 +241,7 @@ export default {
             array.push(this.getTreeNode(ele, index))
           })
           treeNode.dataRef.children = array
-          this.treeData = [...this.treeData]
+          this.treeData = [ ...this.treeData ]
           resolve()
         })
       })

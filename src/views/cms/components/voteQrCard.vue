@@ -23,7 +23,7 @@
 <script>
 import Qrcode from '@chenfengyuan/vue-qrcode'
 export default {
-  name: 'VoteQrCard',
+  name      : 'VoteQrCard',
   components: {
     Qrcode,
   },
@@ -38,7 +38,7 @@ export default {
   data() {
     return {
       visible: false,
-      url: null,
+      url    : null,
     }
   },
   methods: {

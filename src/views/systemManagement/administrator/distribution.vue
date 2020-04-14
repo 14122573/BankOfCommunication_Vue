@@ -22,11 +22,11 @@
             </a-col>
             <a-col span="8">
               <a-form-item label="所属行政区域" :label-col="labelCol" :wrapper-col="wrapperCol">
-                <a-select v-if="isAdminator !== true" placeholder="11请选择" :options="options.areaList" @change="areaChange"
+                <a-select v-if="isAdminator !== true" placeholder="请选择" :options="options.areaList" @change="areaChange"
                 :filterOption="filterOption" v-decorator="['area',{rules: [rules.required],validateTrigger:'change'}]"
                 showSearch allowClear />
                 <a-tree-select v-else :treeData="organData" :loadData="onLoadData" showLine :dropdownStyle="{ maxHeight: '200px', overflow: 'auto' }"
-                placeholder='112请选择' allowClear v-decorator="['area',{rules: [rules.required],validateTrigger:'change'} ]"
+                placeholder='请选择' allowClear v-decorator="['area',{rules: [rules.required],validateTrigger:'change'} ]"
                 @change="onChangeTree">
                 </a-tree-select>
               </a-form-item>
@@ -47,7 +47,7 @@
 <script>
 import UserDetail from './user-detail'
 export default {
-  name: 'pendingPermissions-distribution',
+  name      : 'pendingPermissions-distribution',
   components: {
     UserDetail
   },
@@ -63,20 +63,21 @@ export default {
       rules: {
         required: {
           required: true,
-          message: '请选择'
+          message : '请选择'
         }
       },
       options: {
-        roleList: [],
-        areaList: [],
+        roleList : [],
+        areaList : [],
         organList: []
       },
-      checkedKeys: [], //选择的数组
-      treeData: [],
+      //选择的数组
+      checkedKeys: [],
+      treeData   : [],
       // 默认展开的数组
-      roles: [],
+      roles      : [],
       // 行政区域
-      organData: [],
+      organData  : [],
       isAdminator: ''
     }
   },
@@ -98,6 +99,7 @@ export default {
             this.checkedKeys = []
             for(let i=0;i<data.length;i++){
               if(false ===data[i].canDelete){
+                // 无逻辑
               }else{
                 this.checkedKeys.push(data[i].id)
               }
@@ -122,7 +124,7 @@ export default {
       let info = this.$store.state.userInfos
       let params = {
         pageSize: 10000,
-        pageNo: 1,
+        pageNo  : 1,
         areaCode: value,
       }
       if (!this.isAdminator && info.group.id) {
@@ -130,8 +132,8 @@ export default {
       }
       if (value !== '') {
         this.$ajax.get({
-          url: this.$api.GET_ORGANIZATION_LIST,
-          params: params,
+          url        : this.$api.GET_ORGANIZATION_LIST,
+          params     : params,
           hideLoading: true
         }).then(res => {
           if (res.code === '200') {
@@ -151,18 +153,18 @@ export default {
     //   查询options 获取角色名称的options
     getOptions() {
       let info = this.$store.state.userInfos
-      let optionList = [{
-        url: this.$api.GET_ROLE_LIST,
-        name: 'roleList',
+      let optionList = [ {
+        url   : this.$api.GET_ROLE_LIST,
+        name  : 'roleList',
         params: {
-          pageNo: 1,
+          pageNo  : 1,
           pageSize: 10000
         }
-      }]
+      } ]
       if (info.area && this.isAdminator !== true) {
         optionList.push({
-          url: this.$api.GET_AREA_NEXT,
-          name: 'areaList',
+          url   : this.$api.GET_AREA_NEXT,
+          name  : 'areaList',
           params: {
             parentId: info.area.id
           }
@@ -172,7 +174,7 @@ export default {
       }
       optionList.forEach(item => {
         this.$ajax.get({
-          url: item.url,
+          url   : item.url,
           params: item.params
         }).then(res => {
           if (res.code === '200') {
@@ -206,7 +208,7 @@ export default {
     getTreeNode(item, index) {
       let childrenNode = {
         title: item.permName,
-        key: item.id,
+        key  : item.id,
         value: item.permName,
       }
       if (item.childList && item.childList.length) {
@@ -221,12 +223,12 @@ export default {
     // 行政区域修改---
     onLoadData(treeNode) {
       return new Promise((resolve) => {
-        if (treeNode.dataRef.children || treeNode.value=='999999') {
+        if (treeNode.dataRef.children) {
           resolve()
           return
         }
         this.$ajax.get({
-          url: this.$api.GET_AREA_NEXT,
+          url   : this.$api.GET_AREA_NEXT,
           params: {
             parentId: treeNode.dataRef.id
           }
@@ -237,7 +239,7 @@ export default {
             array.push(this.getOrganTree(ele, index))
           })
           treeNode.dataRef.children = array
-          this.organData = [...this.organData]
+          this.organData = [ ...this.organData ]
           resolve()
         })
       })
@@ -250,34 +252,25 @@ export default {
     },
     getArea() {
       this.$ajax.get({
-        url: this.$api.GET_AREA_NEXT,
+        url   : this.$api.GET_AREA_NEXT,
         params: {
-          parentId: this.isAdminator ? '999999' : this.$store.state.userInfos.area.id
+          parentId: this.isAdminator ? '0' : this.$store.state.userInfos.area.id
         }
       }).then(res => {
         let datas = this.$com.confirm(res, 'data.content', [])
         datas.forEach((ele, index) => {
           this.organData.push(this.getOrganTree(ele, index))
         })
-        let national={
-          title: '中国',
-          value: '999999',
-          id: '999999',
-          key: '999999',
-          parentId: null,
-          children: null
-        }
-        this.organData.splice(0,0,national)
       })
     },
     getOrganTree(item, index) {
       let childrenNode = {
-        title: item.areaName,
-        value: item.id,
-        id: item.id,
-        key: item.id,
-        parentId: item.parentId,
-        children: item.childList
+        'title'   : item.areaName,
+        'value'   : item.id,
+        'id'      : item.id,
+        'key'     : item.id,
+        'parentId': item.parentId,
+        'children': item.childList
       }
       return childrenNode
     },
@@ -305,7 +298,7 @@ export default {
           params.roleNames = params.roleNames.join(',')
           params.id = this.$route.query.id
           this.$ajax.put({
-            url: this.$api.CONFIG_ROLES_TO_USER,
+            url   : this.$api.CONFIG_ROLES_TO_USER,
             params: params
           }).then((res) => {
             if (res.code === '200') {

@@ -30,7 +30,7 @@ export default {
   methods: {
     getManualList() {
       const params = {
-        pageNo: 1,
+        pageNo  : 1,
         pageSize: 1
       }
       this.$ajax.get({

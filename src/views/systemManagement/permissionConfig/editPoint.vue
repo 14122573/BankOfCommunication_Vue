@@ -62,7 +62,8 @@ export default {
       if (!!value && value.length>0 && !!this.editForm.type && !this.$com.checkNumber(value)) {
         callback('功能编码仅能填写数字')
       } else {
-        if(this.pointDetail.pointKey==code){ //如果数据没有改变过 ，就功能吗重复不校验
+        if(this.pointDetail.pointKey==code){
+          //如果数据没有改变过 ，就功能吗重复不校验
           callback()
         }else{
           this.$ajax.get({
@@ -78,18 +79,18 @@ export default {
       }
     }
     return {
-      preparate:{
-        isReady:false,
-        hasDetail:false
+      preparate: {
+        isReady  : false,
+        hasDetail: false
       },
-      editForm:{
-        permIds:[]
+      editForm: {
+        permIds: []
       },
-      sysListForSearch:[],
-      pointDetail:null,
-      formRules:{
+      sysListForSearch: [],
+      pointDetail     : null,
+      formRules       : {
         // 相关管理信息
-        pointName:[
+        pointName: [
           { required: true, whitespace: true, message: '请填写功能点名称' }
         ],
         pointCode: [
@@ -100,13 +101,13 @@ export default {
           { required: true, whitespace: true, message: '请填写功能点编码' },
           { validator: validatePointCode }
         ],
-        pointCodeNoRequir:[
+        pointCodeNoRequir: [
           { validator: validatePointCode }
         ]
       },
-      tree:{
-        roleTreeData:[],
-        roleTreeDataArranged:[]
+      tree: {
+        roleTreeData        : [],
+        roleTreeDataArranged: []
       },
 
     }
@@ -136,40 +137,40 @@ export default {
     this.$nextTick(function () {
       this.editForm['type']=this.pointDetail.type=='0'?undefined:this.pointDetail.type
       this.editForm['typeName']=this.pointDetail.typeName
-      this.pointEditForm.getFieldDecorator('pointName',{initialValue:this.pointDetail.pointName})
-      this.pointEditForm.getFieldDecorator('pointKey',{initialValue:this.pointDetail.pointKey.replace(this.editForm.type, '')})
+      this.pointEditForm.getFieldDecorator('pointName',{ initialValue: this.pointDetail.pointName })
+      this.pointEditForm.getFieldDecorator('pointKey',{ initialValue: this.pointDetail.pointKey.replace(this.editForm.type, '') })
       if(Array.isArray(this.pointDetail.permSet) && this.pointDetail.permSet.length>0){
         this.pointDetail.permIds = []
         for(let i=0;i<this.pointDetail.permSet.length;i++){
           this.pointDetail.permIds.push(this.pointDetail.permSet[i].id)
         }
         this.editForm.permIds = this.pointDetail.permIds
-        this.pointEditForm.getFieldDecorator('permIds',{initialValue:this.pointDetail.permIds})
+        this.pointEditForm.getFieldDecorator('permIds',{ initialValue: this.pointDetail.permIds })
       }
     })
     this.preparate.isReady = true
   },
-  computed:{
+  computed: {
   },
-  watch:{
+  watch: {
     pointDetail(){
       this.$nextTick(function () {
         this.editForm['type']=this.pointDetail.type=='0'?undefined:this.pointDetail.type
         this.editForm['typeName']=this.pointDetail.typeName
-        this.pointEditForm.getFieldDecorator('pointName',{initialValue:this.pointDetail.pointName})
-        this.pointEditForm.getFieldDecorator('pointKey',{initialValue:this.pointDetail.pointKey.replace(this.editForm.type, '')})
+        this.pointEditForm.getFieldDecorator('pointName',{ initialValue: this.pointDetail.pointName })
+        this.pointEditForm.getFieldDecorator('pointKey',{ initialValue: this.pointDetail.pointKey.replace(this.editForm.type, '') })
         if(Array.isArray(this.pointDetail.permSet) && this.pointDetail.permSet.length>0){
           this.pointDetail.permIds = []
           for(let i=0;i<this.pointDetail.permSet.length;i++){
             this.pointDetail.permIds.push(this.pointDetail.permSet[i].id)
           }
           this.editForm.permIds = this.pointDetail.permIds
-          this.pointEditForm.getFieldDecorator('permIds',{initialValue:this.pointDetail.permIds})
+          this.pointEditForm.getFieldDecorator('permIds',{ initialValue: this.pointDetail.permIds })
         }
       })
     }
   },
-  methods:{
+  methods: {
     /**
      * 监听所属权限选择，获取已选权限id数组
      * @param {String} select 当前已选权限id数组
@@ -177,6 +178,7 @@ export default {
     handlePermsChange(select){
       this.editForm.permIds = select
     },
+
     /**
      * 监听系统选择，获取选择系统的名称
      * @param {String} select 当前选择的系统code
@@ -192,16 +194,16 @@ export default {
       this.pointEditForm.validateFields(err => {
         if (!err) {
           let putParams = Object.assign({},this.editForm,{
-            'pointName':this.pointEditForm.getFieldValue('pointName'),
-            'pointKey':(!this.editForm.type?'':this.editForm.type)+this.pointEditForm.getFieldValue('pointKey'),
+            'pointName': this.pointEditForm.getFieldValue('pointName'),
+            'pointKey' : (!this.editForm.type?'':this.editForm.type)+this.pointEditForm.getFieldValue('pointKey'),
           })
           this.$ajax.put({
-            url: this.$api.PUT_PREMSPOINT.replace('{id}', this.pointDetail.id),
+            url   : this.$api.PUT_PREMSPOINT.replace('{id}', this.pointDetail.id),
             params: putParams
           }).then(res => {
             if (res.code === '200') {
               this.$message.success('修改成功')
-              this.$router.push({name:'/systemManagement/permissionConfig/point'})
+              this.$router.push({ name: '/systemManagement/permissionConfig/point' })
             }
           })
         }else{
@@ -209,12 +211,13 @@ export default {
         }
       })
     },
+
     /**
      * 查询权限树
      */
     getRoleTree(){
       this.$ajax.get({
-        url:this.$api.GET_ALL_ROLE + '?isTree=true&isAll=true'
+        url: this.$api.GET_ALL_ROLE + '?isTree=true&isAll=true'
       }).then(res=>{
         if(!!res.data && !!res.data.content){
           let data=res.data.content
@@ -234,16 +237,17 @@ export default {
             }
           })
           this.tree.roleTreeDataArranged.push({
-            'title':'初始化权限',
-            'key':'-1',
-            'permKey':'',
-            'canDelete':false,
-            'isHide':true,
-            'children':[].concat(initializedRoleTree)
+            'title'    : '初始化权限',
+            'key'      : '-1',
+            'permKey'  : '',
+            'canDelete': false,
+            'isHide'   : true,
+            'children' : [].concat(initializedRoleTree)
           })
         }
       })
     },
+
     /**
      * 根据tree渲染数据所需结构，重组数据
      * @param {Object} item 单个权限对象
@@ -251,11 +255,11 @@ export default {
      */
     initRoleTreeNode(item){
       let childrenNode={
-        'title':item.permName,
-        'key':item.id,
-        'permKey':!item.permKey?'':item.permKey,
-        'canDelete':item.canDelete===false?false:true,
-        'isHide':item.isHide,
+        'title'    : item.permName,
+        'key'      : item.id,
+        'permKey'  : !item.permKey?'':item.permKey,
+        'canDelete': item.canDelete===false?false:true,
+        'isHide'   : item.isHide,
       }
       if(item.childList && item.childList.length){
         childrenNode.children = []
@@ -266,13 +270,14 @@ export default {
       }
       return childrenNode
     },
+
     /**
      * 获取可选的子系统清单
      */
     getSysCodOptions(){
       this.$ajax.get({
-        url: this.$api.SYSTEM_LIST_ALL_GET,
-        params:{type:'1'}
+        url   : this.$api.SYSTEM_LIST_ALL_GET,
+        params: { type: '1' }
       }).then(res=>{
         if(res.code === '200'){
           let data = this.$com.confirm(res, 'data.content', [])

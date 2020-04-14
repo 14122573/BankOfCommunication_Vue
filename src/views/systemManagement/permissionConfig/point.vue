@@ -63,13 +63,13 @@
 export default {
   data() {
     return {
-      isReady:false,
-      searchForm:{},
-      sysListForSearch:[],
-      pointsArray:[],
-      pointsList:null,
-      deleteData:null,
-      permIcon:require('@/assets/images/group.png'),
+      isReady         : false,
+      searchForm      : {},
+      sysListForSearch: [],
+      pointsArray     : [],
+      pointsList      : null,
+      deleteData      : null,
+      permIcon        : require('@/assets/images/group.png'),
     }
   },
   watch: {
@@ -87,19 +87,19 @@ export default {
       this.isReady = true
     }
   },
-  watch:{
+  watch: {
     pointsList(){
       // 整理数据，可用于collapse展示
       this.pointsArray = []
       for(let item in this.pointsList){
         this.pointsArray.push({
-          name:item,
-          children:[].concat(this.pointsList[item])
+          name    : item,
+          children: [].concat(this.pointsList[item])
         })
       }
     }
   },
-  methods:{
+  methods: {
     /**
      * 清空表单搜索条件，展示默认列表内容
      */
@@ -107,16 +107,17 @@ export default {
       delete this.searchForm.type
       this.getPointList()
     },
+
     /**
      * 搜索获取功能点清单
      */
     getPointList(){
       let searchParms
       searchParms = Object.assign({},{
-        type:this.searchForm.type,
+        type: this.searchForm.type,
       })
       this.$ajax.get({
-        url: this.$api.GET_PREMSPOINT_LIST,
+        url   : this.$api.GET_PREMSPOINT_LIST,
         params: searchParms
       }).then(res=>{
         if(res.code === '200'){
@@ -127,6 +128,7 @@ export default {
         this.isReady =true
       })
     },
+
     /**
      * 确认是否删除功能点
      * @param {Object} point 功能点对象
@@ -136,10 +138,10 @@ export default {
         let vm = this
         this.deleteData = point
         this.$modal.confirm({
-          title: '是否确认删除此功能点？',
-          content: '此操作不可撤销',
-          okText: '确认',
-          okType: 'danger',
+          title     : '是否确认删除此功能点？',
+          content   : '此操作不可撤销',
+          okText    : '确认',
+          okType    : 'danger',
           cancelText: '取消',
           onOk() {
             vm.handleDeletePoint()
@@ -147,6 +149,7 @@ export default {
         })
       }
     },
+
     /**
      * 执行删除功能点，成功后刷新页面
      */
@@ -161,28 +164,30 @@ export default {
       })
     },
     goToBatchAddPoint(){
-      this.$router.push({name:'/systemManagement/permissionConfig/point/addBatch'})
+      this.$router.push({ name: '/systemManagement/permissionConfig/point/addBatch' })
     },
     goToAddPoint(){
-      this.$router.push({name:'/systemManagement/permissionConfig/point/add'})
+      this.$router.push({ name: '/systemManagement/permissionConfig/point/add' })
     },
+
     /**
      * 进入功能点编辑页面
      * @param {Object} point 功能点对象
      */
     goToEditPoint(point){
       this.$router.push({
-        name:'/systemManagement/permissionConfig/point/edit',
-        query:{point:JSON.stringify(point)}
+        name : '/systemManagement/permissionConfig/point/edit',
+        query: { point: JSON.stringify(point) }
       })
     },
+
     /**
      * 获取可选的子系统清单
      */
     getSysCodOptions(){
       this.$ajax.get({
-        url: this.$api.SYSTEM_LIST_ALL_GET,
-        params:{type:'1'}
+        url   : this.$api.SYSTEM_LIST_ALL_GET,
+        params: { type: '1' }
       }).then(res=>{
         if(res.code === '200'){
           let data = this.$com.confirm(res, 'data.content', [])
@@ -223,6 +228,5 @@ export default {
 .contentOperate span{ color:#1890ff; cursor: pointer;display: inline-block; }
 .contentOperate .title{color:#000;font-weight:bold;}
 </style>
-
 
 

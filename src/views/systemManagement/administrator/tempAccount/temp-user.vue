@@ -55,14 +55,14 @@ import DataOperatorInList from '@/views/systemManagement/components/dataOperator
 import CreateTempAccount from '@/views/systemManagement/administrator/tempAccount/createAccount'
 
 export default {
-  name: 'temp-user',
+  name      : 'temp-user',
   components: {
     DataOperatorInList,
     CreateTempAccount
   },
   props: {
     roleList: {
-      type: Array,
+      type   : Array,
       default: () => {
         return []
       }
@@ -70,93 +70,94 @@ export default {
   },
   data() {
     return {
-      isAdminator: this.$store.state.userInfos.isAllPerm,
-      simpleSearchForm:true, // 展示、收取简单搜索开关，true为简单搜索
-      params: {
+      isAdminator     : this.$store.state.userInfos.isAllPerm,
+      // 展示、收取简单搜索开关，true为简单搜索
+      simpleSearchForm: true,
+      params          : {
         'ta.batch_desc': 1
       },
       pagination: {
-        pageNo: 1,
-        pageSize: 10,
-        total: 0,
-        current: 1,
-        defaultCurrent: 1,
+        pageNo         : 1,
+        pageSize       : 10,
+        total          : 0,
+        current        : 1,
+        defaultCurrent : 1,
         showQuickJumper: true,
-        onChange: this.pageChange
+        onChange       : this.pageChange
       },
       searchForm: {
       },
-      modalControlers:{
-        createTempAccount:false
+      modalControlers: {
+        createTempAccount: false
       },
-      defaultValue:'',
-      dataTable: [],
-      columns: [
+      defaultValue: '',
+      dataTable   : [],
+      columns     : [
         {
-          title: '临时账号数量',
+          title    : '临时账号数量',
           dataIndex: 'NUMBERS',
-          key: 'NUMBERS',
-          width: 120
+          key      : 'NUMBERS',
+          width    : 120
         },{
-          title: '角色名称',
+          title    : '角色名称',
           dataIndex: 'ROLENAME',
-          key: 'ROLENAME'
+          key      : 'ROLENAME'
         },{
-          title: '所属组织机构',
+          title    : '所属组织机构',
           dataIndex: 'GROUPNAME',
-          key: 'GROUPNAME'
+          key      : 'GROUPNAME'
         },{
-          title: '所属行政区域',
+          title    : '所属行政区域',
           dataIndex: 'AREANAME',
-          key: 'AREANAME'
+          key      : 'AREANAME'
         },{
-          title: '操作人',
-          width: 180,
-          dataIndex: 'CREATOR',
-          key: 'CREATOR',
+          title      : '操作人',
+          width      : 180,
+          dataIndex  : 'CREATOR',
+          key        : 'CREATOR',
           scopedSlots: {
             customRender: 'operator'
           }
         },{
-          title: '操作',
-          key: 'operation',
-          width: 60,
+          title      : '操作',
+          key        : 'operation',
+          width      : 60,
           scopedSlots: {
             customRender: 'action'
           }
         }
       ],
-      treeData: [],
-      areaCode: '',
-      groupLists: [],
-      selectedIds:{
-        selectIds:'',
-        deleteIds:'',
-        exportIds:''
+      treeData   : [],
+      areaCode   : '',
+      groupLists : [],
+      selectedIds: {
+        selectIds: '',
+        deleteIds: '',
+        exportIds: ''
       },
-      rowSelection:{
+      rowSelection: {
         onChange: (selectedRowKeys, selectedRows) => {
           this.selectedIds.selectIds = selectedRowKeys
         }
       }
     }
   },
-  computed:{
+  computed: {
     formItemLabelCol(){
       let labelCol = {}
       if(this.simpleSearchForm){
-        labelCol = {span: 0}
+        labelCol = { span: 0 }
       }else{
-        labelCol = {span: 8}
+        labelCol = { span: 8 }
       }
       return labelCol
     },
     formItemWrapperCol(){
       let wrapperCol = {}
       if(this.simpleSearchForm){
-        wrapperCol = {span: 24}
+        wrapperCol = { span: 24 }
       }else{
-        wrapperCol = {span: 16}
+        wrapperCol = { span: 16 }
       }
       return wrapperCol
     }
@@ -173,7 +174,7 @@ export default {
       this.selectedIds.exportIds = this.selectedIds.selectIds
       if(this.selectedIds.exportIds==''){
         this.$modal.warning({
-          title: '未选择临时账户批次',
+          title  : '未选择临时账户批次',
           content: '请勾选至少一条临时账户批次'
         })
       }else{
@@ -181,6 +182,7 @@ export default {
         this.selectedIds.exportIds = ''
       }
     },
+
     /**
      * 删除临时账户批次时，用户二次确认;支持批量删除、单条删除
      * @param {String} id 单条删除时，传入的批次id
@@ -193,16 +195,16 @@ export default {
       }
       if(this.selectedIds.deleteIds==''){
         this.$modal.warning({
-          title: '未选择临时账户批次',
+          title  : '未选择临时账户批次',
           content: '请勾选至少一条临时账户批次'
         })
       }else{
         let vm = this
         this.$modal.confirm({
-          title: '是否确认删除已选临时账户批次下所有账户',
-          content: '临时账户删除成功后，任何方式都无法找回',
-          okText: '确认',
-          okType: 'danger',
+          title     : '是否确认删除已选临时账户批次下所有账户',
+          content   : '临时账户删除成功后，任何方式都无法找回',
+          okText    : '确认',
+          okType    : 'danger',
           cancelText: '取消',
           onOk() {
             vm.deleteTempAccounts()
@@ -213,6 +215,7 @@ export default {
         })
       }
     },
+
     /**
      * 执行临时账户批次删除。并刷新列表
      */
@@ -223,13 +226,14 @@ export default {
         if (res.code === '200') {
           this.selectedIds.deleteIds = ''
           this.$modal.success({
-            title: '操作成功',
+            title  : '操作成功',
             content: '删除临时账户成功'
           })
           this.getList()
         }
       })
     },
+
     /**
      * 关闭批量创建账号弹窗表单，并根据传参判断是否重载列表
      * @param {Boolean} isReload 是否重载列表
@@ -269,28 +273,29 @@ export default {
     // 查询列表
     getList() {
       const params = Object.assign({}, this.params,this.searchForm, {
-        pageNo: this.pagination.pageNo,
+        pageNo  : this.pagination.pageNo,
         pageSize: this.pagination.pageSize
       })
       if (params['g.id']=='') {
         delete params['g.id']
       }
       this.$ajax.get({
-        url: this.$api.GET_TEMPACCOUT_LIST,
+        url   : this.$api.GET_TEMPACCOUT_LIST,
         params: params
       }).then(res => {
         this.dataTable = this.$com.confirm(res, 'data.content', [])
         this.pagination.total = this.$com.confirm(res, 'data.totalRows', 0)
       })
     },
+
     /**
      * 获取当前用户，数据权限范围内的省市区列表
      */
     getArea() {
       this.$ajax.get({
-        url: this.$api.GET_AREA_NEXT,
+        url   : this.$api.GET_AREA_NEXT,
         params: {
-          parentId: this.isAdminator ? '999999' : this.$store.state.userInfos.area.id
+          parentId: this.isAdminator ? '0' : this.$store.state.userInfos.area.id
         }
       }).then(res => {
         let datas = this.$com.confirm(res, 'data.content', [])
@@ -299,15 +304,16 @@ export default {
         })
       })
     },
+
     /**
      * 对接口返回的省市区数据，进行格式化整理
      */
     getTreeNode(item, index) {
       let childrenNode = {
-        title: item.areaName,
-        value: item.id,
-        id: item.id,
-        key: item.id,
+        title   : item.areaName,
+        value   : item.id,
+        id      : item.id,
+        key     : item.id,
         parentId: item.parentId,
         children: item.childList
       }
@@ -320,7 +326,7 @@ export default {
           return
         }
         this.$ajax.get({
-          url: this.$api.GET_AREA_NEXT,
+          url   : this.$api.GET_AREA_NEXT,
           params: {
             parentId: treeNode.dataRef.id
           }
@@ -345,14 +351,14 @@ export default {
     getListGroup() {
       const params = {
         pageSize: 10000,
-        pageNo: 1,
+        pageNo  : 1,
         areaCode: this.areaCode
       }
       if (!this.isAdminator) {
         params.parentId = this.$store.state.userInfos.group.id
       }
       this.$ajax.get({
-        url: this.$api.GET_ORGANIZATION_LIST,
+        url   : this.$api.GET_ORGANIZATION_LIST,
         params: params
       }).then(res => {
         this.groupLists = this.$com.confirm(res, 'data.content', [])

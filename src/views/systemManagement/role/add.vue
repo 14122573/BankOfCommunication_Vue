@@ -43,24 +43,25 @@
 export default {
   data() {
     return {
-      title:'新增角色',
-      labelCol: { span: 8 },
-      wrapperCol: { span: 16 },
-      checkedKeys: [],//选择的数组
-      treeData:[],
+      title       : '新增角色',
+      labelCol    : { span: 8 },
+      wrapperCol  : { span: 16 },
+      //选择的数组
+      checkedKeys : [],
+      treeData    : [],
       // 默认展开的数组
-      expandedKeys:[],
-      deleteData:{},
-      showTree:false,
-      roleName:null,
-      userCount:null
+      expandedKeys: [],
+      deleteData  : {},
+      showTree    : false,
+      roleName    : null,
+      userCount   : null
     }
   },
   methods: {
     // 查询权限树
     getTree(){
       this.$ajax.get({
-        url:this.$api.GET_ALL_ROLE + '?isTree=true'
+        url: this.$api.GET_ALL_ROLE + '?isTree=true'
       }).then(res=>{
         let data=res.data.content
         data.forEach((item,index)=>{
@@ -78,11 +79,14 @@ export default {
         }
       })
     },
-    // 整理权限树
+
+    /**
+     * 整理权限树
+     */
     getTreeNode(item,index){
       let childrenNode={
-        title:item.permName,
-        key:item.id
+        title: item.permName,
+        key  : item.id
       }
       if(item.childList && item.childList.length){
         childrenNode.children = []
@@ -96,7 +100,7 @@ export default {
     // 查询角色详情
     getRoleInfo(id){
       this.$ajax.get({
-        url:this.$api.PUT_CHARACTER.replace('{id}',id)
+        url: this.$api.PUT_CHARACTER.replace('{id}',id)
       }).then(res=>{
         if(res.code === '200'){
           let data=res.data.content
@@ -104,7 +108,7 @@ export default {
           this.userCount=data.userCount
           if(this.$route.query.type !== 'view'){
             this.formData.setFieldsValue({
-              roleName:data.roleName
+              roleName: data.roleName
             })
           }
           this.checkedKeys=data.perm.map((item)=>{
@@ -133,10 +137,10 @@ export default {
             msg='新增成功'
           }
           this.$ajax[methods]({
-            url:link,
-            params:{
-              roleName:this.formData.getFieldValue('roleName'),
-              permIds:this.checkedKeys.join(',')
+            url   : link,
+            params: {
+              roleName: this.formData.getFieldValue('roleName'),
+              permIds : this.checkedKeys.join(',')
             }
           }).then(res=>{
             if(res.code === '200'){
@@ -152,11 +156,11 @@ export default {
     // 修改按钮
     edit(){
       this.$router.push({
-        name:'/systemManagement/role/edit',
-        query:{
-          type:'edit',
-          id:this.$route.query.id,
-          roleName:this.$route.query.roleName
+        name : '/systemManagement/role/edit',
+        query: {
+          type    : 'edit',
+          id      : this.$route.query.id,
+          roleName: this.$route.query.roleName
         }
       })
     },
@@ -165,16 +169,16 @@ export default {
       let vm = this
       if(this.userCount !== null && this.userCount !== '' && this.userCount != 0){
         this.$modal.warning({
-          title: '无法删除此角色',
+          title  : '无法删除此角色',
           content: '此角色还有员工未被分配，请先处理该角色下所有员工的调岗操作',
-          okText: '确认',
+          okText : '确认',
         })
       }else{
         this.$modal.confirm({
-          title: '是否确认删除此角色？',
-          content: '此操作不可撤销',
-          okText: '确认',
-          okType: 'danger',
+          title     : '是否确认删除此角色？',
+          content   : '此操作不可撤销',
+          okText    : '确认',
+          okType    : 'danger',
           cancelText: '取消',
           onOk() {
             vm.handleOkDelete()
@@ -184,12 +188,12 @@ export default {
     },
     handleOkDelete(){
       this.$ajax.delete({
-        url:this.$api.DELETE_CHARACTER.replace('{id}',this.$route.query.id),
+        url: this.$api.DELETE_CHARACTER.replace('{id}',this.$route.query.id),
       }).then(res=>{
         if(res.code === '200'){
           this.$message.success('删除成功')
           this.$router.push({
-            name:'/systemManagement/role'
+            name: '/systemManagement/role'
           })
         }
       })

@@ -38,13 +38,14 @@ export const permission = {
             authCodeList = oldSysAuthCode
           }
           // 写入vuex
-          this.$store.commit('SET_MENU', {authMenuAll , authCodeList, isAllPerm})
+          this.$store.commit('SET_MENU', { authMenuAll , authCodeList, isAllPerm })
           // 根据获取的权限信息，从router中获取左侧菜单信息，并重新赋值vuex
           this.getPermission(isAllPerm)
         })
 
       })
     },
+
     /**
      * 组装左侧菜单
      * @param {Boolean} isAllPerm
@@ -58,7 +59,7 @@ export const permission = {
 
       if(isAllPerm){ //有全部权限
         authMenuAll = getAllSideMenu(routes)
-        this.$store.commit('SET_MENU', {authMenuAll, authCodeList, isAllPerm})
+        this.$store.commit('SET_MENU', { authMenuAll, authCodeList, isAllPerm })
       }else { // 只有部分权限，需根据权限码组装菜单
 
         // 从vuex中取出存入的权限码，若不存在重新声明
@@ -66,10 +67,10 @@ export const permission = {
 
         if(authCodeList.length>0){ //vuex中存有权限码信息
           authMenuAll = getSideMenu(routes,authCodeList)
-          this.$store.commit('SET_MENU', {authMenuAll, authCodeList, isAllPerm})
+          this.$store.commit('SET_MENU', { authMenuAll, authCodeList, isAllPerm })
         }else{ // vuex中不存在权限码信息，需重新调用接口再获取
           this.$ajax.get({
-            url: this.$api.GET_USER_PEIMISSION,
+            url   : this.$api.GET_USER_PEIMISSION,
             params: {}
           }).then(res=>{
             // 当前用户全部权限编码，包含菜单及功能操作
@@ -82,11 +83,12 @@ export const permission = {
               authCodeList = oldSysAuthCode
             }
             authMenuAll = getSideMenu(routes,authCodeList)
-            this.$store.commit('SET_MENU', {authMenuAll, authCodeList, isAllPerm})
+            this.$store.commit('SET_MENU', { authMenuAll, authCodeList, isAllPerm })
           })
         }
       }
     },
+
     /**
      * 判断要目标路由是否需要在面包屑中隐藏
      * @param {String} routerName 路由名称，即router.name
@@ -129,6 +131,7 @@ function getOldSysAuthCode(syslist){
   }
   return oldSysAuthCode
 }
+
 /**
  * 递归遍历所有router，找到某一个router节点
  * @param {Array} allRouter 某一层级的route节点,必传
@@ -165,6 +168,7 @@ function findRouerByName(allRouter, routerName) {
   })
   return targetRouter
 }
+
 /**
  * 递归遍历所有router，获取所有左侧菜单，不分权限
  * @param {Array} allRouter 某一层级的route节点,必传
@@ -197,6 +201,7 @@ function getAllSideMenu(allRouter) {
   })
   return authMenu
 }
+
 /**
  * 递归遍历所有router，根据权限code，组装左侧菜单需展示router数据
  * @param {Array} allRouter 某一层级的route节点,必传

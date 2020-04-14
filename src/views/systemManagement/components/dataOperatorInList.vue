@@ -7,18 +7,18 @@
 </template>
 <script>
 export default {
-  props:{
-    creator:{
-      type:String
+  props: {
+    creator: {
+      type: String
     },
-    lastOperator:{
-      type:String
+    lastOperator: {
+      type: String
     },
-    lv:{
-      type:String
+    lv: {
+      type: String
     },
   },
-  computed:{
+  computed: {
     getCreator(){
       return this.creator || '初始化数据'
     },
@@ -32,6 +32,5 @@ export default {
 .operatorInfo {font-size:12px; margin:0; }
 .operatorInfo .label{ color: rgba(0, 0, 0, 0.4)}
 </style>
-
 
 

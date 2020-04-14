@@ -101,13 +101,13 @@ export default {
       }
     }
     return {
-      id:this.$route.params.id,
-      ready:false,
-      knowledgeEditForm:this.$form.createForm(this),
-      ueditorConfig:{
-        serverUrl: this.$api.GET_UEDITOR_SERVICE_URL,
+      id               : this.$route.params.id,
+      ready            : false,
+      knowledgeEditForm: this.$form.createForm(this),
+      ueditorConfig    : {
+        serverUrl       : this.$api.GET_UEDITOR_SERVICE_URL,
         UEDITOR_HOME_URL: '/static/ueditor/',
-        toolbars:[[
+        toolbars        : [ [
           'undo', 'redo', '|',
           'bold', 'italic', 'underline', 'fontborder', 'strikethrough', 'superscript', 'subscript', 'removeformat', 'formatmatch', 'autotypeset', 'blockquote', 'pasteplain', '|', 'forecolor', 'backcolor', 'insertorderedlist', 'insertunorderedlist', 'selectall', 'cleardoc', '|',
           'rowspacingtop', 'rowspacingbottom', 'lineheight', '|',
@@ -116,18 +116,18 @@ export default {
           'simpleupload', 'insertimage', 'attachment', 'insertvideo','|',
           'justifyleft', 'justifycenter', 'justifyright', 'justifyjustify', '|', 'touppercase', 'tolowercase', '|',
           'link', 'unlink',
-        ]],
-        zIndex:1,
-        autoHeightEnabled: false, // {Boolean} [默认值：true] 编辑器不自动被内容撑高
+        ] ],
+        zIndex            : 1,
+        autoHeightEnabled : false, // {Boolean} [默认值：true] 编辑器不自动被内容撑高
         elementPathEnabled: false, // {Boolean} [默认值：true] 是否启用元素路径，默认是显示
-        wordCount: false, // {Boolean} [默认值：true] 是否开启字数统计
-        enableAutoSave: false,// {Boolean} [默认值：true] 启用自动保存，这个配置忽好忽坏
-        initialFrameWidth:'90%',
-        saveInterval: 100000000, // {Number} [默认值：500] 自动保存间隔时间，单位ms
-        autoFloatEnabled: false, // [默认值：true] // 是否保持toolbar的位置不动
-        initialFrameHeight:300
+        wordCount         : false, // {Boolean} [默认值：true] 是否开启字数统计
+        enableAutoSave    : false,// {Boolean} [默认值：true] 启用自动保存，这个配置忽好忽坏
+        initialFrameWidth : '90%',
+        saveInterval      : 100000000, // {Number} [默认值：500] 自动保存间隔时间，单位ms
+        autoFloatEnabled  : false, // [默认值：true] // 是否保持toolbar的位置不动
+        initialFrameHeight: 300
       },
-      createFormOption:{
+      createFormOption: {
         // type:[{
         //   label: '视频',
         //   value: '0'
@@ -135,7 +135,7 @@ export default {
         //   label: 'PDF',
         //   value: '1'
         // }],
-        anonymous:[{
+        anonymous: [ {
           label: '公开',
           value: '0'
         },{
@@ -144,14 +144,14 @@ export default {
         }
         ]
       },
-      knowledgeDetails:{},
-      formData:{
-        anonymous:'',
-        content:'',
-        videoUrlList:[]
+      knowledgeDetails: {},
+      formData        : {
+        anonymous   : '',
+        content     : '',
+        videoUrlList: []
       },
       rules: {
-        title:[
+        title: [
           { required: true, whitespace: true, message: '请输入知识文献标题!' },
         ],
         author: [
@@ -161,13 +161,13 @@ export default {
           { required: true, message: '请输入知识文献发表年代!仅能为1900~3000的四位数字' }
         ]
       },
-      uploadFileList:{
-        default:[],
-        used:[]
+      uploadFileList: {
+        default: [],
+        used   : []
       },
-      uploadConfig:{
-        maxSize:5*1024*1024,
-        acceptTypesArray:['pdf']
+      uploadConfig: {
+        maxSize         : 5*1024*1024,
+        acceptTypesArray: [ 'pdf' ]
       }
     }
   },
@@ -185,28 +185,29 @@ export default {
       let fileList = this.uploadFileList.used.map((item,index)=>{
         if(item.uid && item.uid.toString().indexOf('-')==0){// 未修改PDF
           return {
-            type:1,
-            sort:index+1,
-            filePath:item.url,
-            fileName:item.name
+            type    : 1,
+            sort    : index+1,
+            filePath: item.url,
+            fileName: item.name
           }
         }else{ // 新上传的PDF
           return {
-            type:1,
-            sort:index+1,
-            fileId:item.uid
+            type  : 1,
+            sort  : index+1,
+            fileId: item.uid
           }
         }
       })
       let videoList  = this.formData.videoUrlList.map((item,index)=>{
         return {
-          type:2,
-          sort:fileList.length+index+1,
-          filePath:item
+          type    : 2,
+          sort    : fileList.length+index+1,
+          filePath: item
         }
       })
       return fileList.concat(videoList)
     },
+
     /**
      * 批量检查输入的线上视频地址是否符合格式
      * @param {Array} urls 一维已填写的线上地址数组
@@ -223,12 +224,14 @@ export default {
         return true
       }
     },
+
     /**
      * 通过增加videoUrlList组数长度，控制可填写的视频地址input输入框个数
      */
     addVideo(){
       this.formData.videoUrlList.push('')
     },
+
     /**
      * 删除指定下标位置的线上视频地址
      * @param {Number}  index formData.videoUrlList数组下标
@@ -236,6 +239,7 @@ export default {
     deleteVideoUrl(index){
       this.formData.videoUrlList.splice(index,1)
     },
+
     /**
      * 获取详情
      */
@@ -257,16 +261,16 @@ export default {
                 switch (this.knowledgeDetails.attachments[i].type) {
                 case '1': // 为文件上传的附件类型
                   this.uploadFileList.default.push({
-                    uid: '-'+(i+1),
-                    name: !this.knowledgeDetails.attachments[i].fileName?'none':this.knowledgeDetails.attachments[i].fileName,
+                    uid   : '-'+(i+1),
+                    name  : !this.knowledgeDetails.attachments[i].fileName?'none':this.knowledgeDetails.attachments[i].fileName,
                     status: 'done',
-                    url: this.knowledgeDetails.attachments[i].filePath
+                    url   : this.knowledgeDetails.attachments[i].filePath
                   })
                   this.uploadFileList.used.push({
-                    uid: '-'+(i+1),
-                    name: !this.knowledgeDetails.attachments[i].fileName?'none':this.knowledgeDetails.attachments[i].fileName,
+                    uid   : '-'+(i+1),
+                    name  : !this.knowledgeDetails.attachments[i].fileName?'none':this.knowledgeDetails.attachments[i].fileName,
                     status: 'done',
-                    url: this.knowledgeDetails.attachments[i].filePath
+                    url   : this.knowledgeDetails.attachments[i].filePath
                   })
                   break
                 case '2': // 线上视频地址的数据
@@ -282,9 +286,9 @@ export default {
             // console.log('list',this.formData.videoUrlList,this.uploadFileList)
 
             this.knowledgeEditForm.setFieldsValue({
-              title:this.knowledgeDetails.title,
-              author:this.knowledgeDetails.author,
-              years:this.knowledgeDetails.years,
+              title : this.knowledgeDetails.title,
+              author: this.knowledgeDetails.author,
+              years : this.knowledgeDetails.years,
             })
 
             this.ready = true
@@ -294,6 +298,7 @@ export default {
         }
       })
     },
+
     /**
      * 监听表单’可否匿名浏览‘选项变动，并暂存
      * @param {Object} e change事件对象
@@ -301,6 +306,7 @@ export default {
     onDataAnonymousChange(e){
       this.formData.anonymous = e.target.value
     },
+
     /**
      * 监听表单’文献PDF附件‘上传变动，并暂存
      * @param {Array} filelist 最新变动已上传的文件对象列表
@@ -308,6 +314,7 @@ export default {
     onUploadFileChange(filelist){
       this.uploadFileList.used = [].concat(filelist)
     },
+
     /**
      * 提交表单内容
      * @param {String} type 提交表单内容的数据保存类型，暂存：save；保存并发布：publish
@@ -318,40 +325,40 @@ export default {
         if (!err) {
           if(!this.checkVideoUrl(this.formData.videoUrlList)){
             this.$modal.error({
-              title: '表单验证未通过',
-              content: '”线上视频“填写了不合规的URL地址，请输入带有\'http://\'或\'https://\'完整线上视频地址',
-              okText: '确认',
+              title     : '表单验证未通过',
+              content   : '”线上视频“填写了不合规的URL地址，请输入带有\'http://\'或\'https://\'完整线上视频地址',
+              okText    : '确认',
               cancelText: '取消',
             })
             return
           }
           if(this.formData.content==''){
             this.$modal.error({
-              title: '表单验证未通过',
-              content: '请填写知识文献正文内容',
-              okText: '确认',
+              title     : '表单验证未通过',
+              content   : '请填写知识文献正文内容',
+              okText    : '确认',
               cancelText: '取消',
             })
             return
           }
 
           let postParams = Object.assign({},this.formData ,{
-            'title':this.knowledgeEditForm.getFieldValue('title'),
-            'author':this.knowledgeEditForm.getFieldValue('author'),
-            'years':this.knowledgeEditForm.getFieldValue('years'),
-            'status':type=='save'?'0':'1',
+            'title'      : this.knowledgeEditForm.getFieldValue('title'),
+            'author'     : this.knowledgeEditForm.getFieldValue('author'),
+            'years'      : this.knowledgeEditForm.getFieldValue('years'),
+            'status'     : type=='save'?'0':'1',
             'attachments': this.arrangeFileList()
           })
           delete  postParams.videoUrlList
           // console.log(postParams)
 
           this.$ajax.put({
-            url: this.$api.PUT_CMS_KNOWLEDGE_DETAIL.replace('{id}', this.id),
+            url   : this.$api.PUT_CMS_KNOWLEDGE_DETAIL.replace('{id}', this.id),
             params: postParams
           }).then(res => {
             if (res.code === '200') {
               this.$message.success(type=='save'?'暂存成功':'保存并发布成功')
-              this.$router.push({name:'/cms/knowledge'})
+              this.$router.push({ name: '/cms/knowledge' })
             }
           })
         }else{

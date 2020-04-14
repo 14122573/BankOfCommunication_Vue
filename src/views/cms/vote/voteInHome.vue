@@ -44,24 +44,24 @@
 
 import VoteQrCard from '@/views/cms/components/voteQrCard.vue'
 export default {
-  name:'voteInHomeList',
+  name      : 'voteInHomeList',
   components: {
     VoteQrCard
   },
   data() {
     return {
-      qrList:[],
+      qrList: [],
     }
   },
   mounted() {
     this.getQrList()
   },
-  methods:{
+  methods: {
     getQrList() {
       const params = {
         status_in: '1',
-        pageNo: 1,
-        pageSize: 10000,
+        pageNo   : 1,
+        pageSize : 10000,
       }
       this.$ajax.get({
         url: this.$api.GET_VOTE_LIST,

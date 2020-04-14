@@ -18,19 +18,19 @@ export default {
   },
   data () {
     return {
-      value: this.pointName,
-      formRules:{
+      value    : this.pointName,
+      formRules: {
         // 相关管理信息
-        pointName:[
+        pointName: [
           { required: true, whitespace: true, message: '请填写功能点名称' }
         ],
       },
     }
   },
-  watch:{
+  watch: {
     pointName(){
       this.value = this.pointName
-      this.pointNameForm.setFieldsValue({pointName:this.value})
+      this.pointNameForm.setFieldsValue({ pointName: this.value })
       this.pointNameForm.validateFields()
     }
   },
@@ -39,7 +39,7 @@ export default {
   },
   created(){
     this.$nextTick(()=>{
-      this.pointNameForm.setFieldsValue({pointName:this.pointName})
+      this.pointNameForm.setFieldsValue({ pointName: this.pointName })
     })
   },
   methods: {

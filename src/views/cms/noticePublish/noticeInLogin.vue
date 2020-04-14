@@ -67,21 +67,21 @@
 <script>
 import common from '@/util/common'
 export default {
-  name:'noticeList',
-  props:{
-    showPosition:{
-      type:String,
-      required:true,
+  name : 'noticeList',
+  props: {
+    showPosition: {
+      type    : String,
+      required: true,
       default(){
         return 'login'
       },
       validator (value) {
         // login-登录页 home-工作台
-        return common.oneOf(value, ['login', 'home'])
+        return common.oneOf(value, [ 'login', 'home' ])
       }
     },
-    pageSize:{
-      type:Number,
+    pageSize: {
+      type: Number,
       default(){
         return 5
       },
@@ -89,13 +89,13 @@ export default {
   },
   data() {
     return {
-      isReady:false,
-      noticeList:[],
+      isReady   : false,
+      noticeList: [],
       pagination: {
-        pageNo: 1,
-        pageSize: this.pageSize,
-        total: 0,
-        current: 1,
+        pageNo        : 1,
+        pageSize      : this.pageSize,
+        total         : 0,
+        current       : 1,
         defaultCurrent: 1,
       },
     }
@@ -122,31 +122,32 @@ export default {
   },
   watch: {
   },
-  methods:{
+  methods: {
     goToView(id){
       this.$router.push({
-        name:'/cms/noticePublish/view',
-        params:{
-          id:id
+        name  : '/cms/noticePublish/view',
+        params: {
+          id: id
         }
       })
     },
+
     /**
      * 调用接口，查询表单要求的通知公告资料
      */
     getNoticeList(){
       let searchParms
       searchParms = Object.assign({},{
-        pageNo: this.pagination.pageNo,
-        pageSize: this.pagination.pageSize,
-        status_in: '1',
-        topDate_desc:'desc'
+        pageNo      : this.pagination.pageNo,
+        pageSize    : this.pagination.pageSize,
+        status_in   : '1',
+        topDate_desc: 'desc'
       })
       this.$ajax.get({
-        url: this.$api.GET_CMS_NOTICE_LIST,
-        params: searchParms,
-        hideLoading:true,
-        routername:'login'
+        url        : this.$api.GET_CMS_NOTICE_LIST,
+        params     : searchParms,
+        hideLoading: true,
+        routername : 'login'
       }).then(res => {
         if(!!res && !!res.code && res.code =='200'){
           this.pagination.total = this.$com.confirm(res, 'data.totalRows', 0)

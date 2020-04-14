@@ -38,14 +38,14 @@ import CreatBase from './add'
 import EditBase from './edit'
 import DataOperatorInList from '@/views/systemManagement/components/dataOperatorInList'
 export default {
-  name:'ExpertListByType',
+  name : 'ExpertListByType',
   props: {
-    baseType:{
-      type:String,
-      required:true,
+    baseType: {
+      type    : String,
+      required: true,
       validator (value) {
         // 0-民族 1-单位性质 2-职务 3-职称 4-学历 5-学位 6-工作领域 7-专业组别 8-研究方向
-        return common.oneOf(value, ['0', '1', '2', '3', '4', '5', '6', '7', '8'])
+        return common.oneOf(value, [ '0', '1', '2', '3', '4', '5', '6', '7', '8' ])
       }
     }
   },
@@ -54,13 +54,13 @@ export default {
   },
   data() {
     return {
-      isReady:false,
-      list:[],
-      deleteData:null,
-      editData:null,
-      isShow:{
-        createModal:false,
-        editModal:false
+      isReady   : false,
+      list      : [],
+      deleteData: null,
+      editData  : null,
+      isShow    : {
+        createModal: false,
+        editModal  : false
       }
     }
   },
@@ -72,7 +72,7 @@ export default {
   mounted(){
     this.getList()
   },
-  methods:{
+  methods: {
     showEditModal(item){
       this.editData = item
       this.isShow.editModal = true
@@ -96,7 +96,7 @@ export default {
     //   查询列表
     getList(){
       this.$ajax.get({
-        url:this.$api.GET_EXPERT_BASE_LIST.replace('{type}', this.baseType)
+        url: this.$api.GET_EXPERT_BASE_LIST.replace('{type}', this.baseType)
       }).then(res=>{
         if(res.code === '200'){
           this.list= this.$com.confirm(res, 'data.content', [])
@@ -112,10 +112,10 @@ export default {
         let vm = this
         this.deleteData = item
         this.$modal.confirm({
-          title: '是否确认删除此数据？',
-          content: '此操作不可撤销',
-          okText: '确认',
-          okType: 'danger',
+          title     : '是否确认删除此数据？',
+          content   : '此操作不可撤销',
+          okText    : '确认',
+          okType    : 'danger',
           cancelText: '取消',
           onOk() {
             vm.confirmDelete()
@@ -126,7 +126,7 @@ export default {
     },
     confirmDelete(){
       this.$ajax.delete({
-        url: this.$api.DELETE_EXPERT_BASE.replace('{id}', this.deleteData.id),
+        url   : this.$api.DELETE_EXPERT_BASE.replace('{id}', this.deleteData.id),
         params: {
           type: this.baseType
         }

@@ -14,13 +14,13 @@
 <script>
 export default {
   props: {
-    sysCode:{
-      type:String,
-      default:''
+    sysCode: {
+      type   : String,
+      default: ''
     },
-    pointCode:{
-      type:String,
-      default:''
+    pointCode: {
+      type   : String,
+      default: ''
     }
   },
   data () {
@@ -45,9 +45,9 @@ export default {
       }
     }
     return {
-      systemCode:this.sysCode,
-      value: this.pointCode,
-      formRules:{
+      systemCode: this.sysCode,
+      value     : this.pointCode,
+      formRules : {
         pointCode: [
           { validator: validatePointCode }
         ],
@@ -59,17 +59,17 @@ export default {
   },
   created(){
     this.$nextTick(()=>{
-      this.pointKeyForm.setFieldsValue({pointKey:this.value})
+      this.pointKeyForm.setFieldsValue({ pointKey: this.value })
     })
   },
-  watch:{
+  watch: {
     sysCode(){
       this.systemCode = this.sysCode
       this.pointKeyForm.validateFields()
     },
     pointCode(){
       this.value = this.pointCode
-      this.pointKeyForm.setFieldsValue({pointKey:this.value})
+      this.pointKeyForm.setFieldsValue({ pointKey: this.value })
       this.pointKeyForm.validateFields()
     }
   },

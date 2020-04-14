@@ -33,43 +33,45 @@
   </div>
 </template>
 <script>
-import {navigateToUrl} from 'single-spa'
+import { navigateToUrl } from 'single-spa'
 import axios from 'axios'
 export default {
   data(){
     return{
-      expertId:!this.$store.state.userInfos?'':this.$store.state.userInfos.id,
-      ExpertReviewRouters:null, // 专家库，各子系统评审路由配置
-      simpleSearchForm:true, // 展示、收取简单搜索开关，true为简单搜索
-      preparate:{
-        isReady:false
+      expertId           : !this.$store.state.userInfos?'':this.$store.state.userInfos.id,
+      // 专家库，各子系统评审路由配置
+      ExpertReviewRouters: null,
+      // 展示、收取简单搜索开关，true为简单搜索
+      simpleSearchForm   : true,
+      preparate          : {
+        isReady: false
       },
-      searchForm:{},
-      sysListForSearch:[],
-      reviewTypeList:[],
-      finishReviewList:[],
-      searchTime:{
-        selected:[],
-        default:[this.$moment('2019-07-09','YYYY-MM-DD'),this.$moment('2019-08-09','YYYY-MM-DD')],
-        selectedString:[]
+      searchForm      : {},
+      sysListForSearch: [],
+      reviewTypeList  : [],
+      finishReviewList: [],
+      searchTime      : {
+        selected      : [],
+        default       : [ this.$moment('2019-07-09','YYYY-MM-DD'),this.$moment('2019-08-09','YYYY-MM-DD') ],
+        selectedString: []
       },
       pagination: {
-        pageNo: 1,
-        pageSize: 10,
-        total: 0,
-        current: 1,
-        defaultCurrent: 1,
+        pageNo         : 1,
+        pageSize       : 10,
+        total          : 0,
+        current        : 1,
+        defaultCurrent : 1,
         showQuickJumper: true,
-        onChange: this.onPageChange
+        onChange       : this.onPageChange
       },
       tableColumns: [
         {
-          title: '业务系统评审类型', dataIndex: 'busCode',
+          title       : '业务系统评审类型', dataIndex   : 'busCode',
           customRender: (text, record, index) => {
             return this.reviewTypeName(text)
           },
         },{
-          title: '业务系统名称', dataIndex: 'systemCode',
+          title       : '业务系统名称', dataIndex   : 'systemCode',
           customRender: (text, record, index) => {
             return this.systemName(text)
           },
@@ -77,7 +79,7 @@ export default {
         { title: '申报单位名称',  dataIndex: 'companyCode' },
         { title: '申报材料名称', dataIndex: 'taskName' },
         {
-          title: '评审时间', dataIndex: 'finishTime',
+          title       : '评审时间', dataIndex   : 'finishTime',
           customRender: (text, record, index) => {
             return this.$com.formatDate(text)
           },
@@ -94,7 +96,7 @@ export default {
     const newInstance = axios.create({
       baseURL: '',
       timeout: 5000,
-      headers: {'Content-type': 'multipart/form-data'}
+      headers: { 'Content-type': 'multipart/form-data' }
     })
     newInstance.get(this.$api.CONFIGS_EXPORTREVIEW_ROUTERS).then(res => {
       if(res.status == 200){
@@ -111,33 +113,34 @@ export default {
     })
 
   },
-  computed:{
+  computed: {
     formItemLabelCol(){
       let labelCol = {}
       if(this.simpleSearchForm){
-        labelCol = {span: 0}
+        labelCol = { span: 0 }
       }else{
-        labelCol = {span: 6}
+        labelCol = { span: 6 }
       }
       return labelCol
     },
     formItemWrapperCol(){
       let wrapperCol = {}
       if(this.simpleSearchForm){
-        wrapperCol = {span: 24}
+        wrapperCol = { span: 24 }
       }else{
-        wrapperCol = {span: 18}
+        wrapperCol = { span: 18 }
       }
       return wrapperCol
     }
   },
-  methods:{
+  methods: {
     closeMoreSearch(){
       this.simpleSearchForm = true
     },
     showMoreSearch(){
       this.simpleSearchForm = false
     },
+
     /**
      * 根据子系统code及申报材料ID，跳转至对应子系统申报材料详情页
      * @param {String} sysCode 子系统code
@@ -150,7 +153,7 @@ export default {
       let nextRouter = ''
       for(let i=0;i<micSysRouters.length;i++){
         let micSysRouter = micSysRouters[i]
-        if(this.$com.oneOf(sysCode,['S0401','SO301'])){
+        if(this.$com.oneOf(sysCode,[ 'S0401','SO301' ])){
           if( micSysRouter.type=='detail' && reviewTypeCode == micSysRouter.reviewTypeCode){
             nextRouter = micSysRouter.routerName
           }
@@ -162,53 +165,44 @@ export default {
       }
       // 根据系统判断跳转子系统方式
       switch (sysCode) {
-      case 'S0501':// 新品种审核
+      case 'S0501':
+      // 新品种审核
         navigateToUrl(nextRouter.replace(':id',taskCode)+'?showType=check&sourceRouteType=portal&sourceRoutePath='+this.$route.path)
-        // this.$router.push({
-        //   name:nextRouter,
-        //   params:{id:taskCode},
-        //   query:{
-        //     sourceRoutePath:this.$route.path,
-        //     sourceRouteType:'portal'
-        //   }
-        // })
         break
-      case 'S0502': // 原良种复查
+      case 'S0502':
+      // 原良种复查
         navigateToUrl(nextRouter+'?id='+taskCode)
         break
-      case 'S0503': // 原良种验收
+      case 'S0503':
+      // 原良种验收
         navigateToUrl(nextRouter+'?id='+taskCode)
         break
-      case 'S0101': // 科普教育基地
+      case 'S0101':
+      // 科普教育基地
         navigateToUrl(nextRouter+'?id='+taskCode)
         break
-      case 'S0201': // 团体标准
+      case 'S0201':
+      // 团体标准
         navigateToUrl(nextRouter+'?id='+taskCode)
         break
-      case 'S0401': // 海洋牧场
+      case 'S0401':
+      // 海洋牧场
         navigateToUrl(nextRouter.replace(':id',taskCode))
         break
-      case 'S0301': // 休闲渔业
+      case 'S0301':
+      // 休闲渔业
         navigateToUrl(nextRouter.replace(':id',taskCode))
         break
-      case 'S1002': // 中国水产学会团体标准函审
+      case 'S1002':
+      // 中国水产学会团体标准函审
         navigateToUrl(nextRouter.replace(':id',taskCode)+'?sourceRouteType=portal&sourceRoutePath='+this.$route.path)
-        // this.$router.push({
-        //   name:nextRouter,
-        //   params:{
-        //     id:taskCode
-        //   },
-        //   query:{
-        //     sourceRoutePath:this.$route.path,
-        //     sourceRouteType:'portal'
-        //   }
-        // })
         break
       default:
         break
       }
 
     },
+
     /**
     /**
      * 根据syscode获取系统名称
@@ -225,6 +219,7 @@ export default {
       }
       return name
     },
+
     /**
      * 根据syscode获取系统名称
      * @param {String} code 系统code
@@ -240,12 +235,13 @@ export default {
       }
       return name
     },
+
     /**
      * 获取专家抽取业务类型清单
      */
     getReviewTypeList(){
       this.$ajax.get({
-        url:this.$api.GET_EXPERT_BASE_LIST.replace('{type}', '9')
+        url: this.$api.GET_EXPERT_BASE_LIST.replace('{type}', '9')
       }).then(res=>{
         if(res.code === '200'){
           let data = this.$com.confirm(res, 'data.content', [])
@@ -260,6 +256,7 @@ export default {
         }
       })
     },
+
     /**
      * 获取可选的子系统清单
      */
@@ -280,17 +277,18 @@ export default {
         }
       })
     },
+
     /**
      * 根据搜索条件及分页，获取已完成的数据列表
      */
     getFinishReviewList(){
       let queryParams = Object.assign({},this.searchForm,{
-        status:1,
+        status: 1,
         // pageSize: this.pagination.pageSize,
         // pageNo: this.pagination.pageNo
       })
       this.$ajax.get({
-        url: this.$api.GET_EXPERT_REVIEW_TODO_LIST.replace('{expertId}', this.expertId),
+        url   : this.$api.GET_EXPERT_REVIEW_TODO_LIST.replace('{expertId}', this.expertId),
         params: queryParams
       }).then(res=>{
         if(res.code === '200'){

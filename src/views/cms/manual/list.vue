@@ -45,7 +45,7 @@
 import DataOperatorInList from '@/views/systemManagement/components/dataOperatorInList'
 import FileUpload from '@/components/Upload/fileUpload'
 export default {
-  name: 'ManualList',
+  name      : 'ManualList',
   components: {
     DataOperatorInList,
     FileUpload,
@@ -60,57 +60,57 @@ export default {
     }
     return {
       modalForm: this.$form.createForm(this),
-      rules: {
-        name:[
+      rules    : {
+        name: [
           { required: true, whitespace: true, message: '请输入操作手册名称!' },
         ],
-        file:[
-          { required: true, message: '请上传附件！'},
+        file: [
+          { required: true, message: '请上传附件！' },
         ],
       },
-      showModal: false,
-      editId: null,
-      uploadFileList:[],
-      uploadConfig:{
-        maxSize:5*1024*1024,
-        acceptTypesArray:['pdf','doc','docx','ppt','pptx']
+      showModal     : false,
+      editId        : null,
+      uploadFileList: [],
+      uploadConfig  : {
+        maxSize         : 5*1024*1024,
+        acceptTypesArray: [ 'pdf','doc','docx','ppt','pptx' ]
       },
-      model: {},
-      total: 0,
+      model      : {},
+      total      : 0,
       currentPage: 1,
-      pageSize: 10,
-      columns: [
+      pageSize   : 10,
+      columns    : [
         {
-          title: '名称',
+          title    : '名称',
           dataIndex: 'name',
-          align: 'left',
+          align    : 'left',
         },
         {
-          title: '操作人',
-          dataIndex: 'operator',
-          width: 150,
+          title      : '操作人',
+          dataIndex  : 'operator',
+          width      : 150,
           scopedSlots: { customRender: 'operator' },
         },
         {
-          title: '操作',
-          dataIndex: 'actions',
-          width: 200,
+          title      : '操作',
+          dataIndex  : 'actions',
+          width      : 200,
           scopedSlots: { customRender: 'actions' }
         },
       ],
       layout: [
         {
           name: {
-            label: '名称',
-            type: 'input',
-            width: 8,
-            offset: 12,
+            label      : '名称',
+            type       : 'input',
+            width      : 8,
+            offset     : 12,
             placeholder: '请输入操作手册名称',
           },
           btns: {
-            width: 4,
+            width : 4,
             custom: true,
-            render:(h) => {
+            render: (h) => {
               return h('div', {
                 style: {
                   paddingTop: '4px',
@@ -118,7 +118,7 @@ export default {
               }, [
                 h('a-button', {
                   props: {
-                    type: 'primary',
+                    type : 'primary',
                     ghost: true,
                   },
                   style: {
@@ -154,33 +154,33 @@ export default {
     handleUpload(filelist) {
       this.uploadFileList = [].concat(filelist)
     },
-    handleDelete({id}) {
+    handleDelete({ id }) {
       this.$modal.confirm({
-        title: '删除操作手册',
+        title  : '删除操作手册',
         content: '是否确认删除该操作手册？',
-        okType: 'danger',
-        onOk: () => {
+        okType : 'danger',
+        onOk   : () => {
           this.$ajax.delete({
             url: this.$api.DELETE_MANUAL.replace('{id}', id)
           }).then(() => {
             this.$modal.success({
-              title: '成功',
+              title  : '成功',
               content: '删除成功',
-              okText: '确认',
+              okText : '确认',
             })
             this.getList()
           })
         },
       })
     },
-    handleView({path}) {
+    handleView({ path }) {
       window.open(path, '_blank')
     },
     getList() {
-      const {name = null} = this.model
+      const { name = null } = this.model
       const params = {
-        name_l: name,
-        pageNo: this.currentPage,
+        name_l  : name,
+        pageNo  : this.currentPage,
         pageSize: this.pageSize,
       }
       this.$ajax.get({
@@ -196,7 +196,7 @@ export default {
       this.currentPage = 1
       this.getList()
     },
-    handlePageChange({current}) {
+    handlePageChange({ current }) {
       this.currentPage = current
       this.getList()
     },
@@ -204,13 +204,13 @@ export default {
       this.editId = null
       this.showModal = true
     },
-    editManual({id, name, fileName, path}) {
+    editManual({ id, name, fileName, path }) {
       this.showModal = true
       this.editId = id
       this.$nextTick(() => {
         this.modalForm.setFieldsValue({
           name,
-          upload: [{name: fileName, url: path, uid: id}],
+          upload: [ { name: fileName, url: path, uid: id } ],
         })
       })
     },
@@ -222,8 +222,8 @@ export default {
         }
         if (this.editId) {
           const params = {
-            name: this.modalForm.getFieldValue('name'),
-            path: this.modalForm.getFieldValue('upload').url,
+            name    : this.modalForm.getFieldValue('name'),
+            path    : this.modalForm.getFieldValue('upload').url,
             fileName: this.modalForm.getFieldValue('upload').name,
           }
           if (this.uploadFileList.length > 0) {
@@ -236,9 +236,9 @@ export default {
             params,
           }).then(res => {
             this.$modal.success({
-              title: '成功',
+              title  : '成功',
               content: '编辑操作手册成功',
-              okText: '确认',
+              okText : '确认',
             })
             this.showModal = false
             this.uploadFileList = []
@@ -247,18 +247,18 @@ export default {
           return
         }
         this.$ajax.post({
-          url: this.$api.POST_ADD_MANUAL,
+          url   : this.$api.POST_ADD_MANUAL,
           params: {
-            name: this.modalForm.getFieldValue('name'),
+            name    : this.modalForm.getFieldValue('name'),
             fileName: this.uploadFileList[0].name,
-            path: this.uploadFileList[0].url,
-            fileId: this.uploadFileList[0].uid,
+            path    : this.uploadFileList[0].url,
+            fileId  : this.uploadFileList[0].uid,
           },
         }).then(res => {
           this.$modal.success({
-            title: '成功',
+            title  : '成功',
             content: '新增操作手册成功',
-            okText: '确认',
+            okText : '确认',
           })
           this.showModal = false
           this.uploadFileList = []

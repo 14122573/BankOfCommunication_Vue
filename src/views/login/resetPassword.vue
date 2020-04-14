@@ -118,7 +118,7 @@
 <script>
 import testStrong from '@/components/testPwd'
 export default {
-  name: 'register',
+  name      : 'register',
   components: {
     testStrong
   },
@@ -127,17 +127,17 @@ export default {
   },
   data() {
     return {
-      pageType: 'login',
-      btnTxt: '发送验证码',
-      disableBtn: true,
-      timer: null,
-      disableCode: true,
-      loginFailMsg: '',
-      visibleError: false,
-      confirmDirty: false,
-      isType: 'text',
-      appearIndex: 0,
-	  passwordStrength:false
+      pageType        : 'login',
+      btnTxt          : '发送验证码',
+      disableBtn      : true,
+      timer           : null,
+      disableCode     : true,
+      loginFailMsg    : '',
+      visibleError    : false,
+      confirmDirty    : false,
+      isType          : 'text',
+      appearIndex     : 0,
+	  passwordStrength: false
     }
   },
   methods: {
@@ -200,7 +200,7 @@ export default {
           this.passwordStrength=false
         }else{
           if (value && this.confirmDirty) {
-            form.validateFields(['rePassword'], {
+            form.validateFields([ 'rePassword' ], {
               force: true
             })
           }
@@ -257,7 +257,7 @@ export default {
           delete params['pwd']
           delete params['rePassword']
           this.$ajax.post({
-            url: this.$api.POST_FIND_PASSWORD,
+            url   : this.$api.POST_FIND_PASSWORD,
             params: params
           }).then(res => {
             if (res.code == '200') {

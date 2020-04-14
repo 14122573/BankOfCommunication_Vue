@@ -29,10 +29,10 @@ export default {
     // 根据是否有token跳转到对应的兽医页面
     toVeterinary() {
       if (typeof(this.$cookie.get('token')) == 'undefined') {
-        this.$router.push({ name: '/veterinary'})
+        this.$router.push({ name: '/veterinary' })
       }else{
         // console.log(2)
-        this.$router.push({ name: 'homeVeterinaryList'})
+        this.$router.push({ name: 'homeVeterinaryList' })
       }
     }
   },

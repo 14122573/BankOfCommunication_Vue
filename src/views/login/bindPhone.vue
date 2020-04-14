@@ -208,37 +208,37 @@ import { encryptDes } from '@/util/des-cryptojs'
 import FrameTop from '@/views/login/components/frameTop'
 import FrameFooter from '@/views/login/components/footer'
 export default {
-  name: 'bindPhone',
+  name      : 'bindPhone',
   components: {
     testStrong,
     FrameTop,FrameFooter
   },
-  mixins: [permission],
+  mixins: [ permission ],
   beforeCreate() {
     this.formBind = this.$form.createForm(this)
   },
   data() {
     return {
-      hasLogined: !this.$route.query.logined ? false : (1 == parseInt(this.$route.query.logined) ? true : false),
-      left: '返回',
-      disableCode: true,
-      right: '下一步(1/2)',
-      btnTxt: '发送验证码',
-      disableBtn: true,
-      timer: null,
-      systemLists: [],
-      activeIndex: null,
-      pageType: '',
-      userId: '',
-      systemNmme: '',
-      confirmDirty: false,
-      isBind: true,
-      tips: '',
-      disableNext: true,
+      hasLogined      : !this.$route.query.logined ? false : (1 == parseInt(this.$route.query.logined) ? true : false),
+      left            : '返回',
+      disableCode     : true,
+      right           : '下一步(1/2)',
+      btnTxt          : '发送验证码',
+      disableBtn      : true,
+      timer           : null,
+      systemLists     : [],
+      activeIndex     : null,
+      pageType        : '',
+      userId          : '',
+      systemNmme      : '',
+      confirmDirty    : false,
+      isBind          : true,
+      tips            : '',
+      disableNext     : true,
       passwordStrength: false,
-      disablePhone: false,
-      visibleModal: false,
-      gainDatas: {}
+      disablePhone    : false,
+      visibleModal    : false,
+      gainDatas       : {}
     }
   },
   mounted() {
@@ -294,23 +294,23 @@ export default {
       this.formBind.validateFields((err, values) => {
         if (!err) {
           let params = {
-            userId: this.userId,
-            pwd: encryptDes(values.password),
-            code: values.code,
+            userId  : this.userId,
+            pwd     : encryptDes(values.password),
+            code    : values.code,
             userInfo: {
-              'phone': values.phone,
-              'mail': values.mail,
-              'addr': values.addr,
-              'name': values.name,
-              'dept': values.dept,
+              'phone'  : values.phone,
+              'mail'   : values.mail,
+              'addr'   : values.addr,
+              'name'   : values.name,
+              'dept'   : values.dept,
               'zipCode': values.zipCode,
-              'code': values.code
+              'code'   : values.code
             }
           }
           let options = {
             userId: this.userId,
-            phone: values.phone,
-            code: values.code
+            phone : values.phone,
+            code  : values.code
           }
           if (this.$cookie.get('redirectUrl') != undefined) {
             params.redirectUrl = this.$cookie.get('redirectUrl')
@@ -319,7 +319,7 @@ export default {
           let sendLink = this.isBind == true ? this.$api.POST_BIND_USERINFO_BIND : this.$api.POST_BIND_USERINFO_UNBIND
           let transData = this.isBind == true ? options : params
           this.$ajax.post({
-            url: sendLink,
+            url   : sendLink,
             params: transData
           }).then(res => {
             this.gainDatas = res.data.content
@@ -370,9 +370,9 @@ export default {
         }
       } else {
         this.$modal.error({
-          title: '提示',
-          content: '请先选择系统，再进行下一步！',
-          okText: '确认',
+          title     : '提示',
+          content   : '请先选择系统，再进行下一步！',
+          okText    : '确认',
           cancelText: '取消',
         })
       }
@@ -435,9 +435,9 @@ export default {
         })
       } else {
         this.$modal.error({
-          title: '提示',
-          content: '请先填写手机号！',
-          okText: '确认',
+          title     : '提示',
+          content   : '请先填写手机号！',
+          okText    : '确认',
           cancelText: '取消',
         })
       }
@@ -454,12 +454,12 @@ export default {
         if (value.length == 6) {
           const phone = this.formBind.getFieldValue('phone')
           let params = {
-            'phone': phone,
-            'code': value,
+            'phone' : phone,
+            'code'  : value,
             'userId': this.userId
           }
           this.$ajax.post({
-            url: this.$api.POST_CHECK_CODE,
+            url   : this.$api.POST_CHECK_CODE,
             params: params
           }).then(res => {
             if (res.code != '200') {
@@ -529,7 +529,7 @@ export default {
           this.passwordStrength = false
         } else {
           if (value && this.confirmDirty) {
-            form.validateFields(['rePassword'], {
+            form.validateFields([ 'rePassword' ], {
               force: true
             })
           }

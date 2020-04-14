@@ -66,94 +66,94 @@ export default {
       layout: [
         {
           name: {
-            label: '名称',
-            type: 'input',
-            width: 20,
+            label   : '名称',
+            type    : 'input',
+            width   : 20,
             validate: {
-              rules: [{required: true, message: '请输入名称'}]
+              rules: [ { required: true, message: '请输入名称' } ]
             }
           },
         },
         {
           description: {
-            label: '简介',
-            type: 'textarea',
-            width: 20,
+            label   : '简介',
+            type    : 'textarea',
+            width   : 20,
             validate: {
-              rules: [{required: true, message: '请输入简介'}]
+              rules: [ { required: true, message: '请输入简介' } ]
             }
           }
         },
         {
           date: {
-            label: '投票起止时间',
-            type: 'daterange',
-            width: 20,
+            label       : '投票起止时间',
+            type        : 'daterange',
+            width       : 20,
             disabledDate: (current) => {
               return current && this.$moment(current, 'YYYY-MM-DD').isBefore(this.$moment().format('YYYY-MM-DD'))
             },
             validate: {
-              rules: [{required: true, message: '请选择投票起止时间'}]
+              rules: [ { required: true, message: '请选择投票起止时间' } ]
             }
           }
         },
       ],
-      model: {},
-      questionList: [],
+      model         : {},
+      questionList  : [],
       questionLayout: [
         {
           title: {
-            label: '题目',
-            type: 'input',
-            width: 20,
+            label   : '题目',
+            type    : 'input',
+            width   : 20,
             validate: {
-              rules: [{required: true, message: '请输入题目'}]
+              rules: [ { required: true, message: '请输入题目' } ]
             }
           },
         },
         {
           description: {
             label: '备注',
-            type: 'input',
+            type : 'input',
             width: 20,
           },
         },
         {
           type: {
-            label: '题目类型',
-            type: 'radio',
-            width: 20,
+            label  : '题目类型',
+            type   : 'radio',
+            width  : 20,
             options: [
-              {label: '单选题', value: '0'},
-              {label: '多选题', value: '1'},
+              { label: '单选题', value: '0' },
+              { label: '多选题', value: '1' },
             ],
             validate: {
-              rules: [{required: true, message: '请选择题目类型'}]
+              rules: [ { required: true, message: '请选择题目类型' } ]
             }
           }
         },
         {
           isRequired: {
-            label: '是否必填',
-            type: 'radio',
-            width: 20,
+            label  : '是否必填',
+            type   : 'radio',
+            width  : 20,
             options: [
-              {label: '是', value: '0'},
-              {label: '否', value: '1'},
+              { label: '是', value: '0' },
+              { label: '否', value: '1' },
             ],
             validate: {
-              rules: [{required: true, message: '请选择是否必填'}]
+              rules: [ { required: true, message: '请选择是否必填' } ]
             }
           }
         },
       ],
-      questionModel: {},
+      questionModel  : {},
       questionOptions: [],
-      isEditing: false, // question是编辑模式还是完成模式的依据
+      isEditing      : false, // question是编辑模式还是完成模式的依据
     }
   },
   mounted() {
-    const {query} = this.$route
+    const { query } = this.$route
     if (query && query.id) {
       this.voteId = query.id
       this.getDetail()
@@ -164,10 +164,10 @@ export default {
       this.$ajax.get({
         url: this.$api.GET_VOTE_DETAIL.replace('{id}', this.voteId)
       }).then(res => {
-        const {name, startTime, endTime, description, subjects} = res.data.content
+        const { name, startTime, endTime, description, subjects } = res.data.content
         this.model = {
           name,
-          date: [startTime, endTime],
+          date: [ startTime, endTime ],
           description,
         }
         this.questionList = subjects
@@ -175,11 +175,11 @@ export default {
     },
     addNewQuestion() {
       if (this.checkIsEditing()) return
-      this.questionList.push({isEditing: true})
+      this.questionList.push({ isEditing: true })
     },
     cancelNewQuestion(i) {
       if (this.isEditing) {
-        this.questionList[i].options = [...this.questionModel.options]
+        this.questionList[i].options = [ ...this.questionModel.options ]
         this.$delete(this.questionList[i], 'isEditing')
       } else {
         this.questionList.splice(i, 1)
@@ -196,10 +196,10 @@ export default {
     },
     deleteQuestion(i) {
       this.$modal.confirm({
-        title: '提示',
+        title  : '提示',
         content: '确定删除此问题吗？',
-        okType: 'danger',
-        onOk: () => {
+        okType : 'danger',
+        onOk   : () => {
           this.questionList.splice(i, 1)
         },
       })
@@ -209,9 +209,9 @@ export default {
         if (err) return
         if (this.questionOptions.length <= 1) {
           this.$modal.error({
-            title: '提示',
+            title  : '提示',
             content: '请至少添加两个选项',
-            okText: '确认',
+            okText : '确认',
           })
           return
         }
@@ -222,7 +222,7 @@ export default {
         })
         const result = Object.assign(
           this.questionModel,
-          {options: options},
+          { options: options },
         )
         this.$delete(this.questionList[i], 'isEditing')
         this.questionList[i] = result
@@ -232,23 +232,23 @@ export default {
     addNewOption(isNew) {
       // isNew为true则新增一条选项
       if (isNew) {
-        this.questionOptions.push({value: ''})
+        this.questionOptions.push({ value: '' })
       }
       const options = this.questionOptions.map((item, index) => {
         return {
           ['opt' + (index + 1)]: {
-            label: '选项' + (index + 1),
-            width: 24,
-            render:(h) => {
+            label : '选项' + (index + 1),
+            width : 24,
+            render: (h) => {
               return h('a-row', [
                 h('a-input', {
                   props: {
                     placeholder: '请输入',
-                    value: this.questionOptions[index].value,
+                    value      : this.questionOptions[index].value,
                   },
                   on: {
-                    change:({target}) => {
-                      const {value} = target
+                    change: ({ target }) => {
+                      const { value } = target
                       this.questionOptions[index].value = value
                     }
                   },
@@ -256,10 +256,10 @@ export default {
                 }),
                 h('a-button', {
                   props: {
-                    type: 'danger',
+                    type : 'danger',
                     shape: 'circle',
-                    icon: 'close',
-                    size: 'small',
+                    icon : 'close',
+                    size : 'small',
                   },
                   on: {
                     click: ()=> {
@@ -276,7 +276,7 @@ export default {
           }
         }
       })
-      let layout = [...this.questionLayout]
+      let layout = [ ...this.questionLayout ]
       layout = layout.slice(0, 4)
       layout.push(...options)
       this.questionLayout = layout
@@ -292,9 +292,9 @@ export default {
       // 如果有未保存的题目则提示先保存
       if (index >= 0) {
         this.$modal.error({
-          title: '提示',
+          title  : '提示',
           content: '请先保存编辑中的题目',
-          okText: '确认',
+          okText : '确认',
         })
         return true
       }
@@ -306,9 +306,9 @@ export default {
         if (err) return
         if (this.questionList.length == 0) {
           this.$modal.error({
-            title: '提示',
+            title  : '提示',
             content: '请至少添加一个投票题目',
-            okText: '确认',
+            okText : '确认',
           })
           return
         }
@@ -319,14 +319,14 @@ export default {
           method = 'put'
           url = this.$api.PUT_EDIT_VOTE.replace('{id}', this.voteId)
         }
-        const {name, description, date} = this.model
+        const { name, description, date } = this.model
         const params = {
           name,
           description,
           startTime: date[0],
-          endTime: date[1],
+          endTime  : date[1],
           status,
-          subjects: this.questionList,
+          subjects : this.questionList,
         }
         this.$ajax[method]({
           url,
@@ -334,15 +334,15 @@ export default {
         }).then(res => {
           if (status == '1') {
             this.$modal.success({
-              title: '成功',
+              title  : '成功',
               content: '保存并发布成功',
-              okText: '确认',
+              okText : '确认',
             })
           } else {
             this.$modal.success({
-              title: '成功',
+              title  : '成功',
               content: '保存成功',
-              okText: '确认',
+              okText : '确认',
             })
           }
           this.$nextTick(() => this.$router.back())

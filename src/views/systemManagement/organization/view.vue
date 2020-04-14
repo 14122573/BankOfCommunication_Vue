@@ -26,21 +26,21 @@
               <DetailsItem :labelSpan='8' :textSpan="16" :label='"所属行政区域"' :text='!detail.areaName?"暂无":detail.areaName'></DetailsItem>
             </a-col>
           </a-row>
-					 <a-row type="flex" justify="start" class="formItemLine" style="margin-bottom:16px;">
-					   <a-col span="16">
-					    <DetailsItem :labelSpan='2' :textSpan="18" :label='"地址"' :text='!detail.addr?"暂无":detail.addr'></DetailsItem>
-					  </a-col>
-					</a-row>
+          <a-row type="flex" justify="start" class="formItemLine" style="margin-bottom:16px;">
+            <a-col span="16">
+              <DetailsItem :labelSpan='2' :textSpan="18" :label='"地址"' :text='!detail.addr?"暂无":detail.addr'></DetailsItem>
+            </a-col>
+          </a-row>
         </div>
       </div>
-    </div>	
+    </div>
 	</div>
 </template>
 <script>
 export default {
   data() {
     return {
-      detail: {},
+      detail : {},
       loading: true
     }
   },

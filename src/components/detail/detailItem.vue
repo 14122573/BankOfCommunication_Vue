@@ -11,21 +11,21 @@
 <script>
 
 export default {
-  name: 'DetailItem',
+  name : 'DetailItem',
   props: {
-    labelSpan:{
-      type: Number,
-      default:10
+    labelSpan: {
+      type   : Number,
+      default: 10
     },
-    textSpan:{
-      type: Number,
-      default:14
+    textSpan: {
+      type   : Number,
+      default: 14
     },
-    label:{
-      type: String,
+    label: {
+      type    : String,
       required: true
     },
-    text:{
+    text: {
       type: String,
       default() {
         return '暂无'
@@ -34,13 +34,13 @@ export default {
   },
   data() {
     return {
-      pointColor:'',
-      newText:''
+      pointColor: '',
+      newText   : ''
     }
   },
   computed: {
   },
-  watch:{
+  watch: {
     text(){
       if(this.text==null ||this.text==undefined ||this.text==''){
         this.newText='暂无'

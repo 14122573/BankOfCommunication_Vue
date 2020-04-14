@@ -1,6 +1,5 @@
 <template>
-	<a-modal :maskClosable="false" cancelText="取消" okText="确认" @ok="handleOk" @cancel="handleCancel" :width="600"
-	 title="添加权限" :visible="isShow">
+	<a-modal :maskClosable="false" cancelText="取消" okText="确认" @ok="handleOk" @cancel="handleCancel" :width="600" title="添加权限" :visible="isShow">
 		<a-form class=" layoutMargin" :form="permCreateForm">
       <a-row type="flex" justify="start" align="middle">
         <a-col span="24">
@@ -37,34 +36,34 @@
 
 <script>
 export default {
-  name:'CreatePermBranch',
+  name : 'CreatePermBranch',
   props: {
-    parentNode:{
-      type:Object,
-      required:true,
+    parentNode: {
+      type    : Object,
+      required: true,
     },
-    timestamp:{
-      type:Number,
-      required:true
+    timestamp: {
+      type    : Number,
+      required: true
     },
-    resetShow:{
-      type:Boolean,
-      required:true
+    resetShow: {
+      type    : Boolean,
+      required: true
     }
   },
   data() {
     return {
-      isShow: false,
-      pointsArray:[],
-      pointsList:null,
-      createForm:{
-        pointSet:[]
+      isShow     : false,
+      pointsArray: [],
+      pointsList : null,
+      createForm : {
+        pointSet: []
       },
-      formRules:{
-        permName:[
+      formRules: {
+        permName: [
           { required: true, whitespace: true, message: '请输入权限分支名称' }
         ],
-        isHide:[
+        isHide: [
           { required: true, whitespace: true, message: '请选择是否可分配' }
         ]
       },
@@ -73,19 +72,21 @@ export default {
   beforeCreate() {
     this.permCreateForm = this.$form.createForm(this)
   },
-  computed:{
+  computed: {
     /**
      * 当父级权限是不可分配的（isHide==true）,则子集权限也不可分配。并默认初始化子集权限是否可分配表单值
      * @returns {Boolean}
      */
     isDisabaleDistribution(){
       this.$nextTick(function () {
-        this.permCreateForm.setFieldsValue({isHide:this.parentNode.isHide?'1':'0'})
+        this.permCreateForm.setFieldsValue({ isHide: this.parentNode.isHide?'1':'0' })
       })
       if(this.parentNode.isHide){
-        return true // 不可用
+        // 不可用
+        return true
       }else{
-        return false // 可用
+        // 可用
+        return false
       }
     }
   },
@@ -108,10 +109,11 @@ export default {
     handlePointChange(select){
       for(let i=0;i<select.length;i++){
         this.createForm.pointSet.push({
-          id:select[i]
+          id: select[i]
         })
       }
     },
+
     /**
      * 搜索获取功能点清单
      */
@@ -125,8 +127,8 @@ export default {
           this.pointsArray = []
           for(let item in this.pointsList){
             this.pointsArray.push({
-              name:item,
-              children:[].concat(this.pointsList[item])
+              name    : item,
+              children: [].concat(this.pointsList[item])
             })
           }
         }else{
@@ -135,18 +137,19 @@ export default {
         this.isReady =true
       })
     },
+
     /**
      * 提交创建权限分支
      */
     handleOk() {
       this.permCreateForm.validateFields(err => {
         if (!err) {
-          let postParams = Object.assign({parentId:this.parentNode.key},this.createForm ,{
-            'permName':this.permCreateForm.getFieldValue('permName'),
-            'isHide':this.permCreateForm.getFieldValue('isHide')=='0'?false:true
+          let postParams = Object.assign({ parentId: this.parentNode.key },this.createForm ,{
+            'permName': this.permCreateForm.getFieldValue('permName'),
+            'isHide'  : this.permCreateForm.getFieldValue('isHide')=='0'?false:true
           })
           this.$ajax.post({
-            url: this.$api.POST_PREMSBRANCH,
+            url   : this.$api.POST_PREMSBRANCH,
             params: postParams
           }).then(res => {
             if (res.code === '200') {
@@ -160,6 +163,7 @@ export default {
         }
       })
     },
+
     /**
      * 取消创建权限分支
      */

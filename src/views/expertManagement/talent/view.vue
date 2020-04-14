@@ -263,8 +263,8 @@ export default {
     },
     handleEdit(){
       this.$router.push({
-        name: '/expertManagement/talent/edit',
-        query:{id:this.$route.query.id}
+        name : '/expertManagement/talent/edit',
+        query: { id: this.$route.query.id }
       })
     }
   }

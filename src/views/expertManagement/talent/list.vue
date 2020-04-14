@@ -64,15 +64,16 @@
 import userStatus from '@/views/systemManagement/components/user-status'
 import DataOperatorInList from '@/views/systemManagement/components/dataOperatorInList'
 export default {
-  name: 'Talent',
+  name      : 'Talent',
   components: {
     userStatus,DataOperatorInList
   },
   data() {
     return {
-      searchForm: this.$form.createForm(this),
-      simpleSearchForm:true, // 展示、收取简单搜索开关，true为简单搜索
-      options: {
+      searchForm      : this.$form.createForm(this),
+      // 展示、收取简单搜索开关，true为简单搜索
+      simpleSearchForm: true,
+      options         : {
         proList: [
           {
             label: '省级认定',
@@ -106,63 +107,63 @@ export default {
         jobList: []
       },
       dataSource: [],
-      columns: [
+      columns   : [
         {
-          title: '姓名',
+          title    : '姓名',
           dataIndex: 'name'
         },{
-          title: '联系电话',
+          title    : '联系电话',
           dataIndex: 'phone'
         },{
-          title: '工作单位',
+          title    : '工作单位',
           dataIndex: 'workCompany'
         },{
-          title: '职称',
+          title    : '职称',
           dataIndex: 'jobTitleName',
-          width: 100
+          width    : 100
         },{
-          title: '部/省级认定',
-          dataIndex: 'provinceConfirm',
-          width: 120,
+          title      : '部/省级认定',
+          dataIndex  : 'provinceConfirm',
+          width      : 120,
           scopedSlots: {
             customRender: 'confirm'
           }
         },{
-          title: '用户状态',
-          dataIndex: 'status',
-          width: 80,
+          title      : '用户状态',
+          dataIndex  : 'status',
+          width      : 80,
           scopedSlots: {
             customRender: 'status'
           }
         },{
-          title: '操作人',
-          width: 150,
-          dataIndex: 'creator',
-          key: 'creator',
+          title      : '操作人',
+          width      : 150,
+          dataIndex  : 'creator',
+          key        : 'creator',
           scopedSlots: {
             customRender: 'operator'
           }
         },{
-          title: '操作',
-          width: 140,
-          dataIndex: 'action',
+          title      : '操作',
+          width      : 140,
+          dataIndex  : 'action',
           scopedSlots: {
             customRender: 'action'
           }
         }
       ],
       pagination: {
-        pageNo: 1,
-        pageSize: 10,
-        total: 0,
-        current: 1,
-        defaultCurrent: 1,
+        pageNo         : 1,
+        pageSize       : 10,
+        total          : 0,
+        current        : 1,
+        defaultCurrent : 1,
         showQuickJumper: true,
-        onChange: this.onChange
+        onChange       : this.onChange
       },
-      opeationItem: {},
+      opeationItem : {},
       addExpertUser: false,
-      chooseIndex: 1
+      chooseIndex  : 1
     }
   },
   mounted() {
@@ -171,22 +172,22 @@ export default {
       this.getJobLists()
     }
   },
-  computed:{
+  computed: {
     formItemLabelCol(){
       let labelCol = {}
       if(this.simpleSearchForm){
-        labelCol = {span: 0}
+        labelCol = { span: 0 }
       }else{
-        labelCol = {span: 8}
+        labelCol = { span: 8 }
       }
       return labelCol
     },
     formItemWrapperCol(){
       let wrapperCol = {}
       if(this.simpleSearchForm){
-        wrapperCol = {span: 24}
+        wrapperCol = { span: 24 }
       }else{
-        wrapperCol = {span: 16}
+        wrapperCol = { span: 16 }
       }
       return wrapperCol
     }
@@ -204,11 +205,11 @@ export default {
       if (options.status_in) options.status_in = options.status_in.join(',')
       const params = Object.assign(options, {
         pageSize: this.pagination.pageSize,
-        pageNo: this.pagination.pageNo,
-        type:'1'
+        pageNo  : this.pagination.pageNo,
+        type    : '1'
       })
       this.$ajax.get({
-        url: this.$api.GET_EXPERT_LIST,
+        url   : this.$api.GET_EXPERT_LIST,
         params: params
       }).then(res => {
         this.dataSource = this.$com.confirm(res, 'data.content', [])
@@ -230,7 +231,7 @@ export default {
     },
     editBtn(item) {
       this.$router.push({
-        name: '/expertManagement/talent/edit',
+        name : '/expertManagement/talent/edit',
         query: {
           id: item.id
         }

@@ -49,6 +49,8 @@
     case 'online':
       onlineFile = onlineFile || new OnlineFile('fileList')
       break
+    default:
+      break
     }
   }
 
@@ -75,6 +77,8 @@
         break
       case 'online':
         list = onlineFile.getInsertList()
+        break
+      default:
         break
       }
 
@@ -273,10 +277,10 @@
         })
 
         $li.on('mouseenter', function () {
-          $btns.stop().animate({height: 30})
+          $btns.stop().animate({ height: 30 })
         })
         $li.on('mouseleave', function () {
-          $btns.stop().animate({height: 0})
+          $btns.stop().animate({ height: 0 })
         })
 
         $btns.on('click', 'span', function () {
@@ -292,6 +296,8 @@
             break
           case 2:
             file.rotation -= 90
+            break
+          default:
             break
           }
 
@@ -399,6 +405,8 @@
               $upload.text(lang.uploadStart)
             }
             break
+          default:
+            break
           }
 
           state = val
@@ -479,6 +487,8 @@
           break
         case 'stopUpload':
           setState('paused', files)
+          break
+        default:
           break
         }
       })

@@ -133,28 +133,28 @@
 </template>
 <script>
 export default {
-  name:'jobSpace',
-  props:{
-    colSpa:{
-      type:Object,
-      default:()=>{
+  name : 'jobSpace',
+  props: {
+    colSpa: {
+      type   : Object,
+      default: ()=>{
         return {}
       }
     },
-    textSpa:{
-      type:Object,
-      default:()=>{
+    textSpa: {
+      type   : Object,
+      default: ()=>{
         return {}
       }
     },
-    options:{
-      type:Object,
-      default:()=>{
+    options: {
+      type   : Object,
+      default: ()=>{
         return {}
       }
     },
     isExpert: {
-      type: Boolean,
+      type   : Boolean,
       default: true,
     },
     // type:{
@@ -165,15 +165,15 @@ export default {
   data(){
     return{
       formSpace: this.$form.createForm(this),
-      col: {
-        labelCol: { span: 8 },
+      col      : {
+        labelCol  : { span: 8 },
         wrapperCol: { span: 16 }
       },
-      topicWordTags:[],
-      researchDirectionTags:[],
-      rules:{
+      topicWordTags        : [],
+      researchDirectionTags: [],
+      rules                : {
         // 相关管理信息
-        researchDirection:[
+        researchDirection: [
           { whitespace: true, message: '请选择主要相关研究方向!' }
         ],
         workArea: [
@@ -189,7 +189,7 @@ export default {
           { required: true, whitespace: true, message: '请选择部级认定!' }
         ],
       },
-      achievementsList: [{}],
+      achievementsList: [ {} ],
     }
   },
   methods: {
@@ -218,7 +218,7 @@ export default {
       rows.forEach(item => {
         result.push({})
       })
-      this.achievementsList = result.length <= 0 ? [{}] : result
+      this.achievementsList = result.length <= 0 ? [ {} ] : result
     },
     addAchievements() {
       this.achievementsList.push({})
@@ -246,7 +246,7 @@ export default {
         }
       }else{
         this.$modal.error({
-          title: '请先输入内容！',
+          title : '请先输入内容！',
           okText: '确认',
         })
       }
@@ -266,7 +266,7 @@ export default {
         }
       }else{
         this.$modal.error({
-          title: '请先输入内容！',
+          title : '请先输入内容！',
           okText: '确认',
         })
       }

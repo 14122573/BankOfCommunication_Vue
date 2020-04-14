@@ -21,19 +21,19 @@
 import PDFJS from 'pdfjs-dist'
 
 export default {
-  name: 'c-pdf',
-  props: ['pdfurl'],
+  name : 'c-pdf',
+  props: [ 'pdfurl' ],
   data() {
     return {
-      pdfDoc: null, //pdfjs 生成的对象
-      pageNum: 1,//
-      pageRendering: false,
+      pdfDoc        : null, //pdfjs 生成的对象
+      pageNum       : 1,//
+      pageRendering : false,
       pageNumPending: null,
-      scale: 1,//放大倍数
-      page_num: 0,//当前页数
-      page_count: 0,//总页数
-      maxscale: 2,//最大放大倍数
-      minscale: 0.8//最小放大倍数
+      scale         : 1,//放大倍数
+      page_num      : 0,//当前页数
+      page_count    : 0,//总页数
+      maxscale      : 2,//最大放大倍数
+      minscale      : 0.8//最小放大倍数
     }
   },
   methods: {
@@ -51,7 +51,7 @@ export default {
         // Render PDF page into canvas context
         var renderContext = {
           canvasContext: vm.ctx,
-          viewport: viewport
+          viewport     : viewport
         }
         var renderTask = page.render(renderContext)
 

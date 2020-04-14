@@ -4,7 +4,7 @@
 
 <script>
 export default {
-  name: 'VerifyLogin',
+  name      : 'VerifyLogin',
   components: {
   },
   data() {
@@ -68,6 +68,7 @@ export default {
         return []
       }
     },
+
     /**
      * 判断当前用户对于新老系统的权限情况，如果有系统权限跳转进入home，如有多个老系统权限进入系统选择，如果有一个老系统权限直接登出
      * @param {Object} oldSysList 已经准备好的最新老系统权限清单
@@ -93,12 +94,12 @@ export default {
           }
 
           if(hasNewSysAuth){
-            this.$router.push({name:'home'})
+            this.$router.push({ name: 'home' })
           }else{
             if(this.verOldSysAuth(oldSysList)){
               this.$cookie.remove('token')
               this.$cookie.remove('refresh_token')
-              this.$router.push({name:'bindPhone',query:{ logined:1 }})
+              this.$router.push({ name: 'bindPhone',query: { logined: 1 } })
             }else{
               this.$com.handleLogOut()
             }
@@ -106,6 +107,7 @@ export default {
         }
       })
     },
+
     /**
      * 验证当前从老系统【安全退出】的用户，是否拥有老系统权限。并在有多个老系统权限的情况下，跳转重选系统界面
      * @param {Object} oldSys 当前用户下拥有的老系统清单

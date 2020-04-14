@@ -251,8 +251,8 @@
 export default {
   data() {
     return {
-      detail: {},
-      changeSmall:false
+      detail     : {},
+      changeSmall: false
 
     }
   },
@@ -261,9 +261,9 @@ export default {
   methods: {
     handleReturn() {
       if (this.$route.name.indexOf('home') < 0) {
-        this.$router.push({name:'/veterinary'})
+        this.$router.push({ name: '/veterinary' })
       } else {
-        this.$router.push({name:'homeVeterinaryList'})
+        this.$router.push({ name: 'homeVeterinaryList' })
       }
     },
   },

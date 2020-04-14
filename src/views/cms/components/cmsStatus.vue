@@ -5,27 +5,27 @@
 </template>
 <script>
 export default {
-  name:'CMSDataStatus',
-  props:{
-    cmsType:{
-      type:String, // 知识：knowledge；通知：notice；投票：vote
-      required:true
+  name : 'CMSDataStatus',
+  props: {
+    cmsType: {
+      type    : String, // 知识：knowledge；通知：notice；投票：vote
+      required: true
     },
-    status:{
-      type:String,
-      required:true
+    status: {
+      type    : String,
+      required: true
     }
   },
   data(){
     return {
-      statusColor:'default',
-      statusName:''
+      statusColor: 'default',
+      statusName : ''
     }
   },
   mounted(){
     this.checkStatusTags()
   },
-  watch:{
+  watch: {
     cmsType(){
       this.checkStatusTags()
     },
@@ -33,7 +33,7 @@ export default {
       this.checkStatusTags()
     }
   },
-  methods:{
+  methods: {
     /**
      * 状态（通知、知识）：0-草稿 1-发布中 2-已失效
      * 状态（投票）：0-草稿 1-发布中 2-结束 3-结果已公示

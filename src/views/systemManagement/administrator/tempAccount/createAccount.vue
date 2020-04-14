@@ -40,51 +40,51 @@
 <script>
 
 export default {
-  name: 'create-temp-user',
+  name : 'create-temp-user',
   props: {
-    resetShow:{
-      type:Boolean,
-      required:true
+    resetShow: {
+      type    : Boolean,
+      required: true
     }
   },
   data() {
     return {
-      isShow:false,
-      isAdminator:this.$store.state.userInfos.isAllPerm,
+      isShow               : false,
+      isAdminator          : this.$store.state.userInfos.isAllPerm,
       tempAccountCreateForm: this.$form.createForm(this),
-      createDatas:{
-        roleIds:'',
-        roleNames:''
+      createDatas          : {
+        roleIds  : '',
+        roleNames: ''
       },
-      roleList: [],
+      roleList             : [],
       administrativeRegions: [],
-      groupLists:[],
-      searchFormRules: {
-        number:{
+      groupLists           : [],
+      searchFormRules      : {
+        number: {
           validateTrigger: 'blur',
-          rules: [{
+          rules          : [ {
             required: true,
-            message: '请输入需要创建临时账号数量，仅能为整数'
-          }]
+            message : '请输入需要创建临时账号数量，仅能为整数'
+          } ]
         },
         area: {
           validateTrigger: 'change',
-          rules: [{
+          rules          : [ {
             required: true,
-            message: '请选择所属区域！'
-          }]
+            message : '请选择所属区域！'
+          } ]
         },
         roles: {
           validateTrigger: 'blur',
-          rules: [{
+          rules          : [ {
             required: true,
-            message: '请选择角色名称！'
-          }]
+            message : '请选择角色名称！'
+          } ]
         }
       },
     }
   },
-  computed:{
+  computed: {
   },
 
   watch: {
@@ -96,14 +96,14 @@ export default {
     // 获取表单中可选的角色清单
     let curUserRoles = this.$store.state.userInfos.roleIds
     let sparams = {
-      pageNo: 1,
+      pageNo  : 1,
       pageSize: 10000
     }
     if(!!curUserRoles){
       sparams['id_in'] = curUserRoles
     }
     this.$ajax.get({
-      url: this.$api.GET_ROLE_LIST,
+      url   : this.$api.GET_ROLE_LIST,
       params: sparams
     }).then(res => {
       this.roleList = this.$com.confirm(res, 'data.content', [])
@@ -126,18 +126,18 @@ export default {
       this.tempAccountCreateForm.validateFields(err => {
         if (!err) {
           let createParams = Object.assign({},this.createDatas,{
-            'area':{
+            'area': {
               // id:this.isAdminator?this.tempAccountCreateForm.getFieldValue('area'):this.tempAccountCreateForm.getFieldValue('area').key
-              id:this.tempAccountCreateForm.getFieldValue('area')
+              id: this.tempAccountCreateForm.getFieldValue('area')
             },
-            'group':{
-              id:this.tempAccountCreateForm.getFieldValue('group')
+            'group': {
+              id: this.tempAccountCreateForm.getFieldValue('group')
             },
-            'number':this.tempAccountCreateForm.getFieldValue('number')
+            'number': this.tempAccountCreateForm.getFieldValue('number')
           })
 
           this.$ajax.post({
-            url: this.$api.POST_TEMPACCOUT_CREATE,
+            url   : this.$api.POST_TEMPACCOUT_CREATE,
             params: createParams
           }).then(res => {
             if (res.code === '200') {
@@ -153,32 +153,23 @@ export default {
     },
     getArea() {
       this.$ajax.get({
-        url: this.$api.GET_AREA_NEXT,
+        url   : this.$api.GET_AREA_NEXT,
         params: {
-          parentId: this.isAdminator ? '999999' : this.$store.state.userInfos.area.id
+          parentId: this.isAdminator ? '0' : this.$store.state.userInfos.area.id
         }
       }).then(res => {
         let datas = this.$com.confirm(res, 'data.content', [])
         datas.forEach((ele, index) => {
           this.administrativeRegions.push(this.getTreeNode(ele, index))
         })
-        let national={
-          title: '中国',
-          value: '999999',
-          id: '999999',
-          key: '999999',
-          parentId: null,
-          children: null
-        }
-        this.administrativeRegions.splice(0,0,national)
       })
     },
     getTreeNode(item, index) {
       let childrenNode = {
-        title: item.areaName,
-        value: item.id,
-        id: item.id,
-        key: item.id,
+        title   : item.areaName,
+        value   : item.id,
+        id      : item.id,
+        key     : item.id,
         parentId: item.parentId,
         children: item.childList
       }
@@ -186,12 +177,12 @@ export default {
     },
     onLoadData(treeNode) {
       return new Promise((resolve) => {
-        if (treeNode.dataRef.children || treeNode.value=='999999') {
+        if (treeNode.dataRef.children) {
           resolve()
           return
         }
         this.$ajax.get({
-          url: this.$api.GET_AREA_NEXT,
+          url   : this.$api.GET_AREA_NEXT,
           params: {
             parentId: treeNode.dataRef.id
           }
@@ -223,19 +214,20 @@ export default {
     getListGroup() {
       const params = {
         pageSize: 10000,
-        pageNo: 1,
+        pageNo  : 1,
         areaCode: this.areaCode
       }
       if (!this.isAdminator) {
         params.parentId = this.$store.state.userInfos.group?this.$store.state.userInfos.group.id:''
       }
       this.$ajax.get({
-        url: this.$api.GET_ORGANIZATION_LIST,
+        url   : this.$api.GET_ORGANIZATION_LIST,
         params: params
       }).then(res => {
         this.groupLists = this.$com.confirm(res, 'data.content', [])
       })
     },
+
     /**
      * 监听角色切换，将已选角色id、name，分别转为字符串， 存储在createDatas中
      * @param {Array} item 已选角色数组对象
