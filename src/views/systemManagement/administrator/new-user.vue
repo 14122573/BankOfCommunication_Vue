@@ -14,7 +14,7 @@
 				</a-col>
 				<a-col span="6" v-if="!simpleSearchForm">
 					<a-form-item label="角色名称" :label-col="formItemLabelCol" :wrapper-col="formItemWrapperCol">
-						<a-select placeholder="请选择" :options="roleList" allowClear v-model="searchForm['ui.roleIds_in']" />
+						<a-select placeholder="请选择" :options="roleList" allowClear v-model="searchForm['ui.roleIds_l']" />
 					</a-form-item>
 				</a-col>
 				<a-col span="6" v-if="!simpleSearchForm">
@@ -278,7 +278,7 @@ export default {
       this.pagination.pageNo = 1
       delete this.searchForm.name_l
       delete this.searchForm['ui.phone_l']
-      delete this.searchForm['ui.roleIds_in']
+      delete this.searchForm['ui.roleIds_l']
       delete this.searchForm['ui.areaId']
       delete this.searchForm['ui.groupId']
       this.searchForm.checkedList = [ '1','0' ]
