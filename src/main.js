@@ -175,7 +175,7 @@ for(let i=0;i<system.sit.length;i++){
     render,
     activeRule: checkPrefix(system.sit[i].activeRule),
   })
-}
+} 
 // const projects = [ // 子项目信息
 //   {
 //     name      : 'scsd',
