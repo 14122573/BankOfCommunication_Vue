@@ -202,7 +202,7 @@ export default {
         if (!this.$com.checkPhone(value)) {
           callback('登录手机号不合法!')
         } else {
-          let links='?phone=' + value
+          const links='?phone=' + value
           this.$ajax.get({
             url        : this.$api.GET_CHECK_PHONE_EXIST + links,
             hideLoading: true,
@@ -256,8 +256,8 @@ export default {
         // researchDirectionList: [],
         educationList      : [],
         bachelorList       : [],
-        provinceConfirmList: [ { label: '是', value: '是' },{ label: '否', value: '否' } ],
-        unitConfirmList    : [ { label: '是', value: '是' },{ label: '否', value: '否' } ],
+        provinceConfirmList: [ { label: '是', value: '是' }, { label: '否', value: '否' } ],
+        unitConfirmList    : [ { label: '是', value: '是' }, { label: '否', value: '否' } ],
         politicsList       : [],
         awardTypeList      : [],
         areas              : [],
@@ -275,7 +275,7 @@ export default {
       fileList      : [],
       fileUpload    : {
         acceptTypes     : '.jpg,.jpeg',
-        acceptTypesArray: [ 'jpg','jpeg' ]
+        acceptTypesArray: [ 'jpg', 'jpeg' ]
       },
       rules: {
         loginPhone: [
@@ -344,7 +344,7 @@ export default {
     },
     //   查询options
     getOptions() {
-      let api = this.$api.DICTIONARY_TYPE_GET
+      const api = this.$api.DICTIONARY_TYPE_GET
       const items = [
         { type: '0', name: 'minorityList' }, //民族
         { type: '1', name: 'companyNatureList' }, //单位性质
@@ -365,7 +365,7 @@ export default {
             hideLoading: false
           })
           .then(res => {
-            let data = this.$com.confirm(res, 'data.content', [])
+            const data = this.$com.confirm(res, 'data.content', [])
             this.options[item.name] = data.map(e => {
               return {
                 label: e.name,
@@ -380,14 +380,14 @@ export default {
         url: this.$api.GET_JOB_TITLE_TREE,
       }).then(res => {
         if (res.code === '200') {
-          let content=res.data.content
-          for(var key in content){
-            var job={}
+          const content=res.data.content
+          for(const key in content){
+            const job={}
             job.value=key
             job.label=key
             job.children=[]
-            for(var i=0;i<content[key].length;i++){
-              var obj={}
+            for(let i=0;i<content[key].length;i++){
+              const obj={}
               obj.value=content[key][i].id
               obj.label=content[key][i].name
               job.children.push(obj)
@@ -490,10 +490,10 @@ export default {
       this.fileList = []
     },
     beforeUpload(file) {
-      let fileNameArr = file.name.split('.')
-      let fileSuffix = fileNameArr[fileNameArr.length-1].toLowerCase()
-      let isAccept = this.$com.oneOf(fileSuffix,this.fileUpload.acceptTypesArray)
-      let isLt5M = file.size / 1024 / 1024 < 5
+      const fileNameArr = file.name.split('.')
+      const fileSuffix = fileNameArr[fileNameArr.length-1].toLowerCase()
+      const isAccept = this.$com.oneOf(fileSuffix, this.fileUpload.acceptTypesArray)
+      const isLt5M = file.size / 1024 / 1024 < 5
       let message = ''
       if(!isAccept){
         message += !isAccept?('文件格式限定为'+this.fileUpload.acceptTypes+'；'):''
@@ -513,7 +513,7 @@ export default {
         return false
       }
     },
-    handleUpload(data,fileList) {
+    handleUpload(data, fileList) {
       const formData = new FormData()
       formData.append('file', data.file)
       data.onProgress()
@@ -522,7 +522,7 @@ export default {
         params: formData
       }).then(res => {
         if (res.code === '200') {
-          let data = this.$com.confirm(res, 'data.content', {})
+          const data = this.$com.confirm(res, 'data.content', {})
           this.fileList = []
           this.fileList.push({
             uid   : data.id,
@@ -596,9 +596,9 @@ export default {
         }
       }
       data.jobTitle=data.jobTitle[1]
-      for(var j=0;j<this.options.jobTitleList.length;j++){
-        var children=this.options.jobTitleList[j].children
-        for(var i=0;i<children.length;i++){
+      for(let j=0;j<this.options.jobTitleList.length;j++){
+        const children=this.options.jobTitleList[j].children
+        for(let i=0;i<children.length;i++){
           if(children[i].value==data.jobTitle){
             data.jobTitleName=this.options.jobTitleList[j].value+','+children[i].label
           }
@@ -617,7 +617,7 @@ export default {
       }
       let link, msg, methods
       if (this.currentId) {
-        link = this.$api.EXPORT_TYPE_EDIT.replace('{experId}',this.currentId)
+        link = this.$api.EXPORT_TYPE_EDIT.replace('{experId}', this.currentId)
         methods = 'put'
         msg = '修改成功！'
       } else {
@@ -640,10 +640,10 @@ export default {
     },
     getDetail() {
       this.$ajax.get({
-        url        : this.$api.GET_EXPERT_DETAIL.replace('{experId}',this.currentId),
+        url        : this.$api.GET_EXPERT_DETAIL.replace('{experId}', this.currentId),
         hideLoading: false
       }).then(res => {
-        let loginPhone=this.$route.query.loginPhone
+        const loginPhone=this.$route.query.loginPhone
         let {
           name,
           sex,
@@ -656,7 +656,7 @@ export default {
           jobTitle,
           position,
           email,
-          postcode,//邮编
+          postcode, //邮编
           partTime,
           graduatedSchool,
           education,
@@ -700,9 +700,9 @@ export default {
             return []
           }
         }
-        var jobTitleFlag=false
+        let jobTitleFlag=false
         for(let i=0;i<this.options.jobTitleList.length;i++){//组装职称关联选择的值
-          var option=this.options.jobTitleList[i]
+          const option=this.options.jobTitleList[i]
           for(let j=0;j<option.children.length;j++){
             if(option.children[j].value==jobTitle){
               jobTitleFlag=true
@@ -732,7 +732,7 @@ export default {
             jobTitle,
             position,
             email,
-            postcode,//邮编
+            postcode, //邮编
             // partTime,
             birthday: birthday ? this.$moment(birthday) : birthday,
             politic,
@@ -774,7 +774,7 @@ export default {
     },
     // 保存按钮
     save() {
-      let forms = [
+      const forms = [
         this.$refs.jobStudy.formJob,
         this.$refs.jobSpace.formSpace,
         this.form
@@ -787,7 +787,7 @@ export default {
           }
         })
       })
-      let personalPhoto = {}
+      const personalPhoto = {}
       if(this.fileList.length>0){ //当有上传一寸照时，作如下判断
         if(this.fileList[0].uid == '-1'){ // 说明未修改一寸照
           personalPhoto.portraitImg = this.fileList[0].name
@@ -797,8 +797,8 @@ export default {
       }
       var jobStudy=this.$refs.jobStudy.formJob.getFieldsValue()
       var workExperienceDate=this.$refs.jobStudy.workExperienceDate
-      var jobSpace= this.$refs.jobSpace.formSpace.getFieldsValue()
-      if(this.validationForm(jobStudy.workExperience,workExperienceDate)==false){
+      const jobSpace= this.$refs.jobSpace.formSpace.getFieldsValue()
+      if(this.validationForm(jobStudy.workExperience, workExperienceDate)==false){
         this.$modal.error({
           title     : '表单验证未通过',
           content   : '请将"工作/学习经历"填写完整',
@@ -824,7 +824,7 @@ export default {
         
         jobSpace.researchDirection=this.$refs.jobSpace.researchDirectionTags.join('、')
         jobSpace.topicWord=this.$refs.jobSpace.topicWordTags.join('、')
-        let data = Object.assign({},
+        const data = Object.assign({},
           jobStudy,
           jobSpace,
           this.form.getFieldsValue(),
@@ -840,7 +840,7 @@ export default {
         })
       }
     },
-    validationForm(data,date){
+    validationForm(data, date){
       if(date){
         if(data.length==date.length && data.length>1){
           for(let i=0;i<data.length;i++){
@@ -903,5 +903,4 @@ export default {
 .avatar-uploader .ant-upload-list { width: 100%;}
 .avatar-uploader .ant-upload-list-picture-card .ant-upload-list-item { width: 90%;height: 220px;}
 </style>
-
 

@@ -51,7 +51,7 @@ export default {
         }
       }).then(res => {
         if (res.code === '200') {
-          let data = res.data.content
+          const data = res.data.content
           this.roleList = data.map(item => {
             return {
               label: item.roleName,

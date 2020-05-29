@@ -93,8 +93,8 @@ export default {
     getList(){
       this.$ajax.get({
         url   : this.$api.GET_ROLE_LIST,
-        params: Object.assign(this.searchForm,this.params)
-      }).then(res=>{
+        params: Object.assign(this.searchForm, this.params)
+      }).then(res => {
         if(res.code === '200'){
           this.total=res.data.totalRows
           this.roleList= this.$com.confirm(res, 'data.content', [])
@@ -119,7 +119,7 @@ export default {
     },
     //   删除按钮
     deleteBtn(item){
-      let vm = this
+      const vm = this
       if(item.userCount !== null && item.userCount !== '' && item.userCount != 0){
         this.$modal.warning({
           title  : '无法删除此角色',
@@ -164,10 +164,10 @@ export default {
      * 从vuex中或已存储的搜索条件，判断此条件是否为当前路由的 。如果是则使用
      */
     getSearchParams(){
-      let searchParams = !this.$store.state.listSearchParams?null:this.$store.state.listSearchParams[this.$route.name]
+      const searchParams = !this.$store.state.listSearchParams?null:this.$store.state.listSearchParams[this.$route.name]
       if(!!searchParams && !!searchParams.routeName && (this.$route.name == searchParams.routeName)){
         if(!!searchParams.params){
-          Object.keys(this.searchForm).forEach(elem=>{
+          Object.keys(this.searchForm).forEach(elem => {
             this.searchForm[elem] = searchParams.params[elem]
           })
         }
@@ -181,8 +181,8 @@ export default {
     },
     handleOkDelete(){
       this.$ajax.delete({
-        url: this.$api.DELETE_CHARACTER.replace('{id}',this.deleteData.id),
-      }).then(res=>{
+        url: this.$api.DELETE_CHARACTER.replace('{id}', this.deleteData.id),
+      }).then(res => {
         if(res.code === '200'){
           this.$message.success('删除成功')
           this.getList()
@@ -214,5 +214,4 @@ export default {
 .center-p{ text-align: center;}
 .group-icon{ width: 16px; position: relative; top: -2px;}
 </style>
-
 

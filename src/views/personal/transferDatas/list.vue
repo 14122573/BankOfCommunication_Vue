@@ -55,17 +55,17 @@ export default {
           title    : '申请(报)材料名称',
           dataIndex: 'title',
           key      : 'title',
-        },{
+        }, {
           title    : '提交时间',
           dataIndex: 'time',
           key      : 'time',
           width    : 180
-        },{
+        }, {
           title    : '审请(报)状态',
           dataIndex: 'status',
           key      : 'status',
           width    : 130
-        },{
+        }, {
           title      : '所属系统',
           dataIndex  : 'systemCode',
           key        : 'systemCode',
@@ -73,7 +73,7 @@ export default {
           scopedSlots: {
             customRender: 'system'
           }
-        },{
+        }, {
           title      : '操作',
           key        : 'operation',
           width      : 100,
@@ -158,7 +158,7 @@ export default {
     getSystemNameByCode(code){
       let name = ''
       if(!!code){
-        this.sysListForSearch.forEach(item =>{
+        this.sysListForSearch.forEach(item => {
           if(item.value == code){
             name = item.label
           }
@@ -186,27 +186,27 @@ export default {
     },
     getLists(){
       const options = this.$com.dealObjectValue(this.datasSearchForm.getFieldsValue())
-      let params = {}
+      const params = {}
       // console.log(!options.systemCode,this.allSystemCodes)
       if(!options.systemCode){
-        params['systemCode'] = this.allSystemCodes
+        params.systemCode = this.allSystemCodes
       }else{
         let codes = ''
         options.systemCode.forEach(item => {
           codes += item +','
         })
-        params['systemCode'] = codes.slice(0,-1)
+        params.systemCode = codes.slice(0, -1)
       }
       if(options.title){
-        params['title'] = options.title
+        params.title = options.title
       }
       this.$ajax.get({
         url   : this.$api.GET_DECLARATION_LIST,
-        params: Object.assign({},params,{
+        params: Object.assign({}, params, {
           pageNo  : this.pagination.pageNo,
           pageSize: this.pagination.pageSize
         })
-      }).then(res=>{
+      }).then(res => {
         if(res.code =='200'){
           this.declarationDatas = this.$com.confirm(res, 'data.content', [])
           this.pagination.total = this.$com.confirm(res, 'data.totalRows', 0)
@@ -223,9 +223,9 @@ export default {
       this.$ajax.get({
         url   : this.$api.SYSTEM_LIST_ALL_GET,
         params: { type: '1' }
-      }).then(res=>{
+      }).then(res => {
         if(res.code === '200'){
-          let data = this.$com.confirm(res, 'data.content', [])
+          const data = this.$com.confirm(res, 'data.content', [])
           this.sysListForSearch = []
           this.sysListForSearch = data.map((item) => {
             return {
@@ -237,7 +237,7 @@ export default {
           this.sysListForSearch.forEach(item => {
             this.allSystemCodes += item.value+','
           })
-          this.allSystemCodes = this.allSystemCodes.slice(0,-1)
+          this.allSystemCodes = this.allSystemCodes.slice(0, -1)
         }else{
           this.$message.error(res.msg)
         }

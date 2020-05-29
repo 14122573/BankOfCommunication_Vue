@@ -84,13 +84,13 @@ export default {
      * @param {String} splitStr key转为字符串后，每个key的链接符
      * @returns {String} keyString 拼接后的字串串
      */
-    toKeyString(keyArray,splitStr){
+    toKeyString(keyArray, splitStr){
       let keyString = ''
       if(Array.isArray(keyArray) && keyArray.length>0){
         keyArray.forEach(element => {
           keyString += element+splitStr
         })
-        keyString = keyString.substring(0,keyString.length-1)
+        keyString = keyString.substring(0, keyString.length-1)
       }
       return keyString
     },
@@ -110,7 +110,7 @@ export default {
      */
     getKnowLedgeList(){
       let searchParms
-      searchParms = Object.assign({},this.searchForm,{
+      searchParms = Object.assign({}, this.searchForm, {
         pageNo         : this.pagination.pageNo,
         pageSize       : this.pagination.pageSize,
         createTime_desc: 'desc'

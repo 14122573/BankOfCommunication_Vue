@@ -127,7 +127,6 @@
 			<img alt="一寸照" style="width: 80%;height:auto" :src="previewImage" />
 		</a-modal>
 
-
   </div>
 </template>
 
@@ -192,8 +191,8 @@ export default {
         researchDirectionList: [],
         educationList        : [],
         bachelorList         : [],
-        provinceConfirmList  : [ { label: '是', value: '是' },{ label: '否', value: '否' } ],
-        unitConfirmList      : [ { label: '是', value: '是' },{ label: '否', value: '否' } ]
+        provinceConfirmList  : [ { label: '是', value: '是' }, { label: '否', value: '否' } ],
+        unitConfirmList      : [ { label: '是', value: '是' }, { label: '否', value: '否' } ]
       },
       colSpa: {
         labelCol  : { span: 10 },
@@ -208,7 +207,7 @@ export default {
       fileList      : [],
       fileUpload    : {
         acceptTypes     : '.jpg,.jpeg',
-        acceptTypesArray: [ 'jpg','jpeg' ]
+        acceptTypesArray: [ 'jpg', 'jpeg' ]
       },
       rules: {
         name    : [ { required: true, whitespace: true, message: '请输入姓名!' } ],
@@ -257,7 +256,7 @@ export default {
   },
   methods: {
     save() {
-      let forms = [
+      const forms = [
         this.$refs.jobStudy.formJob,
         this.$refs.jobSpace.formSpace,
         this.form
@@ -270,7 +269,7 @@ export default {
           }
         })
       })
-      let personalPhoto = {}
+      const personalPhoto = {}
       if(this.fileList.length>0){
         //当有上传一寸照时，作如下判断
         if(this.fileList[0].uid == '-1'){
@@ -282,7 +281,7 @@ export default {
         }
       }
       if (formsAll) {
-        let data = Object.assign(
+        const data = Object.assign(
           this.$refs.jobStudy.formJob.getFieldsValue(),
           this.$refs.jobSpace.formSpace.getFieldsValue(),
           this.form.getFieldsValue(),
@@ -300,7 +299,7 @@ export default {
     },
     //   查询options
     getOptions() {
-      let api = this.$api.DICTIONARY_TYPE_GET
+      const api = this.$api.DICTIONARY_TYPE_GET
       const items = [
         //民族
         { type: '0', name: 'minorityList' },
@@ -326,7 +325,7 @@ export default {
           url        : api.replace('{type}', item.type),
           hideLoading: false
         }).then(res => {
-          let data = this.$com.confirm(res, 'data.content', [])
+          const data = this.$com.confirm(res, 'data.content', [])
           this.options[item.name] = data.map(e => {
             return {
               label: e.name,
@@ -347,10 +346,10 @@ export default {
       // this.form.validateFields(['portraitImg'])
     },
     beforeUpload(file) {
-      let fileNameArr = file.name.split('.')
-      let fileSuffix = fileNameArr[fileNameArr.length-1].toLowerCase()
-      let isAccept = this.$com.oneOf(fileSuffix,this.fileUpload.acceptTypesArray)
-      let isLt5M = file.size / 1024 / 1024 < 5
+      const fileNameArr = file.name.split('.')
+      const fileSuffix = fileNameArr[fileNameArr.length-1].toLowerCase()
+      const isAccept = this.$com.oneOf(fileSuffix, this.fileUpload.acceptTypesArray)
+      const isLt5M = file.size / 1024 / 1024 < 5
       let message = ''
       if(!isAccept){
         message += !isAccept?('文件格式限定为'+this.fileUpload.acceptTypes+'；'):''
@@ -370,7 +369,7 @@ export default {
         return false
       }
     },
-    handleUpload(data,fileList) {
+    handleUpload(data, fileList) {
       const formData = new FormData()
       formData.append('file', data.file)
       data.onProgress()
@@ -379,7 +378,7 @@ export default {
         params: formData
       }).then(res => {
         if (res.code === '200') {
-          let data = this.$com.confirm(res, 'data.content', {})
+          const data = this.$com.confirm(res, 'data.content', {})
           this.fileList = []
           this.fileList.push({
             uid   : data.id,
@@ -432,7 +431,7 @@ export default {
         })
       })
       this.$ajax.put({
-        url   : this.$api.EXPORT_TYPE_EDIT.replace( '{experId}',  this.expertId ),
+        url   : this.$api.EXPORT_TYPE_EDIT.replace( '{experId}', this.expertId ),
         params: data
       }).then(res => {
         if (res.code === '200') {
@@ -442,10 +441,10 @@ export default {
     },
     getDetail() {
       this.$ajax.get({
-        url        : this.$api.GET_EXPERT_DETAIL.replace('{experId}',this.expertId),
+        url        : this.$api.GET_EXPERT_DETAIL.replace('{experId}', this.expertId),
         hideLoading: false
       }).then(res => {
-        let {
+        const {
           name,
           sex,
           minority,

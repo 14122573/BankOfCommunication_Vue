@@ -72,7 +72,7 @@ export default {
      */
     getKnowLedgeList(){
       let searchParms
-      searchParms = Object.assign({},this.searchForm,{
+      searchParms = Object.assign({}, this.searchForm, {
         pageNo         : this.pagination.pageNo,
         pageSize       : this.pagination.pageSize,
         createTime_desc: 'desc'

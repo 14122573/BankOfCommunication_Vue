@@ -1,4 +1,16 @@
 export default {
+  setContent(state, data) {
+    state.content = data
+  },
+  setLoading(state, val) {
+    state.showLoading = val
+  },
+  setRoutes(state, data) {
+    state.routes = data
+  },
+  setWebviewSrc(state, src) {
+    state.webviewSrc = src
+  },
   SET_MICSYSTEMS_RESOURCE_CONFIG(state, micSystemRecourceConfig) {
     state.micSystemResourceConfig = JSON.parse(JSON.stringify(micSystemRecourceConfig)) // 保存配置信息
   },

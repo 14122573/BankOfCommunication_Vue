@@ -122,7 +122,7 @@ export default {
       this.arr = []
     },
     //去详情
-    toView(id,type){
+    toView(id, type){
       if (typeof(this.$cookie.get('token')) == 'undefined') {
         this.$router.push({
           name : '/veterinary/view',
@@ -279,13 +279,13 @@ export default {
     },
     // 查询列表
     async getList() {
-      let areas = this.veterinaryForm.getFieldValue('area') || this.arr || []
-      let provinceId= areas[0] || ''
-      let cityId= areas[1] || ''
-      let countyId= areas[2] || ''
-      let townId= areas[3] || ''
+      const areas = this.veterinaryForm.getFieldValue('area') || this.arr || []
+      const provinceId= areas[0] || ''
+      const cityId= areas[1] || ''
+      const countyId= areas[2] || ''
+      const townId= areas[3] || ''
       // 将搜索条件拼接为一个对象
-      let searchParams = Object.assign({},{
+      const searchParams = Object.assign({}, {
         // 兽医类型
         type      : !this.veterinaryForm.getFieldValue('type')?'3':this.veterinaryForm.getFieldValue('type'),
         // 文本搜索值
@@ -319,7 +319,7 @@ export default {
           this.$route.name,
           '1',
           searchParams,
-          Object.assign({},this.searchForm,{
+          Object.assign({}, this.searchForm, {
             // 兽医类型
             type      : !searchParams.type?'':searchParams.type,
             // 文本搜索值
@@ -341,10 +341,10 @@ export default {
      * 从vuex中或已存储的搜索条件，判断此条件是否为当前路由的 。如果是则使用
      */
     getSearchParams(){
-      let searchParams = !this.$store.state.listSearchParams?null:this.$store.state.listSearchParams[this.$route.name]
+      const searchParams = !this.$store.state.listSearchParams?null:this.$store.state.listSearchParams[this.$route.name]
       if(!!searchParams && !!searchParams.routeName && (this.$route.name == searchParams.routeName)){
         if(!!searchParams.params){
-          Object.keys(searchParams.params).forEach(elem=>{
+          Object.keys(searchParams.params).forEach(elem => {
             switch (elem) {
             case 'type':
               this.veterinaryForm.setFieldsValue({ 'type': searchParams.params[elem] })

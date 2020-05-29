@@ -1,0 +1,84 @@
+{
+  "sit":[
+    {
+      "entry": "http://scsd.omniview.pro",
+      "name": "scsd",
+      "activeRule": "/scsd"
+    },
+    {
+      "entry": "http://scylzc.omniview.pro",
+      "name": "scylzc",
+      "activeRule": "/scylzc"
+    },
+    {
+      "entry": "http://ylzcre.omniview.pro",
+      "name": "ylzcre",
+      "activeRule": "/ylzcre"
+    },
+    {
+      "entry": "http://bbgl.omniview.pro",
+      "name": "bbgl",
+      "activeRule": "/bbgl"
+    },
+    {
+      "entry": "http://zlzs.omniview.pro",
+      "name": "zlzs",
+      "activeRule": "/zlzs"
+    },
+    {
+      "entry": "http://yysygl.omniview.pro",
+      "name": "yysygl",
+      "activeRule": "/yysygl"
+    },
+    {
+      "entry": "http://kpjd.omniview.pro",
+      "name": "kpjd",
+      "activeRule": "/kpjd"
+    },
+    {
+      "entry": "http://xshy.omniview.pro",
+      "name": "xshy",
+      "activeRule": "/xshy"
+    },
+    {
+      "entry": "http://iftp.omniview.pro/lshy",
+      "name": "lshy",
+      "activeRule": "/lshy"
+    },
+    {
+      "entry": "http://ssdw.omniview.pro",
+      "name": "ssdw",
+      "activeRule": "/ssdw"
+    },
+    {
+      "entry": "http://pjsf.omniview.pro",
+      "name": "ttbz",
+      "activeRule": "/ttbz"
+    },
+    {
+      "entry": "http://fljps.omniview.pro",
+      "name": "fljps",
+      "activeRule": "/fljps"
+    },
+    {
+      "entry": "http://iftp.omniview.pro/dyzh",
+      "name": "dyzh",
+      "activeRule": "/dyzh"
+    },
+    {
+      "entry": "http://iftp.omniview.pro/hymc",
+      "name": "hymc",
+      "activeRule": "/hymc"
+    },
+    {
+      "entry": "http://iftp.omniview.pro/xxyy",
+      "name": "xxyy",
+      "activeRule": "/xxyy"
+    },
+    {
+      "entry": "http://iftp.omniview.pro/styy",
+      "name": "styy",
+      "activeRule": "/styy"
+    }
+  ]
+}

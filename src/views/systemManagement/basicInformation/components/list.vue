@@ -31,7 +31,6 @@
 </div>
 </template>
 
-
 <script>
 import CreatBase from './add'
 import EditBase from './edit'
@@ -45,7 +44,7 @@ export default {
     }
   },
   components: {
-    CreatBase,EditBase,
+    CreatBase, EditBase,
     DataOperatorInList
   },
   data() {
@@ -108,7 +107,7 @@ export default {
     getList(){
       this.$ajax.get({
         url: this.apis.list
-      }).then(res=>{
+      }).then(res => {
         if(res.code === '200'){
           this.list= this.$com.confirm(res, 'data.content', [])
         }else{
@@ -120,7 +119,7 @@ export default {
     //   删除按钮
     handleDelete(item){
       if(!!item) {
-        let vm = this
+        const vm = this
         this.deleteData = item
         this.$modal.confirm({
           title     : '是否确认删除此数据？',
@@ -163,5 +162,4 @@ export default {
 .center-p{ text-align: center;}
 .group-icon{ width: 16px; position: relative; top: -2px;}
 </style>
-
 

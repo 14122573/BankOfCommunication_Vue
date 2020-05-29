@@ -40,11 +40,22 @@
 							</a-dropdown>
 						</div>
 					</a-layout-header>
-					<a-layout-content id="appContent" :style="'background: url('+ require('@/assets/images/content-bg.png') + ') no-repeat'">
+
+          <a-layout-content class="layout-content" :style="'background: url('+ require('@/assets/images/content-bg.png') + ') no-repeat'">
+            <!-- 子项目在此加载 -->
+            <div v-if="content" id="contentView" v-html="content" />
+            <template v-else>
+              <!-- 传统子项目在iframe中渲染 -->
+              <iframe v-if="webviewSrc" :src="webviewSrc" frameborder="0" style="width:100%;height:96%;overflow:hidden;" />
+              <!-- 本项目的子页面在此渲染 -->
+              <router-view v-else />
+            </template>
+          </a-layout-content>
+					<!-- <a-layout-content id="appContent" :style="'background: url('+ require('@/assets/images/content-bg.png') + ') no-repeat'">
             <router-view v-show="!showSpaContent" :key="$route.path" />
 						<div v-show="showSpaContent" id="content" />
             <a-back-top v-if="showBacktop" :visibilityHeight="100" :target="backTopTarget"/>
-					</a-layout-content>
+					</a-layout-content> -->
 				</a-layout>
 			</a-layout>
 		</template>
@@ -52,12 +63,12 @@
 </a-locale-provider>
 </template>
 <script>
+import{ mapState } from 'vuex'
 import SideMenu from '@/components/Layout/sidemenu'
 import NavBar from '@/components/Layout/navbar'
 import Loader from '@/components/Loader/loader'
 import zh_CN from 'ant-design-vue/lib/locale-provider/zh_CN'
 import { permission, } from '@/util/mixins'
-import '@/config/micSystemRecourceConfig'
 import Login from '@/views/login/login'
 
 export default {
@@ -121,12 +132,12 @@ export default {
     $route(to, from) {
       this.calcBackTopTarget()
       // 切换页面时获取返回顶部按钮的dom依据
-      let MicConfigs = this.$store.state.micSystemResourceConfig?this.$store.state.micSystemResourceConfig[process.env.NODE_ENV=='development'?'sit':process.env.NODE_ENV]:[]
-      // console.log('calcBackTopTarget',MicConfigs)
-      if (MicConfigs.length > 0) {
-        // 根据配置文件的子项目路由前缀自动识别state.showSpaContent应该是true还是false
-        this.showSpaContent = MicConfigs.some(item => to.path.startsWith(item.pathPrefix))
-      }
+      // let MicConfigs = this.$store.state.micSystemResourceConfig?this.$store.state.micSystemResourceConfig[process.env.NODE_ENV=='development'?'sit':process.env.NODE_ENV]:[]
+      // // console.log('calcBackTopTarget',MicConfigs)
+      // if (MicConfigs.length > 0) {
+      //   // 根据配置文件的子项目路由前缀自动识别state.showSpaContent应该是true还是false
+      //   this.showSpaContent = MicConfigs.some(item => to.path.startsWith(item.pathPrefix))
+      // }
 
       if (!to.name) {
         this.showPurePage = false
@@ -144,7 +155,11 @@ export default {
     menuMode() {
       return this.collapsed ? 'vertical' : 'inline'
     },
-  },
+    ...mapState([
+      'content',
+      'webviewSrc',
+    ])
+  }, 
   methods: {
     /**
      * 判断当前登录人，是否有权可转移个人在子业务系统中的申报数据
@@ -239,7 +254,7 @@ export default {
       // 获取返回顶部按钮的dom依据
       this.$nextTick(() => {
         const dom1 = document.querySelector('.portalDetailContentBody')
-        const dom2 = document.querySelector('#appContent')
+        const dom2 = document.querySelector('.layout-content')
         if (!dom1 && !dom2) return
         this.showBacktop = false
         this.$nextTick(() => {
@@ -334,13 +349,13 @@ export default {
 		/* overflow: hidden; */
 	}
 
-	#appContent {
+	.layout-content {
 		overflow-y: auto;
 		padding: 0 0 14px 0;
 		background-position: 95% 10%;
 		background-size: 20%;
 		height: 100%;
 	}
-	#appContent #content { 	height: 100%; }
-	#appContent #content>div { overflow-y: auto; }
+	.layout-content #content { 	height: 100%; }
+	.layout-content #content>div { overflow-y: auto; }
 </style>

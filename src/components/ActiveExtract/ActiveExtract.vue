@@ -247,21 +247,21 @@ export default {
     getOptions() {
       this.typeOptions.forEach(item => {
         if (!item.requestType) return
-        let ajaxUrl = this.url['dictionary'] + item.requestType
+        let ajaxUrl = this.url.dictionary + item.requestType
         if(item.requestType=='3'){
           //职称要换另一个接口
-          ajaxUrl = this.url['profTree']
+          ajaxUrl = this.url.profTree
         }
         this.$ajax.get({
           url: ajaxUrl,
         }).then(res => {
           if(item.requestType=='3'){
             //需要按级联选择组件options的结构重组内容
-            let optionDatas =  (res.data && res.data.content) || {}
+            const optionDatas = (res.data && res.data.content) || {}
             item.options = []
-            for(let key in optionDatas){
-              let optionChildren = []
-              optionDatas[key].forEach(item =>{
+            for(const key in optionDatas){
+              const optionChildren = []
+              optionDatas[key].forEach(item => {
                 optionChildren.push({
                   value: item.id,
                   label: item.name
@@ -321,9 +321,9 @@ export default {
      * @param {Object} obj 当前操作的筛选条件对象
      * @param {String} path 当前操作筛选条件对象，需要存放已选级联内容的key值
      */
-    onCascaderChange(value, selectedOptions,obj,path){
+    onCascaderChange(value, selectedOptions, obj, path){
       obj[path] = ''
-      selectedOptions.forEach((element,index) => {
+      selectedOptions.forEach((element, index) => {
         if(index>0){
           obj[path] += ','
         }
@@ -333,12 +333,12 @@ export default {
     filteringSearchParams(){
       const org = [].concat([ this.basic, ...this.filters ])
       const filtering = []
-      org.forEach(oneFilter =>{
+      org.forEach(oneFilter => {
         if((!!oneFilter.containValue && oneFilter.containValue=='') ){
-          delete oneFilter['containValue']
+          delete oneFilter.containValue
         }
         if((!!oneFilter.andValue && oneFilter.andValue=='') ){
-          delete oneFilter['andValue']
+          delete oneFilter.andValue
         }
         if(!!oneFilter.andValue || !!oneFilter.containValue){
           filtering.push(oneFilter)
@@ -348,7 +348,7 @@ export default {
     },
     handleSearch() {
       const { pageNo, pageSize } = this.pagination
-      let filteredItemList = this.filteringSearchParams()
+      const filteredItemList = this.filteringSearchParams()
       const params = {
         pageNo,
         pageSize,
@@ -357,7 +357,7 @@ export default {
       }
       this.filteringSearchParams()
       // 开启loading层
-      this.$store.commit('SET_LOADING',true)
+      this.$store.commit('SET_LOADING', true)
       this.$emit('search', params, this.initData)
     },
     initData(res) {
@@ -365,7 +365,7 @@ export default {
       this.data = [ ...this.$com.confirm(res, 'data.content.expertList', []) ]
       this.pagination.total = this.$com.confirm(res, 'data.totalRows', 0)
       // 关闭loading层
-      this.$store.commit('SET_LOADING',false)
+      this.$store.commit('SET_LOADING', false)
     },
     onPageChange(page) {
       this.pagination.pageNo = page
@@ -466,7 +466,7 @@ export default {
       this.data2.splice(index, 1)
       this.$emit('select', this.data2, (res) => {
         //关闭loading层
-        this.$store.commit('SET_LOADING',false)
+        this.$store.commit('SET_LOADING', false)
       })
     },
     // 选中专家
@@ -484,7 +484,7 @@ export default {
         pageSize,
       }
       //开启loading层
-      this.$store.commit('SET_LOADING',true)
+      this.$store.commit('SET_LOADING', true)
 
       this.$emit('check', params, (res) => {
         const data = this.$com.confirm(res, 'data.content', [])
@@ -494,17 +494,17 @@ export default {
         }
         this.$emit('select', result, (res) => {
           //关闭loading层
-          this.$store.commit('SET_LOADING',false)
+          this.$store.commit('SET_LOADING', false)
         })
       })
     },
     // 确认专家
     handleConfirm() {
       //开启loading层
-      this.$store.commit('SET_LOADING',true)
+      this.$store.commit('SET_LOADING', true)
       this.$emit('confirm', this.selectedList)
       //关闭loading层
-      this.$store.commit('SET_LOADING',false)
+      this.$store.commit('SET_LOADING', false)
       this.curTab = '3'
     },
   },

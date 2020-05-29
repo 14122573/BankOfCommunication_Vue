@@ -94,13 +94,13 @@ export default {
   },
   beforeCreate() {
     // 获取表单中可选的角色清单
-    let curUserRoles = this.$store.state.userInfos.roleIds
-    let sparams = {
+    const curUserRoles = this.$store.state.userInfos.roleIds
+    const sparams = {
       pageNo  : 1,
       pageSize: 10000
     }
     if(!!curUserRoles){
-      sparams['id_in'] = curUserRoles
+      sparams.id_in = curUserRoles
     }
     this.$ajax.get({
       url   : this.$api.GET_ROLE_LIST,
@@ -120,12 +120,12 @@ export default {
     },
     handleCancel(){
       this.resetForm()
-      this.$emit('on-success',false)
+      this.$emit('on-success', false)
     },
     handleCreate(){
       this.tempAccountCreateForm.validateFields(err => {
         if (!err) {
-          let createParams = Object.assign({},this.createDatas,{
+          const createParams = Object.assign({}, this.createDatas, {
             'area': {
               // id:this.isAdminator?this.tempAccountCreateForm.getFieldValue('area'):this.tempAccountCreateForm.getFieldValue('area').key
               id: this.tempAccountCreateForm.getFieldValue('area')
@@ -143,11 +143,11 @@ export default {
             if (res.code === '200') {
               this.$message.success('添加成功')
               this.resetForm()
-              this.$emit('on-success',true)
+              this.$emit('on-success', true)
             }
           })
         }else{
-          this.$com.getFormValidErrTips(this,err)
+          this.$com.getFormValidErrTips(this, err)
         }
       })
     },
@@ -158,14 +158,14 @@ export default {
           parentId: this.isAdminator ? '0' : this.$store.state.userInfos.area.id
         }
       }).then(res => {
-        let datas = this.$com.confirm(res, 'data.content', [])
+        const datas = this.$com.confirm(res, 'data.content', [])
         datas.forEach((ele, index) => {
           this.administrativeRegions.push(this.getTreeNode(ele, index))
         })
       })
     },
     getTreeNode(item, index) {
-      let childrenNode = {
+      const childrenNode = {
         title   : item.areaName,
         value   : item.id,
         id      : item.id,
@@ -187,8 +187,8 @@ export default {
             parentId: treeNode.dataRef.id
           }
         }).then(res => {
-          let datas = this.$com.confirm(res, 'data.content', [])
-          let array = []
+          const datas = this.$com.confirm(res, 'data.content', [])
+          const array = []
           datas.forEach((ele, index) => {
             array.push(this.getTreeNode(ele, index))
           })
@@ -234,10 +234,10 @@ export default {
      */
     roleChange(item) {
       if (item.length > 0) {
-        let roleIds = item.map((it) => {
+        const roleIds = item.map((it) => {
           return it.key
         })
-        let roleNames = item.map((it) => {
+        const roleNames = item.map((it) => {
           return it.label
         })
         this.createDatas.roleIds = roleIds.toString()

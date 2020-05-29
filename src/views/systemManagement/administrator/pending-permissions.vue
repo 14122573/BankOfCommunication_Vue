@@ -77,20 +77,20 @@ export default {
           title    : '姓名',
           dataIndex: 'name',
           key      : 'name'
-        },{
+        }, {
           title    : '账号',
           width    : 240,
           dataIndex: 'phone',
           key      : 'phone'
-        },{
+        }, {
           title    : '邮箱',
           dataIndex: 'mail',
           key      : 'mail'
-        },{
+        }, {
           title    : '单位',
           dataIndex: 'dept',
           key      : 'dept'
-        },{
+        }, {
           title      : '注册时间',
           dataIndex  : 'createTime',
           key        : 'createTime',
@@ -98,7 +98,7 @@ export default {
           scopedSlots: {
             customRender: 'createTime'
           }
-        },{
+        }, {
           title      : '操作',
           dataIndex  : 'action',
           key        : 'action',
@@ -158,7 +158,7 @@ export default {
     },
     // 查询列表
     getList() {
-      let searchParams = Object.assign({},this.searchForm,{
+      const searchParams = Object.assign({}, this.searchForm, {
         'ui.phone_l': !this.searchPendingUserForm.getFieldValue('ui.phone_l')?'':this.searchPendingUserForm.getFieldValue('ui.phone_l'),
         'name_l'    : !this.searchPendingUserForm.getFieldValue('name_l')?'':this.searchPendingUserForm.getFieldValue('name_l'),
         'mail_l'    : !this.searchPendingUserForm.getFieldValue('mail_l')?'':this.searchPendingUserForm.getFieldValue('mail_l'),
@@ -171,7 +171,7 @@ export default {
       // if (params.createTime_desc) params.createTime_desc=params.createTime_desc.join(',');
       this.$ajax.get({
         url   : this.$api.USER_LIST_TYPE_GET.replace('{type}', 'new'),
-        params: Object.assign({},searchParams, this.params, {
+        params: Object.assign({}, searchParams, this.params, {
           pageSize: this.pagination.pageSize,
           pageNo  : this.pagination.pageNo
         })
@@ -186,7 +186,7 @@ export default {
         this.$com.storeSearchParams(
           this.$route.name+'/pending',
           this.pagination,
-          Object.assign({},this.searchForm,{
+          Object.assign({}, this.searchForm, {
             'ui.phone_l': !this.searchPendingUserForm.getFieldValue('ui.phone_l')?'':this.searchPendingUserForm.getFieldValue('ui.phone_l'),
             'name_l'    : !this.searchPendingUserForm.getFieldValue('name_l')?'':this.searchPendingUserForm.getFieldValue('name_l'),
             'mail_l'    : !this.searchPendingUserForm.getFieldValue('mail_l')?'':this.searchPendingUserForm.getFieldValue('mail_l'),
@@ -222,10 +222,10 @@ export default {
      * 从vuex中或已存储的搜索条件，判断此条件是否为当前路由的 。如果是则使用
      */
     getSearchParams(){
-      let searchParams = !this.$store.state.listSearchParams?null:this.$store.state.listSearchParams[this.$route.name+'/pending']
+      const searchParams = !this.$store.state.listSearchParams?null:this.$store.state.listSearchParams[this.$route.name+'/pending']
       if(!!searchParams && !!searchParams.routeName && (this.$route.name+'/pending' == searchParams.routeName)){
         if(!!searchParams.params){
-          Object.keys(searchParams.params).forEach(elem=>{
+          Object.keys(searchParams.params).forEach(elem => {
             switch (elem) {
             case 'ui.phone_l':
               this.searchPendingUserForm.setFieldsValue({ 'ui.phone_l': searchParams.params[elem] })
@@ -244,10 +244,10 @@ export default {
               break
             }
           })
-          if(!!this.searchForm['createTime_desc']){
+          if(!!this.searchForm.createTime_desc){
             this.time = []
-            this.time.push(this.$moment(this.searchForm['createTime_desc'][0],this.dateFormat))
-            this.time.push(this.$moment(this.searchForm['createTime_desc'][1],this.dateFormat))
+            this.time.push(this.$moment(this.searchForm.createTime_desc[0], this.dateFormat))
+            this.time.push(this.$moment(this.searchForm.createTime_desc[1], this.dateFormat))
           }
         }
         if(!!searchParams.pagination){

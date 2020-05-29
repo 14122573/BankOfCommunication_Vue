@@ -155,7 +155,7 @@ export default {
             })
           } else {
             this.$ajax.put({
-              url   : this.$api.PUT_EDIT_ORGANIZATION_LIST.replace('{id}',this.$route.query.id),
+              url   : this.$api.PUT_EDIT_ORGANIZATION_LIST.replace('{id}', this.$route.query.id),
               params: values
             }).then(res => {
               if (res.code == '200') {
@@ -167,7 +167,7 @@ export default {
             })
           }
         }else{
-          this.$com.getFormValidErrTips(this,err)
+          this.$com.getFormValidErrTips(this, err)
         }
       })
     },
@@ -200,9 +200,9 @@ export default {
       this.$ajax.get({
         url: this.$api.GET_ORGANIZATION_LIST_DETAIL.replace('{id}', this.$route.query.id)
       }).then(res => {
-        let { addr,contact,contactPhone,areaCode,groupName }=this.$com.confirm(res, 'data.content', {})
-        let parentId=this.$com.confirm(res, 'data.content.parentId', '0')=='0'?'':this.$com.confirm(res, 'data.content.parentId', '0')
-        this.organizationForm.setFieldsValue({ addr,contact,contactPhone,areaCode,parentId,groupName })
+        const { addr, contact, contactPhone, areaCode, groupName }=this.$com.confirm(res, 'data.content', {})
+        const parentId=this.$com.confirm(res, 'data.content.parentId', '0')=='0'?'':this.$com.confirm(res, 'data.content.parentId', '0')
+        this.organizationForm.setFieldsValue({ addr, contact, contactPhone, areaCode, parentId, groupName })
       })
     }
   }

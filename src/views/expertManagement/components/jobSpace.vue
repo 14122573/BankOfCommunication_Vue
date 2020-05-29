@@ -137,19 +137,19 @@ export default {
   props: {
     colSpa: {
       type   : Object,
-      default: ()=>{
+      default: () => {
         return {}
       }
     },
     textSpa: {
       type   : Object,
-      default: ()=>{
+      default: () => {
         return {}
       }
     },
     options: {
       type   : Object,
-      default: ()=>{
+      default: () => {
         return {}
       }
     },
@@ -194,14 +194,14 @@ export default {
   },
   methods: {
     initialData(data) {
-      var jobSpace=JSON.parse(JSON.stringify(data))
+      const jobSpace=JSON.parse(JSON.stringify(data))
       this.researchDirectionTags=jobSpace.researchDirection?jobSpace.researchDirection.split('、'):[]
       this.topicWordTags=jobSpace.topicWord?jobSpace.topicWord.split('、'):[]
       this.$delete(data, 'researchDirection')
       this.$delete(data, 'topicWord')
       for(let i=0;i<data.achievements.length;i++){
         if(data.achievements[i].date){
-          data.achievements[i].date=this.$moment(data.achievements[i].date,'YYYY-MM')
+          data.achievements[i].date=this.$moment(data.achievements[i].date, 'YYYY-MM')
         }
       }
       this.setRows(data.achievements)
@@ -240,7 +240,7 @@ export default {
     handleInputTopicWord() {
       const inputValue = this.formSpace.getFieldValue('topicWord')?this.formSpace.getFieldValue('topicWord'):''
       if(inputValue && inputValue!=''){
-        let tags = this.topicWordTags
+        const tags = this.topicWordTags
         if (inputValue && tags.indexOf(inputValue) === -1) {
           this.topicWordTags.push(inputValue)
         }
@@ -260,7 +260,7 @@ export default {
     handleInputResearchDirection() {
       const inputValue = this.formSpace.getFieldValue('researchDirection')?this.formSpace.getFieldValue('researchDirection'):''
       if(inputValue && inputValue!=''){
-        let tags = this.researchDirectionTags
+        const tags = this.researchDirectionTags
         if (inputValue && tags.indexOf(inputValue) === -1) {
           this.researchDirectionTags.push(inputValue)
         }

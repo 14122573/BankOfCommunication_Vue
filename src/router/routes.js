@@ -1,5 +1,6 @@
 
-const contentWrapper = () =>  import ('@/components/Layout/content-wrapper')
+const contentWrapper = () => import ('@/components/Layout/content-wrapper')
+const main = () => import ('@/components/Layout/main')
 const TipsUpperLimitErr = () => import ('@/views/tips/upperlimit')
 const TipsNetworkErr = () => import ('@/views/tips/network')
 const TipsInnerNetworkErr = () => import ('@/views/tips/innerNetwork')
@@ -65,7 +66,6 @@ const ManualView = () => import('@/views/cms/manual/manual-view')
 const VeterinaryList = () => import('@/views/cms/dataService/veterinaryList')
 const VeterinaryView = () => import('@/views/cms/dataService/view')
 
-
 /**
      * 要求：
      *  1、配置Router时，需将此router的权限编码信息、打开方式信息、是否在面包屑隐藏信息、是否为左侧菜单、是否有菜单图标配置在内。
@@ -82,16 +82,64 @@ const VeterinaryView = () => import('@/views/cms/dataService/view')
      *               normal 本项目中自有路由
      *               outsite 新开标签页打开，此打开方式将不嵌套layout。对应读取的跳转链接在数据库配置中。对象键值名需与router.name、router.meta.authCode保持一致
      */
-let appRoutes = [ {
+const appRoutes = [ {
   path     : '/',
   name     : 'Layout',
   redirect : '/login',
-  component: contentWrapper,
+  component: main,
   children : [
     {
       path     : '/home', name     : 'home', component: HomePage,
       meta     : { title: '首页' },
     },
+    {//子项目scsd
+      path     : '/scsd', name     : 'scsd',
+      component: contentWrapper,
+      meta     : { title: '水产新品种审定', menuPath: true, authCode: 'S0501', hideInBread: true, menuIcon: 'appstore' },
+      children : [
+        {
+          path: '/scsd/forma/scsdForma', name: 'scsdForma', 
+          meta: { title: '形式审查信息', menuPath: true, authCode: 'S050103', hideInBread: false, menuIcon: 'appstore' }
+        },
+        {
+          path: '/scsd/exam/scsdExam', name: 'scsdExam', 
+          meta: { title: '函审信息', menuPath: true, authCode: 'S050104', hideInBread: false, menuIcon: 'appstore' }
+        },
+        {
+          path: '/scsd/expert/scsdOrgaExpert', name: 'scsdOrgaExpert', 
+          meta: { title: '组织专家', menuPath: true, authCode: 'S050102', hideInBread: false, menuIcon: 'appstore' }
+        },
+        {
+          path: '/scsd/local/scsdLocal', name: 'scsdLocal', 
+          meta: { title: '现场审定确认', menuPath: true, authCode: 'S050106', hideInBread: false, menuIcon: 'appstore' }
+        },
+        {
+          path: '/scsd/selectPost', name: 'scsdSelectPost', 
+          meta: { title: '查看申报记录', menuPath: true, authCode: 'S050108', hideInBread: false, menuIcon: 'appstore' }
+        },
+        {
+          path: '/scsd/localexam/scsdLocalExam', name: 'scsdLocalExam', 
+          meta: { title: '现场审定专家意见', menuPath: true, authCode: 'S050105', hideInBread: false, menuIcon: 'appstore' }
+        },
+        {
+          path: '/scsd/post/scsdPost', name: 'scsdPost', 
+          meta: { title: '新品申报', menuPath: true, authCode: 'S050101', hideInBread: false, menuIcon: 'appstore' },
+        },
+        {
+          path: '/scsd/post/scsdPost/view/:id', name: 'scsdPostDetail', 
+          meta: { title: '查看申报信息', menuPath: false, authCode: 'S05010106', hideInBread: false },
+        },
+        {
+          path: '/scsd/post/scsdPost/edit/:id', name: 'scsdPostDetailEdit',
+          meta: { title: '编辑申报信息', menuPath: false, authCode: 'S05010104', hideInBread: false },
+        },
+        {
+          path: '/scsd/review/scsdReview', name: 'scsdReview', 
+          meta: { title: '评审结果信息', menuPath: true, authCode: 'S050107', hideInBread: false, menuIcon: 'appstore' }
+        },
+      ]
+    },
+
     {
       path     : '/demo', name     : 'demo', component: demo,
       meta     : { title: 'demo', },
@@ -272,7 +320,7 @@ let appRoutes = [ {
             {
               path     : '/cms/knowledge/edit/:id', name     : '/cms/knowledge/edit', component: KnowledgeEdit,
               meta     : { title: '修改知识文献', menuPath: false, authCode: 'P32001', menuIcon: 'file-text', hideInBread: false },
-            },{
+            }, {
               path     : '/cms/knowledge/:id', name     : '/cms/knowledge/details', component: KnowledgeDetail,
               meta     : { title: '查看知识文献详情', menuPath: false, authCode: 'P33003', menuIcon: 'file-text', hideInBread: false },
             }
@@ -293,7 +341,7 @@ let appRoutes = [ {
             {
               path     : '/cms/notice/edit/:id', name     : '/cms/notice/edit', component: NoticeEdit,
               meta     : { title: '修改通知公告', menuPath: false, authCode: 'P31001', menuIcon: 'file-text', hideInBread: false },
-            },{
+            }, {
               path     : '/cms/notice/:id', name     : '/cms/notice/details', component: NoticeDetail,
               meta     : { title: '通知公告详情', menuPath: false, authCode: 'P31005', menuIcon: 'file-text', hideInBread: false },
             }
@@ -394,31 +442,29 @@ let appRoutes = [ {
 },
 ]
 
+// import Axios from 'axios'
+// import API from '@/server/api'
+// // import store from '@/store'
 
-import Axios from 'axios'
-import API from '@/server/api'
-// import store from '@/store'
+// (async function loadMicRouter() {
+//   let MicRouters = (await Axios.get(API.CONFIGS_MICSYSTEMS_ROUTERS)).data
+//   let micSystemRoutersConfigs = Object.assign({},MicRouters)
+//   // console.log(micSystemRoutersConfigs)
 
-(async function loadMicRouter() {
-  let MicRouters = (await Axios.get(API.CONFIGS_MICSYSTEMS_ROUTERS)).data
-  let micSystemRoutersConfigs = Object.assign({},MicRouters)
+//   for(let key in micSystemRoutersConfigs){
+//     for(let i=0;i<micSystemRoutersConfigs[key].length;i++){
+//       let firstRouter = Object.assign({}, micSystemRoutersConfigs[key][i])
+//       if(!!firstRouter.meta.openMode && firstRouter.meta.openMode == 'outsite') {
+//         firstRouter['component'] = TipsOutsite
+//       }else{
+//         // firstRouter['component'] = contentWrapper
+//       }
+//       appRoutes[0].children.push(Object.assign({}, firstRouter))
+//     }
+//   }
+//   // console.log('merged appRoutes',appRoutes)
 
-  for(let key in micSystemRoutersConfigs){
-    for(let i=0;i<micSystemRoutersConfigs[key].length;i++){
-      let firstRouter = Object.assign({}, micSystemRoutersConfigs[key][i])
-      if(!!firstRouter.meta.openMode && firstRouter.meta.openMode == 'outsite') {
-        firstRouter['component'] = TipsOutsite
-      }else{
-        firstRouter['component'] = contentWrapper
-      }
-      appRoutes[0].children.push(Object.assign({},firstRouter))
-    }
-  }
-  // console.log('merged appRoutes',appRoutes)
-
-})()
-
-
+// })()
 export const routes = [
   ...appRoutes
 ]

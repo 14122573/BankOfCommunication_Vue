@@ -90,7 +90,7 @@ export default {
       // 获取目前接入portal的所有新系统、老系统配置
       this.$ajax.get({
         url: this.$api.SYSTEM_LIST_ALL_GET
-      }).then(res=>{
+      }).then(res => {
         if(res.code === '200'){
           this.micSysConfigs= this.$com.confirm(res, 'data.content', [])
         }else{
@@ -113,7 +113,7 @@ export default {
       if(!this.userInfo){
         return []
       }else{
-        let list = this.getSysList()
+        const list = this.getSysList()
         return list
       }
     }
@@ -146,9 +146,9 @@ export default {
      * @returns {Array}
      */
     getSysList(){
-      let authSysList = []
+      const authSysList = []
       for(let i=0;i<this.micSysConfigs.length;i++){
-        if(this.$com.oneOf(this.micSysConfigs[i].sysCode,this.$store.state.permissionCodeList)){
+        if(this.$com.oneOf(this.micSysConfigs[i].sysCode, this.$store.state.permissionCodeList)){
           authSysList.push(this.micSysConfigs[i].sysName)
         }
       }

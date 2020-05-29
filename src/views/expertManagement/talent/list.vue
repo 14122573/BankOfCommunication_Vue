@@ -66,7 +66,7 @@ import DataOperatorInList from '@/views/systemManagement/components/dataOperator
 export default {
   name      : 'Talent',
   components: {
-    userStatus,DataOperatorInList
+    userStatus, DataOperatorInList
   },
   data() {
     return {
@@ -78,7 +78,7 @@ export default {
           {
             label: '省级认定',
             value: '1'
-          },{
+          }, {
             label: '部级认定',
             value: '0'
           }
@@ -87,7 +87,7 @@ export default {
           {
             label: '是',
             value: '1'
-          },{
+          }, {
             label: '否',
             value: '0'
           }
@@ -96,10 +96,10 @@ export default {
           {
             label: '正常',
             value: '1'
-          },{
+          }, {
             label: '禁用',
             value: '9'
-          },{
+          }, {
             label: '已注销',
             value: '8'
           }
@@ -111,31 +111,31 @@ export default {
         {
           title    : '姓名',
           dataIndex: 'name'
-        },{
+        }, {
           title    : '联系电话',
           dataIndex: 'phone'
-        },{
+        }, {
           title    : '工作单位',
           dataIndex: 'workCompany'
-        },{
+        }, {
           title    : '职称',
           dataIndex: 'jobTitleName',
           width    : 100
-        },{
+        }, {
           title      : '部/省级认定',
           dataIndex  : 'provinceConfirm',
           width      : 120,
           scopedSlots: {
             customRender: 'confirm'
           }
-        },{
+        }, {
           title      : '用户状态',
           dataIndex  : 'status',
           width      : 80,
           scopedSlots: {
             customRender: 'status'
           }
-        },{
+        }, {
           title      : '操作人',
           width      : 150,
           dataIndex  : 'creator',
@@ -143,7 +143,7 @@ export default {
           scopedSlots: {
             customRender: 'operator'
           }
-        },{
+        }, {
           title      : '操作',
           width      : 140,
           dataIndex  : 'action',

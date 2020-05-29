@@ -46,10 +46,10 @@ export default {
     getDetail(){
       if(this.id !== null){
         this.$ajax.get({
-          url: this.$api.USER_ACCOUNT_DETAIL.replace('{id}',this.id)
-        }).then((res)=>{
+          url: this.$api.USER_ACCOUNT_DETAIL.replace('{id}', this.id)
+        }).then((res) => {
           if(res.code === '200'){
-            let data = this.$com.confirm(res, 'data.content', {})
+            const data = this.$com.confirm(res, 'data.content', {})
             this.detail=data
           }else{
             this.$message.error(res.msg)

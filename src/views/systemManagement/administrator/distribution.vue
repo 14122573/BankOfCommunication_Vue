@@ -88,14 +88,14 @@ export default {
       if (item.length === 0) {
         this.checkedKeys = []
       } else {
-        let params = item.map((it) => {
+        const params = item.map((it) => {
           return it.key
         })
         this.$ajax.get({
           url: this.$api.ROLE_DETAIL.replace('{id}', params)
         }).then(res => {
           if (res.code === '200') {
-            let data = this.$com.confirm(res, 'data.content', [])
+            const data = this.$com.confirm(res, 'data.content', [])
             this.checkedKeys = []
             for(let i=0;i<data.length;i++){
               if(false ===data[i].canDelete){
@@ -121,8 +121,8 @@ export default {
     },
     // 查询组织机构
     getOrganList(value) {
-      let info = this.$store.state.userInfos
-      let params = {
+      const info = this.$store.state.userInfos
+      const params = {
         pageSize: 10000,
         pageNo  : 1,
         areaCode: value,
@@ -137,7 +137,7 @@ export default {
           hideLoading: true
         }).then(res => {
           if (res.code === '200') {
-            let data = this.$com.confirm(res, 'data.content', [])
+            const data = this.$com.confirm(res, 'data.content', [])
             this.options.organList = data.map((item) => {
               return {
                 label: item.groupName,
@@ -152,8 +152,8 @@ export default {
     },
     //   查询options 获取角色名称的options
     getOptions() {
-      let info = this.$store.state.userInfos
-      let optionList = [ {
+      const info = this.$store.state.userInfos
+      const optionList = [ {
         url   : this.$api.GET_ROLE_LIST,
         name  : 'roleList',
         params: {
@@ -178,7 +178,7 @@ export default {
           params: item.params
         }).then(res => {
           if (res.code === '200') {
-            let data = this.$com.confirm(res, 'data.content', [])
+            const data = this.$com.confirm(res, 'data.content', [])
             this.options[item.name] = data.map(item => {
               return {
                 label: item.roleName || item.areaName,
@@ -196,7 +196,7 @@ export default {
       this.$ajax.get({
         url: this.$api.GET_ALL_ROLE + '?isTree=true'
       }).then(res => {
-        let data = this.$com.confirm(res, 'data.content', [])
+        const data = this.$com.confirm(res, 'data.content', [])
         this.allData = data
 
         data.forEach((item, index) => {
@@ -206,7 +206,7 @@ export default {
     },
     // 整理权限树
     getTreeNode(item, index) {
-      let childrenNode = {
+      const childrenNode = {
         title: item.permName,
         key  : item.id,
         value: item.permName,
@@ -214,7 +214,7 @@ export default {
       if (item.childList && item.childList.length) {
         childrenNode.children = []
         item.childList.forEach((subItem, subIndex) => {
-          let subkey = subItem.id
+          const subkey = subItem.id
           childrenNode.children.push(this.getTreeNode(subItem, subkey))
         })
       }
@@ -233,8 +233,8 @@ export default {
             parentId: treeNode.dataRef.id
           }
         }).then(res => {
-          let datas = this.$com.confirm(res, 'data.content', [])
-          let array = []
+          const datas = this.$com.confirm(res, 'data.content', [])
+          const array = []
           datas.forEach((ele, index) => {
             array.push(this.getOrganTree(ele, index))
           })
@@ -257,14 +257,14 @@ export default {
           parentId: this.isAdminator ? '0' : this.$store.state.userInfos.area.id
         }
       }).then(res => {
-        let datas = this.$com.confirm(res, 'data.content', [])
+        const datas = this.$com.confirm(res, 'data.content', [])
         datas.forEach((ele, index) => {
           this.organData.push(this.getOrganTree(ele, index))
         })
       })
     },
     getOrganTree(item, index) {
-      let childrenNode = {
+      const childrenNode = {
         'title'   : item.areaName,
         'value'   : item.id,
         'id'      : item.id,
@@ -278,8 +278,8 @@ export default {
     save() {
       this.formData.validateFields((err) => {
         if (!err) {
-          let formData = this.formData.getFieldsValue()
-          let params = {}
+          const formData = this.formData.getFieldsValue()
+          const params = {}
           if (formData.organ) {
             params.group = {
               id: formData.organ
@@ -309,7 +309,7 @@ export default {
             }
           })
         }else{
-          this.$com.getFormValidErrTips(this,err)
+          this.$com.getFormValidErrTips(this, err)
         }
       })
     }

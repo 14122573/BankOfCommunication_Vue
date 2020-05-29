@@ -193,7 +193,6 @@ export default {
     //   })
     // })
 
-
     Store.commit('SET_CLEAR')
     Cookie.remove('token')
     if ('true' == Cookie.get('keepLogin')) {
@@ -218,10 +217,10 @@ export default {
      * @return false 未找到；
      */
   getQueryVariable(variable) {
-    var query = window.location.search.substring(1)
-    var vars = query.split('&')
-    for (var i = 0; i < vars.length; i++) {
-      var pair = vars[i].split('=')
+    const query = window.location.search.substring(1)
+    const vars = query.split('&')
+    for (let i = 0; i < vars.length; i++) {
+      const pair = vars[i].split('=')
       if (pair[0] == variable) {
         return pair[1]
       }
@@ -233,7 +232,7 @@ export default {
      *
      */
   getCurrentYear() {
-    var date = new Date
+    const date = new Date
     return date.getFullYear()
   },
 
@@ -245,7 +244,7 @@ export default {
      */
   setOldSysAccounts(accessToken, refreshToken, oldSysList) {
     // 从cookie里获取已有数据，并转为对象数组。否则重新声明
-    let oldSysAccountsListCS = Cookie.get('oldSysAccountsList')
+    const oldSysAccountsListCS = Cookie.get('oldSysAccountsList')
     let oldSysAccountsList = []
     if (!!oldSysAccountsListCS) {
       oldSysAccountsList = JSON.parse(oldSysAccountsListCS)
@@ -255,10 +254,10 @@ export default {
     accessToken = !accessToken ? '' : accessToken
     refreshToken = !refreshToken ? '' : refreshToken
     oldSysList = !oldSysList ? [] : oldSysList
-    let accessTokenMd5 = Md5(accessToken)
-    let refreshTokenMd5 = Md5(accessTokenMd5 + refreshToken)
-    let sign = Md5(refreshTokenMd5 + JSON.stringify(oldSysList))
-    let newItem = {
+    const accessTokenMd5 = Md5(accessToken)
+    const refreshTokenMd5 = Md5(accessTokenMd5 + refreshToken)
+    const sign = Md5(refreshTokenMd5 + JSON.stringify(oldSysList))
+    const newItem = {
       'accessToken': accessToken,
       // 'refreshToken': refreshToken,
       'oldSysList' : oldSysList,
@@ -281,23 +280,23 @@ export default {
     refreshToken = !refreshToken ? '' : refreshToken
 
     // 从cookie里获取已有数据，并转为对象数组。否则直接返回false
-    let oldSysAccountsListCS = Cookie.get('oldSysAccountsList')
+    const oldSysAccountsListCS = Cookie.get('oldSysAccountsList')
 
     if (!oldSysAccountsListCS) {
       return false
     }
-    let oldSysAccountsList = JSON.parse(oldSysAccountsListCS)
+    const oldSysAccountsList = JSON.parse(oldSysAccountsListCS)
 
     // 根据传入参数，进行校验
     if (Array.isArray(oldSysAccountsList) && oldSysAccountsList.length > 0) {
       for (let i = 0; i < oldSysAccountsList.length; i++) {
-        let item = oldSysAccountsList[i]
+        const item = oldSysAccountsList[i]
 
         // if (item.accessToken === accessToken && item.refreshToken === refreshToken) {
         if (item.accessToken === accessToken) {
-          let accessTokenMd5 = Md5(item.accessToken)
-          let refreshTokenMd5 = Md5(accessTokenMd5 + refreshToken)
-          let checkSign = Md5(refreshTokenMd5 + JSON.stringify(item.oldSysList))
+          const accessTokenMd5 = Md5(item.accessToken)
+          const refreshTokenMd5 = Md5(accessTokenMd5 + refreshToken)
+          const checkSign = Md5(refreshTokenMd5 + JSON.stringify(item.oldSysList))
           if (checkSign == item.sign) {
             return item.oldSysList
           }
@@ -378,9 +377,9 @@ export default {
      * 处理对象参数值，排除对象参数值为”“、null、undefined，并返回一个新对象
      **/
   dealObjectValue(obj) {
-    var param = {}
+    const param = {}
     if (obj === null || obj === undefined || obj === '') return param
-    for (var key in obj) {
+    for (const key in obj) {
       if (this.dataType(obj[key]) === 'Object') {
         param[key] = dealObjectValue(obj[key])
       } else if (obj[key] !== null && obj[key] !== undefined && obj[key] !== '') {
@@ -398,7 +397,7 @@ export default {
      */
   storeSearchParams(routeName, page, param) {
     if (!!routeName && !!page && !!param) {
-      let searchParams = {
+      const searchParams = {
         'routeName' : routeName,
         'params'    : param,
         'pagination': page
@@ -428,7 +427,7 @@ export default {
     if(isIE) {
       const reIE = new RegExp('MSIE (\\d+\\.\\d+);')
       reIE.test(userAgent)
-      const fIEVersion = parseFloat(RegExp['$1'])
+      const fIEVersion = parseFloat(RegExp.$1)
       if(fIEVersion == 7) {
         return 7
       } else if(fIEVersion == 8) {
@@ -455,7 +454,7 @@ export default {
    * @param {Object} vm vue的示例对象
    * @param {String} otherTips 非form验证器返回的err对象中的错误提示
    */
-  getFormValidErrTips(vm,err,otherTips){
+  getFormValidErrTips(vm, err, otherTips){
     otherTips = !otherTips?'':otherTips
     let errTips = ''
     if(!!err && 'object'==typeof err){

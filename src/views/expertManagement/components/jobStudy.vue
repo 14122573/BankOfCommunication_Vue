@@ -94,19 +94,19 @@ export default {
   props: {
     colSpa: {
       type   : Object,
-      default: ()=>{
+      default: () => {
         return {}
       }
     },
     textSpa: {
       type   : Object,
-      default: ()=>{
+      default: () => {
         return {}
       }
     },
     options: {
       type   : Object,
-      default: ()=>{
+      default: () => {
         return {}
       }
     }
@@ -130,7 +130,7 @@ export default {
         wrapperCol: { span: 16 }
       },
       mode              : [ 'month', 'month' ],
-      workExperienceDate: [],//工作时间
+      workExperienceDate: [], //工作时间
       rules             : {
         // 工作学习经历
         graduatedSchool: [
@@ -171,10 +171,10 @@ export default {
     }
   },
   methods: {
-    handleChange(value,i) {
+    handleChange(value, i) {
       this.workExperienceDate [i]= value
     },
-    handlePanelChange(value, mode,i) {
+    handlePanelChange(value, mode, i) {
       // console.log(value, mode,i,this.formJob.getFieldValue('workExperience'))
       // var str='workExperience['+i+'].date'
       // this.formJob.setFieldsValue({
@@ -187,13 +187,13 @@ export default {
       ]
     },
     initialData(data) {
-      let workExperience=data.workExperience
+      const workExperience=data.workExperience
       for(let i=0;i<workExperience.length;i++){
-        let date=workExperience[i].date?workExperience[i].date:[]
+        const date=workExperience[i].date?workExperience[i].date:[]
         if(JSON.stringify(date)!='[]' && date.length>1){
-          let workDate=[]
-          workDate[0]=this.$moment(date[0],'YYYY-MM')
-          workDate[1]=this.$moment(date[1],'YYYY-MM')
+          const workDate=[]
+          workDate[0]=this.$moment(date[0], 'YYYY-MM')
+          workDate[1]=this.$moment(date[1], 'YYYY-MM')
           this.workExperienceDate.push(workDate)
         }
       }

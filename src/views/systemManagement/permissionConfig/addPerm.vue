@@ -120,12 +120,12 @@ export default {
     getPointList(){
       this.$ajax.get({
         url: this.$api.GET_PREMSPOINT_LIST,
-      }).then(res=>{
+      }).then(res => {
         if(res.code === '200'){
           this.pointsList = this.$com.confirm(res, 'data.content', [])
           // 整理数据，可用于collapse展示
           this.pointsArray = []
-          for(let item in this.pointsList){
+          for(const item in this.pointsList){
             this.pointsArray.push({
               name    : item,
               children: [].concat(this.pointsList[item])
@@ -144,7 +144,7 @@ export default {
     handleOk() {
       this.permCreateForm.validateFields(err => {
         if (!err) {
-          let postParams = Object.assign({ parentId: this.parentNode.key },this.createForm ,{
+          const postParams = Object.assign({ parentId: this.parentNode.key }, this.createForm, {
             'permName': this.permCreateForm.getFieldValue('permName'),
             'isHide'  : this.permCreateForm.getFieldValue('isHide')=='0'?false:true
           })
@@ -155,11 +155,11 @@ export default {
             if (res.code === '200') {
               this.$message.success('添加成功')
               this.resetForm()
-              this.$emit('on-success',true)
+              this.$emit('on-success', true)
             }
           })
         }else{
-          this.$com.getFormValidErrTips(this,err)
+          this.$com.getFormValidErrTips(this, err)
         }
       })
     },
@@ -169,7 +169,7 @@ export default {
      */
     handleCancel() {
       this.resetForm()
-      this.$emit('on-success',false)
+      this.$emit('on-success', false)
     },
     resetForm() {
       this.permCreateForm.resetFields()

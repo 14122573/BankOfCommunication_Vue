@@ -94,7 +94,7 @@ export default {
      */
     getNoticeList(){
       let searchParms
-      searchParms = Object.assign({},{
+      searchParms = Object.assign({}, {
         pageNo      : this.pagination.pageNo,
         pageSize    : this.pagination.pageSize,
         status_in   : '1',

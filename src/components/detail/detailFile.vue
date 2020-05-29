@@ -105,7 +105,7 @@ export default {
 
   },
   methods: {
-    showOrgPic(url,name){
+    showOrgPic(url, name){
       if(!!url){
         this.orgPic.url = url
         this.orgPic.name = !name?'查看图片':name
@@ -127,13 +127,13 @@ export default {
      */
     getFileType(name){
       name = !name?'':name
-      let arr = name.split('.')
+      const arr = name.split('.')
       if(arr.length>0){
-        let len = arr.length
-        let suffix = arr[len-1].toLowerCase()
-        if(this.$com.oneOf(suffix,[ 'jpeg','jpg','gif','png' ])){
+        const len = arr.length
+        const suffix = arr[len-1].toLowerCase()
+        if(this.$com.oneOf(suffix, [ 'jpeg', 'jpg', 'gif', 'png' ])){
           return 'pic'
-        }else if(this.$com.oneOf(suffix,[ 'pdf','txt','doc','docx','xlsx','xls','xlsm','ppt','pptx' ])){
+        }else if(this.$com.oneOf(suffix, [ 'pdf', 'txt', 'doc', 'docx', 'xlsx', 'xls', 'xlsm', 'ppt', 'pptx' ])){
           return 'file'
         }else{
           return ''

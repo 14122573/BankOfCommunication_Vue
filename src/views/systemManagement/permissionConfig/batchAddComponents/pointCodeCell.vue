@@ -25,7 +25,7 @@ export default {
   },
   data () {
     const validatePointCode = (rule, value, callback) => {
-      let code = (!this.sysCode?'':this.sysCode)+(!value?'':value)
+      const code = (!this.sysCode?'':this.sysCode)+(!value?'':value)
       if(!code){
         callback('请填写功能点编码')
       }else{
@@ -33,7 +33,7 @@ export default {
           callback('功能编码仅能填写数字')
         } else {
           this.$ajax.get({
-            url: this.$api.GET_CHECK_POINTCODE_EXIT + '?pointKey=' +  code
+            url: this.$api.GET_CHECK_POINTCODE_EXIT + '?pointKey=' + code
           }).then(res => {
             if (res.data.content === false) {
               callback()
@@ -58,7 +58,7 @@ export default {
     this.pointKeyForm = this.$form.createForm(this)
   },
   created(){
-    this.$nextTick(()=>{
+    this.$nextTick(() => {
       this.pointKeyForm.setFieldsValue({ pointKey: this.value })
     })
   },

@@ -98,7 +98,7 @@ export default {
     systemName(code){
       let name = ''
       for(let i=0;i<this.sysListForSearch.length;i++){
-        let item = this.sysListForSearch[i]
+        const item = this.sysListForSearch[i]
         if(code ==item.value) {
           name = item.reviewName
         }
@@ -114,7 +114,7 @@ export default {
     reviewTypeName(code){
       let name = ''
       for(let i=0;i<this.reviewTypeList.length;i++){
-        let item = this.reviewTypeList[i]
+        const item = this.reviewTypeList[i]
         if(code ==item.code) {
           name = item.name
         }
@@ -128,11 +128,11 @@ export default {
      * @param {String} reviewTypeCode 评审类型code
      * @param {String} taskCode 申报材料ID
      */
-    goMicReview(sysCode,reviewTypeCode,taskCode){
-      let micSysRouters = this.ExpertReviewRouters[sysCode]
+    goMicReview(sysCode, reviewTypeCode, taskCode){
+      const micSysRouters = this.ExpertReviewRouters[sysCode]
       let nextRouter = ''
       for(let i=0;i<micSysRouters.length;i++){
-        let micSysRouter = micSysRouters[i]
+        const micSysRouter = micSysRouters[i]
         if( micSysRouter.type=='review' && reviewTypeCode == micSysRouter.reviewTypeCode){
           nextRouter = micSysRouter.routerName
         }
@@ -141,7 +141,7 @@ export default {
       switch (sysCode) {
       case 'S0501':
       // 新品种审核
-        navigateToUrl(nextRouter.replace(':id',taskCode)+'?showType=check&sourceRouteType=portal&sourceRoutePath='+this.$route.path)
+        navigateToUrl(nextRouter.replace(':id', taskCode)+'?showType=check&sourceRouteType=portal&sourceRoutePath='+this.$route.path)
         break
       case 'S0502':
       // 原良种复查
@@ -169,7 +169,7 @@ export default {
         break
       case 'S1002':
       // 中国水产学会团体标准函审
-        navigateToUrl(nextRouter.replace(':id',taskCode)+'?sourceRouteType=portal&sourceRoutePath='+this.$route.path)
+        navigateToUrl(nextRouter.replace(':id', taskCode)+'?sourceRouteType=portal&sourceRoutePath='+this.$route.path)
         break
       default:
         break
@@ -182,9 +182,9 @@ export default {
     getReviewTypeList(){
       this.$ajax.get({
         url: this.$api.GET_EXPERT_BASE_LIST.replace('{type}', '9')
-      }).then(res=>{
+      }).then(res => {
         if(res.code === '200'){
-          let data = this.$com.confirm(res, 'data.content', [])
+          const data = this.$com.confirm(res, 'data.content', [])
           this.reviewTypeList = data.map((item) => {
             return {
               name: item.name,
@@ -203,9 +203,9 @@ export default {
     getSysCodOptions(){
       this.$ajax.get({
         url: this.$api.SYSTEM_LIST_ALL_GET
-      }).then(res=>{
+      }).then(res => {
         if(res.code === '200'){
-          let data = this.$com.confirm(res, 'data.content', [])
+          const data = this.$com.confirm(res, 'data.content', [])
           this.sysListForSearch = data.map((item) => {
             let name=''
             switch (item.sysCode) {
@@ -268,24 +268,24 @@ export default {
       this.$ajax.get({
         url   : this.$api.GET_EXPERT_REVIEW_TODO_LIST.replace('{expertId}', this.expertId),
         params: { status: 0 }
-      }).then(res=>{
+      }).then(res => {
         if(res.code === '200'){
           this.reviewList = []
           //整理数据，将二维数据整理成一维列表。并计算总页数
-          let datas = this.$com.confirm(res, 'data.content', [])
-          datas.forEach(reviewGroup =>{
-            let busCode = reviewGroup.busCode
-            let systemCode = reviewGroup.systemCode
-            reviewGroup.list.forEach(reviewItem =>{
-              let item = Object.assign({},{
+          const datas = this.$com.confirm(res, 'data.content', [])
+          datas.forEach(reviewGroup => {
+            const busCode = reviewGroup.busCode
+            const systemCode = reviewGroup.systemCode
+            reviewGroup.list.forEach(reviewItem => {
+              const item = Object.assign({}, {
                 'busCode'   : busCode,
                 'systemCode': systemCode
-              },reviewItem)
+              }, reviewItem)
               this.reviewList.push(item)
             })
           })
           this.reviewListPage.total = this.reviewList.length
-          this.reviewSingleList = this.reviewList.slice(0,this.reviewListPage.pageSize)
+          this.reviewSingleList = this.reviewList.slice(0, this.reviewListPage.pageSize)
         }else{
           this.$message.error(res.msg)
         }
@@ -295,7 +295,7 @@ export default {
     onPageChange(val){
       this.reviewListPage.pageNo = val
       this.reviewListPage.current = val
-      this.reviewSingleList = this.reviewList.slice((val-1)*this.reviewListPage.pageSize,((val-1)*this.reviewListPage.pageSize+this.reviewListPage.pageSize))
+      this.reviewSingleList = this.reviewList.slice((val-1)*this.reviewListPage.pageSize, ((val-1)*this.reviewListPage.pageSize+this.reviewListPage.pageSize))
     }
   }
 }
@@ -308,5 +308,4 @@ export default {
 .reviewInHomeTitle .more{ cursor: pointer; color: #1890ff}
 .contentOperate{ color:#1890ff; cursor: pointer;display: inline-block; }
 </style>
-
 

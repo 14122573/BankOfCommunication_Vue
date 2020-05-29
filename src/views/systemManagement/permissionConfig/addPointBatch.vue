@@ -98,7 +98,7 @@ import PointCodeCell from './batchAddComponents/pointCodeCell'
 import PermsCell from './batchAddComponents/permsCell'
 export default {
   components: {
-    PointNameCell,SystemCell,PointCodeCell,PermsCell
+    PointNameCell, SystemCell, PointCodeCell, PermsCell
   },
   data() {
 
@@ -165,7 +165,7 @@ export default {
           filterIcon    : 'filterIcon',
           customRender  : 'permIds'
         },
-      },{
+      }, {
         title      : '操作',
         dataIndex  : 'operation',
         width      : '10%',
@@ -233,7 +233,7 @@ export default {
      * @param {String,Array} select 对应输入项的值
      * @param {String} dataIndex table列的字段名
      */
-    onBatchChange(select,dataIndex){
+    onBatchChange(select, dataIndex){
       switch (dataIndex) {
       case 'type':
         this.batchSetForm.sysCode = select
@@ -259,24 +259,24 @@ export default {
     handleBatchSet(selectedKeys, confirm, dataIndex){
       switch(dataIndex){
       case 'type':
-        this.dataSource.forEach((item,index)=>{
+        this.dataSource.forEach((item, index) => {
           item.type = this.batchSetForm.sysCode
           const target = this.sysListForSearch.find(sys => sys.value === item.type)
           item.typeName = target.label
         })
         break
       case 'pointName':
-        this.dataSource.forEach((item,index)=>{
+        this.dataSource.forEach((item, index) => {
           item.pointName = this.batchSetForm.pointName
         })
         break
       case 'pointKey':
-        this.dataSource.forEach((item,index)=>{
+        this.dataSource.forEach((item, index) => {
           item.pointKey = this.batchSetForm.sysCode+this.batchSetForm.pointCode
         })
         break
       case 'permIds':
-        this.dataSource.forEach((item,index)=>{
+        this.dataSource.forEach((item, index) => {
           item.permIds = this.batchSetForm.pointPermIds
         })
         break
@@ -350,8 +350,8 @@ export default {
       const dataSource = [ ...this.dataSource ]
       const target = dataSource.find(item => item.key === key)
       if (target) {
-        target['type'] = value.sysCode
-        target['typeName'] = value.sysName
+        target.type = value.sysCode
+        target.typeName = value.sysName
         this.dataSource = dataSource
       }
     },
@@ -372,7 +372,7 @@ export default {
     },
     createPointBatch(){
       let pushData = []
-      let errs = {
+      const errs = {
         pointKey: false
       }
       pushData = this.dataSource.map((item) => {
@@ -418,21 +418,21 @@ export default {
     getRoleTree(){
       this.$ajax.get({
         url: this.$api.GET_ALL_ROLE + '?isTree=true&isAll=true'
-      }).then(res=>{
+      }).then(res => {
         if(!!res.data && !!res.data.content){
-          let data=res.data.content
-          data.forEach((item,index)=>{
+          const data=res.data.content
+          data.forEach((item, index) => {
             this.tree.roleTreeData.push(this.initRoleTreeNode(item))
           })
 
           // 重组需要展示的权限树
-          let initializedRoleTree = []
+          const initializedRoleTree = []
           this.tree.roleTreeDataArranged = []
-          this.tree.roleTreeData.forEach((item,index)=>{
+          this.tree.roleTreeData.forEach((item, index) => {
             if(!item.canDelete && !!item.permKey){
               initializedRoleTree.push(item)
             }else{
-              let node = Object.assign({}, item)
+              const node = Object.assign({}, item)
               this.tree.roleTreeDataArranged.push(node)
             }
           })
@@ -454,7 +454,7 @@ export default {
      * @returns childrenNode 对传入参数，已重组的数据
      */
     initRoleTreeNode(item){
-      let childrenNode={
+      const childrenNode={
         'title'    : item.permName,
         'key'      : item.id,
         'permKey'  : !item.permKey?'':item.permKey,
@@ -463,8 +463,8 @@ export default {
       }
       if(item.childList && item.childList.length){
         childrenNode.children = []
-        item.childList.forEach((subItem) =>{
-          let subkey = subItem.id
+        item.childList.forEach((subItem) => {
+          const subkey = subItem.id
           childrenNode.children.push(this.initRoleTreeNode(subItem))
         })
       }
@@ -478,9 +478,9 @@ export default {
       this.$ajax.get({
         url   : this.$api.SYSTEM_LIST_ALL_GET,
         params: { type: '1' }
-      }).then(res=>{
+      }).then(res => {
         if(res.code === '200'){
-          let data = this.$com.confirm(res, 'data.content', [])
+          const data = this.$com.confirm(res, 'data.content', [])
           this.sysListForSearch = data.map((item) => {
             return {
               label: item.sysName,
@@ -495,5 +495,4 @@ export default {
   }
 }
 </script>
-
 

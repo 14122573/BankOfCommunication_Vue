@@ -10,7 +10,7 @@ export const permission = {
         url: this.$api.GET_USER_INFO
       }).then(res => {
         // 本地存储用户基本信息
-        let userInfo = res.data.content ,name ,oldSysAuthCode,isAllPerm = false
+        let userInfo = res.data.content, name, oldSysAuthCode, isAllPerm = false
         if(!res.data || !res.data.content){
           userInfo = {}
           name = ''
@@ -18,7 +18,7 @@ export const permission = {
         }else{
           userInfo = res.data.content
           name = userInfo.username = res.data.content.name||res.data.content.phone
-          this.$store.commit('SET_USERINFO',userInfo)
+          this.$store.commit('SET_USERINFO', userInfo)
           this.$cookie.set('userName', name)
           this.$store.commit('SET_USERNAME', name)
           oldSysAuthCode = getOldSysAuthCode(userInfo.sysDicSet)
@@ -27,18 +27,18 @@ export const permission = {
 
         // 此处应API获取用户权限信息，先暂写死权限信息
         // 预设用户权限菜单
-        let authCodeList = [],authMenuAll = []
+        let authCodeList = [], authMenuAll = []
         this.$ajax.get({
           url: this.$api.GET_USER_PEIMISSION
-        }).then(res=>{
+        }).then(res => {
           // 当前用户全部权限编码，包含菜单及功能操作
           if(res.data!=undefined && res.data!=null && res.data.content!=undefined && res.data.content!=null){
             authCodeList = res.data.content.concat(oldSysAuthCode)
           }else{
             authCodeList = oldSysAuthCode
           }
-          // 写入vuex
-          this.$store.commit('SET_MENU', { authMenuAll , authCodeList, isAllPerm })
+          // 写入vuex 
+          this.$store.commit('SET_MENU', { authMenuAll, authCodeList, isAllPerm })
           // 根据获取的权限信息，从router中获取左侧菜单信息，并重新赋值vuex
           this.getPermission(isAllPerm)
         })
@@ -55,7 +55,7 @@ export const permission = {
       if (this.$store.state.menuList && this.$store.state.menuList.length > 0) return
 
       // vuex中不存在，需重新获取
-      let authMenuAll = [],authCodeList=[]
+      let authMenuAll = [], authCodeList=[]
 
       if(isAllPerm){ //有全部权限
         authMenuAll = getAllSideMenu(routes)
@@ -66,23 +66,23 @@ export const permission = {
         authCodeList = this.$store.state.permissionCodeList.length>0 ? this.$store.state.permissionCodeList:[]
 
         if(authCodeList.length>0){ //vuex中存有权限码信息
-          authMenuAll = getSideMenu(routes,authCodeList)
+          authMenuAll = getSideMenu(routes, authCodeList) 
           this.$store.commit('SET_MENU', { authMenuAll, authCodeList, isAllPerm })
         }else{ // vuex中不存在权限码信息，需重新调用接口再获取
           this.$ajax.get({
             url   : this.$api.GET_USER_PEIMISSION,
             params: {}
-          }).then(res=>{
+          }).then(res => {
             // 当前用户全部权限编码，包含菜单及功能操作
-            let oldSysDatas = !this.$store.state.userInfos ? []: this.$store.state.userInfos.sysDicSet
-            let authCodeList = [],oldSysAuthCode = getOldSysAuthCode(oldSysDatas)
+            const oldSysDatas = !this.$store.state.userInfos ? []: this.$store.state.userInfos.sysDicSet
+            let authCodeList = [], oldSysAuthCode = getOldSysAuthCode(oldSysDatas)
 
             if(res.data!=undefined && res.data!=null && res.data.content!=undefined && res.data.content!=null){
               authCodeList = res.data.content.concat(oldSysAuthCode)
             }else{
               authCodeList = oldSysAuthCode
             }
-            authMenuAll = getSideMenu(routes,authCodeList)
+            authMenuAll = getSideMenu(routes, authCodeList) 
             this.$store.commit('SET_MENU', { authMenuAll, authCodeList, isAllPerm })
           })
         }
@@ -96,7 +96,7 @@ export const permission = {
      */
     hideInBread(routerName){
       if(!routerName) return false
-      let targetRouter = findRouerByName(routes,routerName)
+      const targetRouter = findRouerByName(routes, routerName)
       if( targetRouter && targetRouter.meta && targetRouter.meta.hideInBread){
         return true
       }else{
@@ -109,7 +109,7 @@ export const permission = {
 function checkHideInBread(routerName) {
   routerName = routerName ? routerName : ''
 
-  let targetRouter = findRouerByName(routes, routerName)
+  const targetRouter = findRouerByName(routes, routerName)
   if (targetRouter && targetRouter.meta && targetRouter.meta.hideInBread) {
     return true
   } else {
@@ -120,9 +120,8 @@ export {
   checkHideInBread
 }
 
-
 function getOldSysAuthCode(syslist){
-  let oldSysAuthCode = []
+  const oldSysAuthCode = []
 
   if(syslist == undefined || syslist == null || 'object' != typeof syslist) return oldSysAuthCode
 
@@ -152,7 +151,7 @@ function findRouerByName(allRouter, routerName) {
       return targetRouter
     } else {
       if (router.children && router.children.length > 0) {
-        let target = findRouerByName(router.children, routerName)
+        const target = findRouerByName(router.children, routerName)
         if (target && target.name) {
           targetRouter = {
             path: target.path,
@@ -182,11 +181,12 @@ function getAllSideMenu(allRouter) {
     if (router.meta && router.meta.menuPath && 'outsite'!=router.meta.openMode) { // 超级管理员无老系统权限
       menu = {
         name: router.name,
+        path: router.path,
         meta: router.meta
       }
     }
     if (router.children && router.children.length > 0) {
-      let children = getAllSideMenu(router.children)
+      const children = getAllSideMenu(router.children)
       if (children.length > 0) {
         menu.children = children
         if (!menu.name) {
@@ -219,18 +219,20 @@ function getSideMenu(allRouter, authCodeList) {
         if (common.oneOf(router.meta.authCode, authCodeList)) {
           menu = {
             name: router.name,
+            path: router.path,
             meta: router.meta
           }
         }
       } else {
         menu = {
           name: router.name,
+          path: router.path,
           meta: router.meta
         }
       }
     }
     if (router.children && router.children.length > 0) {
-      let children = getSideMenu(router.children, authCodeList)
+      const children = getSideMenu(router.children, authCodeList)
       if (children.length > 0) {
         if (!menu.name) {
           authMenu = authMenu.concat(children)

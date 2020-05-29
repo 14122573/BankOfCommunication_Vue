@@ -14,7 +14,7 @@
 				</a-col>
 				<a-col span="6" v-if="!simpleSearchForm">
 					<a-form-item label="角色名称" :label-col="formItemLabelCol" :wrapper-col="formItemWrapperCol">
-						<a-select placeholder="请选择" :options="roleList" allowClear v-model="searchForm['ui.roleIds_l']" />
+						<a-select placeholder="请选择" :options="roleList" allowClear v-model="searchForm['ui.roleIds_in']" />
 					</a-form-item>
 				</a-col>
 				<a-col span="6" v-if="!simpleSearchForm">
@@ -144,7 +144,7 @@ export default {
         onChange       : this.pageChange
       },
       searchForm: {
-        checkedList: [ '1','0' ]
+        checkedList: [ '1', '0' ]
       },
       defaultValue: '',
       dataTable   : [],
@@ -153,11 +153,11 @@ export default {
           title    : '账号',
           dataIndex: 'phone',
           key      : 'phone',
-        },{
+        }, {
           title    : '姓名',
           dataIndex: 'name',
           key      : 'name'
-        },{
+        }, {
           title      : '工作单位',
           dataIndex  : 'dept',
           key        : 'dept',
@@ -165,7 +165,7 @@ export default {
           scopedSlots: {
             customRender: 'dept'
           }
-        },{
+        }, {
           title      : '角色名称',
           dataIndex  : 'roleNames',
           key        : 'roleNames',
@@ -173,7 +173,7 @@ export default {
           scopedSlots: {
             customRender: 'roleNames'
           }
-        },{
+        }, {
           title      : '用户状态',
           dataIndex  : 'status',
           key        : 'status',
@@ -181,7 +181,7 @@ export default {
           scopedSlots: {
             customRender: 'status'
           }
-        },{
+        }, {
           title      : '操作人',
           width      : 150,
           dataIndex  : 'creator',
@@ -189,7 +189,7 @@ export default {
           scopedSlots: {
             customRender: 'operator'
           }
-        },{
+        }, {
           title      : '操作',
           key        : 'operation',
           width      : 180,
@@ -202,13 +202,13 @@ export default {
         {
           text : '待分配',
           value: '0'
-        },{
+        }, {
           text : '正常',
           value: '1'
-        },{
+        }, {
           text : '禁用',
           value: '9'
-        },{
+        }, {
           text : '已注销',
           value: '8'
         }
@@ -278,15 +278,15 @@ export default {
       this.pagination.pageNo = 1
       delete this.searchForm.name_l
       delete this.searchForm['ui.phone_l']
-      delete this.searchForm['ui.roleIds_l']
+      delete this.searchForm['ui.roleIds_in']
       delete this.searchForm['ui.areaId']
       delete this.searchForm['ui.groupId']
-      this.searchForm.checkedList = [ '1','0' ]
+      this.searchForm.checkedList = [ '1', '0' ]
       this.getList()
     },
     // 查询列表
     getList() {
-      let options = JSON.parse(JSON.stringify(this.searchForm))
+      const options = JSON.parse(JSON.stringify(this.searchForm))
       options['oa.status_in'] = options.checkedList && options.checkedList.length > 0 ? options.checkedList.join(',') :
         '1'
       if (options.checkedList) delete options.checkedList
@@ -319,7 +319,7 @@ export default {
     showOpeations(key, item) {
       this.opeation.type = key
       this.opeation.item = item
-      let vm = this
+      const vm = this
       switch (key) {
       case '1':
         this.opeation.title = '您确认要启用该账号吗?'
@@ -362,7 +362,7 @@ export default {
       }
     },
     handleOk() {
-      let key = this.opeation.type
+      const key = this.opeation.type
       let apiUrl = ''
       switch (key) {
       case '1':
@@ -399,14 +399,14 @@ export default {
           parentId: this.isAdminator ? '0' : this.$store.state.userInfos.area.id
         }
       }).then(res => {
-        let datas = this.$com.confirm(res, 'data.content', [])
+        const datas = this.$com.confirm(res, 'data.content', [])
         datas.forEach((ele, index) => {
           this.treeData.push(this.getTreeNode(ele, index))
         })
       })
     },
     getTreeNode(item, index) {
-      let childrenNode = {
+      const childrenNode = {
         title   : item.areaName,
         value   : item.id,
         id      : item.id,
@@ -428,8 +428,8 @@ export default {
             parentId: treeNode.dataRef.id
           }
         }).then(res => {
-          let datas = this.$com.confirm(res, 'data.content', [])
-          let array = []
+          const datas = this.$com.confirm(res, 'data.content', [])
+          const array = []
           datas.forEach((ele, index) => {
             array.push(this.getTreeNode(ele, index))
           })
@@ -482,16 +482,16 @@ export default {
       })
     },
     exportInfo(){
-      let searchForm=JSON.parse(JSON.stringify(this.searchForm))
+      const searchForm=JSON.parse(JSON.stringify(this.searchForm))
       searchForm['oa.status_in']=searchForm.checkedList.join(',')
       if (searchForm.checkedList) delete searchForm.checkedList
 
-      var token=this.$cookie.get('token')
+      const token=this.$cookie.get('token')
       let params=''
-      for(var key in searchForm){
+      for(const key in searchForm){
         params=params+key+'='+searchForm[key]+'&'
       }
-      var url=this.$api.GET_EXPORT_USER_LIST+'?'+params+'ui.createTime_desc=1&token='+token
+      const url=this.$api.GET_EXPORT_USER_LIST+'?'+params+'ui.createTime_desc=1&token='+token
       window.open(url)
     },
   }

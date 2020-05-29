@@ -99,7 +99,7 @@ export default {
         this.$nextTick(function () {
           this.permEditForm.setFieldsValue({ permName: this.perm.title })
           this.permEditForm.setFieldsValue({ isHide: this.perm.isHide?'1':'0' })
-          this.permEditForm.getFieldDecorator('pointIds',{ initialValue: this.perm.pointSet })
+          this.permEditForm.getFieldDecorator('pointIds', { initialValue: this.perm.pointSet })
         })
       }
     },
@@ -111,7 +111,7 @@ export default {
           this.$nextTick(function () {
             this.permEditForm.setFieldsValue({ permName: this.perm.title })
             this.permEditForm.setFieldsValue({ isHide: this.perm.isHide?'1':'0' })
-            this.permEditForm.getFieldDecorator('pointIds',{ initialValue: this.perm.pointSet })
+            this.permEditForm.getFieldDecorator('pointIds', { initialValue: this.perm.pointSet })
           })
         }
       }
@@ -124,7 +124,7 @@ export default {
       this.$nextTick(function () {
         this.permEditForm.setFieldsValue({ permName: this.perm.title })
         this.permEditForm.setFieldsValue({ isHide: this.perm.isHide?'1':'0' })
-        this.permEditForm.getFieldDecorator('pointIds',{ initialValue: this.perm.pointSet })
+        this.permEditForm.getFieldDecorator('pointIds', { initialValue: this.perm.pointSet })
       })
     }
 
@@ -148,12 +148,12 @@ export default {
     getPointList(){
       this.$ajax.get({
         url: this.$api.GET_PREMSPOINT_LIST,
-      }).then(res=>{
+      }).then(res => {
         if(res.code === '200'){
           this.pointsList = this.$com.confirm(res, 'data.content', [])
           // 整理数据，可用于collapse展示
           this.pointsArray = []
-          for(let item in this.pointsList){
+          for(const item in this.pointsList){
             this.pointsArray.push({
               name    : item,
               children: [].concat(this.pointsList[item])
@@ -166,7 +166,7 @@ export default {
       })
     },
     getSelectPointSetObject(pointSetArr){
-      let selected = []
+      const selected = []
       for(let i=0;i<pointSetArr.length;i++){
         selected.push({
           id: pointSetArr[i]
@@ -181,8 +181,8 @@ export default {
     handleOk() {
       this.permEditForm.validateFields(err => {
         if (!err) {
-          let parentPermid = this.parentNode.key=='-1'?'0':this.parentNode.key
-          let putParams = Object.assign({ parentId: parentPermid },{
+          const parentPermid = this.parentNode.key=='-1'?'0':this.parentNode.key
+          const putParams = Object.assign({ parentId: parentPermid }, {
             'permName': this.permEditForm.getFieldValue('permName'),
             'isHide'  : this.permEditForm.getFieldValue('isHide')=='0'?false:true,
             'pointSet': this.getSelectPointSetObject(this.permEditForm.getFieldValue('pointIds'))
@@ -195,11 +195,11 @@ export default {
             if (res.code === '200') {
               this.$message.success('修改成功')
               this.resetForm()
-              this.$emit('on-success',true)
+              this.$emit('on-success', true)
             }
           })
         }else{
-          this.$com.getFormValidErrTips(this,err)
+          this.$com.getFormValidErrTips(this, err)
         }
       })
     },
@@ -209,7 +209,7 @@ export default {
      */
     handleCancel() {
       // this.resetForm()
-      this.$emit('on-success',false)
+      this.$emit('on-success', false)
     },
     resetForm() {
       this.permEditForm.resetFields()

@@ -154,7 +154,7 @@ export default {
         if (!this.$com.checkPhone(value)) {
           callback('登录手机号不合法!')
         } else {
-          let links='?phone=' + value
+          const links='?phone=' + value
           this.$ajax.get({
             url: this.$api.GET_CHECK_PHONE_EXIST + links
           }).then(res => {
@@ -206,7 +206,7 @@ export default {
       fileList      : [],
       fileUpload    : {
         acceptTypes     : '.jpg,.jpeg',
-        acceptTypesArray: [ 'jpg','jpeg' ]
+        acceptTypesArray: [ 'jpg', 'jpeg' ]
       },
       rules: {
         loginPhone: [
@@ -246,7 +246,7 @@ export default {
   methods: {
     //   查询options
     getOptions() {
-      let api = this.$api.DICTIONARY_TYPE_GET
+      const api = this.$api.DICTIONARY_TYPE_GET
       const items = [
         //民族
         { type: '0', name: 'minorityList' },
@@ -274,7 +274,7 @@ export default {
             hideLoading: false
           })
           .then(res => {
-            let data = this.$com.confirm(res, 'data.content', [])
+            const data = this.$com.confirm(res, 'data.content', [])
             this.options[item.name] = data.map(e => {
               return {
                 label: e.name,
@@ -293,10 +293,10 @@ export default {
       this.fileList = []
     },
     beforeUpload(file) {
-      let fileNameArr = file.name.split('.')
-      let fileSuffix = fileNameArr[fileNameArr.length-1].toLowerCase()
-      let isAccept = this.$com.oneOf(fileSuffix,this.fileUpload.acceptTypesArray)
-      let isLt5M = file.size / 1024 / 1024 < 5
+      const fileNameArr = file.name.split('.')
+      const fileSuffix = fileNameArr[fileNameArr.length-1].toLowerCase()
+      const isAccept = this.$com.oneOf(fileSuffix, this.fileUpload.acceptTypesArray)
+      const isLt5M = file.size / 1024 / 1024 < 5
       let message = ''
       if(!isAccept){
         message += !isAccept?('文件格式限定为'+this.fileUpload.acceptTypes+'；'):''
@@ -316,7 +316,7 @@ export default {
         return false
       }
     },
-    handleUpload(data,fileList) {
+    handleUpload(data, fileList) {
       const formData = new FormData()
       formData.append('file', data.file)
       data.onProgress()
@@ -325,7 +325,7 @@ export default {
         params: formData
       }).then(res => {
         if (res.code === '200') {
-          let data = this.$com.confirm(res, 'data.content', {})
+          const data = this.$com.confirm(res, 'data.content', {})
           this.fileList = []
           this.fileList.push({
             uid   : data.id,
@@ -409,7 +409,7 @@ export default {
         url        : this.$api.GET_EXPERT_DETAIL.replace( '{experId}', this.$route.query.id ),
         hideLoading: false
       }).then(res => {
-        let {
+        const {
           loginPhone,
           name,
           sex,
@@ -484,7 +484,7 @@ export default {
     },
     // 保存按钮
     save() {
-      let forms = [
+      const forms = [
         this.$refs.jobStudy.formJob,
         this.$refs.jobSpace.formSpace,
         this.form
@@ -498,7 +498,7 @@ export default {
         })
       })
 
-      let personalPhoto = {}
+      const personalPhoto = {}
       if(this.fileList.length>0){
         //当有上传一寸照时，作如下判断
         if(this.fileList[0].uid == '-1'){
@@ -510,7 +510,7 @@ export default {
         }
       }
       if (formsAll) {
-        let data = Object.assign(
+        const data = Object.assign(
           this.$refs.jobStudy.formJob.getFieldsValue(),
           this.$refs.jobSpace.formSpace.getFieldsValue(),
           this.form.getFieldsValue(),
@@ -550,5 +550,4 @@ export default {
 .avatar-uploader .ant-upload-list { width: 100%;}
 .avatar-uploader .ant-upload-list-picture-card .ant-upload-list-item { width: 90%;height: 220px;}
 </style>
-
 

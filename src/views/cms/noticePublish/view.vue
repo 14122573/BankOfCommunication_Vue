@@ -71,8 +71,8 @@ export default {
      * @returns {Array}  [{name:带文件后缀的文件名称；url：已上传的文件地址},...]
      */
     makeFileList(){
-      let fileList = []
-      let attachments = !this.noticeDetail.attachments?[]:this.noticeDetail.attachments
+      const fileList = []
+      const attachments = !this.noticeDetail.attachments?[]:this.noticeDetail.attachments
       for(let i=0;i<attachments.length;i++){
         if(attachments[i].type=='1'){
           fileList.push({

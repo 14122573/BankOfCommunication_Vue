@@ -105,17 +105,17 @@ export default {
             if (res.code === '200') {
               this.$message.success('添加成功')
               this.resetForm()
-              this.$emit('on-success',true)
+              this.$emit('on-success', true)
             }
           })
         }else{
-          this.$com.getFormValidErrTips(this,err)
+          this.$com.getFormValidErrTips(this, err)
         }
       })
     },
     handleCancel() {
       this.resetForm()
-      this.$emit('on-success',false)
+      this.$emit('on-success', false)
     },
     resetForm() {
       this.createForm.resetFields()

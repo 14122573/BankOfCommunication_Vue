@@ -42,7 +42,7 @@
 </template>
 
 <script>
-import { navigateToUrl } from 'single-spa'
+// import { navigateToUrl } from 'single-spa'
 import common from '@/util/common'
 export default {
   name : 'SideMenu',
@@ -74,7 +74,7 @@ export default {
     if (this.$cookie.get('token')) {
       this.$ajax.get({
         url: this.$api.SYSTEM_LIST_ALL_GET
-      }).then(res=>{
+      }).then(res => {
         if(res.code === '200'){
           this.micSysConfigs= this.$com.confirm(res, 'data.content', [])
           for(let i=0;i<this.micSysConfigs.length;i++){
@@ -92,6 +92,7 @@ export default {
   },
   computed: {
     menus() {
+      // console.log('computed',this.$store.state.menuList)
       return this.$store.state.menuList
     }
   },
@@ -130,15 +131,16 @@ export default {
      * @param {Object} menu 菜单的route对象
      *
      */
-    navigateTo({ item, key },menu) {
-      if(menu.meta){
-        let openMode = menu.meta.openMode?menu.meta.openMode:'normal'
+    navigateTo({ item, key }, menu) {
+      // console.log(item, key, menu)
+      if(menu.meta){ 
+        const openMode = menu.meta.openMode?menu.meta.openMode:'normal'
         switch (openMode) {
         case 'outsite':
           if(!this.$cookie.get('token')){
             this.$com.handleLogOut()
           }else{
-            let href = this.getRedirctUrl(key)
+            const href = this.getRedirctUrl(key)
             if(href) {
               this.$router.push({
                 name  : menu.name,
@@ -155,7 +157,9 @@ export default {
           this.$router.push({ name: menu.name })
           break
         case 'spa':
-          navigateToUrl(key)
+          console.log(menu)
+          this.$router.push({ name: menu.name })
+          // this.$router.push({ path: menu.path })
           break
         default:
           this.$router.push({ name: menu.name })
@@ -183,16 +187,16 @@ export default {
      * @returns {Object}
      */
     findDefaultMenuKeys(toName){
-      let selectedKeys = '',openKeys=''
+      let selectedKeys = '', openKeys=''
       for(let i=0;i<this.$store.state.menuList.length;i++){
-        let menuGroup = this.$store.state.menuList[i]
+        const menuGroup = this.$store.state.menuList[i]
         if(toName.indexOf(menuGroup.name) >= 0){
           openKeys = menuGroup.name
           // if('scsd'== menuGroup.name){ // 由于scsd的评审页面路由与其真正的父级菜单路由不匹配，故都默认为函审路由
           //   selectedKeys = '/scsd/exam/scsdExam'
           // }else{
           for(let j=0;j<menuGroup.children.length;j++){
-            let menuChild = menuGroup.children[j]
+            const menuChild = menuGroup.children[j]
             if(toName.indexOf(menuChild.name)>=0){
               selectedKeys = menuChild.name
             }
@@ -215,7 +219,7 @@ export default {
       if (to.name.indexOf(this.defaultSelectedKeys[0]) < 0){
         // 当前路由不为选定路由或选定路由的子集，则清空设置
         // 遍历左侧菜单，找到to路由的父级
-        let defaultMenuKeys = this.findDefaultMenuKeys(to.name)
+        const defaultMenuKeys = this.findDefaultMenuKeys(to.name)
         //没有找到，清空设置
         if(''==defaultMenuKeys.openKeys){
           this.defaultSelectedKeys = []

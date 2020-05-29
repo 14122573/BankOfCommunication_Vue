@@ -174,7 +174,7 @@ export default {
     },
     // 查询列表
     getList() {
-      let options = JSON.parse(JSON.stringify(this.searchForm))
+      const options = JSON.parse(JSON.stringify(this.searchForm))
       const params = Object.assign(options, {
         pageNo              : this.pagination.pageNo,
         pageSize            : this.pagination.pageSize,
@@ -196,14 +196,14 @@ export default {
           parentId: this.isAdminator ? '0' : this.$store.state.userInfos.area.id
         }
       }).then(res => {
-        let datas = this.$com.confirm(res, 'data.content', [])
+        const datas = this.$com.confirm(res, 'data.content', [])
         datas.forEach((ele, index) => {
           this.treeData.push(this.getTreeNode(ele, index))
         })
       })
     },
     getTreeNode(item, index) {
-      let childrenNode = {
+      const childrenNode = {
         title   : item.areaName,
         value   : item.id,
         id      : item.id,
@@ -225,8 +225,8 @@ export default {
             parentId: treeNode.dataRef.id
           }
         }).then(res => {
-          let datas = this.$com.confirm(res, 'data.content', [])
-          let array = []
+          const datas = this.$com.confirm(res, 'data.content', [])
+          const array = []
           datas.forEach((ele, index) => {
             array.push(this.getTreeNode(ele, index))
           })
@@ -267,7 +267,7 @@ export default {
         }
       }).then(res => {
         if (res.code === '200') {
-          let data = res.data.content
+          const data = res.data.content
           this.roleList = data.map(item => {
             return {
               label: item.roleName,

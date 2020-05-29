@@ -309,7 +309,7 @@ export default {
       this.$ajax.get({
         url: this.$api.GET_EXPERT_DETAIL.replace('{experId}', this.$route.query.id)
       }).then(res => {
-        let data = this.$com.confirm(res, 'data.content', {})
+        const data = this.$com.confirm(res, 'data.content', {})
         if (data.workExperience) {
           data.workExperience = JSON.parse(data.workExperience)
         } else {
@@ -320,7 +320,7 @@ export default {
         } else {
           data.achievements = []
         }
-        for (let i in data) {
+        for (const i in data) {
           if (data[i] == null || data[i] == undefined) {
             data[i] = '暂无'
           }

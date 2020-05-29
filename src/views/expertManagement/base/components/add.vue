@@ -75,7 +75,7 @@ export default {
     }).then(res => {
       if (res.code === '200') {
         this.lvOptions = []
-        let lvs = this.$com.confirm(res, 'data.content', [])
+        const lvs = this.$com.confirm(res, 'data.content', [])
         for(let i=0;i<lvs.length;i++){
           this.lvOptions.push({
             key  : lvs[i],
@@ -152,12 +152,12 @@ export default {
     handleOk() {
       this.createForm.validateFields(err => {
         if (!err) {
-          let postParams = {
+          const postParams = {
             type: this.baseType,
             name: this.createForm.getFieldValue('title')
           }
           if(this.baseType =='3'){
-            postParams['lv'] = this.createForm.getFieldValue('lv')
+            postParams.lv = this.createForm.getFieldValue('lv')
           }
           this.$ajax.post({
             url   : this.$api.POST_EXPERT_BASE,
@@ -166,17 +166,17 @@ export default {
             if (res.code === '200') {
               this.$message.success('添加成功')
               this.resetForm()
-              this.$emit('on-success',true)
+              this.$emit('on-success', true)
             }
           })
         }else{
-          this.$com.getFormValidErrTips(this,err)
+          this.$com.getFormValidErrTips(this, err)
         }
       })
     },
     handleCancel() {
       this.resetForm()
-      this.$emit('on-success',false)
+      this.$emit('on-success', false)
     },
     resetForm() {
       this.createForm.resetFields()

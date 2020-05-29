@@ -84,14 +84,13 @@
 
 <script>
 
-
 export default {
   beforeCreate() {
     this.searchForm = this.$form.createForm(this)
   },
   data() {
     return {
-      exclusionRoleIds: [ '999999','899999','133333','144444','155555','166666','177777','188888','199999','1000000','122221','122222','122223','122224','122225','122226','122227','122228','122231','122232','122233','122234' ],
+      exclusionRoleIds: [ '999999', '899999', '133333', '144444', '155555', '166666', '177777', '188888', '199999', '1000000', '122221', '122222', '122223', '122224', '122225', '122226', '122227', '122228', '122231', '122232', '122233', '122234' ],
       dateFormat      : 'YYYY-MM-DD',
       colSpe          : {
         labelCol: {
@@ -191,7 +190,7 @@ export default {
       this.$ajax.get({
         url: this.$api.GET_ALL_ROLE + '?isTree=true'
       }).then(res => {
-        let data = res.data.content
+        const data = res.data.content
         data.forEach((item, index) => {
           this.treeData.push(this.getTreeData(item, index))
         })
@@ -199,7 +198,7 @@ export default {
     },
     // 整理权限树
     getTreeData(item, index) {
-      let childrenNode = {
+      const childrenNode = {
         title: item.permName,
         key  : item.id,
         value: item.id
@@ -207,7 +206,7 @@ export default {
       if (item.childList && item.childList.length) {
         childrenNode.children = []
         item.childList.forEach((subItem, subIndex) => {
-          let subkey = subItem.id
+          const subkey = subItem.id
           childrenNode.children.push(this.getTreeData(subItem, subkey))
         })
       }
@@ -224,11 +223,11 @@ export default {
             id  : this.areaCode,
             name: this.areaName
           }
-          let isSelect = this.searchForm.isFieldTouched('group')
+          const isSelect = this.searchForm.isFieldTouched('group')
           if (isSelect) {
             if (values.group != '' && values.group != undefined) {
-              let groupId = JSON.parse(JSON.stringify(values.group))
-              let data = this.groupLists.find(ele => ele.id == groupId)
+              const groupId = JSON.parse(JSON.stringify(values.group))
+              const data = this.groupLists.find(ele => ele.id == groupId)
               values.group = {
                 id  : groupId,
                 name: data.groupName
@@ -258,7 +257,7 @@ export default {
               params: values
             }).then(res => {
               if (res.code == '200') {
-                let _this=this
+                const _this=this
                 this.$modal.confirm({
                   title: '新增成功！是否继续完善人员信息？',
                   type : 'success',
@@ -320,14 +319,14 @@ export default {
           parentId: this.isAdminator ? '0' : this.$store.state.userInfos.area.id
         }
       }).then(res => {
-        let datas = this.$com.confirm(res, 'data.content', [])
+        const datas = this.$com.confirm(res, 'data.content', [])
         datas.forEach((ele, index) => {
           this.administrativeRegions.push(this.getTreeNode(ele, index))
         })
       })
     },
     getTreeNode(item, index) {
-      let childrenNode = {
+      const childrenNode = {
         'title'   : item.areaName,
         'value'   : item.id,
         'id'      : item.id,
@@ -349,8 +348,8 @@ export default {
             parentId: treeNode.dataRef.id
           }
         }).then(res => {
-          let datas = this.$com.confirm(res, 'data.content', [])
-          let array = []
+          const datas = this.$com.confirm(res, 'data.content', [])
+          const array = []
           datas.forEach((ele, index) => {
             array.push(this.getTreeNode(ele, index))
           })
@@ -391,13 +390,13 @@ export default {
       })
     },
     getRoleLists() {
-      let curUserRoles = this.$store.state.userInfos.roleIds
-      let sparams = {
+      const curUserRoles = this.$store.state.userInfos.roleIds
+      const sparams = {
         pageNo  : 1,
         pageSize: 10000
       }
       if(!!curUserRoles){
-        sparams['id_in'] = curUserRoles
+        sparams.id_in = curUserRoles
       }
       this.$ajax.get({
         url   : this.$api.GET_ROLE_LIST,
@@ -413,7 +412,7 @@ export default {
     roleChange(item) {
       this.roles = item
       if (item.length != 0) {
-        let params = item.map((it) => {
+        const params = item.map((it) => {
           return it.key
         })
         this.checkedKeys = []
@@ -421,7 +420,7 @@ export default {
           url: this.$api.ROLE_DETAIL.replace('{id}', params)
         }).then(res => {
           if (res.code === '200') {
-            let data = res.data.content
+            const data = res.data.content
             for(let i=0;i<data.length;i++){
               if(false ===data[i].canDelete){
                 // 无逻辑
@@ -461,16 +460,16 @@ export default {
         } = this.detail
 
         // 整理当前用户详情中的角色ID数据，去除重复
-        let datas = this.detail.roleIds != null ? this.detail.roleIds.split(',') : []
-        let userRoleIDs = []
+        const datas = this.detail.roleIds != null ? this.detail.roleIds.split(',') : []
+        const userRoleIDs = []
         for(var i=0;i<datas.length;i++){
-          if(!this.$com.oneOf(datas[i],userRoleIDs) && !this.$com.oneOf(datas[i],this.exclusionRoleIds)){
+          if(!this.$com.oneOf(datas[i], userRoleIDs) && !this.$com.oneOf(datas[i], this.exclusionRoleIds)){
             userRoleIDs.push(datas[i])
           }
         }
         // 整理当前用户详情中的角色名称数据，去除重复
-        let datas1 = this.detail.roleNames != null ? this.detail.roleNames.split(',') : []
-        let userRoleNames = []
+        const datas1 = this.detail.roleNames != null ? this.detail.roleNames.split(',') : []
+        const userRoleNames = []
         for(var i=0;i<datas1.length;i++){
           if(userRoleNames.indexOf(datas1[i]) == -1){
             userRoleNames.push(datas1[i])
@@ -483,7 +482,7 @@ export default {
             'label': userRoleNames[index]
           }
         })
-        let setDatas = {
+        const setDatas = {
           mail,
           name,
           dept,

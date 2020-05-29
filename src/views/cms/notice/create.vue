@@ -78,7 +78,7 @@ export default {
         isTop: [ {
           label: '不置顶',
           value: '0'
-        },{
+        }, {
           label: '置顶',
           value: '1'
         } ],
@@ -165,7 +165,7 @@ export default {
           //检查生效起始时间设置，并存储或提示
           if(this.formData.openEffectStart){
             if(!this.noticeCreateForm.getFieldValue('startTime')){
-              this.$com.getFormValidErrTips(this,err,'请填写生效起始时间！')
+              this.$com.getFormValidErrTips(this, err, '请填写生效起始时间！')
               return
             }else{
               this.formData.startTime = this.$moment(this.noticeCreateForm.getFieldValue('startTime')).format(this.timeFormat)
@@ -176,7 +176,7 @@ export default {
           //检查生效截止时间设置，并存储或提示
           if(this.formData.openEffectEnd){
             if(!this.noticeCreateForm.getFieldValue('endTime')){
-              this.$com.getFormValidErrTips(this,err,'请填写生效截止时间！')
+              this.$com.getFormValidErrTips(this, err, '请填写生效截止时间！')
               return
             }else{
               this.formData.endTime = this.$moment(this.noticeCreateForm.getFieldValue('endTime')).format(this.timeFormat)
@@ -186,7 +186,7 @@ export default {
           }
           //检查生效截止时间设置，并存储或提示
           if(this.formData.content.length<1){
-            this.$com.getFormValidErrTips(this,err,'请填写通知公告正文内容！')
+            this.$com.getFormValidErrTips(this, err, '请填写通知公告正文内容！')
             return
           }
           const attachments = this.uploadFileList.map(item => {
@@ -196,7 +196,7 @@ export default {
               filePath: item.url,
             }
           })
-          let postParams = Object.assign({},this.formData ,{
+          const postParams = Object.assign({}, this.formData, {
             'title' : this.noticeCreateForm.getFieldValue('title'),
             'isVote': '0', // 默认创建的为非投票结果文章
             'status': type=='save'?'0':'1',
@@ -217,7 +217,7 @@ export default {
             }
           })
         }else{
-          this.$com.getFormValidErrTips(this,err)
+          this.$com.getFormValidErrTips(this, err)
         }
       })
     }

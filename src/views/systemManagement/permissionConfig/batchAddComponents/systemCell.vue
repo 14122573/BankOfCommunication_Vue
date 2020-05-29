@@ -33,7 +33,7 @@ export default {
   },
   created(){
     this.getSysCodOptions()
-    this.$nextTick(()=>{
+    this.$nextTick(() => {
       this.sysForm.setFieldsValue({ sysCode: this.value })
     })
   },
@@ -67,10 +67,10 @@ export default {
       this.value = select
       this.sysListForSearch.forEach(element => {
         if(select==element.value) {
-          this.systemName =  element.label
+          this.systemName = element.label
         }
       })
-      this.$emit('change', { sysCode: this.value,sysName: this.systemName })
+      this.$emit('change', { sysCode: this.value, sysName: this.systemName })
     },
 
     /**
@@ -80,9 +80,9 @@ export default {
       this.$ajax.get({
         url   : this.$api.SYSTEM_LIST_ALL_GET,
         params: { type: '1' }
-      }).then(res=>{
+      }).then(res => {
         if(res.code === '200'){
-          let data = this.$com.confirm(res, 'data.content', [])
+          const data = this.$com.confirm(res, 'data.content', [])
           this.sysListForSearch = data.map((item) => {
             return {
               label: item.sysName,

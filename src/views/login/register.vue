@@ -148,7 +148,7 @@ export default {
   components: {
     Loader,
     testStrong,
-    FrameTop,FrameFooter
+    FrameTop, FrameFooter
   },
   beforeCreate() {
     this.formRegister = this.$form.createForm(this)
@@ -207,7 +207,7 @@ export default {
           callback('手机号输入不合法!')
         } else {
           if (value.length == 11) {
-            let links = '?phone=' + value
+            const links = '?phone=' + value
             this.$ajax.get({
               url: this.$api.GET_CHECK_PHONE_EXIST + links
             }).then(res => {
@@ -322,7 +322,7 @@ export default {
       // 提交表单
       this.formRegister.validateFields((err, values) => {
         if (!err) {
-          let params = {
+          const params = {
             'username': values.phone,
             'pwd'     : encryptDes(values.password),
             'code'    : values.code,
@@ -348,7 +348,7 @@ export default {
             }
           })
         }else{
-          this.$com.getFormValidErrTips(this,err)
+          this.$com.getFormValidErrTips(this, err)
         }
       })
     },
@@ -358,8 +358,8 @@ export default {
      */
     sendCode() {
       const phone = this.formRegister.getFieldValue('phone')
-      let params = {}
-      let links = ''
+      const params = {}
+      const links = ''
       if (phone) {
         this.$ajax.get({
           url: this.$api.GET_PHONE_CODE.replace('{type}', 'register').replace('{phone}', phone)

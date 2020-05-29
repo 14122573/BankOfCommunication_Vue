@@ -12,7 +12,7 @@ import UeditorCompent from '@/components/theThreeParty/ueditor.vue'
 import VueUeditorWrap from 'vue-ueditor-wrap'
 export default {
   name      : 'UseUEDITOR',
-  components: { UeditorCompent,VueUeditorWrap },
+  components: { UeditorCompent, VueUeditorWrap },
   data() {
     // 如果是本地开发的话会跨域，故设置了webpack代理，具体设置在/config/index.js的dev.proxyTable中
     const base = process.env.NODE_ENV === 'development' ? '/ueditorDevBase' : 'http://iftp.omniview.pro/api'
@@ -30,7 +30,7 @@ export default {
           'rowspacingtop', 'rowspacingbottom', 'lineheight', '|',
           'customstyle', 'paragraph', 'fontfamily', 'fontsize', '|',
           'directionalityltr', 'directionalityrtl', 'indent', '|', 'imagenone', 'imageleft', 'imageright', 'imagecenter', '|',
-          'simpleupload', 'insertimage', 'attachment', 'insertvideo','|',
+          'simpleupload', 'insertimage', 'attachment', 'insertvideo', '|',
           'justifyleft', 'justifycenter', 'justifyright', 'justifyjustify', '|', 'touppercase', 'tolowercase', '|',
           'link', 'unlink',
         ] ],
@@ -38,7 +38,7 @@ export default {
         autoHeightEnabled : false, // {Boolean} [默认值：true] 编辑器不自动被内容撑高
         elementPathEnabled: false, // {Boolean} [默认值：true] 是否启用元素路径，默认是显示
         wordCount         : false, // {Boolean} [默认值：true] 是否开启字数统计
-        enableAutoSave    : false,// {Boolean} [默认值：true] 启用自动保存，这个配置忽好忽坏
+        enableAutoSave    : false, // {Boolean} [默认值：true] 启用自动保存，这个配置忽好忽坏
         initialFrameWidth : '80%',
         saveInterval      : 100000000, // {Number} [默认值：500] 自动保存间隔时间，单位ms
         autoFloatEnabled  : false, // [默认值：true] // 是否保持toolbar的位置不动

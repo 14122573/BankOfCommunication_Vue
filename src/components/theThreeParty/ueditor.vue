@@ -22,7 +22,7 @@ export default {
     //配置可以传递进来
     ueditorConfig: {
       type   : Object,
-      default: ()=>{
+      default: () => {
         return {
           serverUrl: '',
           toolbars : [ [
@@ -51,13 +51,13 @@ export default {
   },
   watch: {
     value: function(val, oldVal) {
-      if (val != null  && this.ready) {
+      if (val != null && this.ready) {
         this.instance = UE.getEditor(this.randomId, this.ueditorConfig)
         this.instance.setContent(val)
       }
     },
     ready(){
-      if (this.value != null  && this.ready) {
+      if (this.value != null && this.ready) {
         this.instance = UE.getEditor(this.randomId, this.ueditorConfig)
         this.instance.setContent(this.value )
       }

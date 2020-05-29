@@ -26,34 +26,34 @@ export default {
   data() {
     return {
       pdfDoc        : null, //pdfjs 生成的对象
-      pageNum       : 1,//
+      pageNum       : 1, //
       pageRendering : false,
       pageNumPending: null,
-      scale         : 1,//放大倍数
-      page_num      : 0,//当前页数
-      page_count    : 0,//总页数
-      maxscale      : 2,//最大放大倍数
+      scale         : 1, //放大倍数
+      page_num      : 0, //当前页数
+      page_count    : 0, //总页数
+      maxscale      : 2, //最大放大倍数
       minscale      : 0.8//最小放大倍数
     }
   },
   methods: {
     renderPage(num) { //渲染pdf
-      let vm = this
+      const vm = this
       this.pageRendering = true
-      let canvas = document.getElementById('the-canvas')
+      const canvas = document.getElementById('the-canvas')
       // Using promise to fetch the page
       this.pdfDoc.getPage(num).then(function(page) {
-        var viewport = page.getViewport(vm.scale)
+        const viewport = page.getViewport(vm.scale)
         //alert(vm.canvas.height)
         canvas.height = viewport.height
         canvas.width = viewport.width
 
         // Render PDF page into canvas context
-        var renderContext = {
+        const renderContext = {
           canvasContext: vm.ctx,
           viewport     : viewport
         }
-        var renderTask = page.render(renderContext)
+        const renderTask = page.render(renderContext)
 
         // Wait for rendering to finish
         renderTask.promise.then(function() {
@@ -83,7 +83,7 @@ export default {
       this.queueRenderPage(this.pageNum)
     },
     prev() {//上一页
-      let vm = this
+      const vm = this
       if(vm.pageNum <= 1) {
         return
       }
@@ -91,7 +91,7 @@ export default {
       vm.queueRenderPage(vm.pageNum)
     },
     next() {//下一页
-      let vm = this
+      const vm = this
       if(vm.pageNum >= vm.page_count) {
         return
       }
@@ -111,12 +111,12 @@ export default {
   },
   computed: {
     ctx() {
-      let id = document.getElementById('the-canvas')
+      const id = document.getElementById('the-canvas')
       return id.getContext('2d')
     }
   },
   mounted() {
-    let vm = this
+    const vm = this
     PDFJS.getDocument(vm.pdfurl).then(function(pdfDoc_) { //初始化pdf
       vm.pdfDoc = pdfDoc_
       vm.page_count = vm.pdfDoc.numPages

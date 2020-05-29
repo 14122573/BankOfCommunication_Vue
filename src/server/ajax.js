@@ -14,7 +14,7 @@ const Axios = axios.create({
 })
 const CancelToken = axios.CancelToken
 let cancelRequest = null
-let currentRouterName ='',currentApi='',currentMethod=''
+let currentRouterName ='', currentApi='', currentMethod=''
 
 // 处理请求状态码
 const reponseCodeHandler = (res) => {
@@ -49,7 +49,7 @@ const reponseCodeHandler = (res) => {
     } else if (code == '429') {//同一对外IP，2s内请求超过100次
       router.push({ name: 'upperLimitErr' })
     }else if (code == '710' || code == '720') {
-      if(Common.oneOf(currentMethod.toLocaleLowerCase(),[ 'post','put','delete' ])){
+      if(Common.oneOf(currentMethod.toLocaleLowerCase(), [ 'post', 'put', 'delete' ])){
         Modal.error({
           title     : '提交错误',
           content   : !res.data.msg?'':res.data.msg,
@@ -60,7 +60,7 @@ const reponseCodeHandler = (res) => {
     }else if (code == '912') {
       //在refresh token 里的返回里已做处理，这里不做额外提示
     }else{
-      if(Common.oneOf(currentMethod.toLocaleLowerCase(),[ 'post','put','delete' ])){
+      if(Common.oneOf(currentMethod.toLocaleLowerCase(), [ 'post', 'put', 'delete' ])){
         Modal.error({
           title     : '提交错误',
           content   : '系统异常',
@@ -72,9 +72,9 @@ const reponseCodeHandler = (res) => {
   }
 }
 
-const showErrPage= (api,routername,code)=>{
-  if(Common.oneOf(routername,[ 'login','register','bindPhone','bindTemporarayAccount' ])){
-    if(!Common.oneOf(api,[ '/service-release/release/public/news' ])){
+const showErrPage= (api, routername, code) => {
+  if(Common.oneOf(routername, [ 'login', 'register', 'bindPhone', 'bindTemporarayAccount' ])){
+    if(!Common.oneOf(api, [ '/service-release/release/public/news' ])){
       router.push({
         name: 'outerNetworkerr'
       })
@@ -96,7 +96,7 @@ const errorHandler = (err) => {
   if (errStatus) {
     switch (errStatus) {
     case 404: // 网络请求不存在,跳转统一报错页面
-      showErrPage(currentApi,currentRouterName)
+      showErrPage(currentApi, currentRouterName)
       break
 
     /** 强说home页的请求报500就跳过去了，无法进行下一步操作，故此先注释掉 */
@@ -105,7 +105,7 @@ const errorHandler = (err) => {
     //   showErrPage(currentApi,currentRouterName)
     //   break
     default: // 其他错误，统一到网络异常页面
-      showErrPage(currentApi,currentRouterName)
+      showErrPage(currentApi, currentRouterName)
       break
     }
 
@@ -113,7 +113,7 @@ const errorHandler = (err) => {
   // } else if (err.toString().indexOf('timeout') != -1) { // 统一到网络异常页面
   //   showErrPage(currentApi,currentRouterName)
   } else if (err.toString().indexOf('Network Error') != -1) { // 统一到网络异常页面
-    showErrPage(currentApi,currentRouterName)
+    showErrPage(currentApi, currentRouterName)
   }
 }
 

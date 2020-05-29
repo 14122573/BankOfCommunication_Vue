@@ -52,7 +52,7 @@ export default {
       finishReviewList: [],
       searchTime      : {
         selected      : [],
-        default       : [ this.$moment('2019-07-09','YYYY-MM-DD'),this.$moment('2019-08-09','YYYY-MM-DD') ],
+        default       : [ this.$moment('2019-07-09', 'YYYY-MM-DD'), this.$moment('2019-08-09', 'YYYY-MM-DD') ],
         selectedString: []
       },
       pagination: {
@@ -70,13 +70,13 @@ export default {
           customRender: (text, record, index) => {
             return this.reviewTypeName(text)
           },
-        },{
+        }, {
           title       : '业务系统名称', dataIndex   : 'systemCode',
           customRender: (text, record, index) => {
             return this.systemName(text)
           },
         },
-        { title: '申报单位名称',  dataIndex: 'companyCode' },
+        { title: '申报单位名称', dataIndex: 'companyCode' },
         { title: '申报材料名称', dataIndex: 'taskName' },
         {
           title       : '评审时间', dataIndex   : 'finishTime',
@@ -147,13 +147,13 @@ export default {
      * @param {String} reviewTypeCode 评审类型code
      * @param {String} taskCode 申报材料ID
      */
-    goMicReview(sysCode,reviewTypeCode,taskCode){
-      let micSysRouters = ExpertReviewRouters[sysCode]
+    goMicReview(sysCode, reviewTypeCode, taskCode){
+      const micSysRouters = ExpertReviewRouters[sysCode]
       // 写死
       let nextRouter = ''
       for(let i=0;i<micSysRouters.length;i++){
-        let micSysRouter = micSysRouters[i]
-        if(this.$com.oneOf(sysCode,[ 'S0401','SO301' ])){
+        const micSysRouter = micSysRouters[i]
+        if(this.$com.oneOf(sysCode, [ 'S0401', 'SO301' ])){
           if( micSysRouter.type=='detail' && reviewTypeCode == micSysRouter.reviewTypeCode){
             nextRouter = micSysRouter.routerName
           }
@@ -167,7 +167,7 @@ export default {
       switch (sysCode) {
       case 'S0501':
       // 新品种审核
-        navigateToUrl(nextRouter.replace(':id',taskCode)+'?showType=check&sourceRouteType=portal&sourceRoutePath='+this.$route.path)
+        navigateToUrl(nextRouter.replace(':id', taskCode)+'?showType=check&sourceRouteType=portal&sourceRoutePath='+this.$route.path)
         break
       case 'S0502':
       // 原良种复查
@@ -187,15 +187,15 @@ export default {
         break
       case 'S0401':
       // 海洋牧场
-        navigateToUrl(nextRouter.replace(':id',taskCode))
+        navigateToUrl(nextRouter.replace(':id', taskCode))
         break
       case 'S0301':
       // 休闲渔业
-        navigateToUrl(nextRouter.replace(':id',taskCode))
+        navigateToUrl(nextRouter.replace(':id', taskCode))
         break
       case 'S1002':
       // 中国水产学会团体标准函审
-        navigateToUrl(nextRouter.replace(':id',taskCode)+'?sourceRouteType=portal&sourceRoutePath='+this.$route.path)
+        navigateToUrl(nextRouter.replace(':id', taskCode)+'?sourceRouteType=portal&sourceRoutePath='+this.$route.path)
         break
       default:
         break
@@ -212,7 +212,7 @@ export default {
     systemName(code){
       let name = ''
       for(let i=0;i<this.sysListForSearch.length;i++){
-        let item = this.sysListForSearch[i]
+        const item = this.sysListForSearch[i]
         if(code ==item.value) {
           name = item.label
         }
@@ -228,7 +228,7 @@ export default {
     reviewTypeName(code){
       let name = ''
       for(let i=0;i<this.reviewTypeList.length;i++){
-        let item = this.reviewTypeList[i]
+        const item = this.reviewTypeList[i]
         if(code ==item.code) {
           name = item.name
         }
@@ -242,9 +242,9 @@ export default {
     getReviewTypeList(){
       this.$ajax.get({
         url: this.$api.GET_EXPERT_BASE_LIST.replace('{type}', '9')
-      }).then(res=>{
+      }).then(res => {
         if(res.code === '200'){
-          let data = this.$com.confirm(res, 'data.content', [])
+          const data = this.$com.confirm(res, 'data.content', [])
           this.reviewTypeList = data.map((item) => {
             return {
               name: item.name,
@@ -263,9 +263,9 @@ export default {
     getSysCodOptions(){
       this.$ajax.get({
         url: this.$api.SYSTEM_LIST_ALL_GET
-      }).then(res=>{
+      }).then(res => {
         if(res.code === '200'){
-          let data = this.$com.confirm(res, 'data.content', [])
+          const data = this.$com.confirm(res, 'data.content', [])
           this.sysListForSearch = data.map((item) => {
             return {
               label: item.sysName,
@@ -282,7 +282,7 @@ export default {
      * 根据搜索条件及分页，获取已完成的数据列表
      */
     getFinishReviewList(){
-      let queryParams = Object.assign({},this.searchForm,{
+      const queryParams = Object.assign({}, this.searchForm, {
         status: 1,
         // pageSize: this.pagination.pageSize,
         // pageNo: this.pagination.pageNo
@@ -290,7 +290,7 @@ export default {
       this.$ajax.get({
         url   : this.$api.GET_EXPERT_REVIEW_TODO_LIST.replace('{expertId}', this.expertId),
         params: queryParams
-      }).then(res=>{
+      }).then(res => {
         if(res.code === '200'){
           this.finishReviewList = this.$com.confirm(res, 'data.content', [])
         }else{
@@ -307,8 +307,8 @@ export default {
     onDateChange(date, dateString) {
       this.searchTime.selected = date
       this.searchTime.selectedString = dateString
-      this.searchForm['finishTime_gt'] = dateString[0]
-      this.searchForm['finishTime_lt'] = dateString[1]
+      this.searchForm.finishTime_gt = dateString[0]
+      this.searchForm.finishTime_lt = dateString[1]
     },
     reset(){
       this.searchForm.systemCode = null

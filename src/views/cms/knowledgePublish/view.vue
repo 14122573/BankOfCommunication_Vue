@@ -54,7 +54,6 @@
 </style>
 <script>
 
-
 import cpdf from '@/components/theThreeParty/pdf.vue'
 export default {
   components: { cpdf },
@@ -74,7 +73,7 @@ export default {
   },
   methods: {
     goBackList(){
-      let token = this.$cookie.get('token')
+      const token = this.$cookie.get('token')
       if (token !=undefined && token !=null && 'string'==typeof token) {
         this.$router.push({ name: '/cms/knowledgePublish' })
       }else{
@@ -94,7 +93,7 @@ export default {
           // 根据是否为匿名浏览属性，判断是否需要用户已登录
           if(this.knowledgeDetails.anonymous=='1'){
             //为非匿名浏览，就需要token
-            let token = this.$cookie.get('token')
+            const token = this.$cookie.get('token')
             if (!token) { // 不满足非匿名浏览条件，先去登录
               this.$router.push({ name: 'login' })
             }else{ // 满足条件，做数据整理展示
@@ -116,7 +115,7 @@ export default {
      * 整理知识文库中需要展示的附件内容
      */
     getAttachments(){
-      let attachments = !this.knowledgeDetails.attachments?[]:this.knowledgeDetails.attachments
+      const attachments = !this.knowledgeDetails.attachments?[]:this.knowledgeDetails.attachments
 
       // let attachments = testArr
       for(let i=0;i<attachments.length;i++){

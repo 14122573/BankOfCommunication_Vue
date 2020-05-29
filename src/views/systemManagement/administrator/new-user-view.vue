@@ -128,7 +128,7 @@ export default {
       this.$ajax.get({
         url: this.$api.GET_ALL_ROLE + '?isTree=true'
       }).then(res => {
-        let data = res.data.content
+        const data = res.data.content
         data.forEach((item, index) => {
           this.treeData.push(this.getTreeData(item, index))
         })
@@ -137,7 +137,7 @@ export default {
     },
     // 整理权限树
     getTreeData(item, index) {
-      let childrenNode = {
+      const childrenNode = {
         title: item.permName,
         key  : item.id,
         value: item.id
@@ -145,7 +145,7 @@ export default {
       if (item.childList && item.childList.length) {
         childrenNode.children = []
         item.childList.forEach((subItem, subIndex) => {
-          let subkey = subItem.id
+          const subkey = subItem.id
           childrenNode.children.push(this.getTreeData(subItem, subkey))
         })
       }
@@ -156,7 +156,7 @@ export default {
         url: this.$api.ROLE_DETAIL.replace('{id}', params)
       }).then(res => {
         if (res.code === '200') {
-          let data = res.data.content
+          const data = res.data.content
           for(let i=0;i<data.length;i++){
             if(false ===data[i].canDelete){
               // 无逻辑

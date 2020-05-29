@@ -80,7 +80,7 @@ import DataOperatorInList from '@/views/systemManagement/components/dataOperator
 
 export default {
   components: {
-    CMSDataStatus,DataOperatorInList
+    CMSDataStatus, DataOperatorInList
   },
   data() {
     return {
@@ -90,16 +90,16 @@ export default {
         status: [ {
           label: '草稿',
           value: '0'
-        },{
+        }, {
           label: '发布中',
           value: '1'
-        },{
+        }, {
           label: '已失效',
           value: '2'
         } ]
       },
       defaultSearchForm: {
-        status: [ '0','1' ]
+        status: [ '0', '1' ]
       },
       searchForm : {},
       noticeList : [],
@@ -108,7 +108,7 @@ export default {
           title    : '标题',
           dataIndex: 'title',
           key      : 'title'
-        },{
+        }, {
           title      : '生效时间段',
           dataIndex  : 'startTime',
           key        : 'startTime',
@@ -116,7 +116,7 @@ export default {
           scopedSlots: {
             customRender: 'effectTime'
           }
-        },{
+        }, {
           title      : '置顶否',
           dataIndex  : 'isTop',
           key        : 'isTop',
@@ -124,7 +124,7 @@ export default {
           scopedSlots: {
             customRender: 'placement'
           }
-        },{
+        }, {
           title      : '状态',
           dataIndex  : 'status',
           key        : 'status',
@@ -132,7 +132,7 @@ export default {
           scopedSlots: {
             customRender: 'noticeStatus'
           }
-        },{
+        }, {
           title      : '操作人',
           width      : 150,
           dataIndex  : 'creator',
@@ -140,7 +140,7 @@ export default {
           scopedSlots: {
             customRender: 'operator'
           }
-        },{
+        }, {
           title      : '操作',
           key        : 'operation',
           width      : 180,
@@ -166,7 +166,7 @@ export default {
   },
   mounted() {
     if(this.$route.name == '/cms/notice'){
-      this.searchForm.status_in = this.toKeyString(this.defaultSearchForm.status,',')
+      this.searchForm.status_in = this.toKeyString(this.defaultSearchForm.status, ',')
       this.getNoticeList()
     }
   },
@@ -207,7 +207,7 @@ export default {
      * @param {Object} data 被操作数据的详情信息
      */
     doListOpeations(eventKey, data) {
-      let opeation = {
+      const opeation = {
         title: '',
         tips : ''
       }
@@ -241,8 +241,8 @@ export default {
       default:
         break
       }
-      if(this.$com.oneOf(eventKey,[ 'publish','delete','recall','top','down' ])){
-        let vm = this
+      if(this.$com.oneOf(eventKey, [ 'publish', 'delete', 'recall', 'top', 'down' ])){
+        const vm = this
         this.$modal.confirm({
           title     : opeation.title,
           content   : opeation.tips,
@@ -252,10 +252,10 @@ export default {
           onOk() {
             if(eventKey=='delete'){
               vm.toDoDelete(data.id)
-            }else if(vm.$com.oneOf(eventKey,[ 'publish','recall' ])){
-              vm.toChangeStatus(data.id,toStatus)
-            }else if(vm.$com.oneOf(eventKey,[ 'top','down' ])){
-              vm.toChangePlacement(data.id,toStatus)
+            }else if(vm.$com.oneOf(eventKey, [ 'publish', 'recall' ])){
+              vm.toChangeStatus(data.id, toStatus)
+            }else if(vm.$com.oneOf(eventKey, [ 'top', 'down' ])){
+              vm.toChangePlacement(data.id, toStatus)
             }
           },
         })
@@ -267,12 +267,12 @@ export default {
      * @param {String} id 被操作数据key
      * @param {String} status 目标状态Key ，置顶：1；不置顶：0
      */
-    toChangePlacement(id,status){
+    toChangePlacement(id, status){
       this.$ajax.put({
         url: this.$api.PUT_CMS_NOTICE_PLACEMENT.replace('{id}', id).replace('{top}', status)
-      }).then(res=>{
+      }).then(res => {
         if(res.code=='200'){
-          let successMsg = status=='1'?'置顶成功':'取消置顶成功'
+          const successMsg = status=='1'?'置顶成功':'取消置顶成功'
           this.$message.success(successMsg)
           this.getNoticeList()
         }
@@ -286,7 +286,7 @@ export default {
     toDoDelete(id){
       this.$ajax.delete({
         url: this.$api.DELETE_CMS_NOTICE.replace('{id}', id)
-      }).then(res=>{
+      }).then(res => {
         if(res.code=='200'){
           this.$message.success('删除成功')
           this.getNoticeList()
@@ -299,13 +299,13 @@ export default {
      * @param {String} id 被操作数据key
      * @param {String} status 目标状态Key ，发布：1；失效：2
      */
-    toChangeStatus(id,status){
+    toChangeStatus(id, status){
 
       this.$ajax.put({
         url: this.$api.PUT_CMS_NOTICE_STATUS.replace('{id}', id).replace('{status}', status)
-      }).then(res=>{
+      }).then(res => {
         if(res.code=='200'){
-          let successMsg = status=='1'?'发布成功':'撤回成功'
+          const successMsg = status=='1'?'发布成功':'撤回成功'
           this.$message.success(successMsg)
           this.getNoticeList()
         }
@@ -318,13 +318,13 @@ export default {
      * @param {String} splitStr key转为字符串后，每个key的链接符
      * @returns {String} keyString 拼接后的字串串
      */
-    toKeyString(keyArray,splitStr){
+    toKeyString(keyArray, splitStr){
       let keyString = ''
       if(Array.isArray(keyArray) && keyArray.length>0){
         keyArray.forEach(element => {
           keyString += element+splitStr
         })
-        keyString = keyString.substring(0,keyString.length-1)
+        keyString = keyString.substring(0, keyString.length-1)
       }
       return keyString
     },
@@ -334,7 +334,7 @@ export default {
      * @param {Array} selecteds 已勾选项的key
      */
     onStatusChange(selecteds){
-      this.searchForm.status_in = this.toKeyString(selecteds,',')
+      this.searchForm.status_in = this.toKeyString(selecteds, ',')
     },
 
     /**
@@ -342,7 +342,7 @@ export default {
      * @param {String} type 页面类型， 创建：create；修改：edit；详情：detail
      * @param {String} id 数据key
      */
-    goTo(type,id){
+    goTo(type, id){
       type = !type?'create':type.toLowerCase()
       id = !id?'':id
       switch (type) {
@@ -377,7 +377,7 @@ export default {
      */
     reset(){
       this.searchForm ={
-        'status_in': this.toKeyString(this.defaultSearchForm.status,',')
+        'status_in': this.toKeyString(this.defaultSearchForm.status, ',')
       }
       this.pagination.current = 1
       this.pagination.pageNo = 1
@@ -401,9 +401,9 @@ export default {
      */
     getNoticeList(){
       let searchParms
-      searchParms = Object.assign({},this.searchForm,{
+      searchParms = Object.assign({}, this.searchForm, {
         'title_l': !this.noticeSearchForm.getFieldValue('title')?'':this.noticeSearchForm.getFieldValue('title')
-      },{
+      }, {
         pageNo  : this.pagination.pageNo,
         pageSize: this.pagination.pageSize,
       })
@@ -421,5 +421,4 @@ export default {
   },
 }
 </script>
-
 

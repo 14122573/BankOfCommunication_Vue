@@ -13,13 +13,13 @@ export default {
     }
   },
   mounted() {
-    let accessToken = this.$com.getQueryVariable('accessToken')
-    let refreshToken = this.$com.getQueryVariable('refreshToken')
+    const accessToken = this.$com.getQueryVariable('accessToken')
+    const refreshToken = this.$com.getQueryVariable('refreshToken')
     if(!accessToken){
       this.$com.handleLogOut()
     }else{
-      this.$com.setToken(accessToken,refreshToken)
-      let checkResult = this.$com.checkOldSysAccounts(accessToken,refreshToken)
+      this.$com.setToken(accessToken, refreshToken)
+      const checkResult = this.$com.checkOldSysAccounts(accessToken, refreshToken)
       if(!checkResult){
         this.$com.handleLogOut()
       }else{
@@ -29,7 +29,7 @@ export default {
           if(!res.data || !res.data.content){
             this.$com.handleLogOut()
           }else{
-            let sysList = this.getLastOldSysAuth(checkResult,res.data.content.oldAccountSet)
+            const sysList = this.getLastOldSysAuth(checkResult, res.data.content.oldAccountSet)
             this.checkPortalAuth(sysList)
           }
         })
@@ -43,17 +43,17 @@ export default {
      * @param {Object} newOldSysList 登录系统后，通过userInfo获取的最新老系统清单
      * @returns {Object} 组装好的最新的老系统权限
      */
-    getLastOldSysAuth(orgOldSysList,newOldSysList){
+    getLastOldSysAuth(orgOldSysList, newOldSysList){
       orgOldSysList = !orgOldSysList?[]:orgOldSysList
       newOldSysList = Array.isArray(newOldSysList)?newOldSysList:[]
 
       if(Array.isArray(orgOldSysList)){
-        let resultSysList = []
+        const resultSysList = []
         for(let i=0;i<orgOldSysList.length;i++){
-          let oldSysItem = orgOldSysList[i]
+          const oldSysItem = orgOldSysList[i]
           let isFound = false
           for(let j=0;j<newOldSysList.length;j++){
-            let newSysItem = newOldSysList[j]
+            const newSysItem = newOldSysList[j]
             if(oldSysItem.sysDic.sysCode == newSysItem.sysDic.sysCode ){
               resultSysList.push(newSysItem)
               isFound = true
@@ -78,11 +78,11 @@ export default {
 
       this.$ajax.get({
         url: this.$api.GET_USER_PEIMISSION
-      }).then(res=>{
+      }).then(res => {
         if(!res.data || !res.data.content){
           this.$com.handleLogOut()
         }else{
-          let authCodes = res.data.content
+          const authCodes = res.data.content
           let hasNewSysAuth = false
           if(Array.isArray(authCodes)){
             if(authCodes.length ==0)
@@ -99,7 +99,7 @@ export default {
             if(this.verOldSysAuth(oldSysList)){
               this.$cookie.remove('token')
               this.$cookie.remove('refresh_token')
-              this.$router.push({ name: 'bindPhone',query: { logined: 1 } })
+              this.$router.push({ name: 'bindPhone', query: { logined: 1 } })
             }else{
               this.$com.handleLogOut()
             }
@@ -117,7 +117,7 @@ export default {
       if(Array.isArray(oldSys) && oldSys.length>1){
         this.$cookie.set('canEnterBind', '200')
         // this.$cookie.set('systemLists', oldSys)
-        let chooseSystemLists = oldSys
+        const chooseSystemLists = oldSys
         this.$store.commit('SET_CHOOSESYSLISTS', chooseSystemLists)
         return true
       }else{

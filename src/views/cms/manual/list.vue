@@ -73,7 +73,7 @@ export default {
       uploadFileList: [],
       uploadConfig  : {
         maxSize         : 5*1024*1024,
-        acceptTypesArray: [ 'pdf','doc','docx','ppt','pptx' ]
+        acceptTypesArray: [ 'pdf', 'doc', 'docx', 'ppt', 'pptx' ]
       },
       model      : {},
       total      : 0,

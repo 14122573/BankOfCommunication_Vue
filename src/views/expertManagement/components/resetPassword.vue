@@ -81,7 +81,7 @@ export default {
         if (!err) {
           this.$emit('on-ok', values)
         }else{
-          this.$com.getFormValidErrTips(this,err)
+          this.$com.getFormValidErrTips(this, err)
         }
       })
     },

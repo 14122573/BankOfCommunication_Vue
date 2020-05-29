@@ -91,7 +91,7 @@ export default {
       uploading   : false,
       fileName    : '',
       uploadConfig: {
-        acceptTypesArray: [ 'xsl','xlsx' ],
+        acceptTypesArray: [ 'xsl', 'xlsx' ],
         acceptTypes     : '.xsl,.xlsx'
       },
       result: {},
@@ -99,10 +99,10 @@ export default {
   },
   methods: {
     beforeUpload(file) {
-      let fileNameArr = file.name.split('.')
-      let fileSuffix = fileNameArr[fileNameArr.length-1].toLowerCase()
-      let isAccept = this.$com.oneOf(fileSuffix,this.uploadConfig.acceptTypesArray)
-      let isLtMaxFileSize = (file.size  < (1024*1024*200))
+      const fileNameArr = file.name.split('.')
+      const fileSuffix = fileNameArr[fileNameArr.length-1].toLowerCase()
+      const isAccept = this.$com.oneOf(fileSuffix, this.uploadConfig.acceptTypesArray)
+      const isLtMaxFileSize = (file.size < (1024*1024*200))
 
       let message = ''
       message += !isAccept?('文件格式限定为'+this.uploadConfig.acceptTypes+'；'):''
@@ -135,7 +135,7 @@ export default {
 			  url   : this.$api.IMPORT_EXPERT_ALL,
 			  params: formData
 		  }
-	  ).then((res)=>{
+	  ).then((res) => {
         if(res.code == '200'){
           this.result=res.data.content
           this.uploading=false
@@ -152,7 +152,7 @@ export default {
       window.open(this.result.path)
     },
     downloadTemplate() {
-      window.open(this.$api.TEMPLAT_DOWNLOAD_EXPERT_AND_TALENT.replace('/api',''))
+      window.open(this.$api.TEMPLAT_DOWNLOAD_EXPERT_AND_TALENT.replace('/api', ''))
     }
   }
 }

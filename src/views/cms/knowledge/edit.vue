@@ -85,14 +85,14 @@ import FileUpload from '@/components/Upload/fileUpload'
 import VueUeditorWrap from 'vue-ueditor-wrap'
 export default {
   components: {
-    FileUpload,VueUeditorWrap
+    FileUpload, VueUeditorWrap
   },
   data() {
     const validateVideoPath = (rule, value, callback) => {
       if (!value) {
         callback()
       } else {
-        let startStr = value.substr(0, 8).toLowerCase()
+        const startStr = value.substr(0, 8).toLowerCase()
         if (startStr.indexOf('https://')!=-1 || startStr.indexOf('http://')!=-1) {
           callback()
         } else {
@@ -113,7 +113,7 @@ export default {
           'rowspacingtop', 'rowspacingbottom', 'lineheight', '|',
           'customstyle', 'paragraph', 'fontfamily', 'fontsize', '|',
           'directionalityltr', 'directionalityrtl', 'indent', '|', 'imagenone', 'imageleft', 'imageright', 'imagecenter', '|',
-          'simpleupload', 'insertimage', 'attachment', 'insertvideo','|',
+          'simpleupload', 'insertimage', 'attachment', 'insertvideo', '|',
           'justifyleft', 'justifycenter', 'justifyright', 'justifyjustify', '|', 'touppercase', 'tolowercase', '|',
           'link', 'unlink',
         ] ],
@@ -121,7 +121,7 @@ export default {
         autoHeightEnabled : false, // {Boolean} [默认值：true] 编辑器不自动被内容撑高
         elementPathEnabled: false, // {Boolean} [默认值：true] 是否启用元素路径，默认是显示
         wordCount         : false, // {Boolean} [默认值：true] 是否开启字数统计
-        enableAutoSave    : false,// {Boolean} [默认值：true] 启用自动保存，这个配置忽好忽坏
+        enableAutoSave    : false, // {Boolean} [默认值：true] 启用自动保存，这个配置忽好忽坏
         initialFrameWidth : '90%',
         saveInterval      : 100000000, // {Number} [默认值：500] 自动保存间隔时间，单位ms
         autoFloatEnabled  : false, // [默认值：true] // 是否保持toolbar的位置不动
@@ -138,7 +138,7 @@ export default {
         anonymous: [ {
           label: '公开',
           value: '0'
-        },{
+        }, {
           label: '不公开',
           value: '1'
         }
@@ -182,7 +182,7 @@ export default {
      * @returns {Array} 合并后的文件数组
      */
     arrangeFileList(){
-      let fileList = this.uploadFileList.used.map((item,index)=>{
+      const fileList = this.uploadFileList.used.map((item, index) => {
         if(item.uid && item.uid.toString().indexOf('-')==0){// 未修改PDF
           return {
             type    : 1,
@@ -198,7 +198,7 @@ export default {
           }
         }
       })
-      let videoList  = this.formData.videoUrlList.map((item,index)=>{
+      const videoList = this.formData.videoUrlList.map((item, index) => {
         return {
           type    : 2,
           sort    : fileList.length+index+1,
@@ -237,7 +237,7 @@ export default {
      * @param {Number}  index formData.videoUrlList数组下标
      */
     deleteVideoUrl(index){
-      this.formData.videoUrlList.splice(index,1)
+      this.formData.videoUrlList.splice(index, 1)
     },
 
     /**
@@ -342,14 +342,14 @@ export default {
             return
           }
 
-          let postParams = Object.assign({},this.formData ,{
+          const postParams = Object.assign({}, this.formData, {
             'title'      : this.knowledgeEditForm.getFieldValue('title'),
             'author'     : this.knowledgeEditForm.getFieldValue('author'),
             'years'      : this.knowledgeEditForm.getFieldValue('years'),
             'status'     : type=='save'?'0':'1',
             'attachments': this.arrangeFileList()
           })
-          delete  postParams.videoUrlList
+          delete postParams.videoUrlList
           // console.log(postParams)
 
           this.$ajax.put({
@@ -362,7 +362,7 @@ export default {
             }
           })
         }else{
-          this.$com.getFormValidErrTips(this,err)
+          this.$com.getFormValidErrTips(this, err)
         }
       })
     }

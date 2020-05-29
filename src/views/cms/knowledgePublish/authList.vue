@@ -70,14 +70,14 @@ export default {
         type: [ {
           label: '视频',
           value: '0'
-        },{
+        }, {
           label: 'PDF',
           value: '1'
         } ],
       },
       defaultSearchForm: {
         // type:['0','1'],
-        anonymous: [ '0','1' ]
+        anonymous: [ '0', '1' ]
       },
       searchForm   : {},
       knowledgeList: [],
@@ -98,7 +98,7 @@ export default {
   mounted() {
     // if(this.$route.name == '/cms/knowledgePublish'){
     // this.searchForm.type_in = this.toKeyString(this.defaultSearchForm.type,',')
-    this.searchForm.anonymous_in = this.toKeyString(this.defaultSearchForm.anonymous,',')
+    this.searchForm.anonymous_in = this.toKeyString(this.defaultSearchForm.anonymous, ',')
     this.getKnowLedgeList()
     // }
   },
@@ -147,13 +147,13 @@ export default {
      * @param {String} splitStr key转为字符串后，每个key的链接符
      * @returns {String} keyString 拼接后的字串串
      */
-    toKeyString(keyArray,splitStr){
+    toKeyString(keyArray, splitStr){
       let keyString = ''
       if(Array.isArray(keyArray) && keyArray.length>0){
         keyArray.forEach(element => {
           keyString += element+splitStr
         })
-        keyString = keyString.substring(0,keyString.length-1)
+        keyString = keyString.substring(0, keyString.length-1)
       }
       return keyString
     },
@@ -165,11 +165,11 @@ export default {
       this.searchForm ={
         // status_in:this.toKeyString(this.defaultSearchForm.status,','),
         // type_in:this.toKeyString(this.defaultSearchForm.type,','),
-        anonymous_in: this.toKeyString(this.defaultSearchForm.anonymous,',')
+        anonymous_in: this.toKeyString(this.defaultSearchForm.anonymous, ',')
       }
       this.pagination.current = 1
       this.pagination.pageNo = 1
-      this.knowledgeSearchForm.setFieldsValue({ title: '',author: '' })
+      this.knowledgeSearchForm.setFieldsValue({ title: '', author: '' })
 
       this.getKnowLedgeList()
     },
@@ -189,12 +189,12 @@ export default {
      */
     getKnowLedgeList(){
       let searchParms
-      searchParms = Object.assign({},this.searchForm,{
+      searchParms = Object.assign({}, this.searchForm, {
         title_l        : !this.knowledgeSearchForm.getFieldValue('title')?'':this.knowledgeSearchForm.getFieldValue('title'),
         author_l       : !this.knowledgeSearchForm.getFieldValue('author')?'':this.knowledgeSearchForm.getFieldValue('author'),
         status_in      : '1',
         createTime_desc: 'desc'
-      },{
+      }, {
         pageNo  : this.pagination.pageNo,
         pageSize: this.pagination.pageSize
       })
@@ -213,5 +213,4 @@ export default {
   },
 }
 </script>
-
 

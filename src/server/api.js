@@ -1,4 +1,4 @@
-let BASE_URL = '',MOCK_URL=''
+let BASE_URL = '', MOCK_URL=''
 switch (process.env.NODE_ENV) {
 case 'devol':
 // 本地线上部署环境下
@@ -22,14 +22,14 @@ default:
   BASE_URL = 'http://iftp.omniview.pro/api'
   MOCK_URL = 'http://yapi.omniview.pro/mock/183'
   break
-};
+}
 
 export default {
   BASE_URL,
   // 全局远程配置文件
-  CONFIGS_EXPORTREVIEW_ROUTERS   : BASE_URL.replace('/api','')+'/attr/exportReviewRouterConfigs.json', //portal专家库评审各子系统内容的菜单跳转配置文件
-  CONFIGS_MICSYSTEMS_ROUTERS     : BASE_URL.replace('/api','')+'/attr/micRouters.json', // 接入portal的子项目路由
-  CONFIGS_MICSYSTEMS_LIST        : BASE_URL.replace('/api','')+'/attr/micSystemConfigs.json', // 接入portal的子系统部署地址及唯一识别码的配置清单
+  CONFIGS_EXPORTREVIEW_ROUTERS   : BASE_URL.replace('/api', '')+'/attr/exportReviewRouterConfigs.json', //portal专家库评审各子系统内容的菜单跳转配置文件
+  CONFIGS_MICSYSTEMS_ROUTERS     : BASE_URL.replace('/api', '')+'/attr/micRouters.json', // 接入portal的子项目路由
+  CONFIGS_MICSYSTEMS_LIST        : BASE_URL.replace('/api', '')+'/attr/micSystemConfigs.json', // 接入portal的子系统部署地址及唯一识别码的配置清单
   // 用户信息
   // 用户信息
   GET_USER_INFO                  : '/service-user/user/login/user/info', // 获取用户信息
@@ -56,9 +56,9 @@ export default {
   POST_BIND_TEMPUSERINFO_BIND    : '/service-user/user/public/temp/bind/info', // 临时账号，绑定手机及用户信息
   // 用户在子业务系统中的数据
   GET_EXPERT_REVIEW_TODO_LIST    : '/service-expert/expert/extract/{expertId}', //专家待评审项目。获取当前接口传参专家需要评审的数据,? status:0-未完成 1-完成 null/""-全部
-  GET_DECLARATION_LIST           : '/service-user/user/user/datas',  //获取申报人，在子业务系统提交过的所有材料
-  GET_DECLARATION_TARGETUSER_LIST: '/service-user/user/assign/users',  //查找接收申报数据的用户列表
-  PUT_DECLARATION_TRANSFER       : '/service-user/user/move/datas',  //提交数据转移
+  GET_DECLARATION_LIST           : '/service-user/user/user/datas', //获取申报人，在子业务系统提交过的所有材料
+  GET_DECLARATION_TARGETUSER_LIST: '/service-user/user/assign/users', //查找接收申报数据的用户列表
+  PUT_DECLARATION_TRANSFER       : '/service-user/user/move/datas', //提交数据转移
 
   // 系统配置
   // 系统配置 -- 权限配置管理
@@ -101,7 +101,7 @@ export default {
   DELETE_AREA                 : '/service-user/user/area/{id}', //删除行政区
 
   // 系统配置 -- 用户管理 -- 临时账号管理
-  GET_TEMPACCOUT_BATCH_LIST    : '/service-user/user/temp/acct/batch',//批次列表
+  GET_TEMPACCOUT_BATCH_LIST    : '/service-user/user/temp/acct/batch', //批次列表
   POST_TEMPACCOUT_CREATE       : '/service-user/user/temp/accounts', //批量添加临时账号
   PUT_TEMPACCOUT_BATCH_CREATE  : '/service-user/user/temp/acct/produce', //生成临时数据批次
   GET_TEMPACCOUT_EXCEL_BY_BATCH: '/service-user/user/export/temp/acct?batch={batchids}&token={token}', //导出临时账号
@@ -119,7 +119,7 @@ export default {
   PUT_EXPERT_BASE                   : '/service-expert/expert/dictionary/{id}', //修改专家字典信息列表接口，
   DELETE_EXPERT_BASE                : '/service-expert/expert/dictionary/{id}', //删除专家字典信息列表接口，
   GET_EXPERT_PROF_LV                : '/service-expert/expert/prof/lv', // 获取专家库职称级别列表
-  GET_JOB_TITLE_TREE                : '/service-expert/expert/prof/tree',//职称树形结构
+  GET_JOB_TITLE_TREE                : '/service-expert/expert/prof/tree', //职称树形结构
   GET_EXPERT_LIST                   : '/service-expert/expert/expert', //专家库列表
   GET_EXPERT_DETAIL                 : '/service-expert/expert/expert/{experId}', //专家库明细
   DICTIONARY_TYPE_GET               : '/service-expert/expert/dictionary/{type}', //字典
@@ -164,6 +164,6 @@ export default {
   PUT_EDIT_MANUAL         : '/service-release/release/handbook/{id}', // 编辑手册
   DELETE_MANUAL           : '/service-release/release/handbook/{id}', // 删除手册
   // 兽医
-  GET_VETERINARYALL       : '/veterinary/veterinary/public/doctor/publicInfo/allpub',// 全部兽医
+  GET_VETERINARYALL       : '/veterinary/veterinary/public/doctor/publicInfo/allpub', // 全部兽医
   GET_VETERINARY          : '/veterinary/veterinary/public/doctor/publicInfo/pub/{id}/{type}'// 单个兽医
 }

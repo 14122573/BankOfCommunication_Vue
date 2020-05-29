@@ -91,7 +91,7 @@ export default {
     pointsList(){
       // 整理数据，可用于collapse展示
       this.pointsArray = []
-      for(let item in this.pointsList){
+      for(const item in this.pointsList){
         this.pointsArray.push({
           name    : item,
           children: [].concat(this.pointsList[item])
@@ -113,13 +113,13 @@ export default {
      */
     getPointList(){
       let searchParms
-      searchParms = Object.assign({},{
+      searchParms = Object.assign({}, {
         type: this.searchForm.type,
       })
       this.$ajax.get({
         url   : this.$api.GET_PREMSPOINT_LIST,
         params: searchParms
-      }).then(res=>{
+      }).then(res => {
         if(res.code === '200'){
           this.pointsList = this.$com.confirm(res, 'data.content', [])
         }else{
@@ -135,7 +135,7 @@ export default {
      */
     confirmDeletePoint(point){
       if(!!point) {
-        let vm = this
+        const vm = this
         this.deleteData = point
         this.$modal.confirm({
           title     : '是否确认删除此功能点？',
@@ -188,9 +188,9 @@ export default {
       this.$ajax.get({
         url   : this.$api.SYSTEM_LIST_ALL_GET,
         params: { type: '1' }
-      }).then(res=>{
+      }).then(res => {
         if(res.code === '200'){
-          let data = this.$com.confirm(res, 'data.content', [])
+          const data = this.$com.confirm(res, 'data.content', [])
           this.sysListForSearch = data.map((item) => {
             return {
               label: item.sysName,
@@ -228,5 +228,4 @@ export default {
 .contentOperate span{ color:#1890ff; cursor: pointer;display: inline-block; }
 .contentOperate .title{color:#000;font-weight:bold;}
 </style>
-
 

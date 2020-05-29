@@ -62,10 +62,10 @@ export default {
     getTree(){
       this.$ajax.get({
         url: this.$api.GET_ALL_ROLE + '?isTree=true'
-      }).then(res=>{
-        let data=res.data.content
-        data.forEach((item,index)=>{
-          this.treeData.push(this.getTreeNode(item,index))
+      }).then(res => {
+        const data=res.data.content
+        data.forEach((item, index) => {
+          this.treeData.push(this.getTreeNode(item, index))
         })
         if(this.$route.query.type === 'edit'){
           this.title='修改角色'
@@ -83,16 +83,16 @@ export default {
     /**
      * 整理权限树
      */
-    getTreeNode(item,index){
-      let childrenNode={
+    getTreeNode(item, index){
+      const childrenNode={
         title: item.permName,
         key  : item.id
       }
       if(item.childList && item.childList.length){
         childrenNode.children = []
-        item.childList.forEach((subItem,subIndex) =>{
-          let subkey = subItem.id
-          childrenNode.children.push(this.getTreeNode(subItem,subkey))
+        item.childList.forEach((subItem, subIndex) => {
+          const subkey = subItem.id
+          childrenNode.children.push(this.getTreeNode(subItem, subkey))
         })
       }
       return childrenNode
@@ -100,10 +100,10 @@ export default {
     // 查询角色详情
     getRoleInfo(id){
       this.$ajax.get({
-        url: this.$api.PUT_CHARACTER.replace('{id}',id)
-      }).then(res=>{
+        url: this.$api.PUT_CHARACTER.replace('{id}', id)
+      }).then(res => {
         if(res.code === '200'){
-          let data=res.data.content
+          const data=res.data.content
           this.roleName=data.roleName
           this.userCount=data.userCount
           if(this.$route.query.type !== 'view'){
@@ -111,7 +111,7 @@ export default {
               roleName: data.roleName
             })
           }
-          this.checkedKeys=data.perm.map((item)=>{
+          this.checkedKeys=data.perm.map((item) => {
             return item.id
           })
 
@@ -124,11 +124,11 @@ export default {
     },
     // 保存按钮
     save(){
-      this.formData.validateFields((err)=>{
+      this.formData.validateFields((err) => {
         if(!err){
-          let msg,link, methods
+          let msg, link, methods
           if(this.$route.query.id){
-            link=this.$api.PUT_CHARACTER.replace('{id}',this.$route.query.id)
+            link=this.$api.PUT_CHARACTER.replace('{id}', this.$route.query.id)
             methods='put'
             msg='修改成功'
           }else{
@@ -142,14 +142,14 @@ export default {
               roleName: this.formData.getFieldValue('roleName'),
               permIds : this.checkedKeys.join(',')
             }
-          }).then(res=>{
+          }).then(res => {
             if(res.code === '200'){
               this.$message.success(msg)
               this.$router.back()
             }
           })
         }else{
-          this.$com.getFormValidErrTips(this,err)
+          this.$com.getFormValidErrTips(this, err)
         }
       })
     },
@@ -166,7 +166,7 @@ export default {
     },
     // 删除按钮
     deleteBtn(){
-      let vm = this
+      const vm = this
       if(this.userCount !== null && this.userCount !== '' && this.userCount != 0){
         this.$modal.warning({
           title  : '无法删除此角色',
@@ -188,8 +188,8 @@ export default {
     },
     handleOkDelete(){
       this.$ajax.delete({
-        url: this.$api.DELETE_CHARACTER.replace('{id}',this.$route.query.id),
-      }).then(res=>{
+        url: this.$api.DELETE_CHARACTER.replace('{id}', this.$route.query.id),
+      }).then(res => {
         if(res.code === '200'){
           this.$message.success('删除成功')
           this.$router.push({
@@ -207,5 +207,4 @@ export default {
   },
 }
 </script>
-
 

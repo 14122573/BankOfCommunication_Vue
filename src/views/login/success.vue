@@ -24,7 +24,7 @@ export default {
   },
   methods: {
     handleLogin() {
-      this.$emit('on-change','login')
+      this.$emit('on-change', 'login')
     }
   }
 }

@@ -89,7 +89,7 @@ export default {
      * @returns {Object} name:状态名；color：状态文字颜色
      */
     getStatusTag(){
-      let statusTag = {
+      const statusTag = {
         name : '',
         color: ''
       }
@@ -119,7 +119,7 @@ export default {
      * @returns {Object} name:文献内容类型名；color：状态文字颜色
      */
     getPlacementTag(){
-      let statusTag = {
+      const statusTag = {
         name : '',
         color: ''
       }
@@ -145,8 +145,8 @@ export default {
      * @returns {Array}  [{name:带文件后缀的文件名称；url：已上传的文件地址},...]
      */
     makeFileList(){
-      let fileList = []
-      let attachments = !this.noticeDetail.attachments?[]:this.noticeDetail.attachments
+      const fileList = []
+      const attachments = !this.noticeDetail.attachments?[]:this.noticeDetail.attachments
       for(let i=0;i<attachments.length;i++){
         if(attachments[i].type=='1'){
           fileList.push({
@@ -166,7 +166,7 @@ export default {
     toChangeStatus(toStatusName){
       toStatusName = !toStatusName?'':toStatusName
       let toStatus = ''
-      let opeation = {
+      const opeation = {
         title: '',
         tips : ''
       }
@@ -184,8 +184,8 @@ export default {
       default:
         break
       }
-      if(this.$com.oneOf(toStatusName,[ 'publish','recall' ])){
-        let vm = this
+      if(this.$com.oneOf(toStatusName, [ 'publish', 'recall' ])){
+        const vm = this
         this.$modal.confirm({
           title     : opeation.title,
           content   : opeation.tips,
@@ -209,9 +209,9 @@ export default {
 
       this.$ajax.put({
         url: this.$api.PUT_CMS_NOTICE_STATUS.replace('{id}', this.id).replace('{status}', status)
-      }).then(res=>{
+      }).then(res => {
         if(res.code=='200'){
-          let successMsg = status=='1'?'发布成功':'撤回成功'
+          const successMsg = status=='1'?'发布成功':'撤回成功'
           this.$message.success(successMsg)
           this.$router.push({ name: '/cms/notice' })
         }

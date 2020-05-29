@@ -151,7 +151,7 @@ export default {
           this.disableBtn = true
         } else {
           if (value.length == 11) {
-            let links = '?phone=' + value
+            const links = '?phone=' + value
             this.$ajax.get({
               url: this.$api.GET_CHECK_PHONE_EXIST + links
             }).then(res => {
@@ -176,7 +176,7 @@ export default {
           callback('请输入6位数字验证码!')
         } else {
           this.$ajax.get({
-            url: this.$api.POST_CHECK_PHONE_CODE.replace('{type}','back').replace('{phone}',this.formRegister.getFieldValue('username')).replace('{code}',value)
+            url: this.$api.POST_CHECK_PHONE_CODE.replace('{type}', 'back').replace('{phone}', this.formRegister.getFieldValue('username')).replace('{code}', value)
           }).then(res => {
             if (res.code != '200') {
               callback(res.msg)
@@ -227,7 +227,7 @@ export default {
     //发送验证码
     sendCode() {
       this.$ajax.get({
-        url: this.$api.GET_PHONE_CODE.replace('{phone}', this.formRegister.getFieldValue('username')).replace('{type}','back')
+        url: this.$api.GET_PHONE_CODE.replace('{phone}', this.formRegister.getFieldValue('username')).replace('{type}', 'back')
       }).then(res => {
         this.disableCode = false
         this.disableBtn = true
@@ -254,8 +254,8 @@ export default {
           const params = Object.assign(values, {
             newPwd: values.pwd
           })
-          delete params['pwd']
-          delete params['rePassword']
+          delete params.pwd
+          delete params.rePassword
           this.$ajax.post({
             url   : this.$api.POST_FIND_PASSWORD,
             params: params
@@ -265,7 +265,7 @@ export default {
             }
           })
         }else{
-          this.$com.getFormValidErrTips(this,err)
+          this.$com.getFormValidErrTips(this, err)
         }
       })
     },

@@ -40,8 +40,8 @@ export default {
   },
   created(){
     this.getRoleTree()
-    this.$nextTick(()=>{
-      this.pointPermsForm.getFieldDecorator('permIds',{ initialValue: this.permIDArr })
+    this.$nextTick(() => {
+      this.pointPermsForm.getFieldDecorator('permIds', { initialValue: this.permIDArr })
     })
   },
   watch: {
@@ -66,21 +66,21 @@ export default {
     getRoleTree(){
       this.$ajax.get({
         url: this.$api.GET_ALL_ROLE + '?isTree=true&isAll=true'
-      }).then(res=>{
+      }).then(res => {
         if(!!res.data && !!res.data.content){
-          let data=res.data.content
-          data.forEach((item,index)=>{
+          const data=res.data.content
+          data.forEach((item, index) => {
             this.tree.roleTreeData.push(this.initRoleTreeNode(item))
           })
 
           // 重组需要展示的权限树
-          let initializedRoleTree = []
+          const initializedRoleTree = []
           this.tree.roleTreeDataArranged = []
-          this.tree.roleTreeData.forEach((item,index)=>{
+          this.tree.roleTreeData.forEach((item, index) => {
             if(!item.canDelete && !!item.permKey){
               initializedRoleTree.push(item)
             }else{
-              let node = Object.assign({}, item)
+              const node = Object.assign({}, item)
               this.tree.roleTreeDataArranged.push(node)
             }
           })
@@ -102,7 +102,7 @@ export default {
      * @returns childrenNode 对传入参数，已重组的数据
      */
     initRoleTreeNode(item){
-      let childrenNode={
+      const childrenNode={
         'title'    : item.permName,
         'key'      : item.id,
         'permKey'  : !item.permKey?'':item.permKey,
@@ -111,8 +111,8 @@ export default {
       }
       if(item.childList && item.childList.length){
         childrenNode.children = []
-        item.childList.forEach((subItem) =>{
-          let subkey = subItem.id
+        item.childList.forEach((subItem) => {
+          const subkey = subItem.id
           childrenNode.children.push(this.initRoleTreeNode(subItem))
         })
       }

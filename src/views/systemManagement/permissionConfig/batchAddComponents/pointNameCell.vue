@@ -38,7 +38,7 @@ export default {
     this.pointNameForm = this.$form.createForm(this)
   },
   created(){
-    this.$nextTick(()=>{
+    this.$nextTick(() => {
       this.pointNameForm.setFieldsValue({ pointName: this.pointName })
     })
   },

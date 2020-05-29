@@ -48,7 +48,7 @@ export default {
     acceptTypes: { //可上传的文件格式
       type: Array,
       default() {
-        return [ 'jpg','jpeg','png','gif','doc','docx','xlsx','xls','xlsm','pdf' ]
+        return [ 'jpg', 'jpeg', 'png', 'gif', 'doc', 'docx', 'xlsx', 'xls', 'xlsm', 'pdf' ]
       }
     },
     maxFileSize: { //可上传的文件大小，单位B
@@ -102,7 +102,7 @@ export default {
       for(let i=0;i<this.acceptTypes.length;i++){
         this.uploadConfig.acceptTypes += '.'+this.acceptTypes[i]+','
       }
-      this.uploadConfig.acceptTypes = this.uploadConfig.acceptTypes.substring(0,this.uploadConfig.acceptTypes.length-1)
+      this.uploadConfig.acceptTypes = this.uploadConfig.acceptTypes.substring(0, this.uploadConfig.acceptTypes.length-1)
 
       // init uploadFileList
       this.uploadFileList = [].concat(this.defaultFileList)
@@ -119,7 +119,7 @@ export default {
       const index = uploadFileList.indexOf(file)
       uploadFileList.splice(index, 1)
 
-      this.$emit('change',[].concat(uploadFileList))
+      this.$emit('change', [].concat(uploadFileList))
     },
 
     /**
@@ -128,10 +128,10 @@ export default {
      * @returns {Boolean} true 符合规则；
      */
     beforeUpload(file) {
-      let fileNameArr = file.name.split('.')
-      let fileSuffix = fileNameArr[fileNameArr.length-1].toLowerCase()
-      let isAccept = this.$com.oneOf(fileSuffix,this.uploadConfig.acceptTypesArray)
-      let isLtMaxFileSize = (file.size  < this.maxFileSize)
+      const fileNameArr = file.name.split('.')
+      const fileSuffix = fileNameArr[fileNameArr.length-1].toLowerCase()
+      const isAccept = this.$com.oneOf(fileSuffix, this.uploadConfig.acceptTypesArray)
+      const isLtMaxFileSize = (file.size < this.maxFileSize)
 
       let message = ''
       message += !isAccept?('文件格式限定为'+this.uploadConfig.acceptTypes+'；'):''
@@ -145,7 +145,7 @@ export default {
           okText    : '确认',
           cancelText: '取消',
         })
-        this.$emit('change',[].concat(this.uploadFileList))
+        this.$emit('change', [].concat(this.uploadFileList))
         return false
       }
     },
@@ -155,7 +155,7 @@ export default {
      * @param {Object} file 本次上传的文件对象
      * @param {Array} uploadFileList 已暂存的已上传文件对象列表
      */
-    handleUpload(data,uploadFileList) {
+    handleUpload(data, uploadFileList) {
       const formData = new FormData()
       formData.append('file', data.file)
       data.onProgress()
@@ -164,7 +164,7 @@ export default {
         params: formData
       }).then(res => {
         if (res.code === '200') {
-          let data = this.$com.confirm(res, 'data.content', {})
+          const data = this.$com.confirm(res, 'data.content', {})
           for(let index = 0;index<uploadFileList.length;index++){
             if(data.name == uploadFileList[index].name){
               this.$modal.error({
@@ -173,7 +173,7 @@ export default {
                 okText    : '确认',
                 cancelText: '取消',
               })
-              this.$emit('change',[].concat(uploadFileList))
+              this.$emit('change', [].concat(uploadFileList))
               return
             }
           }
@@ -184,7 +184,7 @@ export default {
             url   : data.path
           })
 
-          this.$emit('change',[].concat(this.uploadFileList))
+          this.$emit('change', [].concat(this.uploadFileList))
         }
       })
     },
@@ -211,5 +211,4 @@ export default {
 .BYFileUpload .ant-upload-list-item-name {white-space: normal; padding-right: 10px;}
 .BYFileUpload .ant-upload-list-item .anticon-close { top:50%; margin-top: -5px;}
 </style>
-
 

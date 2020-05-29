@@ -67,7 +67,7 @@ export default {
     return {
       expand: false,
       model : {
-        status: [ '0','1','2','3' ],
+        status: [ '0', '1', '2', '3' ],
       },
       total      : 0,
       currentPage: 1,
@@ -341,7 +341,7 @@ export default {
     },
     handleReset() {
       this.model = {
-        status: [ '0','1','2','3' ],
+        status: [ '0', '1', '2', '3' ],
       }
       this.currentPage = 1
       this.getList()

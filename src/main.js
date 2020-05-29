@@ -2,15 +2,14 @@
 // (runtime-only or standalone) has been set in webpack.base.conf with an alias.
 import 'babel-polyfill'
 import Vue from 'vue'
-
-// import App from './App'
-import App from '@/components/Layout/main'
-import router from './router'
+import App from './App'
 import store from './store'
-import ajax from './server/ajax'
-import api from './server/api'
+import router from './router'
 import cookie from './util/local-cookie'
 import common from './util/common'
+import ajax from '@/server/ajax'
+import api from '@/server/api'
+import { registerMicroApps, start } from 'qiankun'
 import PermissionControl from './util/permission-control.js' // 权限自定义指令 v-permission="code"
 import { PermissionFilter } from './util/permission-filter.js' // 权限全局方法 v-if="$permission('code')"
 import {
@@ -57,21 +56,30 @@ import {
   BackTop,
   Carousel,
   Tooltip,
-  // CollapsePanel
+  List,
 } from 'ant-design-vue'
 import './assets/base.css' // 引入全局样式
 import './assets/reset-ant.css' // 重置ant-design样式
 import ActiveForm from '@/components/ActiveForm'
 import ActiveTable from '@/components/ActiveTable'
-import singleSpaVue from 'single-spa-vue'
 
 // 由于日期组件默认是英文的，需要本地化
 import moment from 'moment'
 import 'moment/locale/zh-cn'
 moment.locale('zh-cn')
+
+Vue.prototype.$ajax = ajax
+Vue.prototype.$api = api
+Vue.prototype.$cookie = cookie
+Vue.prototype.$com = common
+Vue.prototype.$message = message
+Vue.prototype.$store = store
+Vue.prototype.$permission = PermissionFilter
+Vue.prototype.$moment = moment
+Vue.prototype.$modal = Modal
+
 Vue.use(ActiveForm)
 Vue.use(ActiveTable)
-
 Vue.use(Button)
 Vue.use(Spin)
 Vue.use(Layout)
@@ -114,7 +122,8 @@ Vue.use(Calendar)
 Vue.use(BackTop)
 Vue.use(Carousel)
 Vue.use(Tooltip)
-// Vue.use(Collapse-panel)
+Vue.use(List)
+Vue.config.productionTip = false
 
 import RouterWapper from '@/components/Layout/content-wrapper'
 import DetailsItem from '@/components/detail/detailItem'
@@ -123,38 +132,62 @@ Vue.component('RouterWapper', RouterWapper)
 Vue.component('DetailsItem', DetailsItem)
 Vue.component('DetailsFile', DetailsFile)
 
-Vue.prototype.$ajax = ajax
-Vue.prototype.$api = api
-Vue.prototype.$cookie = cookie
-Vue.prototype.$com = common
-Vue.prototype.$permission = PermissionFilter
-Vue.prototype.$message = message
-Vue.prototype.$modal = Modal
-Vue.prototype.$store = store
-Vue.prototype.$moment = moment
-// Vue.prototype.$moment.locale('zh-cn')
+/* eslint-disable no-new */
+let app = null
+const checkPrefix = (prefix) => { // 检查路径前缀
+  return location => location.pathname.startsWith(prefix)
+}
+const render = ({ appContent, loading } = {}) => { // 渲染方法
+  if (!app) {
+    app = new Vue({
+      el: '#portal',
+      store,
+      router,
+      data() {
+        return {
+          content: appContent,
+          loading,
+        }
+      },
+      render(h) {
+        return h(App, {
+          props: {
+            content: this.content,
+            loading: this.loading,
+          }
+        })
+      }
+    })
+  } else {
+    app.content = appContent
+    app.loading = loading
+  }
+}
 
-Vue.config.productionTip = false
-const vueLifecycles = singleSpaVue({
-  Vue,
-  appOptions: {
-    el    : '#portal',
-    router,
-    store,
-    render: h => h('div', {
-      attrs: { id: 'Layout' }
-    }, [ h(App) ]),
-  },
-})
+import system from '@/config/System2.json'
+console.log(system)
+let projects=[]
 
-export const bootstrap = [
-  vueLifecycles.bootstrap,
-]
+for(let i=0;i<system.sit.length;i++){
+  projects.push({
+    name      : system.sit[i].name,
+    entry     : system.sit[i].entry,
+    render,
+    activeRule: checkPrefix(system.sit[i].activeRule),
+  })
+}
+// const projects = [ // 子项目信息
+//   {
+//     name      : 'scsd',
+//     entry     : 'http://127.0.0.1/',
+//     render,
+//     activeRule: checkPrefix('/scsd'),
+//   },
+// ]
 
-export const mount = [
-  vueLifecycles.mount,
-]
+registerMicroApps(projects) // 注册子项目
+// registerMicroApps(system.sit) // 注册子项目
 
-export const unmount = [
-  vueLifecycles.unmount,
-]
+render()
+
+start()

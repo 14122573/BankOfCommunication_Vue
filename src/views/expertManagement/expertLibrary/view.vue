@@ -324,12 +324,12 @@ export default {
         dataIndex: 'typeName',
         key      : 'typeName',
         width    : '30%',
-	  },{
+	  }, {
         title    : '内容',
         dataIndex: 'content',
         key      : 'content',
         width    : '30%',
-	  },{
+	  }, {
         title      : '日期',
         dataIndex  : 'date',
         key        : 'date',
@@ -343,12 +343,12 @@ export default {
         dataIndex: 'name',
         key      : 'name',
         width    : '30%',
-	  },{
+	  }, {
         title    : '内容',
         dataIndex: 'content',
         key      : 'content',
         width    : '30%',
-	  },{
+	  }, {
         title      : '日期',
         dataIndex  : 'date',
         key        : 'date',
@@ -372,7 +372,7 @@ export default {
       this.$ajax.get({
         url: this.$api.GET_EXPERT_DETAIL.replace('{experId}', this.id)
       }).then(res => {
-        let data = res.data.content
+        const data = res.data.content
         // for (let i in data) {
         //   if (data[i] == null || data[i] == undefined) {
         //     data[i] = '暂无'
@@ -387,7 +387,7 @@ export default {
     },
     //获取年龄
     getAge(date){
-	  return !date?'':String(2020-Number(date.slice(0,4)))
+	  return !date?'':String(2020-Number(date.slice(0, 4)))
     },
   }
 }

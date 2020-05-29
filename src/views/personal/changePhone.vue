@@ -75,7 +75,7 @@ export default {
                     disabled: this.disableBtn,
                   },
                   on: {
-                    click: ()=> {
+                    click: () => {
                       this.$ajax.post({
                         url: this.$api.GET_PHONE_CODE.replace('{type}', 'phone').replace('{phone}', this.model.newPhone),
                       }).then(res => {

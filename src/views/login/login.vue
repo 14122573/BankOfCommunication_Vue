@@ -164,7 +164,7 @@ export default {
     handleLogin(e) {
       this.formLogin.validateFields((err, values) => {
         if (!err) {
-          let params = {
+          const params = {
             'username': values.username,
             'pwd'     : encryptDes(values.pwd)
           }
@@ -179,6 +179,11 @@ export default {
             url   : this.$api.POST_LOGIN,
             params: params
           }).then(res => {
+
+            const store = JSON.parse(sessionStorage.getItem('VuexStore')) 
+            if (store) store.content = ''
+            sessionStorage.setItem('VuexStore', JSON.stringify(store))
+
             if (res.code == '200') {
               this.$cookie.set('canEnterBind', '200')
               this.jumpOpeation(res)
@@ -196,14 +201,14 @@ export default {
     },
     //跳转操作
     jumpOpeation(res) {
-      let gainDatas = res.data.content
+      const gainDatas = res.data.content
       if (res.msg == 'choose') {
         //存储系统列表
         this.$cookie.set('systemLists', JSON.stringify(gainDatas))
         this.$store.commit('SET_CHOOSESYSLISTS', gainDatas)
         if (this.sysCode != 'null') {
           //列表存在该code  存在去匹配code值去获取跳转路径 不存在去绑定
-          let data = gainDatas.find(item => item.sysDic.sysCode == this.sysCode)
+          const data = gainDatas.find(item => item.sysDic.sysCode == this.sysCode)
           if (data) {
             let links = '?userId=' + data.id
             if (this.redirectUrlPrefix != 'null') {
@@ -212,7 +217,7 @@ export default {
             this.$ajax.get({
               url: this.$api.GET_SELECT_SYSTEM + links
             }).then(res => {
-              let gainDatas = res.data.content
+              const gainDatas = res.data.content
               if (res.msg != 'bind') {
                 //不需要绑定
                 this.$com.setToken(gainDatas.access_token, gainDatas.refresh_token)
@@ -290,7 +295,7 @@ export default {
         callback('请输入账户或手机号!')
       } else {
         if (this.$cookie.get('threeTime')) {
-          let lists = JSON.parse(this.$cookie.get('threeTime'))
+          const lists = JSON.parse(this.$cookie.get('threeTime'))
           lists.forEach((ele, index) => {
             if (ele.count < 3) {
               lists.splice(index, 1)
@@ -321,10 +326,10 @@ export default {
     },
     //得到url传递参数
     getQueryString(name) {
-      var reg = new RegExp('(^|&)' + name + '=([^&]*)(&|$)', 'i')
-      var reg_rewrite = new RegExp('(^|/)' + name + '/([^/]*)(/|$)', 'i')
-      var r = window.location.search.substr(1).match(reg)
-      var q = window.location.pathname.substr(1).match(reg_rewrite)
+      const reg = new RegExp('(^|&)' + name + '=([^&]*)(&|$)', 'i')
+      const reg_rewrite = new RegExp('(^|/)' + name + '/([^/]*)(/|$)', 'i')
+      const r = window.location.search.substr(1).match(reg)
+      const q = window.location.pathname.substr(1).match(reg_rewrite)
       if (r != null) {
         return unescape(r[2])
       } else if (q != null) {
@@ -342,13 +347,13 @@ export default {
     },
     threeTimesShowCode(id) {
       if (!this.$cookie.get('threeTime')) {
-        let datas = [ {
+        const datas = [ {
           userId: id,
           count : 1
         } ]
         this.setTime(datas)
       } else {
-        let lists = JSON.parse(this.$cookie.get('threeTime'))
+        const lists = JSON.parse(this.$cookie.get('threeTime'))
         let flag = false
         lists.forEach(ele => {
           if (ele.userId == id) {
@@ -368,13 +373,13 @@ export default {
       }
     },
     setTime(lists) {
-      var now = new Date()
-      let time = now.toLocaleString('chinese', {
+      const now = new Date()
+      const time = now.toLocaleString('chinese', {
         hour12: false
       }).split(' ')[1]
-      let totalMinutes = (24 - Number(time.split(':')[0]) - 1) * 60 + (60 - Number(time.split(':')[1]))
-      let inFifteenMinutes = new Date(new Date().getTime() + totalMinutes * 60 * 1000)
-      let datas = JSON.stringify(lists)
+      const totalMinutes = (24 - Number(time.split(':')[0]) - 1) * 60 + (60 - Number(time.split(':')[1]))
+      const inFifteenMinutes = new Date(new Date().getTime() + totalMinutes * 60 * 1000)
+      const datas = JSON.stringify(lists)
       this.$cookie.set('threeTime', datas, {
         expires: inFifteenMinutes
       })
@@ -401,7 +406,6 @@ export default {
 	.login-form-forgot { float: right; font-size: 12px;}
 	.login-form-register { color: #0076FF; font-size: 14px;}
 	.login .login-form-button { width: 100%; margin-top: 40px; text-align: center;}
-
 
   .ant-input-affix-wrapper, .login-form-button { height: 44px; }
   .showError { margin-top: -20px; height: 20px; color: red;}

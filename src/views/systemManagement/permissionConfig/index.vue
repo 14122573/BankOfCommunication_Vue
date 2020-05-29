@@ -56,7 +56,7 @@ import CreatePermBranch from './addPerm'
 import EditPermBranch from './editPerm'
 export default {
   components: {
-    CreatePermBranch,EditPermBranch
+    CreatePermBranch, EditPermBranch
   },
   data() {
     return {
@@ -100,14 +100,14 @@ export default {
   watch: {
     'tree.roleTreeData': {
       handler: function(val) {
-        let initializedRoleTree = []
+        const initializedRoleTree = []
         // 重组需要展示的权限树
         this.tree.roleTreeDataArranged = []
-        this.tree.roleTreeData.forEach((item,index)=>{
+        this.tree.roleTreeData.forEach((item, index) => {
           if(!item.canDelete && !!item.permKey){
             initializedRoleTree.push(item)
           }else{
-            let node = Object.assign({}, item)
+            const node = Object.assign({}, item)
             this.tree.roleTreeDataArranged.push(node)
           }
         })
@@ -198,7 +198,7 @@ export default {
       this.$router.push({ name: '/systemManagement/permissionConfig/point' })
     },
     findRoleNode(){
-      let roleNode = null
+      const roleNode = null
     },
     handleEditRoleNode(){
       this.editPerm.permDetail = this.selectedNode.node
@@ -218,7 +218,7 @@ export default {
       this.createPerm.showModal = true
     },
     handleDelRoleNode(){
-      let vm = this
+      const vm = this
       this.$modal.confirm({
         title     : '是否确认删除’'+this.selectedNode.node.title+'‘？',
         content   : '此操作不可撤销',
@@ -247,12 +247,12 @@ export default {
     getRoleTree(){
       this.$ajax.get({
         url: this.$api.GET_ALL_ROLE + '?isTree=true&isAll=true'
-      }).then(res=>{
+      }).then(res => {
         if(!!res.data && !!res.data.content){
-          let data=res.data.content
+          const data=res.data.content
           this.tree.roleTreeData = []
           this.tree.roleTreeDataArranged = []
-          data.forEach((item,index)=>{
+          data.forEach((item, index) => {
             this.tree.roleTreeData.push(this.initRoleTreeNode(item))
           })
         }
@@ -260,7 +260,7 @@ export default {
     },
     getPointsIds(points){
       let ids = []
-      ids = points.map(point=>{
+      ids = points.map(point => {
         return point.id
       })
       return ids
@@ -272,7 +272,7 @@ export default {
      * @returns childrenNode 对传入参数，已重组的数据
      */
     initRoleTreeNode(item){
-      let childrenNode={
+      const childrenNode={
         'titleName'  : item.permName,
         'title'      : item.permName,
         'key'        : item.id,
@@ -284,8 +284,8 @@ export default {
       }
       if(item.childList && item.childList.length){
         childrenNode.children = []
-        item.childList.forEach((subItem) =>{
-          let subkey = subItem.id
+        item.childList.forEach((subItem) => {
+          const subkey = subItem.id
           childrenNode.children.push(this.initRoleTreeNode(subItem))
         })
       }
@@ -299,8 +299,8 @@ export default {
      */
     onSelect (selectedKeys, { selected, selectedNodes, node, event }) {
       if(selectedKeys.length>0){
-        this.selectedNode['key'] = selectedKeys[0]
-        this.selectedNode['node'] = {
+        this.selectedNode.key = selectedKeys[0]
+        this.selectedNode.node = {
           'title'    : selectedNodes[0].data.props.titleName,
           'canDelete': selectedNodes[0].data.props.canDelete,
           'permKey'  : selectedNodes[0].data.props.permKey,
@@ -308,7 +308,7 @@ export default {
           'key'      : selectedNodes[0].data.key,
           'isHide'   : selectedNodes[0].data.props.isHide
         }
-        this.selectedNode['parent'] = !node.$parent.dataRef?null:Object.assign({},node.$parent.dataRef)
+        this.selectedNode.parent = !node.$parent.dataRef?null:Object.assign({}, node.$parent.dataRef)
       }else{
         this.selectedNode = {
           key   : '',
@@ -320,5 +320,4 @@ export default {
   },
 }
 </script>
-
 

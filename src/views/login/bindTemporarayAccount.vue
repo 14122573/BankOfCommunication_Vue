@@ -138,7 +138,7 @@ export default {
   components: {
     Loader,
     testStrong,
-    FrameTop,FrameFooter
+    FrameTop, FrameFooter
   },
   beforeCreate() {
     this.formTempAccoutInfo = this.$form.createForm(this)
@@ -201,7 +201,7 @@ export default {
           callback('手机号输入不合法!')
         } else {
           if (value.length == 11) {
-            let links = '?phone=' + value
+            const links = '?phone=' + value
             this.$ajax.get({
               url: this.$api.GET_CHECK_PHONE_EXIST + links
             }).then(res => {
@@ -315,7 +315,7 @@ export default {
       // 提交表单
       this.formTempAccoutInfo.validateFields((err, values) => {
         if (!err) {
-          let params = {
+          const params = {
             'userId'  : this.tempUserId,
             'pwd'     : encryptDes(values.password),
             'code'    : values.code,
@@ -335,7 +335,7 @@ export default {
           }).then(res => {
             if (res.code == '200') {
               this.$com.confirm(res, 'data.content', [])
-              let gainDatas = this.$com.confirm(res, 'data.content', {})
+              const gainDatas = this.$com.confirm(res, 'data.content', {})
               this.$cookie.set('canEnterBind', '500')
               this.$com.setToken(gainDatas.access_token, gainDatas.refresh_token)
               this.$router.push({
@@ -347,7 +347,7 @@ export default {
             }
           })
         }else{
-          this.$com.getFormValidErrTips(this,err)
+          this.$com.getFormValidErrTips(this, err)
         }
       })
     },
@@ -357,8 +357,8 @@ export default {
      */
     sendCode() {
       const phone = this.formTempAccoutInfo.getFieldValue('phone')
-      let params = {}
-      let links = ''
+      const params = {}
+      const links = ''
       if (phone) {
         this.$ajax.get({
           url: this.$api.GET_PHONE_CODE.replace('{type}', 'bindPhone').replace('{phone}', phone)

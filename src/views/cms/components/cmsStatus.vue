@@ -127,4 +127,3 @@ export default {
 .BYCmsDataStatus .ant-badge-status-dot{ width:9px; height:9px;}
 </style>
 
-

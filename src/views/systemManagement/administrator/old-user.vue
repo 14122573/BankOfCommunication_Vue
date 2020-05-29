@@ -120,21 +120,21 @@ export default {
           title    : '账号',
           dataIndex: 'username',
           key      : 'username'
-        },{
+        }, {
           title      : '所属老系统',
           dataIndex  : 'sysDic',
           key        : 'sysDic',
           scopedSlots: {
             customRender: 'sysDic'
           }
-        },{
+        }, {
           title      : '关联手机号',
           dataIndex  : 'phone',
           key        : 'phone',
           scopedSlots: {
             customRender: 'phone'
           }
-        },{
+        }, {
           title      : '用户状态',
           dataIndex  : 'status',
           key        : 'status',
@@ -142,7 +142,7 @@ export default {
           scopedSlots: {
             customRender: 'status'
           }
-        },{
+        }, {
           title      : '操作',
           dataIndex  : 'action',
           key        : 'action',
@@ -156,10 +156,10 @@ export default {
         {
           text : '正常',
           value: '1'
-        },{
+        }, {
           text : '禁用',
           value: '9'
-        },{
+        }, {
           text : '已注销',
           value: '8'
         }
@@ -213,7 +213,7 @@ export default {
         url: this.$api.SYSTEM_LIST_ALL_GET
       }).then(res => {
         if (res.code === '200') {
-          let data = this.$com.confirm(res, 'data.content', [])
+          const data = this.$com.confirm(res, 'data.content', [])
           this.systemList = data.map((item) => {
             return {
               label: item.sysName,
@@ -283,7 +283,7 @@ export default {
     },
     // 查询列表
     getList() {
-      let searchParams = JSON.parse(JSON.stringify(this.searchForm))
+      const searchParams = JSON.parse(JSON.stringify(this.searchForm))
       if (searchParams.checkedList.length > 0) {
         searchParams['oa.status_in'] = searchParams.checkedList.join(',')
       } else {
@@ -292,7 +292,7 @@ export default {
       if (searchParams.checkedList) delete searchParams.checkedList
       this.$ajax.get({
         url   : this.$api.USER_LIST_TYPE_GET.replace('{type}', 'old'),
-        params: Object.assign(searchParams, this.params,{
+        params: Object.assign(searchParams, this.params, {
           pageSize: this.pagination.pageSize,
           pageNo  : this.pagination.pageNo
         })
@@ -345,7 +345,7 @@ export default {
       this.modal.key = key
       this.modalData = item
       this.checkStatus = checkStatus
-      let vm = this
+      const vm = this
       this.$modal.confirm({
         title     : this.modal.content,
         content   : this.modal.tips,
@@ -389,7 +389,7 @@ export default {
             }
           })
         }else{
-          this.$com.getFormValidErrTips(this,err)
+          this.$com.getFormValidErrTips(this, err)
         }
       })
     },
@@ -404,10 +404,10 @@ export default {
      * 从vuex中或已存储的搜索条件，判断此条件是否为当前路由的 。如果是则使用
      */
     getSearchParams(){
-      let searchParams = !this.$store.state.listSearchParams?null:this.$store.state.listSearchParams[this.$route.name+'/old']
+      const searchParams = !this.$store.state.listSearchParams?null:this.$store.state.listSearchParams[this.$route.name+'/old']
       if(!!searchParams && !!searchParams.routeName && (this.$route.name+'/old' == searchParams.routeName)){
         if(!!searchParams.params){
-          Object.keys(searchParams.params).forEach(elem=>{
+          Object.keys(searchParams.params).forEach(elem => {
             this.searchForm[elem] = searchParams.params[elem]
           })
         }

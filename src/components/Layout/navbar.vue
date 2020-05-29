@@ -5,7 +5,7 @@
         <a-breadcrumb-item :key="index">
           <template v-if="!item.hideBread">
             <template v-if="item.openMode=='spa'">
-              <span v-if="item.showBreadPath" style="color:#1890ff" class="navlink" @click="navigateTo(item.path)">{{item.title}}</span>
+              <router-link v-if="item.showBreadPath" style="color:#1890ff" class="navlink" :to="item.path">{{item.title}}</router-link>
               <span v-else>{{item.title}}</span>
             </template>
             <template v-else>
@@ -25,7 +25,7 @@
 </style>
 
 <script>
-import { navigateToUrl } from 'single-spa'
+// import { navigateToUrl } from 'single-spa'
 // 不够严谨，临时制造，需要改进
 import { checkHideInBread } from '@/util/mixins'
 import { routes } from '@/router/routes'
@@ -42,9 +42,9 @@ export default {
     if(list && list.length>0){
       this.list = JSON.parse(list)
     }else{
-      this.list = [ { title: '首页',routerName: 'home', path: '/home' } ]
+      this.list = [ { title: '首页', routerName: 'home', path: '/home' } ]
     }
-    this.list.forEach((element)=>{
+    this.list.forEach((element) => {
       this.checkPath(element)
     })
     this.getRoutes()
@@ -54,9 +54,9 @@ export default {
      * 调用single-spa方法加载子项目页面
      * @param {String} path 子项目页面路由地址
      */
-    navigateTo(path){
-      navigateToUrl(path)
-    },
+    // navigateTo(path){
+    //   navigateToUrl(path)
+    // },
 
     /**
      * @param {Object} navItem 当前展示路由的完整父子级中的一个路由节点
@@ -82,7 +82,7 @@ export default {
     },
     getRoutes() {
       const layoutRoutes = routes.find(route => route.name == 'Layout')
-      let list = []
+      const list = []
       layoutRoutes.children.forEach(parent => {
         if (parent.children && parent.children.length > 0) {
           parent.children.forEach(child => {
@@ -106,7 +106,7 @@ export default {
             navList.push({ title: parentRoute.meta.title, routerName: parentRoute.name, path: parentRoute.path, openMode: !parentRoute.meta.openMode?'normal':parentRoute.meta.openMode })
           }
         }
-        to.matched.forEach((element,index) => {
+        to.matched.forEach((element, index) => {
           if(0===index){
             if (element.path.indexOf('/')>=0) {
               if('/'===element.path || '/home'===element.path){
@@ -142,7 +142,7 @@ export default {
       } else {
         navList = [ { title: '首页', path: '/' } ]
       }
-      navList.forEach((element)=>{
+      navList.forEach((element) => {
         this.checkPath(element)
       })
       this.list = navList
@@ -151,5 +151,4 @@ export default {
   },
 }
 </script>
-
 

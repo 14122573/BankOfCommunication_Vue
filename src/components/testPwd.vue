@@ -10,7 +10,7 @@
 
 <script>
 export function checkStrong(sValue) {
-  var modes = 0
+  let modes = 0
   //正则表达式验证符合要求的
   if (sValue.length < 1) return modes
   if (/\d/.test(sValue)) modes++ //数字
@@ -44,7 +44,7 @@ export default {
       }
     },
     width: {
-      type: [ String,Number ]
+      type: [ String, Number ]
     }
   },
   data() {

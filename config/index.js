@@ -58,7 +58,7 @@ module.exports = {
     // Paths
     assetsRoot: path.resolve(__dirname, '../dist/portal'),
     assetsSubDirectory: 'static',
-    assetsPublicPath: process.env.NODE_ENV === 'development' ? '/' : '/portal/',
+    assetsPublicPath: '/', // 设置生产地址，否则生产环境下在子项目刷新页面会空白
 
     /**
      * Source Maps

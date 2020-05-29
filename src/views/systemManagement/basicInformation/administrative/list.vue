@@ -114,12 +114,12 @@ export default {
                 this.treeData=[]
                 this.getArea()
               } else {
-                this.$message.info(res.msg,10)
+                this.$message.info(res.msg, 10)
               }
             })
           }else if(this.title=='修改行政区'){
             this.$ajax.put({
-              url   : this.$api.PUT_REVISE_AREA.replace('{id}',this.selectedKeys[0]),
+              url   : this.$api.PUT_REVISE_AREA.replace('{id}', this.selectedKeys[0]),
               params: {
                 areaName: this.form.getFieldValue('branchName'),
                 parentId: this.targetArea.node.dataRef.parentId
@@ -132,7 +132,7 @@ export default {
                 this.treeData=[]
                 this.getArea()
               } else {
-                this.$message.info(res.msg,10)
+                this.$message.info(res.msg, 10)
               }
             })
           }
@@ -144,19 +144,19 @@ export default {
      * 删除分支
      */
     deleteBranch(){
-      var _this=this
+      const _this=this
       this.$modal.confirm({
         title: '确定要删除吗？',
         onOk() {
           _this.$ajax.delete({
-            url: _this.$api.DELETE_AREA.replace('{id}',_this.selectedKeys[0]),
+            url: _this.$api.DELETE_AREA.replace('{id}', _this.selectedKeys[0]),
           }).then(res => {
             _this.showTree=false
             if(res.code=='200'){
               _this.$message.success('删除成功')
               _this.getArea()
             } else {
-              _this.$message.info(res.msg,10)
+              _this.$message.info(res.msg, 10)
             }
           })
         },
@@ -170,15 +170,15 @@ export default {
      * expandedKeys {array} 当前展开/关闭的分支key
      */
     expand(expandedKeys) {
-      var index=-1
-      for(var i=0;i<this.expandedKeys.length;i++){
+      let index=-1
+      for(let i=0;i<this.expandedKeys.length;i++){
         if(expandedKeys.indexOf(this.expandedKeys[i])<0){
           index=i
         }
       }
       if(index>=0){
-        this.area = expandedKeys.slice(0,index)
-        this.expandedKeys = expandedKeys.slice(0,index)
+        this.area = expandedKeys.slice(0, index)
+        this.expandedKeys = expandedKeys.slice(0, index)
       }else{
         this.area = expandedKeys
         this.expandedKeys = expandedKeys
@@ -192,8 +192,8 @@ export default {
           parentId: 0
         }
       }).then(res => {
-        let datas = this.$com.confirm(res, 'data.content', [])
-        let trees = []
+        const datas = this.$com.confirm(res, 'data.content', [])
+        const trees = []
         datas.forEach((ele, index) => {
           trees.push(this.getTreeNode(ele, index))
         })
@@ -207,7 +207,7 @@ export default {
       })
     },
     getTreeNode(item, index) {
-      let childrenNode = {
+      const childrenNode = {
         title   : item.areaName,
         id      : item.id,
         key     : item.id,
@@ -235,8 +235,8 @@ export default {
             parentId: treeNode.dataRef.id
           }
         }).then(res => {
-          let datas = this.$com.confirm(res, 'data.content', [])
-          let array = []
+          const datas = this.$com.confirm(res, 'data.content', [])
+          const array = []
           datas.forEach((ele, index) => {
             array.push(this.getTreeNode(ele, index))
           })

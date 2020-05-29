@@ -166,7 +166,7 @@ export default {
         return [ this.entry, Object.assign(this.item.validate || {}, { initialValue: [] }) ]
       }
       if (this.item.type == 'upload') {
-        return [ this.entry, Object.assign(this.item.validate || {}, { valuePropName: 'fileList'  , getValueFromEvent: this.normFile }) ]
+        return [ this.entry, Object.assign(this.item.validate || {}, { valuePropName: 'fileList', getValueFromEvent: this.normFile }) ]
       }
       return [ this.entry, this.item.validate || {} ]
     },

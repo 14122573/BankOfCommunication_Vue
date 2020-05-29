@@ -1,13 +1,13 @@
 <template>
   <div class="workpaceBg">
-    <div class="loader" v-if="$store.state.isLoadingResource">
+    <!-- <div class="loader" v-if="$store.state.isLoadingResource">
       <div>
         <a-spin tip="子系统资源载入中..." :spinning="$store.state.isLoadingResource" size="large"/>
       </div>
       <div style="width: 30%;">
         <a-progress :percent="$store.state.loadingProgress" status="active"/>
       </div>
-    </div>
+    </div> -->
     <a-row type="flex" justify="space-between" align='top' :gutter="10">
       <a-col span='16'>
         <a-row type="flex" justify="start" align='top' :gutter="12" style="margin-bottom:10px">

@@ -80,7 +80,7 @@ export default {
         isTop: [ {
           label: '不置顶',
           value: '0'
-        },{
+        }, {
           label: '置顶',
           value: '1'
         } ],
@@ -126,9 +126,8 @@ export default {
           this.noticeDetail = this.$com.confirm(res, 'data.content', {})
           this.formData.defaultContent = this.noticeDetail.content
           this.formData.isTop = this.noticeDetail.isTop
-          this.formData.openEffectStart = this.$com.oneOf(this.noticeDetail.startTime,[ '',this.defaultEffectTime.startTime ])?false:true
-          this.formData.openEffectEnd = this.$com.oneOf(this.noticeDetail.endTime,[ '',this.defaultEffectTime.endTime ])?false:true
-
+          this.formData.openEffectStart = this.$com.oneOf(this.noticeDetail.startTime, [ '', this.defaultEffectTime.startTime ])?false:true
+          this.formData.openEffectEnd = this.$com.oneOf(this.noticeDetail.endTime, [ '', this.defaultEffectTime.endTime ])?false:true
 
           // 附件
           if(Array.isArray(this.noticeDetail.attachments)){
@@ -152,10 +151,10 @@ export default {
           this.$nextTick(function () {
             this.noticeEditForm.setFieldsValue({ title: this.noticeDetail.title })
             if(this.formData.openEffectStart){
-              this.noticeEditForm.setFieldsValue({ startTime: this.$moment(this.noticeDetail.startTime,this.timeFormat) })
+              this.noticeEditForm.setFieldsValue({ startTime: this.$moment(this.noticeDetail.startTime, this.timeFormat) })
             }
             if(this.formData.openEffectEnd){
-              this.noticeEditForm.setFieldsValue({ endTime: this.$moment(this.noticeDetail.endTime,this.timeFormat) })
+              this.noticeEditForm.setFieldsValue({ endTime: this.$moment(this.noticeDetail.endTime, this.timeFormat) })
             }
           })
 
@@ -215,7 +214,7 @@ export default {
     arrangeFileList(){
       const { used } = this.uploadFileList
       if (!used || used.length <= 0) return []
-      return used.map((item,index)=>{
+      return used.map((item, index) => {
         if(item.uid && item.uid.toString().indexOf('-')==0){// 未修改PDF
           return {
             type    : 1,
@@ -244,7 +243,7 @@ export default {
           //检查生效起始时间设置，并存储或提示
           if(this.formData.openEffectStart){
             if(!this.noticeEditForm.getFieldValue('startTime')){
-              this.$com.getFormValidErrTips(this,err,'请填写生效起始时间！')
+              this.$com.getFormValidErrTips(this, err, '请填写生效起始时间！')
               return
             }else{
               this.formData.startTime = this.$moment(this.noticeEditForm.getFieldValue('startTime')).format(this.timeFormat)
@@ -255,7 +254,7 @@ export default {
           //检查生效截止时间设置，并存储或提示
           if(this.formData.openEffectEnd){
             if(!this.noticeEditForm.getFieldValue('endTime')){
-              this.$com.getFormValidErrTips(this,err,'请填写生效截止时间！')
+              this.$com.getFormValidErrTips(this, err, '请填写生效截止时间！')
               return
             }else{
               this.formData.endTime = this.$moment(this.noticeEditForm.getFieldValue('endTime')).format(this.timeFormat)
@@ -265,10 +264,10 @@ export default {
           }
           //检查生效截止时间设置，并存储或提示
           if(this.formData.content.length<1){
-            this.$com.getFormValidErrTips(this,err,'请填写通知公告正文内容！')
+            this.$com.getFormValidErrTips(this, err, '请填写通知公告正文内容！')
             return
           }
-          let postParams = Object.assign({},this.formData ,{
+          const postParams = Object.assign({}, this.formData, {
             'title'      : this.noticeEditForm.getFieldValue('title'),
             'isVote'     : '0', // 默认创建的为非投票结果文章
             'status'     : type=='save'?'0':'1',
@@ -289,7 +288,7 @@ export default {
             }
           })
         }else{
-          this.$com.getFormValidErrTips(this,err)
+          this.$com.getFormValidErrTips(this, err)
         }
       })
     }

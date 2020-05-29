@@ -247,8 +247,8 @@ export default {
       this.$ajax.get({
         url: this.$api.GET_EXPERT_DETAIL.replace('{experId}', this.$route.query.id)
       }).then(res => {
-        let data = this.$com.confirm(res, 'data.content', {})
-        for (let i in data) {
+        const data = this.$com.confirm(res, 'data.content', {})
+        for (const i in data) {
           if (data[i] == null || data[i] == undefined) {
             data[i] = '暂无'
           }

@@ -111,7 +111,7 @@ export default {
     systemName(code){
       let name = ''
       for(let i=0;i<this.sysListForSearch.length;i++){
-        let item = this.sysListForSearch[i]
+        const item = this.sysListForSearch[i]
         if(code ==item.value) {
           name = item.label
         }
@@ -127,7 +127,7 @@ export default {
     reviewTypeName(code){
       let name = ''
       for(let i=0;i<this.reviewTypeList.length;i++){
-        let item = this.reviewTypeList[i]
+        const item = this.reviewTypeList[i]
         if(code ==item.code) {
           name = item.name
         }
@@ -141,11 +141,11 @@ export default {
      * @param {String} reviewTypeCode 评审类型code
      * @param {String} taskCode 申报材料ID
      */
-    goMicReview(sysCode,reviewTypeCode,taskCode){
-      let micSysRouters = ExpertReviewRouters[sysCode]
+    goMicReview(sysCode, reviewTypeCode, taskCode){
+      const micSysRouters = ExpertReviewRouters[sysCode]
       let nextRouter = ''
       for(let i=0;i<micSysRouters.length;i++){
-        let micSysRouter = micSysRouters[i]
+        const micSysRouter = micSysRouters[i]
         if( micSysRouter.type=='review' && reviewTypeCode == micSysRouter.reviewTypeCode){
           nextRouter = micSysRouter.routerName
         }
@@ -154,35 +154,43 @@ export default {
       switch (sysCode) {
       case 'S0501':
       // 新品种审核
-        navigateToUrl(nextRouter.replace(':id',taskCode)+'?showType=check&sourceRouteType=portal&sourceRoutePath='+this.$route.path)
+        // navigateToUrl(nextRouter.replace(':id', taskCode)+'?showType=check&sourceRouteType=portal&sourceRoutePath='+this.$route.path)
+        this.$router.push({ path: nextRouter.replace(':id', taskCode)+'?showType=check&sourceRouteType=portal&sourceRoutePath='+this.$route.path })
         break
       case 'S0502':
       // 原良种复查
-        navigateToUrl(nextRouter+'?id='+taskCode)
+        // navigateToUrl(nextRouter+'?id='+taskCode)
+        this.$router.push({ path: nextRouter+'?id='+taskCode })
         break
       case 'S0503':
       // 原良种验收
-        navigateToUrl(nextRouter+'?id='+taskCode)
+        // navigateToUrl(nextRouter+'?id='+taskCode)
+        this.$router.push({ path: nextRouter+'?id='+taskCode })
         break
       case 'S0101':
       // 科普教育基地
-        navigateToUrl(nextRouter+'?id='+taskCode)
+        // navigateToUrl(nextRouter+'?id='+taskCode)
+        this.$router.push({ path: nextRouter+'?id='+taskCode })
         break
       case 'S0201':
       // 团体标准
-        navigateToUrl(nextRouter+'?id='+taskCode)
+        // navigateToUrl(nextRouter+'?id='+taskCode)
+        this.$router.push({ path: nextRouter+'?id='+taskCode })
         break
       case 'S0401':
       // 海洋牧场
-        navigateToUrl(nextRouter.replace(':id',taskCode))
+        // navigateToUrl(nextRouter.replace(':id', taskCode))
+        this.$router.push({ path: nextRouter.replace(':id', taskCode) })
         break
       case 'S0301':
       // 休闲渔业
-        navigateToUrl(nextRouter.replace(':id',taskCode))
+        // navigateToUrl(nextRouter.replace(':id', taskCode))
+        this.$router.push({ path: nextRouter.replace(':id', taskCode) })
         break
       case 'S1002':
       // 中国水产学会团体标准函审
-        navigateToUrl(nextRouter.replace(':id',taskCode)+'?sourceRouteType=portal&sourceRoutePath='+this.$route.path)
+        // navigateToUrl(nextRouter.replace(':id', taskCode)+'?sourceRouteType=portal&sourceRoutePath='+this.$route.path)
+        this.$router.push({ path: nextRouter.replace(':id', taskCode)+'?sourceRouteType=portal&sourceRoutePath='+this.$route.path })
         break
       default:
         break
@@ -193,7 +201,7 @@ export default {
      * 获取折叠面板默认展开的key值
      */
     initCollapseDefaultKey(){
-      let defaultKey = ''
+      const defaultKey = ''
       if(Array.isArray(this.reviewList) && this.reviewList.length>0){
         this.preparate.defaultActiveKey = this.reviewList[0].systemCode+'-'+this.reviewList[0].busCode
       }
@@ -205,9 +213,9 @@ export default {
     getReviewTypeList(){
       this.$ajax.get({
         url: this.$api.GET_EXPERT_BASE_LIST.replace('{type}', '9')
-      }).then(res=>{
+      }).then(res => {
         if(res.code === '200'){
-          let data = this.$com.confirm(res, 'data.content', [])
+          const data = this.$com.confirm(res, 'data.content', [])
           this.reviewTypeList = data.map((item) => {
             return {
               name: item.name,
@@ -226,9 +234,9 @@ export default {
     getSysCodOptions(){
       this.$ajax.get({
         url: this.$api.SYSTEM_LIST_ALL_GET
-      }).then(res=>{
+      }).then(res => {
         if(res.code === '200'){
-          let data = this.$com.confirm(res, 'data.content', [])
+          const data = this.$com.confirm(res, 'data.content', [])
           this.sysListForSearch = data.map((item) => {
             return {
               label: item.sysName,
@@ -245,11 +253,11 @@ export default {
      * 根据专家id，获取待评审数据
      */
     getReviewList(){
-      let params = Object.assign({ status: 0 },this.searchForm)
+      const params = Object.assign({ status: 0 }, this.searchForm)
       this.$ajax.get({
         url   : this.$api.GET_EXPERT_REVIEW_TODO_LIST.replace('{expertId}', this.expertId),
         params: params
-      }).then(res=>{
+      }).then(res => {
         if(res.code === '200'){
           this.reviewList = this.$com.confirm(res, 'data.content', [])
           this.initCollapseDefaultKey()
@@ -283,5 +291,4 @@ export default {
 .contentOperate span{ color:#1890ff; cursor: pointer;display: inline-block; }
 .contentOperate .title{color:#000;font-weight:bold;}
 </style>
-
 

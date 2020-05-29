@@ -46,21 +46,21 @@ export default {
           dataIndex: 'phone',
           key      : 'phone',
           width    : 120
-        },{
+        }, {
           title    : '姓名',
           dataIndex: 'name',
           key      : 'name',
           width    : 100
-        },{
+        }, {
           title    : '单位',
           dataIndex: 'dept',
           key      : 'dept',
           width    : 130
-        },{
+        }, {
           title    : '地址',
           dataIndex: 'companyAddress',
           key      : 'companyAddress',
-        },{
+        }, {
           title      : '操作',
           key        : 'operation',
           width      : 80,
@@ -104,9 +104,9 @@ export default {
     gerenateNeedsAuthCodes(){
       this.needsAuthCodes = []
       this.transferDatas.forEach(element => {
-        let singeDataAuthCode = !element.pointCode?[]:element.pointCode.split(',')
-        let merged = this.needsAuthCodes.concat(singeDataAuthCode)
-        let goHeavy = new Set(merged)
+        const singeDataAuthCode = !element.pointCode?[]:element.pointCode.split(',')
+        const merged = this.needsAuthCodes.concat(singeDataAuthCode)
+        const goHeavy = new Set(merged)
         this.needsAuthCodes = [].concat(Array.from(goHeavy))
       })
     },
@@ -120,7 +120,7 @@ export default {
     },
     handleCancel(){
       this.resetForm()
-      this.$emit('on-success',false)
+      this.$emit('on-success', false)
     },
 
     /**
@@ -128,7 +128,7 @@ export default {
      * @param {Object} targetUser 当前选中目标用户的数据
      */
     toTransfer(targetUser){
-      let hasAuth = this.checkAuthCode(targetUser.permKey)
+      const hasAuth = this.checkAuthCode(targetUser.permKey)
       if(hasAuth){
         this.$ajax.put({
           url   : this.$api.PUT_DECLARATION_TRANSFER,
@@ -136,11 +136,11 @@ export default {
             targetUserId: targetUser.id,
             datas       : this.transferDatas
           }
-        }).then(res=>{
+        }).then(res => {
           if(res.code =='200'){
             this.$message.success('移交数据成功')
             this.resetForm()
-            this.$emit('on-success',true)
+            this.$emit('on-success', true)
           }else{
             this.$message.error(res.msg)
           }
@@ -159,13 +159,13 @@ export default {
      * @returns {Boolean} true 拥有全部权限
      */
     checkAuthCode(userCodes){
-      let userCodesArray = !userCodes?[]:userCodes.split(',')
+      const userCodesArray = !userCodes?[]:userCodes.split(',')
       if(!(userCodesArray instanceof Array)||((userCodesArray.length < this.needsAuthCodes.length))){
         return false
       }
       let unInNum = 0
       this.needsAuthCodes.forEach(code => {
-        console.log(code,userCodesArray.includes(code))
+        console.log(code, userCodesArray.includes(code))
         if(!userCodesArray.includes(code)){
           unInNum ++
         }
@@ -190,11 +190,11 @@ export default {
       const options = this.$com.dealObjectValue(this.userSearchForm.getFieldsValue())
       this.$ajax.get({
         url   : this.$api.GET_DECLARATION_TARGETUSER_LIST,
-        params: Object.assign({},options,{
+        params: Object.assign({}, options, {
           pageNo  : this.pagination.pageNo,
           pageSize: this.pagination.pageSize
         })
-      }).then(res=>{
+      }).then(res => {
         if(res.code =='200'){
           this.userDatas = this.$com.confirm(res, 'data.content', [])
           this.pagination.total = this.$com.confirm(res, 'data.totalRows', 0)

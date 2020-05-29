@@ -50,7 +50,7 @@ export default {
     }
   },
   components: {
-    CreatBase,EditBase,DataOperatorInList
+    CreatBase, EditBase, DataOperatorInList
   },
   data() {
     return {
@@ -97,7 +97,7 @@ export default {
     getList(){
       this.$ajax.get({
         url: this.$api.GET_EXPERT_BASE_LIST.replace('{type}', this.baseType)
-      }).then(res=>{
+      }).then(res => {
         if(res.code === '200'){
           this.list= this.$com.confirm(res, 'data.content', [])
         }else{
@@ -109,7 +109,7 @@ export default {
     //   删除按钮
     handleDelete(item){
       if(!!item) {
-        let vm = this
+        const vm = this
         this.deleteData = item
         this.$modal.confirm({
           title     : '是否确认删除此数据？',
@@ -153,5 +153,4 @@ export default {
 .center-p{ text-align: center;}
 .group-icon{ width: 16px; position: relative; top: -2px;}
 </style>
-
 

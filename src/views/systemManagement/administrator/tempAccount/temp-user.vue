@@ -98,19 +98,19 @@ export default {
           dataIndex: 'NUMBERS',
           key      : 'NUMBERS',
           width    : 120
-        },{
+        }, {
           title    : '角色名称',
           dataIndex: 'ROLENAME',
           key      : 'ROLENAME'
-        },{
+        }, {
           title    : '所属组织机构',
           dataIndex: 'GROUPNAME',
           key      : 'GROUPNAME'
-        },{
+        }, {
           title    : '所属行政区域',
           dataIndex: 'AREANAME',
           key      : 'AREANAME'
-        },{
+        }, {
           title      : '操作人',
           width      : 180,
           dataIndex  : 'CREATOR',
@@ -118,7 +118,7 @@ export default {
           scopedSlots: {
             customRender: 'operator'
           }
-        },{
+        }, {
           title      : '操作',
           key        : 'operation',
           width      : 60,
@@ -199,7 +199,7 @@ export default {
           content: '请勾选至少一条临时账户批次'
         })
       }else{
-        let vm = this
+        const vm = this
         this.$modal.confirm({
           title     : '是否确认删除已选临时账户批次下所有账户',
           content   : '临时账户删除成功后，任何方式都无法找回',
@@ -272,7 +272,7 @@ export default {
     },
     // 查询列表
     getList() {
-      const params = Object.assign({}, this.params,this.searchForm, {
+      const params = Object.assign({}, this.params, this.searchForm, {
         pageNo  : this.pagination.pageNo,
         pageSize: this.pagination.pageSize
       })
@@ -298,7 +298,7 @@ export default {
           parentId: this.isAdminator ? '0' : this.$store.state.userInfos.area.id
         }
       }).then(res => {
-        let datas = this.$com.confirm(res, 'data.content', [])
+        const datas = this.$com.confirm(res, 'data.content', [])
         datas.forEach((ele, index) => {
           this.treeData.push(this.getTreeNode(ele, index))
         })
@@ -309,7 +309,7 @@ export default {
      * 对接口返回的省市区数据，进行格式化整理
      */
     getTreeNode(item, index) {
-      let childrenNode = {
+      const childrenNode = {
         title   : item.areaName,
         value   : item.id,
         id      : item.id,
@@ -331,8 +331,8 @@ export default {
             parentId: treeNode.dataRef.id
           }
         }).then(res => {
-          let datas = this.$com.confirm(res, 'data.content', [])
-          let array = []
+          const datas = this.$com.confirm(res, 'data.content', [])
+          const array = []
           datas.forEach((ele, index) => {
             array.push(this.getTreeNode(ele, index))
           })

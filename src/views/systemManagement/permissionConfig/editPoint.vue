@@ -58,7 +58,7 @@
 export default {
   data() {
     const validatePointCode = (rule, value, callback) => {
-      let code = (!this.editForm.type?'':this.editForm.type)+(!value?'':value)
+      const code = (!this.editForm.type?'':this.editForm.type)+(!value?'':value)
       if (!!value && value.length>0 && !!this.editForm.type && !this.$com.checkNumber(value)) {
         callback('功能编码仅能填写数字')
       } else {
@@ -135,17 +135,17 @@ export default {
     }
     // 初始化表单值
     this.$nextTick(function () {
-      this.editForm['type']=this.pointDetail.type=='0'?undefined:this.pointDetail.type
-      this.editForm['typeName']=this.pointDetail.typeName
-      this.pointEditForm.getFieldDecorator('pointName',{ initialValue: this.pointDetail.pointName })
-      this.pointEditForm.getFieldDecorator('pointKey',{ initialValue: this.pointDetail.pointKey.replace(this.editForm.type, '') })
+      this.editForm.type=this.pointDetail.type=='0'?undefined:this.pointDetail.type
+      this.editForm.typeName=this.pointDetail.typeName
+      this.pointEditForm.getFieldDecorator('pointName', { initialValue: this.pointDetail.pointName })
+      this.pointEditForm.getFieldDecorator('pointKey', { initialValue: this.pointDetail.pointKey.replace(this.editForm.type, '') })
       if(Array.isArray(this.pointDetail.permSet) && this.pointDetail.permSet.length>0){
         this.pointDetail.permIds = []
         for(let i=0;i<this.pointDetail.permSet.length;i++){
           this.pointDetail.permIds.push(this.pointDetail.permSet[i].id)
         }
         this.editForm.permIds = this.pointDetail.permIds
-        this.pointEditForm.getFieldDecorator('permIds',{ initialValue: this.pointDetail.permIds })
+        this.pointEditForm.getFieldDecorator('permIds', { initialValue: this.pointDetail.permIds })
       }
     })
     this.preparate.isReady = true
@@ -155,17 +155,17 @@ export default {
   watch: {
     pointDetail(){
       this.$nextTick(function () {
-        this.editForm['type']=this.pointDetail.type=='0'?undefined:this.pointDetail.type
-        this.editForm['typeName']=this.pointDetail.typeName
-        this.pointEditForm.getFieldDecorator('pointName',{ initialValue: this.pointDetail.pointName })
-        this.pointEditForm.getFieldDecorator('pointKey',{ initialValue: this.pointDetail.pointKey.replace(this.editForm.type, '') })
+        this.editForm.type=this.pointDetail.type=='0'?undefined:this.pointDetail.type
+        this.editForm.typeName=this.pointDetail.typeName
+        this.pointEditForm.getFieldDecorator('pointName', { initialValue: this.pointDetail.pointName })
+        this.pointEditForm.getFieldDecorator('pointKey', { initialValue: this.pointDetail.pointKey.replace(this.editForm.type, '') })
         if(Array.isArray(this.pointDetail.permSet) && this.pointDetail.permSet.length>0){
           this.pointDetail.permIds = []
           for(let i=0;i<this.pointDetail.permSet.length;i++){
             this.pointDetail.permIds.push(this.pointDetail.permSet[i].id)
           }
           this.editForm.permIds = this.pointDetail.permIds
-          this.pointEditForm.getFieldDecorator('permIds',{ initialValue: this.pointDetail.permIds })
+          this.pointEditForm.getFieldDecorator('permIds', { initialValue: this.pointDetail.permIds })
         }
       })
     }
@@ -186,14 +186,14 @@ export default {
     onSysChange(select){
       this.sysListForSearch.forEach(element => {
         if(select==element.value) {
-          this.editForm['typeName'] =  element.label
+          this.editForm.typeName = element.label
         }
       })
     },
     savePoint(){
       this.pointEditForm.validateFields(err => {
         if (!err) {
-          let putParams = Object.assign({},this.editForm,{
+          const putParams = Object.assign({}, this.editForm, {
             'pointName': this.pointEditForm.getFieldValue('pointName'),
             'pointKey' : (!this.editForm.type?'':this.editForm.type)+this.pointEditForm.getFieldValue('pointKey'),
           })
@@ -207,7 +207,7 @@ export default {
             }
           })
         }else{
-          this.$com.getFormValidErrTips(this,err)
+          this.$com.getFormValidErrTips(this, err)
         }
       })
     },
@@ -218,21 +218,21 @@ export default {
     getRoleTree(){
       this.$ajax.get({
         url: this.$api.GET_ALL_ROLE + '?isTree=true&isAll=true'
-      }).then(res=>{
+      }).then(res => {
         if(!!res.data && !!res.data.content){
-          let data=res.data.content
-          data.forEach((item,index)=>{
+          const data=res.data.content
+          data.forEach((item, index) => {
             this.tree.roleTreeData.push(this.initRoleTreeNode(item))
           })
 
           // 重组需要展示的权限树
-          let initializedRoleTree = []
+          const initializedRoleTree = []
           this.tree.roleTreeDataArranged = []
-          this.tree.roleTreeData.forEach((item,index)=>{
+          this.tree.roleTreeData.forEach((item, index) => {
             if(!item.canDelete && !!item.permKey){
               initializedRoleTree.push(item)
             }else{
-              let node = Object.assign({}, item)
+              const node = Object.assign({}, item)
               this.tree.roleTreeDataArranged.push(node)
             }
           })
@@ -254,7 +254,7 @@ export default {
      * @returns childrenNode 对传入参数，已重组的数据
      */
     initRoleTreeNode(item){
-      let childrenNode={
+      const childrenNode={
         'title'    : item.permName,
         'key'      : item.id,
         'permKey'  : !item.permKey?'':item.permKey,
@@ -263,8 +263,8 @@ export default {
       }
       if(item.childList && item.childList.length){
         childrenNode.children = []
-        item.childList.forEach((subItem) =>{
-          let subkey = subItem.id
+        item.childList.forEach((subItem) => {
+          const subkey = subItem.id
           childrenNode.children.push(this.initRoleTreeNode(subItem))
         })
       }
@@ -278,9 +278,9 @@ export default {
       this.$ajax.get({
         url   : this.$api.SYSTEM_LIST_ALL_GET,
         params: { type: '1' }
-      }).then(res=>{
+      }).then(res => {
         if(res.code === '200'){
-          let data = this.$com.confirm(res, 'data.content', [])
+          const data = this.$com.confirm(res, 'data.content', [])
           this.sysListForSearch = data.map((item) => {
             return {
               label: item.sysName,

@@ -211,7 +211,7 @@ export default {
   name      : 'bindPhone',
   components: {
     testStrong,
-    FrameTop,FrameFooter
+    FrameTop, FrameFooter
   },
   mixins: [ permission ],
   beforeCreate() {
@@ -293,7 +293,7 @@ export default {
     handleBind() {
       this.formBind.validateFields((err, values) => {
         if (!err) {
-          let params = {
+          const params = {
             userId  : this.userId,
             pwd     : encryptDes(values.password),
             code    : values.code,
@@ -307,7 +307,7 @@ export default {
               'code'   : values.code
             }
           }
-          let options = {
+          const options = {
             userId: this.userId,
             phone : values.phone,
             code  : values.code
@@ -316,8 +316,8 @@ export default {
             params.redirectUrl = this.$cookie.get('redirectUrl')
             options.redirectUrl = this.$cookie.get('redirectUrl')
           }
-          let sendLink = this.isBind == true ? this.$api.POST_BIND_USERINFO_BIND : this.$api.POST_BIND_USERINFO_UNBIND
-          let transData = this.isBind == true ? options : params
+          const sendLink = this.isBind == true ? this.$api.POST_BIND_USERINFO_BIND : this.$api.POST_BIND_USERINFO_UNBIND
+          const transData = this.isBind == true ? options : params
           this.$ajax.post({
             url   : sendLink,
             params: transData
@@ -326,15 +326,15 @@ export default {
             this.visibleModal = true
           })
         }else{
-          this.$com.getFormValidErrTips(this,err)
+          this.$com.getFormValidErrTips(this, err)
         }
       })
     },
     handleOk() {
-      let gainDatas = this.gainDatas
+      const gainDatas = this.gainDatas
       if (!this.$route.query.id) {
         // let lists = JSON.parse(this.$cookie.get('systemLists'))
-        let lists = this.$store.state.chooseSystemLists
+        const lists = this.$store.state.chooseSystemLists
         this.$com.setOldSysAccounts(gainDatas.access_token, gainDatas.refresh_token, lists)
       }
       if (gainDatas.redirectUrl) {
@@ -386,9 +386,9 @@ export default {
       this.$ajax.get({
         url: this.$api.GET_SELECT_SYSTEM + links
       }).then(res => {
-        let gainDatas =  this.$com.confirm(res, 'data.content', {})
+        const gainDatas = this.$com.confirm(res, 'data.content', {})
         // let lists = JSON.parse(this.$cookie.get('systemLists'))
-        let lists = this.$store.state.chooseSystemLists
+        const lists = this.$store.state.chooseSystemLists
         this.$com.setOldSysAccounts(gainDatas.access_token, gainDatas.refresh_token, lists)
         if (gainDatas.redirectUrl) {
           this.$cookie.set('canEnterBind', '500')
@@ -410,7 +410,7 @@ export default {
     },
     sendCode() {
       const phone = this.formBind.getFieldValue('phone')
-      let params = {}
+      const params = {}
       let links = ''
       if (this.$cookie.get('redirectUrl') != undefined) {
         links = '?redirectUrl=' + this.$cookie.get('redirectUrl')
@@ -453,7 +453,7 @@ export default {
       } else {
         if (value.length == 6) {
           const phone = this.formBind.getFieldValue('phone')
-          let params = {
+          const params = {
             'phone' : phone,
             'code'  : value,
             'userId': this.userId
@@ -592,7 +592,6 @@ export default {
 		left: 0px;
 	}
 
-
 	.btnGroup {
 		position: absolute;
 		bottom: 30px;
@@ -624,7 +623,6 @@ export default {
 	.btnGroup div:last-of-type img {
 		right: 0;
 	}
-
 
 	.border {
 		width: 900px;

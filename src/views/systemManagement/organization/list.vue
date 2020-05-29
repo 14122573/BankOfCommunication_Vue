@@ -94,7 +94,7 @@ export default {
           title    : '组织机构',
           dataIndex: 'groupName',
           key      : 'groupName'
-        },{
+        }, {
           title      : '联系人',
           dataIndex  : 'contact',
           width      : 150,
@@ -102,12 +102,12 @@ export default {
           scopedSlots: {
             customRender: 'contact'
           }
-        },{
+        }, {
           title    : '地址',
           width    : 180,
           dataIndex: 'addr',
           key      : 'addr'
-        },{
+        }, {
           title      : '操作人',
           width      : 150,
           dataIndex  : 'creator',
@@ -115,7 +115,7 @@ export default {
           scopedSlots: {
             customRender: 'operator'
           }
-        },{
+        }, {
           title      : '操作',
           dataIndex  : 'action',
           width      : 160,
@@ -188,7 +188,7 @@ export default {
     },
     //删除按钮
     deleteBtn(text, record) {
-      let vm = this
+      const vm = this
       this.opeationItem = record
       this.$modal.confirm({
         title     : '是否确认删除此组织机构？',
@@ -242,8 +242,8 @@ export default {
           parentId: 0
         }
       }).then(res => {
-        let datas = this.$com.confirm(res, 'data.content', [])
-        let trees = []
+        const datas = this.$com.confirm(res, 'data.content', [])
+        const trees = []
         datas.forEach((ele, index) => {
           trees.push(this.getTreeNode(ele, index))
         })
@@ -257,7 +257,7 @@ export default {
       })
     },
     getTreeNode(item, index) {
-      let childrenNode = {
+      const childrenNode = {
         title   : item.areaName,
         id      : item.id,
         key     : item.id,
@@ -280,8 +280,8 @@ export default {
             parentId: treeNode.dataRef.id
           }
         }).then(res => {
-          let datas = this.$com.confirm(res, 'data.content', [])
-          let array = []
+          const datas = this.$com.confirm(res, 'data.content', [])
+          const array = []
           datas.forEach((ele, index) => {
             array.push(this.getTreeNode(ele, index))
           })

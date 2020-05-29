@@ -262,7 +262,7 @@ export default {
                     size : 'small',
                   },
                   on: {
-                    click: ()=> {
+                    click: () => {
                       this.questionOptions.splice(index, 1)
                       this.addNewOption(false) // 参数为false就是不用新增，只重排一下voteLayout中选项顺序
                     }
