@@ -7,8 +7,10 @@ const TipsInnerNetworkErr = () => import ('@/views/tips/innerNetwork')
 const TipsNoAuth = () => import ('@/views/tips/auth')
 const TipsOutsite = () => import ('@/views/tips/outsite')
 const ErrorPage = () => import ('@/views/tips/error-page')
+const Home = () => import ('@/views/new_login/home')
 const HomePage = () => import ('@/views/home')
 const LoginPage = () => import ('@/views/login/login')
+const NewHomePage = () => import ('@/views/new_login/login')
 const RegisterPage = () => import ('@/views/login/register')
 const OldSysLogout = () => import ('@/views/login/oldSysLogout')
 const BindPhone = () => import ('@/views/login/bindPhone')
@@ -65,6 +67,9 @@ const ManualView = () => import('@/views/cms/manual/manual-view')
 // 数据服务 - 渔业兽医
 const VeterinaryList = () => import('@/views/cms/dataService/veterinaryList')
 const VeterinaryView = () => import('@/views/cms/dataService/view')
+
+// 知识服务
+const KnowledgeService = () => import('@/views/new_login/components/knowledgeService')
 
 /**
      * 要求：
@@ -386,6 +391,55 @@ const appRoutes = [ {
 {
   path     : '/login', name     : 'login', component: LoginPage,
   meta     : { title: '登录' },
+},
+{
+  path     : '/new_home', name     : 'login', component: NewHomePage,
+  meta     : { title: '主页' },
+  children : [
+    {
+      path     : '/new_home/index',
+      component: Home,
+      name     : '首页',
+    },
+    {
+      path: '/new_home/notificationAnnounce',
+      name: '通知公告'
+    },
+    {
+      path: '/new_home/industryNews',
+      name: '行业动态'
+    },
+    {
+      path     : '/new_home/knowledgeService',
+      name     : '知识服务',
+      component: KnowledgeService,
+      children : [
+        {
+          path     : '/new_home/knowledgeService',
+          name     : '知识服务',
+          component: KnowledgeService
+        },
+        {
+          path     : '/new_home/knowledgeService',
+          name     : '知识服务',
+          component: KnowledgeService
+        },
+        {
+          path     : '/new_home/knowledgeService',
+          name     : '知识服务',
+          component: KnowledgeService
+        },
+      ]
+    },
+    {
+      path: '/new_home/topicReport',
+      name: '专题报告'
+    },
+    {
+      path: '/new_home/dataSearch',
+      name: '数据查询'
+    }
+  ]
 },
 {
   path     : '/register', name     : 'register', component: RegisterPage,

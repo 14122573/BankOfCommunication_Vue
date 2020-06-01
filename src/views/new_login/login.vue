@@ -1,0 +1,78 @@
+<template>
+  <div id="components-layout-demo-basic">
+    <a-layout>
+      <a-layout-header>
+        <PHeader />
+      </a-layout-header>
+      <a-layout-content>
+        <Lunbo />
+        <!-- <InlineWrapper /> -->
+        <router-view />
+        <DataSearch />
+        <KnowledgeNTopic />
+        <Footer />
+      </a-layout-content>
+      <!-- <a-layout-footer>Footer</a-layout-footer> -->
+    </a-layout>
+  </div>
+</template>
+
+<script>
+import PHeader from './components/header'
+import Lunbo from './components/lunbo'
+import InlineWrapper from './components/InlineWrapper2'
+import DataSearch from './components/dataSearch'
+import KnowledgeNTopic from './components/InlineWrapper4'
+import Footer from './components/footer'
+export default {
+  components: {
+    PHeader,
+    Lunbo,
+    InlineWrapper,
+    DataSearch,
+    KnowledgeNTopic,
+    Footer
+  }
+}
+</script>
+
+<style>
+#components-layout-demo-basic {
+  height: 100%;
+  overflow: scroll;
+  text-align: center;
+}
+#components-layout-demo-basic .ant-layout-header {
+  background: #fff;
+  color: #000;
+}
+#components-layout-demo-basic .ant-layout-footer {
+  background: #7dbcea;
+  color: #fff;
+}
+#components-layout-demo-basic .ant-layout-footer {
+  line-height: 1.5;
+}
+#components-layout-demo-basic .ant-layout-sider {
+  background: #3ba0e9;
+  color: #fff;
+  line-height: 120px;
+}
+#components-layout-demo-basic .ant-layout-content {
+  background-color: #fff;
+  color: #000;
+  min-height: 120px;
+  line-height: 120px;
+}
+#components-layout-demo-basic > .ant-layout {
+  margin-bottom: 48px;
+}
+#components-layout-demo-basic > .ant-layout:last-child {
+  margin: 0;
+}
+
+.InlineWrapper {
+    background-color: #fff;
+    margin: 0px 150px 0px 150px
+}
+</style>

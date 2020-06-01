@@ -387,7 +387,7 @@ export default {
   }
 }
 </script>
-
+  
 <style scoped>
   .loginFrame { width: 100%; height: 100%; min-width: 1000px; min-height: 700px; margin: 0px; padding: 0px; position: relative; background-size: cover;}
   .loginFrameTitle { font-size: 26px; color: white; font-weight: bold; margin-bottom: 10px}

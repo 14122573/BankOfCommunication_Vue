@@ -1,0 +1,67 @@
+<template>
+  <div class="loginFrameBody">
+    <a-row
+      class="loginFrameTitle"
+      type="flex"
+      justify="start"
+      align="middle"
+      :gutter="10"
+    >
+      <!-- <a-col :span="12" style="background-color: red"> -->
+      <a-col :span="12">
+        <a-row>
+          <a-col :span="4"
+            ><img src="@/assets/images/logo.png" alt="" class="logo"
+          /></a-col>
+          <a-col :span="20" :offset="0" style="text-align: left">“智能渔技”综合信息服务平台</a-col>
+        </a-row>
+      </a-col>
+      <a-col :span="12">
+        <div class="loginFrameMenu">
+          <a-menu v-model="current" mode="horizontal">
+            <a-menu-item key="1">
+              <router-link :to="{ path: '/new_home/index' }">首页</router-link>
+            </a-menu-item>
+            <a-menu-item key="2">
+              通知公告
+            </a-menu-item>
+            <a-menu-item key="3">
+              行业动态
+            </a-menu-item>
+            <a-menu-item key="4">
+              <router-link :to="{ path: '/new_home/knowledgeService' }"
+                >知识服务</router-link
+              >
+            </a-menu-item>
+            <a-menu-item key="5">
+              专题报告
+            </a-menu-item>
+            <a-menu-item key="6">
+              数据查询
+            </a-menu-item>
+          </a-menu>
+        </div>
+      </a-col>
+    </a-row>
+  </div>
+</template>
+
+<script>
+import routes from '../../../router/index'
+export default {}
+</script>
+
+<style scoped>
+.loginFrameBody {
+  margin: 0px 100px 0px 100px;
+}
+.loginFrameTitle {
+  font-size: 20px;
+  color: #000;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+.loginFrameTitle .logo {
+  height: 60px;
+}
+</style>
