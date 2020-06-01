@@ -163,19 +163,41 @@ const render = ({ appContent, loading } = {}) => { // 渲染方法
     app.loading = loading
   }
 }
+import Axios from 'axios'
 
-import system from '@/config/System2.json'
-console.log(system)
-let projects=[]
+(async function loadMicsystem() {
+  let MicRouters = (await Axios.get('http://iftp.omniview.pro/attr/System2.json')).data
+  let system = Object.assign({},MicRouters)
 
-for(let i=0;i<system.sit.length;i++){
-  projects.push({
-    name      : system.sit[i].name,
-    entry     : system.sit[i].entry,
-    render,
-    activeRule: checkPrefix(system.sit[i].activeRule),
-  })
-} 
+  let projects=[]
+  for(let i=0;i<system.sit.length;i++){
+    projects.push({
+      name      : system.sit[i].name,
+      entry     : system.sit[i].entry,
+      render,
+      activeRule: checkPrefix(system.sit[i].activeRule),
+    })
+  } 
+  
+  registerMicroApps(projects) // 注册子项目
+
+  render()
+
+  start()
+
+})()
+// import system from '@/config/System2.json'
+// console.log(system)
+// let projects=[]
+
+// for(let i=0;i<system.sit.length;i++){
+//   projects.push({
+//     name      : system.sit[i].name,
+//     entry     : system.sit[i].entry,
+//     render,
+//     activeRule: checkPrefix(system.sit[i].activeRule),
+//   })
+// } 
 // const projects = [ // 子项目信息
 //   {
 //     name      : 'scsd',
@@ -185,9 +207,9 @@ for(let i=0;i<system.sit.length;i++){
 //   },
 // ]
 
-registerMicroApps(projects) // 注册子项目
-// registerMicroApps(system.sit) // 注册子项目
+// registerMicroApps(projects) // 注册子项目
+// // registerMicroApps(system.sit) // 注册子项目
 
-render()
+// render()
 
-start()
+// start()
