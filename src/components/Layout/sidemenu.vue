@@ -132,7 +132,7 @@ export default {
      *
      */
     navigateTo({ item, key }, menu) {
-      // console.log(item, key, menu)
+      console.log(item, key, menu)
       if(menu.meta){ 
         const openMode = menu.meta.openMode?menu.meta.openMode:'normal'
         switch (openMode) {
@@ -157,7 +157,7 @@ export default {
           this.$router.push({ name: menu.name })
           break
         case 'spa': 
-          this.$router.push({ name: menu.name })
+          this.$router.push({ path: menu.path })
           // this.$router.push({ path: menu.path })
           break
         default:

@@ -171,12 +171,14 @@ import Axios from 'axios'
 
   let projects=[]
   for(let i=0;i<system.sit.length;i++){
-    projects.push({
-      name      : system.sit[i].name,
-      entry     : system.sit[i].entry,
-      render,
-      activeRule: checkPrefix(system.sit[i].activeRule),
-    })
+    if(system.sit[i].name!='zlzs'){
+      projects.push({
+        name      : system.sit[i].name,
+        entry     : system.sit[i].entry,
+        render,
+        activeRule: checkPrefix(system.sit[i].activeRule),
+      })
+    }
   } 
   
   registerMicroApps(projects) // 注册子项目

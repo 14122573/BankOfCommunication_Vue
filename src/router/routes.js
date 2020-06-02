@@ -582,36 +582,36 @@ const appRoutes = [ {
       }
       ]
     },
-    {//质量追溯
-      'path'    : '/zlzs',
-      'name'    : 'zlzs',
-      'meta'    : { 'title': '质量追溯', 'menuPath': true, 'authCode': 'S0703', 'menuIcon': 'barcode', 'hideInBread': true, 'openMode': 'spa' },
-      'children': [ {
-        'path': '/zlzs/company/zlzsCompany',
-        'name': '/zlzs/company/zlzsCompany',
-        'meta': { 'title': '企业信息管理', 'menuPath': true, 'authCode': 'S070301', 'hideInBread': false, 'menuIcon': 'appstore', 'openMode': 'spa' }
-      }, {
-        'path': '/zlzs/seedingout/zlzsSeedingout',
-        'name': '/zlzs/seedingout/zlzsSeedingout',
-        'meta': { 'title': '苗种投放管理', 'menuPath': true, 'authCode': 'S070302', 'hideInBread': false, 'menuIcon': 'appstore', 'openMode': 'spa' }
-      }, {
-        'path': '/zlzs/fodderout/zlzsFodderout',
-        'name': '/zlzs/fodderout/zlzsFodderout',
-        'meta': { 'title': '饲料投入管理', 'menuPath': true, 'authCode': 'S070303', 'hideInBread': false, 'menuIcon': 'appstore', 'openMode': 'spa' }
-      }, {
-        'path': '/zlzs/drugout/zlzsDrugout',
-        'name': '/zlzs/drugout/zlzsDrugout',
-        'meta': { 'title': '渔药投入管理', 'menuPath': true, 'authCode': 'S070304', 'hideInBread': false, 'menuIcon': 'appstore', 'openMode': 'spa' }
-      }, {
-        'path': '/zlzs/sale/zlzsSale',
-        'name': '/zlzs/sale/zlzsSale',
-        'meta': { 'title': '销售信息管理', 'menuPath': true, 'authCode': 'S070305', 'hideInBread': false, 'menuIcon': 'appstore', 'openMode': 'spa' }
-      }, {
-        'path': '/zlzs/review/zlzsReview',
-        'name': '/zlzs/review/zlzsReview',
-        'meta': { 'title': '追溯信息管理', 'menuPath': true, 'authCode': 'S070306', 'hideInBread': false, 'menuIcon': 'appstore', 'openMode': 'spa' }
-      } ]
-    },
+    // {//质量追溯
+    //   'path'    : '/zlzs',
+    //   'name'    : 'zlzs',
+    //   'meta'    : { 'title': '质量追溯', 'menuPath': true, 'authCode': 'S0703', 'menuIcon': 'barcode', 'hideInBread': true, 'openMode': 'spa' },
+    //   'children': [ {
+    //     'path': '/zlzs/company/zlzsCompany',
+    //     'name': '/zlzs/company/zlzsCompany',
+    //     'meta': { 'title': '企业信息管理', 'menuPath': true, 'authCode': 'S070301', 'hideInBread': false, 'menuIcon': 'appstore', 'openMode': 'spa' }
+    //   }, {
+    //     'path': '/zlzs/seedingout/zlzsSeedingout',
+    //     'name': '/zlzs/seedingout/zlzsSeedingout',
+    //     'meta': { 'title': '苗种投放管理', 'menuPath': true, 'authCode': 'S070302', 'hideInBread': false, 'menuIcon': 'appstore', 'openMode': 'spa' }
+    //   }, {
+    //     'path': '/zlzs/fodderout/zlzsFodderout',
+    //     'name': '/zlzs/fodderout/zlzsFodderout',
+    //     'meta': { 'title': '饲料投入管理', 'menuPath': true, 'authCode': 'S070303', 'hideInBread': false, 'menuIcon': 'appstore', 'openMode': 'spa' }
+    //   }, {
+    //     'path': '/zlzs/drugout/zlzsDrugout',
+    //     'name': '/zlzs/drugout/zlzsDrugout',
+    //     'meta': { 'title': '渔药投入管理', 'menuPath': true, 'authCode': 'S070304', 'hideInBread': false, 'menuIcon': 'appstore', 'openMode': 'spa' }
+    //   }, {
+    //     'path': '/zlzs/sale/zlzsSale',
+    //     'name': '/zlzs/sale/zlzsSale',
+    //     'meta': { 'title': '销售信息管理', 'menuPath': true, 'authCode': 'S070305', 'hideInBread': false, 'menuIcon': 'appstore', 'openMode': 'spa' }
+    //   }, {
+    //     'path': '/zlzs/review/zlzsReview',
+    //     'name': '/zlzs/review/zlzsReview',
+    //     'meta': { 'title': '追溯信息管理', 'menuPath': true, 'authCode': 'S070306', 'hideInBread': false, 'menuIcon': 'appstore', 'openMode': 'spa' }
+    //   } ]
+    // },
     {//稻渔综合种养dyzh
       'path'    : '/dyzh',
       'name'    : 'dyzh',
@@ -664,9 +664,8 @@ const appRoutes = [ {
       ]
     },
     {//大水面生态渔业styy
-      'path': '/styy',
-      'name': 'styy',
-
+      'path'    : '/styy',
+      'name'    : 'styy',
       'meta'    : { 'title': '大水面生态渔业 ', 'menuPath': true, 'authCode': 'S1401', 'menuIcon': 'barcode', 'hideInBread': true },
       'children': [
         {
