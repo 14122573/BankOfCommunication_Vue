@@ -1,9 +1,14 @@
 {
     "sit":[
       {
-        "entry": "http://127.0.0.1/",
+        "entry": "http://scsd.omniview.pro",
         "name": "scsd",
         "activeRule": "/scsd"
+      },
+      {
+        "entry": "http://yysygl.omniview.pro",
+        "name": "yysygl",
+        "activeRule": "/yysygl"
       }
     ]
 }

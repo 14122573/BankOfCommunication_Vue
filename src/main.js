@@ -166,7 +166,7 @@ const render = ({ appContent, loading } = {}) => { // 渲染方法
 import Axios from 'axios'
 
 (async function loadMicsystem() {
-  let MicRouters = (await Axios.get('http://iftp.omniview.pro/attr/System2.json')).data
+  let MicRouters = (await Axios.get('http://iftp.omniview.pro/attr/System.json')).data
   let system = Object.assign({},MicRouters)
 
   let projects=[]

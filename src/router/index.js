@@ -28,34 +28,34 @@ routers.beforeEach((to, from, next) => {
 
   const token = Cookie.get('token')
   const canEnterBind = Cookie.get('canEnterBind')
-  if(!token && to.name != 'login'){
-    next('/login')
-  }else{
-    next()
-  }
-  // 当前无token且不在login页面则推到登录页面
-  // if (!token) {
-  //   // 未登录
-  //   if (to.name == 'login') {
-  //     next()
-  //   } else {
-  //     const uneedTokenRouter=[ '/veterinary/view', '/veterinary', '/cms/noticePublish', '/cms/noticePublish/view', '/cms/knowledgePublish/view', '/cms/knowledgeAnonymous', 'upperLimitErr', 'register', 'oldSysLogout', 'outerNetworkerr' ]
-  //     // console.log(to.name,Common.oneOf(to.name,uneedTokenRouter) )
-  //     // if (Common.oneOf(to.name,uneedTokenRouter) || (to.name == 'bindPhone' && canEnterBind == '200')) {
-  //     if (Common.oneOf(to.name, uneedTokenRouter) || (Common.oneOf(to.name, [ 'bindPhone', 'bindTemporarayAccount' ]) && canEnterBind == '200')) {
-  //       next()
-  //     } else {
-  //       next('/login')
-  //     }
-  //   }
-  // } else { // 已经登录
-  //   // if (Common.oneOf(to.name,['login','bindPhone'])) {
-  //   if (Common.oneOf(to.name, [ 'login', 'bindPhone', 'bindTemporarayAccount' ])) {
-  //     next('/home')
-  //   } else {
-  //     next()
-  //   }
+  // if(!token && to.name != 'login'){
+  //   next('/login')
+  // }else{
+  //   next()
   // }
+  // 当前无token且不在login页面则推到登录页面
+  if (!token) {
+    // 未登录
+    if (to.name == 'login') {
+      next()
+    } else {
+      const uneedTokenRouter=[ '/veterinary/view', '/veterinary', '/cms/noticePublish', '/cms/noticePublish/view', '/cms/knowledgePublish/view', '/cms/knowledgeAnonymous', 'upperLimitErr', 'register', 'oldSysLogout', 'networkerr' ]
+      // console.log(to.name,Common.oneOf(to.name,uneedTokenRouter) )
+      // if (Common.oneOf(to.name,uneedTokenRouter) || (to.name == 'bindPhone' && canEnterBind == '200')) {
+      if (Common.oneOf(to.name, uneedTokenRouter) || (Common.oneOf(to.name, [ 'bindPhone', 'bindTemporarayAccount' ]) && canEnterBind == '200')) {
+        next()
+      } else {
+        next('/login')
+      }
+    }
+  } else { // 已经登录
+    // if (Common.oneOf(to.name,['login','bindPhone'])) {
+    if (Common.oneOf(to.name, [ 'login', 'bindPhone', 'bindTemporarayAccount' ])) {
+      next('/home')
+    } else {
+      next()
+    }
+  }
 })
 
 export default routers

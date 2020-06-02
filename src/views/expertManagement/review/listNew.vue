@@ -308,4 +308,13 @@ export default {
 .reviewInHomeTitle .more{ cursor: pointer; color: #1890ff}
 .contentOperate{ color:#1890ff; cursor: pointer;display: inline-block; }
 </style>
+<style lang="stylus">
+.reviewInHomeTitle .title
+  $titleFontSize()
+.reviewSection 
+  .ant-alert-message
+    $titleFontSize()
+  .ant-alert-description p
+    $simpleFontSize()
+</style>
 

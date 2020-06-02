@@ -139,7 +139,53 @@ const appRoutes = [ {
         },
       ]
     },
-
+    {
+      path    : '/yysygl', name    : 'yysygl',
+      meta    : { title: '渔业兽医', menuPath: true, authCode: 'S0602', hideInBread: true, menuIcon: 'appstore' },
+      children: [
+        {
+          path: '/yysygl/secrchpage/list', name: 'secrchpage', 
+          meta: { title: '兽医查询', menuPath: true, authCode: 'S060201', hideInBread: true, menuIcon: 'appstore' },
+        },
+        {
+          path: '/yysygl/yyVeternary/list', name: 'yyVeternary', 
+          meta: { title: '渔业乡村兽医', menuPath: true, authCode: 'S060202', hideInBread: true, menuIcon: 'appstore' },
+        },
+        {
+          path: '/yysygl/official/list', name: 'official', 
+          meta: { title: '渔业官方兽医', menuPath: true, authCode: 'S060203', hideInBread: true, menuIcon: 'appstore' },
+        },
+        {
+          path: '/yysygl/practising/list', name: 'practising', 
+          meta: { title: '渔业执业兽医', menuPath: true, authCode: 'S060204', hideInBread: true, menuIcon: 'appstore' },
+        },
+  
+        {
+          path: '/yysygl/yyVeternary/edit', name: 'yyVeternaryEdit', 
+          meta: { title: '修改渔业乡村兽医信息', menuPath: false, authCode: 'S06020204', hideInBread: false },
+        },
+        {
+          path: '/yysygl/yyVeternary/details', name: 'yyVeternaryDetail', 
+          meta: { title: '查看渔业乡村兽医信息', menuPath: false, authCode: 'S06020205', hideInBread: false },
+        },
+        {
+          path: '/yysygl/official/edit', name: 'officialEdit', 
+          meta: { title: '修改渔业官方兽医信息', menuPath: false, authCode: 'S06020304', hideInBread: false },
+        },    
+        {
+          path: '/yysygl/official/details', name: 'officialDetail', 
+          meta: { title: '查看渔业官方兽医信息', menuPath: false, authCode: 'S06020305', hideInBread: false },
+        },    
+        {
+          path: '/yysygl/practising/edit', name: 'practisingEdit', 
+          meta: { title: '修改渔业执业兽医信息', menuPath: false, authCode: 'S06020404', hideInBread: false },
+        },
+        {
+          path: '/yysygl/practising/details', name: 'practisingDetail', 
+          meta: { title: '查看渔业执业兽医信息', menuPath: false, authCode: 'S06020405', hideInBread: false },
+        },
+      ]
+    },
     {
       path     : '/demo', name     : 'demo', component: demo,
       meta     : { title: 'demo', },
@@ -404,7 +450,7 @@ const appRoutes = [ {
   meta     : { title: '老系统安全登出', },
 },
 {
-  path     : '/outerNetworkerr', name     : 'outerNetworkerr', component: TipsNetworkErr,
+  path     : '/networkerr', name     : 'networkerr', component: TipsNetworkErr,
   meta     : { title: '网络错误', },
 },
 {

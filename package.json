@@ -21,6 +21,8 @@
     "pdfjs-dist": "^2.3.200",
     "qiankun": "^1.4.5",
     "qs": "^6.9.3",
+    "stylus": "^0.54.7",
+    "stylus-loader": "^3.0.2",
     "vue": "^2.5.2",
     "vue-router": "^3.0.1",
     "vue-ueditor-wrap": "^2.4.1",
