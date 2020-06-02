@@ -156,8 +156,7 @@ export default {
         case 'normal':
           this.$router.push({ name: menu.name })
           break
-        case 'spa':
-          console.log(menu)
+        case 'spa': 
           this.$router.push({ name: menu.name })
           // this.$router.push({ path: menu.path })
           break

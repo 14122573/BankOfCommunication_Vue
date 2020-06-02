@@ -612,6 +612,75 @@ const appRoutes = [ {
         'meta': { 'title': '追溯信息管理', 'menuPath': true, 'authCode': 'S070306', 'hideInBread': false, 'menuIcon': 'appstore', 'openMode': 'spa' }
       } ]
     },
+    {//稻渔综合种养
+      'path'    : '/dyzh',
+      'name'    : 'dyzh',
+      'meta'    : { 'title': '稻渔综合种养', 'menuPath': true, 'authCode': 'S1301', 'menuIcon': 'barcode', 'hideInBread': true },
+      'children': [
+        {
+          'path'    : '/dyzh/dyzhzy',
+          'name'    : 'dyzh/dyzhzy',
+          'meta'    : { 'title': '县域稻渔综合种养信息上报', 'menuPath': true, 'authCode': 'S130127', 'menuIcon': 'appstore' },
+          'children': [
+            {
+              'path': '/dyzh/dyzhzy/OutputInfo',
+              'name': '/dyzh/dyzhzy/OutputInfo',
+              'meta': { 'title': '稻渔综合种养产量和面积上报', 'menuPath': true, 'authCode': 'S130121', 'menuIcon': 'appstore', 'hideInBread': false, 'openMode': 'spa' }
+            },
+            {
+              'path': '/dyzh/ecologicalFishery/MainStay',
+              'name': '/dyzh/ecologicalFishery/MainStay',
+              'meta': { 'title': '稻渔综合种养主体数量上报', 'menuPath': true, 'authCode': 'S130124', 'menuIcon': 'appstore', 'hideInBread': false, 'openMode': 'spa' }
+            },
+            {
+              'path': '/dyzh/dyzhzy/ScaleOut',
+              'name': '/dyzh/dyzhzy/ScaleOut',
+              'meta': { 'title': '小龙虾产量面积上报', 'menuPath': true, 'authCode': 'S130107', 'menuIcon': 'appstore', 'hideInBread': false, 'openMode': 'spa' }
+            },
+            {
+              'path': '/dyzh/dyzhzy/LittleDragon',
+              'name': '/dyzh/dyzhzy/LittleDragon',
+              'meta': { 'title': '小龙虾规模以上加工企业情况上报', 'menuPath': true, 'authCode': 'S130110', 'menuIcon': 'appstore', 'hideInBread': false, 'openMode': 'spa' }
+            }
+          ]
+        },
+        {
+          'path'    : '/dyzh/ecologicalFisherys',
+          'name'    : 'dyzh/ecologicalFisherys',
+          'meta'    : { 'title': '示范区经营主体信息上报', 'menuPath': true, 'authCode': 'S130130', 'menuIcon': 'appstore' },
+          'children': [
+            {
+              'path': '/dyzh/ecologicalFishery/RiceFishInfor',
+              'name': '/dyzh/ecologicalFishery/RiceFishInfor',
+              'meta': { 'title': '示范区经营主体基本信息上报', 'menuPath': true, 'authCode': 'S130114', 'menuIcon': 'appstore', 'hideInBread': false, 'openMode': 'spa' }
+            },
+            {
+              'path': '/dyzh/cultivation/Cultivation',
+              'name': '/dyzh/cultivation/Cultivation',
+              'meta': { 'title': '示范区稻渔综合种养上报', 'menuPath': true, 'authCode': 'S130117', 'menuIcon': 'appstore', 'hideInBread': false, 'openMode': 'spa' }
+            }
+          ]
+        }
+      ]
+    },
+    {//大水面生态渔业
+      'path': '/styy',
+      'name': 'styy',
+
+      'meta'    : { 'title': '大水面生态渔业 ', 'menuPath': true, 'authCode': 'S1401', 'menuIcon': 'barcode', 'hideInBread': true },
+      'children': [
+        {
+          'path': '/styy/bigWaterSurface/WaterInfor',
+          'name': '/styy/bigWaterSurface/WaterInfor',
+          'meta': { 'title': '大水面生态渔业主体信息', 'menuPath': true, 'menuIcon': 'appstore','authCode': 'S140101','hideInBread': false,'openMode': 'spa' }
+        },
+        {
+          'path': '/styy/bigWaterSurface/BreedInfo',
+          'name': '/styy/bigWaterSurface/BreedInfo',
+          'meta': { 'title': '大水面生态渔业养殖信息', 'menuPath': true, 'menuIcon': 'appstore','authCode': 'S140105','hideInBread': false,'openMode': 'spa' }
+        }
+      ]
+    },
     {
       path     : '/demo', name     : 'demo', component: demo,
       meta     : { title: 'demo', },
