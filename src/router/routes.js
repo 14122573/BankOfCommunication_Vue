@@ -139,7 +139,7 @@ const appRoutes = [ {
         },
       ]
     },
-    {
+    {//渔业兽医
       path    : '/yysygl', name    : 'yysygl',
       meta    : { title: '渔业兽医', menuPath: true, authCode: 'S0602', hideInBread: true, menuIcon: 'appstore' },
       children: [
@@ -186,6 +186,292 @@ const appRoutes = [ {
         },
       ]
     },
+    {//水产原良种场验收审定
+      'path'    : '/scylzc',
+      'name'    : 'scylzc',
+      'meta'    : { 'title': '水产原良种场验收审定', 'menuPath': true, 'authCode': 'S0503', 'menuIcon': 'barcode', 'hideInBread': true },
+      'children': [
+        {
+          'path': '/scylzc/account/list',
+          'name': '/scylzc/account/list',
+          'meta': { 'title': '申报单位管理', 'menuPath': true, 'authCode': 'S050307', 'menuIcon': 'cluster', 'hideInBread': false, 'openMode': 'spa' }
+        },
+        {
+          'path': '/scylzc/acceptance/list',
+          'name': '/scylzc/acceptance/list',
+          'meta': { 'title': '验收申请填写', 'menuPath': true, 'authCode': 'S050301', 'menuIcon': 'exception', 'hideInBread': false, 'openMode': 'spa' }
+        },
+        {
+          'path': '/scylzc/afApply/list',
+          'name': '/scylzc/afApply/list',
+          'meta': { 'title': '验收审查管理', 'menuPath': true, 'authCode': 'S050302', 'menuIcon': 'barcode', 'hideInBread': false, 'openMode': 'spa'  }
+        },
+        {
+          'path': '/scylzc/afReview/list',
+          'name': '/scylzc/afReview/list',
+          'meta': { 'title': '验收初审管理', 'menuPath': true, 'authCode': 'S050303', 'menuIcon': 'exception', 'hideInBread': false, 'openMode': 'spa' }
+        },
+        {
+          'path': '/scylzc/afOrgaExpert/list',
+          'name': '/scylzc/afOrgaExpert/list',
+          'meta': { 'title': '组织专家评审', 'menuPath': true, 'authCode': 'S050304',  'menuIcon': 'database', 'hideInBread': false, 'openMode': 'spa' }
+        },
+        {
+          'path'    : '/scylzc/afVerification/list',
+          'name'    : '/scylzc/afVerification/list',
+          'meta'    : { 'title': '专家评审', 'menuPath': true, 'authCode': 'S050305', 'menuIcon': 'team', 'hideInBread': false, 'openMode': 'spa' },
+          'children': [ {
+            'path': '/scylzc/afVerification/list/check',
+            'name': '/scylzc/afVerification/list/check',
+            'meta': { 'title': '评审', 'menuPath': false, 'authCode': 'S05030501', 'menuIcon': 'appstore', 'hideInBread': false,'openMode': 'spa' }
+          },
+          {
+            'path': '/scylzc/afVerification/list/view',
+            'name': '/scylzc/afVerification/list/view',
+            'meta': { 'title': '查看申请', 'menuPath': false, 'authCode': 'S05030103', 'menuIcon': 'appstore', 'hideInBread': false, 'openMode': 'spa' }
+          } ]
+        },
+        {
+          'path': '/scylzc/allApplyInfo/list',
+          'name': '/scylzc/allApplyInfo/list',
+          'meta': { 'title': '查看全部申报信息', 'menuPath': true, 'authCode': 'S050306', 'menuIcon': 'team', 'hideInBread': false, 'openMode': 'spa' }
+        },
+        {
+          'path': '/scylzc/nodeConfig/list', 'name': '/scylzc/nodeConfig/list',
+          'meta': { 'title': '流程配置', 'menuPath': true, 'authCode': 'S050308', 'menuIcon': 'appstore', 'hideInBread': false, 'openMode': 'spa' }
+        }
+
+      ]
+    },
+    {//水产原良种场复查审定
+      'path'    : '/ylzcre',
+      'name'    : 'ylzcre',
+      'meta'    : { 'title': '水产原良种场复查审定', 'menuPath': true, 'authCode': 'S0502', 'menuIcon': 'barcode', 'hideInBread': true, 'openMode': 'spa' },
+      'children': [
+        {
+          'path': '/ylzcre/review/information',
+          'name': '/ylzcre/review/information',
+          'meta': { 'title': '监测数据管理', 'menuPath': true, 'authCode': 'S050201', 'menuIcon': 'exception', 'hideInBread': false, 'openMode': 'spa' }
+        },
+        {
+          'path': '/ylzcre/acceptance/list',
+          'name': '/ylzcre/acceptance/list',
+          'meta': { 'title': '复查申请填写', 'menuPath': true, 'authCode': 'S050202', 'menuIcon': 'profile', 'hideInBread': false, 'openMode': 'spa' }
+        },
+        {
+          'path': '/ylzcre/afApply/list',
+          'name': '/ylzcre/afApply/list',
+          'meta': { 'title': '复查申请审查', 'menuPath': true, 'authCode': 'S050203', 'menuIcon': 'barcode', 'hideInBread': false, 'openMode': 'spa' }
+        },
+        {
+          'path': '/ylzcre/afReview/list',
+          'name': '/ylzcre/afReview/list',
+          'meta': { 'title': '复查申请初审', 'menuPath': true, 'authCode': 'S050204', 'menuIcon': 'exception', 'hideInBread': false, 'openMode': 'spa' }
+        },
+        {
+          'path': '/ylzcre/afOrgaExpert/list',
+          'name': '/ylzcre/afOrgaExpert/list',
+          'meta': { 'title': '组织专家管理', 'menuPath': true, 'authCode': 'S050205', 'menuIcon': 'database', 'hideInBread': false, 'openMode': 'spa' }
+        },
+        {
+          'path'    : '/ylzcre/afVerification/list',
+          'name'    : '/ylzcre/afVerification/list',
+          'meta'    : { 'title': '专家评审', 'menuPath': true, 'authCode': 'S050206', 'menuIcon': 'team', 'hideInBread': false, 'openMode': 'spa' },
+          'children': [
+            {
+              'path': '/ylzcre/afVerification/list/check',
+              'name': '/ylzcre/afVerification/list/check',
+              'meta': { 'title': '评审', 'menuPath': false, 'authCode': 'S05020601', 'menuIcon': 'appstore', 'hideInBread': false, 'openMode': 'spa' }
+            },
+            {
+              'path': '/ylzcre/afVerification/list/view',
+              'name': '/ylzcre/afVerification/list/view',
+              'meta': { 'title': '查看申请', 'menuPath': false, 'authCode': 'S05020203', 'menuIcon': 'appstore', 'hideInBread': false, 'openMode': 'spa' }
+            }
+          ]
+        },
+        {
+          'path': '/ylzcre/allApplyInfo/list',
+          'name': '/ylzcre/allApplyInfo/list',
+          'meta': { 'title': '查看全部申报信息', 'menuPath': true, 'authCode': 'S050207', 'menuIcon': 'team', 'hideInBread': false, 'openMode': 'spa' }
+        }
+      ]
+    },
+    {//范蠡奖评审
+      'path'    : '/fljps',
+      'name'    : 'fljps',
+      'meta'    : { 'title': '范蠡奖评审', 'menuPath': true, 'authCode': 'S1002', 'menuIcon': 'barcode', 'hideInBread': true },
+      'children': [
+        {
+          'path': '/fljps/notf/flaNotf', 'name': '/fljps/notf/flaNotf',
+          'meta': { 'title': '评审管理', 'menuPath': true, 'authCode': 'S100201', 'hideInBread': false, 'menuIcon': 'sound', 'openMode': 'spa' }
+        },
+        {
+          'path': '/fljps/firsttrial/flaFirstTrial', 'name': '/fljps/firsttrial/flaFirstTrial',
+          'meta': { 'title': '初审管理', 'menuPath': true, 'authCode': 'S100203', 'hideInBread': false, 'menuIcon': 'sound', 'openMode': 'spa' }
+        },
+        {
+          'path': '/fljps/expert/flaOrgaExpert', 'name': '/fljps/expert/flaOrgaExpert',
+          'meta': { 'title': '组织专家', 'menuPath': true, 'authCode': 'S100204', 'hideInBread': false, 'menuIcon': 'team', 'openMode': 'spa' }
+        },
+        {
+          'path': '/fljps/reviewShow/flaReviewShow', 'name': '/fljps/reviewShow/flaReviewShow',
+          'meta': { 'title': '评审结果汇总', 'menuPath': true, 'authCode': 'S100205', 'hideInBread': false, 'menuIcon': 'table', 'openMode': 'spa' }
+        },
+        {
+          'path': '/fljps/reportNote/flaReviewNotf', 'name': '/fljps/reportNote/flaReviewNotf',
+          'meta': { 'title': '评审管理', 'menuPath': true, 'authCode': 'S100209', 'hideInBread': false, 'menuIcon': 'table', 'openMode': 'spa' }
+        },
+        {
+          'path': '/fljps/scitechrep/scitechrep', 'name': '/fljps/scitechrep/scitechrep',
+          'meta': { 'title': '技术类申报', 'menuPath': true, 'authCode': 'S100210', 'hideInBread': false, 'menuIcon': 'table', 'openMode': 'spa' }
+        },
+        {
+          'path': '/fljps/innoteamrep/innoteamrep', 'name': '/fljps/innoteamrep/innoteamrep',
+          'meta': { 'title': '团队类申报', 'menuPath': true, 'authCode': 'S100211', 'hideInBread': false, 'menuIcon': 'table', 'openMode': 'spa' }
+        },
+        {
+          'path': '/fljps/checkconf/checkconfirmpost', 'name': '/fljps/checkconf/checkconfirmpost',
+          'meta': { 'title': '检查并确认申报', 'menuPath': true, 'authCode': 'S100212', 'hideInBread': false, 'menuIcon': 'table', 'openMode': 'spa' }
+        },
+        {
+          'path'    : '/fljps/review/flaReview', 'name'    : '/fljps/review/flaReview',
+          'meta'    : { 'title': '评审管理', 'menuPath': true, 'authCode': 'S100208', 'hideInBread': false, 'menuIcon': 'table', 'openMode': 'spa' },
+          'children': [
+            {
+              'path': '/fljps/flaReportDetail/flaReportDetail/:id', 'name': '/fljps/flaReportDetail/flaReportDetail',
+              'meta': { 'title': '查看成果详情', 'menuPath': false, 'authCode': 'S10020304', 'hideInBread': false , 'menuIcon': 'table', 'openMode': 'spa' }
+            }
+          ]
+        },
+        {
+          'path': '/fljps/recomanage/flaRrua', 'name': '/fljps/recomanage/flaRrua',
+          'meta': { 'title': '申报单位推荐', 'menuPath': true, 'authCode': 'S100206', 'hideInBread': false, 'menuIcon': 'sound', 'openMode': 'spa' }
+        },
+        {
+          'path': '/fljps/recomanage/flaRecConf', 'name': '/fljps/recomanage/flaRecConf',
+          'meta': { 'title': '推荐材料审查', 'menuPath': true, 'authCode': 'S100207', 'hideInBread': false, 'menuIcon': 'sound', 'openMode': 'spa' }
+        },
+        {
+          'path': '/fljps/node/nodeConfig','name': '/fljps/node/nodeConfig',
+          'meta': { 'title': '流程配置','menuPath': true,'authCode': 'S100213','hideInBread': false,'menuIcon': 'appstore', 'openMode': 'spa' }
+        }
+      ]
+    },
+    {//中国水产学会团体标准管理
+      'path'    : '/ttbz',
+      'name'    : 'ttbz',
+      'meta'    : { 'title': '中国水产学会团体标准管理', 'menuPath': true, 'authCode': 'S0201', 'menuIcon': 'barcode', 'hideInBread': true },
+      'children': [
+        {
+          'path': '/ttbz/standardApplyManager/StandardApply', 'name': '/ttbz/standardApplyManager/StandardApply',
+          'meta': { 'title': '管理立项申请', 'authCode': 'S020101', 'menuPath': true, 'hideInBread': false, 'menuIcon': 'appstore', 'openMode': 'spa' }
+        },
+       
+        {
+          'path': '/ttbz/organizationExpert/RereviewExpert', 'name': '/ttbz/organizationExpert/RereviewExpert',
+          'meta': { 'title': '团体标准管理', 'authCode': 'S020107','menuPath': true, 'hideInBread': false, 'menuIcon': 'appstore', 'openMode': 'spa' }
+        },
+       
+
+        {
+          'path'    : '/ttbz/projectArgumentation/StandardReview', 'name'    : '/ttbz/projectArgumentation/StandardReview',
+          'meta'    : { 'title': '专家评审', 'authCode': 'S020106', 'menuPath': true, 'hideInBread': false, 'menuIcon': 'appstore', 'openMode': 'spa' },
+          'children': [
+            {
+              'path': '/ttbz/standardApplyManager/StandardReview/standardApplyDetail', 'name': '/ttbz/standardApplyManager/StandardReview/standardApplyDetail',
+              'meta': { 'title': '录入专家立项论证结论', 'menuPath': false, 'authCode': 'S02010602', 'hideInBread': false, 'menuIcon': 'appstore', 'openMode': 'spa' }
+            },
+            {
+              'path': '/ttbz/projectArgumentation/ExpertReviewDetail', 'name': '/ttbz/projectArgumentation/ExpertReviewDetail',
+              'meta': { 'title': '录入专家复审结论', 'menuPath': false, 'authCode': 'S02010602', 'hideInBread': false, 'menuIcon': 'appstore', 'openMode': 'spa' }
+            },
+            {
+              'path': '/ttbz/letterReviewmanager/letterReview/addLetterReview', 'name': '/ttbz/letterReviewmanager/letterReview/addLetterReview',
+              'meta': { 'title': '标准申报函审结论录入', 'menuPath': false, 'authCode': 'S02010602', 'hideInBread': false, 'menuIcon': 'appstore', 'openMode': 'spa' }
+            }
+          ]
+        },
+        
+        {
+          'path': '/ttbz/organizationExpert/standardExpertDetail', 'name': '/ttbz/organizationExpert/standardExpertDetail',
+          'meta': { 'title': '查看申报内容', 'menuPath': false, 'authCode': 'S02010601', 'hideInBread': false, 'menuIcon': 'appstore', 'openMode': 'spa' }
+        }
+       
+      ]
+    },
+    {//水生动物防疫系统实验室能力验证
+      'path': '/ssdw',
+      'name': 'ssdw',
+
+      'meta'    : { 'title': '水生动物防疫系统实验室能力验证', 'menuPath': true, 'authCode': 'S0601', 'menuIcon': 'barcode', 'hideInBread': true },
+      'children': [
+        {
+          'path': '/ssdw/disease/ssdwDisease', 'name': '/ssdw/disease/ssdwDisease',
+          'meta': { 'title': '疾病信息管理', 'menuPath': true, 'authCode': 'S060101', 'hideInBread': false, 'menuIcon': 'appstore', 'openMode': 'spa' }
+        },
+        {
+          'path': '/ssdw/unitInfo/ssdwUnitInfo', 'name': '/ssdw/unitInfo/ssdwUnitInfo',
+          'meta': { 'title': '单位信息管理', 'menuPath': true, 'authCode': 'S060102', 'hideInBread': false, 'menuIcon': 'appstore', 'openMode': 'spa' }
+        },
+        {
+          'path': '/ssdw/plan/ssdwPlan', 'name': '/ssdw/plan/ssdwPlan',
+          'meta': { 'title': '能力验证计划管理', 'menuPath': true, 'authCode': 'S060103', 'hideInBread': false, 'menuIcon': 'appstore', 'openMode': 'spa' }
+        },
+        {
+          'path': '/ssdw/tech/ssdwTechGet', 'name': '/ssdw/tech/ssdwTechGet',
+          'meta': { 'title': '技术方案上报', 'menuPath': true, 'authCode': 'S060104', 'hideInBread': false, 'menuIcon': 'appstore', 'openMode': 'spa' }
+        },
+        {
+          'path': '/ssdw/tech/ssdwTech', 'name': '/ssdw/tech/ssdwTech',
+          'meta': { 'title': '技术方案审批', 'menuPath': true, 'authCode': 'S060105', 'hideInBread': false, 'menuIcon': 'appstore', 'openMode': 'spa' }
+        },
+        {
+          'path': '/ssdw/enroll/ssdwEnrollGet', 'name': '/ssdw/enroll/ssdwEnrollGet',
+          'meta': { 'title': '能力验证计划报名', 'menuPath': true, 'authCode': 'S060111', 'hideInBread': false, 'menuIcon': 'appstore', 'openMode': 'spa' }
+        },
+        {
+          'path': '/ssdw/enroll/ssdwEnroll', 'name': '/ssdw/enroll/ssdwEnroll',
+          'meta': { 'title': '能力验证计划报名审核', 'menuPath': true, 'authCode': 'S060106', 'hideInBread': false, 'menuIcon': 'appstore', 'openMode': 'spa' }
+        },
+        {
+          'path': '/ssdw/enroll/assdwEnrollReview', 'name': '/ssdw/enroll/assdwEnrollReview',
+          'meta': { 'title': '能力验证计划报名复审', 'menuPath': true, 'authCode': 'S060114', 'hideInBread': false, 'menuIcon': 'appstore', 'openMode': 'spa' }
+        },
+        {
+          'path': '/ssdw/sample/ssdwSample', 'name': '/ssdw/sample/ssdwSample',
+          'meta': { 'title': '样品管理', 'menuPath': true, 'authCode': 'S060107', 'hideInBread': false, 'menuIcon': 'appstore', 'openMode': 'spa' }
+        },
+        {
+          'path': '/ssdw/sample/assdwSampleRecive', 'name': '/ssdw/sample/assdwSampleRecive',
+          'meta': { 'title': '样品接收管理', 'menuPath': true, 'authCode': 'S060112', 'hideInBread': false, 'menuIcon': 'appstore', 'openMode': 'spa' }
+        },
+        {
+          'path': '/ssdw/sample/cssdwSampleVerify', 'name': '/ssdw/sample/cssdwSampleVerify',
+          'meta': { 'title': '验证报告上传', 'menuPath': true, 'authCode': 'S060108', 'hideInBread': false, 'menuIcon': 'appstore', 'openMode': 'spa' }
+        },
+        {
+          'path': '/ssdw/sample/bssdwSampleReport', 'name': '/ssdw/sample/bssdwSampleReport',
+          'meta': { 'title': '验证报告结果判定', 'menuPath': true, 'authCode': 'S060109', 'hideInBread': false, 'menuIcon': 'appstore', 'openMode': 'spa' }
+        },
+        {
+          'path': '/ssdw/report/ssdwReport', 'name': '/ssdw/report/ssdwReport',
+          'meta': { 'title': '总结报告上传', 'menuPath': true, 'authCode': 'S060110', 'hideInBread': false, 'menuIcon': 'appstore', 'openMode': 'spa' }
+        },
+        {
+          'path': '/ssdw/report/assdwReportDown', 'name': '/ssdw/report/assdwReportDown',
+          'meta': { 'title': '总结报告下载', 'menuPath': true, 'authCode': 'S060113', 'hideInBread': false, 'menuIcon': 'appstore', 'openMode': 'spa' }
+        },
+        {
+          'path': '/ssdw/mould/ssdwMould', 'name': '/ssdw/mould/ssdwMould',
+          'meta': { 'title': '模板管理', 'menuPath': true, 'authCode': 'S060115', 'hideInBread': false, 'menuIcon': 'appstore', 'openMode': 'spa' }
+        },
+        {
+          'path': '/ssdw/nodeConfig/list', 'name': '/ssdw/nodeConfig/list',
+          'meta': { 'title': '流程配置', 'menuPath': true, 'authCode': 'S060116', 'hideInBread': false, 'menuIcon': 'appstore', 'openMode': 'spa' }
+        }
+      ]
+    },
     {
       path     : '/demo', name     : 'demo', component: demo,
       meta     : { title: 'demo', },
@@ -224,7 +510,7 @@ const appRoutes = [ {
       path     : '/person/expert', name     : '/person/expert', component: LibraryEdit,
       meta     : { title: '专家个人信息维护' },
     },
-    
+
     // 系统管理
     {
       path     : '/systemManagement', name     : 'systemManagement', component: contentWrapper,
