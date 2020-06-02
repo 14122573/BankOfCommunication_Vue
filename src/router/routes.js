@@ -612,7 +612,7 @@ const appRoutes = [ {
         'meta': { 'title': '追溯信息管理', 'menuPath': true, 'authCode': 'S070306', 'hideInBread': false, 'menuIcon': 'appstore', 'openMode': 'spa' }
       } ]
     },
-    {//稻渔综合种养
+    {//稻渔综合种养dyzh
       'path'    : '/dyzh',
       'name'    : 'dyzh',
       'meta'    : { 'title': '稻渔综合种养', 'menuPath': true, 'authCode': 'S1301', 'menuIcon': 'barcode', 'hideInBread': true },
@@ -663,7 +663,7 @@ const appRoutes = [ {
         }
       ]
     },
-    {//大水面生态渔业
+    {//大水面生态渔业styy
       'path': '/styy',
       'name': 'styy',
 
@@ -678,6 +678,309 @@ const appRoutes = [ {
           'path': '/styy/bigWaterSurface/BreedInfo',
           'name': '/styy/bigWaterSurface/BreedInfo',
           'meta': { 'title': '大水面生态渔业养殖信息', 'menuPath': true, 'menuIcon': 'appstore','authCode': 'S140105','hideInBread': false,'openMode': 'spa' }
+        }
+      ]
+    },
+    {//海洋牧场hymc
+      'path'    : '/hymc',
+      'name'    : 'hymc',
+      'meta'    : { 'title': '海洋牧场', 'menuPath': true, 'authCode': 'S1301', 'menuIcon': 'barcode', 'hideInBread': true },
+      'children': [
+        {
+          'path'    : '/hymc/hyBases',
+          'name'    : 'hymc/hyBases',
+          'meta'    : { 'title': '国家级海洋牧场示范区管理', 'menuPath': true, 'authCode': 'S040101', 'menuIcon': 'appstore' },
+          'children': [
+            {
+              'path': '/hymc/uddDeclare/UddDeclare',
+              'name': '/hymc/uddDeclare/UddDeclare',
+              'meta': { 'title': '示范区创建申报', 'menuPath': true, 'authCode': 'S040104', 'menuIcon': 'appstore', 'hideInBread': false, 'openMode': 'spa' }
+            },
+            {
+              'path': '/hymc/uddDeclare/UddDeclareSpList',
+              'name': '/hymc/uddDeclare/UddDeclareSpList',
+              'meta': { 'title': '示范区创建管理', 'menuPath': true, 'authCode': 'S040105', 'menuIcon': 'appstore', 'hideInBread': false, 'openMode': 'spa' }
+            },
+            {
+              'path': '/hymc/annualreview/Annualreview',
+              'name': '/hymc/annualreview/Annualreview',
+              'meta': { 'title': '示范区年度评价申报', 'menuPath': true, 'authCode': 'S040106', 'menuIcon': 'appstore', 'hideInBread': false, 'openMode': 'spa' }
+            },
+            {
+              'path': '/hymc/annualreview/AnnualreviewSpList',
+              'name': '/hymc/annualreview/AnnualreviewSpList',
+              'meta': { 'title': '示范区年度评价管理', 'menuPath': true, 'authCode': 'S040107', 'menuIcon': 'appstore', 'hideInBread': false, 'openMode': 'spa' }
+            },
+            {
+              'path': '/hymc/reviewmaterials/Reviewmaterials',
+              'name': '/hymc/reviewmaterials/Reviewmaterials',
+              'meta': { 'title': '示范区复查申报', 'menuPath': true, 'authCode': 'S040108', 'menuIcon': 'appstore', 'hideInBread': false, 'openMode': 'spa' }
+            },
+            {
+              'path': '/hymc/reviewmaterials/ReviewmaterialsSpList',
+              'name': '/hymc/reviewmaterials/ReviewmaterialsSpList',
+              'meta': { 'title': '示范区复查管理', 'menuPath': true, 'authCode': 'S040109', 'menuIcon': 'appstore', 'hideInBread': false, 'openMode': 'spa' }
+            },
+            {
+              'path': '/hymc/uddDeclareChange/UddDeclareChange',
+              'name': '/hymc/uddDeclareChange/UddDeclareChange',
+              'meta': { 'title': '示范区变更申报', 'menuPath': true, 'authCode': 'S040110', 'menuIcon': 'appstore', 'hideInBread': false, 'openMode': 'spa' }
+            },
+            {
+              'path': '/hymc/uddDeclareChange/UddDeclareChangeSpList',
+              'name': '/hymc/uddDeclareChange/UddDeclareChangeSpList',
+              'meta': { 'title': '示范区变更管理', 'menuPath': true, 'authCode': 'S040111', 'menuIcon': 'appstore', 'hideInBread': false, 'openMode': 'spa' }
+            },
+            {
+              'path': '/hymc/uddDeclare/UddInfoSearch',
+              'name': '/hymc/uddDeclare/UddInfoSearch',
+              'meta': { 'title': '示范区信息查询', 'menuPath': true, 'authCode': 'S040112', 'menuIcon': 'appstore', 'hideInBread': false, 'openMode': 'spa' }
+            },
+            {
+              'path': '/hymc/expertScore/UdddeclareExpert',
+              'name': '/hymc/expertScore/UdddeclareExpert',
+              'meta': { 'title': '示范区评审评分', 'menuPath': true, 'authCode': 'S040113', 'menuIcon': 'appstore', 'hideInBread': false, 'openMode': 'spa' }
+            },
+            {
+              'path': '/hymc/expertScore/AnnualreviewExpert',
+              'name': '/hymc/expertScore/AnnualreviewExpert',
+              'meta': { 'title': '示范区年度评价评分', 'menuPath': true, 'authCode': 'S040114', 'menuIcon': 'appstore', 'hideInBread': false, 'openMode': 'spa' }
+            },
+            {
+              'path': '/hymc/expertScore/ReviewmaterialsExpert',
+              'name': '/hymc/expertScore/ReviewmaterialsExpert',
+              'meta': { 'title': '示范区复查评分', 'menuPath': true, 'authCode': 'S040115', 'menuIcon': 'appstore', 'hideInBread': false, 'openMode': 'spa' }
+            },
+            {
+              'path': '/hymc/projectDemo/HyProjectDemo',
+              'name': '/hymc/projectDemo/HyProjectDemo',
+              'meta': { 'title': '海洋牧场项目模板', 'menuPath': true, 'authCode': 'S040103', 'menuIcon': 'appstore', 'hideInBread': false, 'openMode': 'spa' }
+            },
+            {
+              'path': '/hymc/GisInfo',
+              'name': '/hymc/GisInfo',
+              'meta': { 'title': '地理信息', 'menuPath': true, 'authCode': 'S040127', 'menuIcon': 'appstore', 'hideInBread': false, 'openMode': 'spa' }
+            },
+            {
+              'path': '/hymc/video',
+              'name': '/hymc/video',
+              'meta': { 'title': '海洋牧场可视化信息管理', 'menuPath': true, 'authCode': 'S040128', 'menuIcon': 'appstore', 'hideInBread': false, 'openMode': 'spa' }
+            },
+            {
+              'path': '/expertScore/UdddeclareExpert/UdddeclareScore/:id', 'name': '/expertScore/UdddeclareExpert/UdddeclareScore',
+              'meta': { 'title': '示范区专家评分', 'authCode': 'S04011301', 'menuIcon': 'appstore', 'hideInBread': false, 'openMode': 'spa' }
+            },
+            {
+              'path': '/expertScore/UdddeclareExpert/UdddeclareESCheck/:id', 'name': '/expertScore/UdddeclareExpert/UdddeclareESCheck',
+              'meta': { 'title': '示范区专家评分详情', 'authCode': 'S04012603', 'menuIcon': 'appstore', 'hideInBread': false, 'openMode': 'spa' }
+            },
+            {
+              'path': '/expertScore/UdddeclareExpert/AnnualreviewScore/:id', 'name': '/expertScore/UdddeclareExpert/AnnualreviewScore',
+              'meta': { 'title': '年度评审专家评分', 'authCode': 'S04011401', 'menuIcon': 'appstore', 'hideInBread': false, 'openMode': 'spa' }
+            },
+            {
+              'path': '/expertScore/AnnualreviewESCheck/:id', 'name': '/expertScore/AnnualreviewESCheck',
+              'meta': { 'title': '年度评审专家评分详情', 'authCode': 'S04012603', 'menuIcon': 'appstore', 'hideInBread': false, 'openMode': 'spa' }
+            },
+            {
+              'path': '/expertScore/UdddeclareExpert/ReviewmaterialsScore/:id', 'name': '/expertScore/UdddeclareExpert/ReviewmaterialsScore',
+              'meta': { 'title': '复查专家评分', 'authCode': 'S04011501', 'menuIcon': 'appstore', 'hideInBread': false, 'openMode': 'spa' }
+            },
+            {
+              'path': '/expertScore/ReviewmaterialsESCheck/:id', 'name': '/expertScore/ReviewmaterialsESCheck',
+              'meta': { 'title': '复查专家评分详情', 'authCode': 'S04012603', 'menuIcon': 'appstore', 'hideInBread': false, 'openMode': 'spa' }
+            }
+          ]
+        },
+        {
+          'path'    : '/hymc/yjBase',
+          'name'    : 'hymc/yjBase',
+          'meta'    : { 'title': '人工鱼礁项目建设管理', 'menuPath': true, 'authCode': 'S040102', 'menuIcon': 'appstore' },
+          'children': [
+            {
+              'path': '/hymc/reefDeclare/ReefDeclare',
+              'name': '/hymc/reefDeclare/ReefDeclare',
+              'meta': { 'title': '人工鱼礁项目申报', 'menuPath': true, 'authCode': 'S040117', 'menuIcon': 'appstore', 'hideInBread': false, 'openMode': 'spa' }
+            },
+            {
+              'path': '/hymc/reefDeclare/ReefDeclareSpList',
+              'name': '/hymc/reefDeclare/ReefDeclareSpList',
+              'meta': { 'title': '人工鱼礁项目管理', 'menuPath': true, 'authCode': 'S040118', 'menuIcon': 'appstore', 'hideInBread': false, 'openMode': 'spa' }
+            },
+            {
+              'path': '/hymc/implementation/Implementation',
+              'name': '/hymc/implementation/Implementation',
+              'meta': { 'title': '人工鱼礁项目具体实施方案申报', 'menuPath': true, 'authCode': 'S040123', 'menuIcon': 'appstore', 'hideInBread': false, 'openMode': 'spa' }
+            },
+            {
+              'path': '/hymc/implementation/ImplementationSpList',
+              'name': '/hymc/implementation/ImplementationSpList',
+              'meta': { 'title': '人工鱼礁项目具体实施方案管理', 'menuPath': true, 'authCode': 'S040124', 'menuIcon': 'appstore', 'hideInBread': false, 'openMode': 'spa' }
+            },
+            {
+              'path': '/hymc/accept/Accept',
+              'name': '/hymc/accept/Accept',
+              'meta': { 'title': '人工鱼礁项目验收申报', 'menuPath': true, 'authCode': 'S040121', 'menuIcon': 'appstore', 'hideInBread': false, 'openMode': 'spa' }
+            },
+            {
+              'path': '/hymc/accept/AcceptSpList',
+              'name': '/hymc/accept/AcceptSpList',
+              'meta': { 'title': '人工鱼礁项目验收管理', 'menuPath': true, 'authCode': 'S040122', 'menuIcon': 'appstore', 'hideInBread': false, 'openMode': 'spa' }
+            },
+            {
+              'path': '/hymc/reefDeclareChange/ReefDeclareChange',
+              'name': '/hymc/reefDeclareChange/ReefDeclareChange',
+              'meta': { 'title': '人工鱼礁项目变更申报', 'menuPath': true, 'authCode': 'S040119', 'menuIcon': 'appstore', 'hideInBread': false, 'openMode': 'spa' }
+            },
+            {
+              'path': '/hymc/reefDeclareChange/ReefDeclareChangeSpList',
+              'name': '/hymc/reefDeclareChange/ReefDeclareChangeSpList',
+              'meta': { 'title': '人工鱼礁项目变更管理', 'menuPath': true, 'authCode': 'S040120', 'menuIcon': 'appstore', 'hideInBread': false, 'openMode': 'spa' }
+            },
+            {
+              'path': '/hymc/projectDemo/YjProjectDemo',
+              'name': '/hymc/projectDemo/YjProjectDemo',
+              'meta': { 'title': '人工鱼礁项目模板', 'menuPath': true, 'authCode': 'S040116', 'menuIcon': 'appstore', 'hideInBread': false, 'openMode': 'spa' }
+            },
+            {
+              'path': '/hymc/expertScore/YjExpert',
+              'name': '/hymc/expertScore/YjExpert',
+              'meta': { 'title': '人工鱼礁项目评分', 'menuPath': true, 'authCode': 'S040126', 'menuIcon': 'appstore', 'hideInBread': false, 'openMode': 'spa' }
+            },
+            {
+              'path': '/hymc/reefDeclare/ReefInfoSearch',
+              'name': '/hymc/reefDeclare/ReefInfoSearch',
+              'meta': { 'title': '人工鱼礁项目信息查询', 'menuPath': true, 'authCode': 'S040125', 'menuIcon': 'appstore', 'hideInBread': false, 'openMode': 'spa' }
+            },
+            {
+              'path': '/hymc/implementationProgress/ImplementationProgress',
+              'name': '/hymc/implementationProgress/ImplementationProgress',
+              'meta': { 'title': '人工鱼礁项目进度情况', 'menuPath': true, 'authCode': 'S040129', 'menuIcon': 'appstore', 'hideInBread': false, 'openMode': 'spa' }
+            },
+            {
+              'path': '/expertScore/YjExpert/YjScore/:id', 'name': '/expertScore/YjExpert/YjScore',
+              'meta': { 'title': '鱼焦专家评分', 'authCode': 'S04012601', 'menuIcon': 'appstore', 'hideInBread': false, 'openMode': 'spa' }
+            },
+            {
+              'path': '/expertScore/YjESCheck/:id', 'name': '/expertScore/YjESCheck',
+              'meta': { 'title': '鱼焦评分详情', 'authCode': 'S04012603', 'menuIcon': 'appstore', 'hideInBread': false, 'openMode': 'spa' }
+            }
+          ]
+        }
+      ]
+    },
+    {//休闲渔业品牌管理xxyy
+      'path'    : '/xxyy',
+      'name'    : 'xxyy',
+      'meta'    : { 'title': '休闲渔业品牌管理', 'menuPath': true, 'authCode': 'S0301', 'menuIcon': 'barcode', 'hideInBread': true },
+      'children': [
+        {
+          'path': '/xxyy/system/ManageUnit', 'name': '/xxyy/system/ManageUnit',
+          'meta': { 'title': '品牌申报单位管理', 'menuPath': true, 'menuIcon': 'appstore', 'authCode': 'S030119', 'hideInBread': false, 'openMode': 'spa' }
+        },
+        {
+          'path': '/xxyy/beautifulFish/projectTemplate', 'name': '/xxyy/beautifulFish/projectTemplate',
+          'meta': { 'title': '项目模板管理', 'menuPath': true, 'menuIcon': 'appstore', 'authCode': 'S030101', 'hideInBread': false, 'openMode': 'spa' }
+        },
+        {
+          'path': '/xxyy/beautifulFish/projectList', 'name': '/xxyy/beautifulFish/projectList',
+          'meta': { 'title': '中国最美渔村项目审批管理', 'menuPath': true, 'menuIcon': 'appstore', 'authCode': 'S030102', 'hideInBread': false, 'openMode': 'spa' }
+        },
+        {
+          'path': '/xxyy/beautifulFish/expertExtraction', 'name': '/xxyy/beautifulFish/expertExtraction',
+          'meta': { 'title': '中国最美渔村抽取专家', 'menuPath': true, 'menuIcon': 'appstore', 'authCode': 'S030118', 'hideInBread': false, 'openMode': 'spa' }
+        },
+        {
+          'path': '/xxyy/beautifulFish/annualReview', 'name': '/xxyy/beautifulFish/annualReview',
+          'meta': { 'title': '中国最美渔村提交年度评审', 'menuPath': true, 'menuIcon': 'appstore', 'authCode': 'S030103', 'hideInBread': false, 'openMode': 'spa' }
+        },
+        {
+          'path': '/xxyy/beautifulFish/expertRating', 'name': '/xxyy/beautifulFish/expertRating',
+          'meta': { 'title': '中国最美渔村专家评分', 'menuPath': true, 'menuIcon': 'appstore', 'authCode': 'S030104', 'hideInBread': false, 'openMode': 'spa' }
+        },
+        {
+          'path': '/xxyy/demonstrationBase/baseProjectList', 'name': '/xxyy/demonstrationBase/baseProjectList',
+          'meta': { 'title': '全国休闲渔业示范基地项目审批管理', 'menuPath': true, 'menuIcon': 'appstore', 'authCode': 'S030105', 'hideInBread': false, 'openMode': 'spa' }
+        },
+        {
+          'path': '/xxyy/demonstrationBase/baseExpertExtraction', 'name': '/xxyy/demonstrationBase/baseExpertExtraction',
+          'meta': { 'title': '全国休闲渔业示范基地抽取专家', 'menuPath': true, 'menuIcon': 'appstore', 'authCode': 'S030117', 'hideInBread': false, 'openMode': 'spa' }
+        },
+        {
+          'path': '/xxyy/demonstrationBase/baseAnnualReview', 'name': '/xxyy/demonstrationBase/baseAnnualReview',
+          'meta': { 'title': '全国休闲渔业示范基地提交年度评审', 'menuPath': true, 'menuIcon': 'appstore', 'authCode': 'S030106', 'hideInBread': false, 'openMode': 'spa' }
+        },
+        {
+          'path': '/xxyy/demonstrationBase/expertRating', 'name': '/xxyy/demonstrationBase/expertRating',
+          'meta': { 'title': '全国休闲渔业示范基地专家评分', 'menuPath': true, 'menuIcon': 'appstore', 'authCode': 'S030107', 'hideInBread': false, 'openMode': 'spa' }
+        },
+        {
+          'path': '/xxyy/culturalFestivals/festProjectList', 'name': '/xxyy/culturalFestivals/festProjectList',
+          'meta': { 'title': '中国渔业优秀文化节庆会展项目审批管理', 'menuPath': true, 'menuIcon': 'appstore', 'authCode': 'S030108', 'hideInBread': false, 'openMode': 'spa' }
+        },
+        {
+          'path': '/xxyy/culturalFestivals/FestExpertExtraction', 'name': '/xxyy/culturalFestivals/FestExpertExtraction',
+          'meta': { 'title': '中国渔业优秀文化节庆会展抽取专家', 'menuPath': true, 'menuIcon': 'appstore', 'authCode': 'S030116', 'hideInBread': false, 'openMode': 'spa' }
+        },
+        {
+          'path': '/xxyy/culturalFestivals/festAnnualReview', 'name': '/xxyy/culturalFestivals/festAnnualReview',
+          'meta': { 'title': '中国渔业优秀文化节庆（会展）提交年度评审', 'menuPath': true, 'menuIcon': 'appstore', 'authCode': 'S030109', 'hideInBread': false, 'openMode': 'spa' }
+        },
+        {
+          'path': '/xxyy/culturalFestivals/expertRating', 'name': '/xxyy/culturalFestivals/expertRating',
+          'meta': { 'title': '中国渔业优秀文化节庆（会展）专家评分', 'menuPath': true, 'menuIcon': 'appstore', 'authCode': 'S030110', 'hideInBread': false, 'openMode': 'spa' }
+        },
+        {
+          'path': '/xxyy/excitingEvents/eventProjectList', 'name': '/xxyy/excitingEvents/eventProjectList',
+          'meta': { 'title': '中国渔业精彩赛事项目审批管理', 'menuPath': true, 'menuIcon': 'appstore', 'authCode': 'S030111', 'hideInBread': false, 'openMode': 'spa' }
+        },
+        {
+          'path': '/xxyy/excitingEvents/eventExpertExtraction', 'name': '/xxyy/excitingEvents/eventExpertExtraction',
+          'meta': { 'title': '中国渔业精彩赛事抽取专家', 'menuPath': true, 'menuIcon': 'appstore', 'authCode': 'S030115', 'hideInBread': false, 'openMode': 'spa' }
+        },
+        {
+          'path': '/xxyy/excitingEvents/eventAnnualReview', 'name': '/xxyy/excitingEvents/eventAnnualReview',
+          'meta': { 'title': '中国渔业精彩赛事提交年度评审', 'menuPath': true, 'menuIcon': 'appstore', 'authCode': 'S030112', 'hideInBread': false, 'openMode': 'spa' }
+        },
+        {
+          'path': '/xxyy/excitingEvents/expertRating', 'name': '/xxyy/excitingEvents/expertRating',
+          'meta': { 'title': '中国渔业精彩赛事专家评分', 'menuPath': true, 'menuIcon': 'appstore', 'authCode': 'S030113', 'hideInBread': false, 'openMode': 'spa' }
+        },
+        {
+          'path': '/xxyy/logo/logoInfo', 'name': '/xxyy/logo/logoInfo',
+          'meta': { 'title': '标识使用申请', 'menuPath': true, 'menuIcon': 'appstore', 'authCode': 'S030114', 'hideInBread': false, 'openMode': 'spa' }
+        },
+        {
+          'path': '/xxyy/beautifulFish/projectListSbPf/:id', 'name': '/xxyy/beautifulFish/projectListSbPf',
+          'meta': { 'title': '中国最美渔村专家评分', 'authCode': 'S03010402', 'menuIcon': 'appstore', 'hideInBread': false, 'openMode': 'spa' }
+        },
+        {
+          'path': '/xxyy/beautifulFish/projectListSbPfCheck/:id', 'name': '/xxyy/beautifulFish/projectListSbPfCheck/:id',
+          'meta': { 'title': '中国最美渔村专家评分查看', 'authCode': 'S03010403', 'menuIcon': 'appstore', 'hideInBread': false, 'openMode': 'spa' }
+        },
+        {
+          'path': '/xxyy/demonstrationBase/baseProjectListSbPf/:id', 'name': '/xxyy/demonstrationBase/baseProjectListSbPf',
+          'meta': { 'title': '全国休闲渔业示范基地专家评分', 'authCode': 'S03010402', 'menuIcon': 'appstore', 'hideInBread': false, 'openMode': 'spa' }
+        },
+        {
+          'path': '/xxyy/demonstrationBase/baseProjectListSbPfCheck/:id', 'name': '/xxyy/demonstrationBase/baseProjectListSbPfCheck',
+          'meta': { 'title': '全国休闲渔业示范基地专家评分查看', 'authCode': 'S03010403', 'menuIcon': 'appstore', 'hideInBread': false, 'openMode': 'spa' }
+        },
+        {
+          'path': '/xxyy/culturalFestivals/festProjectListSbPf/:id', 'name': '/xxyy/culturalFestivals/festProjectListSbPf',
+          'meta': { 'title': '中国渔业优秀文化节庆会展专家评分', 'authCode': 'S03010402', 'menuIcon': 'appstore', 'hideInBread': false, 'openMode': 'spa' }
+        },
+        {
+          'path': '/xxyy/culturalFestivals/festProjectListSbPfCheck/:id', 'name': '/xxyy/culturalFestivals/festProjectListSbPfCheck/:id',
+          'meta': { 'title': '中国渔业优秀文化节专家评分查看', 'authCode': 'S03010403', 'menuIcon': 'appstore', 'hideInBread': false, 'openMode': 'spa' }
+        },
+        {
+          'path': '/xxyy/excitingEvents/eventProjectListSbPf/:id', 'name': '/xxyy/excitingEvents/eventProjectListSbPf',
+          'meta': { 'title': '中国渔业精彩赛事专家评分', 'authCode': 'S03010402', 'menuIcon': 'appstore', 'hideInBread': false, 'openMode': 'spa' }
+        },
+        {
+          'path': '/xxyy/excitingEvents/eventProjectListSbPfCheck/:id', 'name': '/xxyy/excitingEvents/eventProjectListSbPfCheck',
+          'meta': { 'title': '中国渔业精彩赛事专家评分查看', 'authCode': 'S03010403', 'menuIcon': 'appstore', 'hideInBread': false, 'openMode': 'spa' }
         }
       ]
     },
