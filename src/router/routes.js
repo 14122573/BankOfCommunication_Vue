@@ -530,6 +530,88 @@ const appRoutes = [ {
         }
       ]
     },
+    {//科普教育基地申报管理
+      'path'    : '/kpjd',
+      'name'    : 'kpjd',
+      'meta'    : { 'title': '科普教育基地申报管理', 'menuPath': true, 'authCode': 'S0101', 'menuIcon': 'barcode', 'hideInBread': true },
+      'children': [ {
+        'path': '/kpjd/declare/Declare',
+        'name': '/kpjd/declare/Declare',
+        'meta': { 'title': '申报管理 ', 'menuPath': true, 'authCode': 'S010101', 'menuIcon': 'appstore', 'hideInBread': false, 'openMode': 'spa' }
+      },
+      {
+        'path': '/kpjd/declare/FirstReview',
+        'name': '/kpjd/declare/FirstReview',
+        'meta': { 'title': '申报初审', 'menuPath': true, 'authCode': 'S010102', 'menuIcon': 'appstore', 'hideInBread': false, 'openMode': 'spa' }
+      },
+      
+      {
+        'path': '/kpjd/declare/Trial',
+        'name': '/kpjd/declare/Trial',
+        'meta': { 'title': '科普教育基地', 'menuPath': true, 'authCode': 'S010103', 'menuIcon': 'appstore', 'hideInBread': false, 'openMode': 'spa' }
+      },
+      
+      {
+        'path'    : '/kpjd/declare/organizationExpert',
+        'name'    : '/kpjd/declare/organizationExpert',
+        'meta'    : { 'title': '专家评分', 'menuPath': true, 'authCode': 'S010104', 'menuIcon': 'appstore', 'hideInBread': false, 'openMode': 'spa' },
+        'children': [
+          {
+            'path': '/kpjd/declare/organizationExpert/expertAdd',
+            'name': '/kpjd/declare/organizationExpert/expertAdd',
+            'meta': { 'title': '评分录入', 'menuPath': false, 'authCode': 'S01010402', 'menuIcon': 'appstore', 'hideInBread': false, 'openMode': 'spa' }
+          },
+          {
+            'path': '/kpjd/declare/organizationExpert/Evaluation',
+            'name': '/kpjd/declare/organizationExpert/Evaluation',
+            'meta': { 'title': '评分录入', 'menuPath': false, 'authCode': 'S01010402', 'menuIcon': 'appstore', 'hideInBread': false, 'openMode': 'spa' }
+          }
+        ]
+      },
+      
+      {
+        'path': '/kpjd/declare/Declare/DeclareInfo',
+        'name': '/kpjd/declare/Declare/DeclareInfo',
+        'meta': { 'title': '查看详情', 'menuPath': false, 'authCode': 'S01010104', 'menuIcon': 'appstore', 'hideInBread': false, 'openMode': 'spa' }
+      },
+      
+      {
+        'path': '/kpjd/judge/judgeTable',
+        'name': '/kpjd/judge/judgeTable',
+        'meta': { 'title': '评判标准', 'menuPath': true, 'authCode': 'S010108', 'menuIcon': 'appstore', 'hideInBread': false, 'openMode': 'spa' }
+      }
+      ]
+    },
+    {//质量追溯
+      'path'    : '/zlzs',
+      'name'    : 'zlzs',
+      'meta'    : { 'title': '质量追溯', 'menuPath': true, 'authCode': 'S0703', 'menuIcon': 'barcode', 'hideInBread': true, 'openMode': 'spa' },
+      'children': [ {
+        'path': '/zlzs/company/zlzsCompany',
+        'name': '/zlzs/company/zlzsCompany',
+        'meta': { 'title': '企业信息管理', 'menuPath': true, 'authCode': 'S070301', 'hideInBread': false, 'menuIcon': 'appstore', 'openMode': 'spa' }
+      }, {
+        'path': '/zlzs/seedingout/zlzsSeedingout',
+        'name': '/zlzs/seedingout/zlzsSeedingout',
+        'meta': { 'title': '苗种投放管理', 'menuPath': true, 'authCode': 'S070302', 'hideInBread': false, 'menuIcon': 'appstore', 'openMode': 'spa' }
+      }, {
+        'path': '/zlzs/fodderout/zlzsFodderout',
+        'name': '/zlzs/fodderout/zlzsFodderout',
+        'meta': { 'title': '饲料投入管理', 'menuPath': true, 'authCode': 'S070303', 'hideInBread': false, 'menuIcon': 'appstore', 'openMode': 'spa' }
+      }, {
+        'path': '/zlzs/drugout/zlzsDrugout',
+        'name': '/zlzs/drugout/zlzsDrugout',
+        'meta': { 'title': '渔药投入管理', 'menuPath': true, 'authCode': 'S070304', 'hideInBread': false, 'menuIcon': 'appstore', 'openMode': 'spa' }
+      }, {
+        'path': '/zlzs/sale/zlzsSale',
+        'name': '/zlzs/sale/zlzsSale',
+        'meta': { 'title': '销售信息管理', 'menuPath': true, 'authCode': 'S070305', 'hideInBread': false, 'menuIcon': 'appstore', 'openMode': 'spa' }
+      }, {
+        'path': '/zlzs/review/zlzsReview',
+        'name': '/zlzs/review/zlzsReview',
+        'meta': { 'title': '追溯信息管理', 'menuPath': true, 'authCode': 'S070306', 'hideInBread': false, 'menuIcon': 'appstore', 'openMode': 'spa' }
+      } ]
+    },
     {
       path     : '/demo', name     : 'demo', component: demo,
       meta     : { title: 'demo', },
