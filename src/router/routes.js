@@ -224,6 +224,7 @@ const appRoutes = [ {
       path     : '/person/expert', name     : '/person/expert', component: LibraryEdit,
       meta     : { title: '专家个人信息维护' },
     },
+    
     // 系统管理
     {
       path     : '/systemManagement', name     : 'systemManagement', component: contentWrapper,
