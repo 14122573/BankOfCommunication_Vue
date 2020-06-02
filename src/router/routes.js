@@ -472,6 +472,64 @@ const appRoutes = [ {
         }
       ]
     },
+    {//中国水产学会学术会议管理
+      'path': '/xshy',
+      'name': 'xshy',
+
+      'meta'    : { 'title': '中国水产学会学术会议管理', 'menuPath': true, 'authCode': '', 'menuIcon': 'barcode', 'hideInBread': true },
+      'children': [
+        {
+          'path': '/xshy/release/acmMeetingRelease','name': '/xshy/release/acmMeetingRelease',
+          'meta': { 'title': '会议管理', 'menuPath': true, 'authCode': 'S100102', 'hideInBread': false, 'menuIcon': 'sound', 'openMode': 'spa'  }
+        },
+        {
+          'path': '/xshy/push/acmPushNotf','name': '/xshy/push/acmPushNotf',
+          'meta': { 'title': '会议信息推送', 'menuPath': true, 'authCode': 'S100103', 'hideInBread': false, 'menuIcon': 'bell', 'openMode': 'spa'  }
+        },
+        {
+          'path': '/xshy/pushConfig/acmPushNotfConfig', 'name': '/xshy/pushConfig/acmPushNotfConfig',
+          'meta': { 'title': '短信配置管理', 'menuPath': true, 'authCode': 'S100120', 'hideInBread': true, 'menuIcon': 'form', 'openMode': 'spa'  }
+        },
+        {
+          'path': '/xshy/pushEmailConfig/acmPushNotfEmailConfig', 'name': '/xshy/pushEmailConfig/acmPushNotfEmailConfig',
+          'meta': { 'title': '邮件配置管理', 'menuPath': true, 'authCode': 'S100121', 'hideInBread': true, 'menuIcon': 'team', 'openMode': 'spa'  }
+        },
+        {
+          'path': '/xshy/sign/acmMeetingHome', 'name': '/xshy/sign/acmMeetingHome',
+          'meta': { 'title': '会议报名', 'menuPath': true, 'authCode': '', 'hideInBread': false, 'menuIcon': 'table', 'openMode': 'spa'  }
+        },
+        {
+          'path': '/xshy/sign/acmMeetingSignSingle', 'name': '/xshy/sign/acmMeetingSignSingle',
+          'meta': { 'title': '报名历史', 'menuPath': true, 'authCode': '', 'hideInBread': false, 'menuIcon': 'table', 'openMode': 'spa'  }
+        }
+      ]
+    },
+    {//中国水产学会理事会议
+      'path'    : '/lshy',
+      'name'    : 'lshy',
+      'meta'    : { 'title': '中国水产学会理事会议', 'menuPath': true, 'authCode': 'S1003', 'menuIcon': 'barcode', 'hideInBread': true },
+      'children': [
+        {
+          'path': '/lshy/menber/acmBoardMenber',
+          'name': '/lshy/menber/acmBoardMenber',
+          'meta': { 'title': '理事成员管理', 'menuPath': true, 'authCode': 'S100307', 'hideInBread': false, 'menuIcon': 'team', 'openMode': 'spa' }
+        },
+        {
+          'path': '/lshy/meeting/acmBoardMeeting',
+          'name': '/lshy/meeting/acmBoardMeeting',
+          'meta': { 'title': '理事会议管理', 'menuPath': true, 'authCode': 'S100304', 'hideInBread': false, 'menuIcon': 'table', 'openMode': 'spa' }
+        },
+        {
+          'path': '/lshy/meeting/acmBoardMeetingIssueStatis',
+          'name': '/lshy/meeting/acmBoardMeetingIssueStatis',
+          'meta': { 'title': '理事议题结果', 'menuPath': true, 'authCode': 'S100305', 'hideInBread': false, 'menuIcon': 'table', 'openMode': 'spa' }
+        },
+        {
+          'path': '/lshy/meetingMem/acmBoardMeetingIssueVote', 'name': '/lshy/meetingMem/acmBoardMeetingIssueVote',
+          'meta': { 'title': '理事议题投票', 'menuPath': true, 'authCode': 'S100312', 'hideInBread': false, 'menuIcon': 'table', 'openMode': 'spa' }
+        }
+      ]
+    },
     {
       path     : '/demo', name     : 'demo', component: demo,
       meta     : { title: 'demo', },
