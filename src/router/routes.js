@@ -984,6 +984,76 @@ const appRoutes = [ {
         }
       ]
     },
+    {//智慧报表管理bbgl
+      'path'    : '/bbgl',
+      'name'    : 'bbgl',
+      'meta'    : { 'title': '智慧报表管理', 'menuPath': true, 'authCode': 'S0804', 'menuIcon': 'barcode', 'hideInBread': true, 'openMode': 'spa' },
+      'children': [ {
+        'path': '/bbgl/report/rmReportInfo',
+        'name': '/bbgl/report/rmReportInfo',
+        'meta': { 'title': '报表文件管理', 'menuPath': true, 'authCode': 'S080401', 'menuIcon': 'appstore', 'hideInBread': false, 'openMode': 'spa' }
+      } ]
+    },
+    {
+      'path': '/SCYJ/:sysname',
+      'name': 'SCYJ',
+      'meta': { 'title': '国家水生动物疫情预警系统', 'menuPath': true, 'authCode': 'SCYJ', 'menuIcon': 'alert', 'hideInBread': false, 'openMode': 'outsite' }
+    },
+    {
+      'path': '/YQCB/:sysname',
+      'name': 'YQCB',
+      'meta': { 'title': '全国水产养殖动植物病情测报系统', 'menuPath': true, 'menuIcon': 'cloud-upload', 'authCode': 'YQCB', 'hideInBread': false, 'openMode': 'outsite' }
+    },
+    {
+      'path': '/ZXJC/:sysname',
+      'name': 'ZXJC',
+      'meta': { 'title': '国家水生动物疫病监测信息管理系统', 'menuPath': true, 'menuIcon': 'hdd', 'authCode': 'ZXJC', 'hideInBread': false, 'openMode': 'outsite' }
+    },
+    {
+      'path': '/NYPC/:sysname',
+      'name': 'NYPC',
+      'meta': { 'title': '水产养殖动物病原菌耐药性普查数据分析系统', 'menuPath': true, 'menuIcon': 'experiment', 'authCode': 'NYPC', 'hideInBread': false, 'openMode': 'outsite' }
+    },
+    {
+      'path': '/SCZN/:sysname',
+      'name': 'SCZN',
+      'meta': { 'title': '“水产智能”健康养殖生产与大数据管理系统', 'menuPath': true, 'menuIcon': 'experiment', 'authCode': 'SCZN', 'hideInBread': false, 'openMode': 'outsite' }
+    },
+    {
+      'path': '/TGTX/:sysname',
+      'name': 'TGTX',
+      'meta': { 'title': '水产推广体系', 'menuPath': true, 'menuIcon': 'experiment', 'authCode': 'TGTX', 'hideInBread': false, 'openMode': 'outsite' }
+    },
+    {
+      'path': '/SCJG/:sysname',
+      'name': 'SCJG',
+      'meta': { 'title': '水产价格采集', 'menuPath': true, 'menuIcon': 'experiment', 'authCode': 'SCJG', 'hideInBread': false, 'openMode': 'outsite' }
+    },
+    {
+      'path': '/YMSZ/:sysname',
+      'name': 'YMSZ',
+      'meta': { 'title': '渔民收支', 'menuPath': true, 'menuIcon': 'experiment', 'authCode': 'YMSZ', 'hideInBread': false, 'openMode': 'outsite' }
+    },
+    {
+      'path': '/YQJC/:sysname',
+      'name': 'YQJC',
+      'meta': { 'title': '渔情监测', 'menuPath': true, 'menuIcon': 'experiment', 'authCode': 'YQJC', 'hideInBread': false, 'openMode': 'outsite' }
+    },
+    {
+      'path': '/NLBL/:sysname',
+      'name': 'NLBL',
+      'meta': { 'title': '内陆捕捞', 'menuPath': true, 'menuIcon': 'experiment', 'authCode': 'NLBL', 'hideInBread': false, 'openMode': 'outsite' }
+    },
+    {
+      'path': '/ZYYH/:sysname',
+      'name': 'ZYYH',
+      'meta': { 'title': '水生物资源养护信息采集系统 ', 'menuPath': true, 'menuIcon': 'experiment', 'authCode': 'ZYYH', 'hideInBread': false, 'openMode': 'outsite' }
+    },
+    {
+      'path': '/YYTJ/:sysname',
+      'name': 'YYTJ',
+      'meta': { 'title': '全国渔业统计', 'menuPath': true, 'menuIcon': 'experiment', 'authCode': 'YYTJ', 'hideInBread': false, 'openMode': 'outsite' }
+    },
     {
       path     : '/demo', name     : 'demo', component: demo,
       meta     : { title: 'demo', },
