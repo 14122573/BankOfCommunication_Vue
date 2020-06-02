@@ -33,8 +33,8 @@ export default {
 
 .lunbo .loginpanel {
   position: absolute;
-  top: 9%;
-  right: 11%;
+  top: 5%;
+  right: 12%;
 }
 /* For demo */
 .ant-carousel >>> .slick-slide {

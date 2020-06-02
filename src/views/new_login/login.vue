@@ -8,7 +8,6 @@
         <Lunbo />
         <!-- <InlineWrapper /> -->
         <router-view />
-        <DataSearch />
         <KnowledgeNTopic />
         <Footer />
       </a-layout-content>
@@ -20,17 +19,11 @@
 <script>
 import PHeader from './components/header'
 import Lunbo from './components/lunbo'
-import InlineWrapper from './components/InlineWrapper2'
-import DataSearch from './components/dataSearch'
-import KnowledgeNTopic from './components/InlineWrapper4'
 import Footer from './components/footer'
 export default {
   components: {
     PHeader,
     Lunbo,
-    InlineWrapper,
-    DataSearch,
-    KnowledgeNTopic,
     Footer
   }
 }

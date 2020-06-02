@@ -4,51 +4,25 @@
       <a-card
         class="card"
         :loading="loading"
-        title="通知公告"
+        title="专题报告"
         :bordered="false"
         size="small"
         :headStyle="{padding: '0'}"
         :bodyStyle="{ padding: '0' }"
       >
         <a class="more" slot="extra" href="#">更多 >></a>
-        <div class="notification_banner">
-          <img
-            src="@/assets/images/home/sygg_tp.jpg"
-            alt=""
-            srcset=""
-            width="100%"
-          />
-        </div>
+        <a-row>&nbsp;</a-row>
         <div class="noti-list" v-for="(item, index) in news" :key="index">
           <a class="mouse_trigger">
-            <div class="noti_detail" v-if="item.sort == '01'">
-              <a-row type="flex" align="center" justify="center">
-                <a-col class="news_title" :span="19">{{ item.title }}</a-col>
-                <a-col class="news_date" :span="5">{{ item.postDate }}</a-col>
-              </a-row>
-              <a-row>
-                <a-col class="news_content" :span="24">{{
-                  item.content
-                }}</a-col>
-              </a-row>
-            </div>
-            <div class="noti_oneline" v-else>
+            <div class="noti_oneline">
               <a-row
                 type="flex"
                 align="center"
                 justify="center"
                 style="margin: 20px 0px"
               >
-                <a-col :span="2">
-                  <img
-                    src="@/assets/images/home/bt_icon.png"
-                    alt=""
-                    srcset=""
-                    width="50%"
-                  />
-                </a-col>
-                <a-col class="news_title" :span="18">{{ item.title }}</a-col>
-                <a-col class="news_date" :span="4">{{ item.postDate }}</a-col>
+                <a-col class="news_title" :span="12">{{ item.title }}</a-col>
+                <a-col class="news_date" :span="12">{{ item.postDate }}</a-col>
               </a-row>
             </div>
           </a>
@@ -148,7 +122,6 @@ export default {
 .card-wrapper .news_title {
   color: #28292a;
   font-size: 12px;
-  font-weight: bold;
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
@@ -177,7 +150,7 @@ export default {
 }
 
 .card-wrapper {
-  height: 500px;
+  height: 350px;
   /* overflow: scroll; */
   overflow: hidden;
   margin: 30px 50px 30px 50px;

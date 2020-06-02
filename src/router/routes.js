@@ -10,7 +10,7 @@ const ErrorPage = () => import ('@/views/tips/error-page')
 const Home = () => import ('@/views/new_login/home')
 const HomePage = () => import ('@/views/home')
 const LoginPage = () => import ('@/views/login/login')
-const NewHomePage = () => import ('@/views/new_login/login')
+const HomeWrapper = () => import ('@/views/new_login/login')
 const RegisterPage = () => import ('@/views/login/register')
 const OldSysLogout = () => import ('@/views/login/oldSysLogout')
 const BindPhone = () => import ('@/views/login/bindPhone')
@@ -47,6 +47,12 @@ const KnowledgeDetail = () => import ('@/views/cms/knowledge/details')
 const KnowledgePublishedList= () => import ('@/views/cms/knowledgePublish/authList')
 const KnowledgePublishedAnonymousList= () => import ('@/views/cms/knowledgePublish/anonymousList')
 const KnowledgeView= () => import ('@/views/cms/knowledgePublish/view')
+// 内容管理-养殖技术
+const FarmingTechList = () => import('@/views/cms/farmingTech/list')
+// 内容管理-科普知识
+const KnowledgePromotionList = () => import('@/views/cms/knowledgePromotion/list')
+// 内容管理-云课堂
+const CloudLessonList = () => import('@/views/cms/cloudLesson/list')
 // 内容管理-通知公告
 const NoticeList = () => import ('@/views/cms/notice/list')
 const NoticeCreate = () => import ('@/views/cms/notice/create')
@@ -315,6 +321,18 @@ const appRoutes = [ {
       meta     : { title: '内容管理', menuPath: true, authCode: 'P30000', menuIcon: 'file-text', hideInBread: true },
       children : [
         {
+          path     : '/cms/farmingtech', name     : '/cms/farmingtech', component: FarmingTechList,
+          meta     : { title: '养殖技术', menuPath: true, authCode: 'P32000', menuIcon: 'file-text', hideInBread: false },
+        },
+        {
+          path     : '/cms/knowledgepromotion', name     : '/cms/knowledgepromotion', component: KnowledgePromotionList,
+          meta     : { title: '科普知识', menuPath: true, authCode: 'P32000', menuIcon: 'file-text', hideInBread: false },
+        },
+        {
+          path     : '/cms/cloudlesson', name     : '/cms/cloudlesson', component: CloudLessonList,
+          meta     : { title: '云课堂', menuPath: true, authCode: 'P32000', menuIcon: 'file-text', hideInBread: false },
+        },
+        {
           path     : '/cms/knowledge', name     : '/cms/knowledge', component: KnowledgeList,
           meta     : { title: '知识文库管理', menuPath: true, authCode: 'P32000', menuIcon: 'file-text', hideInBread: false },
           children : [
@@ -393,7 +411,7 @@ const appRoutes = [ {
   meta     : { title: '登录' },
 },
 {
-  path     : '/new_home', name     : 'login', component: NewHomePage,
+  path     : '/new_home', redirect : '/new/home/index',name     : 'new_home', component: HomeWrapper,
   meta     : { title: '主页' },
   children : [
     {
