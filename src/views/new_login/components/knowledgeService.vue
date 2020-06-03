@@ -152,7 +152,7 @@ export default {
 .card-wrapper .news_date {
   font-size: 12px;
   text-align: right;
-  color: #656667;
+  color: #282828;
 }
 
 .card-wrapper .news_content {

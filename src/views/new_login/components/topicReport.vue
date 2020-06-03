@@ -120,7 +120,7 @@ export default {
 }
 
 .card-wrapper .news_title {
-  color: #28292a;
+  color: #282828;
   font-size: 12px;
   overflow: hidden;
   white-space: nowrap;
@@ -129,8 +129,8 @@ export default {
 
 .card-wrapper .news_date {
   font-size: 12px;
+  color: #282828;
   text-align: right;
-  color: #656667;
 }
 
 .card-wrapper .news_content {

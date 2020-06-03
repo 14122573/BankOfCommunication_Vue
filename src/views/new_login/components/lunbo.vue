@@ -35,6 +35,7 @@ export default {
   position: absolute;
   top: 5%;
   right: 12%;
+  box-shadow: 0px 0px 15px lightgrey;
 }
 /* For demo */
 .ant-carousel >>> .slick-slide {

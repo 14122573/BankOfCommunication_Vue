@@ -114,16 +114,19 @@ export default {
 }
 
 a :hover {
+  color: white;
   background-color: #2993F6;
 }
 
 .card-wrapper .news_sort {
   font-size: 30px;
+  color: #515151;
   margin: auto auto
 }
 
 .card-wrapper .news_title {
   font-size: 12px;
+  color: #282828;
   font-weight: bold;
   overflow:hidden;
   white-space:nowrap; 
@@ -132,11 +135,13 @@ a :hover {
 
 .card-wrapper .news_date {
   font-size: 12px;
+  color: #515151;
   text-align: right;
 }
 
 .card-wrapper .news_content {
   font-size: 12px;
+  color: #666666;
   overflow:hidden;
   display: -webkit-box;
   -webkit-box-orient: vertical;
