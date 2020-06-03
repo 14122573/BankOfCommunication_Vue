@@ -5,23 +5,38 @@
       <div><h3>2</h3></div>
       <div><h3>3</h3></div>
     </a-carousel>
-    <LoginPanel class="loginpanel" />
+    <LoginPanel v-if="!getToken()" class="loginpanel" @isLogin="getLoginInfo" />
+    <LoggedInPanel :nameprop='username' v-else class="loginpanel" @isLogin="getLoginInfo" />
   </div>
 </template>
 <script>
 import LoginPanel from '@/views/new_login/components/LoginPanel'
+import LoggedInPanel from '@/views/new_login/components/welcomePanel'
 export default {
-  methods: {
-    onChange(a, b, c) {
-      console.log(a, b, c)
-    },
-  },
   components: {
-    LoginPanel
+    LoginPanel,
+    LoggedInPanel
+  },
+  mounted() {
+    
   },
   data() {
     return {
-      
+      // 查看子组件传来的用户鉴权信息
+      loginInfo: '',
+      username : ''
+    }
+  },
+  methods: {
+    getLoginInfo(data) {
+      this.loginInfo = data.login
+      this.username = data.username
+      console.log(data)
+    },
+    getToken() {
+      let cookie = this.$cookie.get('token')
+      console.log(cookie)
+      return cookie;
     }
   },
 }

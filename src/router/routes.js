@@ -411,13 +411,20 @@ const appRoutes = [ {
   meta     : { title: '登录' },
 },
 {
-  path     : '/new_home', redirect : '/new/home/index',name     : 'new_home', component: HomeWrapper,
+  path     : '/new_home', redirect : '/new_home/index',name     : 'new_home', component: HomeWrapper,
   meta     : { title: '主页' },
   children : [
     {
       path     : '/new_home/index',
       component: Home,
       name     : '首页',
+      children : [
+        {
+          path     : '/new_home/login',
+          component: Home,
+          name     : 'login',
+        }
+      ]
     },
     {
       path: '/new_home/notificationAnnounce',
