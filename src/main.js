@@ -180,7 +180,14 @@ import Axios from 'axios'
       })
     }
   } 
-  
+  // const projects = [ // 子项目信息
+  //   {
+  //     name      : 'dyzh',
+  //     entry     : 'http://127.0.0.1/',
+  //     render,
+  //     activeRule: checkPrefix('/dyzh'),
+  //   },
+  // ]
   registerMicroApps(projects) // 注册子项目
 
   render()
@@ -188,30 +195,3 @@ import Axios from 'axios'
   start()
 
 })()
-// import system from '@/config/System2.json'
-// console.log(system)
-// let projects=[]
-
-// for(let i=0;i<system.sit.length;i++){
-//   projects.push({
-//     name      : system.sit[i].name,
-//     entry     : system.sit[i].entry,
-//     render,
-//     activeRule: checkPrefix(system.sit[i].activeRule),
-//   })
-// } 
-// const projects = [ // 子项目信息
-//   {
-//     name      : 'scsd',
-//     entry     : 'http://127.0.0.1/',
-//     render,
-//     activeRule: checkPrefix('/scsd'),
-//   },
-// ]
-
-// registerMicroApps(projects) // 注册子项目
-// // registerMicroApps(system.sit) // 注册子项目
-
-// render()
-
-// start()
