@@ -33,15 +33,8 @@
 <script>
 import Common from '@/util/common'
 export default {
-  data() {
-    return {}
-  },
   props: {
     nameprop: String
-  },
-  created() {
-    console.log('NameProps' + this.nameprop)
-    
   },
   methods: {
     enterCMS() {
