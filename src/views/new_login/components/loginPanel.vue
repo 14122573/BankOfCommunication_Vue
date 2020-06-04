@@ -21,7 +21,7 @@
     </a-form-item>
       <div class="errorMsg" style="height: 10px"></div>
     <a-form-item class="form_item">
-      <a class="login-form-forgot" href="">
+      <a class="login-form-forgot" @click="resetPassword">
         忘记密码
       </a>
       <a-button type="primary" class="login-form-button" @click="handleLogin">
@@ -239,10 +239,11 @@ export default {
               if(!!userInfo.name) {
                 this.username = userInfo.name
                 console.log('clicked')
-                document.getElementById('login').style.display = 'none'
-                document.getElementById('loggedin').style.display = 'block'
+                // document.getElementById('login').style.display = 'none'
+                // document.getElementById('loggedin').style.display = 'block'
                 // this.loginSwitch()
-                this.getToken()
+                // this.getToken()
+                this.$emit('on-change', this.username)
               }
             })
           }
@@ -276,29 +277,29 @@ export default {
         callback()
       }
     },
-    getToken() {
-      let cookie = this.$cookie.get('token')
-      console.log('cookie' + cookie)
-      if (!!cookie) {
-        document.getElementById('login').style.display= 'none'
-        document.getElementById('loggedin').style.display = 'block'
-        console.log('!!cookie')
-        this.$ajax
-          .get({
-            url: this.$api.GET_USER_INFO
-          })
-          .then(res => {
-            let userInfo = res.data.content
-            if (!!userInfo.name) {
-              this.username = userInfo.name
-            }
-          })
-      } else {
-        document.getElementById('login').style.display = 'block'
-        document.getElementById('loggedin').style.display = 'none'
-        console.log('cookie not exist')
-      }
-    },
+    // getToken() {
+    //   let cookie = this.$cookie.get('token')
+    //   console.log('cookie' + cookie)
+    //   if (!!cookie) {
+    //     document.getElementById('login').style.display= 'none'
+    //     document.getElementById('loggedin').style.display = 'block'
+    //     console.log('!!cookie')
+    //     this.$ajax
+    //       .get({
+    //         url: this.$api.GET_USER_INFO
+    //       })
+    //       .then(res => {
+    //         let userInfo = res.data.content
+    //         if (!!userInfo.name) {
+    //           this.username = userInfo.name
+    //         }
+    //       })
+    //   } else {
+    //     document.getElementById('login').style.display = 'block'
+    //     document.getElementById('loggedin').style.display = 'none'
+    //     console.log('cookie not exist')
+    //   }
+    // },
     validatePassword(rule, value, callback) {
       if (!value || value == undefined || value.split(' ').join('').length === 0) {
         this.visibleError = false
@@ -373,6 +374,9 @@ export default {
       this.$cookie.set('threeTime', datas, {
         expires: inFifteenMinutes
       })
+    },
+    resetPassword() {
+      this.$emit('on-change', 'forget')
     }
   }
 }

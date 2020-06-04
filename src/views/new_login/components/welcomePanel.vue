@@ -20,7 +20,7 @@
             >
               进入后台
             </a-button>
-            <a-button type="default" class="register-form-button" block>
+            <a-button type="default" class="register-form-button" block @click="handleLogout">
               退出登录
             </a-button>
           </a-form-item>
@@ -31,6 +31,7 @@
 </template>
 
 <script>
+import Common from '@/util/common'
 export default {
   data() {
     return {}
@@ -38,11 +39,19 @@ export default {
   props: {
     nameprop: String
   },
+  created() {
+    console.log('NameProps' + this.nameprop)
+    
+  },
   methods: {
     enterCMS() {
       this.$router.push({
         name: 'home'
       })
+    },
+    handleLogout() {
+      Common.handleLogOut()
+      this.$emit('on-change', 'login')
     }
   }
 }

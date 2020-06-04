@@ -12,21 +12,30 @@
       <div><h3>2</h3></div>
       <div><h3>3</h3></div>
     </a-carousel>
-    <LoginPanel id="login" class="loginpanel" />
+    <LoginPanel
+      v-if="pageType == 'login'"
+      id="login"
+      class="loginpanel"
+      @on-change="pageTypeChange"
+    />
+
     <LoggedInPanel
+      v-if="pageType !== 'login' && pageType !== 'forget'"
       id="loggedin"
-      :nameprop="username"
+      @on-change="pageTypeChange"
+      :nameprop='this.username'
       class="loginpanel"
     />
-    <!-- <a-card class="loginpanel">
-      <ResetPassword />
-    </a-card> -->
+    <ResetPassword 
+      v-if="pageType == 'forget'"
+      @on-change="pageTypeChange"
+    />
   </div>
 </template>
 <script>
 import LoginPanel from '@/views/new_login/components/LoginPanel'
 import LoggedInPanel from '@/views/new_login/components/welcomePanel'
-import ResetPassword from '@/views/login/resetPassword'
+import ResetPassword from '@/views/new_login/components/resetPassword'
 export default {
   components: {
     LoginPanel,
@@ -37,28 +46,27 @@ export default {
     return {
       // 查看子组件传来的用户鉴权信息
       loginInfo: '',
-      username : ''
+      username : '',
+      pageType : 'login',
+      isready  : false
     }
   },
   mounted() {
     this.getToken()
   },
+  watch: {
+    pageType() {
+      this.pageType
+    },
+  },
   methods: {
-    getLoginInfo(data) {
-      this.loginInfo = data.login
-      this.username = data.username
-      document.getElementById('login').style.display = 'none'
-      document.getElementById('loggedin').style.display = 'block'
-      // this.$router.go(0)
-      console.log(data)
+    pageTypeChange(data) {
+      this.pageType = data
+      this.username = data
     },
     getToken() {
       let cookie = this.$cookie.get('token')
-      console.log('cookie' + cookie)
       if (!!cookie) {
-        document.getElementById('login').style.display= 'none'
-        document.getElementById('loggedin').style.display = 'block'
-        console.log('!!cookie')
         this.$ajax
           .get({
             url: this.$api.GET_USER_INFO
@@ -67,11 +75,10 @@ export default {
             let userInfo = res.data.content
             if (!!userInfo.name) {
               this.username = userInfo.name
+              this.pageType = userInfo.name
             }
           })
       } else {
-        document.getElementById('login').style.display = 'block'
-        document.getElementById('loggedin').style.display = 'none'
         console.log('cookie not exist')
       }
     }
