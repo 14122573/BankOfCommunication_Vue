@@ -238,7 +238,11 @@ export default {
               let userInfo = res.data.content
               if(!!userInfo.name) {
                 this.username = userInfo.name
-                this.loginSwitch()
+                console.log('clicked')
+                document.getElementById('login').style.display = 'none'
+                document.getElementById('loggedin').style.display = 'block'
+                // this.loginSwitch()
+                this.getToken()
               }
             })
           }
@@ -272,6 +276,29 @@ export default {
         callback()
       }
     },
+    getToken() {
+      let cookie = this.$cookie.get('token')
+      console.log('cookie' + cookie)
+      if (!!cookie) {
+        document.getElementById('login').style.display= 'none'
+        document.getElementById('loggedin').style.display = 'block'
+        console.log('!!cookie')
+        this.$ajax
+          .get({
+            url: this.$api.GET_USER_INFO
+          })
+          .then(res => {
+            let userInfo = res.data.content
+            if (!!userInfo.name) {
+              this.username = userInfo.name
+            }
+          })
+      } else {
+        document.getElementById('login').style.display = 'block'
+        document.getElementById('loggedin').style.display = 'none'
+        console.log('cookie not exist')
+      }
+    },
     validatePassword(rule, value, callback) {
       if (!value || value == undefined || value.split(' ').join('').length === 0) {
         this.visibleError = false
@@ -280,12 +307,13 @@ export default {
         callback()
       }
     },
-    loginSwitch() {
-      this.$emit('isLogin', {
-        login   : 'logged in',
-        username: this.username
-      })
-    },
+    // loginSwitch() {
+    //   this.$emit('isLogin', {
+    //     login   : 'logged in',
+    //     username: this.username
+    //   })
+    //   console.log('emitted')
+    // },
     //得到url传递参数
     getQueryString(name) {
       const reg = new RegExp('(^|&)' + name + '=([^&]*)(&|$)', 'i')

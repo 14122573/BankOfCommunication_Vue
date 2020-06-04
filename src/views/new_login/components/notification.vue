@@ -22,7 +22,7 @@
         <div class="noti-list" v-for="(item, index) in news" :key="index">
           <a class="mouse_trigger">
             <div class="noti_detail" v-if="item.sort == '01'">
-              <a-row type="flex" align="center" justify="center">
+              <a-row type="flex" justify="center">
                 <a-col class="news_title" :span="19">{{ item.title }}</a-col>
                 <a-col class="news_date" :span="5">{{ item.postDate }}</a-col>
               </a-row>
@@ -35,7 +35,6 @@
             <div class="noti_oneline" v-else>
               <a-row
                 type="flex"
-                align="center"
                 justify="center"
                 style="margin: 20px 0px"
               >

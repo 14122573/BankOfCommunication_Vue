@@ -12,13 +12,13 @@
         <div class="news_wrapper" v-for="(item, index) in news" :key="index">
           <a class="mouse_trigger">
             <a-card class="news_wrapper_inside" :bordered=false :bodyStyle="{padding: '0'}">
-            <a-row type="flex" align="center" justify="center" style="margin: 20px 0px">
+            <a-row type="flex" justify="center" style="margin: 20px 0px">
               <a-col class="news_sort" :span="2">{{item.sort}}</a-col>
               <a-col :span="1">
                 <a-divider style="height: 5em" type="vertical"></a-divider>
               </a-col>
               <a-col :span="21">
-                <a-row type="flex" align="center" justify="space-around">
+                <a-row type="flex" justify="space-around">
                   <a-col class="news_title" :span='16'>{{item.title}}</a-col>
                   <a-col class="news_date" :span='8'>{{item.postDate}}</a-col>
                 </a-row>

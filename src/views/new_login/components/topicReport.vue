@@ -17,7 +17,6 @@
             <div class="noti_oneline">
               <a-row
                 type="flex"
-                align="center"
                 justify="center"
                 style="margin: 20px 0px"
               >

@@ -12,8 +12,7 @@
       >
         <a class="more" slot="extra" href="#">更多 >></a>
         <a-row
-          :type='flex'
-          align="center"
+          type='flex'
           justify='start'
         >
           <a-col :span='24'>
@@ -27,7 +26,6 @@
             <div class="noti_oneline">
               <a-row
                 type="flex"
-                align="center"
                 justify="center"
                 style="margin: 20px 0px"
               >

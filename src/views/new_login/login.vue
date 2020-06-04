@@ -8,7 +8,6 @@
         <Lunbo />
         <!-- <InlineWrapper /> -->
         <router-view />
-        <KnowledgeNTopic />
         <Footer />
       </a-layout-content>
       <!-- <a-layout-footer>Footer</a-layout-footer> -->

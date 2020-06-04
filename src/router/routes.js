@@ -422,7 +422,7 @@ const appRoutes = [ {
         {
           path     : '/new_home/login',
           component: Home,
-          name     : 'login',
+          name     : 'new_login',
         }
       ]
     },

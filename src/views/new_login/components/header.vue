@@ -18,7 +18,8 @@
       </a-col>
       <a-col :span="12">
         <div class="loginFrameMenu">
-          <a-menu v-model="current" mode="horizontal">
+          <!-- <a-menu v-model="current" mode="horizontal"> -->
+          <a-menu mode="horizontal">
             <a-menu-item key="1">
               <router-link :to="{ path: '/new_home/index' }">首页</router-link>
             </a-menu-item>
