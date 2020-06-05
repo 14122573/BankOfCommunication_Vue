@@ -4,7 +4,6 @@ const TipsUpperLimitErr = () => import('@/views/tips/upperlimit')
 const TipsNetworkErr = () => import('@/views/tips/network')
 const TipsInnerNetworkErr = () => import('@/views/tips/innerNetwork')
 const TipsNoAuth = () => import('@/views/tips/auth')
-const TipsOutsite = () => import('@/views/tips/outsite')
 const ErrorPage = () => import('@/views/tips/error-page')
 const HomePage = () => import('@/views/home')
 const LoginPage = () => import('@/views/login/login')
@@ -768,46 +767,5 @@ const appRoutes = [
     }
   }
 ]
-
-const micSystemRoutersConfigs = require('@/router/micRouter.json')
-
-for (let key in micSystemRoutersConfigs) {
-  for (let i = 0; i < micSystemRoutersConfigs[key].length; i++) {
-    let firstRouter = Object.assign({}, micSystemRoutersConfigs[key][i])
-    if (!!firstRouter.meta.openMode && firstRouter.meta.openMode == 'outsite') {
-      firstRouter['component'] = TipsOutsite
-    } else {
-      // firstRouter['component'] = contentWrapper
-    }
-    appRoutes[0].children.push(Object.assign({}, firstRouter))
-  }
-}
-
-// import Axios from 'axios'
-// import API from '@/server/api'
-// // import store from '@/store'
-// (async function loadMicRouter() {
-//   let MicRouters = (await Axios.get(API.CONFIGS_MICSYSTEMS_ROUTERS)).data
-//   let micSystemRoutersConfigs = Object.assign({}, MicRouters)
-//   console.log(micSystemRoutersConfigs)
-
-//   for (let key in micSystemRoutersConfigs) {
-//     for (let i = 0; i < micSystemRoutersConfigs[key].length; i++) {
-//       let firstRouter = Object.assign({}, micSystemRoutersConfigs[key][i])
-//       if (
-//         !!firstRouter.meta.openMode &&
-//         firstRouter.meta.openMode == 'outsite'
-//       ) {
-//         firstRouter['component'] = TipsOutsite
-//       } else {
-//         // firstRouter['component'] = contentWrapper
-//       }
-//       appRoutes[0].children.push(Object.assign({}, firstRouter))
-//     }
-//   }
-//   console.log('merged appRoutes', appRoutes)
-
-// })()
-
 
 export const routes = [ ...appRoutes ]
