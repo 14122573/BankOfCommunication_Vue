@@ -1703,10 +1703,7 @@ const appRoutes = [
   }
 ]
 
-console.log('before async', appRoutes)
-
 const micSystemRoutersConfigs = require('@/router/micRouter.json')
-console.log('MicmicRouters', micSystemRoutersConfigs)
 
 for (let key in micSystemRoutersConfigs) {
   for (let i = 0; i < micSystemRoutersConfigs[key].length; i++) {
@@ -1746,6 +1743,5 @@ for (let key in micSystemRoutersConfigs) {
 
 // })()
 
-console.log('export', appRoutes)
 
 export const routes = [ ...appRoutes ]
