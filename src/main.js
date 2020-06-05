@@ -189,9 +189,7 @@ const render = async ({ appContent, loading } = {}) => {
 }
 
 ;(async function loadMicsystem() {
-  let MicRouters = (
-    await Axios.get('http://iftp.omniview.pro/attr/System.json')
-  ).data
+  let MicRouters = (await Axios.get(api.CONFIGS_MICSYSTEMS_LIST)).data
   let system = Object.assign({}, MicRouters)
 
   let projects = []
