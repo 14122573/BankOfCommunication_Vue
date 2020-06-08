@@ -86,12 +86,6 @@ export default {
 }
 </script>
 <style scoped>
-#login {
-}
-
-#loggedin {
-}
-
 .lunbo {
   position: relative;
 }

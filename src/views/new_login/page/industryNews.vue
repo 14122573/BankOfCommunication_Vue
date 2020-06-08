@@ -1,58 +1,39 @@
 <template>
   <div>
-    <div class="card-wrapper">
-      <a-card
-        class="card"
-        :loading="loading"
-        title="行业动态"
-        :bordered="false"
-        size="small"
-        :headStyle="{padding: '0', border: '0'}"
-        :bodyStyle="{padding: '0'}"
-      >
-        <a class='more' slot="extra" @click="jumpToPage">更多 >></a>
-        <div class="news_wrapper" v-for="(item, index) in news" :key="index">
-          <a class="mouse_trigger">
-            <a-card class="news_wrapper_inside" :bordered=false :bodyStyle="{padding: '0'}">
-            <a-row type="flex" justify="center" style="margin: 20px 10px">
-              <a-col class="news_sort" :span="2">{{item.sort}}</a-col>
-              <a-col :span="1">
-                <a-divider style="height: 5em" type="vertical"></a-divider>
-              </a-col>
-              <a-col :span="21">
-                <a-row type="flex" justify="space-around">
-                  <a-col class="news_title" :span='16'>{{item.title}}</a-col>
-                  <a-col class="news_date" :span='8'>{{item.postDate}}</a-col>
-                </a-row>
-                <a-row>
-                  <a-col class="news_content" :span="24">{{item.content}}</a-col>
-                </a-row>
-              </a-col>
-            </a-row>
-          </a-card>
-          </a>
-        </div>
-      </a-card>
+    <div class="pageWrapper">
+      <Navbar class="navbar" />
+      <div class="content">
+        <a-table :columns="columns" :data-source="news" :showHeader=false></a-table>
+      </div>
     </div>
   </div>
 </template>
+
 <script>
+import Navbar from '@/views/new_login/components/navbar'
 export default {
-  data() {
-    return {
-      loading: false,
-      news   : []
-    }
+  components: {
+    Navbar
   },
   mounted() {
     this.fetchNews()
   },
+  data() {
+    return {
+      news   : [],
+      columns: [
+        {
+          title    : '标题',
+          dataIndex: 'title'
+        },
+        {
+          title    : '日期',
+          dataIndex: 'postDate'
+        }
+      ]
+    }
+  },
   methods: {
-    jumpToPage() {
-      this.$router.push({
-        name: 'industryNews'
-      })
-    },
     fetchNews() {
       this.news.push(
         {
@@ -107,74 +88,24 @@ export default {
         }
       )
     }
-  }
+  },
 }
 </script>
 
 <style scoped>
-.card-wrapper .more {
-  font-size: 12px;
-  color: #28292A
-}
+  .pageWrapper {
+    padding: 0px 180px 30px 180px;
+    background-color: #F1F5F8;
+  }
 
-.mouse_trigger :hover {
-  background-color: #2993F6;
-}
+  .pageWrapper .navbar {
+    text-align: left;
+    padding: 30px 0px;
+  }
 
-.mouse_trigger :hover .news_title {
-  color: white;
-}
-
-.mouse_trigger :hover .news_date {
-  color: white;
-}
-
-.mouse_trigger :hover .news_content {
-  color: white;
-}
-
-.mouse_trigger :hover .news_sort {
-  color: white;
-}
-
-.card-wrapper .news_sort {
-  font-size: 30px;
-  color: #515151;
-  margin: auto auto
-}
-
-.card-wrapper .news_title {
-  font-size: 12px;
-  color: #282828;
-  font-weight: bold;
-  overflow:hidden;
-  white-space:nowrap; 
-  text-overflow:ellipsis
-}
-
-.card-wrapper .news_date {
-  font-size: 12px;
-  color: #515151;
-  text-align: right;
-}
-
-.card-wrapper .news_content {
-  font-size: 12px;
-  color: #666666;
-  overflow:hidden;
-  display: -webkit-box;
-  -webkit-box-orient: vertical;
-  -webkit-line-clamp: 2;
-  margin-top: 10px
-}
-.card-wrapper {
-  height: 500px;
-  /* overflow: scroll; */
-  overflow: hidden;
-  margin: 30px 50px 30px 50px;
-}
-
-.card-wrapper .card {
-  text-align: left;
-}
+  .pageWrapper .content {
+    background-color: #FFFFFF;
+    height: 500px;
+    padding: 10px 30px;
+  }
 </style>

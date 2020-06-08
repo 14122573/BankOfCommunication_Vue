@@ -7,42 +7,42 @@
         title="知识服务"
         :bordered="false"
         size="small"
-        :headStyle="{padding: '0'}"
+        :headStyle="{ padding: '0', border: '0' }"
         :bodyStyle="{ padding: '0' }"
       >
-        <a class="more" slot="extra" href="#">更多 >></a>
-        <a-row
-          type='flex'
-          justify='start'
-        >
-          <a-col :span='24'>
-            <a-button class="button_style" shape='round' size='small'>养殖技术</a-button>
-            <a-button class="button_style" shape='round' size='small'>科普知识</a-button>
-            <a-button class="button_style" shape='round' size='small'>云课堂</a-button>
-          </a-col>
-        </a-row>
-        <div class="noti-list" v-for="(item, index) in news" :key="index">
-          <a class="mouse_trigger">
-            <div class="noti_oneline">
-              <a-row
-                type="flex"
-                justify="center"
-                style="margin: 20px 0px"
-              >
-                <a-col :span="2">
-                  <img
-                    src="@/assets/images/home/bt_icon.png"
-                    alt=""
-                    srcset=""
-                    width="50%"
-                  />
-                </a-col>
-                <a-col class="news_title" :span="18">{{ item.title }}</a-col>
-                <a-col class="news_date" :span="4">{{ item.postDate }}</a-col>
-              </a-row>
+        <a class="more" slot="extra" @click="jumpToPage">更多 >></a>
+        <a-tabs type="card" @change="callback">
+          <a-tab-pane key="1" tab="养殖技术">
+            <div class="noti-list" v-for="(item, index) in news" :key="index">
+              <a class="mouse_trigger">
+                <div class="noti_oneline">
+                  <a-row type="flex" justify="center" style="margin: 20px 0px">
+                    <a-col :span="2">
+                      <img
+                        src="@/assets/images/home/bt_icon.png"
+                        alt=""
+                        srcset=""
+                        width="50%"
+                      />
+                    </a-col>
+                    <a-col class="news_title" :span="18">{{
+                      item.title
+                    }}</a-col>
+                    <a-col class="news_date" :span="4">{{
+                      item.postDate
+                    }}</a-col>
+                  </a-row>
+                </div>
+              </a>
             </div>
-          </a>
-        </div>
+          </a-tab-pane>
+          <a-tab-pane key="2" tab="科普知识">
+            Content of Tab Pane 2
+          </a-tab-pane>
+          <a-tab-pane key="3" tab="云课堂">
+            Content of Tab Pane 3
+          </a-tab-pane>
+        </a-tabs>
       </a-card>
     </div>
   </div>
@@ -59,8 +59,16 @@ export default {
     this.fetchNews()
   },
   methods: {
+    callback(key) {
+      console.log(key);
+    },
     handleClick() {
       this.loading = !this.loading
+    },
+    jumpToPage() {
+      this.$router.push({
+        name: 'knowledgeService'
+      })
     },
     fetchNews() {
       this.news.push(
@@ -181,6 +189,6 @@ export default {
 }
 
 .notification_banner {
-  margin: 5px 0px
+  margin: 5px 0px;
 }
 </style>

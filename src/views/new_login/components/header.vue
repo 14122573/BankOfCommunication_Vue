@@ -24,10 +24,10 @@
               <router-link :to="{ path: '/new_home/index' }">首页</router-link>
             </a-menu-item>
             <a-menu-item key="2">
-              通知公告
+              <router-link :to="{path: '/new_home/notificationAnnounce'}">通知公告</router-link>
             </a-menu-item>
             <a-menu-item key="3">
-              行业动态
+              <router-link :to="{path: '/new_home/industryNews'}">行业动态</router-link>
             </a-menu-item>
             <a-menu-item key="4">
               <router-link :to="{ path: '/new_home/knowledgeService' }"
@@ -35,10 +35,10 @@
               >
             </a-menu-item>
             <a-menu-item key="5">
-              专题报告
+              <router-link :to="{path: '/new_home/topicReport'}">专题报告</router-link>
             </a-menu-item>
             <a-menu-item key="6">
-              数据查询
+              <router-link :to="{path: '/new_home/dataSearch'}">数据查询</router-link>
             </a-menu-item>
           </a-menu>
         </div>

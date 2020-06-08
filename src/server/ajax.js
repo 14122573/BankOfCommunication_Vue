@@ -76,7 +76,7 @@ const showErrPage= (api, routername, code) => {
   if(Common.oneOf(routername, [ 'login', 'register', 'bindPhone', 'bindTemporarayAccount' ])){
     if(!Common.oneOf(api, [ '/service-release/release/public/news' ])){
       router.push({
-        name: 'outerNetworkerr'
+        name: 'networkerr'
       })
     }
   }else if(!!routername && routername.length>0){
@@ -85,7 +85,7 @@ const showErrPage= (api, routername, code) => {
     })
   }else{
     router.push({
-      name: 'outerNetworkerr'
+      name: 'networkerr'
     })
   }
 }

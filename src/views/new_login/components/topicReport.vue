@@ -7,7 +7,7 @@
         title="专题报告"
         :bordered="false"
         size="small"
-        :headStyle="{padding: '0'}"
+        :headStyle="{padding: '0', border: '0'}"
         :bodyStyle="{ padding: '0' }"
       >
         <a class="more" slot="extra" href="#">更多 >></a>

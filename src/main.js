@@ -13,6 +13,7 @@ import { registerMicroApps, start } from 'qiankun'
 import PermissionControl from './util/permission-control.js' // 权限自定义指令 v-permission="code"
 import { PermissionFilter } from './util/permission-filter.js' // 权限全局方法 v-if="$permission('code')"
 import {
+  Descriptions,
   Button,
   message,
   Spin,
@@ -123,6 +124,7 @@ Vue.use(BackTop)
 Vue.use(Carousel)
 Vue.use(Tooltip)
 Vue.use(List)
+Vue.use(Descriptions)
 Vue.config.productionTip = false
 
 import RouterWapper from '@/components/Layout/content-wrapper'
@@ -166,7 +168,7 @@ const render = ({ appContent, loading } = {}) => { // 渲染方法
 import Axios from 'axios'
 
 (async function loadMicsystem() {
-  let MicRouters = (await Axios.get('http://iftp.omniview.pro/attr/System2.json')).data
+  let MicRouters = (await Axios.get('http://iftp.omniview.pro/attr/System.json')).data
   let system = Object.assign({},MicRouters)
 
   let projects=[]

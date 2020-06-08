@@ -1,6 +1,6 @@
 <template>
-  <a-card style="width: 300px; max-width: 300px;" class="loginpanel" title="重置密码">
-    <a slot="extra" @click="handleJump" v-if="appearIndex != 2">立即登陆</a>
+  <a-card style="width: 300px; max-width: 300px; text-align: center" class="loginpanel" title="重置密码">
+    <a slot="extra" @click="handleJump">立即登录</a>
     <div class="findPassword">
       <div v-if="appearIndex == 0" class="linksTips">
         <div @click="appearIndex = 2">

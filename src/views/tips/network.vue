@@ -20,6 +20,9 @@ export default {
   },
   methods: {
     toHome(){
+      const store = JSON.parse(sessionStorage.getItem('VuexStore')) 
+      if (store) store.content = ''
+      sessionStorage.setItem('VuexStore', JSON.stringify(store))
       this.$router.push({ name: 'home' })
     },
     toLogin(){

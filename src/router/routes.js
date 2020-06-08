@@ -47,6 +47,15 @@ const KnowledgeDetail = () => import ('@/views/cms/knowledge/details')
 const KnowledgePublishedList= () => import ('@/views/cms/knowledgePublish/authList')
 const KnowledgePublishedAnonymousList= () => import ('@/views/cms/knowledgePublish/anonymousList')
 const KnowledgeView= () => import ('@/views/cms/knowledgePublish/view')
+
+// 首页
+const NotificationAnnounce = () => import('@/views/new_login/page/notificationAnnounce')
+const IndustryNews = () => import('@/views/new_login/page/industryNews')
+const DataSearch = () => import('@/views/new_login/page/dataSearch')
+const DataSearchResult = () => import('@/views/new_login/components/searchResult')
+const KnowledgeService = () => import('@/views/new_login/page/knowledgeService')
+const KnowledgeContainer = () => import('@/views/new_login/components/KnowledgeContainer')
+
 // 内容管理-养殖技术
 const FarmingTechList = () => import('@/views/cms/farmingTech/list')
 // 内容管理-科普知识
@@ -54,6 +63,8 @@ const KnowledgePromotionList = () => import('@/views/cms/knowledgePromotion/list
 // 内容管理-云课堂
 const CloudLessonList = () => import('@/views/cms/cloudLesson/list')
 // 内容管理-通知公告
+
+
 const NoticeList = () => import ('@/views/cms/notice/list')
 const NoticeCreate = () => import ('@/views/cms/notice/create')
 const NoticeEdit = () => import ('@/views/cms/notice/edit')
@@ -75,7 +86,7 @@ const VeterinaryList = () => import('@/views/cms/dataService/veterinaryList')
 const VeterinaryView = () => import('@/views/cms/dataService/view')
 
 // 知识服务
-const KnowledgeService = () => import('@/views/new_login/components/knowledgeService')
+// const KnowledgeService = () => import('@/views/new_login/components/knowledgeService')
 
 /**
      * 要求：
@@ -150,7 +161,53 @@ const appRoutes = [ {
         },
       ]
     },
-
+    {
+      path    : '/yysygl', name    : 'yysygl',
+      meta    : { title: '渔业兽医', menuPath: true, authCode: 'S0602', hideInBread: true, menuIcon: 'appstore' },
+      children: [
+        {
+          path: '/yysygl/secrchpage/list', name: 'secrchpage', 
+          meta: { title: '兽医查询', menuPath: true, authCode: 'S060201', hideInBread: true, menuIcon: 'appstore' },
+        },
+        {
+          path: '/yysygl/yyVeternary/list', name: 'yyVeternary', 
+          meta: { title: '渔业乡村兽医', menuPath: true, authCode: 'S060202', hideInBread: true, menuIcon: 'appstore' },
+        },
+        {
+          path: '/yysygl/official/list', name: 'official', 
+          meta: { title: '渔业官方兽医', menuPath: true, authCode: 'S060203', hideInBread: true, menuIcon: 'appstore' },
+        },
+        {
+          path: '/yysygl/practising/list', name: 'practising', 
+          meta: { title: '渔业执业兽医', menuPath: true, authCode: 'S060204', hideInBread: true, menuIcon: 'appstore' },
+        },
+  
+        {
+          path: '/yysygl/yyVeternary/edit', name: 'yyVeternaryEdit', 
+          meta: { title: '修改渔业乡村兽医信息', menuPath: false, authCode: 'S06020204', hideInBread: false },
+        },
+        {
+          path: '/yysygl/yyVeternary/details', name: 'yyVeternaryDetail', 
+          meta: { title: '查看渔业乡村兽医信息', menuPath: false, authCode: 'S06020205', hideInBread: false },
+        },
+        {
+          path: '/yysygl/official/edit', name: 'officialEdit', 
+          meta: { title: '修改渔业官方兽医信息', menuPath: false, authCode: 'S06020304', hideInBread: false },
+        },    
+        {
+          path: '/yysygl/official/details', name: 'officialDetail', 
+          meta: { title: '查看渔业官方兽医信息', menuPath: false, authCode: 'S06020305', hideInBread: false },
+        },    
+        {
+          path: '/yysygl/practising/edit', name: 'practisingEdit', 
+          meta: { title: '修改渔业执业兽医信息', menuPath: false, authCode: 'S06020404', hideInBread: false },
+        },
+        {
+          path: '/yysygl/practising/details', name: 'practisingDetail', 
+          meta: { title: '查看渔业执业兽医信息', menuPath: false, authCode: 'S06020405', hideInBread: false },
+        },
+      ]
+    },
     {
       path     : '/demo', name     : 'demo', component: demo,
       meta     : { title: 'demo', },
@@ -417,52 +474,73 @@ const appRoutes = [ {
     {
       path     : '/new_home/index',
       component: Home,
-      name     : '首页',
+      name     : 'index',
+      meta     : { title: '首页' },
       children : [
         {
           path     : '/new_home/login',
           component: Home,
           name     : 'new_login',
+          meta     : { title: '登录' },
         }
       ]
     },
     {
-      path: '/new_home/notificationAnnounce',
-      name: '通知公告'
+      path     : '/new_home/notificationAnnounce',
+      name     : 'notificationAnnounce',
+      component: NotificationAnnounce,
+      meta     : { title: '通知公告' },
     },
     {
-      path: '/new_home/industryNews',
-      name: '行业动态'
+      path     : '/new_home/industryNews',
+      name     : 'industryNews',
+      component: IndustryNews,
+      meta     : { title: '行业动态' },
     },
     {
       path     : '/new_home/knowledgeService',
-      name     : '知识服务',
+      name     : 'knowledgeService',
       component: KnowledgeService,
+      meta     : { title: '知识服务' },
       children : [
         {
-          path     : '/new_home/knowledgeService',
-          name     : '知识服务',
-          component: KnowledgeService
+          path     : '/new_home/farmingTechList',
+          name     : 'farmingTechList',
+          component: FarmingTechList,
+          meta     : { title: '养殖技术' },
         },
         {
-          path     : '/new_home/knowledgeService',
-          name     : '知识服务',
-          component: KnowledgeService
+          path     : '/new_home/knowledgePromotionList',
+          name     : 'knowledgePromotionList',
+          component: KnowledgePromotionList,
+          meta     : { title: '科普知识' },
         },
         {
-          path     : '/new_home/knowledgeService',
-          name     : '知识服务',
-          component: KnowledgeService
+          path     : '/new_home/cloudLessonList',
+          name     : 'cloudLessonList',
+          component: CloudLessonList,
+          meta     : { title: '云课堂' },
         },
       ]
     },
     {
       path: '/new_home/topicReport',
-      name: '专题报告'
+      name: 'topicReport',
+      meta: { title: '专题报告' },
     },
     {
-      path: '/new_home/dataSearch',
-      name: '数据查询'
+      path     : '/new_home/dataSearch',
+      name     : 'dataSearch',
+      component: DataSearch,
+      meta     : { title: '数据查询' },
+      children : [
+        {
+          path     : '/new_home/dataSearch/result',
+          name     : 'searchResult',
+          component: DataSearchResult,
+          meta     : { title: '查询结果' }
+        }
+      ]
     }
   ]
 },
@@ -483,7 +561,7 @@ const appRoutes = [ {
   meta     : { title: '老系统安全登出', },
 },
 {
-  path     : '/outerNetworkerr', name     : 'outerNetworkerr', component: TipsNetworkErr,
+  path     : '/networkerr', name     : 'networkerr', component: TipsNetworkErr,
   meta     : { title: '网络错误', },
 },
 {

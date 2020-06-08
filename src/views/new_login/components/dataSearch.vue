@@ -15,7 +15,7 @@
             <a-list-item>
               <a-input placeholder="请输入查询信息" />
               <span>&nbsp;&nbsp;&nbsp;</span>
-              <a-button type="primary" icon="search">查询</a-button>
+              <a-button type="primary" icon="search" @click="jumpToPage">查询</a-button>
             </a-list-item>
           </a-list>
         </a-col>
@@ -52,7 +52,15 @@
 </template>
 
 <script>
-export default {}
+export default {
+  methods: {
+    jumpToPage() {
+      this.$router.push({
+        name: 'dataSearch'
+      })
+    }
+  },
+}
 </script>
 
 <style scoped>
