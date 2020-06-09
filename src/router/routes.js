@@ -7,10 +7,10 @@ const TipsInnerNetworkErr = () => import ('@/views/tips/innerNetwork')
 const TipsNoAuth = () => import ('@/views/tips/auth')
 const TipsOutsite = () => import ('@/views/tips/outsite')
 const ErrorPage = () => import ('@/views/tips/error-page')
-const Home = () => import ('@/views/new_login/home')
+const HomeFeature = () => import ('@/views/new_login/homeFeature')
 const HomePage = () => import ('@/views/home')
-const LoginPage = () => import ('@/views/login/login')
-const HomeWrapper = () => import ('@/views/new_login/login')
+// const LoginPage = () => import ('@/views/login/login')
+const Home = () => import ('@/views/new_login/home')
 const RegisterPage = () => import ('@/views/login/register')
 const OldSysLogout = () => import ('@/views/login/oldSysLogout')
 const BindPhone = () => import ('@/views/login/bindPhone')
@@ -54,11 +54,10 @@ const IndustryNews = () => import('@/views/new_login/page/industryNews')
 const DataSearch = () => import('@/views/new_login/page/dataSearch')
 const DataSearchResult = () => import('@/views/new_login/components/searchResult')
 const KnowledgeService = () => import('@/views/new_login/page/knowledgeService')
-  // 子项目
-  const FarmingTechContent = () => import('@/views/new_login/components/farmingTechContent')
-  const KnowledgePromotionContent = () => import('@/views/new_login/components/knowledgePromotionContent')
-  const CloudLessonContent = () => import('@/views/new_login/components/cloudLessonContent')
-
+// 子项目
+const FarmingTechContent = () => import('@/views/new_login/components/farmingTechContent')
+const KnowledgePromotionContent = () => import('@/views/new_login/components/knowledgePromotionContent')
+const CloudLessonContent = () => import('@/views/new_login/components/cloudLessonContent')
 
 
 // 内容管理-养殖技术
@@ -468,60 +467,61 @@ const appRoutes = [ {
     },
   ],
 },
+// 旧的登录页面
+// {
+//   path     : '/login', name     : 'login', component: LoginPage,
+//   meta     : { title: '登录' },
+// },
 {
-  path     : '/login', name     : 'login', component: LoginPage,
-  meta     : { title: '登录' },
-},
-{
-  path     : '/new_home', redirect : '/new_home/index',name     : 'new_home', component: HomeWrapper,
+  path     : '/homepage', redirect : '/homepage/index',name     : 'homepage', component: Home,
   meta     : { title: '主页' },
   children : [
     {
-      path     : '/new_home/index',
-      component: Home,
+      path     : '/homepage/index',
+      component: HomeFeature,
       name     : 'index',
       meta     : { title: '首页' },
       children : [
         {
-          path     : '/new_home/login',
-          component: Home,
-          name     : 'new_login',
-          meta     : { title: '登录' },
+          path     : '/homepage/login',
+          component: HomeFeature,
+          // name     : 'new_login',
+          // meta     : { title: '内容' },
         }
       ]
     },
     {
-      path     : '/new_home/notificationAnnounce',
+      path     : '/homepage/notificationAnnounce',
       name     : 'notificationAnnounce',
       component: NotificationAnnounce,
       meta     : { title: '通知公告' },
     },
     {
-      path     : '/new_home/industryNews',
+      path     : '/homepage/industryNews',
       name     : 'industryNews',
       component: IndustryNews,
       meta     : { title: '行业动态' },
     },
     {
-      path     : '/new_home/knowledgeService',
+      path     : '/homepage/knowledgeService',
       name     : 'knowledgeService',
       component: KnowledgeService,
       meta     : { title: '知识服务' },
       children : [
         {
-          path     : '/new_home/knowledgeService/farmingTechList',
+          path     : '/homepage/knowledgeService/farmingTechList',
           name     : 'farmingTechList',
           component: FarmingTechContent,
           meta     : { title: '养殖技术' },
         },
         {
-          path     : '/new_home/knowledgeService/knowledgePromotionList',
+          path     : '/homepage/knowledgePromotionList',
           name     : 'knowledgePromotionList',
           component: KnowledgePromotionContent,
           meta     : { title: '科普知识' },
         },
         {
-          path     : '/new_home/knowledgeService/cloudLessonList',
+          path     : '/homepage/cloudLessonList',
           name     : 'cloudLessonList',
           component: CloudLessonContent,
           meta     : { title: '云课堂' },
@@ -529,18 +529,18 @@ const appRoutes = [ {
       ]
     },
     {
-      path: '/new_home/topicReport',
+      path: '/homepage/topicReport',
       name: 'topicReport',
       meta: { title: '专题报告' },
     },
     {
-      path     : '/new_home/dataSearch',
+      path     : '/homepage/dataSearch',
       name     : 'dataSearch',
       component: DataSearch,
       meta     : { title: '数据查询' },
       children : [
         {
-          path     : '/new_home/dataSearch/result',
+          path     : '/homepage/dataSearch/result',
           name     : 'searchResult',
           component: DataSearchResult,
           meta     : { title: '查询结果' }

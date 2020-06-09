@@ -1,6 +1,8 @@
 <template>
   <div>
-    养殖技术
+    <div class="container" style="height: 300px; background-color: white">
+      养殖技术
+    </div>
   </div>
 </template>
 

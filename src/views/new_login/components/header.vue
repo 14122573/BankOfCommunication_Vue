@@ -23,24 +23,24 @@
           <!-- <a-menu v-model="current" mode="horizontal"> -->
           <a-menu mode="horizontal">
             <a-menu-item key="1">
-              <router-link :to="{ path: '/new_home/index' }">首页</router-link>
+              <router-link :to="{name: 'homepage'}">首页</router-link>
             </a-menu-item>
             <a-menu-item key="2">
-              <router-link :to="{path: '/new_home/notificationAnnounce'}">通知公告</router-link>
+              <router-link :to="{name: 'notificationAnnounce'}">通知公告</router-link>
             </a-menu-item>
             <a-menu-item key="3">
-              <router-link :to="{path: '/new_home/industryNews'}">行业动态</router-link>
+              <router-link :to="{name: 'industryNews'}">行业动态</router-link>
             </a-menu-item>
             <a-menu-item key="4">
-              <router-link :to="{ path: '/new_home/knowledgeService' }"
+              <router-link :to="{name: 'knowledgeService'}"
                 >知识服务</router-link
               >
             </a-menu-item>
             <a-menu-item key="5">
-              <router-link :to="{path: '/new_home/topicReport'}">专题报告</router-link>
+              <router-link :to="{name: 'topicReport'}">专题报告</router-link>
             </a-menu-item>
             <a-menu-item key="6">
-              <router-link :to="{path: '/new_home/dataSearch'}">数据查询</router-link>
+              <router-link :to="{name: 'dataSearch'}">数据查询</router-link>
             </a-menu-item>
           </a-menu>
         </div>

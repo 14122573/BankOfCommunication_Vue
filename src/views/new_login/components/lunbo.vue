@@ -32,9 +32,9 @@
   </div>
 </template>
 <script>
-import LoginPanel from "@/views/new_login/components/LoginPanel";
-import LoggedInPanel from "@/views/new_login/components/welcomePanel";
-import ResetPassword from "@/views/new_login/components/resetPassword";
+import LoginPanel from '@/views/new_login/components/LoginPanel'
+import LoggedInPanel from '@/views/new_login/components/welcomePanel'
+import ResetPassword from '@/views/new_login/components/resetPassword'
 export default {
   components: {
     LoginPanel,
@@ -45,18 +45,18 @@ export default {
     return {
       isInIndexPage: true,
       // 查看子组件传来的用户鉴权信息
-      loginInfo: "",
-      username: "",
-      pageType: "login",
-      isready: false
-    };
+      loginInfo    : '',
+      username     : '',
+      pageType     : 'login',
+      isready      : false
+    }
   },
   mounted() {
-    this.getToken();
+    this.getToken()
   },
   watch: {
     pageType() {
-      this.pageType;
+      this.pageType
     },
     $route(to, from) {
       // 当前是否在index页，不在的话就隐藏loginpanel和welcomepanel
@@ -65,29 +65,29 @@ export default {
   },
   methods: {
     pageTypeChange(data) {
-      this.pageType = data;
-      this.username = data;
+      this.pageType = data
+      this.username = data
     },
     getToken() {
-      let cookie = this.$cookie.get("token");
+      let cookie = this.$cookie.get('token')
       if (!!cookie) {
         this.$ajax
           .get({
             url: this.$api.GET_USER_INFO
           })
           .then(res => {
-            let userInfo = res.data.content;
+            let userInfo = res.data.content
             if (!!userInfo.name) {
-              this.username = userInfo.name;
-              this.pageType = userInfo.name;
+              this.username = userInfo.name
+              this.pageType = userInfo.name
             }
-          });
+          })
       } else {
-        console.log("cookie not exist");
+        console.log('cookie not exist')
       }
     }
   }
-};
+}
 </script>
 <style scoped>
 .lunbo {

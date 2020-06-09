@@ -60,7 +60,7 @@ export default {
   },
   methods: {
     callback(key) {
-      console.log(key);
+      console.log(key)
     },
     handleClick() {
       this.loading = !this.loading

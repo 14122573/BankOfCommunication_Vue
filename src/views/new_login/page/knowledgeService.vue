@@ -33,8 +33,8 @@ export default {
   },
   data() {
     return {
-      news      : [],
-      columns   : [
+      news   : [],
+      columns: [
         {
           title    : '标题',
           dataIndex: 'title'

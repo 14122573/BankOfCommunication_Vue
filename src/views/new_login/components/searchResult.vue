@@ -10,7 +10,7 @@ export default {
     query: Array
   },
   mounted() {
-    console.log(this.query);
+    console.log(this.query)
   }
 }
 </script>

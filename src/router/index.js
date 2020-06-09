@@ -35,7 +35,7 @@ router.beforeEach((to, from, next) => {
   // 当前无token且不在login页面则推到登录页面
   if (!token) {
     // 未登录
-    if (to.name == 'new_login') {
+    if (to.path.indexOf('/homepage') !== -1) { // 首页所有路由允许访问
       next()
     } else {
       const uneedTokenRouter=[ '/veterinary/view', '/veterinary', '/cms/noticePublish', '/cms/noticePublish/view', '/cms/knowledgePublish/view', '/cms/knowledgeAnonymous', 'upperLimitErr', 'register', 'oldSysLogout', 'networkerr' ]
@@ -44,7 +44,7 @@ router.beforeEach((to, from, next) => {
       if (Common.oneOf(to.name, uneedTokenRouter) || (Common.oneOf(to.name, [ 'bindPhone', 'bindTemporarayAccount' ]) && canEnterBind == '200')) {
         next()
       } else {
-        next('/new_home/login')
+        next('/homepage')
       }
     }
   } else { // 已经登录

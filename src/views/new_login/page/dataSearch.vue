@@ -44,8 +44,8 @@
 </template>
 
 <script>
-import Navbar from "@/views/new_login/components/navbar";
-import moment from "moment";
+import Navbar from '@/views/new_login/components/navbar'
+import moment from 'moment'
 import SearchResult from '@/views/new_login/components/searchResult'
 export default {
   components: {
@@ -56,164 +56,164 @@ export default {
     showResult() {
       let query = this.query
       let zhibiao = this.zhibiaoValue
-      let yearpicker = moment(this.yearPickerValue).format("YYYY")
+      let yearpicker = moment(this.yearPickerValue).format('YYYY')
       if (!!zhibiao && !!yearpicker) {
-        query.splice(0,1);
-        query.push({ "指标": zhibiao, "年份": yearpicker });
+        query.splice(0,1)
+        query.push({ '指标': zhibiao, '年份': yearpicker })
       }
     },
     handleChange(data) {
-      this.zhibiaoValue = data.pop();
+      this.zhibiaoValue = data.pop()
     },
     handleYearPicker(year) {
-      this.yearPickerValue = year;
-      this.isopen = false;
+      this.yearPickerValue = year
+      this.isopen = false
     },
     handleOpenChange(status) {
       if (status) {
-        this.isopen = true;
+        this.isopen = true
       } else {
-        this.isopen = false;
+        this.isopen = false
       }
     }
   },
   data() {
     return {
       yearPickerValue: null,
-      zhibiaoValue: null,
-      isopen: false,
-      query: [],
-      options: [
+      zhibiaoValue   : null,
+      isopen         : false,
+      query          : [],
+      options        : [
         {
-          value: "01",
-          label: "渔业经济总产值"
+          value: '01',
+          label: '渔业经济总产值'
         },
         {
-          value: "scpzcl",
-          label: "水产品总产量",
+          value   : 'scpzcl',
+          label   : '水产品总产量',
           children: [
             {
-              value: "scpzcl-hsyz",
-              label: "养殖产品（海水养殖）",
+              value   : 'scpzcl-hsyz',
+              label   : '养殖产品（海水养殖）',
               children: [
                 {
-                  value: "02",
-                  label: "按养殖品种分"
+                  value: '02',
+                  label: '按养殖品种分'
                 },
                 {
-                  value: "03",
-                  label: "按养殖水域和养殖方式分"
+                  value: '03',
+                  label: '按养殖水域和养殖方式分'
                 }
               ]
             },
             {
-              value: "scpzcl-dsyz",
-              label: "养殖产品（淡水养殖）",
+              value   : 'scpzcl-dsyz',
+              label   : '养殖产品（淡水养殖）',
               children: [
                 {
-                  value: "04",
-                  label: "按养殖品种分"
+                  value: '04',
+                  label: '按养殖品种分'
                 },
                 {
-                  value: "05",
-                  label: "按养殖水域和养殖方式分"
+                  value: '05',
+                  label: '按养殖水域和养殖方式分'
                 }
               ]
             },
             {
-              value: "scpzcl-hybl",
-              label: "捕捞产品（海洋捕捞）",
+              value   : 'scpzcl-hybl',
+              label   : '捕捞产品（海洋捕捞）',
               children: [
                 {
-                  value: "06",
-                  label: "按捕捞品种分"
+                  value: '06',
+                  label: '按捕捞品种分'
                 },
                 {
-                  value: "07",
-                  label: "按捕捞海域和捕捞渔具分"
+                  value: '07',
+                  label: '按捕捞海域和捕捞渔具分'
                 }
               ]
             },
             {
-              value: "scpzcl-dsbl",
-              label: "捕捞产品（淡水捕捞）",
+              value   : 'scpzcl-dsbl',
+              label   : '捕捞产品（淡水捕捞）',
               children: [
                 {
-                  value: "08",
-                  label: "按捕捞品种分"
+                  value: '08',
+                  label: '按捕捞品种分'
                 }
               ]
             },
             {
-              value: "09",
-              label: "捕捞产品（远洋渔业）"
+              value: '09',
+              label: '捕捞产品（远洋渔业）'
             }
           ]
         },
         {
-          value: "scyzmj",
-          label: "水产养殖面积",
+          value   : 'scyzmj',
+          label   : '水产养殖面积',
           children: [
             {
-              value: "10",
-              label: "淡水养殖面积（按养殖水域和养殖方式分）"
+              value: '10',
+              label: '淡水养殖面积（按养殖水域和养殖方式分）'
             },
             {
-              value: "scyzmj-hsyzmj",
-              label: "海水养殖面积",
+              value   : 'scyzmj-hsyzmj',
+              label   : '海水养殖面积',
               children: [
                 {
-                  value: "11",
-                  label: "按养殖品种分"
+                  value: '11',
+                  label: '按养殖品种分'
                 },
                 {
-                  value: "12",
-                  label: "按养殖水域和养殖方式分"
+                  value: '12',
+                  label: '按养殖水域和养殖方式分'
                 }
               ]
             }
           ]
         },
         {
-          value: "13",
-          label: "水产苗种产量"
+          value: '13',
+          label: '水产苗种产量'
         },
         {
-          value: "14",
-          label: "渔民家庭收支"
+          value: '14',
+          label: '渔民家庭收支'
         },
         {
-          value: "yyrkNcyry",
-          label: "渔业人口与从业人员",
+          value   : 'yyrkNcyry',
+          label   : '渔业人口与从业人员',
           children: [
             {
-              value: "15",
-              label: "渔业人口与从业人员"
+              value: '15',
+              label: '渔业人口与从业人员'
             },
             {
-              value: "16",
-              label: "海洋渔业人口与从业人员"
+              value: '16',
+              label: '海洋渔业人口与从业人员'
             }
           ]
         },
         {
-          value: "scpjg",
-          label: "水产品加工",
+          value   : 'scpjg',
+          label   : '水产品加工',
           children: [
             {
-              value: "17",
-              label: "水产加工品总量"
+              value: '17',
+              label: '水产加工品总量'
             },
             {
-              value: "18",
-              label: "水产加工企业、冷库情况"
+              value: '18',
+              label: '水产加工企业、冷库情况'
             }
           ]
         }
       ]
-    };
+    }
   }
-};
+}
 </script>
 
 <style scoped>
