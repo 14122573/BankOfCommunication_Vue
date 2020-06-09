@@ -41,7 +41,7 @@
       "activeRule": "/xshy"
     },
     {
-      "entry": "http://iftp.omniview.pro/lshy",
+      "entry": "http://iftp.omniview.pro/plshy",
       "name": "lshy",
       "activeRule": "/lshy"
     },
@@ -61,22 +61,22 @@
       "activeRule": "/fljps"
     },
     {
-      "entry": "http://iftp.omniview.pro/dyzh",
+      "entry": "http://iftp.omniview.pro/pdyzh",
       "name": "dyzh",
       "activeRule": "/dyzh"
     },
     {
-      "entry": "http://iftp.omniview.pro/hymc",
+      "entry": "http://iftp.omniview.pro/phymc",
       "name": "hymc",
       "activeRule": "/hymc"
     },
     {
-      "entry": "http://iftp.omniview.pro/xxyy",
+      "entry": "http://iftp.omniview.pro/pxxyy",
       "name": "xxyy",
       "activeRule": "/xxyy"
     },
     {
-      "entry": "http://iftp.omniview.pro/styy",
+      "entry": "http://iftp.omniview.pro/pstyy",
       "name": "styy",
       "activeRule": "/styy"
     }
