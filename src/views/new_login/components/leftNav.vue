@@ -13,17 +13,32 @@
 export default {
   data() {
     return {
+      childroute: []
     }
   },
   mounted() {
+    this.getChildRoutes()
     console.log(this.childroute)
   },
   methods: {
-    
+    getChildRoutes() {
+      let parentRoute = this.$route.matched[0].path
+      let currentRoute = this.$route.path
+      let routeSelection = this.$router.options.routes
+      let route4nav = []
+      for(let i = 0; i < routeSelection.length; i++) {
+        if(routeSelection[i].path == parentRoute) {
+          let routeSelectionInside = routeSelection[i].children
+          for(let j = 0; j < routeSelectionInside.length; j++) {
+            if(routeSelectionInside[j].path == currentRoute) {
+              route4nav = routeSelectionInside[j].children
+            }
+          }
+        }
+      }
+      this.childroute = route4nav
+    }
   },
-  props: {
-    childroute: Array
-  }
 }
 </script>
 

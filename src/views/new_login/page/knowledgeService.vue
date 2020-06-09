@@ -4,7 +4,7 @@
       <Navbar class="navbar" />
       <a-row>
         <a-col :span="5">
-          <LeftNav :childroute="childroute" />
+          <LeftNav />
         </a-col>
         <a-col :span="1">&nbsp;</a-col>
         <a-col :span="18">
@@ -28,13 +28,11 @@ export default {
     KnowledgeContainer
   },
   mounted() {
-    this.getChildRoutes()
     this.fetchNews()
   },
   data() {
     return {
       news      : [],
-      childroute: [],
       columns   : [
         {
           title    : '标题',
@@ -48,23 +46,6 @@ export default {
     }
   },
   methods: {
-    getChildRoutes() {
-      let parentRoute = this.$route.matched[0].path
-      let currentRoute = this.$route.path
-      let routeSelection = this.$router.options.routes
-      let route4nav = []
-      for(let i = 0; i < routeSelection.length; i++) {
-        if(routeSelection[i].path == parentRoute) {
-          let routeSelectionInside = routeSelection[i].children
-          for(let j = 0; j < routeSelectionInside.length; j++) {
-            if(routeSelectionInside[j].path == currentRoute) {
-              route4nav = routeSelectionInside[j].children
-            }
-          }
-        }
-      }
-      this.childroute = route4nav
-    },
     fetchNews() {
       this.news.push(
         {

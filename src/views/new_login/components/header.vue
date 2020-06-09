@@ -13,7 +13,9 @@
           <a-col :span="4"
             ><img src="@/assets/images/logo.png" alt="" class="logo"
           /></a-col>
-          <a-col :span="20" :offset="0" style="text-align: left">“智能渔技”综合信息服务平台</a-col>
+          <a-col class="" :span="20" :offset="0" style="text-align: left">
+            “智能渔技”综合信息服务平台
+          </a-col>
         </a-row>
       </a-col>
       <a-col :span="12">
@@ -57,7 +59,6 @@ export default {}
   margin: 0px 100px 0px 100px;
 }
 .loginFrameTitle {
-  font-size: 20px;
   color: #000;
   font-weight: bold;
   margin-bottom: 10px;
@@ -65,4 +66,12 @@ export default {}
 .loginFrameTitle .logo {
   height: 60px;
 }
+</style>
+
+<style lang="stylus">
+  .loginFrameTitle
+    $titleFontSize()
+
+  .loginFrameMenu
+    $titleFontSize()
 </style>

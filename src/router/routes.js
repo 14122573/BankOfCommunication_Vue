@@ -54,7 +54,12 @@ const IndustryNews = () => import('@/views/new_login/page/industryNews')
 const DataSearch = () => import('@/views/new_login/page/dataSearch')
 const DataSearchResult = () => import('@/views/new_login/components/searchResult')
 const KnowledgeService = () => import('@/views/new_login/page/knowledgeService')
-const KnowledgeContainer = () => import('@/views/new_login/components/KnowledgeContainer')
+  // 子项目
+  const FarmingTechContent = () => import('@/views/new_login/components/farmingTechContent')
+  const KnowledgePromotionContent = () => import('@/views/new_login/components/knowledgePromotionContent')
+  const CloudLessonContent = () => import('@/views/new_login/components/cloudLessonContent')
+
+
 
 // 内容管理-养殖技术
 const FarmingTechList = () => import('@/views/cms/farmingTech/list')
@@ -379,7 +384,7 @@ const appRoutes = [ {
       children : [
         {
           path     : '/cms/farmingtech', name     : '/cms/farmingtech', component: FarmingTechList,
-          meta     : { title: '养殖技术', menuPath: true, authCode: 'P32000', menuIcon: 'file-text', hideInBread: false },
+          meta     : { title: '养殖技术', menuPath: true, authCode: 'P32001', menuIcon: 'file-text', hideInBread: false },
         },
         {
           path     : '/cms/knowledgepromotion', name     : '/cms/knowledgepromotion', component: KnowledgePromotionList,
@@ -504,21 +509,21 @@ const appRoutes = [ {
       meta     : { title: '知识服务' },
       children : [
         {
-          path     : '/new_home/farmingTechList',
+          path     : '/new_home/knowledgeService/farmingTechList',
           name     : 'farmingTechList',
-          component: FarmingTechList,
+          component: FarmingTechContent,
           meta     : { title: '养殖技术' },
         },
         {
-          path     : '/new_home/knowledgePromotionList',
+          path     : '/new_home/knowledgeService/knowledgePromotionList',
           name     : 'knowledgePromotionList',
-          component: KnowledgePromotionList,
+          component: KnowledgePromotionContent,
           meta     : { title: '科普知识' },
         },
         {
-          path     : '/new_home/cloudLessonList',
+          path     : '/new_home/knowledgeService/cloudLessonList',
           name     : 'cloudLessonList',
-          component: CloudLessonList,
+          component: CloudLessonContent,
           meta     : { title: '云课堂' },
         },
       ]

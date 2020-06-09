@@ -199,3 +199,8 @@ export default {
   margin: 5px 0px
 }
 </style>
+
+<style lang="stylus" scoped>
+  .ant-card-head-title
+    $titleFontSize()
+</style>
