@@ -8,9 +8,10 @@
         </a-col>
         <a-col :span="1">&nbsp;</a-col>
         <a-col :span="18">
-          <div class="content">
+          <!-- <div class="content">
             <KnowledgeContainer />
-          </div>
+          </div> -->
+          <router-view />
         </a-col>
       </a-row>
     </div>

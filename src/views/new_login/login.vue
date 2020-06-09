@@ -16,16 +16,16 @@
 </template>
 
 <script>
-import PHeader from './components/header'
-import Lunbo from './components/lunbo'
-import Footer from './components/footer'
+import PHeader from "./components/header";
+import Lunbo from "./components/lunbo";
+import Footer from "./components/footer";
 export default {
   components: {
     PHeader,
     Lunbo,
     Footer
-  }
-}
+  },
+};
 </script>
 
 <style>
@@ -64,7 +64,7 @@ export default {
 }
 
 .InlineWrapper {
-    background-color: #fff;
-    margin: 0px 150px 0px 150px
+  background-color: #fff;
+  margin: 0px 150px 0px 150px;
 }
 </style>
