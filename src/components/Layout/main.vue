@@ -138,7 +138,11 @@ export default {
       //   // 根据配置文件的子项目路由前缀自动识别state.showSpaContent应该是true还是false
       //   this.showSpaContent = MicConfigs.some(item => to.path.startsWith(item.pathPrefix))
       // }
-
+      if( to.meta.openMode && (to.meta.openMode=='spa') ){ 
+        const astore = JSON.parse(sessionStorage.getItem('VuexStore'))  
+        if (astore) astore.content = ''
+        sessionStorage.setItem('VuexStore', JSON.stringify(astore))
+      }
       if (!to.name) {
         this.showPurePage = false
         return

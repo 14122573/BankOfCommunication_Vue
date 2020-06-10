@@ -188,7 +188,7 @@ const render = async ({ appContent, loading } = {}) => {
   }
 }
 
-;(async function loadMicsystem() {
+(async function loadMicsystem() {
   let MicRouters = (await Axios.get(api.CONFIGS_MICSYSTEMS_LIST)).data
   let system = Object.assign({}, MicRouters)
 

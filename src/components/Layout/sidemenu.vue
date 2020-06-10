@@ -154,10 +154,6 @@ export default {
           }
           break
         case 'normal':
-          const store = JSON.parse(sessionStorage.getItem('VuexStore'))
-          if (store) store.content = ''
-          sessionStorage.setItem('VuexStore', JSON.stringify(store))
-
           this.$router.push({ name: menu.name })
           break
         case 'spa':
