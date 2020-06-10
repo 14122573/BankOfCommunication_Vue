@@ -159,7 +159,7 @@ export default {
       'content',
       'webviewSrc',
     ])
-  }, 
+  },
   methods: {
     /**
      * 判断当前登录人，是否有权可转移个人在子业务系统中的申报数据
@@ -356,6 +356,6 @@ export default {
 		background-size: 20%;
 		height: 100%;
 	}
-	.layout-content #content { 	height: 100%; }
-	.layout-content #content>div { overflow-y: auto; }
+	.layout-content #contentView { 	height: 100%; }
+	.layout-content #contentView>div { overflow-y: auto; height: 100%;}
 </style>

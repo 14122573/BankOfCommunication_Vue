@@ -57,7 +57,7 @@ import {
   BackTop,
   Carousel,
   Tooltip,
-  List,
+  List
 } from 'ant-design-vue'
 import './assets/base.css' // 引入全局样式
 import './assets/reset-ant.css' // 重置ant-design样式
@@ -135,12 +135,36 @@ Vue.component('DetailsItem', DetailsItem)
 Vue.component('DetailsFile', DetailsFile)
 
 /* eslint-disable no-new */
+
+import Axios from 'axios'
+import TipsOutsite from '@/views/tips/outsite'
 let app = null
-const checkPrefix = (prefix) => { // 检查路径前缀
+const checkPrefix = prefix => {
+  // 检查路径前缀
   return location => location.pathname.startsWith(prefix)
 }
-const render = ({ appContent, loading } = {}) => { // 渲染方法
+const render = async ({ appContent, loading } = {}) => {
+  // 渲染方法
   if (!app) {
+    let MicRouters = (await Axios.get(api.CONFIGS_MICSYSTEMS_ROUTERS)).data
+    let micSystemRoutersConfigs = Object.assign({}, MicRouters)
+
+    for (let key in micSystemRoutersConfigs) {
+      for (let i = 0; i < micSystemRoutersConfigs[key].length; i++) {
+        let firstRouter = Object.assign({}, micSystemRoutersConfigs[key][i])
+        if (
+          !!firstRouter.meta.openMode &&
+          firstRouter.meta.openMode == 'outsite'
+        ) {
+          firstRouter['component'] = TipsOutsite
+        }
+        const { routes } = router.options
+        const parent = routes.find(item => item.name === 'Layout')
+        parent.children.push(Object.assign({}, firstRouter))
+        router.addRoutes([ parent ])
+      }
+    }
+
     app = new Vue({
       el: '#portal',
       store,
@@ -148,14 +172,14 @@ const render = ({ appContent, loading } = {}) => { // 渲染方法
       data() {
         return {
           content: appContent,
-          loading,
+          loading
         }
       },
       render(h) {
         return h(App, {
           props: {
             content: this.content,
-            loading: this.loading,
+            loading: this.loading
           }
         })
       }
@@ -165,53 +189,25 @@ const render = ({ appContent, loading } = {}) => { // 渲染方法
     app.loading = loading
   }
 }
-import Axios from 'axios'
 
-(async function loadMicsystem() {
-  let MicRouters = (await Axios.get('http://iftp.omniview.pro/attr/System.json')).data
-  let system = Object.assign({},MicRouters)
+;(async function loadMicsystem() {
+  let MicRouters = (await Axios.get(api.CONFIGS_MICSYSTEMS_LIST)).data
+  let system = Object.assign({}, MicRouters)
 
-  let projects=[]
-  for(let i=0;i<system.sit.length;i++){
-    projects.push({
-      name      : system.sit[i].name,
-      entry     : system.sit[i].entry,
-      render,
-      activeRule: checkPrefix(system.sit[i].activeRule),
-    })
-  } 
-  
+  let projects = []
+  for (let i = 0; i < system.sit.length; i++) {
+    if (system.sit[i].name != 'zlzs') {
+      projects.push({
+        name      : system.sit[i].name,
+        entry     : system.sit[i].entry,
+        render,
+        activeRule: checkPrefix(system.sit[i].activeRule)
+      })
+    }
+  }
   registerMicroApps(projects) // 注册子项目
 
   render()
 
   start()
-
 })()
-// import system from '@/config/System2.json'
-// console.log(system)
-// let projects=[]
-
-// for(let i=0;i<system.sit.length;i++){
-//   projects.push({
-//     name      : system.sit[i].name,
-//     entry     : system.sit[i].entry,
-//     render,
-//     activeRule: checkPrefix(system.sit[i].activeRule),
-//   })
-// } 
-// const projects = [ // 子项目信息
-//   {
-//     name      : 'scsd',
-//     entry     : 'http://127.0.0.1/',
-//     render,
-//     activeRule: checkPrefix('/scsd'),
-//   },
-// ]
-
-// registerMicroApps(projects) // 注册子项目
-// // registerMicroApps(system.sit) // 注册子项目
-
-// render()
-
-// start()
