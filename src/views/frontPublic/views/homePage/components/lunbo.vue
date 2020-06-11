@@ -32,9 +32,9 @@
   </div>
 </template>
 <script>
-import LoginPanel from '@/views/new_login/components/LoginPanel'
-import LoggedInPanel from '@/views/new_login/components/welcomePanel'
-import ResetPassword from '@/views/new_login/components/resetPassword'
+import LoginPanel from '@/views/frontPublic/views/homePage/components/loginPanel.vue'
+import LoggedInPanel from '@/views/frontPublic/views/homePage/components/welcomePanel.vue'
+import ResetPassword from '@/views/frontPublic/views/homePage/components/resetPassword.vue'
 export default {
   components: {
     LoginPanel,

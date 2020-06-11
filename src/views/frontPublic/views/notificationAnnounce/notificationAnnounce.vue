@@ -17,7 +17,7 @@
 </template>
 
 <script>
-import Navbar from '@/views/new_login/components/navbar'
+import Navbar from '@/views/frontPublic/components/navbar.vue'
 export default {
   data() {
     return {

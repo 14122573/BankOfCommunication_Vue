@@ -16,9 +16,9 @@
 </template>
 
 <script>
-import PHeader from './components/header'
-import Lunbo from './components/lunbo'
-import Footer from './components/footer'
+import PHeader from '../components/header.vue'
+import Lunbo from '../components/lunbo'
+import Footer from '../components/footer'
 export default {
   components: {
     PHeader,
@@ -67,4 +67,34 @@ export default {
   background-color: #fff;
   margin: 0px 150px 0px 150px;
 }
+</style>
+
+<style lang="stylus">
+.ant-card-head-title
+  $megaFontSize()
+
+// 卡片标题
+.card-wrapper[data-v-e901bcca] .ant-card-head-title, 
+.card-wrapper[data-v-aff295e4] .ant-card-head-title,
+.ant-col[data-v-46edc5bc],
+.card-wrapper[data-v-32f8f9f2] .ant-card-head-title,
+.card-wrapper[data-v-6daf61c3] .ant-card-head-title
+  $megaFontSize()
+
+// 文章标题
+.news_title[data-v-e901bcca],
+.news_title[data-v-aff295e4],
+.news_title[data-v-32f8f9f2],
+.news_title[data-v-6daf61c3]
+  $titleFontSize()
+
+// 文章内容
+.card-wrapper[data-v-e901bcca] .news_content,
+.card-wrapper[data-v-aff295e4] .news_content,
+.card-wrapper[data-v-32f8f9f2] .news_content,
+.card-wrapper[data-v-6daf61c3] .news_content,
+.ant-list[data-v-46edc5bc],
+.card-wrapper[data-v-32f8f9f2] .news_content,
+.card-wrapper[data-v-6daf61c3] .news_content
+  $simpleFontSize()
 </style>

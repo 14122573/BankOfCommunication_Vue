@@ -3,25 +3,22 @@
     <a-row>
       <!-- <a-col :span="12" style="background-color: red"> -->
       <a-col :span="12">
-        <KnowledgeService />
+        <Notification />
       </a-col>
       <a-col :span="12">
-        <TopicReport />
+        <Industry />
       </a-col>
     </a-row>
   </div>
 </template>
 
 <script>
-import KnowledgeService from './knowledgeService'
-import TopicReport from './topicReport'
+import Notification from '../components/notification'
+import Industry from '../components/industry'
 export default {
   components: {
-    KnowledgeService,
-    TopicReport
+    Notification,
+    Industry
   }
 }
 </script>
-
-<style scoped>
-</style>

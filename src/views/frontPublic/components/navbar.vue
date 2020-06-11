@@ -35,6 +35,11 @@ export default {
       list: []
     }
   },
+  watch: {
+    $route(to, from) {
+      this.getRoutes()
+    }
+  },
   mounted() {
     this.getRoutes()
   },
@@ -42,6 +47,7 @@ export default {
     getRoutes() {
       let currentRoute = this.$route
       let parentRoute = this.$route.matched[0]
+      this.list = []
       this.list.push(parentRoute, currentRoute)
     },
     getRoutesName() {}

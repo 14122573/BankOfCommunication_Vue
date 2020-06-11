@@ -44,9 +44,9 @@
 </template>
 
 <script>
-import Navbar from '@/views/new_login/components/navbar'
+import Navbar from '@/views/frontPublic/components/navbar.vue'
 import moment from 'moment'
-import SearchResult from '@/views/new_login/components/searchResult'
+import SearchResult from '@/views/frontPublic/views/dataSearch/searchResult.vue'
 export default {
   components: {
     Navbar,

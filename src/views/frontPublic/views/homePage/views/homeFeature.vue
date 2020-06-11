@@ -7,9 +7,9 @@
 </template>
 
 <script>
-import NotifyNIndustry from './components/InlineWrapper2'
-import DataSearch from './components/dataSearch'
-import KnowledgeNTopic from './components/InlineWrapper4'
+import NotifyNIndustry from './InlineWrapper2'
+import DataSearch from '../components/dataSearch'
+import KnowledgeNTopic from './InlineWrapper4'
 export default {
   components: {
     NotifyNIndustry,

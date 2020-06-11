@@ -1,52 +1,81 @@
 <template>
   <div>
-    <div class="pageWrapper">
-      <Navbar class="navbar" />
-      <a-row>
-        <a-col :span="5">
-          <LeftNav />
-        </a-col>
-        <a-col :span="1">&nbsp;</a-col>
-        <a-col :span="18">
-          <!-- <div class="content">
-            <KnowledgeContainer />
-          </div> -->
-          <router-view />
-        </a-col>
-      </a-row>
+    <div class="card-wrapper">
+      <a-card
+        class="card"
+        :loading="loading"
+        title="通知公告"
+        :bordered="false"
+        size="small"
+        :headStyle="{padding: '0', border: '0'}"
+        :bodyStyle="{ padding: '0' }"
+      >
+        <a class="more" slot="extra" @click="jumpToPage">更多 >></a>
+        <div class="notification_banner">
+          <img
+            src="@/assets/images/home/sygg_tp.jpg"
+            alt=""
+            srcset=""
+            width="100%"
+          />
+        </div>
+        <div class="noti-list" v-for="(item, index) in news" :key="index">
+          <a class="mouse_trigger">
+            <div class="noti_detail" v-if="item.sort == '01'">
+              <a-row type="flex" justify="center">
+                <a-col class="news_title" :span="19">{{ item.title }}</a-col>
+                <a-col class="news_date" :span="5">{{ item.postDate }}</a-col>
+              </a-row>
+              <a-row>
+                <a-col class="news_content" :span="24">{{
+                  item.content
+                }}</a-col>
+              </a-row>
+            </div>
+            <div class="noti_oneline" v-else>
+              <a-row
+                type="flex"
+                justify="center"
+                style="margin: 20px 0px"
+              >
+                <a-col :span="2">
+                  <img
+                    src="@/assets/images/home/bt_icon.png"
+                    alt=""
+                    srcset=""
+                    width="50%"
+                  />
+                </a-col>
+                <a-col class="news_title" :span="18">{{ item.title }}</a-col>
+                <a-col class="news_date" :span="4">{{ item.postDate }}</a-col>
+              </a-row>
+            </div>
+          </a>
+        </div>
+      </a-card>
     </div>
   </div>
 </template>
-
 <script>
-import Navbar from '@/views/new_login/components/navbar'
-import LeftNav from '@/views/new_login/components/leftNav'
-import KnowledgeContainer from '@/views/new_login/components/KnowledgeContainer'
 export default {
-  components: {
-    Navbar,
-    LeftNav,
-    KnowledgeContainer
+  data() {
+    return {
+      loading: false,
+      news   : []
+    }
   },
   mounted() {
     this.fetchNews()
   },
-  data() {
-    return {
-      news   : [],
-      columns: [
-        {
-          title    : '标题',
-          dataIndex: 'title'
-        },
-        {
-          title    : '日期',
-          dataIndex: 'postDate'
-        }
-      ]
-    }
-  },
   methods: {
+    jumpToPage() {
+      this.$router.push({
+        name: 'notificationAnnounce'
+      })
+    },
+    handleClick() {
+      this.loading = !this.loading
+    },
     fetchNews() {
       this.news.push(
         {
@@ -95,6 +124,15 @@ export default {
           source    : '新闻网',
           postAuthor: '小明',
           sort      : '05'
+        },
+        {
+          title  : '“三生农业”耕育农法，促进中医药传承创新',
+          content:
+            '中医农业是现代农业与传统中医药的跨界融合，跨界创新，也是用中医的整体观、系统观、辩证观看待农业问题，用中药制品为种养产业服务，解决农业生产过程中的病害的预防和治疗问题。既能为中医药的传承和发展提供有效的保障，也能够为提高生态农业发展，促进人类以及动植物健康，保障农业产品的有效供给和质量安全，探索一条生态可持续发展的崭新路径。',
+          postDate  : '2020-02-13',
+          source    : '新闻网',
+          postAuthor: '小明',
+          sort      : '05'
         }
       )
     }
@@ -103,19 +141,60 @@ export default {
 </script>
 
 <style scoped>
-.pageWrapper {
-  padding: 0px 180px 30px 180px;
-  background-color: #f1f5f8;
+.noti_detail .news_content {
+  letter-spacing: 0.5px;
 }
 
-.pageWrapper .navbar {
-  text-align: left;
-  padding: 30px 0px;
+.card-wrapper .card {
+  border: 0px;
 }
 
-.pageWrapper .content {
-  background-color: #ffffff;
+.card-wrapper .noti_detail {
+  margin: 20px 0px;
+}
+
+.card-wrapper .news_title {
+  color: #282828;
+  font-size: 12px;
+  font-weight: bold;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.card-wrapper .news_date {
+  font-size: 12px;
+  text-align: right;
+  color: #515151;
+}
+
+.card-wrapper .news_content {
+  color: #666666;
+  height: 50px;
+  margin: 10px 0px;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+}
+
+.card-wrapper .more {
+  font-size: 12px;
+  color: #28292a;
+}
+
+.card-wrapper {
   height: 500px;
-  padding: 10px 30px;
+  /* overflow: scroll; */
+  overflow: hidden;
+  margin: 30px 50px 30px 50px;
+}
+
+.card-wrapper .card {
+  text-align: left;
+}
+
+.notification_banner {
+  margin: 5px 0px
 }
 </style>

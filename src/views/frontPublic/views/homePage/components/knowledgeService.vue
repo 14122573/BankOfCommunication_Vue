@@ -4,54 +4,37 @@
       <a-card
         class="card"
         :loading="loading"
-        title="通知公告"
+        title="知识服务"
         :bordered="false"
         size="small"
-        :headStyle="{padding: '0', border: '0'}"
+        :headStyle="{ padding: '0', border: '0' }"
         :bodyStyle="{ padding: '0' }"
       >
-        <a class="more" slot="extra" @click="jumpToPage">更多 >></a>
-        <div class="notification_banner">
-          <img
-            src="@/assets/images/home/sygg_tp.jpg"
-            alt=""
-            srcset=""
-            width="100%"
-          />
-        </div>
-        <div class="noti-list" v-for="(item, index) in news" :key="index">
-          <a class="mouse_trigger">
-            <div class="noti_detail" v-if="item.sort == '01'">
-              <a-row type="flex" justify="center">
-                <a-col class="news_title" :span="19">{{ item.title }}</a-col>
-                <a-col class="news_date" :span="5">{{ item.postDate }}</a-col>
-              </a-row>
-              <a-row>
-                <a-col class="news_content" :span="24">{{
-                  item.content
-                }}</a-col>
-              </a-row>
+        <a class="more" slot="extra" @click="jumpToPage(currentIndex)">更多 >></a>
+        <a-tabs type="card" @change="callback" tabPosition="top" animated :activeKey="currentIndex">
+          <a-tab-pane v-for="(item1, index1) in childroute" :key="index1" :tab="item1.meta.title">
+            <div class="noti-list" v-for="(item, index) in news" :key="index">
+              <a class="mouse_trigger">
+                <div class="noti_oneline">
+                  <a-row type="flex" justify="center" style="margin: 20px 0px">
+                    <a-col :span="2">
+                      <img
+                        src="@/assets/images/home/bt_icon.png"
+                        alt=""
+                        srcset=""
+                        width="50%"
+                      />
+                    </a-col>
+                    <a-col class="news_title" :span="18">{{ item.title
+                    }}</a-col>
+                    <a-col class="news_date" :span="4">{{ item.postDate
+                    }}</a-col>
+                  </a-row>
+                </div>
+              </a>
             </div>
-            <div class="noti_oneline" v-else>
-              <a-row
-                type="flex"
-                justify="center"
-                style="margin: 20px 0px"
-              >
-                <a-col :span="2">
-                  <img
-                    src="@/assets/images/home/bt_icon.png"
-                    alt=""
-                    srcset=""
-                    width="50%"
-                  />
-                </a-col>
-                <a-col class="news_title" :span="18">{{ item.title }}</a-col>
-                <a-col class="news_date" :span="4">{{ item.postDate }}</a-col>
-              </a-row>
-            </div>
-          </a>
-        </div>
+          </a-tab-pane>
+        </a-tabs>
       </a-card>
     </div>
   </div>
@@ -60,21 +43,49 @@
 export default {
   data() {
     return {
-      loading: false,
-      news   : []
+      loading     : false,
+      news        : [],
+      currentIndex: 0,
+      childroute: [],
     }
   },
   mounted() {
     this.fetchNews()
+    this.getChildRoute()
   },
   methods: {
-    jumpToPage() {
-      this.$router.push({
-        name: 'notificationAnnounce'
-      })
+    callback(key) {
+      this.currentIndex = key;
+      console.log(key); 
+    },
+    getChildRoute() {
+      let parentRoute = this.$route.matched[0].path
+      // let currentRoute = this.$route.path
+      let currentRoute = '/homepage/knowledgeService'
+      let routeSelection = this.$router.options.routes
+      let route4nav = []
+      for (let i = 0; i < routeSelection.length; i++) {
+        if (routeSelection[i].path == parentRoute) {
+          let routeSelectionInside = routeSelection[i].children
+          for (let j = 0; j < routeSelectionInside.length; j++) {
+            if (routeSelectionInside[j].path == currentRoute) {
+              route4nav = routeSelectionInside[j].children
+            }
+          }
+        }
+      }
+      console.log(JSON.stringify(route4nav));
+      
+      this.childroute = route4nav
     },
     handleClick() {
       this.loading = !this.loading
+    },
+    jumpToPage(index) {
+      let routeTo = this.childroute;
+      this.$router.push({
+        name: routeTo[index].name
+      })
     },
     fetchNews() {
       this.news.push(
@@ -145,8 +156,8 @@ export default {
   letter-spacing: 0.5px;
 }
 
-.card-wrapper .card {
-  border: 0px;
+.card-wrapper .button_style {
+  font-size: 12px;
 }
 
 .card-wrapper .noti_detail {
@@ -154,9 +165,8 @@ export default {
 }
 
 .card-wrapper .news_title {
-  color: #282828;
+  color: #28292a;
   font-size: 12px;
-  font-weight: bold;
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
@@ -165,11 +175,11 @@ export default {
 .card-wrapper .news_date {
   font-size: 12px;
   text-align: right;
-  color: #515151;
+  color: #282828;
 }
 
 .card-wrapper .news_content {
-  color: #666666;
+  color: #656667;
   font-size: 12px;
   height: 50px;
   margin: 10px 0px;
@@ -185,7 +195,7 @@ export default {
 }
 
 .card-wrapper {
-  height: 500px;
+  height: 350px;
   /* overflow: scroll; */
   overflow: hidden;
   margin: 30px 50px 30px 50px;
@@ -196,11 +206,6 @@ export default {
 }
 
 .notification_banner {
-  margin: 5px 0px
+  margin: 5px 0px;
 }
-</style>
-
-<style lang="stylus" scoped>
-  .ant-card-head-title
-    $titleFontSize()
 </style>
