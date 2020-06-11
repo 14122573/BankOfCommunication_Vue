@@ -65,6 +65,7 @@ const IndustryNews = () => import('@/views/frontPublic/views/industryNews/indust
 const DataSearch = () => import('@/views/frontPublic/views/dataSearch/dataSearch.vue')
 const DataSearchResult = () => import('@/views/frontPublic/views/dataSearch/searchResult.vue')
 const KnowledgeService = () => import('@/views/frontPublic/views/knowledgeService/knowledgeService.vue')
+const TopicReport =() => import('@/views/frontPublic/views/topicReport/topicReport')
 // 子项目
 const FarmingTechContent = () => import('@/views/frontPublic/views/farmingTech/farmingTechContent.vue')
 const KnowledgePromotionContent = () => import('@/views/frontPublic/views/knowledgeService/knowledgePromotionContent.vue')
@@ -753,6 +754,7 @@ const appRoutes = [
       {
         path: '/homepage/topicReport',
         name: 'topicReport',
+        component: TopicReport,
         meta: { title: '专题报告' },
       },
       {

@@ -85,7 +85,14 @@ export default {
 .news_title[data-v-e901bcca],
 .news_title[data-v-aff295e4],
 .news_title[data-v-32f8f9f2],
-.news_title[data-v-6daf61c3]
+.news_title[data-v-6daf61c3],
+.card-wrapper[data-v-32f8f9f2] .ant-tabs-nav,
+
+// 日期
+.card-wrapper .news_date[data-v-e901bcca],
+.card-wrapper .news_date[data-v-aff295e4],
+.card-wrapper .news_date[data-v-32f8f9f2],
+.card-wrapper .news_date[data-v-6daf61c3]
   $titleFontSize()
 
 // 文章内容
@@ -96,5 +103,11 @@ export default {
 .ant-list[data-v-46edc5bc],
 .card-wrapper[data-v-32f8f9f2] .news_content,
 .card-wrapper[data-v-6daf61c3] .news_content
+
+// 卡片 更多
+.card-wrapper .more[data-v-e901bcca],
+.card-wrapper .more[data-v-aff295e4],
+.card-wrapper .more[data-v-32f8f9f2],
+.card-wrapper .more[data-v-6daf61c3]
   $simpleFontSize()
 </style>

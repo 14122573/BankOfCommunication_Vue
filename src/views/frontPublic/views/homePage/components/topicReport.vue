@@ -10,7 +10,7 @@
         :headStyle="{padding: '0', border: '0'}"
         :bodyStyle="{ padding: '0' }"
       >
-        <a class="more" slot="extra" href="#">更多 >></a>
+        <a class="more" slot="extra" @click="jumpToPage">更多 >></a>
         <a-row>&nbsp;</a-row>
         <div class="noti-list" v-for="(item, index) in news" :key="index">
           <a class="mouse_trigger">
@@ -42,6 +42,9 @@ export default {
     this.fetchNews()
   },
   methods: {
+    jumpToPage() {
+      this.$router.push({name: 'topicReport'})
+    },
     handleClick() {
       this.loading = !this.loading
     },
@@ -162,4 +165,9 @@ export default {
 .notification_banner {
   margin: 5px 0px
 }
+</style>
+
+<style lang="stylus">
+.content[data-v-3db1c562] .ant-table-tbody > tr > td
+  $titleFontSize()
 </style>

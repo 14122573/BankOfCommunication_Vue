@@ -1,6 +1,6 @@
 // 整体布局文件
 <template>
-<a-locale-provider :locale="zh_CN">
+<a-config-provider :locale="zh_CN">
 	<a-layout id="portal">
 		<Loader />
 		<template v-if="showPurePage">
@@ -60,7 +60,7 @@
 			</a-layout>
 		</template>
 	</a-layout>
-</a-locale-provider>
+</a-config-provider>
 </template>
 <script>
 import{ mapState } from 'vuex'

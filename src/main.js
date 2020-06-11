@@ -46,7 +46,7 @@ import {
   TreeSelect,
   Radio,
   Cascader,
-  LocaleProvider,
+  ConfigProvider,
   Steps,
   Anchor,
   Collapse,
@@ -112,7 +112,7 @@ Vue.use(Badge)
 Vue.use(TreeSelect)
 Vue.use(Radio)
 Vue.use(Cascader)
-Vue.use(LocaleProvider)
+Vue.use(ConfigProvider)
 Vue.use(Steps)
 Vue.use(Anchor)
 Vue.use(Collapse)

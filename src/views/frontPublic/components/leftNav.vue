@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="nav">
-      <a-menu class="menu">
+      <a-menu class="menu" :default-selected-keys="fromWhichRoute">
         <a-menu-item v-for="(item, index) in childroute" :key="index">
           <router-link :to="item.path">
             <a-icon class="menu_icon" type="caret-right" />
@@ -17,17 +17,24 @@
 export default {
   data() {
     return {
+      fromWhichRoute: [],
       childroute: []
     }
   },
   mounted() {
     this.getChildRoutes()
   },
+  watch: {
+    'fromWhichRoute': function(newv, oldv) {
+      console.log(newv, oldv);
+    }
+  },
   methods: {
     handleClick(data) {
       console.log(data)
     },
     getChildRoutes() {
+      let fromWhichRoute = this.fromWhichRoute;
       let parentRoute = this.$route.matched[0].path
       // let currentRoute = this.$route.path
       let currentRoute = '/homepage/knowledgeService'
@@ -39,10 +46,17 @@ export default {
           for (let j = 0; j < routeSelectionInside.length; j++) {
             if (routeSelectionInside[j].path == currentRoute) {
               route4nav = routeSelectionInside[j].children
+              for(let k = 0; k < route4nav.length; k++) {
+                console.log(this.$route.path)
+                if(this.$route.path == route4nav[k].path) {
+                  fromWhichRoute.push(k)
+                }
+              }
             }
           }
         }
       }
+      console.log(fromWhichRoute)
       this.childroute = route4nav
     }
   }
@@ -57,5 +71,9 @@ export default {
 
 .nav .menu_icon {
   color: #2a93f5;
+}
+
+.ant-menu:not(.ant-menu-horizontal) .ant-menu-item-selected {
+  background-color: #FFFFFF;
 }
 </style>
