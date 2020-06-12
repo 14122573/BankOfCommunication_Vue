@@ -752,10 +752,10 @@ const appRoutes = [
         ]
       },
       {
-        path: '/homepage/topicReport',
-        name: 'topicReport',
+        path     : '/homepage/topicReport',
+        name     : 'topicReport',
         component: TopicReport,
-        meta: { title: '专题报告' },
+        meta     : { title: '专题报告' },
       },
       {
         path     : '/homepage/dataSearch',

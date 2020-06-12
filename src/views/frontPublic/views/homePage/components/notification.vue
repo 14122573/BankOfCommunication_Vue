@@ -10,6 +10,7 @@
         :headStyle="{padding: '0', border: '0'}"
         :bodyStyle="{ padding: '0' }"
       >
+        <a-icon type="minus" class="title_icon"/>
         <a class="more" slot="extra" @click="jumpToPage">更多 >></a>
         <div class="notification_banner">
           <img
@@ -181,6 +182,11 @@ export default {
 .card-wrapper .more {
   font-size: 12px;
   color: #28292a;
+}
+
+.card-wrapper .title_icon {
+  color: #2a93f5;
+  font-size: 35px;
 }
 
 .card-wrapper {

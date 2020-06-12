@@ -13,7 +13,7 @@
           <a-col :span="4"
             ><img src="@/assets/images/logo.png" alt="" class="logo"
           /></a-col>
-          <a-col class="" :span="20" :offset="0" style="text-align: left">
+          <a-col class="" :span="20" :offset="0" style="text-align: left;">
             “智能渔技”综合信息服务平台
           </a-col>
         </a-row>

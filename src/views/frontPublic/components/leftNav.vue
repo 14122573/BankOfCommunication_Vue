@@ -18,23 +18,18 @@ export default {
   data() {
     return {
       fromWhichRoute: [],
-      childroute: []
+      childroute    : []
     }
   },
   mounted() {
     this.getChildRoutes()
-  },
-  watch: {
-    'fromWhichRoute': function(newv, oldv) {
-      console.log(newv, oldv);
-    }
   },
   methods: {
     handleClick(data) {
       console.log(data)
     },
     getChildRoutes() {
-      let fromWhichRoute = this.fromWhichRoute;
+      let fromWhichRoute = this.fromWhichRoute
       let parentRoute = this.$route.matched[0].path
       // let currentRoute = this.$route.path
       let currentRoute = '/homepage/knowledgeService'
@@ -56,7 +51,6 @@ export default {
           }
         }
       }
-      console.log(fromWhichRoute)
       this.childroute = route4nav
     }
   }

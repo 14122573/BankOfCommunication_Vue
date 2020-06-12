@@ -35,6 +35,7 @@
             </a-row>
           </a-col>
         </a-row>
+        <a-row style="height: 20px"/>
         <a-row style="background-color: #FFF">
           <SearchResult :query="query"/>
         </a-row>
@@ -229,6 +230,5 @@ export default {
 
 .pageWrapper .content {
   background-color: #f1f5f8;
-  height: 500px;
 }
 </style>

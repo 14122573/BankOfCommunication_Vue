@@ -10,6 +10,7 @@
         :headStyle="{padding: '0', border: '0'}"
         :bodyStyle="{padding: '0'}"
       >
+        <a-icon type="minus" class="title_icon"/>
         <a class='more' slot="extra" @click="jumpToPage">更多 >></a>
         <div class="news_wrapper" v-for="(item, index) in news" :key="index">
           <a class="mouse_trigger">
@@ -176,5 +177,10 @@ export default {
 
 .card-wrapper .card {
   text-align: left;
+}
+
+.card-wrapper .title_icon {
+  color: #2a93f5;
+  font-size: 35px;
 }
 </style>

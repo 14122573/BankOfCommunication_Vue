@@ -10,6 +10,7 @@
         :headStyle="{ padding: '0', border: '0' }"
         :bodyStyle="{ padding: '0' }"
       >
+        <a-icon type="minus" class="title_icon"/>
         <a class="more" slot="extra" @click="jumpToPage(currentIndex)">更多 >></a>
         <a-tabs type="card" @change="callback" tabPosition="top" animated :activeKey="currentIndex">
           <a-tab-pane v-for="(item1, index1) in childroute" :key="index1" :tab="item1.meta.title">
@@ -46,7 +47,7 @@ export default {
       loading     : false,
       news        : [],
       currentIndex: 0,
-      childroute: [],
+      childroute  : [],
     }
   },
   mounted() {
@@ -55,8 +56,8 @@ export default {
   },
   methods: {
     callback(key) {
-      this.currentIndex = key;
-      console.log(key); 
+      this.currentIndex = key
+      console.log(key) 
     },
     getChildRoute() {
       let parentRoute = this.$route.matched[0].path
@@ -74,7 +75,7 @@ export default {
           }
         }
       }
-      console.log(JSON.stringify(route4nav));
+      console.log(JSON.stringify(route4nav))
       
       this.childroute = route4nav
     },
@@ -82,7 +83,7 @@ export default {
       this.loading = !this.loading
     },
     jumpToPage(index) {
-      let routeTo = this.childroute;
+      let routeTo = this.childroute
       this.$router.push({
         name: routeTo[index].name
       })
@@ -207,5 +208,10 @@ export default {
 
 .notification_banner {
   margin: 5px 0px;
+}
+
+.card-wrapper .title_icon {
+  color: #2a93f5;
+  font-size: 35px;
 }
 </style>
