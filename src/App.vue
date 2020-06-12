@@ -32,15 +32,15 @@ export default {
     ])
   },
   mounted() {
-    // /** 持久化存储vuex 使其页面刷新后数据不丢失 */
-    // //在页面加载时读取sessionStorage里的状态信息
-    // if (sessionStorage.getItem('VuexStore')) {
-    //   this.$store.replaceState(Object.assign({}, this.$store.state, JSON.parse(sessionStorage.getItem('VuexStore'))))
-    // }
-    // //在页面刷新时将vuex里的信息保存到sessionStorage里
-    // window.addEventListener('beforeunload', () => {
-    //   sessionStorage.setItem('VuexStore', JSON.stringify(this.$store.state))
-    // })
+    /** 持久化存储vuex 使其页面刷新后数据不丢失 */
+    //在页面加载时读取sessionStorage里的状态信息
+    if (sessionStorage.getItem('VuexStore')) {
+      this.$store.replaceState(Object.assign({}, this.$store.state, JSON.parse(sessionStorage.getItem('VuexStore'))))
+    }
+    //在页面刷新时将vuex里的信息保存到sessionStorage里
+    window.addEventListener('beforeunload', () => {
+      sessionStorage.setItem('VuexStore', JSON.stringify(this.$store.state))
+    })
 
     const addRoutes = (data) => {
       const { routes } = this.$router.options
@@ -55,11 +55,11 @@ export default {
     }
 
   },
-  beforeDestroy() {
-    window.removeEventListener('beforeunload', () => {
-      sessionStorage.setItem('VuexStore', JSON.stringify(this.$store.state))
-    })
-  },
+  // beforeDestroy() {
+  //   window.removeEventListener('beforeunload', () => {
+  //     sessionStorage.setItem('VuexStore', JSON.stringify(this.$store.state))
+  //   })
+  // },
   watch: {
     content(cur) {
       this.setContent(cur)
