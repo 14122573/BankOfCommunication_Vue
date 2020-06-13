@@ -1900,6 +1900,17 @@
           }
         },
         {
+          "path": "/xxyy/beautifulFish/projectListAdd",
+          "name": "/xxyy/beautifulFish/projectListAdd",
+          "meta": {
+            "title": "新增项目",
+            "menuPath": false,
+            "menuIcon": "appstore",
+            "hideInBread": false,
+            "openMode": "spa"
+          }
+        },
+        {
           "path": "/xxyy/beautifulFish/expertExtraction",
           "name": "/xxyy/beautifulFish/expertExtraction",
           "meta": {
@@ -1907,6 +1918,18 @@
             "menuPath": true,
             "menuIcon": "appstore",
             "authCode": "S030118",
+            "hideInBread": false,
+            "openMode": "spa"
+          }
+        },
+
+        {
+          "path": "/xxyy/beautifulFish/projectListSb",
+          "name": "/xxyy/beautifulFish/projectListSb",
+          "meta": {
+            "title": "中国最美渔村申报审批",
+            "menuPath": false,
+            "menuIcon": "appstore",
             "hideInBread": false,
             "openMode": "spa"
           }
