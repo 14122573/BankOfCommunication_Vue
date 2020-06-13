@@ -132,7 +132,7 @@ export default {
      *
      */
     navigateTo({ item, key }, menu) {
-      console.log(item, key, menu)
+      // console.log(item, key, menu)
       if(menu.meta){
         const openMode = menu.meta.openMode?menu.meta.openMode:'normal'
         switch (openMode) {

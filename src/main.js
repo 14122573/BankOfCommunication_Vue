@@ -7,6 +7,7 @@ import store from './store'
 import router from './router'
 import cookie from './util/local-cookie'
 import common from './util/common'
+import Axios from 'axios'
 import ajax from '@/server/ajax'
 import api from '@/server/api'
 import { registerMicroApps, start } from 'qiankun'
@@ -128,14 +129,13 @@ Vue.config.productionTip = false
 import RouterWapper from '@/components/Layout/content-wrapper'
 import DetailsItem from '@/components/detail/detailItem'
 import DetailsFile from '@/components/detail/detailFile'
+import GetRoutes from '@/router/getMicRouters'
 Vue.component('RouterWapper', RouterWapper)
 Vue.component('DetailsItem', DetailsItem)
 Vue.component('DetailsFile', DetailsFile)
 
 /* eslint-disable no-new */
 
-import Axios from 'axios'
-import TipsOutsite from '@/views/tips/outsite'
 let app = null
 const checkPrefix = prefix => {
   // 检查路径前缀
@@ -144,28 +144,7 @@ const checkPrefix = prefix => {
 const render = async ({ appContent, loading } = {}) => {
   // 渲染方法
   if (!app) {
-    // const MicRouters = require('@/router/micRouter.json')
-    let rv = Math.floor(Math.random() * Math.random() *10000)
-    let MicRouters = (
-      await Axios.get(api.CONFIGS_MICSYSTEMS_ROUTERS + '?v=' + rv)
-    ).data
-    let micSystemRoutersConfigs = Object.assign({}, MicRouters)
-
-    for (let key in micSystemRoutersConfigs) {
-      for (let i = 0; i < micSystemRoutersConfigs[key].length; i++) {
-        let firstRouter = Object.assign({}, micSystemRoutersConfigs[key][i])
-        if (
-          !!firstRouter.meta.openMode &&
-          firstRouter.meta.openMode == 'outsite'
-        ) {
-          firstRouter['component'] = TipsOutsite
-        }
-        const { routes } = router.options
-        const parent = routes.find(item => item.name === 'Layout')
-        parent.children.push(Object.assign({}, firstRouter))
-        router.addRoutes([ parent ])
-      }
-    }
+    GetRoutes(router)
 
     app = new Vue({
       el: '#portal',

@@ -97,9 +97,9 @@ const VeterinaryView = () => import('@/views/cms/dataService/view')
  */
 const appRoutes = [
   {
-    path     : '/',
+    path     : '*',
     name     : 'Layout',
-    redirect : '/login',
+    // redirect : '/login',
     component: main,
     children : [
       {

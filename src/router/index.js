@@ -14,11 +14,11 @@ const routers = new Router({
 })
 
 routers.beforeEach((to, from, next) => {
-  console.log('portal', JSON.parse(sessionStorage.getItem('VuexStore')))
+  // console.log('portal', JSON.parse(sessionStorage.getItem('VuexStore')))
   // TODO
   store.commit('setWebviewSrc', to.meta && to.meta.src) // 判断有src的话为需要嵌入iframe的子项目
   // store.commit('setWebviewSrc', to.meta && to.meta.src) // 判断有src的话为需要嵌入iframe的子项目
-  
+
   // 使刷新页面后侧边菜单可以记住上一次的展开、选中状态
   // if (to && to.name) {
   //   store.commit('SET_DEFAULTMENU_STATUS', {
