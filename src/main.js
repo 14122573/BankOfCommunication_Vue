@@ -144,8 +144,11 @@ const checkPrefix = prefix => {
 const render = async ({ appContent, loading } = {}) => {
   // 渲染方法
   if (!app) {
-    const MicRouters = require('@/router/micRouter.json')
-    // let MicRouters = (await Axios.get(api.CONFIGS_MICSYSTEMS_ROUTERS)).data
+    // const MicRouters = require('@/router/micRouter.json')
+    let rv = Math.floor(Math.random() * Math.random() *10000)
+    let MicRouters = (
+      await Axios.get(api.CONFIGS_MICSYSTEMS_ROUTERS + '?v=' + rv)
+    ).data
     let micSystemRoutersConfigs = Object.assign({}, MicRouters)
 
     for (let key in micSystemRoutersConfigs) {
