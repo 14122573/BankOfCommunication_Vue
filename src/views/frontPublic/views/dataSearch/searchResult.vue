@@ -316,9 +316,9 @@ export default {
       return {
         on: {
           mouseenter: (event) => {
-            console.log(event);
-            let chooseTool = event.srcElement.lastChild;
-            console.log(chooseTool);
+            console.log(event)
+            let chooseTool = event.srcElement.lastChild
+            console.log(chooseTool)
             
             return document.getElementsByClassName(chooseTool).style.backgroundColor = '#2a93f5'
             

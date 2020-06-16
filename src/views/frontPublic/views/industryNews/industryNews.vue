@@ -24,10 +24,12 @@ export default {
       columns: [
         {
           title    : '标题',
+          key      : 'title',
           dataIndex: 'title'
         },
         {
           title    : '日期',
+          key      : 'postDate',
           dataIndex: 'postDate'
         }
       ]

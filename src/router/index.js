@@ -25,6 +25,8 @@ router.beforeEach((to, from, next) => {
   //   })
   // }
 
+  console.log('去往: ' + to.path)
+
   const token = Cookie.get('token')
   const canEnterBind = Cookie.get('canEnterBind')
   // if(!token && to.name != 'login'){
