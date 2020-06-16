@@ -8,7 +8,7 @@
 		</template>
 		<template v-else>
 			<a-layout>
-				<a-layout-sider id="sideMenu" v-model="collapsed" breakpoint="lg">
+				<a-layout-sider id="portalSideMenu" v-model="collapsed" breakpoint="lg">
 					<div id="portalLogo">
 						<img class="logo-img" src="@/assets/images/logo.png" alt="logo" />
 						<span v-show="!collapsed" class="logo-name">智能渔技</span>
@@ -110,13 +110,13 @@ export default {
 
     /** 持久化存储vuex 使其页面刷新后数据不丢失 */
     //在页面加载时读取sessionStorage里的状态信息
-    if (sessionStorage.getItem('VuexStore')) {
-      this.$store.replaceState(Object.assign({}, this.$store.state, JSON.parse(sessionStorage.getItem('VuexStore'))))
-    }
-    //在页面刷新时将vuex里的信息保存到sessionStorage里
-    window.addEventListener('beforeunload', () => {
-      sessionStorage.setItem('VuexStore', JSON.stringify(this.$store.state))
-    })
+    // if (sessionStorage.getItem('VuexStore')) {
+    //   this.$store.replaceState(Object.assign({}, this.$store.state, JSON.parse(sessionStorage.getItem('VuexStore'))))
+    // }
+    // //在页面刷新时将vuex里的信息保存到sessionStorage里
+    // window.addEventListener('beforeunload', () => {
+    //   sessionStorage.setItem('VuexStore', JSON.stringify(this.$store.state))
+    // })
   },
   watch: {
     '$store.state.userInfos': {
@@ -138,7 +138,11 @@ export default {
       //   // 根据配置文件的子项目路由前缀自动识别state.showSpaContent应该是true还是false
       //   this.showSpaContent = MicConfigs.some(item => to.path.startsWith(item.pathPrefix))
       // }
-
+      if( to.meta.openMode && (to.meta.openMode=='spa') ){
+        const astore = JSON.parse(sessionStorage.getItem('VuexStore'))
+        if (astore) astore.content = ''
+        sessionStorage.setItem('VuexStore', JSON.stringify(astore))
+      }
       if (!to.name) {
         this.showPurePage = false
         return
@@ -272,21 +276,21 @@ export default {
 }
 </script>
 
-<style scoped>
-	#sideMenu {
+<style >
+	/* #portalSideMenu {
 		z-index: 1;
 		box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.5);
 	}
 
 	#portalHeader {
-		background: #fff;
+		background: #fff !important;
 		padding: 0;
 		box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.5);
 		z-index: 1;
 	}
 
 	#portalLogo {
-		display: flex;
+		display: flex !important;
 		align-items: center;
 		justify-content: center;
 		height: 64px;
@@ -334,11 +338,11 @@ export default {
 	#portalHeader .navTidings {
 		cursor: pointer;
 		margin-right: 30px;
-	}
+	} */
 </style>
 
 <style>
-	#portal,
+	/* #portal,
 	#Layout {
 		font-family: 'Avenir', Helvetica, Arial, sans-serif;
 		-webkit-font-smoothing: antialiased;
@@ -346,7 +350,6 @@ export default {
 		color: #2c3e50;
 		width: 100%;
 		height: 100%;
-		/* overflow: hidden; */
 	}
 
 	.layout-content {
@@ -357,5 +360,5 @@ export default {
 		height: 100%;
 	}
 	.layout-content #contentView { 	height: 100%; }
-	.layout-content #contentView>div { overflow-y: auto; height: 100%;}
+	.layout-content #contentView>div { overflow-y: auto; height: 100%;} */
 </style>

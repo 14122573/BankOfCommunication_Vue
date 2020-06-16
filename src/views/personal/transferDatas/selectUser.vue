@@ -165,7 +165,7 @@ export default {
       }
       let unInNum = 0
       this.needsAuthCodes.forEach(code => {
-        console.log(code, userCodesArray.includes(code))
+        // console.log(code, userCodesArray.includes(code))
         if(!userCodesArray.includes(code)){
           unInNum ++
         }

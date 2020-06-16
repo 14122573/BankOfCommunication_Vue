@@ -137,9 +137,9 @@ const VeterinaryView = () => import('@/views/cms/dataService/view')
  */
 const appRoutes = [
   {
-    path     : '/',
+    path     : '*',
     name     : 'Layout',
-    redirect : '/login',
+    // redirect : '/login',
     component: main,
     children : [
       {
@@ -485,13 +485,13 @@ const appRoutes = [
               menuIcon   : 'file-text',
               hideInBread: false,
             },
-            children   : [
+            children: [
               {
                 path     : '/cms/farmingtech/create',
                 name     : '/cms/farmingtech/create',
                 component: FarmingCreate,
                 meta     : {
-                  title      : '新建知识文献',
+                  title      : '新建养殖技术',
                   menuPath   : false,
                   authCode   : 'P32001',
                   menuIcon   : 'file-text',
@@ -503,7 +503,7 @@ const appRoutes = [
                 name     : '/cms/farmingtech/edit',
                 component: KnowledgeEdit,
                 meta     : {
-                  title      : '修改知识文献',
+                  title      : '修改养殖技术',
                   menuPath   : false,
                   authCode   : 'P32001',
                   menuIcon   : 'file-text',
@@ -515,7 +515,7 @@ const appRoutes = [
                 name     : '/cms/farmingtech/details',
                 component: KnowledgeDetail,
                 meta     : {
-                  title      : '查看知识文献详情',
+                  title      : '查看养殖技术详情',
                   menuPath   : false,
                   authCode   : 'P33003',
                   menuIcon   : 'file-text',

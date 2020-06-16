@@ -104,9 +104,9 @@ export default {
           'rowspacingtop', 'rowspacingbottom', 'lineheight', '|',
           'customstyle', 'paragraph', 'fontfamily', 'fontsize', '|',
           'directionalityltr', 'directionalityrtl', 'indent', '|', 'imagenone', 'imageleft', 'imageright', 'imagecenter', '|',
-          'simpleupload', 'insertimage', 'attachment', 'insertvideo', '|',
+          'simpleupload', 'insertimage', 'insertvideo', '|',
           'justifyleft', 'justifycenter', 'justifyright', 'justifyjustify', '|', 'touppercase', 'tolowercase', '|',
-          'link', 'unlink',
+          'link', 'unlink', 'inserttable', 'map',
         ] ],
         zIndex            : 1,
         autoHeightEnabled : false, // {Boolean} [默认值：true] 编辑器不自动被内容撑高
@@ -154,7 +154,7 @@ export default {
         videoUrlList: [ '' ]
       },
       dateFormat: 'YYYY/MM/DD',
-      rules: {
+      rules     : {
         title: [
           { required: true, whitespace: true, message: '请输入知识文献标题!' },
         ],
@@ -178,7 +178,7 @@ export default {
           { validator: validateVideoPath }
         ],
       },
-      postPerson: '',
+      postPerson    : '',
       uploadFileList: [],
       uploadConfig  : {
         maxSize         : 10*1024*1024,
@@ -222,10 +222,10 @@ export default {
     },
     getUserInfo() {
       this.$ajax.get({
-        url   : this.$api.GET_USER_INFO,
+        url: this.$api.GET_USER_INFO,
       }).then(res => {
-        let content = res.data.content;
-        this.postPerson =  content.name;
+        let content = res.data.content
+        this.postPerson =  content.name
       })
     },
 
@@ -308,22 +308,26 @@ export default {
 
           const postParams = Object.assign({}, this.formData, {
             'title'      : this.knowledgeCreateForm.getFieldValue('title'),
-            'author'     : this.knowledgeCreateForm.getFieldValue('author'),
-            'years'      : this.knowledgeCreateForm.getFieldValue('years'),
-            'status'     : type=='save'?'0':'1',
-            'attachments': this.arrangeFileList()
+            'source'     : this.knowledgeCreateForm.getFieldValue('source'),
+            'section'      : this.knowledgeCreateForm.getFieldValue('section'),
+            'postDate'      : this.knowledgeCreateForm.getFieldValue('postDate'),
+            'keywords'      : this.knowledgeCreateForm.getFieldValue('keywords'),
+            'postMan'      : this.knowledgeCreateForm.getFieldValue('postMan'),
+            'attachment': this.arrangeFileList()
           })
+          console.log(postParams);
+          
           delete postParams.videoUrlList
 
-          this.$ajax.post({
-            url   : this.$api.POST_CMS_KNOWLEDGE,
-            params: postParams
-          }).then(res => {
-            if (res.code === '200') {
-              this.$message.success(type=='save'?'暂存成功':'保存并发布成功')
-              this.$router.push({ name: '/cms/knowledge' })
-            }
-          })
+          // this.$ajax.post({
+          //   url   : this.$api.POST_CMS_KNOWLEDGE,
+          //   params: postParams
+          // }).then(res => {
+          //   if (res.code === '200') {
+          //     this.$message.success(type=='save'?'暂存成功':'保存并发布成功')
+          //     this.$router.push({ name: '/cms/knowledge' })
+          //   }
+          // })
         }else{
           this.$com.getFormValidErrTips(this, err)
         }

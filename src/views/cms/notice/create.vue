@@ -56,7 +56,7 @@
           <div class="layoutMargin detailsPartSection">
             <p class="detailsPartTitle">正文内容</p>
             <div style="margin:0 16px;">
-              <UeditorCompent style='width:80%' @ready="editorReady" ref="ue"  ></UeditorCompent>
+              <UeditorCompent ref="ue" :value="formData.content" ></UeditorCompent> 
             </div>
           </div>
         </a-form>
@@ -67,11 +67,11 @@
 </template>
 <script>
 import UeditorCompent from '@/components/theThreeParty/ueditor'
-import FileUpload from '@/components/Upload/fileUpload'
+import FileUpload from '@/components/Upload/fileUpload' 
 export default {
   components: { UeditorCompent, FileUpload },
   data() {
-    return {
+    return { 
       timeFormat      : 'YYYY-MM-DD HH:mm:ss',
       noticeCreateForm: this.$form.createForm(this),
       createFormOption: {
@@ -131,19 +131,7 @@ export default {
     onPlacmentChange(e){
       this.formData.isTop = e.target.value
     },
-
-    /**
-     * 监听UEditor内容变更，并存储
-     * @param {Object} instance
-     */
-    editorReady(instance) {
-      instance.setContent(this.formData.content)
-      instance.addListener('contentChange', () => {
-        this.formData.content = instance.getContent()
-        // console.log('editorReady',this.formData.content )
-      })
-    },
-
+ 
     /**
      * 监听表单’文献PDF附件‘上传变动，并暂存
      * @param {Array} filelist 最新变动已上传的文件对象列表
@@ -185,6 +173,7 @@ export default {
             this.formData.endTime = this.defaultEffectTime.endTime
           }
           //检查生效截止时间设置，并存储或提示
+          this.formData.content = this.$refs.ue.value2
           if(this.formData.content.length<1){
             this.$com.getFormValidErrTips(this, err, '请填写通知公告正文内容！')
             return

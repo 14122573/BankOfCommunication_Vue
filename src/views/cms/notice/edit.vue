@@ -55,8 +55,8 @@
         </a-form>
         <div class="layoutMargin detailsPartSection">
           <p class="detailsPartTitle">正文内容</p>
-          <div style="margin:0 16px;">
-            <UeditorCompent @ready="editorReady" ref="ue" :value="formData.defaultContent" ></UeditorCompent>
+          <div style="margin:0 16px;"> 
+            <UeditorCompent ref="ue" :value="formData.content" ></UeditorCompent>
           </div>
         </div>
       </div>
@@ -66,7 +66,7 @@
 </template>
 <script>
 import UeditorCompent from '@/components/theThreeParty/ueditor.vue'
-import FileUpload from '@/components/Upload/fileUpload'
+import FileUpload from '@/components/Upload/fileUpload' 
 export default {
   components: { UeditorCompent, FileUpload },
   data() {
@@ -90,7 +90,7 @@ export default {
         isTop          : '0',
         openEffectStart: false,
         openEffectEnd  : false,
-        defaultContent : 'qwerqwreq',
+        // defaultContent : 'qwerqwreq',
         content        : ''
       },
       defaultEffectTime: {
@@ -124,7 +124,8 @@ export default {
       }).then(res => {
         if(res.code =='200'){
           this.noticeDetail = this.$com.confirm(res, 'data.content', {})
-          this.formData.defaultContent = this.noticeDetail.content
+          // this.formData.defaultContent = this.noticeDetail.content
+          this.formData.content = !this.noticeDetail.content?'':this.noticeDetail.content
           this.formData.isTop = this.noticeDetail.isTop
           this.formData.openEffectStart = this.$com.oneOf(this.noticeDetail.startTime, [ '', this.defaultEffectTime.startTime ])?false:true
           this.formData.openEffectEnd = this.$com.oneOf(this.noticeDetail.endTime, [ '', this.defaultEffectTime.endTime ])?false:true
@@ -199,18 +200,7 @@ export default {
       // console.log(this.uploadFileList)
 
     },
-
-    /**
-     * 监听UEditor内容变更，并存储
-     * @param {Object} instance
-     */
-    editorReady(instance) {
-      instance.setContent(this.formData.content)
-      instance.addListener('contentChange', () => {
-        this.formData.content = instance.getContent()
-        // console.log('editorReady',this.formData.content )
-      })
-    },
+    
     arrangeFileList(){
       const { used } = this.uploadFileList
       if (!used || used.length <= 0) return []
@@ -261,12 +251,14 @@ export default {
             }
           }else{
             this.formData.endTime = this.defaultEffectTime.endTime
-          }
+          } 
+          this.formData.content = this.$refs.ue.value2
           //检查生效截止时间设置，并存储或提示
           if(this.formData.content.length<1){
             this.$com.getFormValidErrTips(this, err, '请填写通知公告正文内容！')
             return
           }
+          
           const postParams = Object.assign({}, this.formData, {
             'title'      : this.noticeEditForm.getFieldValue('title'),
             'isVote'     : '0', // 默认创建的为非投票结果文章
@@ -276,8 +268,7 @@ export default {
 
           delete postParams.openEffectStart
           delete postParams.openEffectEnd
-          delete postParams.defaultContent
-
+          
           this.$ajax.put({
             url   : this.$api.PUT_CMS_NOTICE_DETAIL.replace('{id}', this.id),
             params: postParams

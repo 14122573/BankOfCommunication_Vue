@@ -132,7 +132,7 @@ export default {
      *
      */
     navigateTo({ item, key }, menu) {
-      console.log(item, key, menu)
+      // console.log(item, key, menu)
       if(menu.meta){
         const openMode = menu.meta.openMode?menu.meta.openMode:'normal'
         switch (openMode) {
@@ -154,10 +154,6 @@ export default {
           }
           break
         case 'normal':
-          const store = JSON.parse(sessionStorage.getItem('VuexStore'))
-          if (store) store.content = ''
-          sessionStorage.setItem('VuexStore', JSON.stringify(store))
-
           this.$router.push({ name: menu.name })
           break
         case 'spa':

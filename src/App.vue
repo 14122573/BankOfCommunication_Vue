@@ -32,8 +32,8 @@ export default {
     ])
   },
   mounted() {
-    // /** 持久化存储vuex 使其页面刷新后数据不丢失 */
-    // //在页面加载时读取sessionStorage里的状态信息
+    /** 持久化存储vuex 使其页面刷新后数据不丢失 */
+    //在页面加载时读取sessionStorage里的状态信息
     // if (sessionStorage.getItem('VuexStore')) {
     //   this.$store.replaceState(Object.assign({}, this.$store.state, JSON.parse(sessionStorage.getItem('VuexStore'))))
     // }
@@ -42,24 +42,24 @@ export default {
     //   sessionStorage.setItem('VuexStore', JSON.stringify(this.$store.state))
     // })
 
-    const addRoutes = (data) => {
-      const { routes } = this.$router.options
-      const parent = routes.find(item => item.name === 'Layout')
-      parent.children.push(...data)
-      this.$router.addRoutes([ parent ])
-    }
+    // const addRoutes = (data) => {
+    //   const { routes } = this.$router.options
+    //   const parent = routes.find(item => item.name === 'Layout')
+    //   parent.children.push(...data)
+    //   this.$router.addRoutes([ parent ])
+    // }
 
-    if(this.$store.state.routes.length > 0) {
-      addRoutes(this.$store.state.routes)
-      return
-    }
+    // if(this.$store.state.routes.length > 0) {
+    //   addRoutes(this.$store.state.routes)
+    //   return
+    // }
 
   },
-  beforeDestroy() {
-    window.removeEventListener('beforeunload', () => {
-      sessionStorage.setItem('VuexStore', JSON.stringify(this.$store.state))
-    })
-  },
+  // beforeDestroy() {
+  //   window.removeEventListener('beforeunload', () => {
+  //     sessionStorage.setItem('VuexStore', JSON.stringify(this.$store.state))
+  //   })
+  // },
   watch: {
     content(cur) {
       this.setContent(cur)

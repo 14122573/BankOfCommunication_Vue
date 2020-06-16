@@ -123,3 +123,88 @@
 .portalRoleConfigTree .ant-tree-child-tree{ display: flex; flex-wrap: wrap; }
 /* .portalRoleTree.ant-tree>li>.ant-tree-node-content-wrapper, */
 .portalRoleConfigTree.ant-tree>li>.ant-tree-node-content-wrapper{ font-weight: bold }
+
+
+
+	#portalSideMenu {
+		z-index: 1;
+		box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.5);
+	}
+
+	#portalHeader {
+		background: #fff !important;
+		padding: 0;
+		box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.5);
+		z-index: 1;
+	}
+
+	#portalLogo {
+		display: flex !important;
+		align-items: center;
+		justify-content: center;
+		height: 64px;
+		background: #00284e;
+		width: 100%;
+	}
+
+	#portalLogo .logo-img {
+		width: 40px;
+		height: 40px;
+	}
+
+	#portalLogo .logo-name {
+		color: #fff;
+		font-size: 20px;
+		margin-left: 10px;
+	}
+
+	#portalHeader {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		padding: 0 2rem;
+	}
+
+	#portalHeader>div {
+		display: flex;
+		align-items: center;
+	}
+
+	#portalHeader .trigger {
+		font-size: 18px;
+		cursor: pointer;
+		margin-right: 20px;
+	}
+
+	#portalHeader .navdropmenu {
+		cursor: pointer;
+	}
+
+	#portalHeader .navdropmenu .name {
+		padding: 0 5px
+	}
+
+	#portalHeader .navTidings {
+		cursor: pointer;
+		margin-right: 30px;
+	}
+	#portal,
+	#Layout {
+		font-family: 'Avenir', Helvetica, Arial, sans-serif;
+		-webkit-font-smoothing: antialiased;
+		-moz-osx-font-smoothing: grayscale;
+		color: #2c3e50;
+		width: 100%;
+		height: 100%;
+		/* overflow: hidden; */
+	}
+
+	.layout-content {
+		overflow-y: auto;
+		padding: 0 0 14px 0;
+		background-position: 95% 10%;
+		background-size: 20%;
+		height: 100%;
+	}
+	.layout-content #contentView { 	height: 100%; }
+	.layout-content #contentView>div { overflow-y: auto; height: 100%;}

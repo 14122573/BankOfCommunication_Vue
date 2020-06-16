@@ -85,6 +85,7 @@ export default {
   data() {
     return {
       isReady         : false,
+      noticeSearchForm: this.$form.createForm(this),//表单验证,
       simpleSearchForm: true, // 展示、收取简单搜索开关，true为简单搜索
       searchFormOption: {
         status: [ {
