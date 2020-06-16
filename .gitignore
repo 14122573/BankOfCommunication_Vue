@@ -1,12 +1,19 @@
 .DS_Store
+.idea
+.idea/
+.DS_Store
+node_modules
 node_modules/
-/dist/
-npm-debug.log*
+.project
+dist
+dist/*
+npm-debug.log
+package_back.json
 yarn-debug.log*
 yarn-error.log*
+package-lock.json*
 
 # Editor directories and files
-.idea
 .vscode
 *.suo
 *.ntvs*
