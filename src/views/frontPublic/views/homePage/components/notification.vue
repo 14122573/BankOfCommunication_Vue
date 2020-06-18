@@ -12,46 +12,49 @@
       >
         <a-icon type="minus" class="title_icon"/>
         <a class="more" slot="extra" @click="jumpToPage">更多 >></a>
-        <div class="notification_banner">
-          <img
-            src="@/assets/images/home/sygg_tp.jpg"
-            alt=""
-            srcset=""
-            width="100%"
-          />
-        </div>
-        <div class="noti-list" v-for="(item, index) in news" :key="index">
-          <a class="mouse_trigger">
-            <div class="noti_detail" v-if="item.sort == '01'">
-              <a-row type="flex" justify="center">
-                <a-col class="news_title" :span="19">{{ item.title }}</a-col>
-                <a-col class="news_date" :span="5">{{ item.postDate }}</a-col>
-              </a-row>
-              <a-row>
-                <a-col class="news_content" :span="24">{{
-                  item.content
-                }}</a-col>
-              </a-row>
-            </div>
-            <div class="noti_oneline" v-else>
-              <a-row
-                type="flex"
-                justify="center"
-                style="margin: 20px 0px"
-              >
-                <a-col :span="2">
-                  <img
-                    src="@/assets/images/home/bt_icon.png"
-                    alt=""
-                    srcset=""
-                    width="50%"
-                  />
-                </a-col>
-                <a-col class="news_title" :span="18">{{ item.title }}</a-col>
-                <a-col class="news_date" :span="4">{{ item.postDate }}</a-col>
-              </a-row>
-            </div>
-          </a>
+        <div class="content_wrapper">
+          <div class="notification_banner">
+            <img
+              src="@/assets/images/home/sygg_tp.jpg"
+              alt=""
+              srcset=""
+              height="80px"
+              width="100%"
+            />
+          </div>
+          <div class="noti-list" v-for="(item, index) in news" :key="index">
+            <a class="mouse_trigger">
+              <div class="noti_detail" v-if="item.sort == '01'">
+                <a-row type="flex" justify="center">
+                  <a-col class="news_title" :span="19">{{ item.title }}</a-col>
+                  <a-col class="news_date" :span="5">{{ item.postDate }}</a-col>
+                </a-row>
+                <a-row>
+                  <a-col class="news_content" :span="24">{{
+                    item.content
+                  }}</a-col>
+                </a-row>
+              </div>
+              <div class="noti_oneline" v-else>
+                <a-row
+                  type="flex"
+                  justify="center"
+                  style="margin: 10px 0px"
+                >
+                  <a-col :span="2">
+                    <img
+                      src="@/assets/images/home/bt_icon.png"
+                      alt=""
+                      srcset=""
+                      width="50%"
+                    />
+                  </a-col>
+                  <a-col class="news_title" :span="18">{{ item.title }}</a-col>
+                  <a-col class="news_date" :span="4">{{ item.postDate }}</a-col>
+                </a-row>
+              </div>
+            </a>
+          </div>
         </div>
       </a-card>
     </div>
@@ -151,6 +154,7 @@ export default {
 }
 
 .card-wrapper .noti_detail {
+  height: 100px;
   margin: 20px 0px;
 }
 
@@ -161,6 +165,7 @@ export default {
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
+  height: 20px;
 }
 
 .card-wrapper .news_date {
@@ -202,5 +207,13 @@ export default {
 
 .notification_banner {
   margin: 5px 0px
+}
+
+.content_wrapper {
+  height: 400px;
+}
+
+.noti_oneline {
+  height: 28px;
 }
 </style>

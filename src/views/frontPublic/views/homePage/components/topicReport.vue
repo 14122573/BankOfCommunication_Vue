@@ -7,25 +7,25 @@
         title="专题报告"
         :bordered="false"
         size="small"
-        :headStyle="{padding: '0', border: '0'}"
+        :headStyle="{ padding: '0', border: '0' }"
         :bodyStyle="{ padding: '0' }"
       >
-        <a-icon type="minus" class="title_icon"/>
+        <a-icon type="minus" class="title_icon" />
         <a class="more" slot="extra" @click="jumpToPage">更多 >></a>
-        <a-row>&nbsp;</a-row>
-        <div class="noti-list" v-for="(item, index) in news" :key="index">
-          <a class="mouse_trigger">
-            <div class="noti_oneline">
-              <a-row
-                type="flex"
-                justify="center"
-                style="margin: 20px 0px"
-              >
-                <a-col class="news_title" :span="12">{{ item.title }}</a-col>
-                <a-col class="news_date" :span="12">{{ item.postDate }}</a-col>
-              </a-row>
-            </div>
-          </a>
+        <div class="content_wrapper">
+          <a-row>&nbsp;</a-row>
+          <div class="noti-list" v-for="(item, index) in news" :key="index">
+            <a class="mouse_trigger">
+              <div class="noti_oneline">
+                <a-row type="flex" justify="center" style="margin: 20px 0px">
+                  <a-col class="news_title" :span="12">{{ item.title }}</a-col>
+                  <a-col class="news_date" :span="12">{{
+                    item.postDate
+                  }}</a-col>
+                </a-row>
+              </div>
+            </a>
+          </div>
         </div>
       </a-card>
     </div>
@@ -153,7 +153,7 @@ export default {
 }
 
 .card-wrapper {
-  height: 350px;
+  height: 400px;
   /* overflow: scroll; */
   overflow: hidden;
   margin: 30px 50px 30px 50px;
@@ -164,12 +164,20 @@ export default {
 }
 
 .notification_banner {
-  margin: 5px 0px
+  margin: 5px 0px;
 }
 
 .card-wrapper .title_icon {
   color: #2a93f5;
   font-size: 35px;
+}
+
+.content_wrapper {
+  height: 300px;
+}
+
+.noti_oneline {
+  height: 20px;
 }
 </style>
 

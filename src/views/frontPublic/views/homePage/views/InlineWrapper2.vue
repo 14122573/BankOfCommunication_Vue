@@ -22,3 +22,9 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+.InlineWrapper {
+  height: 550px;
+}
+</style>

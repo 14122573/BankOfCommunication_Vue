@@ -194,7 +194,7 @@ export default {
     bannerDetail(value) {
       this.$router.push(
         {
-          name : '/cms/homepageInfoMaintain/bannerDetail',
+          name  : '/cms/homepageInfoMaintain/bannerDetail',
           params: {
             id: value.id
           }

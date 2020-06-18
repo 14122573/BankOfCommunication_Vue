@@ -10,29 +10,49 @@
         :headStyle="{ padding: '0', border: '0' }"
         :bodyStyle="{ padding: '0' }"
       >
-        <a-icon type="minus" class="title_icon"/>
-        <a class="more" slot="extra" @click="jumpToPage(currentIndex)">更多 >></a>
-        <a-tabs type="card" @change="callback" tabPosition="top" animated :activeKey="currentIndex">
-          <a-tab-pane v-for="(item1, index1) in childroute" :key="index1" :tab="item1.meta.title">
-            <div class="noti-list" v-for="(item, index) in news" :key="index">
-              <a class="mouse_trigger">
-                <div class="noti_oneline">
-                  <a-row type="flex" justify="center" style="margin: 20px 0px">
-                    <a-col :span="2">
-                      <img
-                        src="@/assets/images/home/bt_icon.png"
-                        alt=""
-                        srcset=""
-                        width="50%"
-                      />
-                    </a-col>
-                    <a-col class="news_title" :span="18">{{ item.title
-                    }}</a-col>
-                    <a-col class="news_date" :span="4">{{ item.postDate
-                    }}</a-col>
-                  </a-row>
-                </div>
-              </a>
+        <a-icon type="minus" class="title_icon" />
+        <a class="more" slot="extra" @click="jumpToPage(currentIndex)"
+          >更多 >></a
+        >
+        <a-tabs
+          type="card"
+          @change="callback"
+          tabPosition="top"
+          animated
+          :activeKey="currentIndex"
+        >
+          <a-tab-pane
+            v-for="(item1, index1) in childroute"
+            :key="index1"
+            :tab="item1.meta.title"
+          >
+            <div class="content_wrapper">
+              <div class="noti-list" v-for="(item, index) in news" :key="index">
+                <a class="mouse_trigger">
+                  <div class="noti_oneline">
+                    <a-row
+                      type="flex"
+                      justify="center"
+                      style="margin: 10px 0px"
+                    >
+                      <a-col :span="2">
+                        <img
+                          src="@/assets/images/home/bt_icon.png"
+                          alt=""
+                          srcset=""
+                          width="50%"
+                        />
+                      </a-col>
+                      <a-col class="news_title" :span="18">{{
+                        item.title
+                      }}</a-col>
+                      <a-col class="news_date" :span="4">{{
+                        item.postDate
+                      }}</a-col>
+                    </a-row>
+                  </div>
+                </a>
+              </div>
             </div>
           </a-tab-pane>
         </a-tabs>
@@ -47,7 +67,7 @@ export default {
       loading     : false,
       news        : [],
       currentIndex: 0,
-      childroute  : [],
+      childroute  : []
     }
   },
   mounted() {
@@ -57,7 +77,7 @@ export default {
   methods: {
     callback(key) {
       this.currentIndex = key
-      console.log(key) 
+      console.log(key)
     },
     getChildRoute() {
       let parentRoute = this.$route.matched[0].path
@@ -76,7 +96,7 @@ export default {
         }
       }
       console.log(JSON.stringify(route4nav))
-      
+
       this.childroute = route4nav
     },
     handleClick() {
@@ -196,7 +216,7 @@ export default {
 }
 
 .card-wrapper {
-  height: 350px;
+  height: 400px;
   /* overflow: scroll; */
   overflow: hidden;
   margin: 30px 50px 30px 50px;
@@ -213,5 +233,13 @@ export default {
 .card-wrapper .title_icon {
   color: #2a93f5;
   font-size: 35px;
+}
+
+.content_wrapper {
+  height: 300px;
+}
+
+.noti_oneline {
+  height: 30px;
 }
 </style>

@@ -12,26 +12,28 @@
       >
         <a-icon type="minus" class="title_icon"/>
         <a class='more' slot="extra" @click="jumpToPage">更多 >></a>
-        <div class="news_wrapper" v-for="(item, index) in news" :key="index">
-          <a class="mouse_trigger">
-            <a-card class="news_wrapper_inside" :bordered=false :bodyStyle="{padding: '0'}">
-            <a-row type="flex" justify="center" style="margin: 20px 10px">
-              <a-col class="news_sort" :span="2">{{item.sort}}</a-col>
-              <a-col :span="1">
-                <a-divider style="height: 5em" type="vertical"></a-divider>
-              </a-col>
-              <a-col :span="21">
-                <a-row type="flex" justify="space-around">
-                  <a-col class="news_title" :span='16'>{{item.title}}</a-col>
-                  <a-col class="news_date" :span='8'>{{item.postDate}}</a-col>
-                </a-row>
-                <a-row>
-                  <a-col class="news_content" :span="24">{{item.content}}</a-col>
-                </a-row>
-              </a-col>
-            </a-row>
-          </a-card>
-          </a>
+        <div class="content_wrapper">
+          <div class="news_wrapper" v-for="(item, index) in news" :key="index">
+            <a class="mouse_trigger">
+              <a-card class="news_wrapper_inside" :bordered=false :bodyStyle="{padding: '0'}">
+              <a-row type="flex" justify="center" style="margin: 20px 10px">
+                <a-col class="news_sort" :span="2">{{item.sort}}</a-col>
+                <a-col :span="1">
+                  <a-divider style="height: 5em" type="vertical"></a-divider>
+                </a-col>
+                <a-col :span="21">
+                  <a-row type="flex" justify="space-around">
+                    <a-col class="news_title" :span='16'>{{item.title}}</a-col>
+                    <a-col class="news_date" :span='8'>{{item.postDate}}</a-col>
+                  </a-row>
+                  <a-row>
+                    <a-col class="news_content" :span="24">{{item.content}}</a-col>
+                  </a-row>
+                </a-col>
+              </a-row>
+            </a-card>
+            </a>
+          </div>
         </div>
       </a-card>
     </div>
@@ -182,5 +184,13 @@ export default {
 .card-wrapper .title_icon {
   color: #2a93f5;
   font-size: 35px;
+}
+
+.content_wrapper {
+  height: 400px;
+}
+
+.content_wrapper .news_wrapper_inside {
+  height: 105px;
 }
 </style>
