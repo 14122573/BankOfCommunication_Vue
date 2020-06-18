@@ -170,18 +170,20 @@ export default {
 
 .card-wrapper .news_date {
   font-size: 12px;
+  height: 20px;
   text-align: right;
   color: #515151;
 }
 
 .card-wrapper .news_content {
   color: #666666;
-  height: 50px;
+  height: 60px;
+  line-height: 20px;
   margin: 10px 0px;
-  overflow: hidden;
   display: -webkit-box;
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 3;
+  overflow: hidden;
 }
 
 .card-wrapper .more {
