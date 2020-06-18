@@ -49,7 +49,7 @@
 
 <script>
 export default {
-  name:"banner-manage",
+  name: 'banner-manage',
   mounted() {
     if(this.$route.name == '/cms/homepageInfoMaintain') {
       this.getList()
@@ -61,7 +61,7 @@ export default {
         title: ''
       },
       modifyVisible: false,
-      pagination: {
+      pagination   : {
         pageNo         : 1,
         pageSize       : 10,
         total          : 0,
@@ -70,12 +70,12 @@ export default {
         showQuickJumper: true,
         onChange       : this.onChange
       },
-      data   : [],
-      resetData: this.$form.createForm(this),
+      data         : [],
+      resetData    : this.$form.createForm(this),
       modifySection: [ {
-        idToIdentify: null,
+        idToIdentify : null,
         renameSection: null,
-      }],
+      } ],
       columns: [
         {
           title    : '轮播图名称',
@@ -93,10 +93,10 @@ export default {
           key      : 'operator'
         },
         {
-          title: "操作",
-          dataIndex: 'action',
-          key:'action',
-          width: 200,
+          title      : '操作',
+          dataIndex  : 'action',
+          key        : 'action',
+          width      : 200,
           scopedSlots: {
             customRender: 'action'
           }
@@ -107,7 +107,7 @@ export default {
   methods: {
     modifyInfo(item) { 
       this.modifySection.idToIdentify = item.id
-      this.modifyVisible = true;
+      this.modifyVisible = true
     },
     getSearchParams(){
       if(!!searchParams.params){
@@ -151,7 +151,7 @@ export default {
       this.resetData.validateFields(err => {
         if (!err) {
           this.$ajax.put({
-            url   : "http://yapi.omniview.pro/mock/267/service-release/titleManage/" + this.modifySection.idToIdentify,
+            url   : 'http://yapi.omniview.pro/mock/267/service-release/titleManage/' + this.modifySection.idToIdentify,
             params: {
               titleName: this.resetData.getFieldValue('newSectionName')
             }
@@ -168,7 +168,7 @@ export default {
       })
     },
     handleCancel() {
-      this.modifyVisible = false;
+      this.modifyVisible = false
     },
     search() {
       this.pagination.pageNo = 1
@@ -176,7 +176,7 @@ export default {
       this.getList()
     },
     addBanner() {
-      console.log("clicked");
+      console.log('clicked')
       this.$router.push(
         {
           name: '/cms/homepageInfoMaintain/addBanner'
@@ -184,7 +184,7 @@ export default {
       )
     },
     bannerSort() {
-      console.log("clicked");
+      console.log('clicked')
       this.$router.push(
         {
           name: '/cms/homepageInfoMaintain/bannerSort'
@@ -194,7 +194,7 @@ export default {
     bannerDetail(value) {
       this.$router.push(
         {
-          name: '/cms/homepageInfoMaintain/bannerDetail',
+          name : '/cms/homepageInfoMaintain/bannerDetail',
           query: {
             id: value.id
           }

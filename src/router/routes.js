@@ -49,7 +49,6 @@ const NewUserView = () =>
 // 专家管理人员
 const LibraryEdit = () =>
   import('@/views/expertManagement/components/libraryEdit') // 人才库、专家库、专家个人信息的新增及修改共用组件
-const demo = () => import('@/views/demo/use-ueditor')
 const ExtractExample = () => import('@/components/ActiveExtract/example')
 // 内容管理-知识文库
 const KnowledgeList = () => import('@/views/cms/knowledge/list')
@@ -156,12 +155,6 @@ const appRoutes = [
         name     : 'home',
         component: HomePage,
         meta     : { title: '首页' }
-      },
-      {
-        path     : '/demo',
-        name     : 'demo',
-        component: demo,
-        meta     : { title: 'demo' }
       },
       {
         path     : '/home/homeVeterinaryList',
