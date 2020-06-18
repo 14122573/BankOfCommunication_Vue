@@ -308,7 +308,7 @@ export default {
 .reviewInHomeTitle .more{ cursor: pointer; color: #1890ff}
 .contentOperate{ color:#1890ff; cursor: pointer;display: inline-block; }
 </style>
-<style lang="stylus">
+<style lang="stylus" scoped>
 .reviewInHomeTitle .title
   $titleFontSize()
 .reviewSection 
