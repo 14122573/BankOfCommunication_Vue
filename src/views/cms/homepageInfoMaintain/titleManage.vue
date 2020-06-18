@@ -1,0 +1,148 @@
+<template>
+	<div class="old-user">
+    <p class="gayLine noline "></p>
+		<a-table class="portalTable" size='small' :columns="columns" :pagination="pagination" rowKey="id" :dataSource="data">
+      <span slot="action" slot-scope="text, record">
+				<span class="actionBtn" @click="modifyInfo(record)">修改</span>
+			</span>
+    </a-table>
+
+    <a-modal :maskClosable="false" cancelText="取消" okText="确认" @ok="handleResetOk" @cancel="handleCancel" :width="465"
+		 title="修改栏目" :visible="modifyVisible">
+			<a-form :form="resetData">
+				<a-row>
+					<a-col span="24">
+						<a-form-item label="栏目名称" :label-col="{span:6}" :wrapper-col="{span:16}">
+							<a-input type="text" placeholder="请输入新的栏目名称" autocomplete="off" v-decorator="['newSectionName',
+                    { validateTrigger:'blur',rules: [{ required: true, message:'请输入新的栏目名称'}] }
+                  ]">
+							</a-input>
+						</a-form-item>
+					</a-col>
+				</a-row>
+			</a-form>
+		</a-modal>
+  </div>
+</template>
+
+<script>
+export default {
+  name: 'title-manage',
+  mounted() {
+    if(this.$route.name == '/cms/homepageInfoMaintain') {
+      this.getList()
+    }
+  },
+  data() {
+    return {
+      searchForm: {
+        title: ''
+      },
+      modifyVisible: false,
+      pagination   : {
+        pageNo         : 1,
+        pageSize       : 10,
+        total          : 0,
+        current        : 1,
+        defaultCurrent : 1,
+        showQuickJumper: true,
+        onChange       : this.onChange
+      },
+      data         : [],
+      resetData    : this.$form.createForm(this),
+      modifySection: [ {
+        idToIdentify : null,
+        renameSection: null,
+      } ],
+      columns: [
+        {
+          title    : '已关联模块',
+          dataIndex: 'id',
+          key      : 'id'
+        },
+        {
+          title    : '栏目名称',
+          dataIndex: 'titleName',
+          key      : 'titleName'
+        },
+        {
+          title      : '操作',
+          dataIndex  : 'action',
+          key        : 'action',
+          width      : 200,
+          scopedSlots: {
+            customRender: 'action'
+          }
+        }
+      ]
+    }
+  },
+  methods: {
+    modifyInfo(item) { 
+      this.modifySection.idToIdentify = item.id
+      this.modifyVisible = true
+    },
+    getSearchParams(){
+      if(!!searchParams.params){
+        Object.keys(searchParams.params).forEach(elem => {
+          this.searchForm[elem] = searchParams.params[elem]
+        })
+      }
+      if(!!searchParams.pagination){
+        if(!!searchParams.pagination.pageNo && searchParams.pagination.pageNo!=1){
+          this.pagination.pageNo = searchParams.pagination.pageNo
+        }
+      }
+      this.getList()
+    },
+    onChange(current) {
+      this.pagination.pageNo = current
+      this.pagination.current = current
+      this.getList()
+    },
+    getList() {
+      const searchParams = JSON.parse(JSON.stringify(this.searchForm))
+      let query = 'http://yapi.omniview.pro/mock/267/service-release/titleManage'
+      this.$ajax.get({
+        url: query
+      }).then(res => {
+        
+        if (res.code === '200'){
+          this.data = this.$com.confirm(res, 'data.content', [])
+        } else {
+          this.$message.error(res.msg)
+        }
+        // 存储当前页面列表的搜索添加和分页信息
+        this.$com.storeSearchParams(
+          this.$route.name+'/old',
+          this.params,
+          this.searchForm
+        )
+      })
+    },
+    handleResetOk() {
+      this.resetData.validateFields(err => {
+        if (!err) {
+          this.$ajax.put({
+            url   : 'http://yapi.omniview.pro/mock/267/service-release/titleManage/' + this.modifySection.idToIdentify,
+            params: {
+              titleName: this.resetData.getFieldValue('newSectionName')
+            }
+          }).then(res => {
+            if (res.code === '200') {
+              this.$message.success('修改栏目名称成功')
+              this.handleCancel()
+              this.getList()
+            }
+          })
+        }else{
+          this.$com.getFormValidErrTips(this, err)
+        }
+      })
+    },
+    handleCancel() {
+      this.modifyVisible = false
+    }
+  },
+}
+</script>

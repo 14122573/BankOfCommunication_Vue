@@ -115,7 +115,7 @@
           </a-col>
           <a-col span="6" class="algin-right">
             <a-button @click="reset">重置</a-button>
-            <a-button type="primary" @click="getKnowLedgeList">搜索</a-button>
+            <a-button type="primary" @click="getFarmingList">搜索</a-button>
             <a-button
               type="primary"
               v-if="simpleSearchForm"
@@ -334,7 +334,7 @@ export default {
         this.defaultSearchForm.anonymous,
         ','
       )
-      this.getKnowLedgeList()
+      this.getFarmingList()
     }
   },
   watch   : {},
@@ -427,7 +427,7 @@ export default {
         .then(res => {
           if (res.code == '200') {
             this.$message.success('删除成功')
-            this.getKnowLedgeList()
+            this.getFarmingList()
           }
         })
     },
@@ -449,7 +449,7 @@ export default {
           if (res.code == '200') {
             const successMsg = status == '1' ? '发布成功' : '撤回成功'
             this.$message.success(successMsg)
-            this.getKnowLedgeList()
+            this.getFarmingList()
           }
         })
     },
@@ -551,7 +551,7 @@ export default {
         postMan : '',
         allIn   : ''
       })
-      this.getKnowLedgeList()
+      this.getFarmingList()
     },
 
     /**
@@ -561,13 +561,13 @@ export default {
     onPageChange(current) {
       this.pagination.current = current
       this.pagination.pageNo = current
-      this.getKnowLedgeList()
+      this.getFarmingList()
     },
 
     /**
      * 调用结构，查询表单要求的知识文库资料
      */
-    getKnowLedgeList() {
+    getFarmingList() {
       let searchParms
       searchParms = Object.assign(
         {},

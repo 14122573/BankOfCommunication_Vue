@@ -1,28 +1,28 @@
 <template>
   <div class="portalDetailWapper">
 		<div class="portalDetailTitle">
-			<span class="title">新建养殖技术</span>
+			<span class="title">新建云课堂</span>
 			<div class="detailOperations">
 				<a-button @click='$router.back()'>取消</a-button>
-				<a-button type="primary" @click='saveFarming("save")'>保存</a-button>
-				<a-button type="primary" @click='saveFarming("publish")'>保存并发布</a-button>
+				<a-button type="primary" @click='saveCloudLesson("save")'>保存</a-button>
+				<a-button type="primary" @click='saveCloudLesson("publish")'>保存并发布</a-button>
 			</div>
 		</div>
     <div  class="portalDetailContentWapper">
       <div class="portalDetailContentBody create-talent" ref="create-talent">
-        <a-form :form="farmingCreateForm">
+        <a-form :form="cloudLessonCreateForm">
           <div class="layoutMargin detailsPartSection">
             <p class="detailsPartTitle">基本信息</p>
             <div style="margin:0 16px;">
               <a-row :gutter='16'>
                 <a-col span="16">
                   <a-form-item label="标题" :label-col="{span:4}" :wrapper-col="{span:20}">
-                    <a-input v-decorator="['title',{validateTrigger: 'blur',rules:rules.title}]" placeholder="请输入养殖技术标题"></a-input>
+                    <a-input v-decorator="['title',{validateTrigger: 'blur',rules:rules.title}]" placeholder="请输入云课堂标题"></a-input>
                   </a-form-item>
                 </a-col>
                 <a-col span="16">
                   <a-form-item label="来源" :label-col="{span:4}" :wrapper-col="{span:20}">
-                    <a-input v-decorator="['source',{validateTrigger: 'blur',rules:rules.source}]" placeholder="请输入养殖技术来源"></a-input>
+                    <a-input v-decorator="['source',{validateTrigger: 'blur',rules:rules.source}]" placeholder="请输入云课堂来源"></a-input>
                   </a-form-item>
                 </a-col>
                 <a-col span="16">
@@ -59,7 +59,7 @@
             </div>
           </div>
           <div class="layoutMargin detailsPartSection">
-            <p class="detailsPartTitle">养殖技术正文内容</p>
+            <p class="detailsPartTitle">云课堂正文内容</p>
             <div style="margin:0 16px;">
                <VueUeditorWrap v-model="formData.content" :config='ueditorConfig'></VueUeditorWrap>
             </div>
@@ -147,8 +147,8 @@ export default {
         }
         ]
       },
-      farmingCreateForm: this.$form.createForm(this),
-      formData         : {
+      cloudLessonCreateForm: this.$form.createForm(this),
+      formData             : {
         anonymous   : '0',
         content     : '',
         videoUrlList: [ '' ]
@@ -159,13 +159,13 @@ export default {
           { required: true, whitespace: true, message: '请输入知识文献标题!' },
         ],
         source: [
-          { required: true, whitespace: true, message: '请输入养殖技术来源!' }
+          { required: true, whitespace: true, message: '请输入云课堂来源!' }
         ],
         section: [
-          { required: true, whitespace: true, message: '请选择养殖技术栏目' }
+          { required: true, whitespace: true, message: '请选择云课堂栏目' }
         ],
         postDate: [
-          { required: true, message: '请选择养殖技术发布时间，格式 YYYY-MM-DD' }
+          { required: true, message: '请选择云课堂发布时间，格式 YYYY-MM-DD' }
         ],
         keywords: [
           { required: false, message: '请输入关键词' }
@@ -282,10 +282,10 @@ export default {
      * 提交表单内容
      * @param {String} type 提交表单内容的数据保存类型，暂存：save；保存并发布：publish
      */
-    saveFarming(type){
+    saveCloudLesson(type){
       type = !type?'save':type
       // console.log(this.arrangeFileList())
-      this.farmingCreateForm.validateFields(err => {
+      this.cloudLessonCreateForm.validateFields(err => {
         if (!err) {
           if(!this.checkVideoUrl(this.formData.videoUrlList)){
             this.$modal.error({
@@ -307,12 +307,12 @@ export default {
           }
 
           const postParams = Object.assign({}, this.formData, {
-            'title'     : this.farmingCreateForm.getFieldValue('title'),
-            'source'    : this.farmingCreateForm.getFieldValue('source'),
-            'section'   : this.farmingCreateForm.getFieldValue('section'),
-            'postDate'  : this.farmingCreateForm.getFieldValue('postDate'),
-            'keywords'  : this.farmingCreateForm.getFieldValue('keywords'),
-            'postMan'   : this.farmingCreateForm.getFieldValue('postMan'),
+            'title'     : this.cloudLessonCreateForm.getFieldValue('title'),
+            'source'    : this.cloudLessonCreateForm.getFieldValue('source'),
+            'section'   : this.cloudLessonCreateForm.getFieldValue('section'),
+            'postDate'  : this.cloudLessonCreateForm.getFieldValue('postDate'),
+            'keywords'  : this.cloudLessonCreateForm.getFieldValue('keywords'),
+            'postMan'   : this.cloudLessonCreateForm.getFieldValue('postMan'),
             'attachment': this.arrangeFileList()
           })
           console.log(JSON.stringify(postParams))

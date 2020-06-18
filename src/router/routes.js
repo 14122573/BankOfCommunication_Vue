@@ -85,15 +85,24 @@ const KnowledgePromotionContent = () =>
 const CloudLessonContent = () =>
   import('@/views/frontPublic/views/cloudLesson/cloudLessonContent.vue')
 
+// 内容管理-首页信息维护管理
+const HomepageInfoMaintainView = () => import('@/views/cms/homepageInfoMaintain/index')
+const AddBanner = () => import('@/views/cms/homepageInfoMaintain/addBanner')
+const ModifyBanner = () => import('@/views/cms/homepageInfoMaintain/modifyBanner')
+const BannerDetail = () => import('@/views/cms/homepageInfoMaintain/bannerDetail')
+const BannerSort = () => import('@/views/cms/homepageInfoMaintain/bannerSort')
+  
 // 内容管理-养殖技术
 const FarmingTechList = () => import('@/views/cms/farmingTech/list')
 const FarmingCreate = () => import('@/views/cms/farmingTech/create')
 
 // 内容管理-科普知识
-const KnowledgePromotionList = () =>
-  import('@/views/cms/knowledgePromotion/list')
+const KnowledgePromotionList = () => import('@/views/cms/knowledgePromotion/list')
+const KnowledgePromotionCreate = () => import('@/views/cms/knowledgePromotion/create')
+
 // 内容管理-云课堂
 const CloudLessonList = () => import('@/views/cms/cloudLesson/list')
+const CloudLessonCreate = () => import('@/views/cms/cloudLesson/create')
 // 内容管理-通知公告
 
 const NoticeList = () => import('@/views/cms/notice/list')
@@ -475,6 +484,70 @@ const appRoutes = [
         },
         children: [
           {
+            path     : '/cms/homepageInfoMaintain',
+            name     : '/cms/homepageInfoMaintain',
+            component: HomepageInfoMaintainView,
+            meta     : {
+              title      : '首页信息维护管理',
+              menuPath   : true,
+              authCode   : 'P03000',
+              menuIcon   : 'cluster',
+              hideInBread: false,
+              openMode   : 'normal'
+            },
+            children: [
+              {
+                path     : '/cms/homepageInfoMaintain/addBanner',
+                name     : '/cms/homepageInfoMaintain/addBanner',
+                component: AddBanner,
+                meta     : {
+                  title      : '添加轮播图',
+                  menuPath   : true,
+                  authCode   : 'P32000',
+                  menuIcon   : 'file-text',
+                  hideInBread: false,
+                },
+              },
+              {
+                path     : '/cms/homepageInfoMaintain/modifyBanner',
+                name     : '/cms/homepageInfoMaintain/modifyBanner',
+                component: ModifyBanner,
+                meta     : {
+                  title      : '修改轮播图',
+                  menuPath   : true,
+                  authCode   : 'P32000',
+                  menuIcon   : 'file-text',
+                  hideInBread: false,
+                },
+              },
+              {
+                path     : '/cms/homepageInfoMaintain/bannerDetail',
+                name     : '/cms/homepageInfoMaintain/bannerDetail',
+                component: BannerDetail,
+                meta     : {
+                  title      : '轮播图详情',
+                  menuPath   : false,
+                  authCode   : 'P03301',
+                  menuIcon   : 'cluster',
+                  hideInBread: false,
+                  openMode   : 'normal'
+                },
+              },
+              {
+                path     : '/cms/homepageInfoMaintain/bannerSort',
+                name     : '/cms/homepageInfoMaintain/bannerSort',
+                component: BannerSort,
+                meta     : {
+                  title      : '轮播图排序',
+                  menuPath   : true,
+                  authCode   : 'P32000',
+                  menuIcon   : 'file-text',
+                  hideInBread: false,
+                },
+              }
+            ]
+          },
+          {
             path     : '/cms/farmingtech',
             name     : '/cms/farmingtech',
             component: FarmingTechList,
@@ -534,7 +607,45 @@ const appRoutes = [
               authCode   : 'P32000',
               menuIcon   : 'file-text',
               hideInBread: false
-            }
+            },
+            children: [
+              {
+                path     : '/cms/knowledgepromotion/create',
+                name     : '/cms/knowledgepromotion/create',
+                component: KnowledgePromotionCreate,
+                meta     : {
+                  title      : '新建科普知识',
+                  menuPath   : false,
+                  authCode   : 'P32001',
+                  menuIcon   : 'file-text',
+                  hideInBread: false
+                }
+              },
+              {
+                path     : '/cms/knowledgepromotion/edit/:id',
+                name     : '/cms/knowledgepromotion/edit',
+                component: KnowledgeEdit,
+                meta     : {
+                  title      : '修改科普知识',
+                  menuPath   : false,
+                  authCode   : 'P32001',
+                  menuIcon   : 'file-text',
+                  hideInBread: false
+                }
+              },
+              {
+                path     : '/cms/knowledgepromotion/:id',
+                name     : '/cms/knowledgepromotion/details',
+                component: KnowledgeDetail,
+                meta     : {
+                  title      : '查看科普知识详情',
+                  menuPath   : false,
+                  authCode   : 'P33003',
+                  menuIcon   : 'file-text',
+                  hideInBread: false
+                },
+              }
+            ]
           },
           {
             path     : '/cms/cloudlesson',
@@ -546,7 +657,45 @@ const appRoutes = [
               authCode   : 'P32000',
               menuIcon   : 'file-text',
               hideInBread: false
-            }
+            },
+            children: [
+              {
+                path     : '/cms/cloudlesson/create',
+                name     : '/cms/cloudlesson/create',
+                component: CloudLessonCreate,
+                meta     : {
+                  title      : '新建云课堂',
+                  menuPath   : false,
+                  authCode   : 'P32001',
+                  menuIcon   : 'file-text',
+                  hideInBread: false
+                }
+              },
+              {
+                path     : '/cms/cloudlesson/edit/:id',
+                name     : '/cms/cloudlesson/edit',
+                component: KnowledgeEdit,
+                meta     : {
+                  title      : '修改云课堂',
+                  menuPath   : false,
+                  authCode   : 'P32001',
+                  menuIcon   : 'file-text',
+                  hideInBread: false
+                }
+              },
+              {
+                path     : '/cms/cloudlesson/:id',
+                name     : '/cms/cloudlesson/details',
+                component: KnowledgeDetail,
+                meta     : {
+                  title      : '查看云课堂详情',
+                  menuPath   : false,
+                  authCode   : 'P33003',
+                  menuIcon   : 'file-text',
+                  hideInBread: false
+                }
+              }
+            ]
           },
           {
             path     : '/cms/knowledge',
