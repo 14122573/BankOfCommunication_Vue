@@ -1,19 +1,22 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import { routes } from './routes'
+import {
+  routes
+} from './routes'
 import Cookie from '@/util/local-cookie'
 import Common from '@/util/common'
+import { log } from 'util'
 import store from '@/store'
 
 Vue.use(Router)
 
-const routers = new Router({
+const config = {
   mode: 'history',
-  // base: process.env.NODE_ENV === 'development' ? '/' : '/portal/',
   routes,
-})
+}
+const router = new Router(config)
 
-routers.beforeEach((to, from, next) => {
+router.beforeEach((to, from, next) => {
   // console.log('portal', JSON.parse(sessionStorage.getItem('VuexStore')))
   // TODO
   store.commit('setWebviewSrc', to.meta && to.meta.src) // 判断有src的话为需要嵌入iframe的子项目
@@ -27,12 +30,14 @@ routers.beforeEach((to, from, next) => {
   //   })
   // }
 
+  console.log('去往: ' + to.path)
+
   const token = Cookie.get('token')
   const canEnterBind = Cookie.get('canEnterBind')
   // 当前无token且不在login页面则推到登录页面
   if (!token) {
     // 未登录
-    if (to.name == 'login') {
+    if (to.path.indexOf('/homepage') !== -1) { // 首页所有路由允许访问
       next()
     } else {
       const uneedTokenRouter=[ '/veterinary/view', '/veterinary', '/cms/noticePublish', '/cms/noticePublish/view', '/cms/knowledgePublish/view', '/cms/knowledgeAnonymous', 'upperLimitErr', 'register', 'oldSysLogout', 'networkerr' ]
@@ -41,7 +46,7 @@ routers.beforeEach((to, from, next) => {
       if (Common.oneOf(to.name, uneedTokenRouter) || (Common.oneOf(to.name, [ 'bindPhone', 'bindTemporarayAccount' ]) && canEnterBind == '200')) {
         next()
       } else {
-        next('/login')
+        next('/homepage')
       }
     }
   } else { // 已经登录
@@ -54,4 +59,4 @@ routers.beforeEach((to, from, next) => {
   }
 })
 
-export default routers
+export default router

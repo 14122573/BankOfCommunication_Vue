@@ -1,15 +1,10 @@
-<template>
-  <div style="width:900px">
-    <!--下面通过传递进来的id完成初始化-->
-    <script :id="randomId"  type="text/plain"></script>
-  </div>
+<template> 
+  <VueUeditorWrap v-model="value2" :config='ueditorConfig'></VueUeditorWrap>
 </template>
 
 <script>
-//主体文件引入
-import '../../../static/ueditor/ueditor.config.js'
-import '../../../static/ueditor/ueditor.all.min.js'
-import '../../../static/ueditor/lang/zh-cn/zh-cn.js'
+import VueUeditorWrap from 'vue-ueditor-wrap'
+import api from '@/server/api'
 
 export default {
   name : 'UE',
@@ -24,21 +19,33 @@ export default {
       type   : Object,
       default: () => {
         return {
-          serverUrl: '',
-          toolbars : [ [
+          serverUrl       : api.GET_UEDITOR_SERVICE_URL,
+          UEDITOR_HOME_URL: '/static/ueditor/',
+          toolbars        : [ [
             'undo', 'redo', '|',
             'bold', 'italic', 'underline', 'fontborder', 'strikethrough', 'superscript', 'subscript', 'removeformat', 'formatmatch', 'autotypeset', 'blockquote', 'pasteplain', '|', 'forecolor', 'backcolor', 'insertorderedlist', 'insertunorderedlist', 'selectall', 'cleardoc', '|',
             'rowspacingtop', 'rowspacingbottom', 'lineheight', '|',
             'customstyle', 'paragraph', 'fontfamily', 'fontsize', '|',
-            'directionalityltr', 'directionalityrtl', 'indent', '|',
+            'directionalityltr', 'directionalityrtl', 'indent', '|', 'imagenone', 'imageleft', 'imageright', 'imagecenter', '|',
+            'simpleupload', 'insertimage', 'edittable', 'edittd', 'insertvideo', 'map', 'inserttable', '|',
             'justifyleft', 'justifycenter', 'justifyright', 'justifyjustify', '|', 'touppercase', 'tolowercase', '|',
-            'link', 'unlink'
+            'link', 'unlink',
           ] ],
           zIndex            : 1,
-          initialFrameHeight: 300
+          autoHeightEnabled : false, // {Boolean} [默认值：true] 编辑器不自动被内容撑高
+          elementPathEnabled: false, // {Boolean} [默认值：true] 是否启用元素路径，默认是显示
+          wordCount         : false, // {Boolean} [默认值：true] 是否开启字数统计
+          enableAutoSave    : false, // {Boolean} [默认值：true] 启用自动保存，这个配置忽好忽坏
+          initialFrameWidth : '95%',
+          saveInterval      : 100000000, // {Number} [默认值：500] 自动保存间隔时间，单位ms
+          autoFloatEnabled  : false, // [默认值：true] // 是否保持toolbar的位置不动
+          initialFrameHeight: 300,
         }
       }
     }
+  },
+  components: {
+    VueUeditorWrap,
   },
   data() {
     return {
@@ -47,25 +54,27 @@ export default {
       //编辑器实例
       instance: null,
       ready   : false,
+      value2  : '',
     }
   },
   watch: {
     value: function(val, oldVal) {
-      if (val != null && this.ready) {
-        this.instance = UE.getEditor(this.randomId, this.ueditorConfig)
-        this.instance.setContent(val)
+      if (val != null && this.ready) { 
+        this.value2 = val
       }
     },
     ready(){
-      if (this.value != null && this.ready) {
-        this.instance = UE.getEditor(this.randomId, this.ueditorConfig)
-        this.instance.setContent(this.value )
+      if (this.value != null && this.ready) { 
+        this.value2 = this.value
       }
     }
   },
+  created(){
+    
+  },
   //此时--el挂载到实例上去了,可以初始化对应的编辑器了
-  mounted() {
-    this.initEditor()
+  mounted() { 
+    this.ready = true 
   },
 
   beforeDestroy() {
@@ -73,25 +82,7 @@ export default {
     if(this.instance !== null && this.instance.destroy) {
       this.instance.destroy()
     }
-  },
-  methods: {
-    initEditor() {
-      const _this = this
-      //dom元素已经挂载上去了
-      this.$nextTick(() => {
-        this.instance = UE.getEditor(this.randomId, this.ueditorConfig)
-        // 绑定事件，当 UEditor 初始化完成后，将编辑器实例通过自定义的 ready 事件交出去
-        this.instance.addListener('ready', () => {
-          this.ready = true
-          this.$emit('ready', this.instance)
-        })
-      })
-    },
-    setText(con) {
-      this.instance = UE.getEditor(this.randomId, this.ueditorConfig)
-      this.instance.setContent(con)
-    },
-  }
+  }, 
 }
 
 </script>

@@ -14,6 +14,7 @@ import { registerMicroApps, start } from 'qiankun'
 import PermissionControl from './util/permission-control.js' // 权限自定义指令 v-permission="code"
 import { PermissionFilter } from './util/permission-filter.js' // 权限全局方法 v-if="$permission('code')"
 import {
+  Descriptions,
   Button,
   message,
   Spin,
@@ -46,7 +47,7 @@ import {
   TreeSelect,
   Radio,
   Cascader,
-  LocaleProvider,
+  ConfigProvider,
   Steps,
   Anchor,
   Collapse,
@@ -112,7 +113,7 @@ Vue.use(Badge)
 Vue.use(TreeSelect)
 Vue.use(Radio)
 Vue.use(Cascader)
-Vue.use(LocaleProvider)
+Vue.use(ConfigProvider)
 Vue.use(Steps)
 Vue.use(Anchor)
 Vue.use(Collapse)
@@ -124,6 +125,7 @@ Vue.use(BackTop)
 Vue.use(Carousel)
 Vue.use(Tooltip)
 Vue.use(List)
+Vue.use(Descriptions)
 Vue.config.productionTip = false
 
 import RouterWapper from '@/components/Layout/content-wrapper'

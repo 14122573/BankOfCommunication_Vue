@@ -67,8 +67,8 @@
 
           <div class="layoutMargin detailsPartSection">
             <p class="detailsPartTitle">文献正文内容</p>
-            <div style="margin:0 16px;">
-               <VueUeditorWrap v-model="formData.content" :config='ueditorConfig'></VueUeditorWrap>
+            <div style="margin:0 16px;"> 
+               <UeditorCompent ref="ue" :value="formData.content" ></UeditorCompent>
             </div>
           </div>
         </a-form>
@@ -81,11 +81,11 @@
 .iconButton{ padding:3px 6px}
 </style>
 <script>
-import FileUpload from '@/components/Upload/fileUpload'
-import VueUeditorWrap from 'vue-ueditor-wrap'
+import FileUpload from '@/components/Upload/fileUpload' 
+import UeditorCompent from '@/components/theThreeParty/ueditor.vue'
 export default {
   components: {
-    FileUpload, VueUeditorWrap
+    FileUpload, UeditorCompent
   },
   data() {
     const validateVideoPath = (rule, value, callback) => {
@@ -104,30 +104,7 @@ export default {
       id               : this.$route.params.id,
       ready            : false,
       knowledgeEditForm: this.$form.createForm(this),
-      ueditorConfig    : {
-        serverUrl       : this.$api.GET_UEDITOR_SERVICE_URL,
-        UEDITOR_HOME_URL: '/static/ueditor/',
-        toolbars        : [ [
-          'undo', 'redo', '|',
-          'bold', 'italic', 'underline', 'fontborder', 'strikethrough', 'superscript', 'subscript', 'removeformat', 'formatmatch', 'autotypeset', 'blockquote', 'pasteplain', '|', 'forecolor', 'backcolor', 'insertorderedlist', 'insertunorderedlist', 'selectall', 'cleardoc', '|',
-          'rowspacingtop', 'rowspacingbottom', 'lineheight', '|',
-          'customstyle', 'paragraph', 'fontfamily', 'fontsize', '|',
-          'directionalityltr', 'directionalityrtl', 'indent', '|', 'imagenone', 'imageleft', 'imageright', 'imagecenter', '|',
-          'simpleupload', 'insertimage', 'attachment', 'insertvideo', '|',
-          'justifyleft', 'justifycenter', 'justifyright', 'justifyjustify', '|', 'touppercase', 'tolowercase', '|',
-          'link', 'unlink',
-        ] ],
-        zIndex            : 1,
-        autoHeightEnabled : false, // {Boolean} [默认值：true] 编辑器不自动被内容撑高
-        elementPathEnabled: false, // {Boolean} [默认值：true] 是否启用元素路径，默认是显示
-        wordCount         : false, // {Boolean} [默认值：true] 是否开启字数统计
-        enableAutoSave    : false, // {Boolean} [默认值：true] 启用自动保存，这个配置忽好忽坏
-        initialFrameWidth : '90%',
-        saveInterval      : 100000000, // {Number} [默认值：500] 自动保存间隔时间，单位ms
-        autoFloatEnabled  : false, // [默认值：true] // 是否保持toolbar的位置不动
-        initialFrameHeight: 300
-      },
-      createFormOption: {
+      createFormOption : {
         // type:[{
         //   label: '视频',
         //   value: '0'
@@ -332,6 +309,8 @@ export default {
             })
             return
           }
+
+          this.formData.content = this.$refs.ue.value2
           if(this.formData.content==''){
             this.$modal.error({
               title     : '表单验证未通过',
