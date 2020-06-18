@@ -90,7 +90,7 @@ const AddBanner = () => import('@/views/cms/homepageInfoMaintain/addBanner')
 const ModifyBanner = () => import('@/views/cms/homepageInfoMaintain/modifyBanner')
 const BannerDetail = () => import('@/views/cms/homepageInfoMaintain/bannerDetail')
 const BannerSort = () => import('@/views/cms/homepageInfoMaintain/bannerSort')
-  
+
 // 内容管理-养殖技术
 const FarmingTechList = () => import('@/views/cms/farmingTech/list')
 const FarmingCreate = () => import('@/views/cms/farmingTech/create')
@@ -1087,7 +1087,7 @@ const appRoutes = [
   //   meta     : { title: '登录' },
   // },
   {
-    path     : '/homepage',
+    path     : '/login',
     redirect : '/homepage/index',
     name     : 'homepage',
     component: Home,
@@ -1352,12 +1352,12 @@ const appRoutes = [
       }
     ]
   },
-  {
-    path     : '/login',
-    name     : 'login',
-    component: LoginPage,
-    meta     : { title: '登录' }
-  },
+  // {
+  //   path     : '/login',
+  //   name     : 'login',
+  //   component: LoginPage,
+  //   meta     : { title: '登录' }
+  // },
   {
     path     : '/register',
     name     : 'register',
