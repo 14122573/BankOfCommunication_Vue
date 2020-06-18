@@ -364,7 +364,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 .tableWrapper {
   padding: 30px
 }
