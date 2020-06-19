@@ -32,9 +32,9 @@
   </div>
 </template>
 <script>
-import LoginPanel from "@/views/frontPublic/views/homePage/components/loginPanel.vue";
-import LoggedInPanel from "@/views/frontPublic/views/homePage/components/welcomePanel.vue";
-import ResetPassword from "@/views/frontPublic/views/homePage/components/resetPassword.vue";
+import LoginPanel from '@/views/frontPublic/views/homePage/components/loginPanel.vue'
+import LoggedInPanel from '@/views/frontPublic/views/homePage/components/welcomePanel.vue'
+import ResetPassword from '@/views/frontPublic/views/homePage/components/resetPassword.vue'
 export default {
   components: {
     LoginPanel,
@@ -45,51 +45,51 @@ export default {
     return {
       isInIndexPage: true,
       // 查看子组件传来的用户鉴权信息
-      loginInfo: "",
-      username: "",
-      pageType: "login",
-      isready: false
-    };
+      loginInfo    : '',
+      username     : '',
+      pageType     : 'login',
+      isready      : false
+    }
   },
   mounted() {
-    this.getToken();
+    this.getToken()
   },
   watch: {
     pageType() {
-      this.pageType;
+      this.pageType
     },
     $route(to, from) {
       // 当前是否在index页，不在的话就隐藏loginpanel和welcomepanel
-      to.name == "index"
+      to.name == 'index'
         ? (this.isInIndexPage = true)
-        : (this.isInIndexPage = false);
+        : (this.isInIndexPage = false)
     }
   },
   methods: {
     pageTypeChange(data) {
-      this.pageType = data;
-      this.username = data;
+      this.pageType = data
+      this.username = data
     },
     getToken() {
-      let cookie = this.$cookie.get("token");
+      let cookie = this.$cookie.get('token')
       if (!!cookie) {
         this.$ajax
           .get({
             url: this.$api.GET_USER_INFO
           })
           .then(res => {
-            let userInfo = res.data.content;
+            let userInfo = res.data.content
             if (!!userInfo.name) {
-              this.username = userInfo.name;
-              this.pageType = userInfo.name;
+              this.username = userInfo.name
+              this.pageType = userInfo.name
             }
-          });
+          })
       } else {
-        console.log("cookie not exist");
+        console.log('cookie not exist')
       }
     }
   }
-};
+}
 </script>
 <style scoped>
 .lunbo {

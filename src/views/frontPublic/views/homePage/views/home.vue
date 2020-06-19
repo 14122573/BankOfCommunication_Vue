@@ -6,7 +6,6 @@
       </a-layout-header>
       <a-layout-content>
         <Lunbo />
-        <!-- <InlineWrapper /> -->
         <router-view />
         <Footer />
       </a-layout-content>
