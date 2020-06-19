@@ -826,261 +826,75 @@ const appRoutes = [
                 }
               }
             ]
+          },
+          {
+            path: "/cms/vote",
+            name: "/cms/vote",
+            component: VoteList,
+            meta: {
+              title: "投票管理",
+              menuPath: true,
+              authCode: "P33000",
+              menuIcon: "file-text",
+              hideInBread: false
+            },
+            children: [
+              {
+                path: "/cms/vote/edit",
+                name: "/cms/vote/edit",
+                component: VoteEdit,
+                meta: {
+                  title: "投票详情",
+                  menuPath: false,
+                  authCode: "P33001",
+                  menuIcon: "file-text",
+                  hideInBread: false
+                }
+              },
+              {
+                path: "/cms/vote/result",
+                name: "/cms/vote/result",
+                component: VoteResult,
+                meta: {
+                  title: "投票结果预览",
+                  menuPath: false,
+                  authCode: "P33005",
+                  menuIcon: "file-text",
+                  hideInBread: false
+                }
+              },
+              {
+                path: "/cms/vote/view",
+                name: "/cms/vote/view",
+                component: VoteView,
+                meta: {
+                  title: "投票信息查看",
+                  menuPath: false,
+                  authCode: "P33003",
+                  menuIcon: "file-text",
+                  hideInBread: false
+                }
+              },
+              {
+                path: "/cms/vote/qr-list",
+                name: "/cms/vote/qr-list",
+                component: VoteQrList,
+                meta: {
+                  title: "投票二维码列表",
+                  menuPath: false,
+                  authCode: "P33000",
+                  menuIcon: "file-text",
+                  hideInBread: false
+                }
+              }
+            ]
           }
         ]
       }
     ]
   },
-  // //内容发布
-  // {
-  //   path: "/cms",
-  //   name: "cms",
-  //   component: contentWrapper,
-  //   meta: {
-  //     title: "内容管理",
-  //     menuPath: true,
-  //     authCode: "P30000",
-  //     menuIcon: "file-text",
-  //     hideInBread: true
-  //   },
-  //   children: [
-  //     {
-  //       path: "/cms/farmingtech",
-  //       name: "/cms/farmingtech",
-  //       component: FarmingTechList,
-  //       meta: {
-  //         title: "养殖技术",
-  //         menuPath: true,
-  //         authCode: "P32000",
-  //         menuIcon: "file-text",
-  //         hideInBread: false
-  //       }
-  //     },
-  //     {
-  //       path: "/cms/knowledgepromotion",
-  //       name: "/cms/knowledgepromotion",
-  //       component: KnowledgePromotionList,
-  //       meta: {
-  //         title: "科普知识",
-  //         menuPath: true,
-  //         authCode: "P32000",
-  //         menuIcon: "file-text",
-  //         hideInBread: false
-  //       }
-  //     },
-  //     {
-  //       path: "/cms/cloudlesson",
-  //       name: "/cms/cloudlesson",
-  //       component: CloudLessonList,
-  //       meta: {
-  //         title: "云课堂",
-  //         menuPath: true,
-  //         authCode: "P32000",
-  //         menuIcon: "file-text",
-  //         hideInBread: false
-  //       }
-  //     },
-  //     {
-  //       path: "/cms/knowledge",
-  //       name: "/cms/knowledge",
-  //       component: KnowledgeList,
-  //       meta: {
-  //         title: "知识文库管理",
-  //         menuPath: true,
-  //         authCode: "P32000",
-  //         menuIcon: "file-text",
-  //         hideInBread: false
-  //       },
-  //       children: [
-  //         {
-  //           path: "/cms/knowledge/create",
-  //           name: "/cms/knowledge/create",
-  //           component: KnowledgeCreate,
-  //           meta: {
-  //             title: "新建知识文献",
-  //             menuPath: false,
-  //             authCode: "P32001",
-  //             menuIcon: "file-text",
-  //             hideInBread: false
-  //           }
-  //         },
-  //         {
-  //           path: "/cms/knowledge/edit/:id",
-  //           name: "/cms/knowledge/edit",
-  //           component: KnowledgeEdit,
-  //           meta: {
-  //             title: "修改知识文献",
-  //             menuPath: false,
-  //             authCode: "P32001",
-  //             menuIcon: "file-text",
-  //             hideInBread: false
-  //           }
-  //         },
-  //         {
-  //           path: "/cms/knowledge/:id",
-  //           name: "/cms/knowledge/details",
-  //           component: KnowledgeDetail,
-  //           meta: {
-  //             title: "查看知识文献详情",
-  //             menuPath: false,
-  //             authCode: "P33003",
-  //             menuIcon: "file-text",
-  //             hideInBread: false
-  //           }
-  //         }
-  //       ]
-  //     },
-  //     {
-  //       path: "/cms/knowledgePublish",
-  //       name: "/cms/knowledgePublish",
-  //       component: KnowledgePublishedList,
-  //       meta: {
-  //         title: "知识文献",
-  //         menuPath: false,
-  //         menuIcon: "file-text",
-  //         hideInBread: false
-  //       }
-  //     },
-  //     {
-  //       path: "/cms/notice",
-  //       name: "/cms/notice",
-  //       component: NoticeList,
-  //       meta: {
-  //         title: "通知公告管理",
-  //         menuPath: true,
-  //         authCode: "P31000",
-  //         menuIcon: "file-text",
-  //         hideInBread: false
-  //       },
-  //       children: [
-  //         {
-  //           path: "/cms/notice/create",
-  //           name: "/cms/notice/create",
-  //           component: NoticeCreate,
-  //           meta: {
-  //             title: "新建通知公告",
-  //             menuPath: false,
-  //             authCode: "P31001",
-  //             menuIcon: "file-text",
-  //             hideInBread: false
-  //           }
-  //         },
-  //         {
-  //           path: "/cms/notice/edit/:id",
-  //           name: "/cms/notice/edit",
-  //           component: NoticeEdit,
-  //           meta: {
-  //             title: "修改通知公告",
-  //             menuPath: false,
-  //             authCode: "P31001",
-  //             menuIcon: "file-text",
-  //             hideInBread: false
-  //           }
-  //         },
-  //         {
-  //           path: "/cms/notice/:id",
-  //           name: "/cms/notice/details",
-  //           component: NoticeDetail,
-  //           meta: {
-  //             title: "通知公告详情",
-  //             menuPath: false,
-  //             authCode: "P31005",
-  //             menuIcon: "file-text",
-  //             hideInBread: false
-  //           }
-  //         }
-  //       ]
-  //     },
-  //     {
-  //       path: "/cms/manual",
-  //       name: "/cms/manual",
-  //       component: ManualList,
-  //       meta: {
-  //         title: "操作手册管理",
-  //         menuPath: true,
-  //         authCode: "P34000",
-  //         menuIcon: "file-text",
-  //         hideInBread: false
-  //       },
-  //       children: [
-  //         {
-  //           path: "/cms/manual/file-list",
-  //           name: "/cms/manual/file-list",
-  //           component: ManualFileList,
-  //           meta: {
-  //             title: "操作手册列表",
-  //             menuPath: false,
-  //             authCode: "P34000",
-  //             menuIcon: "file-text",
-  //             hideInBread: false
-  //           }
-  //         }
-  //       ]
-  //     },
-  //     {
-  //       path: "/cms/vote",
-  //       name: "/cms/vote",
-  //       component: VoteList,
-  //       meta: {
-  //         title: "投票管理",
-  //         menuPath: true,
-  //         authCode: "P33000",
-  //         menuIcon: "file-text",
-  //         hideInBread: false
-  //       },
-  //       children: [
-  //         {
-  //           path: "/cms/vote/edit",
-  //           name: "/cms/vote/edit",
-  //           component: VoteEdit,
-  //           meta: {
-  //             title: "投票详情",
-  //             menuPath: false,
-  //             authCode: "P33001",
-  //             menuIcon: "file-text",
-  //             hideInBread: false
-  //           }
-  //         },
-  //         {
-  //           path: "/cms/vote/result",
-  //           name: "/cms/vote/result",
-  //           component: VoteResult,
-  //           meta: {
-  //             title: "投票结果预览",
-  //             menuPath: false,
-  //             authCode: "P33005",
-  //             menuIcon: "file-text",
-  //             hideInBread: false
-  //           }
-  //         },
-  //         {
-  //           path: "/cms/vote/view",
-  //           name: "/cms/vote/view",
-  //           component: VoteView,
-  //           meta: {
-  //             title: "投票信息查看",
-  //             menuPath: false,
-  //             authCode: "P33003",
-  //             menuIcon: "file-text",
-  //             hideInBread: false
-  //           }
-  //         },
-  //         {
-  //           path: "/cms/vote/qr-list",
-  //           name: "/cms/vote/qr-list",
-  //           component: VoteQrList,
-  //           meta: {
-  //             title: "投票二维码列表",
-  //             menuPath: false,
-  //             authCode: "P33000",
-  //             menuIcon: "file-text",
-  //             hideInBread: false
-  //           }
-  //         }
-  //       ]
-  //     }
-  //   ]
-  // },
+  //内容发布
+  
   // 旧的登录页面
   // {
   //   path     : '/login', name     : 'login', component: LoginPage,
@@ -1289,68 +1103,6 @@ const appRoutes = [
       menuIcon   : 'file-text',
       hideInBread: false
     }
-  },
-  {
-    path     : '/cms/vote',
-    name     : '/cms/vote',
-    component: VoteList,
-    meta     : {
-      title      : '投票管理',
-      menuPath   : true,
-      authCode   : 'P33000',
-      menuIcon   : 'file-text',
-      hideInBread: false
-    },
-    children: [
-      {
-        path     : '/cms/vote/edit',
-        name     : '/cms/vote/edit',
-        component: VoteEdit,
-        meta     : {
-          title      : '投票详情',
-          menuPath   : false,
-          authCode   : 'P33001',
-          menuIcon   : 'file-text',
-          hideInBread: false
-        }
-      },
-      {
-        path     : '/cms/vote/result',
-        name     : '/cms/vote/result',
-        component: VoteResult,
-        meta     : {
-          title      : '投票结果预览',
-          menuPath   : false,
-          authCode   : 'P33005',
-          menuIcon   : 'file-text',
-          hideInBread: false
-        }
-      },
-      {
-        path     : '/cms/vote/view',
-        name     : '/cms/vote/view',
-        component: VoteView,
-        meta     : {
-          title      : '投票信息查看',
-          menuPath   : false,
-          authCode   : 'P33003',
-          menuIcon   : 'file-text',
-          hideInBread: false
-        }
-      },
-      {
-        path     : '/cms/vote/qr-list',
-        name     : '/cms/vote/qr-list',
-        component: VoteQrList,
-        meta     : {
-          title      : '投票二维码列表',
-          menuPath   : false,
-          authCode   : 'P33000',
-          menuIcon   : 'file-text',
-          hideInBread: false
-        }
-      }
-    ]
   },
   // {
   //   path     : '/login',
