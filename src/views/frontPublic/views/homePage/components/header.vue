@@ -37,28 +37,28 @@ export default {
     return {
       menuList: [
         {
-          title: "首页",
-          name: 'homepage'
+          title: '首页',
+          name : 'homepage'
         },
         {
-          title: "通知公告",
-          name: 'notificationAnnounce'
+          title: '通知公告',
+          name : 'notificationAnnounce'
         },
         {
-          title: "行业动态",
-          name: 'industryNews'
+          title: '行业动态',
+          name : 'industryNews'
         },
         {
-          title: "知识服务",
-          name: 'knowledgeService'
+          title: '知识服务',
+          name : 'knowledgeService'
         },
         {
-          title: "专题报告",
-          name: 'topicReport'
+          title: '专题报告',
+          name : 'topicReport'
         },
         {
-          title: "数据查询",
-          name: 'dataSearch'
+          title: '数据查询',
+          name : 'dataSearch'
         }
       ]
     }
