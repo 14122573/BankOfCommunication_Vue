@@ -311,21 +311,6 @@ export default {
     }
   },
   methods: {
-    clearHover(record) {
-      return {
-        on: {
-          mouseenter: (event) => {
-            console.log(event)
-            let chooseTool = event.srcElement.lastChild
-            console.log(chooseTool)
-            
-            return document.getElementsByClassName(chooseTool).style.backgroundColor = '#2a93f5'
-            
-            // return event.srcElement.lastChild.style.backgroundColor = "#2a93f5"
-          }
-        }
-      }
-    },
     setRowColor(record, index) {
       let className = index % 2 ? 'row_gray' : 'row_normal'
       return className

@@ -1,11 +1,15 @@
 <template>
-  <div>
-    <div class="pageWrapper">
-      <Navbar class="navbar" />
-      <div class="content">
-        <a-table :columns="columns" :data-source="news" :showHeader=false></a-table>
-      </div>
+<div class="width_cut">
+  <div class="pageWrapper">
+    <Navbar class="navbar" />
+    <div class="content">
+      <a-table
+        :columns="columns"
+        :data-source="news"
+        :showHeader="false"
+      ></a-table>
     </div>
+  </div>
   </div>
 </template>
 
@@ -49,8 +53,7 @@ export default {
           sort      : '01'
         },
         {
-          title:
-            '「中国农业新闻网」严查！严打！严抓！这些农药千万不能乱用！',
+          title  : '「中国农业新闻网」严查！严打！严抓！这些农药千万不能乱用！',
           content:
             '中国农业新闻网:全国唯一一家具有中国农业新闻网合法名称的农业专业网站。粉丝突破百万，一片文章阅读量突破三百三十万的网站。每天为您推送国内外重大农业新闻。一站在手，农业我有。敬请关注！近日，农业农村部在全国部署2020年农产品质量安全专项整治“利剑”行动，严厉打击各类违法违规用药和非法添加行为，严格落实安全间隔期休药期制度，切实保障人民群众“舌尖上的安全”。“利剑”行动将持续至今年12月。',
           postDate  : '2020-02-17',
@@ -59,8 +62,7 @@ export default {
           sort      : '02'
         },
         {
-          title:
-            '扎根科技沃土助推农业发展 聚焦奋战在农业一线的垦区科技工作者',
+          title  : '扎根科技沃土助推农业发展 聚焦奋战在农业一线的垦区科技工作者',
           content:
             '北大荒，是安天下的中华大粮仓, 我国最大的商品粮生产基地，也是农业科技事业的一片沃土。北大荒的科技工作者，深感使命光荣、责任重大，他们弘扬优良传统，不忘科技报国、创新为民的初心，坚定创新自信，充分挖掘农业科技的潜力，围绕农业领域关键核心技术问题刻苦攻关，并加快成果转化。经过不懈努力、探索与实践，一项项科技成果得到了广泛应用，真正发挥出了科技对农业发展的支撑作用。一项项科技成果为北大荒农业发展插上了“科技的翅膀”。',
           postDate  : '2020-02-16',
@@ -69,8 +71,7 @@ export default {
           sort      : '03'
         },
         {
-          title:
-            '实现从传统农业向现代农业的跨越转变',
+          title  : '实现从传统农业向现代农业的跨越转变',
           content:
             '棠张农民素来会种菜，2017年底，铜山区现代农业示范园启动建设，棠张农民的种菜水平更是突飞猛进，再次解锁了新层次、新技能。',
           postDate  : '2020-02-15',
@@ -90,26 +91,32 @@ export default {
         }
       )
     }
-  },
+  }
 }
 </script>
 
 <style scoped>
-  .pageWrapper {
-    padding: 0px 180px 30px 180px;
-    background-color: #F1F5F8;
-  }
+.width_cut {
+  background-color: #f1f5f8;
+}
 
-  .pageWrapper .navbar {
-    text-align: left;
-    padding: 30px 0px;
-  }
+.pageWrapper {
+  max-width: 1000px;
+  margin: 0 auto;
+  height: 700px;
+}
 
-  .pageWrapper .content {
-    background-color: #FFFFFF;
-    height: 500px;
-    padding: 10px 30px;
-  }
+.pageWrapper .navbar {
+  text-align: left;
+  padding: 30px 0px;
+}
+
+.pageWrapper .content {
+  background-color: #ffffff;
+  height: 500px;
+  padding: 10px 30px;
+  margin: 0 auto;
+}
 </style>
 
 <style lang="stylus">

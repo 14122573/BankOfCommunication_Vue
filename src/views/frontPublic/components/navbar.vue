@@ -30,6 +30,7 @@
 
 <script>
 export default {
+  name: 'Navbar',
   data() {
     return {
       list: []
@@ -49,8 +50,7 @@ export default {
       let parentRoute = this.$route.matched[0]
       this.list = []
       this.list.push(parentRoute, currentRoute)
-    },
-    getRoutesName() {}
+    }
   }
 }
 </script>

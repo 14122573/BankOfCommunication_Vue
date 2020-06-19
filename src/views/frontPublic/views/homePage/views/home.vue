@@ -2,11 +2,11 @@
   <div id="components-layout-demo-basic">
     <a-layout class="layout_style">
       <a-layout-header>
-        <PHeader class="pHeader" />
+        <PHeader />
       </a-layout-header>
       <a-layout-content>
         <Lunbo />
-        <router-view />
+        <router-view class="view_style" />
         <Footer />
       </a-layout-content>
       <!-- <a-layout-footer>Footer</a-layout-footer> -->
@@ -70,6 +70,7 @@ export default {
   background-color: #fff;
   margin: 0px 150px 0px 150px;
 }
+
 </style>
 
 <style lang="stylus">

@@ -1,19 +1,20 @@
 <template>
   <div>
-    <div class="pageWrapper">
+    <div class="background">
+      <div class="pageWrapper">
       <Navbar class="navbar" />
       <a-row>
-        <a-col :span="5">
+        <a-col :span="6">
           <LeftNav />
         </a-col>
-        <a-col :span="1">&nbsp;</a-col>
-        <a-col :span="18">
+        <a-col :span="17" :offset="1">
           <!-- <div class="content">
             <KnowledgeContainer />
           </div> -->
           <router-view />
         </a-col>
       </a-row>
+    </div>
     </div>
   </div>
 </template>
@@ -103,9 +104,14 @@ export default {
 </script>
 
 <style scoped>
+.background {
+  width: 100%;
+  background-color: #F1F5F8;
+}
+
 .pageWrapper {
-  padding: 0px 180px 30px 180px;
-  background-color: #f1f5f8;
+  max-width: 1000px;
+  margin: 0 auto;
 }
 
 .pageWrapper .navbar {

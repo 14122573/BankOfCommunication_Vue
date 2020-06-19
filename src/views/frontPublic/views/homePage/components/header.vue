@@ -7,7 +7,6 @@
       align="middle"
       :gutter="10"
     >
-      <!-- <a-col :span="12" style="background-color: red"> -->
       <a-col :span="9">
         <a-row>
           <a-col :span="4"
@@ -20,29 +19,9 @@
       </a-col>
       <a-col :span="15">
         <div class="loginFrameMenu">
-          <!-- <a-menu v-model="current" mode="horizontal"> -->
-          <a-menu mode="horizontal">
-            <a-menu-item key="1">
-              <router-link :to="{ name: 'homepage' }">首页</router-link>
-            </a-menu-item>
-            <a-menu-item key="2">
-              <router-link :to="{ name: 'notificationAnnounce' }"
-                >通知公告</router-link
-              >
-            </a-menu-item>
-            <a-menu-item key="3">
-              <router-link :to="{ name: 'industryNews' }">行业动态</router-link>
-            </a-menu-item>
-            <a-menu-item key="4">
-              <router-link :to="{ name: 'knowledgeService' }"
-                >知识服务</router-link
-              >
-            </a-menu-item>
-            <a-menu-item key="5">
-              <router-link :to="{ name: 'topicReport' }">专题报告</router-link>
-            </a-menu-item>
-            <a-menu-item key="6">
-              <router-link :to="{ name: 'dataSearch' }">数据查询</router-link>
+          <a-menu mode="horizontal" :selected-keys="retrieveSelected">
+            <a-menu-item v-for="(item, index) in menuList" :key="index">
+              <router-link :to="{ name: item.name }">{{item.title}}</router-link>
             </a-menu-item>
           </a-menu>
         </div>
@@ -53,7 +32,43 @@
 
 <script>
 import routes from '@/router/index.js'
-export default {}
+export default {
+  data() {
+    return {
+      menuList: [
+        {
+          title: "首页",
+          name: 'homepage'
+        },
+        {
+          title: "通知公告",
+          name: 'notificationAnnounce'
+        },
+        {
+          title: "行业动态",
+          name: 'industryNews'
+        },
+        {
+          title: "知识服务",
+          name: 'knowledgeService'
+        },
+        {
+          title: "专题报告",
+          name: 'topicReport'
+        },
+        {
+          title: "数据查询",
+          name: 'dataSearch'
+        }
+      ]
+    }
+  },
+  methods: {
+    retrieveSelected() {
+      // 1. 获取当前路由
+    }
+  },
+}
 </script>
 
 <style scoped>

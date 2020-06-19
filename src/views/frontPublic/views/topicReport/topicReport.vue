@@ -1,9 +1,11 @@
 <template>
   <div>
-    <div class="pageWrapper">
-      <Navbar class="navbar" />
-      <div class="content">
-        <a-table :columns="columns" :data-source="news" :showHeader=false></a-table>
+    <div class="background">
+      <div class="pageWrapper">
+        <Navbar class="navbar" />
+        <div class="content">
+          <a-table :columns="columns" :data-source="news" :showHeader=false></a-table>
+        </div>
       </div>
     </div>
   </div>
@@ -93,9 +95,14 @@ export default {
 </script>
 
 <style scoped>
-  .pageWrapper {
-    padding: 0px 180px 30px 180px;
+  .background {
+    width: 100%;
     background-color: #F1F5F8;
+  }
+
+  .pageWrapper {
+    max-width: 1000px;
+    margin: 0 auto;
   }
 
   .pageWrapper .navbar {

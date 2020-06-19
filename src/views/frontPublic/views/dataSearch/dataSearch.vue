@@ -1,45 +1,47 @@
 <template>
   <div>
-    <div class="pageWrapper">
-      <Navbar class="navbar" />
-      <div class="content">
-        <a-row style="background-color: #FFF">
-          <a-col :span="9">
-            指标名称:
-            <a-cascader
-              :options="options"
-              placeholder="请选择指标名称"
-              @change="handleChange"
-            />
-          </a-col>
-          <a-col :span="9">
-            请选择年份：
-            <a-date-picker
-              :open="isopen"
-              :value="yearPickerValue"
-              mode="year"
-              format="YYYY"
-              placeholder="请选择年份"
-              @panelChange="handleYearPicker"
-              @openChange="handleOpenChange"
-            />
-          </a-col>
-          <a-col :span="6">
-            <a-row type="flex" justify="end">
-              <a-col :span="24">
-                <a-button type="primary" @click="showResult"
-                  >提交</a-button
-                >
-                <a-button type="default">重置</a-button>
-              </a-col>
-            </a-row>
-          </a-col>
-        </a-row>
-        <a-row style="height: 20px"/>
-        <a-row style="background-color: #FFF">
-<!--          <SearchResult :query="query"/>-->
-          <component :is="zhibiaoValue" :query="query"></component>
-        </a-row>
+    <div class="background">
+      <div class="pageWrapper">
+        <Navbar class="navbar" />
+        <div class="content">
+          <a-row style="background-color: #FFF">
+            <a-col :span="9">
+              指标名称:
+              <a-cascader
+                :options="options"
+                placeholder="请选择指标名称"
+                @change="handleChange"
+              />
+            </a-col>
+            <a-col :span="9">
+              请选择年份：
+              <a-date-picker
+                :open="isopen"
+                :value="yearPickerValue"
+                mode="year"
+                format="YYYY"
+                placeholder="请选择年份"
+                @panelChange="handleYearPicker"
+                @openChange="handleOpenChange"
+              />
+            </a-col>
+            <a-col :span="6">
+              <a-row type="flex" justify="end">
+                <a-col :span="24">
+                  <a-button type="primary" @click="showResult"
+                    >提交</a-button
+                  >
+                  <a-button type="default">重置</a-button>
+                </a-col>
+              </a-row>
+            </a-col>
+          </a-row>
+          <a-row style="height: 20px"/>
+          <a-row style="background-color: #FFF">
+  <!--          <SearchResult :query="query"/>-->
+            <component :is="zhibiaoValue" :query="query"></component>
+          </a-row>
+        </div>
       </div>
     </div>
   </div>
@@ -223,9 +225,14 @@ export default {
 </script>
 
 <style scoped>
+.background {
+  width: 100%;
+  background-color: #F1F5F8;
+}
+
 .pageWrapper {
-  padding: 0px 180px 30px 180px;
-  background-color: #f1f5f8;
+  max-width: 1000px;
+  margin: 0 auto;
 }
 
 .pageWrapper .navbar {
