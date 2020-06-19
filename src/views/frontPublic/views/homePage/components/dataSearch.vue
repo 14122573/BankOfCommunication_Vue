@@ -77,8 +77,9 @@ export default {
 }
 
 .searchWrapper {
-  padding: 0px 150px 0px 150px;
   height: 200px;
+  max-width: 1000px;
+  margin: 0 auto;
 }
 
 .background .right-content {

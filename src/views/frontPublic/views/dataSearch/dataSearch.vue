@@ -37,7 +37,8 @@
         </a-row>
         <a-row style="height: 20px"/>
         <a-row style="background-color: #FFF">
-          <SearchResult :query="query"/>
+<!--          <SearchResult :query="query"/>-->
+          <component :is="zhibiaoValue" :query="query"></component>
         </a-row>
       </div>
     </div>
@@ -47,11 +48,15 @@
 <script>
 import Navbar from '@/views/frontPublic/components/navbar.vue'
 import moment from 'moment'
-import SearchResult from '@/views/frontPublic/views/dataSearch/searchResult.vue'
+import fishProduction from '@/views/frontPublic/views/dataSearch/searchResult/fishProduction.vue'
+import waterProductionSpecies from '@/views/frontPublic/views/dataSearch/searchResult/waterProductionSpecies.vue'
+import waterProductionWay from '@/views/frontPublic/views/dataSearch/searchResult/waterProductionWay.vue'
 export default {
   components: {
     Navbar,
-    SearchResult
+    fishProduction,
+    waterProductionSpecies,
+    waterProductionWay
   },
   methods: {
     showResult() {
@@ -81,12 +86,12 @@ export default {
   data() {
     return {
       yearPickerValue: null,
-      zhibiaoValue   : null,
+      zhibiaoValue   : 'fishProduction',
       isopen         : false,
       query          : [],
       options        : [
         {
-          value: '01',
+          value: 'fishProduction',
           label: '渔业经济总产值'
         },
         {
@@ -98,11 +103,11 @@ export default {
               label   : '养殖产品（海水养殖）',
               children: [
                 {
-                  value: '02',
+                  value: 'waterProductionSpecies',
                   label: '按养殖品种分'
                 },
                 {
-                  value: '03',
+                  value: 'waterProductionWay',
                   label: '按养殖水域和养殖方式分'
                 }
               ]
