@@ -8,17 +8,17 @@
       :gutter="10"
     >
       <!-- <a-col :span="12" style="background-color: red"> -->
-      <a-col :span="12">
+      <a-col :span="9">
         <a-row>
           <a-col :span="4"
             ><img src="@/assets/images/logo.png" alt="" class="logo"
           /></a-col>
-          <a-col class="" :span="20" :offset="0" style="text-align: left;">
-            “智能渔技”综合信息服务平台
+          <a-col class="" :span="19" :offset="1" style="text-align: left;">
+            <span class="logo_title">“智能渔技”综合信息服务平台</span>
           </a-col>
         </a-row>
       </a-col>
-      <a-col :span="12">
+      <a-col :span="15">
         <div class="loginFrameMenu">
           <!-- <a-menu v-model="current" mode="horizontal"> -->
           <a-menu mode="horizontal">
@@ -69,12 +69,19 @@ export default {}
 .loginFrameTitle .logo {
   height: 60px;
 }
+
+.ant-menu-horizontal {
+  border-bottom: 0px;
+  height: 64px;
+  line-height: 62px;
+}
 </style>
 
 <style lang="stylus" scoped>
-.ant-col .ant-col-20[data-v-8fc72786]
+.ant-col .ant-col-19[data-v-8fc72786]
   $megaFontSize()
 
 .loginFrameMenu > ul
   $titleFontSize()
+  
 </style>

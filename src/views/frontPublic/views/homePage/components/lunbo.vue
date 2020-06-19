@@ -95,7 +95,6 @@ export default {
 .lunbo {
   position: relative;
   width: 100%;
-  margin-top: 10px;
 }
 
 .lunbo .lunbo_carousel {

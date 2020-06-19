@@ -1,6 +1,6 @@
 <template>
   <div>
-    <a-row class="tableWrapper">
+    <a-row class="tableWrapper searchResult">
       <a-table
         :columns="columns"
         :data-source="dataList"
@@ -8,7 +8,6 @@
         size="small"
         :scroll="{ x: 'calc(700px + 50%)' }"
         :rowClassName="setRowColor"
-        :customHeaderRow="clearHover"
       />
     </a-row>
   </div>
@@ -389,4 +388,11 @@ export default {
 .row_normal {
   background-color: white;
 }
+</style>
+
+<style lang="stylus">
+.searchResult th 
+  background-color #2a93f5 !important
+  color #fff !important
+  text-align center !important
 </style>
