@@ -1,7 +1,7 @@
 <template>
   <div>
     <NotifyNIndustry />
-    <DataSearch />
+    <DataSearch style="background-color: #f0f5f8;" />
     <KnowledgeNTopic />
   </div>
 </template>

@@ -26,8 +26,8 @@
             <a class="mouse_trigger">
               <div class="noti_detail" v-if="item.sort == '01'">
                 <a-row type="flex" justify="center">
-                  <a-col class="news_title" :span="19">{{ item.title }}</a-col>
-                  <a-col class="news_date" :span="5">{{ item.postDate }}</a-col>
+                  <a-col class="news_title" :span="16">{{ item.title }}</a-col>
+                  <a-col class="news_date" :span="8">{{ item.postDate }}</a-col>
                 </a-row>
                 <a-row>
                   <a-col class="news_content" :span="24">{{
@@ -49,8 +49,8 @@
                       width="50%"
                     />
                   </a-col>
-                  <a-col class="news_title" :span="18">{{ item.title }}</a-col>
-                  <a-col class="news_date" :span="4">{{ item.postDate }}</a-col>
+                  <a-col class="news_title" :span="16">{{ item.title }}</a-col>
+                  <a-col class="news_date" :span="6">{{ item.postDate }}</a-col>
                 </a-row>
               </div>
             </a>

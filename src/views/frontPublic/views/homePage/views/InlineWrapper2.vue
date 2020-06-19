@@ -26,5 +26,7 @@ export default {
 <style scoped>
 .InlineWrapper {
   height: 550px;
+  max-width: 1000px;
+  margin: 0 auto;
 }
 </style>

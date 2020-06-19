@@ -58,7 +58,8 @@ export default {}
 
 <style scoped>
 .loginFrameBody {
-  margin: 0px 100px 0px 100px;
+  margin: 0 auto;
+  max-width: 1000px;
 }
 .loginFrameTitle {
   color: #000;

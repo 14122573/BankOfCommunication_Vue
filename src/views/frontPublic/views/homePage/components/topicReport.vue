@@ -18,8 +18,8 @@
             <a class="mouse_trigger">
               <div class="noti_oneline">
                 <a-row type="flex" justify="center" style="margin: 20px 0px">
-                  <a-col class="news_title" :span="12">{{ item.title }}</a-col>
-                  <a-col class="news_date" :span="12">{{
+                  <a-col class="news_title" :span="16">{{ item.title }}</a-col>
+                  <a-col class="news_date" :span="8">{{
                     item.postDate
                   }}</a-col>
                 </a-row>

@@ -43,10 +43,10 @@
                           width="50%"
                         />
                       </a-col>
-                      <a-col class="news_title" :span="18">{{
+                      <a-col class="news_title" :span="16">{{
                         item.title
                       }}</a-col>
-                      <a-col class="news_date" :span="4">{{
+                      <a-col class="news_date" :span="6">{{
                         item.postDate
                       }}</a-col>
                     </a-row>

@@ -72,7 +72,6 @@ export default {
   text-align: left;
 }
 .background {
-  background-color: #f0f5f8;
   height: 200px;
   margin: 20px 0px 20px 0px;
 }

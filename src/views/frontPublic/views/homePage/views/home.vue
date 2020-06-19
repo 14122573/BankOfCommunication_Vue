@@ -1,8 +1,8 @@
 <template>
   <div id="components-layout-demo-basic">
-    <a-layout>
+    <a-layout class="layout_style">
       <a-layout-header>
-        <PHeader />
+        <PHeader class="pHeader" />
       </a-layout-header>
       <a-layout-content>
         <Lunbo />
@@ -29,6 +29,10 @@ export default {
 </script>
 
 <style>
+.layout_style {
+  width: 100%;
+}
+
 #components-layout-demo-basic {
   height: 100%;
   overflow: scroll;

@@ -24,4 +24,9 @@ export default {
 </script>
 
 <style scoped>
+.InlineWrapper {
+  height: 500px;
+  max-width: 1000px;
+  margin: 0 auto;
+}
 </style>
