@@ -828,62 +828,62 @@ const appRoutes = [
             ]
           },
           {
-            path: "/cms/vote",
-            name: "/cms/vote",
+            path     : '/cms/vote',
+            name     : '/cms/vote',
             component: VoteList,
-            meta: {
-              title: "投票管理",
-              menuPath: true,
-              authCode: "P33000",
-              menuIcon: "file-text",
+            meta     : {
+              title      : '投票管理',
+              menuPath   : true,
+              authCode   : 'P33000',
+              menuIcon   : 'file-text',
               hideInBread: false
             },
             children: [
               {
-                path: "/cms/vote/edit",
-                name: "/cms/vote/edit",
+                path     : '/cms/vote/edit',
+                name     : '/cms/vote/edit',
                 component: VoteEdit,
-                meta: {
-                  title: "投票详情",
-                  menuPath: false,
-                  authCode: "P33001",
-                  menuIcon: "file-text",
+                meta     : {
+                  title      : '投票详情',
+                  menuPath   : false,
+                  authCode   : 'P33001',
+                  menuIcon   : 'file-text',
                   hideInBread: false
                 }
               },
               {
-                path: "/cms/vote/result",
-                name: "/cms/vote/result",
+                path     : '/cms/vote/result',
+                name     : '/cms/vote/result',
                 component: VoteResult,
-                meta: {
-                  title: "投票结果预览",
-                  menuPath: false,
-                  authCode: "P33005",
-                  menuIcon: "file-text",
+                meta     : {
+                  title      : '投票结果预览',
+                  menuPath   : false,
+                  authCode   : 'P33005',
+                  menuIcon   : 'file-text',
                   hideInBread: false
                 }
               },
               {
-                path: "/cms/vote/view",
-                name: "/cms/vote/view",
+                path     : '/cms/vote/view',
+                name     : '/cms/vote/view',
                 component: VoteView,
-                meta: {
-                  title: "投票信息查看",
-                  menuPath: false,
-                  authCode: "P33003",
-                  menuIcon: "file-text",
+                meta     : {
+                  title      : '投票信息查看',
+                  menuPath   : false,
+                  authCode   : 'P33003',
+                  menuIcon   : 'file-text',
                   hideInBread: false
                 }
               },
               {
-                path: "/cms/vote/qr-list",
-                name: "/cms/vote/qr-list",
+                path     : '/cms/vote/qr-list',
+                name     : '/cms/vote/qr-list',
                 component: VoteQrList,
-                meta: {
-                  title: "投票二维码列表",
-                  menuPath: false,
-                  authCode: "P33000",
-                  menuIcon: "file-text",
+                meta     : {
+                  title      : '投票二维码列表',
+                  menuPath   : false,
+                  authCode   : 'P33000',
+                  menuIcon   : 'file-text',
                   hideInBread: false
                 }
               }
