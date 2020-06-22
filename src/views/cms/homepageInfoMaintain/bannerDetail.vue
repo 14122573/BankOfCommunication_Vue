@@ -1,22 +1,30 @@
 <template>
   <div>
     <div class="detailWrapper">
-      <div class="detailWrapperTitle">
-        标题栏
-      </div>
-
-      <div class="detailWrapperContent">
-        <a-descriptions title="User Info">
-          <a-descriptions-item label="轮播图名称">
-            {{data.bannerName}}
-          </a-descriptions-item>
-          <a-descriptions-item label="照片">
-            {{data.id}}
-          </a-descriptions-item>
-          <a-descriptions-item label="跳转链接">
-            {{data.linkUrl}}
-          </a-descriptions-item>
-        </a-descriptions>
+      <div class="portalDetailWapper">
+        <div class="portalDetailTitle">
+          <span class="title">横幅图详情</span>
+          <div class="detailOperations">
+            <a-button @click="$router.back()"> 返回 </a-button>
+          </div>
+        </div>
+        <div class="portalDetailContentWapper">
+          <div class="portalDetailContentBody">
+            <div class="detailWrapperContent">
+              <a-descriptions>
+                <a-descriptions-item label="轮播图名称">
+                  {{ data.bannerName }}
+                </a-descriptions-item>
+                <a-descriptions-item label="照片">
+                  {{ data.id }}
+                </a-descriptions-item>
+                <a-descriptions-item label="跳转链接">
+                  {{ data.linkUrl }}
+                </a-descriptions-item>
+              </a-descriptions>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -26,34 +34,32 @@
 export default {
   data() {
     return {
-      data: []
+      data      : [],
+      bannerId  : null,
+      detailDesc: []
     }
   },
   mounted() {
     this.getList()
-    console.log(this.data)
-    
   },
   methods: {
     getList() {
-      const searchParams = JSON.parse(JSON.stringify(this.searchForm))
-      let query = 'http://yapi.omniview.pro/mock/267/service-release/banner'
+      let that = this
+      this.bannerId = this.$route.params.id
+      let query =
+        'http://yapi.omniview.pro/mock/267/service-release/banner/' +
+        this.bannerId
       this.$ajax
         .get({
           url: query
         })
         .then(res => {
           if (res.code === '200') {
-            this.data = this.$com.confirm(res, 'data.content', [])
+            that.data = this.$com.confirm(res, 'data.content', [])
+            console.log(JSON.stringify(that.data))
           } else {
             this.$message.error(res.msg)
           }
-          // 存储当前页面列表的搜索添加和分页信息
-          this.$com.storeSearchParams(
-            this.$route.name + '/old',
-            this.params,
-            this.searchForm
-          )
         })
     }
   }
@@ -62,12 +68,12 @@ export default {
 
 <style scoped>
 .detailWrapperTitle {
-  background-color: #FFF;
+  background-color: #fff;
   margin: 10px 10px;
 }
 
 .detailWrapperContent {
-  background-color: #FFF;
+  background-color: #fff;
   margin: 10px 10px;
   height: 300px;
   padding: 30px 30px;

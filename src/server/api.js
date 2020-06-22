@@ -1,4 +1,4 @@
-let BASE_URL = '', MOCK_URL=''
+let BASE_URL = '', MOCK_URL='', CLONE_MOCK = ''
 switch (process.env.NODE_ENV) {
 case 'devol':
 // 本地线上部署环境下
@@ -21,6 +21,7 @@ default:
   // BASE_URL = 'http://fish.omniview.pro/api'
   BASE_URL = 'http://iftp.omniview.pro/api'
   MOCK_URL = 'http://yapi.omniview.pro/mock/183'
+  CLONE_MOCK = 'http://yapi.omniview.pro/mock/267'
   break
 }
 
@@ -165,5 +166,12 @@ export default {
   DELETE_MANUAL           : '/service-release/release/handbook/{id}', // 删除手册
   // 兽医
   GET_VETERINARYALL       : '/veterinary/veterinary/public/doctor/publicInfo/allpub', // 全部兽医
-  GET_VETERINARY          : '/veterinary/veterinary/public/doctor/publicInfo/pub/{id}/{type}'// 单个兽医
+  GET_VETERINARY          : '/veterinary/veterinary/public/doctor/publicInfo/pub/{id}/{type}',// 单个兽医
+
+  // 轮播图
+  GET_BANNER_LIST  : '/service-release/banner',
+  GET_BANNER_DETAIL: '/service-release/banner/{id}',
+  DELETE_BANNER    : '/service-release/banner/{id}',
+  PUT_BANNER       : '/service-release/banner/{id}',
+  POST_BANNER      : '/service-release/banner'
 }
