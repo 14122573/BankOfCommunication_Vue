@@ -74,7 +74,7 @@ export default {
   methods: {
     jumpToPage() {
       this.$router.push({
-        name: 'notificationAnnounce'
+        name: 'votingRules'
       })
     },
     handleClick() {

@@ -20,7 +20,7 @@
       <a-col :span="15">
         <div class="loginFrameMenu">
           <a-menu mode="horizontal" :selected-keys="retrieveSelected">
-            <a-menu-item v-for="(item, index) in menuList" :key="index">
+            <a-menu-item v-for="(item) in menuList" :key="item.key">
               <router-link :to="{ name: item.name }">{{item.title}}</router-link>
             </a-menu-item>
           </a-menu>
@@ -37,36 +37,44 @@ export default {
     return {
       menuList: [
         {
+          key  : '0',
           title: '首页',
           name : 'homepage'
         },
         {
+          key  : '1',
           title: '通知公告',
           name : 'notificationAnnounce'
         },
         {
+          key  : '2',
           title: '行业动态',
           name : 'industryNews'
         },
         {
+          key  : '3',
           title: '知识服务',
           name : 'knowledgeService'
         },
         {
+          key  : '4',
           title: '专题报告',
           name : 'topicReport'
         },
         {
+          key  : '5',
           title: '数据查询',
           name : 'dataSearch'
         }
-      ]
+      ],
+      retrieveSelected: [ '0' ],
     }
   },
   methods: {
-    retrieveSelected() {
-      // 1. 获取当前路由
-    }
+    // retrieveSelected() {
+    //   // 1. 获取当前路由
+    //   return []
+    // }
   },
 }
 </script>

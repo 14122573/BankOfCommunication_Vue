@@ -7,6 +7,12 @@
       :placeholder="placeholder"
       :disabled="item.disabled" />
 
+    <a-input-number
+      v-if="item.type == 'number'"
+      v-decorator="validate"
+      :placeholder="placeholder"
+      :disabled="item.disabled" />
+
     <a-textarea
       v-if="item.type == 'textarea'"
       v-decorator="validate"
@@ -176,7 +182,7 @@ export default {
       if (item.placeholder) {
         return item.placeholder
       }
-      if (item.type == 'input' || item.type == 'textarea') {
+      if (item.type == 'input' || item.type == 'textarea' || item.type == 'number') {
         return '请输入'
       }
       if (item.type == 'daterange') {

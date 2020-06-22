@@ -13,6 +13,39 @@
         <div class="layoutMargin detailsPartSection">
           <ActiveForm ref="basicForm" :layout="layout" :label-width="150" :model="model">
             <p slot="title" class="detailsPartTitle">基本信息</p>
+            <div class="votingRules" style="display:flex;height:64px;">
+              <span class="formLabel" style="width:150px;text-align:right;line-height:34px;color:#333;">投票规则：</span>
+              <!-- <a-select :defaultValue="result" style="width: 200px" @change="handleChange">
+                <a-select-option value="0">
+                  不限制投票次数
+                </a-select-option>
+                <a-select-option value="1">
+                  限制投票次数
+                </a-select-option>
+              </a-select> -->
+              <a-radio-group v-model="result" @change="handleChange">
+                <a-radio value="0">
+                  不限制投票次数
+                </a-radio>
+                <a-radio value="1">
+                  限制投票次数
+                  <template v-if="result === '1'">最大为
+                  <!-- <a-input v-if="result === '1'" :style="{ width: 100, marginLeft: 10 }" /> -->
+                    <a-input-number :precision="0" :min='1' :max="1000" v-model="number" placeholder="请输入"/> 次
+                  </template>
+                </a-radio>
+              </a-radio-group>
+            </div> 
+            <!-- <template v-if="result == '1'">
+              <div style="display:flex;height:64px;">
+                <span class="formLabel" style="width:150px;text-align:right;line-height:30px;color:#333;">最大投票次数：</span>
+                <a-input-number :precision="0" :min='1' :max="1000" v-model="number" placeholder="请输入"/>
+              </div> 
+            </template> -->
+            <div style="display:flex;">
+              <span class="formLabel" style="width:150px;text-align:right;color:#333;">简介：</span>
+              <UeditorCompent ref="ue" :value="model.description" ></UeditorCompent>
+            </div> 
           </ActiveForm>
         </div>
       </div>
@@ -58,11 +91,18 @@
 </template>
 
 <script>
+import UeditorCompent from '@/components/theThreeParty/ueditor.vue'
+
 export default {
+  components: {
+    UeditorCompent
+  },
   name: 'VoteEdit',
   data() {
     return {
       voteId: null, // null为新增模式，有值为修改模式
+      result: '0',
+      number: 1,
       layout: [
         {
           name: {
@@ -74,16 +114,16 @@ export default {
             }
           },
         },
-        {
-          description: {
-            label   : '简介',
-            type    : 'textarea',
-            width   : 20,
-            validate: {
-              rules: [ { required: true, message: '请输入简介' } ]
-            }
-          }
-        },
+        // {
+        //   description: {
+        //     label   : '简介',
+        //     type    : 'textarea',
+        //     width   : 20,
+        //     validate: {
+        //       rules: [ { required: true, message: '请输入简介' } ]
+        //     }
+        //   }
+        // },
         {
           date: {
             label       : '投票起止时间',
@@ -160,7 +200,7 @@ export default {
     }
   },
   methods: {
-    getDetail() {
+    getDetail() { //修改的时候获取数据
       this.$ajax.get({
         url: this.$api.GET_VOTE_DETAIL.replace('{id}', this.voteId)
       }).then(res => {
@@ -172,6 +212,11 @@ export default {
         }
         this.questionList = subjects
       })
+    },
+    handleChange(e){
+      // console.log('radio checked', e.target.value)
+      // this.result = e.target.value
+      // console.log(this.result)
     },
     addNewQuestion() {
       if (this.checkIsEditing()) return
@@ -304,6 +349,16 @@ export default {
       if (this.checkIsEditing()) return
       this.$refs.basicForm.validate(err => {
         if (err) return
+
+        this.model.description = this.$refs.ue.value2
+        if (!this.model.description || this.model.description=='') {
+          this.$modal.error({
+            title  : '提示',
+            content: '请填写投票简介',
+            okText : '确认',
+          })
+          return
+        }
         if (this.questionList.length == 0) {
           this.$modal.error({
             title  : '提示',
@@ -327,7 +382,7 @@ export default {
           endTime  : date[1],
           status,
           subjects : this.questionList,
-        }
+        } 
         this.$ajax[method]({
           url,
           params,
@@ -394,4 +449,19 @@ export default {
   .actions > i:last-child:hover {
     color: red;
   }
+  .formLabel::before {
+    display: inline-block;
+    margin-right: 4px;
+    color: #f5222d;
+    font-size: 14px;
+    font-family: SimSun, sans-serif;
+    line-height: 1;
+    content: '*';
+  }
+</style>
+<style lang="stylus">
+.votingRules 
+  .ant-radio-wrapper
+    line-height 34px
+
 </style>
