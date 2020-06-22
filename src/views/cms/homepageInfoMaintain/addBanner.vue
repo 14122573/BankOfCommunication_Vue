@@ -46,11 +46,11 @@ import FileUpload from '@/components/Upload/fileUpload'
 export default {
   data() {
     return {
-      data      : [],
-      bannerId  : null,
-      detailDesc: [],
+      data             : [],
+      bannerId         : null,
+      detailDesc       : [],
       farmingCreateForm: this.$form.createForm(this),
-      rules     : {
+      rules            : {
         title: [
           { required: true, whitespace: true, message: '请输入轮播图名称!' },
         ],
@@ -58,7 +58,7 @@ export default {
           { required: false, whitespace: true, message: '请输入跳转链接!' }
         ],
       },
-      uploadConfig  : {
+      uploadConfig: {
         maxSize         : 1*1024*1024,
         acceptTypesArray: [ 'jpg', 'jpeg', 'png' ]
       }

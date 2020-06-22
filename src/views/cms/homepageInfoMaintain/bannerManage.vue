@@ -91,109 +91,109 @@
 
 <script>
 export default {
-  name: "banner-manage",
+  name: 'banner-manage',
   mounted() {
-    if (this.$route.name == "/cms/homepageInfoMaintain") {
-      this.getList();
+    if (this.$route.name == '/cms/homepageInfoMaintain') {
+      this.getList()
     }
   },
   data() {
     return {
       searchForm: {
-        title: ""
+        title: ''
       },
       modifyVisible: false,
-      pagination: {
-        pageNo: 1,
-        pageSize: 10,
-        total: 0,
-        current: 1,
-        defaultCurrent: 1,
+      pagination   : {
+        pageNo         : 1,
+        pageSize       : 10,
+        total          : 0,
+        current        : 1,
+        defaultCurrent : 1,
         showQuickJumper: true,
-        onChange: this.onChange
+        onChange       : this.onChange
       },
-      data: [],
-      resetData: this.$form.createForm(this),
+      data         : [],
+      resetData    : this.$form.createForm(this),
       modifySection: [
         {
-          idToIdentify: null,
+          idToIdentify : null,
           renameSection: null
         }
       ],
       columns: [
         {
-          title: "轮播图名称",
-          dataIndex: "bannerName",
-          key: "bannerName"
+          title    : '轮播图名称',
+          dataIndex: 'bannerName',
+          key      : 'bannerName'
         },
         {
-          title: "创建人名称",
-          dataIndex: "creator",
-          key: "creator"
+          title    : '创建人名称',
+          dataIndex: 'creator',
+          key      : 'creator'
         },
         {
-          title: "上次修改人员",
-          dataIndex: "operator",
-          key: "operator"
+          title    : '上次修改人员',
+          dataIndex: 'operator',
+          key      : 'operator'
         },
         {
-          title: "操作",
-          dataIndex: "action",
-          key: "action",
-          width: 200,
+          title      : '操作',
+          dataIndex  : 'action',
+          key        : 'action',
+          width      : 200,
           scopedSlots: {
-            customRender: "action"
+            customRender: 'action'
           }
         }
       ]
-    };
+    }
   },
   methods: {
     modifyInfo(item) {
-      this.modifySection.idToIdentify = item.id;
-      this.modifyVisible = true;
+      this.modifySection.idToIdentify = item.id
+      this.modifyVisible = true
     },
     getSearchParams() {
       if (!!searchParams.params) {
         Object.keys(searchParams.params).forEach(elem => {
-          this.searchForm[elem] = searchParams.params[elem];
-        });
+          this.searchForm[elem] = searchParams.params[elem]
+        })
       }
       if (!!searchParams.pagination) {
         if (
           !!searchParams.pagination.pageNo &&
           searchParams.pagination.pageNo != 1
         ) {
-          this.pagination.pageNo = searchParams.pagination.pageNo;
+          this.pagination.pageNo = searchParams.pagination.pageNo
         }
       }
-      this.getList();
+      this.getList()
     },
     onChange(current) {
-      this.pagination.pageNo = current;
-      this.pagination.current = current;
-      this.getList();
+      this.pagination.pageNo = current
+      this.pagination.current = current
+      this.getList()
     },
     getList() {
-      const searchParams = JSON.parse(JSON.stringify(this.searchForm));
-      let query = "http://yapi.omniview.pro/mock/267/service-release/banner";
+      const searchParams = JSON.parse(JSON.stringify(this.searchForm))
+      let query = 'http://yapi.omniview.pro/mock/267/service-release/banner'
       this.$ajax
         .get({
           url: query
         })
         .then(res => {
-          if (res.code === "200") {
-            this.data = this.$com.confirm(res, "data.content", []);
+          if (res.code === '200') {
+            this.data = this.$com.confirm(res, 'data.content', [])
           } else {
-            this.$message.error(res.msg);
+            this.$message.error(res.msg)
           }
           // 存储当前页面列表的搜索添加和分页信息
           this.$com.storeSearchParams(
-            this.$route.name + "/old",
+            this.$route.name + '/old',
             this.params,
             this.searchForm
-          );
-        });
+          )
+        })
     },
     handleResetOk() {
       this.resetData.validateFields(err => {
@@ -201,74 +201,74 @@ export default {
           this.$ajax
             .put({
               url:
-                "http://yapi.omniview.pro/mock/267/service-release/titleManage/" +
+                'http://yapi.omniview.pro/mock/267/service-release/titleManage/' +
                 this.modifySection.idToIdentify,
               params: {
-                titleName: this.resetData.getFieldValue("newSectionName")
+                titleName: this.resetData.getFieldValue('newSectionName')
               }
             })
             .then(res => {
-              if (res.code === "200") {
-                this.$message.success("修改栏目名称成功");
-                this.handleCancel();
-                this.getList();
+              if (res.code === '200') {
+                this.$message.success('修改栏目名称成功')
+                this.handleCancel()
+                this.getList()
               }
-            });
+            })
         } else {
-          this.$com.getFormValidErrTips(this, err);
+          this.$com.getFormValidErrTips(this, err)
         }
-      });
+      })
     },
     handleCancel() {
-      this.modifyVisible = false;
+      this.modifyVisible = false
     },
     search() {
-      this.pagination.pageNo = 1;
-      this.pagination.current = 1;
-      this.getList();
+      this.pagination.pageNo = 1
+      this.pagination.current = 1
+      this.getList()
     },
     addBanner() {
-      console.log("clicked");
+      console.log('clicked')
       this.$router.push({
-        name: "/cms/homepageInfoMaintain/addBanner"
-      });
+        name: '/cms/homepageInfoMaintain/addBanner'
+      })
     },
     bannerSort() {
-      console.log("clicked");
+      console.log('clicked')
       this.$router.push({
-        name: "/cms/homepageInfoMaintain/bannerSort"
-      });
+        name: '/cms/homepageInfoMaintain/bannerSort'
+      })
     },
     bannerDetail(value) {
       this.$router.push({
-        name: "/cms/homepageInfoMaintain/bannerDetail",
+        name  : '/cms/homepageInfoMaintain/bannerDetail',
         params: {
           id: value.id
         }
-      });
+      })
     },
     deleteBanner(value) {
-      let that = this;
+      let that = this
       this.$modal.confirm({
-        title: "您确认删除" + " '" + value.bannerName + "' " + "吗？",
-        content: "删除后将无法找回!",
+        title  : '您确认删除' + ' \'' + value.bannerName + '\' ' + '吗？',
+        content: '删除后将无法找回!',
         onOk() {
-          let query = "http://yapi.omniview.pro/mock/267/service-release/banner/" + value.id;
+          let query = 'http://yapi.omniview.pro/mock/267/service-release/banner/' + value.id
           that.$ajax
             .delete({
               url: query
             })
             .then(res => {
-              if (res.code === "200") {
+              if (res.code === '200') {
                 that.$message.success('删除成功')
               } else {
-                that.$message.error(res.msg);
+                that.$message.error(res.msg)
               }
-            });
+            })
         },
         onCancel() {}
-      });
+      })
     }
   }
-};
+}
 </script>
