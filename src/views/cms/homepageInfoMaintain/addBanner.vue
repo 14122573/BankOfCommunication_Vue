@@ -4,12 +4,12 @@
 			<span class="title">新增轮播图</span>
 			<div class="detailOperations">
 				<a-button @click='$router.back()'>取消</a-button>
-				<a-button type="primary" @click='saveFarming("save")'>保存</a-button>
+				<a-button type="primary" @click='saveBanner()'>保存</a-button>
 			</div>
 		</div>
     <div  class="portalDetailContentWapper">
       <div class="portalDetailContentBody create-talent" ref="create-talent">
-        <a-form :form="farmingCreateForm">
+        <a-form :form="bannerCreateForm">
           <div class="layoutMargin detailsPartSection">
             <p class="detailsPartTitle">轮播图信息</p>
             <div style="margin:0 16px;">
@@ -21,15 +21,15 @@
                 </a-col>
                 <a-col span="16">
                   <a-form-item label="跳转链接" :label-col="{span:4}" :wrapper-col="{span:20}">
-                    <a-input v-decorator="['source',{validateTrigger: 'blur',rules:rules.jumpHref}]" placeholder="请输入轮播图链接"></a-input>
+                    <a-input v-decorator="['jumpHref',{validateTrigger: 'blur',rules:rules.jumpHref}]" placeholder="请输入轮播图链接"></a-input>
                   </a-form-item>
                 </a-col>
               </a-row>
               <a-row :gutter='16'>
                 <a-col span="16">
                   <a-form-item label="上传附件" :label-col="{span:4}" :wrapper-col="{span:20}">
-                    <FileUpload @change="onUploadFileChange"  :acceptTypes="uploadConfig.acceptTypesArray" :maxFileSize="uploadConfig.maxSize" :maxCount="9" :timestamp="Date.now()"></FileUpload>
-                     <a-alert style="margin-top:16px" message="可上传JPG, JPEG, PNG图片" type="info" showIcon />
+                    <FileUpload :customRequest="data => {handleUpload(data, fileList)}"  :acceptTypes="uploadConfig.acceptTypesArray" :maxFileSize="uploadConfig.maxSize" :maxCount="1" :timestamp="Date.now()"></FileUpload>
+                     <a-alert style="margin-top:16px" message="可上传最大1M的JPG, JPEG, PNG图片" type="info" showIcon />
                   </a-form-item>
                 </a-col>
               </a-row>
@@ -46,11 +46,11 @@ import FileUpload from '@/components/Upload/fileUpload'
 export default {
   data() {
     return {
-      data             : [],
-      bannerId         : null,
-      detailDesc       : [],
-      farmingCreateForm: this.$form.createForm(this),
-      rules            : {
+      data            : [],
+      bannerId        : null,
+      detailDesc      : [],
+      bannerCreateForm: this.$form.createForm(this),
+      rules           : {
         title: [
           { required: true, whitespace: true, message: '请输入轮播图名称!' },
         ],
@@ -71,8 +71,43 @@ export default {
     this.getList()
   },
   methods: {
-    onUploadFileChange(filelist){
-      this.uploadFileList = [].concat(filelist)
+    handleUpload(data, fileList) {
+      const formData = new FormData()
+      formData.append('file', data.file)
+      this.$ajax.post({
+        url   : this.$api.UPLOAD_TEMP,
+        params: formData
+      }).then(res => {
+        if (res.code === '200') {
+          let data = this.$com.confirm(res, 'data.content', {})
+          this.fileList = []
+          this.fileList.push({
+            uid   : data.id,
+            name  : data.name,
+            status: 'done',
+            url   : data.path
+          })
+        }
+      })
+    },
+    saveBanner() {
+      let query = 'http://yapi.omniview.pro/mock/267/service-release/banner'
+      this.$ajax
+        .post({
+          url   : query,
+          params: {
+            bannerName: this.bannerCreateForm.getFieldValue('title'),
+            linkUrl   : this.bannerCreateForm.getFieldValue('jumpHref'),
+          }
+        })
+        .then(res => {
+          if (res.code === '200') {
+            console.log()
+            
+          } else {
+            this.$message.error(res.msg)
+          }
+        })
     },
     getList() {
       let that = this

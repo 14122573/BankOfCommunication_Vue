@@ -4,7 +4,7 @@
       <div class="pageWrapper">
         <Navbar class="navbar" />
         <div class="content">
-          <a-row style="background-color: #FFF">
+          <a-row class="row_style">
             <a-col :span="9">
               指标名称:
               <a-cascader
@@ -228,6 +228,11 @@ export default {
 .background {
   width: 100%;
   background-color: #F1F5F8;
+}
+
+.row_style {
+  background-color: #FFF; 
+  line-height: 120px
 }
 
 .pageWrapper {

@@ -250,7 +250,7 @@ export default {
     deleteBanner(value) {
       let that = this
       this.$modal.confirm({
-        title  : '您确认删除' + ' \'' + value.bannerName + '\' ' + '吗？',
+        title  : '您确认删除"' + value.bannerName + '"吗？',
         content: '删除后将无法找回!',
         onOk() {
           let query = 'http://yapi.omniview.pro/mock/267/service-release/banner/' + value.id
