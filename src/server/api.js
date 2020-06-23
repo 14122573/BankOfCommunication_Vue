@@ -169,20 +169,24 @@ export default {
   GET_VETERINARY          : '/veterinary/veterinary/public/doctor/publicInfo/pub/{id}/{type}',// 单个兽医
 
   // 轮播图
-  GET_BANNER_LIST  : '/service-release/banner',
-  GET_BANNER_DETAIL: '/service-release/banner/{id}',
-  DELETE_BANNER    : '/service-release/banner/{id}',
-  PUT_BANNER       : '/service-release/banner/{id}',
-  POST_BANNER      : '/service-release/banner',
+  GET_BANNER_LIST  : '/service-release/banner',  //轮播图-查询
+  GET_BANNER_DETAIL: '/service-release/banner/{id}', //轮播图-查看-详情
+  DELETE_BANNER    : '/service-release/banner/{id}', // 轮播图-删除
+  PUT_BANNER       : '/service-release/banner/{id}', //轮播图-修改
+  POST_BANNER      : '/service-release/banner', //轮播图-新增
+  GET_BANNER_SORT  : '/service-release/banner/group', //轮播图-排序-查询可排序数据
+  PUT_BANNER_SORT  : '/service-release/banner/group', // 轮播图-排序-添加排序顺序
+  PUT_BANNER_SORT  : '/service-release/banner/group/{Id}', // 轮播图-排序-删除指定轮播图排列顺序
+
 
   // 公告
-  GET_ANNOUNCE_LIST      : '/service-release/release/news',
-  GET_ANNOUNCE_DETAIL    : '/service-release/release/news/{id}',
-  GET_PUB_ANNOUNCE_LIST  : '/service-release/release/public/news',
-  GET_PUB_ANNOUNCE_DETAIL: '/service-release/release/public/news/{id}',
-  POST_ADD_ANNOUNCE      : '/service-release/release/news',
-  PUT_ANNOUNCE_TOP       : '/service-release/release/news/top/{id}/{top}',
-  PUT_ANNOUNCE_MODIFY    : '/service-release/release/news/{id}',
-  DELETE_ANNOUNCE        : '/service-release/release/news/{id}',
-  PUT_ANNOUNCE_STATUS    : '/service-release/release/news/{id}/{status}'
+  GET_ANNOUNCE_LIST      : '/service-release/release/news', //列表（需登录）
+  GET_ANNOUNCE_DETAIL    : '/service-release/release/news/{id}',//明细（需登录）
+  GET_PUB_ANNOUNCE_LIST  : '/service-release/release/public/news', //列表
+  GET_PUB_ANNOUNCE_DETAIL: '/service-release/release/public/news/{id}', //明细
+  POST_ADD_ANNOUNCE      : '/service-release/release/news', //新增
+  PUT_ANNOUNCE_TOP       : '/service-release/release/news/top/{id}/{top}', //置顶
+  PUT_ANNOUNCE_MODIFY    : '/service-release/release/news/{id}', //修改
+  DELETE_ANNOUNCE        : '/service-release/release/news/{id}', //删除
+  PUT_ANNOUNCE_STATUS    : '/service-release/release/news/{id}/{status}' //修改状态
 }
