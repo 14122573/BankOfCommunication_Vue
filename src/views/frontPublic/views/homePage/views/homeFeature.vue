@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="wrapper">
     <NotifyNIndustry />
     <DataSearch style="background-color: #f0f5f8;" />
     <KnowledgeNTopic />
@@ -18,3 +18,9 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+  .wrapper {
+    background-color: #ffffff
+  }
+</style>

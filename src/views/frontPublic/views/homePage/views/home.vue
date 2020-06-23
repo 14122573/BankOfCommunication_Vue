@@ -6,7 +6,7 @@
       </a-layout-header>
       <a-layout-content>
         <Lunbo />
-        <router-view class="view_style" />
+        <router-view />
         <Footer />
       </a-layout-content>
       <!-- <a-layout-footer>Footer</a-layout-footer> -->
@@ -27,7 +27,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 .layout_style {
   width: 100%;
 }
@@ -51,12 +51,6 @@ export default {
 #components-layout-demo-basic .ant-layout-sider {
   background: #3ba0e9;
   color: #fff;
-  line-height: 120px;
-}
-#components-layout-demo-basic .ant-layout-content {
-  background-color: #fff;
-  color: #000;
-  min-height: 120px;
   line-height: 120px;
 }
 #components-layout-demo-basic > .ant-layout {

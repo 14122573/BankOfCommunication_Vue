@@ -5,7 +5,9 @@
 			<div class="detailOperations">
 				<a-button @click='$router.back()'>取消</a-button>
 				<a-button type="primary" @click='saveFarming("save")'>保存</a-button>
+        <a-button type="primary" @click='saveFarming("saveNcreate")'>保存并新建</a-button>
 				<a-button type="primary" @click='saveFarming("publish")'>保存并发布</a-button>
+        <a-button type="primary" @click='saveFarming("publishNcreate")'>发布并新建</a-button>
 			</div>
 		</div>
     <div  class="portalDetailContentWapper">
@@ -82,18 +84,6 @@ export default {
     FileUpload, VueUeditorWrap
   },
   data() {
-    const validateVideoPath = (rule, value, callback) => {
-      if (!value) {
-        callback()
-      } else {
-        const startStr = value.substr(0, 8).toLowerCase()
-        if (startStr.indexOf('https://')!=-1 || startStr.indexOf('http://')!=-1) {
-          callback()
-        } else {
-          callback('请输入带有\'Http://\'或\'https://\'完整线上视频地址')
-        }
-      }
-    }
     return {
       ueditorConfig: {
         serverUrl       : this.$api.GET_UEDITOR_SERVICE_URL,
@@ -149,9 +139,7 @@ export default {
       },
       farmingCreateForm: this.$form.createForm(this),
       formData         : {
-        anonymous   : '0',
-        content     : '',
-        videoUrlList: [ '' ]
+        content: '',
       },
       dateFormat: 'YYYY/MM/DD',
       rules     : {
@@ -172,10 +160,6 @@ export default {
         ],
         postMan: [
           { required: false, message: '请输入发稿人' }
-        ],
-        path: [
-          { required: true, message: '请输入知识文献内容视频的线上地址！并带有"Http://"或"https://"' },
-          { validator: validateVideoPath }
         ],
       },
       postPerson    : '',
@@ -198,28 +182,6 @@ export default {
     this.getUserInfo()
   },
   methods: {
-    /**
-     * 整理填写的线上视频地址数组和上传的文件数组，合并成指定提交的数据格式
-     * @returns {Array} 合并后的文件数组
-     */
-    arrangeFileList(){
-      const fileList = this.uploadFileList.map((item, index) => {
-        return {
-          type    : 1,
-          sort    : index+1,
-          fileId  : item.uid,
-          fileName: item.name
-        }
-      })
-      const videoList = this.formData.videoUrlList.map((item, index) => {
-        return {
-          type    : 2,
-          sort    : fileList.length+index+1,
-          filePath: item
-        }
-      })
-      return fileList.concat(videoList)
-    },
     getUserInfo() {
       this.$ajax.get({
         url: this.$api.GET_USER_INFO,
@@ -227,38 +189,6 @@ export default {
         let content = res.data.content
         this.postPerson =  content.name
       })
-    },
-
-    /**
-     * 批量检查输入的线上视频地址是否符合格式
-     * @param {Array} urls 一维已填写的线上地址数组
-     * @returns {Boolean} 已传入地址数组中的每个元素是否符合url地址要求
-     */
-    checkVideoUrl(urls){
-      if(Array.isArray(urls) && urls.length > 0){
-        return urls.every(url => {
-          if (!url) return true
-          const str = url.toLowerCase()
-          return str.startsWith('https://') || str.startsWith('http://')
-        })
-      }else{
-        return true
-      }
-    },
-
-    /**
-     * 通过增加videoUrlList组数长度，控制可填写的视频地址input输入框个数
-     */
-    addVideo(){
-      this.formData.videoUrlList.push('')
-    },
-
-    /**
-     * 删除指定下标位置的线上视频地址
-     * @param {Number}  index formData.videoUrlList数组下标
-     */
-    deleteVideoUrl(index){
-      this.formData.videoUrlList.splice(index, 1)
     },
     moment,
 
@@ -287,15 +217,6 @@ export default {
       // console.log(this.arrangeFileList())
       this.farmingCreateForm.validateFields(err => {
         if (!err) {
-          if(!this.checkVideoUrl(this.formData.videoUrlList)){
-            this.$modal.error({
-              title     : '表单验证未通过',
-              content   : '”线上视频“填写了不合规的URL地址，请输入带有\'http://\'或\'https://\'完整线上视频地址',
-              okText    : '确认',
-              cancelText: '取消',
-            })
-            return
-          }
           if(this.formData.content==''){
             this.$modal.error({
               title     : '表单验证未通过',
@@ -307,17 +228,24 @@ export default {
           }
 
           const postParams = Object.assign({}, this.formData, {
-            'title'     : this.farmingCreateForm.getFieldValue('title'),
-            'source'    : this.farmingCreateForm.getFieldValue('source'),
-            'section'   : this.farmingCreateForm.getFieldValue('section'),
-            'postDate'  : this.farmingCreateForm.getFieldValue('postDate'),
-            'keywords'  : this.farmingCreateForm.getFieldValue('keywords'),
-            'postMan'   : this.farmingCreateForm.getFieldValue('postMan'),
-            'attachment': this.arrangeFileList()
+            'title'   : this.farmingCreateForm.getFieldValue('title'),
+            'source'  : this.farmingCreateForm.getFieldValue('source'),
+            'section' : this.farmingCreateForm.getFieldValue('section'),
+            'postDate': this.farmingCreateForm.getFieldValue('postDate'),
+            'keyWord' : this.farmingCreateForm.getFieldValue('keywords'),
+            'author'  : this.farmingCreateForm.getFieldValue('postMan'),
           })
           console.log(JSON.stringify(postParams))
-          
-          delete postParams.videoUrlList
+
+          this.$ajax.post({
+            url   : this.$api.POST_ADD_ANNOUNCE,
+            params: postParams
+          }).then(res => {
+            if (res.code === '200') {
+              this.$message.success(type=='save'?'暂存成功':'保存并发布成功')
+              this.$router.push({ name: '/cms/farmingtech' })
+            }
+          })
 
           // this.$ajax.post({
           //   url   : this.$api.POST_CMS_KNOWLEDGE,

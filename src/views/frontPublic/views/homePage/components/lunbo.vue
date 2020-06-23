@@ -95,6 +95,7 @@ export default {
 .lunbo {
   position: relative;
   width: 100%;
+  background-color: #ffffff;
 }
 
 .lunbo .lunbo_carousel {
@@ -107,7 +108,7 @@ export default {
   top: 2%;
   margin-left: 200px;
   box-shadow: 0px 0px 15px lightgrey;
-  transform: scale(0.8, 0.8);
+  transform: scale(1, 1);
 }
 /* For demo */
 .ant-carousel >>> .slick-slide {

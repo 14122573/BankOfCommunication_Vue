@@ -64,6 +64,8 @@ const KnowledgeView = () => import('@/views/cms/knowledgePublish/view')
 // 首页
 const NotificationAnnounce = () =>
   import('@/views/frontPublic/views/notificationAnnounce/notificationAnnounce')
+const VotingRules = () =>
+  import('@/views/frontPublic/views/notificationAnnounce/votingRules')
 const IndustryNews = () =>
   import('@/views/frontPublic/views/industryNews/industryNews.vue')
 const DataSearch = () =>
@@ -502,7 +504,7 @@ const appRoutes = [
                 },
               },
               {
-                path     : '/cms/homepageInfoMaintain/modifyBanner',
+                path     : '/cms/homepageInfoMaintain/modifyBanner/:id',
                 name     : '/cms/homepageInfoMaintain/modifyBanner',
                 component: ModifyBanner,
                 meta     : {
@@ -926,6 +928,12 @@ const appRoutes = [
         name     : 'notificationAnnounce',
         component: NotificationAnnounce,
         meta     : { title: '通知公告' }
+      }, 
+      {
+        path     : '/homepage/votingRules',
+        name     : 'votingRules',
+        component: VotingRules,
+        meta     : { title: '投票公告' }
       },
       {
         path     : '/homepage/industryNews',

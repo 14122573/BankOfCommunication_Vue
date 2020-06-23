@@ -13,6 +13,30 @@
         <div class="layoutMargin detailsPartSection">
           <ActiveForm ref="basicForm" :layout="layout" :label-width="150" :model="model">
             <p slot="title" class="detailsPartTitle">基本信息</p>
+            <a-row>
+              <a-col :span="20" class="votingRules" style="display:flex;height:64px;">
+                <span class="formLabel" style="width:150px;text-align:right;line-height:34px;color:#333;">发布人：</span>
+                <a-input v-model="creator" placeholder="请输入" style="width:calc(90% - 150px);"/> 
+              </a-col>
+            </a-row>
+            <div class="votingRules" style="display:flex;height:64px;">
+              <span class="formLabel" style="width:150px;text-align:right;line-height:34px;color:#333;">投票规则：</span>
+              <a-radio-group v-model="ruleType" @change="handleChange">
+                <a-radio value="0">
+                  不限制投票次数
+                </a-radio>
+                <a-radio value="1">
+                  限制投票次数
+                  <template v-if="ruleType === '1'">最大为 
+                    <a-input-number :precision="0" :min='1' :max="1000" v-model="ruleNum" placeholder="请输入"/> 次
+                  </template>
+                </a-radio>
+              </a-radio-group>
+            </div>
+            <div style="display:flex;">
+              <span class="formLabel" style="width:150px;text-align:right;color:#333;">简介：</span>
+              <UeditorCompent ref="ue" :value="model.description?model.descriptio:''" ></UeditorCompent>
+            </div> 
           </ActiveForm>
         </div>
       </div>
@@ -58,12 +82,20 @@
 </template>
 
 <script>
+import UeditorCompent from '@/components/theThreeParty/ueditor.vue'
+
 export default {
+  components: {
+    UeditorCompent
+  },
   name: 'VoteEdit',
   data() {
     return {
-      voteId: null, // null为新增模式，有值为修改模式
-      layout: [
+      voteId  : null, // null为新增模式，有值为修改模式
+      ruleType: '0',
+      ruleNum : 1,
+      creator : '',
+      layout  : [
         {
           name: {
             label   : '名称',
@@ -73,14 +105,14 @@ export default {
               rules: [ { required: true, message: '请输入名称' } ]
             }
           },
-        },
+        }, 
         {
-          description: {
-            label   : '简介',
-            type    : 'textarea',
+          source: {
+            label   : '来源',
+            type    : 'input',
             width   : 20,
             validate: {
-              rules: [ { required: true, message: '请输入简介' } ]
+              rules: [ { required: true, message: '请输入来源' } ]
             }
           }
         },
@@ -152,6 +184,16 @@ export default {
       isEditing      : false, // question是编辑模式还是完成模式的依据
     }
   },
+  watch: {
+    '$store.state.userInfos': {
+      handler: function(val) {
+        if(!!val){
+          this.creator = '111'//!val.username?'':val.username
+        }
+      },
+      deep: true
+    },
+  },
   mounted() {
     const { query } = this.$route
     if (query && query.id) {
@@ -160,18 +202,29 @@ export default {
     }
   },
   methods: {
-    getDetail() {
+    getDetail() { //修改的时候获取数据
       this.$ajax.get({
         url: this.$api.GET_VOTE_DETAIL.replace('{id}', this.voteId)
-      }).then(res => {
-        const { name, startTime, endTime, description, subjects } = res.data.content
+      }).then(res => { 
+        const { name, creator, ruleType, source, startTime, endTime, description, subjects } = res.data.content
+        this.creator = creator
+        this.ruleType = ruleType?ruleType:'0'
+        if(ruleType == '1'){
+          this.ruleNum = ruleNum 
+        }
         this.model = {
-          name,
+          name, 
+          source,
           date: [ startTime, endTime ],
           description,
         }
         this.questionList = subjects
       })
+    },
+    handleChange(e){
+      // console.log('radio checked', e.target.value)
+      // this.result = e.target.value
+      // console.log(this.result)
     },
     addNewQuestion() {
       if (this.checkIsEditing()) return
@@ -304,6 +357,34 @@ export default {
       if (this.checkIsEditing()) return
       this.$refs.basicForm.validate(err => {
         if (err) return
+        this.model.creator = this.creator
+        if (!this.model.creator || this.model.creator=='') {
+          this.$modal.error({
+            title  : '提示',
+            content: '请填写发布人',
+            okText : '确认',
+          })
+          return
+        }
+        this.model.description = this.$refs.ue.value2
+        if (!this.model.description || this.model.description=='') {
+          this.$modal.error({
+            title  : '提示',
+            content: '请填写投票简介',
+            okText : '确认',
+          })
+          return
+        }
+        this.model.ruleType = this.ruleType
+        this.model.ruleNum = this.ruleNum
+        if (this.model.ruleType == '1' && !this.model.ruleNum) {
+          this.$modal.error({
+            title  : '提示',
+            content: '请填写最大投票次数',
+            okText : '确认',
+          })
+          return
+        }
         if (this.questionList.length == 0) {
           this.$modal.error({
             title  : '提示',
@@ -319,15 +400,19 @@ export default {
           method = 'put'
           url = this.$api.PUT_EDIT_VOTE.replace('{id}', this.voteId)
         }
-        const { name, description, date } = this.model
+        const { name, source, creator, ruleType, ruleNum, description, date } = this.model
         const params = {
           name,
+          source,
+          creator,
+          ruleType,
+          ruleNum,
           description,
           startTime: date[0],
           endTime  : date[1],
           status,
           subjects : this.questionList,
-        }
+        } 
         this.$ajax[method]({
           url,
           params,
@@ -394,4 +479,19 @@ export default {
   .actions > i:last-child:hover {
     color: red;
   }
+  .formLabel::before {
+    display: inline-block;
+    margin-right: 4px;
+    color: #f5222d;
+    font-size: 14px;
+    font-family: SimSun, sans-serif;
+    line-height: 1;
+    content: '*';
+  }
+</style>
+<style lang="stylus">
+.votingRules 
+  .ant-radio-wrapper
+    line-height 34px
+
 </style>
