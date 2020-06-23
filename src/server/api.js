@@ -184,5 +184,7 @@ export default {
   PUT_ANNOUNCE_TOP       : '/service-release/release/news/top/{id}/{top}',
   PUT_ANNOUNCE_MODIFY    : '/service-release/release/news/{id}',
   DELETE_ANNOUNCE        : '/service-release/release/news/{id}',
-  PUT_ANNOUNCE_STATUS    : '/service-release/release/news/{id}/{status}'
+  PUT_ANNOUNCE_STATUS    : '/service-release/release/news/{id}/{status}',
+  POST_VOTE              : '/service-release/release/public/vote/result/{id}', //投票
+  GET_VOTE_INFO          : '/service-release/release/public/vote/{id}', //投票详情
 }

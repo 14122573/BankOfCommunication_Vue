@@ -13,38 +13,29 @@
         <div class="layoutMargin detailsPartSection">
           <ActiveForm ref="basicForm" :layout="layout" :label-width="150" :model="model">
             <p slot="title" class="detailsPartTitle">基本信息</p>
+            <a-row>
+              <a-col :span="20" class="votingRules" style="display:flex;height:64px;">
+                <span class="formLabel" style="width:150px;text-align:right;line-height:34px;color:#333;">发布人：</span>
+                <a-input v-model="creator" placeholder="请输入" style="width:calc(90% - 150px);"/> 
+              </a-col>
+            </a-row>
             <div class="votingRules" style="display:flex;height:64px;">
               <span class="formLabel" style="width:150px;text-align:right;line-height:34px;color:#333;">投票规则：</span>
-              <!-- <a-select :defaultValue="result" style="width: 200px" @change="handleChange">
-                <a-select-option value="0">
-                  不限制投票次数
-                </a-select-option>
-                <a-select-option value="1">
-                  限制投票次数
-                </a-select-option>
-              </a-select> -->
-              <a-radio-group v-model="result" @change="handleChange">
+              <a-radio-group v-model="ruleType" @change="handleChange">
                 <a-radio value="0">
                   不限制投票次数
                 </a-radio>
                 <a-radio value="1">
                   限制投票次数
-                  <template v-if="result === '1'">最大为
-                  <!-- <a-input v-if="result === '1'" :style="{ width: 100, marginLeft: 10 }" /> -->
-                    <a-input-number :precision="0" :min='1' :max="1000" v-model="number" placeholder="请输入"/> 次
+                  <template v-if="ruleType === '1'">最大为 
+                    <a-input-number :precision="0" :min='1' :max="1000" v-model="ruleNum" placeholder="请输入"/> 次
                   </template>
                 </a-radio>
               </a-radio-group>
-            </div> 
-            <!-- <template v-if="result == '1'">
-              <div style="display:flex;height:64px;">
-                <span class="formLabel" style="width:150px;text-align:right;line-height:30px;color:#333;">最大投票次数：</span>
-                <a-input-number :precision="0" :min='1' :max="1000" v-model="number" placeholder="请输入"/>
-              </div> 
-            </template> -->
+            </div>
             <div style="display:flex;">
               <span class="formLabel" style="width:150px;text-align:right;color:#333;">简介：</span>
-              <UeditorCompent ref="ue" :value="model.description" ></UeditorCompent>
+              <UeditorCompent ref="ue" :value="model.description?model.descriptio:''" ></UeditorCompent>
             </div> 
           </ActiveForm>
         </div>
@@ -100,10 +91,11 @@ export default {
   name: 'VoteEdit',
   data() {
     return {
-      voteId: null, // null为新增模式，有值为修改模式
-      result: '0',
-      number: 1,
-      layout: [
+      voteId  : null, // null为新增模式，有值为修改模式
+      ruleType: '0',
+      ruleNum : 1,
+      creator : '',
+      layout  : [
         {
           name: {
             label   : '名称',
@@ -113,17 +105,17 @@ export default {
               rules: [ { required: true, message: '请输入名称' } ]
             }
           },
+        }, 
+        {
+          source: {
+            label   : '来源',
+            type    : 'input',
+            width   : 20,
+            validate: {
+              rules: [ { required: true, message: '请输入来源' } ]
+            }
+          }
         },
-        // {
-        //   description: {
-        //     label   : '简介',
-        //     type    : 'textarea',
-        //     width   : 20,
-        //     validate: {
-        //       rules: [ { required: true, message: '请输入简介' } ]
-        //     }
-        //   }
-        // },
         {
           date: {
             label       : '投票起止时间',
@@ -192,6 +184,16 @@ export default {
       isEditing      : false, // question是编辑模式还是完成模式的依据
     }
   },
+  watch: {
+    '$store.state.userInfos': {
+      handler: function(val) {
+        if(!!val){
+          this.creator = '111'//!val.username?'':val.username
+        }
+      },
+      deep: true
+    },
+  },
   mounted() {
     const { query } = this.$route
     if (query && query.id) {
@@ -203,10 +205,16 @@ export default {
     getDetail() { //修改的时候获取数据
       this.$ajax.get({
         url: this.$api.GET_VOTE_DETAIL.replace('{id}', this.voteId)
-      }).then(res => {
-        const { name, startTime, endTime, description, subjects } = res.data.content
+      }).then(res => { 
+        const { name, creator, ruleType, source, startTime, endTime, description, subjects } = res.data.content
+        this.creator = creator
+        this.ruleType = ruleType?ruleType:'0'
+        if(ruleType == '1'){
+          this.ruleNum = ruleNum 
+        }
         this.model = {
-          name,
+          name, 
+          source,
           date: [ startTime, endTime ],
           description,
         }
@@ -349,12 +357,30 @@ export default {
       if (this.checkIsEditing()) return
       this.$refs.basicForm.validate(err => {
         if (err) return
-
+        this.model.creator = this.creator
+        if (!this.model.creator || this.model.creator=='') {
+          this.$modal.error({
+            title  : '提示',
+            content: '请填写发布人',
+            okText : '确认',
+          })
+          return
+        }
         this.model.description = this.$refs.ue.value2
         if (!this.model.description || this.model.description=='') {
           this.$modal.error({
             title  : '提示',
             content: '请填写投票简介',
+            okText : '确认',
+          })
+          return
+        }
+        this.model.ruleType = this.ruleType
+        this.model.ruleNum = this.ruleNum
+        if (this.model.ruleType == '1' && !this.model.ruleNum) {
+          this.$modal.error({
+            title  : '提示',
+            content: '请填写最大投票次数',
             okText : '确认',
           })
           return
@@ -374,9 +400,13 @@ export default {
           method = 'put'
           url = this.$api.PUT_EDIT_VOTE.replace('{id}', this.voteId)
         }
-        const { name, description, date } = this.model
+        const { name, source, creator, ruleType, ruleNum, description, date } = this.model
         const params = {
           name,
+          source,
+          creator,
+          ruleType,
+          ruleNum,
           description,
           startTime: date[0],
           endTime  : date[1],
