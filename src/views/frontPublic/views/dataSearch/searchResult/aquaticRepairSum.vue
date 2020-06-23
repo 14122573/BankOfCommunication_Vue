@@ -1,5 +1,5 @@
 <template>
-<!--    渔业经济总产值-->
+<!--    水产品加工-水产加工品总量-->
     <a-row class="tableWrapper searchResult">
       <a-col :span="24">
         <a-table
@@ -180,135 +180,140 @@ export default {
           fixed    : 'left'
         },
         {
-          title   : '渔业产值',
+          title   : '水产品加工产量',
           children: [
             {
               title    : '合计',
-              dataIndex: 'yyczSum',
-              key      : 'yyczSum',
+              dataIndex: 'aquaticRepqir',
+              key      : 'aquaticRepqir',
               width    : 200
             },
             {
-              title    : '海水养殖',
-              dataIndex: 'seaRaise',
-              key      : 'seaRaise',
+              title    : '淡水加工品',
+              dataIndex: 'freshRepqir',
+              key      : 'freshRepqir',
               width    : 200
             },
             {
-              title    : '淡水养殖',
-              dataIndex: 'freshRaise',
-              key      : 'freshRaise',
+              title    : '海水加工品',
+              dataIndex: 'seaRepqir',
+              key      : 'seaRepqir',
+              width    : 200
+            }
+          ]
+        },
+        {
+          title   : '水产冷冻品',
+          children: [
+            {
+              title    : '合计',
+              dataIndex: 'aquaticFrozen',
+              key      : 'aquaticFrozen',
               width    : 100
             },
             {
-              title    : '海洋捕捞',
-              dataIndex: 'seaFishing',
-              key      : 'seaFishing',
+              title    : '冷冻品',
+              dataIndex: 'frozen',
+              key      : 'frozen',
               width    : 100
             },
             {
-              title    : '淡水捕捞',
-              dataIndex: 'freshFishing',
-              key      : 'freshFishing',
-              width    : 100
-            },
-            {
-              title    : '水产苗种',
-              dataIndex: 'waterFry',
-              key      : 'waterFry',
+              title    : '冷冻加工品',
+              dataIndex: 'frozenRepqir',
+              key      : 'frozenRepqir',
               width    : 100
             }
           ]
         },
         {
-          title   : '渔业工业和建筑业',
+          title   : '鱼糜制品及干腌制品',
           children: [
             {
               title    : '合计',
-              dataIndex: 'yygyhjzySum',
-              key      : 'yygyhjzySum',
+              dataIndex: 'mincedFishAndDrySalted',
+              key      : 'mincedFishAndDrySalted',
               width    : 100
             },
             {
-              title    : '水产品加工',
-              dataIndex: 'waterProcessing',
-              key      : 'waterProcessing',
+              title    : '鱼糜制品',
+              dataIndex: 'mincedFish',
+              key      : 'mincedFish',
               width    : 100
             },
             {
-              title   : '渔用机具制造',
-              children: [
-                {
-                  title    : '其中: 渔船渔机修造',
-                  dataIndex: 'fishRepair',
-                  key      : 'fishRepair',
-                  width    : 150
-                },
-                {
-                  title    : '渔用绳网制造',
-                  dataIndex: 'fishRopeMake',
-                  key      : 'fishRopeMake',
-                  width    : 120
-                },
-                {
-                  title    : '渔用饲料',
-                  dataIndex: 'fishFeed',
-                  key      : 'fishFeed',
-                  width    : 100
-                },
-                {
-                  title    : '渔用药物',
-                  dataIndex: 'fishDrug',
-                  key      : 'fishDrug',
-                  width    : 100
-                },
-                {
-                  title    : '建筑',
-                  dataIndex: 'build',
-                  key      : 'build',
-                  width    : 100
-                },
-                {
-                  title    : '其他',
-                  dataIndex: 'yygyhjzyOther',
-                  key      : 'yygyhjzyOther',
-                  width    : 100
-                }
-              ]
+              title    : '干腌制品',
+              dataIndex: 'drySalted',
+              key      : 'drySalted',
+              width    : 100
             }
           ]
         },
         {
-          title   : '渔业流通和服务业',
+          title    : '藻类加工品',
+          dataIndex: 'algaeRepqir',
+          key      : 'algaeRepqir',
+          width    : 150
+        },
+        {
+          title    : '罐制品',
+          dataIndex: 'tinProducts',
+          key      : 'tinProducts',
+          width    : 150
+        },
+        {
+          title    : '鱼粉',
+          dataIndex: 'fishMeal',
+          key      : 'fishMeal',
+          width    : 150
+        },
+        {
+          title    : '鱼油制品',
+          dataIndex: 'fishOilProducts',
+          key      : 'fishOilProducts',
+          width    : 150
+        },
+        {
+          title   : '其他水产加工品',
           children: [
             {
               title    : '合计',
-              dataIndex: 'yylthfwySum',
-              key      : 'yylthfwySum',
+              dataIndex: 'otherAquaticProducts',
+              key      : 'otherAquaticProducts',
               width    : 100
             },
             {
-              title    : '水产流通',
-              dataIndex: 'waterCirculation',
-              key      : 'waterCirculation',
+              title    : '其中：助剂和添加剂',
+              dataIndex: 'additive',
+              key      : 'additive',
               width    : 100
             },
             {
-              title    : '水产(仓储)运输',
-              dataIndex: 'waterTransport',
-              key      : 'waterTransport',
-              width    : 120
-            },
+              title    : '珍珠',
+              dataIndex: 'pearl',
+              key      : 'pearl',
+              width    : 100
+            }
+          ]
+        },
+        {
+          title   : '用于加工的水产品量',
+          children: [
             {
-              title    : '休闲渔业',
-              dataIndex: 'leisureFishery',
-              key      : 'leisureFishery',
+              title    : '合计',
+              dataIndex: 'processAquatic',
+              key      : 'processAquatic',
               width    : 100
             },
             {
-              title    : '其他',
-              dataIndex: 'yylthfwyOther',
-              key      : 'yylthfwyOther',
+              title    : '淡水产品',
+              dataIndex: 'freshProduct',
+              key      : 'freshProduct',
+              width    : 100
+            },
+            {
+              title    : '海水产品',
+              dataIndex: 'seaProduct',
+              key      : 'seaProduct',
               width    : 100
             }
           ]
@@ -324,38 +329,35 @@ export default {
     fetchData() {
       for (let i = 0; i < 31; i++) {
         this.dataList.push({
-          key             : i,
-          year            : '2019',//年份
-          area            : this.province[i].name,//区域
-          sum             : '266,644,732,15',//总计
-          yyczSum         : '128,1544,129,31',//yycz合计
-          seaRaise        : '35,358,584,13',//yycz海水养殖
-          freshRaise      : '1,584,597,56',//yycz淡水养殖
-          seaFishing      : '25,578,522,85',//yycz海洋捕捞
-          freshFishing    : '25,578,522,85',//yycz淡水捕捞
-          waterFry        : '25,578,522,85',//yycz水产苗种
-          yygyhjzySum     : '25,578,522,85',//yygyhjzy合计
-          waterProcessing : '25,578,522,85',//yygyhjzy水产品加工
-          fishRepair      : '25,578,522,85',//yygyhjzy渔船渔机修造
-          fishRopeMake    : '25,578,522,85',//yygyhjzy渔用绳网制造
-          fishFeed        : '25,578,522,85',//yygyhjzy渔用饲料
-          fishDrug        : '25,578,522,85',//yygyhjzy渔用药物
-          build           : '25,578,522,85',//yygyhjzy建筑
-          yygyhjzyOther   : '25,578,522,85',//yygyhjzy其他
-          yylthfwySum     : '25,578,522,85',//yylthfwy合计
-          waterCirculation: '25,578,522,85',//yylthfwy水产流通
-          waterTransport  : '25,578,522,85',//yylthfwy水产仓储运输
-          leisureFishery  : '25,578,522,85',//yylthfwy休闲渔业
-          yylthfwyOther   : '25,578,522,85'//yylthfwy其他
+          key                   : i,
+          year                  : '2019',//年份
+          area                  : this.province[i].name,//区域
+          sum                   : '266,644,732,15',//总计
+          aquaticRepqir         : '266,644,732,15',//水产品加工产量
+          freshRepqir           : '128,1544,129,31',//淡水加工品
+          seaRepqir             : '35,358,584,13',//海水加工品
+          aquaticFrozen         : '1,584,597,56',//水产冷冻品
+          frozen                : '25,578,522,85',//冷冻品
+          frozenRepqir          : '25,578,522,85',//冷冻加工品
+          mincedFishAndDrySalted: '25,578,522,85',//鱼糜制品及干腌制品
+          mincedFish            : '25,578,522,85',//鱼糜制品
+          drySalted             : '25,578,522,85',//干腌制品
+          algaeRepqir           : '25,578,522,85',//藻类加工品
+          tinProducts           : '25,578,522,85',//罐制品
+          fishMeal              : '25,578,522,85',//鱼粉
+          fishOilProducts       : '25,578,522,85',//鱼油制品
+          otherAquaticProducts  : '25,578,522,85',//其他水产加工品
+          additive              : '25,578,522,85',//其中：助剂和添加剂
+          pearl                 : '25,578,522,85',//珍珠
+          processAquatic        : '25,578,522,85',//用于加工的水产品量
+          freshProduct          : '25,578,522,85',//淡水产品
+          seaProduct            : '25,578,522,85',//海水产品
+
         })
       }
     }
   }
 }
 </script>
-<style lang="stylus">
-  .searchResult th
-    background-color #2a93f5 !important
-    color #fff !important
-    text-align center !important
-</style>
+
+

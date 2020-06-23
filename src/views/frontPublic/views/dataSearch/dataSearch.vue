@@ -39,7 +39,7 @@
           <a-row style="height: 20px"/>
           <a-row style="background-color: #FFF">
   <!--          <SearchResult :query="query"/>-->
-            <component :is="zhibiaoValue" :query="query"></component>
+            <component :is="zhibiaoValue" :queryParams="queryParams"></component>
           </a-row>
         </div>
       </div>
@@ -51,24 +51,58 @@
 import Navbar from '@/views/frontPublic/components/navbar.vue'
 import moment from 'moment'
 import fishProduction from '@/views/frontPublic/views/dataSearch/searchResult/fishProduction.vue'
-import waterProductionSpecies from '@/views/frontPublic/views/dataSearch/searchResult/waterProductionSpecies.vue'
-import waterProductionWay from '@/views/frontPublic/views/dataSearch/searchResult/waterProductionWay.vue'
+import aquaticFarmingSeaBeed from '@/views/frontPublic/views/dataSearch/searchResult/aquaticFarmingSeaBeed.vue'
+import aquaticFarmingSeaWay from '@/views/frontPublic/views/dataSearch/searchResult/aquaticFarmingSeaWay.vue'
+import aquaticFarmingFreshBeed from '@/views/frontPublic/views/dataSearch/searchResult/aquaticFarmingFreshBeed.vue'
+import aquaticFarmingFreshWay from '@/views/frontPublic/views/dataSearch/searchResult/aquaticFarmingFreshWay.vue'
+
+import aquaticCatchSeaBeed from '@/views/frontPublic/views/dataSearch/searchResult/aquaticCatchSeaBeed.vue'
+import aquaticCatchSeaArea from '@/views/frontPublic/views/dataSearch/searchResult/aquaticCatchSeaArea.vue'
+import aquaticCatchFreshBeed from '@/views/frontPublic/views/dataSearch/searchResult/aquaticCatchFreshBeed.vue'
+
+import aquaticOcean from '@/views/frontPublic/views/dataSearch/searchResult/aquaticOcean.vue'
+
+import aquacultureFreshArea from '@/views/frontPublic/views/dataSearch/searchResult/aquacultureFreshArea.vue'
+import aquacultureSeaAreaBeed from '@/views/frontPublic/views/dataSearch/searchResult/aquacultureSeaAreaBeed.vue'
+import aquacultureSeaAreaWay from '@/views/frontPublic/views/dataSearch/searchResult/aquacultureSeaAreaWay.vue'
+
+import waterFry from '@/views/frontPublic/views/dataSearch/searchResult/waterFry.vue'
+
+import familyInOut from '@/views/frontPublic/views/dataSearch/searchResult/familyInOut.vue'
+
+import staff from '@/views/frontPublic/views/dataSearch/searchResult/staff.vue'
+import seaStaff from '@/views/frontPublic/views/dataSearch/searchResult/seaStaff.vue'
+
+import aquaticRepairSum from '@/views/frontPublic/views/dataSearch/searchResult/aquaticRepairSum.vue'
+import aquaticRepairStatus from '@/views/frontPublic/views/dataSearch/searchResult/aquaticRepairStatus.vue'
+
 export default {
   components: {
     Navbar,
     fishProduction,
-    waterProductionSpecies,
-    waterProductionWay
+    aquaticFarmingSeaBeed,
+    aquaticFarmingSeaWay,
+    aquaticFarmingFreshBeed,
+    aquaticFarmingFreshWay,
+    aquaticCatchSeaBeed,
+    aquaticCatchSeaArea,
+    aquaticCatchFreshBeed,
+    aquaticOcean,
+    aquacultureFreshArea,
+    aquacultureSeaAreaBeed,
+    aquacultureSeaAreaWay,
+    waterFry,
+    familyInOut,
+    staff,
+    seaStaff,
+    aquaticRepairSum,
+    aquaticRepairStatus
   },
   methods: {
     showResult() {
-      let query = this.query
+      let query = this.queryParams
       let zhibiao = this.zhibiaoValue
       let yearpicker = moment(this.yearPickerValue).format('YYYY')
-      if (!!zhibiao && !!yearpicker) {
-        query.splice(0,1)
-        query.push({ '指标': zhibiao, '年份': yearpicker })
-      }
     },
     handleChange(data) {
       this.zhibiaoValue = data.pop()
@@ -90,7 +124,7 @@ export default {
       yearPickerValue: null,
       zhibiaoValue   : 'fishProduction',
       isopen         : false,
-      query          : [],
+      queryParams    : {},
       options        : [
         {
           value: 'fishProduction',
@@ -105,11 +139,11 @@ export default {
               label   : '养殖产品（海水养殖）',
               children: [
                 {
-                  value: 'waterProductionSpecies',
+                  value: 'aquaticFarmingSeaBeed',
                   label: '按养殖品种分'
                 },
                 {
-                  value: 'waterProductionWay',
+                  value: 'aquaticFarmingSeaWay',
                   label: '按养殖水域和养殖方式分'
                 }
               ]
@@ -119,11 +153,11 @@ export default {
               label   : '养殖产品（淡水养殖）',
               children: [
                 {
-                  value: '04',
+                  value: 'aquaticFarmingFreshBeed',
                   label: '按养殖品种分'
                 },
                 {
-                  value: '05',
+                  value: 'aquaticFarmingFreshWay',
                   label: '按养殖水域和养殖方式分'
                 }
               ]
@@ -133,11 +167,11 @@ export default {
               label   : '捕捞产品（海洋捕捞）',
               children: [
                 {
-                  value: '06',
+                  value: 'aquaticCatchSeaBeed',
                   label: '按捕捞品种分'
                 },
                 {
-                  value: '07',
+                  value: 'aquaticCatchSeaArea',
                   label: '按捕捞海域和捕捞渔具分'
                 }
               ]
@@ -147,13 +181,13 @@ export default {
               label   : '捕捞产品（淡水捕捞）',
               children: [
                 {
-                  value: '08',
+                  value: 'aquaticCatchFreshBeed',
                   label: '按捕捞品种分'
                 }
               ]
             },
             {
-              value: '09',
+              value: 'aquaticOcean',
               label: '捕捞产品（远洋渔业）'
             }
           ]
@@ -163,7 +197,7 @@ export default {
           label   : '水产养殖面积',
           children: [
             {
-              value: '10',
+              value: 'aquacultureFreshArea',
               label: '淡水养殖面积（按养殖水域和养殖方式分）'
             },
             {
@@ -171,11 +205,11 @@ export default {
               label   : '海水养殖面积',
               children: [
                 {
-                  value: '11',
+                  value: 'aquacultureSeaAreaBeed',
                   label: '按养殖品种分'
                 },
                 {
-                  value: '12',
+                  value: 'aquacultureSeaAreaWay',
                   label: '按养殖水域和养殖方式分'
                 }
               ]
@@ -183,11 +217,11 @@ export default {
           ]
         },
         {
-          value: '13',
+          value: 'waterFry',
           label: '水产苗种产量'
         },
         {
-          value: '14',
+          value: 'familyInOut',
           label: '渔民家庭收支'
         },
         {
@@ -195,11 +229,11 @@ export default {
           label   : '渔业人口与从业人员',
           children: [
             {
-              value: '15',
+              value: 'staff',
               label: '渔业人口与从业人员'
             },
             {
-              value: '16',
+              value: 'seaStaff',
               label: '海洋渔业人口与从业人员'
             }
           ]
@@ -209,11 +243,11 @@ export default {
           label   : '水产品加工',
           children: [
             {
-              value: '17',
+              value: 'aquaticRepairSum',
               label: '水产加工品总量'
             },
             {
-              value: '18',
+              value: 'aquaticRepairStatus',
               label: '水产加工企业、冷库情况'
             }
           ]
