@@ -261,14 +261,20 @@ export default {
           key      : 'title'
         },
         {
-          title    : '作者',
-          dataIndex: 'author',
-          key      : 'author'
+          title    : '栏目',
+          dataIndex: 'id',
+          key      : 'id'
         },
         {
-          title    : '发表年份',
-          dataIndex: 'years',
-          key      : 'years',
+          title    : '发布时间',
+          dataIndex: 'startTime',
+          key      : 'startTime',
+          width    : 80
+        },
+        {
+          title    : '发稿人',
+          dataIndex: 'author',
+          key      : 'author',
           width    : 80
         },
         // {
@@ -290,15 +296,6 @@ export default {
           }
         },
         {
-          title      : '操作人',
-          width      : 150,
-          dataIndex  : 'creator',
-          key        : 'creator',
-          scopedSlots: {
-            customRender: 'operator'
-          }
-        },
-        {
           title      : '操作',
           key        : 'operation',
           width      : 180,
@@ -307,6 +304,59 @@ export default {
           }
         }
       ],
+      // listColumns  : [
+      //   {
+      //     title    : '标题',
+      //     dataIndex: 'title',
+      //     key      : 'title'
+      //   },
+      //   {
+      //     title    : '作者',
+      //     dataIndex: 'author',
+      //     key      : 'author'
+      //   },
+      //   {
+      //     title    : '发表年份',
+      //     dataIndex: 'years',
+      //     key      : 'years',
+      //     width    : 80
+      //   },
+      //   // {
+      //   //   title: '内容类型',
+      //   //   dataIndex: 'type',
+      //   //   key: 'type',
+      //   //   width: 100,
+      //   //   scopedSlots: {
+      //   //     customRender: 'knowledgeType'
+      //   //   }
+      //   // },
+      //   {
+      //     title      : '状态',
+      //     dataIndex  : 'status',
+      //     key        : 'status',
+      //     width      : 140,
+      //     scopedSlots: {
+      //       customRender: 'knowledgeStatus'
+      //     }
+      //   },
+      //   {
+      //     title      : '操作人',
+      //     width      : 150,
+      //     dataIndex  : 'creator',
+      //     key        : 'creator',
+      //     scopedSlots: {
+      //       customRender: 'operator'
+      //     }
+      //   },
+      //   {
+      //     title      : '操作',
+      //     key        : 'operation',
+      //     width      : 180,
+      //     scopedSlots: {
+      //       customRender: 'action'
+      //     }
+      //   }
+      // ],
       pagination: {
         pageNo         : 1,
         pageSize       : 10,
@@ -324,18 +374,20 @@ export default {
     }
   },
   mounted() {
-    if (this.$route.name == '/cms/farmingtech') {
-      this.searchForm.status_in = this.toKeyString(
-        this.defaultSearchForm.status,
-        ','
-      )
-      // this.searchForm.type_in = this.toKeyString(this.defaultSearchForm.type,',')
-      this.searchForm.anonymous_in = this.toKeyString(
-        this.defaultSearchForm.anonymous,
-        ','
-      )
-      this.getFarmingList()
-    }
+    // if (this.$route.name == '/cms/farmingtech') {
+    //   this.searchForm.status_in = this.toKeyString(
+    //     this.defaultSearchForm.status,
+    //     ','
+    //   )
+    //   // this.searchForm.type_in = this.toKeyString(this.defaultSearchForm.type,',')
+    //   this.searchForm.anonymous_in = this.toKeyString(
+    //     this.defaultSearchForm.anonymous,
+    //     ','
+    //   )
+    //   this.getFarmingList()
+    // }
+
+    this.getList()
   },
   watch   : {},
   computed: {
@@ -359,6 +411,21 @@ export default {
     }
   },
   methods: {
+    getList() {
+      this.$ajax
+        .get({
+          url: this.$api.MOCK_URL + this.$api.GET_ANNOUNCE_LIST + '/334114487914369024',
+        })
+        .then(res => {
+          this.pagination.total = this.$com.confirm(res, 'data.totalRows', 0)
+          this.pagination.pageNo = this.$com.confirm(res, 'data.page', 1)
+          this.pagination.current = this.pagination.pageNo
+          this.knowledgeList.push(this.$com.confirm(res, 'data.content', []))
+          
+          this.isReady = true
+          // console.log(this.knowledgeList)
+        })
+    },
     closeMoreSearch() {
       this.simpleSearchForm = true
     },

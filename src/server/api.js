@@ -1,4 +1,4 @@
-let BASE_URL = '', MOCK_URL='', CLONE_MOCK = ''
+let BASE_URL = '', MOCK_URL=''
 switch (process.env.NODE_ENV) {
 case 'devol':
 // 本地线上部署环境下
@@ -20,13 +20,13 @@ default:
 // 默认环境下（开发环境）
   // BASE_URL = 'http://fish.omniview.pro/api'
   BASE_URL = 'http://iftp.omniview.pro/api'
-  MOCK_URL = 'http://yapi.omniview.pro/mock/183'
-  CLONE_MOCK = 'http://yapi.omniview.pro/mock/267'
+  MOCK_URL = 'http://yapi.omniview.pro/mock/267'
   break
 }
 
 export default {
   BASE_URL,
+  MOCK_URL,
   // 全局远程配置文件
   CONFIGS_EXPORTREVIEW_ROUTERS   : BASE_URL.replace('/api', '')+'/attr/exportReviewRouterConfigs.json', //portal专家库评审各子系统内容的菜单跳转配置文件
   CONFIGS_MICSYSTEMS_ROUTERS     : BASE_URL.replace('/api', '')+'/attr/micRouters.json', // 接入portal的子项目路由
@@ -173,5 +173,16 @@ export default {
   GET_BANNER_DETAIL: '/service-release/banner/{id}',
   DELETE_BANNER    : '/service-release/banner/{id}',
   PUT_BANNER       : '/service-release/banner/{id}',
-  POST_BANNER      : '/service-release/banner'
+  POST_BANNER      : '/service-release/banner',
+
+  // 公告
+  GET_ANNOUNCE_LIST      : '/service-release/release/news',
+  GET_ANNOUNCE_DETAIL    : '/service-release/release/news/{id}',
+  GET_PUB_ANNOUNCE_LIST  : '/service-release/release/public/news',
+  GET_PUB_ANNOUNCE_DETAIL: '/service-release/release/public/news/{id}',
+  POST_ADD_ANNOUNCE      : '/service-release/release/news',
+  PUT_ANNOUNCE_TOP       : '/service-release/release/news/top/{id}/{top}',
+  PUT_ANNOUNCE_MODIFY    : '/service-release/release/news/{id}',
+  DELETE_ANNOUNCE        : '/service-release/release/news/{id}',
+  PUT_ANNOUNCE_STATUS    : '/service-release/release/news/{id}/{status}'
 }

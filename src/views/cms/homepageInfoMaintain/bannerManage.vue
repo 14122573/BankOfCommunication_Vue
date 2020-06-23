@@ -228,13 +228,19 @@ export default {
       this.getList()
     },
     addBanner() {
-      console.log('clicked')
       this.$router.push({
         name: '/cms/homepageInfoMaintain/addBanner'
       })
     },
+    modifyBanner(value) {
+      this.$router.push({
+        name  : '/cms/homepageInfoMaintain/modifyBanner',
+        params: {
+          id: value.id
+        }
+      })
+    },
     bannerSort() {
-      console.log('clicked')
       this.$router.push({
         name: '/cms/homepageInfoMaintain/bannerSort'
       })
@@ -253,12 +259,13 @@ export default {
         title  : '您确认删除"' + value.bannerName + '"吗？',
         content: '删除后将无法找回!',
         onOk() {
-          let query = 'http://yapi.omniview.pro/mock/267/service-release/banner/' + value.id
           that.$ajax
             .delete({
-              url: query
+              url: that.$api.MOCK_URL + that.$api.DELETE_BANNER.replace('{id}', value.id)
             })
             .then(res => {
+              console.log(res)
+              
               if (res.code === '200') {
                 that.$message.success('删除成功')
               } else {

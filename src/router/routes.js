@@ -504,7 +504,7 @@ const appRoutes = [
                 },
               },
               {
-                path     : '/cms/homepageInfoMaintain/modifyBanner',
+                path     : '/cms/homepageInfoMaintain/modifyBanner/:id',
                 name     : '/cms/homepageInfoMaintain/modifyBanner',
                 component: ModifyBanner,
                 meta     : {

@@ -15,7 +15,7 @@
                 <a-descriptions-item label="轮播图名称">
                   {{ data.bannerName }}
                 </a-descriptions-item>
-                <a-descriptions-item label="照片">
+                <a-descriptions-item label="照片ID">
                   {{ data.id }}
                 </a-descriptions-item>
                 <a-descriptions-item label="跳转链接">
@@ -46,12 +46,9 @@ export default {
     getList() {
       let that = this
       this.bannerId = this.$route.params.id
-      let query =
-        'http://yapi.omniview.pro/mock/267/service-release/banner/' +
-        this.bannerId
       this.$ajax
         .get({
-          url: query
+          url: this.$api.MOCK_URL + this.$api.GET_BANNER_DETAIL.replace('{id}', this.bannerId)
         })
         .then(res => {
           if (res.code === '200') {

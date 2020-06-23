@@ -149,9 +149,7 @@ export default {
       },
       knowledgePromotionCreateForm: this.$form.createForm(this),
       formData                    : {
-        anonymous   : '0',
-        content     : '',
-        videoUrlList: [ '' ]
+        content: '',
       },
       dateFormat: 'YYYY/MM/DD',
       rules     : {
@@ -202,24 +200,7 @@ export default {
      * 整理填写的线上视频地址数组和上传的文件数组，合并成指定提交的数据格式
      * @returns {Array} 合并后的文件数组
      */
-    arrangeFileList(){
-      const fileList = this.uploadFileList.map((item, index) => {
-        return {
-          type    : 1,
-          sort    : index+1,
-          fileId  : item.uid,
-          fileName: item.name
-        }
-      })
-      const videoList = this.formData.videoUrlList.map((item, index) => {
-        return {
-          type    : 2,
-          sort    : fileList.length+index+1,
-          filePath: item
-        }
-      })
-      return fileList.concat(videoList)
-    },
+    
     getUserInfo() {
       this.$ajax.get({
         url: this.$api.GET_USER_INFO,
@@ -244,21 +225,6 @@ export default {
       }else{
         return true
       }
-    },
-
-    /**
-     * 通过增加videoUrlList组数长度，控制可填写的视频地址input输入框个数
-     */
-    addVideo(){
-      this.formData.videoUrlList.push('')
-    },
-
-    /**
-     * 删除指定下标位置的线上视频地址
-     * @param {Number}  index formData.videoUrlList数组下标
-     */
-    deleteVideoUrl(index){
-      this.formData.videoUrlList.splice(index, 1)
     },
     moment,
 
@@ -287,15 +253,6 @@ export default {
       // console.log(this.arrangeFileList())
       this.knowledgePromotionCreateForm.validateFields(err => {
         if (!err) {
-          if(!this.checkVideoUrl(this.formData.videoUrlList)){
-            this.$modal.error({
-              title     : '表单验证未通过',
-              content   : '”线上视频“填写了不合规的URL地址，请输入带有\'http://\'或\'https://\'完整线上视频地址',
-              okText    : '确认',
-              cancelText: '取消',
-            })
-            return
-          }
           if(this.formData.content==''){
             this.$modal.error({
               title     : '表单验证未通过',
@@ -307,17 +264,14 @@ export default {
           }
 
           const postParams = Object.assign({}, this.formData, {
-            'title'     : this.knowledgePromotionCreateForm.getFieldValue('title'),
-            'source'    : this.knowledgePromotionCreateForm.getFieldValue('source'),
-            'section'   : this.knowledgePromotionCreateForm.getFieldValue('section'),
-            'postDate'  : this.knowledgePromotionCreateForm.getFieldValue('postDate'),
-            'keywords'  : this.knowledgePromotionCreateForm.getFieldValue('keywords'),
-            'postMan'   : this.knowledgePromotionCreateForm.getFieldValue('postMan'),
-            'attachment': this.arrangeFileList()
+            'title'   : this.knowledgePromotionCreateForm.getFieldValue('title'),
+            'source'  : this.knowledgePromotionCreateForm.getFieldValue('source'),
+            'section' : this.knowledgePromotionCreateForm.getFieldValue('section'),
+            'postDate': this.knowledgePromotionCreateForm.getFieldValue('postDate'),
+            'keywords': this.knowledgePromotionCreateForm.getFieldValue('keywords'),
+            'postMan' : this.knowledgePromotionCreateForm.getFieldValue('postMan'),
           })
           console.log(JSON.stringify(postParams))
-          
-          delete postParams.videoUrlList
 
           // this.$ajax.post({
           //   url   : this.$api.POST_CMS_KNOWLEDGE,

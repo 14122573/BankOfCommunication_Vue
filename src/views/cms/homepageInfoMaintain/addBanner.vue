@@ -28,7 +28,13 @@
               <a-row :gutter='16'>
                 <a-col span="16">
                   <a-form-item label="上传附件" :label-col="{span:4}" :wrapper-col="{span:20}">
-                    <FileUpload :customRequest="data => {handleUpload(data, fileList)}"  :acceptTypes="uploadConfig.acceptTypesArray" :maxFileSize="uploadConfig.maxSize" :maxCount="1" :timestamp="Date.now()"></FileUpload>
+                    <FileUpload ref="childFile"
+                      :multiple="false"
+                      :maxCount="1"
+                      :acceptTypes="uploadConfig.acceptTypesArray"
+                      :maxFileSize="uploadConfig.maxSize"
+                      :timestamp="Date.now()"
+                    />
                      <a-alert style="margin-top:16px" message="可上传最大1M的JPG, JPEG, PNG图片" type="info" showIcon />
                   </a-form-item>
                 </a-col>
@@ -47,7 +53,7 @@ export default {
   data() {
     return {
       data            : [],
-      bannerId        : null,
+      imgContent      : [],
       detailDesc      : [],
       bannerCreateForm: this.$form.createForm(this),
       rules           : {
@@ -58,7 +64,9 @@ export default {
           { required: false, whitespace: true, message: '请输入跳转链接!' }
         ],
       },
-      uploadConfig: {
+      ready         : false,
+      uploadFileList: [],
+      uploadConfig  : {
         maxSize         : 1*1024*1024,
         acceptTypesArray: [ 'jpg', 'jpeg', 'png' ]
       }
@@ -67,37 +75,18 @@ export default {
   components: {
     FileUpload
   },
-  mounted() {
-    this.getList()
-  },
   methods: {
-    handleUpload(data, fileList) {
-      const formData = new FormData()
-      formData.append('file', data.file)
-      this.$ajax.post({
-        url   : this.$api.UPLOAD_TEMP,
-        params: formData
-      }).then(res => {
-        if (res.code === '200') {
-          let data = this.$com.confirm(res, 'data.content', {})
-          this.fileList = []
-          this.fileList.push({
-            uid   : data.id,
-            name  : data.name,
-            status: 'done',
-            url   : data.path
-          })
-        }
-      })
-    },
     saveBanner() {
+      let that = this
       let query = 'http://yapi.omniview.pro/mock/267/service-release/banner'
+      this.imgContent = this.$refs.childFile.getUploadFileList()
       this.$ajax
         .post({
           url   : query,
           params: {
             bannerName: this.bannerCreateForm.getFieldValue('title'),
             linkUrl   : this.bannerCreateForm.getFieldValue('jumpHref'),
+            imgId     : that.imgContent[0].uid
           }
         })
         .then(res => {
@@ -109,25 +98,6 @@ export default {
           }
         })
     },
-    getList() {
-      let that = this
-      this.bannerId = this.$route.params.id
-      let query =
-        'http://yapi.omniview.pro/mock/267/service-release/banner/' +
-        this.bannerId
-      this.$ajax
-        .get({
-          url: query
-        })
-        .then(res => {
-          if (res.code === '200') {
-            that.data = this.$com.confirm(res, 'data.content', [])
-            console.log(JSON.stringify(that.data))
-          } else {
-            this.$message.error(res.msg)
-          }
-        })
-    }
   }
 }
 </script>
