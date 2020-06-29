@@ -190,6 +190,20 @@ export default {
       ]
     }
   },
+  mounted(){
+    this.$ajax.get({
+      url: this.$api.GET_TITLE_MANAGE
+    })
+      .then(res => {
+        console.log(res)
+      
+        if (res.code === '200') {
+          this.data = this.$com.confirm(res, 'data.content', [])
+        } else {
+          this.$message.error(res.msg)
+        }
+      })
+  },
   methods: {
     handleExpand() {
       this.expand = !this.expand
@@ -350,6 +364,18 @@ export default {
       this.currentPage = current
       this.getList()
     },
+    getMuted() {
+      this.$ajax
+        .get({
+          url: this.$api.GET_BANNER_DETAIL.replace('{id}', 1)
+        })
+        .then(res => {
+          if (res.code === '200') {
+            console.log(res)
+            
+          }
+        })
+    }
   }
 }
 </script>

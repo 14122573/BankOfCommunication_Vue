@@ -25,27 +25,6 @@
               />
             </a-form-item>
           </a-col>
-          <a-col span="8" v-if="!simpleSearchForm">
-            <a-form-item
-              class="formItem"
-              label="栏目"
-              :label-col="formItemLabelCol"
-              :wrapper-col="formItemWrapperCol"
-            >
-              <a-select
-                v-decorator="[
-                  'section',
-                  {
-                    rules: [
-                      { required: true, message: '请选择栏目' }
-                    ]
-                  }
-                ]"
-                placeholder="请选择栏目"
-                :options="searchFormOption.section"
-              />
-            </a-form-item>
-          </a-col>
           <!-- <a-col span="8" v-if="!simpleSearchForm">
             <a-form-item class='formItem' label="内容类型"  :label-col="formItemLabelCol" :wrapper-col="formItemWrapperCol">
               <a-checkbox-group :options="searchFormOption.type" :defaultValue="defaultSearchForm.type" @change="onTypeChange" />
@@ -58,7 +37,7 @@
               :label-col="formItemLabelCol"
               :wrapper-col="formItemWrapperCol"
             >
-              <a-range-picker v-decorator="['postDate', {rules: [{ type: 'array', required: true, message: '请选择时间' }]}]" />
+              <a-range-picker v-decorator="['startTime', {rules: [{ type: 'array', required: false, message: '请选择时间' }]}]" />
             </a-form-item>
           </a-col>
           <a-col span="8" v-if="!simpleSearchForm">
@@ -83,7 +62,7 @@
             >
               <a-input
                 placeholder="请输入正文"
-                v-decorator="['mainBody']"
+                v-decorator="['content']"
               />
             </a-form-item>
           </a-col>
@@ -96,7 +75,7 @@
             >
               <a-input
                 placeholder="请输入发稿人"
-                v-decorator="['postMan']"
+                v-decorator="['author']"
               />
             </a-form-item>
           </a-col>
@@ -233,28 +212,17 @@ export default {
   },
   data() {
     return {
-      isReady         : false,
-      simpleSearchForm: true, // 展示、收取简单搜索开关，true为简单搜索
-      searchFormOption: {
-        section: [
-          {
-            label: '栏目1',
-            value: '0'
-          },
-          {
-            label: '栏目2',
-            value: '1'
-          }
-        ],
-      },
+      isReady          : false,
+      simpleSearchForm : true, // 展示、收取简单搜索开关，true为简单搜索
       defaultSearchForm: {
         // type:['0','1'],
         status   : [ '0', '1' ],
         anonymous: [ '0', '1' ]
       },
-      searchForm   : {},
-      knowledgeList: [],
-      listColumns  : [
+      searchForm       : {},
+      knowledgeList    : [],
+      farmingSearchForm: this.$form.createForm(this),
+      listColumns      : [
         {
           title    : '标题',
           dataIndex: 'title',
@@ -414,13 +382,16 @@ export default {
     getList() {
       this.$ajax
         .get({
-          url: this.$api.MOCK_URL + this.$api.GET_ANNOUNCE_LIST + '/334114487914369024',
+          url   : this.$api.MOCK_URL + this.$api.GET_ANNOUNCE_LIST,
+          params: {
+            titleManageId: '1'
+          }
         })
         .then(res => {
           this.pagination.total = this.$com.confirm(res, 'data.totalRows', 0)
           this.pagination.pageNo = this.$com.confirm(res, 'data.page', 1)
           this.pagination.current = this.pagination.pageNo
-          this.knowledgeList.push(this.$com.confirm(res, 'data.content', []))
+          this.knowledgeList = this.$com.confirm(res, 'data.content', [])
           
           this.isReady = true
           // console.log(this.knowledgeList)
@@ -489,7 +460,7 @@ export default {
     toDoDelete(id) {
       this.$ajax
         .delete({
-          url: this.$api.DELETE_CMS_KNOWLEDGE.replace('{id}', id)
+          url: this.$api.DELETE_ANNOUNCE.replace('{id}', id)
         })
         .then(res => {
           if (res.code == '200') {
@@ -504,7 +475,7 @@ export default {
      * @param {String} id 被操作数据key
      * @param {String} status 目标状态Key ，发布：1；失效：2
      */
-    toChangeStatus(id, status) {
+    toChangeStatus(id, status) { 
       this.$ajax
         .put({
           url: this.$api.PUT_CMS_KNOWLEDGE_STATUS.replace('{id}', id).replace(
@@ -579,7 +550,7 @@ export default {
         break
       case 'detail':
         this.$router.push({
-          name  : '/cms/farmingtech/details',
+          name  : '/cms/farmingtech/detail',
           params: {
             id: id
           }
@@ -610,13 +581,12 @@ export default {
       this.pagination.current = 1
       this.pagination.pageNo = 1
       this.farmingSearchForm.setFieldsValue({
-        title   : '',
-        section : '',
-        postDate: [],
-        keywords: '',
-        mainBody: '',
-        postMan : '',
-        allIn   : ''
+        title    : '',
+        startTime: [],
+        keywords : '',
+        content  : '',
+        author   : '',
+        allIn    : ''
       })
       this.getFarmingList()
     },
@@ -640,28 +610,24 @@ export default {
         {},
         this.searchForm,
         {
-          title_l: !this.farmingSearchForm.getFieldValue('title')
+          title: !this.farmingSearchForm.getFieldValue('title')
             ? ''
             : this.farmingSearchForm.getFieldValue('title'),
-          section_l: !this.farmingSearchForm.getFieldValue('section')
+          startTime: !this.farmingSearchForm.getFieldValue('startTime')
             ? ''
-            : this.farmingSearchForm.getFieldValue('section'),
-          postDate_l: !this.farmingSearchForm.getFieldValue('postDate')
-            ? ''
-            : this.farmingSearchForm.getFieldValue('postDate'),
-          keywords_l: !this.farmingSearchForm.getFieldValue('keywords')
+            : this.farmingSearchForm.getFieldValue('startTime'),
+          keywords: !this.farmingSearchForm.getFieldValue('keywords')
             ? ''
             : this.farmingSearchForm.getFieldValue('keywords'),
-          mainBody_l: !this.farmingSearchForm.getFieldValue('mainBody')
+          content: !this.farmingSearchForm.getFieldValue('content')
             ? ''
-            : this.farmingSearchForm.getFieldValue('mainBody'),
-          postMan_l: !this.farmingSearchForm.getFieldValue('postMan')
+            : this.farmingSearchForm.getFieldValue('content'),
+          author: !this.farmingSearchForm.getFieldValue('author')
             ? ''
-            : this.farmingSearchForm.getFieldValue('postMan'),
+            : this.farmingSearchForm.getFieldValue('author'),
           allIn_l: !this.farmingSearchForm.getFieldValue('allIn')
             ? ''
             : this.farmingSearchForm.getFieldValue('allIn'),
-          createTime_desc: 'desc'
         },
         {
           pageNo  : this.pagination.pageNo,

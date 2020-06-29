@@ -11,9 +11,6 @@
 			<a-tab-pane tab="横幅图管理" key="2">
 				<bannerManage />
 			</a-tab-pane>
-			<a-tab-pane tab="爬虫管理" key="3">
-				3
-			</a-tab-pane>
 		</a-tabs>
   </div>
 	<RouterWapper v-else></RouterWapper>

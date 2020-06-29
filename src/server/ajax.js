@@ -39,15 +39,15 @@ const reponseCodeHandler = (res) => {
           Common.setToken(res.data.content.access_token, res.data.content.refresh_token)
           router.go(0)
         } else if (res.code === '912') {
-          Common.handleLogOut()
+          // Common.handleLogOut()
         } else {
-          Common.handleLogOut()
+          // Common.handleLogOut()
         }
       })
     } else if (code == '900') {
-      router.push({ name: 'noauth' })
+      // router.push({ name: 'noauth' })
     } else if (code == '429') {//同一对外IP，2s内请求超过100次
-      router.push({ name: 'upperLimitErr' })
+      // router.push({ name: 'upperLimitErr' })
     }else if (code == '710' || code == '720') {
       if(Common.oneOf(currentMethod.toLocaleLowerCase(), [ 'post', 'put', 'delete' ])){
         Modal.error({
@@ -75,18 +75,18 @@ const reponseCodeHandler = (res) => {
 const showErrPage= (api, routername, code) => {
   if(Common.oneOf(routername, [ 'login', 'register', 'bindPhone', 'bindTemporarayAccount' ])){
     if(!Common.oneOf(api, [ '/service-release/release/public/news' ])){
-      router.push({
-        name: 'networkerr'
-      })
+      // router.push({
+      //   name: 'networkerr'
+      // })
     }
   }else if(!!routername && routername.length>0){
-    router.push({
-      name: 'innerNetworkerr'
-    })
+    // router.push({
+    //   name: 'innerNetworkerr'
+    // })
   }else{
-    router.push({
-      name: 'networkerr'
-    })
+    // router.push({
+    //   name: 'networkerr'
+    // })
   }
 }
 
@@ -96,7 +96,7 @@ const errorHandler = (err) => {
   if (errStatus) {
     switch (errStatus) {
     case 404: // 网络请求不存在,跳转统一报错页面
-      showErrPage(currentApi, currentRouterName)
+      // showErrPage(currentApi, currentRouterName)
       break
 
     /** 强说home页的请求报500就跳过去了，无法进行下一步操作，故此先注释掉 */
@@ -105,7 +105,7 @@ const errorHandler = (err) => {
     //   showErrPage(currentApi,currentRouterName)
     //   break
     default: // 其他错误，统一到网络异常页面
-      showErrPage(currentApi, currentRouterName)
+      // showErrPage(currentApi, currentRouterName)
       break
     }
 
@@ -113,7 +113,7 @@ const errorHandler = (err) => {
   // } else if (err.toString().indexOf('timeout') != -1) { // 统一到网络异常页面
   //   showErrPage(currentApi,currentRouterName)
   } else if (err.toString().indexOf('Network Error') != -1) { // 统一到网络异常页面
-    showErrPage(currentApi, currentRouterName)
+    // showErrPage(currentApi, currentRouterName)
   }
 }
 

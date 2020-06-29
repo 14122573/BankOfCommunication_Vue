@@ -1,75 +1,63 @@
 <template>
-  <div>
-    <div class="card-wrapper">
-      <a-card
-        class="card"
-        :loading="loading"
-        title="专题报告"
-        :bordered="false"
-        size="small"
-        :headStyle="{ padding: '0', border: '0' }"
-        :bodyStyle="{ padding: '0' }"
-      >
-        <a-icon type="minus" class="title_icon" />
-        <a class="more" slot="extra" @click="jumpToPage">更多 >></a>
-        <div class="content_wrapper">
-          <div style="height: 45px"></div>
-          <div class="noti-list" v-for="(item, index) in news" :key="index">
-            <a class="mouse_trigger" @click="articleDetails(item)">
-              <div class="noti_oneline">
-                <a-row type="flex" justify="center" style="margin: 20px 0px">
-                  <a-col class="news_title" :span="16">{{ item.title }}</a-col>
-                  <a-col class="news_date" :span="8">{{
-                    $moment(item.startTime).format("YYYY-MM-DD")
-                  }}</a-col>
-                </a-row>
-              </div>
-            </a>
-          </div>
-        </div>
-      </a-card>
+<div class="width_cut">
+  <div class="pageWrapper">
+    <Navbar class="navbar" />
+    <div class="content">
+      <a-table
+        :columns="columns"
+        :data-source="news"
+        :showHeader="false"
+        :customRow="customRow"
+        :rowKey="news.id"
+      ></a-table>
     </div>
   </div>
+  </div>
 </template>
+
 <script>
+import Navbar from '@/views/frontPublic/components/navbar.vue'
 export default {
-  data() {
-    return {
-      loading: false,
-      news   : []
-    }
+  components: {
+    Navbar
   },
   mounted() {
     this.fetchNews()
   },
-  methods: {
-    articleDetails(item) {
-      this.$router.push({
-        name  : 'topicReportDetail',
-        params: {
-          id: item.id
+  data() {
+    return {
+      news   : [],
+      columns: [
+        {
+          title    : '标题',
+          key      : 'title',
+          dataIndex: 'title'
+        },
+        {
+          title    : '日期',
+          key      : 'startTime',
+          dataIndex: 'startTime',
+          width    : 200
         }
-      })
-    },
-    jumpToPage() {
-      this.$router.push({ name: 'topicReportList' })
-    },
-    handleClick() {
-      this.loading = !this.loading
+      ]
+    }
+  },
+  methods: {
+    customRow(record, index) {
+      return {
+        on: {
+          click: () => {
+            this.$router.push({
+              name  : 'notificationAnnounce',
+              params: {
+                id: record.id
+              }
+            })
+          }
+        }
+      }
     },
     fetchNews() {
-      this.$ajax
-        .get({
-          url   : this.$api.MOCK_URL + this.$api.GET_PUB_ANNOUNCE_LIST,
-          params: {
-            titleManageId: '1'
-          }
-        })
-        .then(res => {
-          if(res.code == '200') {
-            this.news = this.$com.confirm(res, 'data.content', [])
-          }
-        })
       // this.news.push(
       //   {
       //     title:
@@ -117,91 +105,49 @@ export default {
       //     source    : '新闻网',
       //     postAuthor: '小明',
       //     sort      : '05'
-      //   },
-      //   {
-      //     title  : '“三生农业”耕育农法，促进中医药传承创新',
-      //     content:
-      //       '中医农业是现代农业与传统中医药的跨界融合，跨界创新，也是用中医的整体观、系统观、辩证观看待农业问题，用中药制品为种养产业服务，解决农业生产过程中的病害的预防和治疗问题。既能为中医药的传承和发展提供有效的保障，也能够为提高生态农业发展，促进人类以及动植物健康，保障农业产品的有效供给和质量安全，探索一条生态可持续发展的崭新路径。',
-      //     postDate  : '2020-02-13',
-      //     source    : '新闻网',
-      //     postAuthor: '小明',
-      //     sort      : '05'
       //   }
       // )
+
+      this.$ajax
+        .get({
+          url          : this.$api.MOCK_URL + this.$api.GET_PUB_ANNOUNCE_LIST,
+          titleManageId: '1'
+        })
+        .then(res => {
+          if(res.code === '200') {
+            this.news = this.$com.confirm(res, 'data.content', [])
+          }
+        })
     }
   }
 }
 </script>
 
 <style scoped>
-.noti_detail .news_content {
-  letter-spacing: 0.5px;
+.width_cut {
+  background-color: #f1f5f8;
 }
 
-.card-wrapper .noti_detail {
-  margin: 20px 0px;
+.pageWrapper {
+  max-width: 1000px;
+  margin: 0 auto;
+  height: 700px;
 }
 
-.card-wrapper .news_title {
-  color: #282828;
-  font-size: 12px;
-  overflow: hidden;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-}
-
-.card-wrapper .news_date {
-  font-size: 12px;
-  color: #282828;
-  text-align: right;
-}
-
-.card-wrapper .news_content {
-  color: #656667;
-  font-size: 12px;
-  height: 50px;
-  margin: 10px 0px;
-  overflow: hidden;
-  display: -webkit-box;
-  -webkit-box-orient: vertical;
-  -webkit-line-clamp: 3;
-}
-
-.card-wrapper .more {
-  font-size: 12px;
-  color: #28292a;
-}
-
-.card-wrapper {
-  height: 400px;
-  /* overflow: scroll; */
-  overflow: hidden;
-  margin: 30px 50px 30px 50px;
-}
-
-.card-wrapper .card {
+.pageWrapper .navbar {
   text-align: left;
+  padding: 30px 0px;
 }
 
-.notification_banner {
-  margin: 5px 0px;
-}
-
-.card-wrapper .title_icon {
-  color: #2a93f5;
-  font-size: 35px;
-}
-
-.content_wrapper {
-  height: 300px;
-}
-
-.noti_oneline {
-  height: 20px;
+.pageWrapper .content {
+  background-color: #ffffff;
+  height: 500px;
+  padding: 10px 30px;
+  margin: 0 auto;
 }
 </style>
 
 <style lang="stylus">
-.content[data-v-3db1c562] .ant-table-tbody > tr > td
+.content[data-v-2cdc8027] .ant-table-tbody > tr > td
   $titleFontSize()
 </style>

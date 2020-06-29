@@ -176,10 +176,9 @@ export default {
     },
     getList() {
       const searchParams = JSON.parse(JSON.stringify(this.searchForm))
-      let query = 'http://yapi.omniview.pro/mock/267/service-release/banner'
       this.$ajax
         .get({
-          url: query
+          url: this.$api.GET_BANNER_LIST
         })
         .then(res => {
           if (res.code === '200') {
@@ -261,7 +260,7 @@ export default {
         onOk() {
           that.$ajax
             .delete({
-              url: that.$api.MOCK_URL + that.$api.DELETE_BANNER.replace('{id}', value.id)
+              url: that.$api.DELETE_BANNER.replace('{id}', value.id)
             })
             .then(res => {
               console.log(res)

@@ -31,11 +31,15 @@
                     <FileUpload ref="childFile"
                       :multiple="false"
                       :maxCount="1"
+                      :defaultFileList="defaultFileList"
                       :acceptTypes="uploadConfig.acceptTypesArray"
                       :maxFileSize="uploadConfig.maxSize"
                       :timestamp="Date.now()"
                     />
-                     <a-alert style="margin-top:16px" message="可上传最大1M的JPG, JPEG, PNG图片" type="info" showIcon />
+                  </a-form-item>
+                  <a-form-item label="图片预览" :label-col="{span:4}" :wrapper-col="{span:20}">
+                    <img :src="imgPlaceholder" width="40%">
+                    <a-alert style="margin-top:16px" message="可上传最大1M的JPG, JPEG, PNG图片" type="info" showIcon />
                   </a-form-item>
                 </a-col>
               </a-row>
@@ -64,13 +68,17 @@ export default {
           { required: false, whitespace: true, message: '请输入跳转链接!' }
         ],
       },
-      ready         : false,
-      uploadFileList: [],
-      uploadConfig  : {
+      ready          : false,
+      uploadFileList : [],
+      defaultFileList: [],
+      uploadConfig   : {
         maxSize         : 1*1024*1024,
         acceptTypesArray: [ 'jpg', 'jpeg', 'png' ]
       }
     }
+  },
+  mounted() {
+    this.getDefaultFile()
   },
   components: {
     FileUpload
@@ -90,13 +98,38 @@ export default {
         })
         .then(res => {
           if (res.code === '200') {
-            console.log()
+            console.log(2)
             
+
           } else {
             this.$message.error(res.msg)
           }
         })
     },
+    getDefaultFile() {
+      let that = this
+      let query = this.$route.params.id
+      this.$ajax
+        .get({
+          url: this.$api.MOCK_URL + this.$api.GET_BANNER_DETAIL.replace('{id}', query)
+        })
+        .then(res => {
+          if (res.code === '200') {
+            that.defaultFileList.push(
+              {
+                'url'   : this.$com.confirm(res, 'data.content.filePath', {}),
+                'uid'   : this.$com.confirm(res, 'data.content.imgId', {}),
+                'name'  : this.$com.confirm(res, 'data.content.fileName', {}),
+                'status': this.$com.confirm(res, 'data.content.status', {})
+              }
+            )
+            that.imgPlaceholder = this.$com.confirm(res, 'data.content.filePath', {})
+            
+          } else {
+            this.$message.error(res.msg)
+          }
+        })
+    }
   }
 }
 </script>

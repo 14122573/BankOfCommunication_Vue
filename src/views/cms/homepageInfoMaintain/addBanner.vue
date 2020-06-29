@@ -78,7 +78,7 @@ export default {
   methods: {
     saveBanner() {
       let that = this
-      let query = 'http://yapi.omniview.pro/mock/267/service-release/banner'
+      let query = this.$api.POST_BANNER
       this.imgContent = this.$refs.childFile.getUploadFileList()
       this.$ajax
         .post({

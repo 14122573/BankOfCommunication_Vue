@@ -56,8 +56,7 @@ export default {
       let articleId = this.$route.params.id
       this.$ajax
         .get({
-          url   : this.$api.MOCK_URL + this.$api.GET_PUB_ANNOUNCE_DETAIL,
-          params: articleId
+          url: this.$api.MOCK_URL + this.$api.GET_PUB_ANNOUNCE_DETAIL.replace('{id}', articleId),
         })
         .then(res => {
           if(res.code === '200') {

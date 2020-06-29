@@ -136,25 +136,16 @@ export default {
       this.getList()
     },
     getList() {
-      const searchParams = JSON.parse(JSON.stringify(this.searchForm))
-      let query =
-        'http://yapi.omniview.pro/mock/267/service-release/titleManage'
-      this.$ajax
-        .get({
-          url: query
-        })
+      let query = this.$api.GET_TITLE_MANAGE
+      this.$ajax.get({
+        url: this.$api.GET_TITLE_MANAGE
+      })
         .then(res => {
           if (res.code === '200') {
             this.data = this.$com.confirm(res, 'data.content', [])
           } else {
             this.$message.error(res.msg)
           }
-          // 存储当前页面列表的搜索添加和分页信息
-          this.$com.storeSearchParams(
-            this.$route.name + '/old',
-            this.params,
-            this.searchForm
-          )
         })
     },
     handleResetOk() {
@@ -163,8 +154,7 @@ export default {
           this.$ajax
             .put({
               url:
-                'http://yapi.omniview.pro/mock/267/service-release/titleManage/' +
-                this.modifySection.idToIdentify,
+                this.$api.PUT_TITLE_MANAGE.replace('{id}', '/' + this.modifySection.idToIdentify,),
               params: {
                 titleName: this.resetData.getFieldValue('newSectionName')
               }

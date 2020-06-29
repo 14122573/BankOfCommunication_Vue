@@ -8,9 +8,6 @@
           <LeftNav />
         </a-col>
         <a-col :span="17" :offset="1">
-          <!-- <div class="content">
-            <KnowledgeContainer />
-          </div> -->
           <router-view />
         </a-col>
       </a-row>
@@ -22,12 +19,10 @@
 <script>
 import Navbar from '@/views/frontPublic/components/navbar.vue'
 import LeftNav from '@/views/frontPublic/components/leftNav.vue'
-import KnowledgeContainer from '@/views/frontPublic/views/knowledgeService/knowledgeContainer.vue'
 export default {
   components: {
     Navbar,
     LeftNav,
-    KnowledgeContainer
   },
   mounted() {
     this.fetchNews()

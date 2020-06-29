@@ -18,7 +18,6 @@
           <a-icon slot="prefix" type="user" style="color: rgba(0,0,0,.25)" />
         </a-input>
       </a-form-item>
-      <div class="errorMsg" style="height: 10px"></div>
       <a-form-item class="form_item">
         <a-input
           v-decorator="[
@@ -37,7 +36,6 @@
           <a-icon slot="prefix" type="lock" style="color: rgba(0,0,0,.25)" />
         </a-input>
       </a-form-item>
-      <div class="errorMsg" style="height: 10px"></div>
       <a-form-item class="form_item">
         <a class="login-form-forgot" @click="resetPassword">
           忘记密码
@@ -77,7 +75,8 @@ export default {
       remember    : false,
       successText : '',
       errorCount  : 0,
-      figure      : Math.random()
+      figure      : Math.random(),
+      isLogin     : false
     }
   },
   mounted() {
@@ -161,6 +160,8 @@ export default {
 
               if (res.code == '200') {
                 this.$cookie.set('canEnterBind', '200')
+                this.$store.commit('SET_ISLOGIN', true)
+                console.log(this.$store.state.isLogin)
                 this.jumpOpeation(res)
                 this.visibleError = false
               } else {
@@ -449,17 +450,19 @@ export default {
 }
 </script>
 <style>
-.form_item {
+.lunbo .loginpanel[data-v-a9d4b7dc] .form_item {
   margin: 5px 0px;
+  height: 70px;
 }
 
-#components-form-demo-normal-login .login-form {
+.lunbo .loginpanel[data-v-a9d4b7dc] #components-form-demo-normal-login .login-form {
   max-width: 300px;
 }
-#components-form-demo-normal-login .login-form-forgot {
+.lunbo .loginpanel[data-v-a9d4b7dc] #components-form-demo-normal-login .login-form-forgot {
   float: right;
 }
-#components-form-demo-normal-login .login-form-button {
+.lunbo .loginpanel[data-v-a9d4b7dc] #components-form-demo-normal-login .login-form-button {
   width: 100%;
 }
+
 </style>

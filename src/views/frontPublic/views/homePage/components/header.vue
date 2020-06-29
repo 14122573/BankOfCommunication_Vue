@@ -19,7 +19,7 @@
       </a-col>
       <a-col :span="15">
         <div class="loginFrameMenu">
-          <a-menu mode="horizontal" :selected-keys="retrieveSelected">
+          <a-menu mode="horizontal">
             <a-menu-item v-for="(item) in menuList" :key="item.key">
               <router-link :to="{ name: item.name }">{{item.title}}</router-link>
             </a-menu-item>
@@ -44,12 +44,12 @@ export default {
         {
           key  : '1',
           title: '通知公告',
-          name : 'notificationAnnounce'
+          name : 'notificationList'
         },
         {
           key  : '2',
           title: '行业动态',
-          name : 'industryNews'
+          name : 'industryList'
         },
         {
           key  : '3',
@@ -59,7 +59,7 @@ export default {
         {
           key  : '4',
           title: '专题报告',
-          name : 'topicReport'
+          name : 'topicReportList'
         },
         {
           key  : '5',
@@ -67,7 +67,6 @@ export default {
           name : 'dataSearch'
         }
       ],
-      retrieveSelected: [ '0' ],
     }
   },
   methods: {

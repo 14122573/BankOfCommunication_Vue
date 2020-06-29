@@ -5,9 +5,7 @@
 			<div class="detailOperations">
 				<a-button @click='$router.back()'>取消</a-button>
 				<a-button type="primary" @click='saveFarming("save")'>保存</a-button>
-        <a-button type="primary" @click='saveFarming("saveNcreate")'>保存并新建</a-button>
 				<a-button type="primary" @click='saveFarming("publish")'>保存并发布</a-button>
-        <a-button type="primary" @click='saveFarming("publishNcreate")'>发布并新建</a-button>
 			</div>
 		</div>
     <div  class="portalDetailContentWapper">
@@ -32,11 +30,21 @@
                     <a-select v-decorator="['section', { rules: rules.section }]" placeholder="请选择栏目" :options="searchFormOption.section"/>
                   </a-form-item>
                 </a-col>
+                <a-col span="16">
+                  <a-form-item label="是否投票文章" :label-col="{span:4}" :wrapper-col="{span:20}">
+                    <a-select v-decorator="['isVote', { rules: rules.isVote }]" placeholder="请选择是或否" :options="searchFormOption.isVote"/>
+                  </a-form-item>
+                </a-col>
+                <a-col span="16">
+                  <a-form-item label="是否置顶" :label-col="{span:4}" :wrapper-col="{span:20}">
+                    <a-select v-decorator="['isTop', { rules: rules.isTop }]" placeholder="请选择是或否" :options="searchFormOption.isTop"/>
+                  </a-form-item>
+                </a-col>
               </a-row>
               <a-row :gutter='16'>
                 <a-col span="8">
                   <a-form-item label="发布时间" :label-col="{span:8}" :wrapper-col="{span:16}">
-                    <a-date-picker v-decorator="['postDate', {rules: rules.postDate, initialValue: moment().locale('zh-cn').format(dateFormat) }]" />
+                    <a-date-picker v-decorator="['postDate', {rules: rules.postDate, initialValue: this.$moment().locale('zh-cn') }]" />
                   </a-form-item>
                 </a-col>
                 <a-col span="8">
@@ -78,7 +86,6 @@
 <script>
 import FileUpload from '@/components/Upload/fileUpload'
 import VueUeditorWrap from 'vue-ueditor-wrap'
-import moment from 'moment'
 export default {
   components: {
     FileUpload, VueUeditorWrap
@@ -119,29 +126,32 @@ export default {
             value: '1'
           }
         ],
-      },
-      createFormOption: {
-        type: [ {
-          label: '视频',
-          value: '0'
-        }, {
-          label: 'PDF',
-          value: '1'
-        } ],
-        anonymous: [ {
-          label: '公开',
-          value: '0'
-        }, {
-          label: '不公开',
-          value: '1'
-        }
-        ]
+        isVote: [
+          {
+            label: '是',
+            value: '1'
+          },
+          {
+            label: '否',
+            value: '0'
+          }
+        ],
+        isTop: [
+          {
+            label: '是',
+            value: '1'
+          },
+          {
+            label: '否',
+            value: '0'
+          }
+        ],
       },
       farmingCreateForm: this.$form.createForm(this),
       formData         : {
         content: '',
       },
-      dateFormat: 'YYYY/MM/DD',
+      dateFormat: 'YYYY-MM-DD',
       rules     : {
         title: [
           { required: true, whitespace: true, message: '请输入知识文献标题!' },
@@ -151,6 +161,12 @@ export default {
         ],
         section: [
           { required: true, whitespace: true, message: '请选择养殖技术栏目' }
+        ],
+        isVote: [
+          { required: true, whitespace: true, message: '请选择是否为投票结果文章' }
+        ],
+        isTop: [
+          { required: true, whitespace: true, message: '请选择是否为置顶文章' }
         ],
         postDate: [
           { required: true, message: '请选择养殖技术发布时间，格式 YYYY-MM-DD' }
@@ -190,15 +206,6 @@ export default {
         this.postPerson =  content.name
       })
     },
-    moment,
-
-    /**
-     * 监听表单’可否匿名浏览‘选项变动，并暂存
-     * @param {Object} e change事件对象
-     */
-    onDataAnonymousChange(e){
-      this.formData.anonymous = e.target.value
-    },
 
     /**
      * 监听表单’文献PDF附件‘上传变动，并暂存
@@ -206,6 +213,22 @@ export default {
      */
     onUploadFileChange(filelist){
       this.uploadFileList = [].concat(filelist)
+    },
+
+    /**
+     * 整理填写的线上视频地址数组和上传的文件数组，合并成指定提交的数据格式
+     * @returns {Array} 合并后的文件数组
+     */
+    arrangeFileList(){
+      const fileList = this.uploadFileList.map((item, index) => {
+        return {
+          type    : 1,
+          sort    : index+1,
+          fileId  : item.uid,
+          fileName: item.name
+        }
+      })
+      return fileList
     },
 
     /**
@@ -228,12 +251,15 @@ export default {
           }
 
           const postParams = Object.assign({}, this.formData, {
-            'title'   : this.farmingCreateForm.getFieldValue('title'),
-            'source'  : this.farmingCreateForm.getFieldValue('source'),
-            'section' : this.farmingCreateForm.getFieldValue('section'),
-            'postDate': this.farmingCreateForm.getFieldValue('postDate'),
-            'keyWord' : this.farmingCreateForm.getFieldValue('keywords'),
-            'author'  : this.farmingCreateForm.getFieldValue('postMan'),
+            'title'      : this.farmingCreateForm.getFieldValue('title'),
+            'source'     : this.farmingCreateForm.getFieldValue('source'),
+            'keyWord'    : this.farmingCreateForm.getFieldValue('keywords'),
+            'section'    : this.farmingCreateForm.getFieldValue('section'),
+            'isVote'     : this.farmingCreateForm.getFieldValue('isVote'),
+            'isTop'      : this.farmingCreateForm.getFieldValue('isTop'),
+            'postDate'   : this.$moment(this.farmingCreateForm.getFieldValue('postDate')).format(this.dateFormat),
+            'author'     : this.farmingCreateForm.getFieldValue('postMan'),
+            'attachments': this.arrangeFileList()
           })
           console.log(JSON.stringify(postParams))
 

@@ -2,7 +2,7 @@
   <div>
     <a-card
       class="welcome_panel"
-      style="width: 300px; max-width: 300px;"
+      style="width: 300px; max-width: 300px; height: 380px;"
       title="欢迎登陆智能渔技！"
       :headStyle="{ padding: '20' }"
     >
@@ -43,6 +43,9 @@ export default {
       })
     },
     handleLogout() {
+      this.$store.commit('SET_ISLOGIN', false)
+      console.log(this.$store.state.isLogin)
+      
       Common.handleLogOut()
       this.$emit('on-change', 'login')
     }

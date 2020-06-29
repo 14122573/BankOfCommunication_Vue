@@ -64,18 +64,26 @@ const KnowledgeView = () => import('@/views/cms/knowledgePublish/view')
 // 首页
 const NotificationAnnounce = () =>
   import('@/views/frontPublic/views/notificationAnnounce/notificationAnnounce')
+const NotificationList = () =>
+  import('@/views/frontPublic/views/notificationAnnounce/notificationList')
 const VotingRules = () =>
   import('@/views/frontPublic/views/notificationAnnounce/votingRules')
-const IndustryNews = () =>
-  import('@/views/frontPublic/views/industryNews/industryNews.vue')
+const IndustryList = () =>
+  import('@/views/frontPublic/views/industryNews/industryList.vue')
+
+const IndustryDetails = () => 
+  import('@/views/frontPublic/views/industryNews/industryDetails.vue')
 const DataSearch = () =>
   import('@/views/frontPublic/views/dataSearch/dataSearch.vue')
 const DataSearchResult = () =>
   import('@/views/frontPublic/views/dataSearch/searchResult.vue')
 const KnowledgeService = () =>
   import('@/views/frontPublic/views/knowledgeService/knowledgeService.vue')
-const TopicReport = () =>
-  import('@/views/frontPublic/views/topicReport/topicReport')
+const TopicReportList = () =>
+  import('@/views/frontPublic/views/topicReport/topicReportList')
+
+const TopicReportDetail = () =>
+  import('@/views/frontPublic/views/topicReport/TopicReportDetail')
 // 子项目
 const FarmingTechContent = () =>
   import('@/views/frontPublic/views/farmingTech/farmingTechContent.vue')
@@ -96,6 +104,8 @@ const BannerSort = () => import('@/views/cms/homepageInfoMaintain/bannerSort')
 // 内容管理-养殖技术
 const FarmingTechList = () => import('@/views/cms/farmingTech/list')
 const FarmingCreate = () => import('@/views/cms/farmingTech/create')
+const FarmingDetail = () => import('@/views/cms/farmingTech/detail')
+const FarmingEdit = () => import('@/views/cms/farmingTech/edit')
 
 // 内容管理-科普知识
 const KnowledgePromotionList = () => import('@/views/cms/knowledgePromotion/list')
@@ -548,6 +558,7 @@ const appRoutes = [
             component: FarmingTechList,
             meta     : {
               title      : '养殖技术',
+              tabName    : 'farmingNews',
               menuPath   : true,
               authCode   : 'P32000',
               menuIcon   : 'file-text',
@@ -569,7 +580,7 @@ const appRoutes = [
               {
                 path     : '/cms/farmingtech/edit/:id',
                 name     : '/cms/farmingtech/edit',
-                component: KnowledgeEdit,
+                component: FarmingEdit,
                 meta     : {
                   title      : '修改养殖技术',
                   menuPath   : false,
@@ -580,8 +591,8 @@ const appRoutes = [
               },
               {
                 path     : '/cms/farmingtech/:id',
-                name     : '/cms/farmingtech/details',
-                component: KnowledgeDetail,
+                name     : '/cms/farmingtech/detail',
+                component: FarmingDetail,
                 meta     : {
                   title      : '查看养殖技术详情',
                   menuPath   : false,
@@ -598,6 +609,7 @@ const appRoutes = [
             component: KnowledgePromotionList,
             meta     : {
               title      : '科普知识',
+              tabName    : 'knowledgeNews',
               menuPath   : true,
               authCode   : 'P32000',
               menuIcon   : 'file-text',
@@ -649,6 +661,7 @@ const appRoutes = [
             meta     : {
               title      : '云课堂',
               menuPath   : true,
+              tabName    : 'cloudLessonNews',
               authCode   : 'P32000',
               menuIcon   : 'file-text',
               hideInBread: false
@@ -924,10 +937,16 @@ const appRoutes = [
         ]
       },
       {
-        path     : '/homepage/notificationAnnounce',
+        path     : '/homepage/notificationAnnounce/:id',
         name     : 'notificationAnnounce',
         component: NotificationAnnounce,
         meta     : { title: '通知公告' }
+      }, 
+      {
+        path     : '/homepage/notificationNews',
+        name     : 'notificationList',
+        component: NotificationList,
+        meta     : { title: '通知公告列表' }
       }, 
       {
         path     : '/homepage/votingRules',
@@ -936,10 +955,16 @@ const appRoutes = [
         meta     : { title: '投票公告' }
       },
       {
-        path     : '/homepage/industryNews',
-        name     : 'industryNews',
-        component: IndustryNews,
-        meta     : { title: '行业动态' }
+        path     : '/homepage/industryList',
+        name     : 'industryList',
+        component: IndustryList,
+        meta     : { title: '行业动态列表' }
+      },
+      {
+        path     : '/homepage/industryDetails/:id',
+        name     : 'industryDetails',
+        component: IndustryDetails,
+        meta     : { title: '行业动态详情' }
       },
       {
         path     : '/homepage/knowledgeService',
@@ -968,9 +993,15 @@ const appRoutes = [
         ]
       },
       {
-        path     : '/homepage/topicReport',
-        name     : 'topicReport',
-        component: TopicReport,
+        path     : '/homepage/topicReportList',
+        name     : 'topicReportList',
+        component: TopicReportList,
+        meta     : { title: '专题报告列表' }
+      },
+      {
+        path     : '/homepage/topicReportDetail/:id',
+        name     : 'topicReportDetail',
+        component: TopicReportDetail,
         meta     : { title: '专题报告' }
       },
       {

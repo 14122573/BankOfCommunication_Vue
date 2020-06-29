@@ -109,6 +109,7 @@ export default {
   margin-left: 200px;
   box-shadow: 0px 0px 15px lightgrey;
   transform: scale(1, 1);
+  height: 380px;
 }
 /* For demo */
 .ant-carousel >>> .slick-slide {
