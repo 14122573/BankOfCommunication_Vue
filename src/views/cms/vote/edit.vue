@@ -35,7 +35,7 @@
             </div>
             <div style="display:flex;">
               <span class="formLabel" style="width:150px;text-align:right;color:#333;">简介：</span>
-              <UeditorCompent ref="ue" :value="model.description?model.descriptio:''" ></UeditorCompent>
+              <UeditorCompent ref="ue" :value="description" ></UeditorCompent>
             </div> 
           </ActiveForm>
         </div>
@@ -91,11 +91,12 @@ export default {
   name: 'VoteEdit',
   data() {
     return {
-      voteId  : null, // null为新增模式，有值为修改模式
-      ruleType: '0',
-      ruleNum : 1,
-      creator : '',
-      layout  : [
+      voteId     : null, // null为新增模式，有值为修改模式
+      ruleType   : '0',
+      ruleNum    : 1,
+      creator    : '',
+      description: '',
+      layout     : [
         {
           name: {
             label   : '名称',
@@ -206,17 +207,18 @@ export default {
       this.$ajax.get({
         url: this.$api.GET_VOTE_DETAIL.replace('{id}', this.voteId)
       }).then(res => { 
-        const { name, creator, ruleType, source, startTime, endTime, description, subjects } = res.data.content
+        console.log(res)
+        const { name, creator, ruleType, ruleNum, source, startTime, endTime, description, subjects } = res.data.content
+        this.description = description
         this.creator = creator
         this.ruleType = ruleType?ruleType:'0'
-        if(ruleType == '1'){
+        if(ruleType == '1'){ 
           this.ruleNum = ruleNum 
         }
         this.model = {
           name, 
           source,
           date: [ startTime, endTime ],
-          description,
         }
         this.questionList = subjects
       })
@@ -413,24 +415,32 @@ export default {
           status,
           subjects : this.questionList,
         } 
+        console.log(params)
         this.$ajax[method]({
           url,
           params,
         }).then(res => {
-          if (status == '1') {
-            this.$modal.success({
-              title  : '成功',
-              content: '保存并发布成功',
-              okText : '确认',
-            })
-          } else {
-            this.$modal.success({
-              title  : '成功',
-              content: '保存成功',
-              okText : '确认',
-            })
+          if( res.code == '200'){
+            if (status == '1') {
+              // this.$modal.success({
+              //   title  : '成功',
+              //   content: '保存并发布成功',
+              //   okText : '确认',
+              // }) 
+              this.$message.success('保存并发布成功', 5)
+              this.$router.push({ path: '/cms/vote' })
+            } else {
+              // this.$modal.success({
+              //   title  : '成功',
+              //   content: '保存成功',
+              //   okText : '确认',
+              // })
+              this.$message.success('保存成功', 5)
+              this.$router.push({ path: '/cms/vote' })
+            }
           }
-          this.$nextTick(() => this.$router.back())
+          
+          // this.$nextTick(() => this.$router.push({ path: '/cms/vote' }))
         })
       })
     },
