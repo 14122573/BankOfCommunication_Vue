@@ -24,7 +24,7 @@
             <div class="content">
               <p class="roleName" :title='item.roleName'>{{item.roleName}} </p>
               <p class="roleNum"><img :src="groups" class="group-icon" alt="人数"><span class="name-num">{{item.userCount || '0'}}人</span></p>
-              <DataOperatorInList :creator='!item.creator?"":item.creator' :lastOperator='!item.operator?"":item.operator'></DataOperatorInList>
+              <DataOperatorInList :level="!item.sort?0:item.sort" :creator='!item.creator?"":item.creator' :lastOperator='!item.operator?"":item.operator'></DataOperatorInList>
             </div>
             <div class="operate">
               <template v-if="$permission('P02002')">
@@ -202,7 +202,7 @@ export default {
 <style scoped>
 .wrapper-roles { display: flex; flex-wrap: wrap;}
 .box { width: 20%; padding: 0 8px 16px 8px;}
-.inner {height: 160px; display: flex; flex-direction: column; border: 1px solid #e8eaec;}
+.inner {height: 180px; display: flex; flex-direction: column; border: 1px solid #e8eaec;}
 .content { display: flex; flex: 1; flex-direction: column; justify-content: center; align-items: start; padding:0px 20px;}
 .content .roleName{ font-weight: bold; margin-bottom: 5px; word-break: break-all; display: inline-block; width: 100%; overflow: hidden; text-overflow:ellipsis; white-space: nowrap;}
 .content .roleNum{ width: 100%; margin-bottom: 8px; padding-bottom: 5px;  border-bottom: 1px dashed rgba(0,0,0,0.2)}

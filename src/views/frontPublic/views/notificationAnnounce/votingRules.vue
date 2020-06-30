@@ -6,12 +6,12 @@
         <a-row>
           <a-col :span="4">&nbsp;</a-col>
           <a-col :span="16">
-            <a-descriptions class="title" :title="list.title">
+            <a-descriptions class="title" :title="list.name">
               <a-descriptions-item label="发稿人">{{
-                list.postAuthor
+                list.creator
               }}</a-descriptions-item>
               <a-descriptions-item label="发布日期">{{
-                list.postDate
+                list.startTime?list.startTime.slice(0, 10):''
               }}</a-descriptions-item>
               <a-descriptions-item label="来源">{{
                 list.source
@@ -22,7 +22,7 @@
         </a-row>
         <a-divider type="horizontal"></a-divider>
         <a-card class="content" :bordered="false">
-          {{ list.content }}
+          {{ list.description }}
         </a-card>
       </div>
     </div>
@@ -31,7 +31,7 @@
         <div style="height:40px;display:flex;align-items:center;padding-bottom:10px;margin-bottom:20px;border-bottom:1px solid #eee;">
             <img src="@/assets/images/home/tp_icon.png" alt=""><span class="votingTitle">投票</span> 
         </div>
-        <div v-if="list.result=='0' || list.largeNum>list.number" :style="'text-align:left;background: url('+tp_bj+') #fff no-repeat right bottom;background-size:contain;'">
+        <div v-if="list.result=='0' || list.ruleNum>list.currentNum" :style="'text-align:left;background: url('+tp_bj+') #fff no-repeat right bottom;background-size:contain;'">
           <template v-for="(item, index) in list.subjects">
             <template v-if="item.type=='1'">
                 <a-row :key="item.id" style="margin-bottom:20px;">
@@ -94,32 +94,30 @@ export default {
         results: [], //填写结果 
       },
       list: {
-        id   : '11111111',
-        title:
-          '金正大董事长万连步代表：加强农业社会化服务业政策支持，促进乡村振兴',
-        content:
-          '随着我国工业化、城镇化的深度推进、农村劳动力的大量转移进城，我国第一产业劳动力占比已从1978年的70.5%，下降到2017年的27%，农业内部劳动力越来越少。2018年农民工数量超过2.88亿，且多以年轻劳动力为主，50岁及以下农民工所占比重超过75%。“大国小农”仍是相当长一段时间内我国的基本国情，如何把小农户生产引入现代农业发展轨道，提升农业生产效率，进而提升农产品竞争力，成为当前一个重要的时代命题。',
-        postDate  : '2020-02-20',
-        source    : '新闻网',
-        postAuthor: '小明',
-        sort      : '01',
-        result    : '1',
-        number    : 7,
-        largeNum  : 7,
-        subjects  : [
+        id         : '334151729957199872',
+        name       : '金正大董事长万连步代表：加强农业社会化服务业政策支持，促进乡村振兴',
+        description: '随着我国工业化、城镇化的深度推进、农村劳动力的大量转移进城，我国第一产业劳动力占比已从1978年的70.5%，下降到2017年的27%，农业内部劳动力越来越少。2018年农民工数量超过2.88亿，且多以年轻劳动力为主，50岁及以下农民工所占比重超过75%。“大国小农”仍是相当长一段时间内我国的基本国情，如何把小农户生产引入现代农业发展轨道，提升农业生产效率，进而提升农产品竞争力，成为当前一个重要的时代命题。',
+        startTime  : '2020-02-20',
+        source     : '新闻网',
+        creator    : '小明',
+        sort       : '01',
+        result     : '1',
+        currentNum : 3,
+        ruleNum    : 7,
+        subjects   : [
           {
             description: null,
             id         : '111',
             isRequired : '0', //是否必填：0是，1否
-            title      : 'sghjghdkfgakg',
+            title      : '测试1',
             type       : '1', //0是单选，1是多选
             options    : [
               {
-                id   : '23254254354353',
+                id   : '111111',
                 value: 'sssss',
               },
               {
-                id   : '45345354354353',
+                id   : '222222',
                 value: 'fffff',
               },
             ] 
@@ -128,15 +126,15 @@ export default {
             description: null,
             id         : '333',
             isRequired : '0', //是否必填：0是，1否
-            title      : 'sghjghdkfgakg',
+            title      : '测试2',
             type       : '1', //0是单选，1是多选
             options    : [
               {
-                id   : '3423432',
+                id   : '333333',
                 value: 'sssss',
               },
               {
-                id   : '453453234234254354353',
+                id   : '444444',
                 value: 'fffff',
               },
             ] 
@@ -145,15 +143,15 @@ export default {
             description: null,
             id         : '222',
             isRequired : '1',
-            title      : 'sghjghdkfgakg',
+            title      : '测试3',
             type       : '0',
             options    : [
               {
-                id   : '23254254354353',
+                id   : '555555',
                 value: 'sssss',
               },
               {
-                id   : '45345354354353',
+                id   : '666666',
                 value: 'fffff',
               },
             ] 
@@ -162,8 +160,17 @@ export default {
       }
     }
   },
+  mounted(){
+    this.$ajax.get({
+      url: this.$api.GET_VOTE_INFO.replace('{id}', this.$route.query.id),
+    }).then(res => {
+      if(res.code == '200'){ 
+        this.list = res.data.content
+      }
+    })
+  },
   methods: {
-    onCheckboxChange(value, id){ 
+    onCheckboxChange(value, id){   
       let arr = this.params.results
       if(arr.length==0){
         this.params.results.push({
@@ -172,21 +179,20 @@ export default {
           optionId : value[value.length-1]
         }) 
       }else{
-        let flag = false
-        for(let i=0;i<arr.length;i++){
-          if(arr[i].optionId == value[value.length-1]){
-            flag = true
-            break
+        for(let i=0;i<this.params.results.length;i++){
+          if(this.params.results[i].subjectId == id){
+            this.params.results.splice(i, 1)
+            i--
           }
-        } 
-        if(!flag){
+        }  
+        for(let j=0;j<value.length;j++){
           this.params.results.push({
             voteId   : this.list.id,
             subjectId: id,
-            optionId : value[value.length-1]
-          })  
-        } 
-      } 
+            optionId : value[j]
+          }) 
+        }
+      }  
     },
     onRadioChange(e, id){ 
       let arr = this.params.results
@@ -214,17 +220,39 @@ export default {
         } 
       } 
     },  
-    handleSubmit(){
-      this.$ajax.get({
-        url: this.$api.GET_VOTE_DETAIL.replace('{id}', this.voteId)
-      }).then(res => {
-        const { name, startTime, endTime, description, subjects } = res.data.content
-        this.model = {
-          name,
-          date: [ startTime, endTime ],
-          description,
+    handleSubmit(){ 
+      let subj = this.list.subjects
+      for(let i=0;i<subj.length;i++){
+        if(subj[i].isRequired == '0'){
+          let flag = false
+          for(let j=0;j<this.params.results.length;j++){ 
+            if(this.params.results[j].subjectId == subj[i].id){ 
+              flag = true
+              break
+            } 
+          }
+          if(!flag){
+            return this.$modal.confirm({
+              type   : 'error',
+              icon   : 'exclamation-circle',
+              title  : '警告',
+              content: subj[i].title+'为必选项！', 
+            })
+          }
         }
-        this.questionList = subjects
+      }
+      this.$ajax.post({
+        url   : this.$api.POST_VOTE.replace('{id}', this.list.id),
+        params: this.params,
+      }).then(res => {
+        if(res.code == '200'){ 
+          this.$modal.success({
+            title  : '成功',
+            content: '投票成功成功',
+            okText : '确认',
+          })
+          this.$router.back()
+        }
       })
     },
   },

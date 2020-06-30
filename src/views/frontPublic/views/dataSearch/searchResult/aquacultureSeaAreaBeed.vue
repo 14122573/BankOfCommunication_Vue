@@ -1,6 +1,7 @@
 <template>
-  <div>
-    <a-row class="tableWrapper">
+    <!--    水产养殖面积-海水养殖面积-按养殖品种分-->
+    <a-row class="tableWrapper searchResult">
+      <a-col :span="24">
       <a-table
         :columns="columns"
         :data-source="dataList"
@@ -10,18 +11,23 @@
         :rowClassName="setRowColor"
         :customHeaderRow="clearHover"
       />
+      </a-col>
     </a-row>
-  </div>
 </template>
 
 <script>
 export default {
   props: {
-    query: Array
+    queryParams: {
+      type    : Object,
+      required: false,
+      default : function () {
+        return {}
+      }
+    }
   },
   mounted() {
     this.fetchData()
-    console.log(this.query)
   },
   data() {
     return {
@@ -155,107 +161,38 @@ export default {
       columns: [
         {
           title    : '年份',
-          dataIndex: '年份',
-          key      : '年份',
+          dataIndex: 'year',
+          key      : 'year',
           width    : 120,
           fixed    : 'left'
         },
         {
           title    : '区域',
-          dataIndex: '区域',
-          key      : '区域',
+          dataIndex: 'area',
+          key      : 'area',
           width    : 100,
           fixed    : 'left'
         },
         {
           title    : '总计',
-          dataIndex: '总计',
-          key      : '总计',
+          dataIndex: 'sum',
+          key      : 'sum',
           width    : 150,
           fixed    : 'left'
         },
         {
-          title   : '鱼类',
-          children: [
-            {
-              title    : '合计',
-              dataIndex: 'yycz合计',
-              key      : 'yycz合计',
-              width    : 200
-            },
-            {
-              title    : '鲈鱼',
-              dataIndex: 'yycz海水养殖',
-              key      : 'yycz海水养殖',
-              width    : 200
-            },
-            {
-              title    : '鲆鱼',
-              dataIndex: 'yycz淡水养殖',
-              key      : 'yycz淡水养殖',
-              width    : 100
-            },
-            {
-              title    : '大黄鱼',
-              dataIndex: 'yycz海洋捕捞',
-              key      : 'yycz海洋捕捞',
-              width    : 100
-            },
-            {
-              title    : '军曹鱼',
-              dataIndex: 'yycz淡水捕捞',
-              key      : 'yycz淡水捕捞',
-              width    : 100
-            },
-            {
-              title    : '鰤鱼',
-              dataIndex: 'yycz水产苗种',
-              key      : 'yycz水产苗种',
-              width    : 100
-            },
-            {
-              title    : '鲷鱼',
-              dataIndex: 'yycz水产苗种',
-              key      : 'yycz水产苗种',
-              width    : 100
-            }
-            ,
-            {
-              title    : '美国红鱼',
-              dataIndex: 'yycz水产苗种',
-              key      : 'yycz水产苗种',
-              width    : 100
-            }
-            ,
-            {
-              title    : '河鲀',
-              dataIndex: 'yycz水产苗种',
-              key      : 'yycz水产苗种',
-              width    : 100
-            }
-            ,
-            {
-              title    : '石斑鱼',
-              dataIndex: 'yycz水产苗种',
-              key      : 'yycz水产苗种',
-              width    : 100
-            }
-            ,
-            {
-              title    : '鲽鱼',
-              dataIndex: 'yycz水产苗种',
-              key      : 'yycz水产苗种',
-              width    : 100
-            }
-          ]
+          title    : '鱼类',
+          dataIndex: 'fishSum',
+          key      : 'fishSum',
+          width    : 200
         },
         {
           title   : '甲壳类',
           children: [
             {
               title    : '合计',
-              dataIndex: 'yygyhjzy合计',
-              key      : 'yygyhjzy合计',
+              dataIndex: 'crustaceansSum',
+              key      : 'crustaceansSum',
               width    : 100
             },
             {
@@ -263,26 +200,26 @@ export default {
               children: [
                 {
                   title    : '其中：南美白对虾',
-                  dataIndex: 'yygyhjzy渔船渔机修造',
-                  key      : 'yygyhjzy渔船渔机修造',
+                  dataIndex: 'southAmericanShrimp',
+                  key      : 'southAmericanShrimp',
                   width    : 150
                 },
                 {
                   title    : '斑节对虾',
-                  dataIndex: 'yygyhjzy渔用绳网制造',
-                  key      : 'yygyhjzy渔用绳网制造',
+                  dataIndex: 'spotSectionPrawns',
+                  key      : 'spotSectionPrawns',
                   width    : 120
                 },
                 {
                   title    : '中国对虾',
-                  dataIndex: 'yygyhjzy渔用饲料',
-                  key      : 'yygyhjzy渔用饲料',
+                  dataIndex: 'penaeusChinensis',
+                  key      : 'penaeusChinensis',
                   width    : 100
                 },
                 {
                   title    : '日本对虾',
-                  dataIndex: 'yygyhjzy渔用药物',
-                  key      : 'yygyhjzy渔用药物',
+                  dataIndex: 'JapPrawn',
+                  key      : 'JapPrawn',
                   width    : 100
                 }
               ]
@@ -292,14 +229,14 @@ export default {
               children: [
                 {
                   title    : '其中：梭子蟹',
-                  dataIndex: 'yygyhjzy渔船渔机修造',
-                  key      : 'yygyhjzy渔船渔机修造',
+                  dataIndex: 'swimmingCrab',
+                  key      : 'swimmingCrab',
                   width    : 150
                 },
                 {
                   title    : '青蟹',
-                  dataIndex: 'yygyhjzy渔用绳网制造',
-                  key      : 'yygyhjzy渔用绳网制造',
+                  dataIndex: 'greenCrab',
+                  key      : 'greenCrab',
                   width    : 120
                 }
               ]
@@ -311,64 +248,64 @@ export default {
           children: [
             {
               title    : '合计',
-              dataIndex: 'yylthfwy合计',
-              key      : 'yylthfwy合计',
+              dataIndex: 'shellfishSum',
+              key      : 'shellfishSum',
               width    : 100
             },
             {
               title    : '其中：牡蛎',
-              dataIndex: 'yylthfwy水产流通',
-              key      : 'yylthfwy水产流通',
+              dataIndex: 'oysters',
+              key      : 'oysters',
               width    : 100
             },
             {
               title    : '鲍',
-              dataIndex: 'yylthfwy水产仓储运输',
-              key      : 'yylthfwy水产仓储运输',
+              dataIndex: 'bao',
+              key      : 'bao',
               width    : 120
             },
             {
               title    : '螺',
-              dataIndex: 'yylthfwy休闲渔业',
-              key      : 'yylthfwy休闲渔业',
+              dataIndex: 'screw',
+              key      : 'screw',
               width    : 100
             },
             {
               title    : '蚶',
-              dataIndex: 'yylthfwy其他',
-              key      : 'yylthfwy其他',
+              dataIndex: 'cockle',
+              key      : 'cockle',
               width    : 100
             }
             ,
             {
               title    : '贻贝',
-              dataIndex: 'yylthfwy水产仓储运输',
-              key      : 'yylthfwy水产仓储运输',
+              dataIndex: 'mussels',
+              key      : 'mussels',
               width    : 120
             },
             {
               title    : '江珧',
-              dataIndex: 'yylthfwy休闲渔业',
-              key      : 'yylthfwy休闲渔业',
+              dataIndex: 'jiangYao',
+              key      : 'jiangYao',
               width    : 100
             },
             {
               title    : '扇贝',
-              dataIndex: 'yylthfwy其他',
-              key      : 'yylthfwy其他',
+              dataIndex: 'scallops',
+              key      : 'scallops',
               width    : 100
             }
             ,
             {
               title    : '蛤',
-              dataIndex: 'yylthfwy其他',
-              key      : 'yylthfwy其他',
+              dataIndex: 'clam',
+              key      : 'clam',
               width    : 100
             },
             {
               title    : '蛏',
-              dataIndex: 'yylthfwy其他',
-              key      : 'yylthfwy其他',
+              dataIndex: 'respectively',
+              key      : 'respectively',
               width    : 100
             }
           ]
@@ -378,51 +315,57 @@ export default {
           children: [
             {
               title    : '合计',
-              dataIndex: 'yylthfwy合计',
-              key      : 'yylthfwy合计',
+              dataIndex: 'algaeSum',
+              key      : 'algaeSum',
               width    : 100
             },
             {
               title    : '其中：海带',
-              dataIndex: 'yylthfwy水产流通',
-              key      : 'yylthfwy水产流通',
+              dataIndex: 'kelp',
+              key      : 'kelp',
+              width    : 100
+            },
+            {
+              title    : '裙带菜',
+              dataIndex: 'wakame',
+              key      : 'wakame',
               width    : 100
             },
             {
               title    : '紫菜',
-              dataIndex: 'yylthfwy水产仓储运输',
-              key      : 'yylthfwy水产仓储运输',
+              dataIndex: 'nori',
+              key      : 'nori',
               width    : 120
             },
             {
               title    : '江蓠',
-              dataIndex: 'yylthfwy休闲渔业',
-              key      : 'yylthfwy休闲渔业',
+              dataIndex: 'gracilaria',
+              key      : 'gracilaria',
               width    : 100
             },
             {
               title    : '麒麟菜',
-              dataIndex: 'yylthfwy其他',
-              key      : 'yylthfwy其他',
+              dataIndex: 'eucheuma',
+              key      : 'eucheuma',
               width    : 100
             }
             ,
             {
               title    : '石花菜',
-              dataIndex: 'yylthfwy水产仓储运输',
-              key      : 'yylthfwy水产仓储运输',
+              dataIndex: 'agarWeed',
+              key      : 'agarWeed',
               width    : 120
             },
             {
               title    : '羊栖菜',
-              dataIndex: 'yylthfwy休闲渔业',
-              key      : 'yylthfwy休闲渔业',
+              dataIndex: 'sheepFood',
+              key      : 'sheepFood',
               width    : 100
             },
             {
               title    : '苔菜',
-              dataIndex: 'yylthfwy其他',
-              key      : 'yylthfwy其他',
+              dataIndex: 'greenMoss',
+              key      : 'greenMoss',
               width    : 100
             }
           ]
@@ -433,32 +376,32 @@ export default {
           children: [
             {
               title    : '合计',
-              dataIndex: 'yylthfwy合计',
-              key      : 'yylthfwy合计',
+              dataIndex: 'otherSum',
+              key      : 'otherSum',
               width    : 100
             },
             {
               title    : '其中：海参',
-              dataIndex: 'yylthfwy水产流通',
-              key      : 'yylthfwy水产流通',
+              dataIndex: 'seaCucumber',
+              key      : 'seaCucumber',
               width    : 100
             },
             {
               title    : '海胆',
-              dataIndex: 'yylthfwy水产仓储运输',
-              key      : 'yylthfwy水产仓储运输',
+              dataIndex: 'seaUrchin',
+              key      : 'seaUrchin',
               width    : 120
             },
             {
               title    : '海水珍珠',
-              dataIndex: 'yylthfwy休闲渔业',
-              key      : 'yylthfwy休闲渔业',
+              dataIndex: 'seawaterPearl',
+              key      : 'seawaterPearl',
               width    : 100
             },
             {
               title    : '海蜇',
-              dataIndex: 'yylthfwy其他',
-              key      : 'yylthfwy其他',
+              dataIndex: 'jellyfish',
+              key      : 'jellyfish',
               width    : 100
             }
           ]
@@ -471,11 +414,11 @@ export default {
       return {
         on: {
           mouseenter: (event) => {
-            console.log(event)
+            // console.log(event)
             let chooseTool = event.srcElement.lastChild
-            console.log(chooseTool)
+            // console.log(chooseTool)
 
-            return document.getElementsByClassName(chooseTool).style.backgroundColor = '#2a93f5'
+            // return document.getElementsByClassName(chooseTool).style.backgroundColor = '#2a93f5'
 
             // return event.srcElement.lastChild.style.backgroundColor = "#2a93f5"
           }
@@ -489,29 +432,42 @@ export default {
     fetchData() {
       for (let i = 0; i < 31; i++) {
         this.dataList.push({
-          key           : i,
-          年份            : '2019',
-          区域            : this.province[i].name,
-          总计            : '266,644,732,15',
-          yycz合计        : '128,1544,129,31',
-          yycz海水养殖      : '35,358,584,13',
-          yycz淡水养殖      : '1,584,597,56',
-          yycz海洋捕捞      : '25,578,522,85',
-          yycz淡水捕捞      : '25,578,522,85',
-          yycz水产苗种      : '25,578,522,85',
-          yygyhjzy合计    : '25,578,522,85',
-          yygyhjzy水产品加工 : '25,578,522,85',
-          yygyhjzy渔船渔机修造: '25,578,522,85',
-          yygyhjzy渔用绳网制造: '25,578,522,85',
-          yygyhjzy渔用饲料  : '25,578,522,85',
-          yygyhjzy渔用药物  : '25,578,522,85',
-          yygyhjzy建筑    : '25,578,522,85',
-          yygyhjzy其他    : '25,578,522,85',
-          yylthfwy合计    : '25,578,522,85',
-          yylthfwy水产流通  : '25,578,522,85',
-          yylthfwy水产仓储运输: '25,578,522,85',
-          yylthfwy休闲渔业  : '25,578,522,85',
-          yylthfwy其他    : '25,578,522,85'
+          key                : i,
+          year               : '2019',//年份
+          area               : this.province[i].name,//区域
+          sum                : '266,644,732,15',//总计
+          fishSum            : '128,1544,129,31',//鱼类合计
+          crustaceansSum     : '25,578,522,85',//甲壳类合计
+          southAmericanShrimp: '25,578,522,85',//南美白对虾
+          spotSectionPrawns  : '25,578,522,85',//斑节对虾
+          penaeusChinensis   : '25,578,522,85',//中国对虾
+          JapPrawn           : '25,578,522,85',//日本对虾
+          swimmingCrab       : '25,578,522,85',//梭子蟹
+          greenCrab          : '25,578,522,85',//青蟹
+          shellfishSum       : '25,578,522,85',//贝类合计
+          oysters            : '25,578,522,85',//牡蛎
+          bao                : '25,578,522,85',//鲍
+          screw              : '25,578,522,85',//螺
+          cockle             : '25,578,522,85',//蚶
+          mussels            : '25,578,522,85',//贻贝
+          jiangYao           : '25,578,522,85',//江珧
+          scallops           : '25,578,522,85',//扇贝
+          clam               : '25,578,522,85',//蛤
+          respectively       : '25,578,522,85',//蛏
+          algaeSum           : '25,578,522,85',//藻类合计
+          kelp               : '25,578,522,85',//海带
+          wakame             : '25,578,522,85',//裙带菜
+          nori               : '25,578,522,85',//紫菜
+          gracilaria         : '25,578,522,85',//江蓠
+          eucheuma           : '25,578,522,85',//麒麟菜
+          agarWeed           : '25,578,522,85',//石花菜
+          sheepFood          : '25,578,522,85',//羊栖菜
+          greenMoss          : '25,578,522,85',//苔菜
+          otherSum           : '25,578,522,85',//其他合计
+          seaCucumber        : '25,578,522,85',//海参
+          seaUrchin          : '25,578,522,85',//海胆
+          seawaterPearl      : '25,578,522,85',//海水珍珠
+          jellyfish          : '25,578,522,85'//海蜇
         })
       }
     }
@@ -519,29 +475,3 @@ export default {
 }
 </script>
 
-<style scoped>
-  .tableWrapper {
-    padding: 30px
-  }
-
-  .ant-table-thead > tr {
-    background-color: #2a93f5;
-  }
-
-  .ant-table-thead :hover > tr {
-    background-color: #2a93f5;
-  }
-
-  .ant-table-thead > tr > th {
-    color: #ffffff;
-    text-align: center;
-  }
-
-  .row_gray {
-    background-color: #E8E9EA;
-  }
-
-  .row_normal {
-    background-color: white;
-  }
-</style>

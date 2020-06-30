@@ -31,6 +31,18 @@
                         ]" />
                   </a-form-item>
                 </a-col>
+                <a-col span="8">
+                  <a-form-item label="级别" class="formItem" :label-col="labelCol" :wrapper-col="wrapperCol" >
+                    <!-- <a-input placeholder="请输入"
+                        v-decorator="[
+                          'roleName',
+                          {rules: [{ required: true, message: '请输入10字以内的角色名称！' ,whitespace:true,max:10 }],validateTrigger:'blur'}
+                        ]" /> -->
+                    <a-select placeholder="请选择" v-decorator="['sort',{rules: [{ required: true, message: '请选择级别!' }],validateTrigger:'change'}]" >
+                      <a-select-option v-for="v in roleLevels" :key="v.key" :value="v.level">{{v.levelName}}</a-select-option>
+                    </a-select>
+                  </a-form-item>
+                </a-col>
             </a-row>
             <a-tree class="portalRoleTree" v-if="showTree" checkable :treeData="treeData" :defaultExpandedKeys='expandedKeys' v-model="checkedKeys" :disabled="$route.query.type === 'view'" />
           </div>
@@ -40,6 +52,8 @@
     </div>
 </template>
 <script>
+import roleLevels from '@/config/roleLevels.json'
+
 export default {
   data() {
     return {
@@ -54,7 +68,8 @@ export default {
       deleteData  : {},
       showTree    : false,
       roleName    : null,
-      userCount   : null
+      userCount   : null,
+      roleLevels,
     }
   },
   methods: {
@@ -108,7 +123,8 @@ export default {
           this.userCount=data.userCount
           if(this.$route.query.type !== 'view'){
             this.formData.setFieldsValue({
-              roleName: data.roleName
+              roleName: data.roleName,
+              sort    : data.sort
             })
           }
           this.checkedKeys=data.perm.map((item) => {
@@ -140,6 +156,7 @@ export default {
             url   : link,
             params: {
               roleName: this.formData.getFieldValue('roleName'),
+              sort    : this.formData.getFieldValue('sort'),
               permIds : this.checkedKeys.join(',')
             }
           }).then(res => {

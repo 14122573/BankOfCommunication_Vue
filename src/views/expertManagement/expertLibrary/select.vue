@@ -260,7 +260,7 @@ export default {
     // 查询角色列表
     getRoleList() {
       this.$ajax.get({
-        url   : this.$api.GET_ROLE_LIST,
+        url   : this.$api.GET_CHOOSE_ROLE_LIST,
         params: {
           pageNo  : 1,
           pageSize: 10000

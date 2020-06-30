@@ -154,7 +154,7 @@ export default {
     getOptions() {
       const info = this.$store.state.userInfos
       const optionList = [ {
-        url   : this.$api.GET_ROLE_LIST,
+        url   : this.$api.GET_CHOOSE_ROLE_LIST,
         name  : 'roleList',
         params: {
           pageNo  : 1,

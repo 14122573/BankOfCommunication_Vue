@@ -335,6 +335,7 @@ export default {
         endTime_lt  : date[1] || null,
         pageNo      : this.currentPage,
         pageSize    : this.pageSize,
+        id_desc     : 1
       }
       this.$ajax.get({
         url: this.$api.GET_VOTE_LIST,

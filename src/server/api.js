@@ -74,6 +74,7 @@ export default {
   GET_CHECK_POINTCODE_EXIT    : '/service-permission/perm/pointKey/repeat', //确认功能码是否已存在
   // 系统配置 -- 角色管理
   GET_ROLE_LIST               : '/service-permission/perm/roles', //获取角色列表
+  GET_CHOOSE_ROLE_LIST        : '/service-permission/perm/available/roles', //获取可选范围角色列表
   GET_ALL_ROLE                : '/service-permission/perm/menu/tree', //获取权限
   ADD_ROLE_POST               : '/service-permission/perm/role', // 新增角色
   ROLE_DETAIL                 : '/service-permission/perm/roles/{id}', // 查询角色权限
@@ -193,5 +194,7 @@ export default {
   PUT_ANNOUNCE_TOP       : '/service-release/release/news/top/{id}/{top}', //置顶
   PUT_ANNOUNCE_MODIFY    : '/service-release/release/news/{id}', //修改
   DELETE_ANNOUNCE        : '/service-release/release/news/{id}', //删除
-  PUT_ANNOUNCE_STATUS    : '/service-release/release/news/{id}/{status}' //修改状态
+  PUT_ANNOUNCE_STATUS    : '/service-release/release/news/{id}/{status}', //修改状态
+  POST_VOTE              : '/service-release/release/public/vote/result/{id}', //投票
+  GET_VOTE_INFO          : '/service-release/release/public/vote/{id}', //投票详情
 }
