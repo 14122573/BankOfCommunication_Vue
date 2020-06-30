@@ -262,7 +262,7 @@ export default {
           }).then(res => {
             if (res.code === '200') {
               this.$message.success(type=='save'?'暂存成功':'保存并发布成功')
-              this.$router.push({ name: '/cms/cloudLessonTechList' })
+              this.$router.go(-1)
             }
           })
         }else{
