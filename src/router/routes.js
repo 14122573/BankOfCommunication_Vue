@@ -50,11 +50,11 @@ const NewUserView = () =>
 const LibraryEdit = () =>
   import('@/views/expertManagement/components/libraryEdit') // 人才库、专家库、专家个人信息的新增及修改共用组件
 const ExtractExample = () => import('@/components/ActiveExtract/example')
-// 内容管理-知识文库
-const KnowledgeList = () => import('@/views/cms/knowledge/list')
-const KnowledgeCreate = () => import('@/views/cms/knowledge/create')
-const KnowledgeEdit = () => import('@/views/cms/knowledge/edit')
-const KnowledgeDetail = () => import('@/views/cms/knowledge/details')
+// 内容管理-行业动态
+const KnowledgeList = () => import('@/views/cms/industry/list')
+const KnowledgeCreate = () => import('@/views/cms/industry/create')
+const KnowledgeEdit = () => import('@/views/cms/industry/edit')
+const KnowledgeDetail = () => import('@/views/cms/industry/details')
 const KnowledgePublishedList = () =>
   import('@/views/cms/knowledgePublish/authList')
 const KnowledgePublishedAnonymousList = () =>
@@ -87,9 +87,9 @@ const TopicReportDetail = () =>
 // 子项目
 const FarmingTechContent = () =>
   import('@/views/frontPublic/views/farmingTech/farmingTechContent.vue')
-const KnowledgePromotionContent = () =>
+const knowledgeServiceList = () =>
   import(
-    '@/views/frontPublic/views/knowledgeService/knowledgePromotionContent.vue'
+    '@/views/frontPublic/views/knowledgePromotion/knowledgeServiceList.vue'
   )
 const CloudLessonContent = () =>
   import('@/views/frontPublic/views/cloudLesson/cloudLessonContent.vue')
@@ -110,10 +110,21 @@ const FarmingEdit = () => import('@/views/cms/farmingTech/edit')
 // 内容管理-科普知识
 const KnowledgePromotionList = () => import('@/views/cms/knowledgePromotion/list')
 const KnowledgePromotionCreate = () => import('@/views/cms/knowledgePromotion/create')
+const KnowledgePromotionDetail = () => import('@/views/cms/knowledgePromotion/detail')
+const KnowledgePromotionEdit = () => import('@/views/cms/knowledgePromotion/edit')
 
 // 内容管理-云课堂
 const CloudLessonList = () => import('@/views/cms/cloudLesson/list')
 const CloudLessonCreate = () => import('@/views/cms/cloudLesson/create')
+const CloudLessonDetail = () => import('@/views/cms/cloudLesson/detail')
+const CloudLessonEdit = () => import('@/views/cms/cloudLesson/edit')
+
+// 内容管理 - 专题报告
+const TopicList = () => import('@/views/cms/topicReport/list')
+const TopicCreate = () => import('@/views/cms/topicReport/create')
+const TopicDetail = () => import('@/views/cms/topicReport/detail')
+const TopicEdit = () => import('@/views/cms/topicReport/edit')
+
 // 内容管理-通知公告
 
 const NoticeList = () => import('@/views/cms/notice/list')
@@ -557,7 +568,7 @@ const appRoutes = [
             name     : '/cms/farmingtech',
             component: FarmingTechList,
             meta     : {
-              title      : '养殖技术',
+              title      : '养殖技术管理',
               tabName    : 'farmingNews',
               menuPath   : true,
               authCode   : 'P32000',
@@ -608,7 +619,7 @@ const appRoutes = [
             name     : '/cms/knowledgepromotion',
             component: KnowledgePromotionList,
             meta     : {
-              title      : '科普知识',
+              title      : '科普知识管理',
               tabName    : 'knowledgeNews',
               menuPath   : true,
               authCode   : 'P32000',
@@ -631,7 +642,7 @@ const appRoutes = [
               {
                 path     : '/cms/knowledgepromotion/edit/:id',
                 name     : '/cms/knowledgepromotion/edit',
-                component: KnowledgeEdit,
+                component: KnowledgePromotionEdit,
                 meta     : {
                   title      : '修改科普知识',
                   menuPath   : false,
@@ -642,8 +653,8 @@ const appRoutes = [
               },
               {
                 path     : '/cms/knowledgepromotion/:id',
-                name     : '/cms/knowledgepromotion/details',
-                component: KnowledgeDetail,
+                name     : '/cms/knowledgepromotion/detail',
+                component: KnowledgePromotionDetail,
                 meta     : {
                   title      : '查看科普知识详情',
                   menuPath   : false,
@@ -659,7 +670,7 @@ const appRoutes = [
             name     : '/cms/cloudlesson',
             component: CloudLessonList,
             meta     : {
-              title      : '云课堂',
+              title      : '云课堂管理',
               menuPath   : true,
               tabName    : 'cloudLessonNews',
               authCode   : 'P32000',
@@ -682,7 +693,7 @@ const appRoutes = [
               {
                 path     : '/cms/cloudlesson/edit/:id',
                 name     : '/cms/cloudlesson/edit',
-                component: KnowledgeEdit,
+                component: CloudLessonEdit,
                 meta     : {
                   title      : '修改云课堂',
                   menuPath   : false,
@@ -693,8 +704,8 @@ const appRoutes = [
               },
               {
                 path     : '/cms/cloudlesson/:id',
-                name     : '/cms/cloudlesson/details',
-                component: KnowledgeDetail,
+                name     : '/cms/cloudlesson/detail',
+                component: CloudLessonDetail,
                 meta     : {
                   title      : '查看云课堂详情',
                   menuPath   : false,
@@ -706,11 +717,11 @@ const appRoutes = [
             ]
           },
           {
-            path     : '/cms/knowledge',
-            name     : '/cms/knowledge',
+            path     : '/cms/industry',
+            name     : '/cms/industry',
             component: KnowledgeList,
             meta     : {
-              title      : '知识文库管理',
+              title      : '行业动态管理',
               menuPath   : true,
               authCode   : 'P32000',
               menuIcon   : 'file-text',
@@ -718,11 +729,11 @@ const appRoutes = [
             },
             children: [
               {
-                path     : '/cms/knowledge/create',
-                name     : '/cms/knowledge/create',
+                path     : '/cms/industry/create',
+                name     : '/cms/industry/create',
                 component: KnowledgeCreate,
                 meta     : {
-                  title      : '新建知识文献',
+                  title      : '新建行业动态',
                   menuPath   : false,
                   authCode   : 'P32001',
                   menuIcon   : 'file-text',
@@ -730,11 +741,11 @@ const appRoutes = [
                 }
               },
               {
-                path     : '/cms/knowledge/edit/:id',
-                name     : '/cms/knowledge/edit',
+                path     : '/cms/industry/edit/:id',
+                name     : '/cms/industry/edit',
                 component: KnowledgeEdit,
                 meta     : {
-                  title      : '修改知识文献',
+                  title      : '修改行业动态',
                   menuPath   : false,
                   authCode   : 'P32001',
                   menuIcon   : 'file-text',
@@ -742,11 +753,11 @@ const appRoutes = [
                 }
               },
               {
-                path     : '/cms/knowledge/:id',
-                name     : '/cms/knowledge/details',
+                path     : '/cms/industry/:id',
+                name     : '/cms/industry/detail',
                 component: KnowledgeDetail,
                 meta     : {
-                  title      : '查看知识文献详情',
+                  title      : '查看行业动态详情',
                   menuPath   : false,
                   authCode   : 'P33003',
                   menuIcon   : 'file-text',
@@ -804,10 +815,59 @@ const appRoutes = [
               },
               {
                 path     : '/cms/notice/:id',
-                name     : '/cms/notice/details',
+                name     : '/cms/notice/detail',
                 component: NoticeDetail,
                 meta     : {
                   title      : '通知公告详情',
+                  menuPath   : false,
+                  authCode   : 'P31005',
+                  menuIcon   : 'file-text',
+                  hideInBread: false
+                }
+              }
+            ]
+          },{
+            path     : '/cms/topicList',
+            name     : '/cms/topicList',
+            component: TopicList,
+            meta     : {
+              title      : '专题报告管理',
+              menuPath   : true,
+              authCode   : 'P31000',
+              menuIcon   : 'file-text',
+              hideInBread: false
+            },
+            children: [
+              {
+                path     : '/cms/topicList/create',
+                name     : '/cms/topicList/create',
+                component: TopicCreate,
+                meta     : {
+                  title      : '新建专题报告',
+                  menuPath   : false,
+                  authCode   : 'P31001',
+                  menuIcon   : 'file-text',
+                  hideInBread: false
+                }
+              },
+              {
+                path     : '/cms/topicList/edit/:id',
+                name     : '/cms/topicList/edit',
+                component: TopicEdit,
+                meta     : {
+                  title      : '修改专题报告',
+                  menuPath   : false,
+                  authCode   : 'P31001',
+                  menuIcon   : 'file-text',
+                  hideInBread: false
+                }
+              },
+              {
+                path     : '/cms/topicList/:id',
+                name     : '/cms/topicList/detail',
+                component: TopicDetail,
+                meta     : {
+                  title      : '专题报告详情',
                   menuPath   : false,
                   authCode   : 'P31005',
                   menuIcon   : 'file-text',
@@ -979,9 +1039,9 @@ const appRoutes = [
             meta     : { title: '养殖技术' }
           },
           {
-            path     : '/homepage/knowledgePromotionList',
-            name     : 'knowledgePromotionList',
-            component: KnowledgePromotionContent,
+            path     : '/homepage/knowledgeServiceList',
+            name     : 'knowledgeServiceList',
+            component: knowledgeServiceList,
             meta     : { title: '科普知识' }
           },
           {
@@ -1062,7 +1122,7 @@ const appRoutes = [
     component: TipsUpperLimitErr,
     meta     : { title: '访问频繁' }
   },
-  // 匿名浏览知识文库
+  // 匿名浏览行业动态
   {
     path     : '/cms/knowledgeAnonymous',
     name     : '/cms/knowledgeAnonymous',
@@ -1191,7 +1251,7 @@ const appRoutes = [
     component: TipsUpperLimitErr,
     meta     : { title: '访问频繁' }
   },
-  // 匿名浏览知识文库
+  // 匿名浏览行业动态
   {
     path     : '/cms/knowledgeAnonymous',
     name     : '/cms/knowledgeAnonymous',

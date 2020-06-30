@@ -19,9 +19,15 @@
       </a-col>
       <a-col :span="15">
         <div class="loginFrameMenu">
-          <a-menu mode="horizontal">
-            <a-menu-item v-for="(item) in menuList" :key="item.key">
-              <router-link :to="{ name: item.name }">{{item.title}}</router-link>
+          <a-menu
+            mode="horizontal"
+            :default-selected-keys="currentRoute"
+            :selected-keys="currentRoute"
+          >
+            <a-menu-item v-for="item in menuList" :key="item.key">
+              <router-link :to="{ name: item.name }">{{
+                item.title
+              }}</router-link>
             </a-menu-item>
           </a-menu>
         </div>
@@ -35,46 +41,81 @@ import routes from '@/router/index.js'
 export default {
   data() {
     return {
-      menuList: [
+      currentRoute: [ '0' ],
+      menuList    : [
         {
           key  : '0',
           title: '首页',
-          name : 'homepage'
+          name : 'homepage',
+          path : [ '/homepage/index' ]
         },
         {
           key  : '1',
           title: '通知公告',
-          name : 'notificationList'
+          name : 'notificationList',
+          path : [ '/homepage/notificationNews' ]
         },
         {
           key  : '2',
           title: '行业动态',
-          name : 'industryList'
+          name : 'industryList',
+          path : [ '/homepage/industryList', '/homepage/industryDetails' ]
         },
         {
           key  : '3',
           title: '知识服务',
-          name : 'knowledgeService'
+          name : 'farmingTechList',
+          path : [
+            '/homepage/knowledgeService/farmingTechList',
+            '/homepage/knowledgePromotionList',
+            '/homepage/cloudLessonList'
+          ]
         },
         {
           key  : '4',
           title: '专题报告',
-          name : 'topicReportList'
+          name : 'topicReportList',
+          path : [ '/homepage/topicReportList' ]
         },
         {
           key  : '5',
           title: '数据查询',
-          name : 'dataSearch'
+          name : 'dataSearch',
+          path : [ '/homepage/dataSearch' ]
         }
-      ],
+      ]
+    }
+  },
+  mounted() {
+    this.getRoute()
+  },
+  watch: {
+    $route(to, from) {
+      for (let i = 0; i < this.menuList.length; i++) {
+        let pathList = this.menuList[i].path
+
+        for (let j = 0; j < pathList.length; j++) {
+          if (to.path.indexOf(pathList[j]) != -1) {
+            this.currentRoute = [ this.menuList[i].key ]
+          }
+        }
+      }
     }
   },
   methods: {
-    // retrieveSelected() {
-    //   // 1. 获取当前路由
-    //   return []
-    // }
-  },
+    getRoute() {
+      let path = this.$route.path
+      for (let i = 0; i < this.menuList.length; i++) {
+        let pathList = this.menuList[i].path
+
+        for (let j = 0; j < pathList.length; j++) {
+          if (path.indexOf(pathList[j]) != -1) {
+            this.currentRoute = [ this.menuList[i].key ]
+          }
+        }
+      }
+    }
+  }
 }
 </script>
 
@@ -105,5 +146,4 @@ export default {
 
 .loginFrameMenu > ul
   $titleFontSize()
-  
 </style>

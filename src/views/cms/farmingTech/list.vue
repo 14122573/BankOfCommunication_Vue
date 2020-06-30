@@ -37,7 +37,7 @@
               :label-col="formItemLabelCol"
               :wrapper-col="formItemWrapperCol"
             >
-              <a-range-picker v-decorator="['startTime', {rules: [{ type: 'array', required: false, message: '请选择时间' }]}]" />
+              <a-range-picker v-decorator="['releaseDate', {rules: [{ type: 'array', required: false, message: '请选择时间' }]}]" />
             </a-form-item>
           </a-col>
           <a-col span="8" v-if="!simpleSearchForm">
@@ -229,21 +229,16 @@ export default {
           key      : 'title'
         },
         {
-          title    : '栏目',
-          dataIndex: 'id',
-          key      : 'id'
-        },
-        {
           title    : '发布时间',
-          dataIndex: 'startTime',
-          key      : 'startTime',
-          width    : 80
+          dataIndex: 'releaseDate',
+          key      : 'releaseDate',
+          width    : 120
         },
         {
           title    : '发稿人',
           dataIndex: 'author',
           key      : 'author',
-          width    : 80
+          width    : 100
         },
         // {
         //   title: '内容类型',
@@ -357,7 +352,11 @@ export default {
 
     this.getList()
   },
-  watch   : {},
+  watch: {
+    $route(to, from) {
+      this.getList()
+    }
+  },
   computed: {
     formItemLabelCol() {
       let labelCol = {}
@@ -382,9 +381,12 @@ export default {
     getList() {
       this.$ajax
         .get({
-          url   : this.$api.MOCK_URL + this.$api.GET_ANNOUNCE_LIST,
+          url   : this.$api.GET_ANNOUNCE_LIST,
           params: {
-            titleManageId: '1'
+            status_in    : '0,1,2',
+            pageNo       : this.pagination.pageNo,
+            pageSize     : this.pagination.pageSize,
+            titleManageId: this.$titleId.farmingId
           }
         })
         .then(res => {
@@ -394,7 +396,6 @@ export default {
           this.knowledgeList = this.$com.confirm(res, 'data.content', [])
           
           this.isReady = true
-          // console.log(this.knowledgeList)
         })
     },
     closeMoreSearch() {
@@ -478,10 +479,13 @@ export default {
     toChangeStatus(id, status) { 
       this.$ajax
         .put({
-          url: this.$api.PUT_CMS_KNOWLEDGE_STATUS.replace('{id}', id).replace(
+          url: this.$api.PUT_ANNOUNCE_STATUS.replace('{id}', id).replace(
             '{status}',
             status
-          )
+          ),
+          params: {
+            'id': id
+          }
         })
         .then(res => {
           if (res.code == '200') {
@@ -539,7 +543,6 @@ export default {
      * @param {String} id 数据key
      */
     goTo(type, id) {
-      console.log(type)
       type = !type ? 'create' : type.toLowerCase()
       id = !id ? '' : id
       switch (type) {
@@ -581,12 +584,12 @@ export default {
       this.pagination.current = 1
       this.pagination.pageNo = 1
       this.farmingSearchForm.setFieldsValue({
-        title    : '',
-        startTime: [],
-        keywords : '',
-        content  : '',
-        author   : '',
-        allIn    : ''
+        title      : '',
+        releaseDate: [],
+        keywords   : '',
+        content    : '',
+        author     : '',
+        allIn      : ''
       })
       this.getFarmingList()
     },
@@ -613,9 +616,9 @@ export default {
           title: !this.farmingSearchForm.getFieldValue('title')
             ? ''
             : this.farmingSearchForm.getFieldValue('title'),
-          startTime: !this.farmingSearchForm.getFieldValue('startTime')
+          releaseDate: !this.farmingSearchForm.getFieldValue('releaseDate')
             ? ''
-            : this.farmingSearchForm.getFieldValue('startTime'),
+            : this.farmingSearchForm.getFieldValue('releaseDate'),
           keywords: !this.farmingSearchForm.getFieldValue('keywords')
             ? ''
             : this.farmingSearchForm.getFieldValue('keywords'),
@@ -636,8 +639,13 @@ export default {
       )
       this.$ajax
         .get({
-          url   : this.$api.GET_CMS_KNOWLEDGE_LIST,
-          params: searchParms
+          url   : this.$api.GET_PUB_ANNOUNCE_LIST,
+          params: {
+            titleManageId: this.$titleId.farmingId,
+            pageNo       : 1,
+            pageSize     : 10,
+            status_in    : '0,1,2'
+          }
         })
         .then(res => {
           this.pagination.total = this.$com.confirm(res, 'data.totalRows', 0)
@@ -645,7 +653,6 @@ export default {
           this.pagination.current = this.pagination.pageNo
           this.knowledgeList = this.$com.confirm(res, 'data.content', [])
           this.isReady = true
-          // console.log(this.knowledgeList)
         })
     }
   }

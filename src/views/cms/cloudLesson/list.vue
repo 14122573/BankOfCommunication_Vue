@@ -25,27 +25,6 @@
               />
             </a-form-item>
           </a-col>
-          <a-col span="8" v-if="!simpleSearchForm">
-            <a-form-item
-              class="formItem"
-              label="栏目"
-              :label-col="formItemLabelCol"
-              :wrapper-col="formItemWrapperCol"
-            >
-              <a-select
-                v-decorator="[
-                  'section',
-                  {
-                    rules: [
-                      { required: true, message: '请选择栏目' }
-                    ]
-                  }
-                ]"
-                placeholder="请选择栏目"
-                :options="searchFormOption.section"
-              />
-            </a-form-item>
-          </a-col>
           <!-- <a-col span="8" v-if="!simpleSearchForm">
             <a-form-item class='formItem' label="内容类型"  :label-col="formItemLabelCol" :wrapper-col="formItemWrapperCol">
               <a-checkbox-group :options="searchFormOption.type" :defaultValue="defaultSearchForm.type" @change="onTypeChange" />
@@ -58,7 +37,7 @@
               :label-col="formItemLabelCol"
               :wrapper-col="formItemWrapperCol"
             >
-              <a-range-picker v-decorator="['postDate', {rules: [{ type: 'array', required: true, message: '请选择时间' }]}]" />
+              <a-range-picker v-decorator="['releaseDate', {rules: [{ type: 'array', required: false, message: '请选择时间' }]}]" />
             </a-form-item>
           </a-col>
           <a-col span="8" v-if="!simpleSearchForm">
@@ -83,7 +62,7 @@
             >
               <a-input
                 placeholder="请输入正文"
-                v-decorator="['mainBody']"
+                v-decorator="['content']"
               />
             </a-form-item>
           </a-col>
@@ -96,7 +75,7 @@
             >
               <a-input
                 placeholder="请输入发稿人"
-                v-decorator="['postMan']"
+                v-decorator="['author']"
               />
             </a-form-item>
           </a-col>
@@ -115,7 +94,7 @@
           </a-col>
           <a-col span="6" class="algin-right">
             <a-button @click="reset">重置</a-button>
-            <a-button type="primary" @click="getCloudLessonList">搜索</a-button>
+            <a-button type="primary" @click="getFarmingList">搜索</a-button>
             <a-button
               type="primary"
               v-if="simpleSearchForm"
@@ -233,43 +212,33 @@ export default {
   },
   data() {
     return {
-      isReady         : false,
-      simpleSearchForm: true, // 展示、收取简单搜索开关，true为简单搜索
-      searchFormOption: {
-        section: [
-          {
-            label: '栏目1',
-            value: '0'
-          },
-          {
-            label: '栏目2',
-            value: '1'
-          }
-        ],
-      },
+      isReady          : false,
+      simpleSearchForm : true, // 展示、收取简单搜索开关，true为简单搜索
       defaultSearchForm: {
         // type:['0','1'],
         status   : [ '0', '1' ],
         anonymous: [ '0', '1' ]
       },
-      searchForm   : {},
-      knowledgeList: [],
-      listColumns  : [
+      searchForm           : {},
+      knowledgeList        : [],
+      cloudLessonSearchForm: this.$form.createForm(this),
+      listColumns          : [
         {
           title    : '标题',
           dataIndex: 'title',
           key      : 'title'
         },
         {
-          title    : '作者',
-          dataIndex: 'author',
-          key      : 'author'
+          title    : '发布时间',
+          dataIndex: 'releaseDate',
+          key      : 'releaseDate',
+          width    : 120
         },
         {
-          title    : '发表年份',
-          dataIndex: 'years',
-          key      : 'years',
-          width    : 80
+          title    : '发稿人',
+          dataIndex: 'author',
+          key      : 'author',
+          width    : 100
         },
         // {
         //   title: '内容类型',
@@ -290,15 +259,6 @@ export default {
           }
         },
         {
-          title      : '操作人',
-          width      : 150,
-          dataIndex  : 'creator',
-          key        : 'creator',
-          scopedSlots: {
-            customRender: 'operator'
-          }
-        },
-        {
           title      : '操作',
           key        : 'operation',
           width      : 180,
@@ -307,6 +267,59 @@ export default {
           }
         }
       ],
+      // listColumns  : [
+      //   {
+      //     title    : '标题',
+      //     dataIndex: 'title',
+      //     key      : 'title'
+      //   },
+      //   {
+      //     title    : '作者',
+      //     dataIndex: 'author',
+      //     key      : 'author'
+      //   },
+      //   {
+      //     title    : '发表年份',
+      //     dataIndex: 'years',
+      //     key      : 'years',
+      //     width    : 80
+      //   },
+      //   // {
+      //   //   title: '内容类型',
+      //   //   dataIndex: 'type',
+      //   //   key: 'type',
+      //   //   width: 100,
+      //   //   scopedSlots: {
+      //   //     customRender: 'knowledgeType'
+      //   //   }
+      //   // },
+      //   {
+      //     title      : '状态',
+      //     dataIndex  : 'status',
+      //     key        : 'status',
+      //     width      : 140,
+      //     scopedSlots: {
+      //       customRender: 'knowledgeStatus'
+      //     }
+      //   },
+      //   {
+      //     title      : '操作人',
+      //     width      : 150,
+      //     dataIndex  : 'creator',
+      //     key        : 'creator',
+      //     scopedSlots: {
+      //       customRender: 'operator'
+      //     }
+      //   },
+      //   {
+      //     title      : '操作',
+      //     key        : 'operation',
+      //     width      : 180,
+      //     scopedSlots: {
+      //       customRender: 'action'
+      //     }
+      //   }
+      // ],
       pagination: {
         pageNo         : 1,
         pageSize       : 10,
@@ -324,20 +337,26 @@ export default {
     }
   },
   mounted() {
-    if (this.$route.name == '/cms/cloudlesson') {
-      this.searchForm.status_in = this.toKeyString(
-        this.defaultSearchForm.status,
-        ','
-      )
-      // this.searchForm.type_in = this.toKeyString(this.defaultSearchForm.type,',')
-      this.searchForm.anonymous_in = this.toKeyString(
-        this.defaultSearchForm.anonymous,
-        ','
-      )
-      this.getCloudLessonList()
+    // if (this.$route.name == '/cms/cloudlesson') {
+    //   this.searchForm.status_in = this.toKeyString(
+    //     this.defaultSearchForm.status,
+    //     ','
+    //   )
+    //   // this.searchForm.type_in = this.toKeyString(this.defaultSearchForm.type,',')
+    //   this.searchForm.anonymous_in = this.toKeyString(
+    //     this.defaultSearchForm.anonymous,
+    //     ','
+    //   )
+    //   this.getFarmingList()
+    // }
+
+    this.getList()
+  },
+  watch: {
+    $route(to, from) {
+      this.getList()
     }
   },
-  watch   : {},
   computed: {
     formItemLabelCol() {
       let labelCol = {}
@@ -359,6 +378,27 @@ export default {
     }
   },
   methods: {
+    getList() {
+      this.$ajax
+        .get({
+          url   : this.$api.GET_ANNOUNCE_LIST,
+          params: {
+            titleManageId: this.$titleId.cloudId,
+            pageNo       : 1,
+            pageSize     : 10,
+            status_in    : '0,1,2'
+          }
+        })
+        .then(res => {
+          this.pagination.total = this.$com.confirm(res, 'data.totalRows', 0)
+          this.pagination.pageNo = this.$com.confirm(res, 'data.page', 1)
+          this.pagination.current = this.pagination.pageNo
+          this.knowledgeList = this.$com.confirm(res, 'data.content', [])
+          
+          this.isReady = true
+          // console.log(this.knowledgeList)
+        })
+    },
     closeMoreSearch() {
       this.simpleSearchForm = true
     },
@@ -422,12 +462,12 @@ export default {
     toDoDelete(id) {
       this.$ajax
         .delete({
-          url: this.$api.DELETE_CMS_KNOWLEDGE.replace('{id}', id)
+          url: this.$api.DELETE_ANNOUNCE.replace('{id}', id)
         })
         .then(res => {
           if (res.code == '200') {
             this.$message.success('删除成功')
-            this.getCloudLessonList()
+            this.getFarmingList()
           }
         })
     },
@@ -437,7 +477,7 @@ export default {
      * @param {String} id 被操作数据key
      * @param {String} status 目标状态Key ，发布：1；失效：2
      */
-    toChangeStatus(id, status) {
+    toChangeStatus(id, status) { 
       this.$ajax
         .put({
           url: this.$api.PUT_CMS_KNOWLEDGE_STATUS.replace('{id}', id).replace(
@@ -449,7 +489,7 @@ export default {
           if (res.code == '200') {
             const successMsg = status == '1' ? '发布成功' : '撤回成功'
             this.$message.success(successMsg)
-            this.getCloudLessonList()
+            this.getFarmingList()
           }
         })
     },
@@ -512,7 +552,7 @@ export default {
         break
       case 'detail':
         this.$router.push({
-          name  : '/cms/cloudlesson/details',
+          name  : '/cms/cloudlesson/detail',
           params: {
             id: id
           }
@@ -543,15 +583,14 @@ export default {
       this.pagination.current = 1
       this.pagination.pageNo = 1
       this.cloudLessonSearchForm.setFieldsValue({
-        title   : '',
-        section : '',
-        postDate: [],
-        keywords: '',
-        mainBody: '',
-        postMan : '',
-        allIn   : ''
+        title      : '',
+        releaseDate: [],
+        keywords   : '',
+        content    : '',
+        author     : '',
+        allIn      : ''
       })
-      this.getCloudLessonList()
+      this.getFarmingList()
     },
 
     /**
@@ -561,40 +600,36 @@ export default {
     onPageChange(current) {
       this.pagination.current = current
       this.pagination.pageNo = current
-      this.getCloudLessonList()
+      this.getFarmingList()
     },
 
     /**
      * 调用结构，查询表单要求的知识文库资料
      */
-    getCloudLessonList() {
+    getFarmingList() {
       let searchParms
       searchParms = Object.assign(
         {},
         this.searchForm,
         {
-          title_l: !this.cloudLessonSearchForm.getFieldValue('title')
+          title: !this.cloudLessonSearchForm.getFieldValue('title')
             ? ''
             : this.cloudLessonSearchForm.getFieldValue('title'),
-          section_l: !this.cloudLessonSearchForm.getFieldValue('section')
+          releaseDate: !this.cloudLessonSearchForm.getFieldValue('releaseDate')
             ? ''
-            : this.cloudLessonSearchForm.getFieldValue('section'),
-          postDate_l: !this.cloudLessonSearchForm.getFieldValue('postDate')
-            ? ''
-            : this.cloudLessonSearchForm.getFieldValue('postDate'),
-          keywords_l: !this.cloudLessonSearchForm.getFieldValue('keywords')
+            : this.cloudLessonSearchForm.getFieldValue('releaseDate'),
+          keywords: !this.cloudLessonSearchForm.getFieldValue('keywords')
             ? ''
             : this.cloudLessonSearchForm.getFieldValue('keywords'),
-          mainBody_l: !this.cloudLessonSearchForm.getFieldValue('mainBody')
+          content: !this.cloudLessonSearchForm.getFieldValue('content')
             ? ''
-            : this.cloudLessonSearchForm.getFieldValue('mainBody'),
-          postMan_l: !this.cloudLessonSearchForm.getFieldValue('postMan')
+            : this.cloudLessonSearchForm.getFieldValue('content'),
+          author: !this.cloudLessonSearchForm.getFieldValue('author')
             ? ''
-            : this.cloudLessonSearchForm.getFieldValue('postMan'),
+            : this.cloudLessonSearchForm.getFieldValue('author'),
           allIn_l: !this.cloudLessonSearchForm.getFieldValue('allIn')
             ? ''
             : this.cloudLessonSearchForm.getFieldValue('allIn'),
-          createTime_desc: 'desc'
         },
         {
           pageNo  : this.pagination.pageNo,

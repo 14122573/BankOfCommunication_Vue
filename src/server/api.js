@@ -170,21 +170,19 @@ export default {
   GET_VETERINARY          : '/veterinary/veterinary/public/doctor/publicInfo/pub/{id}/{type}',// 单个兽医
 
   // 栏目管理 
-  GET_TITLE_MANAGE       : '/service-release/title/manage', //栏目管理-查询
-  PUT_TITLE_MANAGE       : '/service-release/title/manage/{Id}', //栏目管理-修改
-  GET_TITLE_MANAGE_SINGLE: '/service-release/title/manage/{Id}', //栏目管理-查询-单Id查询
+  GET_TITLE_MANAGE       : '/service-release/release/title/manage', //栏目管理-查询
+  PUT_TITLE_MANAGE       : '/service-release/release/title/manage/{id}', //栏目管理-修改
+  GET_TITLE_MANAGE_SINGLE: '/service-release/release/title/manage/{id}', //栏目管理-查询-单Id查询
 
-  // 轮播图
-  GET_BANNER_LIST  : '/service-release/banner/chart',  //轮播图-查询
-  GET_BANNER_DETAIL: '/service-release/banner/chart/{id}', //轮播图-查看-详情
-  DELETE_BANNER    : '/service-release/banner/chart/{id}', // 轮播图-删除
-  PUT_BANNER       : '/service-release/banner/chart/{id}', //轮播图-修改
-  POST_BANNER      : '/service-release/banner/chart', //轮播图-新增
-  GET_BANNER_SORT  : '/service-release/banner/group', //轮播图-排序-查询可排序数据
-  PUT_BANNER_SORT  : '/service-release/banner/group', // 轮播图-排序-添加排序顺序
-  PUT_BANNER_SORT  : '/service-release/banner/group/{Id}', // 轮播图-排序-删除指定轮播图排列顺序
-
-
+  // // 轮播图
+  GET_BANNER_LIST        : '/service-release/release/banner/chart',  //轮播图-查询
+  GET_BANNER_DETAIL      : '/service-release/release/banner/chart/{id}', //轮播图-查看-详情
+  DELETE_BANNER          : '/service-release/release/banner/chart/{id}', // 轮播图-删除
+  PUT_BANNER             : '/service-release/release/banner/chart/{id}', //轮播图-修改
+  POST_BANNER            : '/service-release/release/banner/chart', //轮播图-新增
+  GET_BANNER_SORT        : '/service-release/release/banner/group', //轮播图-排序-查询可排序数据
+  PUT_BANNER_SORT        : '/service-release/release/banner/group', // 轮播图-排序-添加排序顺序
+  PUT_BANNER_SORT_REMOVE : '/service-release/release/banner/group/{id}', // 轮播图-排序-删除指定轮播图排列顺序
   // 公告
   GET_ANNOUNCE_LIST      : '/service-release/release/news', //列表（需登录）
   GET_ANNOUNCE_DETAIL    : '/service-release/release/news/{id}',//明细（需登录）

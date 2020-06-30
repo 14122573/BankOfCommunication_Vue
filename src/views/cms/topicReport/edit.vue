@@ -4,13 +4,13 @@
 			<span class="title">修改知识文献</span>
 			<div class="detailOperations">
 				<a-button @click='$router.back()'>取消</a-button>
-				<a-button type="primary" @click='savefarming("save")'>保存</a-button>
-				<a-button type="primary" @click='savefarming("publish")'>保存并发布</a-button>
+				<a-button type="primary" @click='savetopic("save")'>保存</a-button>
+				<a-button type="primary" @click='savetopic("publish")'>保存并发布</a-button>
 			</div>
 		</div>
     <div  class="portalDetailContentWapper">
       <div class="portalDetailContentBody create-talent" ref="create-talent">
-        <a-form :form="farmingEditForm">
+        <a-form :form="topicEditForm">
           <div class="layoutMargin detailsPartSection">
             <p class="detailsPartTitle">基本信息</p>
             <div style="margin:0 16px;">
@@ -22,7 +22,7 @@
                 </a-col>
                 <a-col span="16">
                   <a-form-item label="来源" :label-col="{span:4}" :wrapper-col="{span:20}">
-                    <a-input v-decorator="['source',{validateTrigger: 'blur',rules:rules.source}]" placeholder="请输入通知公告来源"></a-input>
+                    <a-input v-decorator="['source',{validateTrigger: 'blur',rules:rules.source}]" placeholder="请输入专题报告来源"></a-input>
                   </a-form-item>
                 </a-col>
                 <a-col span="16">
@@ -76,20 +76,20 @@ export default {
   },
   data() {
     return {
-      id             : this.$route.params.id,
-      ready          : false,
-      farmingEditForm: this.$form.createForm(this),
-      farmingDetails : {},
-      formData       : {
+      id           : this.$route.params.id,
+      ready        : false,
+      topicEditForm: this.$form.createForm(this),
+      topicDetails : {},
+      formData     : {
         content: '',
       },
       postPerson: null,
       rules     : {
         title: [
-          { required: true, whitespace: true, message: '请输入通知公告标题!' },
+          { required: true, whitespace: true, message: '请输入专题报告标题!' },
         ],
         author: [
-          { required: true, whitespace: true, message: '请输入通知公告作者!' }
+          { required: true, whitespace: true, message: '请输入专题报告作者!' }
         ],
         KeyWord: [
           { required: false, whitespace: true, message: '请输入关键词!' }
@@ -98,7 +98,7 @@ export default {
           { required: false, whitespace: true, message: '请输入发布时间!' }
         ],
         source: [
-          { required: true, whitespace: true, message: '请输入通知公告来源!' }
+          { required: true, whitespace: true, message: '请输入专题报告来源!' }
         ],
       },
       uploadFileList: {
@@ -163,35 +163,35 @@ export default {
         url: this.$api.GET_ANNOUNCE_DETAIL.replace('{id}', this.id)
       }).then(res => {
         if(res.code =='200'){
-          this.farmingDetails = this.$com.confirm(res, 'data.content', {})
-          // console.log(this.farmingDetails)
+          this.topicDetails = this.$com.confirm(res, 'data.content', {})
+          // console.log(this.topicDetails)
           // 初始化修改表单内容
           this.$nextTick(function () {
-            this.formData.content = !this.farmingDetails.content?'':this.farmingDetails.content
+            this.formData.content = !this.topicDetails.content?'':this.topicDetails.content
 
-            // this.farmingDetails.attachments
-            if(Array.isArray(this.farmingDetails.attachments)){
-              for(let i=0;i<this.farmingDetails.attachments.length;i++){
-                switch (this.farmingDetails.attachments[i].type) {
+            // this.topicDetails.attachments
+            if(Array.isArray(this.topicDetails.attachments)){
+              for(let i=0;i<this.topicDetails.attachments.length;i++){
+                switch (this.topicDetails.attachments[i].type) {
                 case '1': // 为文件上传的附件类型
                   console.log('HERE')
                   
                   this.uploadFileList.default.push({
                     uid   : '-'+(i+1),
-                    name  : !this.farmingDetails.attachments[i].fileName?'none':this.farmingDetails.attachments[i].fileName,
+                    name  : !this.topicDetails.attachments[i].fileName?'none':this.topicDetails.attachments[i].fileName,
                     status: 'done',
-                    url   : this.farmingDetails.attachments[i].filePath
+                    url   : this.topicDetails.attachments[i].filePath
                   })
                   this.uploadFileList.used.push({
                     uid   : '-'+(i+1),
-                    name  : !this.farmingDetails.attachments[i].fileName?'none':this.farmingDetails.attachments[i].fileName,
+                    name  : !this.topicDetails.attachments[i].fileName?'none':this.topicDetails.attachments[i].fileName,
                     status: 'done',
-                    url   : this.farmingDetails.attachments[i].filePath
+                    url   : this.topicDetails.attachments[i].filePath
                   })
                   break
                 case '2': // 线上视频地址的数据
-                  // this.formData.videoUrlList.push(this.farmingDetails.attachments[i].filePath)
-                  this.formData.videoUrlList.push(this.farmingDetails.attachments[i].filePath)
+                  // this.formData.videoUrlList.push(this.topicDetails.attachments[i].filePath)
+                  this.formData.videoUrlList.push(this.topicDetails.attachments[i].filePath)
                   break
                 default:
                   break
@@ -201,12 +201,12 @@ export default {
 
             // console.log('list',this.formData.videoUrlList,this.uploadFileList)
 
-            this.farmingEditForm.setFieldsValue({
-              title      : this.farmingDetails.title,
-              author     : this.farmingDetails.author,
-              KeyWord    : this.farmingDetails.KeyWord,
-              releaseDate: this.farmingDetails.releaseDate,
-              source     : this.farmingDetails.source,
+            this.topicEditForm.setFieldsValue({
+              title      : this.topicDetails.title,
+              author     : this.topicDetails.author,
+              KeyWord    : this.topicDetails.KeyWord,
+              releaseDate: this.topicDetails.releaseDate,
+              source     : this.topicDetails.source,
             })
 
             this.ready = true
@@ -229,9 +229,9 @@ export default {
      * 提交表单内容
      * @param {String} type 提交表单内容的数据保存类型，暂存：save；保存并发布：publish
      */
-    savefarming(type){
+    savetopic(type){
       type = !type?'save':type
-      this.farmingEditForm.validateFields(err => {
+      this.topicEditForm.validateFields(err => {
         if (!err) {
           this.formData.content = this.$refs.ue.value2
           if(this.formData.content==''){
@@ -245,14 +245,14 @@ export default {
           }
 
           const postParams = Object.assign({}, this.formData, {
-            'title'          : this.farmingEditForm.getFieldValue('title'),
-            'author'         : this.farmingEditForm.getFieldValue('author'),
-            'KeyWord'        : this.farmingEditForm.getFieldValue('KeyWord'),
-            'releaseDate'    : this.farmingEditForm.getFieldValue('releaseDate'),
-            'endTime'        : this.farmingEditForm.getFieldValue('releaseDate'),
-            'source'         : this.farmingEditForm.getFieldValue('source'),
+            'title'          : this.topicEditForm.getFieldValue('title'),
+            'author'         : this.topicEditForm.getFieldValue('author'),
+            'KeyWord'        : this.topicEditForm.getFieldValue('KeyWord'),
+            'releaseDate'    : this.topicEditForm.getFieldValue('releaseDate'),
+            'endTime'        : this.topicEditForm.getFieldValue('releaseDate'),
+            'source'         : this.topicEditForm.getFieldValue('source'),
             'attachments'    : this.arrangeFileList(),
-            'titleManageName': '通知公告'
+            'titleManageName': '专题报告'
           })
           // console.log(postParams)
 

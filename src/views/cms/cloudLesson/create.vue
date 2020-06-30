@@ -4,13 +4,13 @@
 			<span class="title">新建云课堂</span>
 			<div class="detailOperations">
 				<a-button @click='$router.back()'>取消</a-button>
-				<a-button type="primary" @click='saveCloudLesson("save")'>保存</a-button>
-				<a-button type="primary" @click='saveCloudLesson("publish")'>保存并发布</a-button>
+				<a-button type="primary" @click='savefarming("save")'>保存</a-button>
+				<a-button type="primary" @click='savefarming("publish")'>保存并发布</a-button>
 			</div>
 		</div>
     <div  class="portalDetailContentWapper">
       <div class="portalDetailContentBody create-talent" ref="create-talent">
-        <a-form :form="cloudLessonCreateForm">
+        <a-form :form="farmingCreateForm">
           <div class="layoutMargin detailsPartSection">
             <p class="detailsPartTitle">基本信息</p>
             <div style="margin:0 16px;">
@@ -26,33 +26,26 @@
                   </a-form-item>
                 </a-col>
                 <a-col span="16">
-                  <a-form-item label="栏目" :label-col="{span:4}" :wrapper-col="{span:20}">
-                    <a-select v-decorator="['section', { rules: rules.section }]" placeholder="请选择栏目" :options="searchFormOption.section"/>
+                  <a-form-item label="发布时间" :label-col="{span:4}" :wrapper-col="{span:16}">
+                    <a-date-picker v-decorator="['releaseDate', {validateTrigger: 'change', rules: rules.releaseDate }]" />
                   </a-form-item>
                 </a-col>
-              </a-row>
-              <a-row :gutter='16'>
-                <a-col span="8">
-                  <a-form-item label="发布时间" :label-col="{span:8}" :wrapper-col="{span:16}">
-                    <a-date-picker v-decorator="['postDate', {rules: rules.postDate, initialValue: moment().locale('zh-cn').format(dateFormat) }]" />
-                  </a-form-item>
-                </a-col>
-                <a-col span="8">
-                  <a-form-item label="关键词" :label-col="{span:8}" :wrapper-col="{span:16}">
-                    <a-input v-decorator="['keywords',{validateTrigger: 'blur',rules:rules.keywords}]" placeholder="请输入关键词"></a-input>
-                  </a-form-item>
-                </a-col>
-              </a-row>
-              <a-row :gutter='16'>
                 <a-col span="16">
                   <a-form-item label="发稿人" :label-col="{span:4}" :wrapper-col="{span:20}">
-                    <a-input v-decorator="['postMan',{validateTrigger: 'blur',rules:rules.postMan, initialValue: postPerson }]" disabled></a-input>
+                    <a-input v-decorator="['author',{validateTrigger: 'blur',rules:rules.author, initialValue: postPerson }]" disabled></a-input>
                   </a-form-item>
                 </a-col>
                 <a-col span="16">
-                  <a-form-item label="上传附件" :label-col="{span:4}" :wrapper-col="{span:20}">
-                    <FileUpload @change="onUploadFileChange"  :acceptTypes="uploadConfig.acceptTypesArray" :maxFileSize="uploadConfig.maxSize" :maxCount="9" :timestamp="Date.now()"></FileUpload>
-                     <a-alert style="margin-top:16px" message="可上传Word, Excel, Ceb, Cebx格式文件" type="info" showIcon />
+                  <a-form-item label="关键词" :label-col="{span:4}" :wrapper-col="{span:16}">
+                    <a-input v-decorator="['KeyWord',{validateTrigger: 'blur',rules:rules.KeyWord}]" placeholder="请输入关键词"></a-input>
+                  </a-form-item>
+                </a-col>
+              </a-row>
+              <a-row>
+                <a-col span="16">
+                  <a-form-item label="附件" :label-col="{span:4}" :wrapper-col="{span:20}">
+                    <FileUpload @change="onUploadFileChange"  :acceptTypes="uploadConfig.acceptTypesArray" :maxFileSize="uploadConfig.maxSize" :maxCount="100" :timestamp="Date.now()"></FileUpload>
+                     <a-alert style="margin-top:16px" message="支持的格式为：word、excel、ceb、cebx" type="info" showIcon />
                   </a-form-item>
                 </a-col>
               </a-row>
@@ -61,7 +54,8 @@
           <div class="layoutMargin detailsPartSection">
             <p class="detailsPartTitle">云课堂正文内容</p>
             <div style="margin:0 16px;">
-               <VueUeditorWrap v-model="formData.content" :config='ueditorConfig'></VueUeditorWrap>
+               <!-- <VueUeditorWrap v-model="formData.content" :config='ueditorConfig'></VueUeditorWrap> -->
+               <UeditorCompent ref="ue" :value="formData.content" ></UeditorCompent>
             </div>
           </div>
         </a-form>
@@ -75,11 +69,11 @@
 
 <script>
 import FileUpload from '@/components/Upload/fileUpload'
-import VueUeditorWrap from 'vue-ueditor-wrap'
-import moment from 'moment'
+// import VueUeditorWrap from 'vue-ueditor-wrap'
+import UeditorCompent from '@/components/theThreeParty/ueditor.vue'
 export default {
   components: {
-    FileUpload, VueUeditorWrap
+    FileUpload, UeditorCompent
   },
   data() {
     const validateVideoPath = (rule, value, callback) => {
@@ -94,42 +88,7 @@ export default {
         }
       }
     }
-    return {
-      ueditorConfig: {
-        serverUrl       : this.$api.GET_UEDITOR_SERVICE_URL,
-        UEDITOR_HOME_URL: '/static/ueditor/',
-        toolbars        : [ [
-          'undo', 'redo', '|',
-          'bold', 'italic', 'underline', 'fontborder', 'strikethrough', 'superscript', 'subscript', 'removeformat', 'formatmatch', 'autotypeset', 'blockquote', 'pasteplain', '|', 'forecolor', 'backcolor', 'insertorderedlist', 'insertunorderedlist', 'selectall', 'cleardoc', '|',
-          'rowspacingtop', 'rowspacingbottom', 'lineheight', '|',
-          'customstyle', 'paragraph', 'fontfamily', 'fontsize', '|',
-          'directionalityltr', 'directionalityrtl', 'indent', '|', 'imagenone', 'imageleft', 'imageright', 'imagecenter', '|',
-          'simpleupload', 'insertimage', 'insertvideo', '|',
-          'justifyleft', 'justifycenter', 'justifyright', 'justifyjustify', '|', 'touppercase', 'tolowercase', '|',
-          'link', 'unlink', 'inserttable', 'map',
-        ] ],
-        zIndex            : 1,
-        autoHeightEnabled : false, // {Boolean} [默认值：true] 编辑器不自动被内容撑高
-        elementPathEnabled: false, // {Boolean} [默认值：true] 是否启用元素路径，默认是显示
-        wordCount         : false, // {Boolean} [默认值：true] 是否开启字数统计
-        enableAutoSave    : false, // {Boolean} [默认值：true] 启用自动保存，这个配置忽好忽坏
-        initialFrameWidth : '90%',
-        saveInterval      : 100000000, // {Number} [默认值：500] 自动保存间隔时间，单位ms
-        autoFloatEnabled  : false, // [默认值：true] // 是否保持toolbar的位置不动
-        initialFrameHeight: 300
-      },
-      searchFormOption: {
-        section: [
-          {
-            label: '栏目1',
-            value: '0'
-          },
-          {
-            label: '栏目2',
-            value: '1'
-          }
-        ],
-      },
+    return { 
       createFormOption: {
         type: [ {
           label: '视频',
@@ -138,66 +97,56 @@ export default {
           label: 'PDF',
           value: '1'
         } ],
-        anonymous: [ {
-          label: '公开',
-          value: '0'
-        }, {
-          label: '不公开',
-          value: '1'
-        }
-        ]
       },
-      cloudLessonCreateForm: this.$form.createForm(this),
-      formData             : {
-        anonymous   : '0',
+      farmingCreateForm: this.$form.createForm(this),
+      formData         : {
         content     : '',
         videoUrlList: [ '' ]
       },
-      dateFormat: 'YYYY/MM/DD',
+      postPerson: null,
       rules     : {
         title: [
-          { required: true, whitespace: true, message: '请输入知识文献标题!' },
+          { required: true, whitespace: true, message: '请输入云课堂标题!' },
+        ],
+        author: [
+          { required: true, whitespace: true, message: '请输入云课堂作者!' }
+        ],
+        releaseDate: [
+          { required: true, message: '请输入发布时间!' }
+        ],
+        KeyWord: [
+          { required: false, whitespace: true, message: '请输入关键词!' }
         ],
         source: [
           { required: true, whitespace: true, message: '请输入云课堂来源!' }
         ],
-        section: [
-          { required: true, whitespace: true, message: '请选择云课堂栏目' }
-        ],
-        postDate: [
-          { required: true, message: '请选择云课堂发布时间，格式 YYYY-MM-DD' }
-        ],
-        keywords: [
-          { required: false, message: '请输入关键词' }
-        ],
-        postMan: [
-          { required: false, message: '请输入发稿人' }
-        ],
-        path: [
-          { required: true, message: '请输入知识文献内容视频的线上地址！并带有"Http://"或"https://"' },
-          { validator: validateVideoPath }
-        ],
       },
-      postPerson    : '',
       uploadFileList: [],
       uploadConfig  : {
         maxSize         : 10*1024*1024,
-        acceptTypesArray: [ 'doc', 'docx', 'xls', 'xlsx', 'ceb', 'cebx' ]
+        acceptTypesArray: [ 'doc','docx', 'xlsx','xls', 'ceb', 'cebx' ]
       }
     }
-  },
-  watch: {
-    // 'formData.videoUrlList': {
-    //   handler: function(val) {
-    //     console.log(this.formData.videoUrlList)
-    //   },
-    //   deep: true
-    // },
   },
   mounted() {
     this.getUserInfo()
   },
   methods: {
+    /**
+      获取当前用户名称
+     */
+    getUserInfo() {
+      this.$ajax.get({
+        url: this.$api.GET_USER_INFO,
+      }).then(res => {
+        let content = res.data.content
+        this.postPerson = content.name
+        this.farmingCreateForm.setFieldsValue({
+          releaseDate: this.$moment().locale('zh-cn')
+        })
+      })
+    },
+
     /**
      * 整理填写的线上视频地址数组和上传的文件数组，合并成指定提交的数据格式
      * @returns {Array} 合并后的文件数组
@@ -219,14 +168,6 @@ export default {
         }
       })
       return fileList.concat(videoList)
-    },
-    getUserInfo() {
-      this.$ajax.get({
-        url: this.$api.GET_USER_INFO,
-      }).then(res => {
-        let content = res.data.content
-        this.postPerson =  content.name
-      })
     },
 
     /**
@@ -260,18 +201,9 @@ export default {
     deleteVideoUrl(index){
       this.formData.videoUrlList.splice(index, 1)
     },
-    moment,
 
     /**
-     * 监听表单’可否匿名浏览‘选项变动，并暂存
-     * @param {Object} e change事件对象
-     */
-    onDataAnonymousChange(e){
-      this.formData.anonymous = e.target.value
-    },
-
-    /**
-     * 监听表单’文献PDF附件‘上传变动，并暂存
+     * 监听表单’云课堂PDF附件‘上传变动，并暂存
      * @param {Array} filelist 最新变动已上传的文件对象列表
      */
     onUploadFileChange(filelist){
@@ -282,24 +214,26 @@ export default {
      * 提交表单内容
      * @param {String} type 提交表单内容的数据保存类型，暂存：save；保存并发布：publish
      */
-    saveCloudLesson(type){
+    savefarming(type){
       type = !type?'save':type
       // console.log(this.arrangeFileList())
-      this.cloudLessonCreateForm.validateFields(err => {
+      this.farmingCreateForm.validateFields(err => {
         if (!err) {
-          if(!this.checkVideoUrl(this.formData.videoUrlList)){
-            this.$modal.error({
-              title     : '表单验证未通过',
-              content   : '”线上视频“填写了不合规的URL地址，请输入带有\'http://\'或\'https://\'完整线上视频地址',
-              okText    : '确认',
-              cancelText: '取消',
-            })
-            return
-          }
+          // if(!this.checkVideoUrl(this.formData.videoUrlList)){
+          //   this.$modal.error({
+          //     title     : '表单验证未通过',
+          //     content   : '”线上视频“填写了不合规的URL地址，请输入带有\'http://\'或\'https://\'完整线上视频地址',
+          //     okText    : '确认',
+          //     cancelText: '取消',
+          //   })
+          //   return
+          // }
+
+          this.formData.content = this.$refs.ue.value2
           if(this.formData.content==''){
             this.$modal.error({
               title     : '表单验证未通过',
-              content   : '请填写知识文献正文内容',
+              content   : '请填写云课堂正文内容',
               okText    : '确认',
               cancelText: '取消',
             })
@@ -307,27 +241,25 @@ export default {
           }
 
           const postParams = Object.assign({}, this.formData, {
-            'title'     : this.cloudLessonCreateForm.getFieldValue('title'),
-            'source'    : this.cloudLessonCreateForm.getFieldValue('source'),
-            'section'   : this.cloudLessonCreateForm.getFieldValue('section'),
-            'postDate'  : this.cloudLessonCreateForm.getFieldValue('postDate'),
-            'keywords'  : this.cloudLessonCreateForm.getFieldValue('keywords'),
-            'postMan'   : this.cloudLessonCreateForm.getFieldValue('postMan'),
-            'attachment': this.arrangeFileList()
+            'titleManageId': this.$titleId.cloudId,
+            'title'        : this.farmingCreateForm.getFieldValue('title'),
+            'author'       : this.farmingCreateForm.getFieldValue('author'),
+            'keyWord'      : this.farmingCreateForm.getFieldValue('keyWord'),
+            'releaseDate'  : this.farmingCreateForm.getFieldValue('releaseDate'),
+            'source'       : this.farmingCreateForm.getFieldValue('source'),
+            'status'       : type=='save'?'0':'1',
+            'attachments'  : this.arrangeFileList()
           })
-          console.log(JSON.stringify(postParams))
-          
           delete postParams.videoUrlList
 
-          // this.$ajax.post({
-          //   url   : this.$api.POST_CMS_KNOWLEDGE,
-          //   params: postParams
-          // }).then(res => {
-          //   if (res.code === '200') {
-          //     this.$message.success(type=='save'?'暂存成功':'保存并发布成功')
-          //     this.$router.push({ name: '/cms/knowledge' })
-          //   }
-          // })
+          this.$ajax.post({
+            url   : this.$api.POST_ADD_ANNOUNCE,
+            params: postParams
+          }).then(res => {
+            if (res.code === '200') {
+              this.$message.success(type=='save'?'暂存成功':'保存并发布成功')
+            }
+          })
         }else{
           this.$com.getFormValidErrTips(this, err)
         }

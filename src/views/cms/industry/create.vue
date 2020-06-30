@@ -1,7 +1,7 @@
 <template>
   <div class="portalDetailWapper">
 		<div class="portalDetailTitle">
-			<span class="title">新建通知公告</span>
+			<span class="title">新建行业动态</span>
 			<div class="detailOperations">
 				<a-button @click='$router.back()'>取消</a-button>
 				<a-button type="primary" @click='savefarming("save")'>保存</a-button>
@@ -17,12 +17,12 @@
               <a-row :gutter='16'>
                 <a-col span="16">
                   <a-form-item label="标题" :label-col="{span:4}" :wrapper-col="{span:20}">
-                    <a-input v-decorator="['title',{validateTrigger: 'blur',rules:rules.title}]" placeholder="请输入通知公告标题"></a-input>
+                    <a-input v-decorator="['title',{validateTrigger: 'blur',rules:rules.title}]" placeholder="请输入行业动态标题"></a-input>
                   </a-form-item>
                 </a-col>
                 <a-col span="16">
                   <a-form-item label="来源" :label-col="{span:4}" :wrapper-col="{span:20}">
-                    <a-input v-decorator="['source',{validateTrigger: 'blur',rules:rules.source}]" placeholder="请输入通知公告来源"></a-input>
+                    <a-input v-decorator="['source',{validateTrigger: 'blur',rules:rules.source}]" placeholder="请输入行业动态来源"></a-input>
                   </a-form-item>
                 </a-col>
                 <a-col span="16">
@@ -52,7 +52,7 @@
             </div>
           </div>
           <div class="layoutMargin detailsPartSection">
-            <p class="detailsPartTitle">通知公告正文内容</p>
+            <p class="detailsPartTitle">行业动态正文内容</p>
             <div style="margin:0 16px;">
                <!-- <VueUeditorWrap v-model="formData.content" :config='ueditorConfig'></VueUeditorWrap> -->
                <UeditorCompent ref="ue" :value="formData.content" ></UeditorCompent>
@@ -106,10 +106,10 @@ export default {
       postPerson: null,
       rules     : {
         title: [
-          { required: true, whitespace: true, message: '请输入通知公告标题!' },
+          { required: true, whitespace: true, message: '请输入行业动态标题!' },
         ],
         author: [
-          { required: true, whitespace: true, message: '请输入通知公告作者!' }
+          { required: true, whitespace: true, message: '请输入行业动态作者!' }
         ],
         releaseDate: [
           { required: true, message: '请输入发布时间!' }
@@ -118,7 +118,7 @@ export default {
           { required: false, whitespace: true, message: '请输入关键词!' }
         ],
         source: [
-          { required: true, whitespace: true, message: '请输入通知公告来源!' }
+          { required: true, whitespace: true, message: '请输入行业动态来源!' }
         ],
       },
       uploadFileList: [],
@@ -203,7 +203,7 @@ export default {
     },
 
     /**
-     * 监听表单’通知公告PDF附件‘上传变动，并暂存
+     * 监听表单’行业动态PDF附件‘上传变动，并暂存
      * @param {Array} filelist 最新变动已上传的文件对象列表
      */
     onUploadFileChange(filelist){
@@ -233,7 +233,7 @@ export default {
           if(this.formData.content==''){
             this.$modal.error({
               title     : '表单验证未通过',
-              content   : '请填写通知公告正文内容',
+              content   : '请填写行业动态正文内容',
               okText    : '确认',
               cancelText: '取消',
             })
@@ -241,7 +241,7 @@ export default {
           }
 
           const postParams = Object.assign({}, this.formData, {
-            'titleManageId': this.$titleId.notificationId,
+            'titleManageId': this.$titleId.industryId,
             'title'        : this.farmingCreateForm.getFieldValue('title'),
             'author'       : this.farmingCreateForm.getFieldValue('author'),
             'keyWord'      : this.farmingCreateForm.getFieldValue('keyWord'),

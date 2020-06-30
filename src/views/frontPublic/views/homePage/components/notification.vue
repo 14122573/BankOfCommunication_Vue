@@ -28,13 +28,13 @@
                 <a-row type="flex" justify="center">
                   <a-col class="news_title" :span="16">{{ item.title }}</a-col>
                   <a-col class="news_date" :span="8">{{
-                    $moment(item.startTime).format("YYYY-MM-DD")
+                    $moment(item.releaseDate).format("YYYY-MM-DD")
                   }}</a-col>
                 </a-row>
                 <a-row>
-                  <a-col class="news_content" :span="24">{{
-                    item.content
-                  }}</a-col>
+                  <a-col class="news_content" :span="24">
+                    <span v-html="item.content"></span>
+                  </a-col>
                 </a-row>
               </div>
               <div class="noti_oneline" v-else>
@@ -59,7 +59,7 @@
                   </a-col>
                   <a-col class="news_title" :span="16">{{ item.title }}</a-col>
                   <a-col class="news_date" :span="6">{{
-                    $moment(item.startTime).format("YYYY-MM-DD")
+                    $moment(item.releaseDate).format("YYYY-MM-DD")
                   }}</a-col>
                 </a-row>
               </div>
@@ -114,7 +114,7 @@ export default {
     },
     jumpToPage() {
       this.$router.push({
-        name: 'notificationNews'
+        name: 'notificationList'
       })
     },
     handleClick() {
@@ -135,19 +135,23 @@ export default {
         })
     },
     fetchNews(isLogin) {
-      
       this.news = []
       this.$ajax
         .get({
-          url          : this.$api.MOCK_URL + this.$api.GET_PUB_ANNOUNCE_LIST,
-          titleManageId: '1' // 用通知公告的titleManageId代替
+          url   : this.$api.GET_PUB_ANNOUNCE_LIST,
+          params: {
+            titleManageId: this.$titleId.notificationId,
+            pageNo       : 1,
+            pageSize     : 6,
+            status_in    : 1
+          } // 用通知公告的titleManageId代替
         })
         .then(res => {
           let content = res.data.content
           if (res.code === '200') {
-            if(isLogin == false) {
-              for(let i = 0; i < content.length; i++) {
-                if(content[i].isVote == '0') {
+            if (isLogin == false) {
+              for (let i = 0; i < content.length; i++) {
+                if (content[i].isVote == '0') {
                   this.news.push(content[i])
                 }
               }

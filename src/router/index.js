@@ -12,13 +12,7 @@ Vue.use(Router)
 
 const config = {
   mode: 'history',
-  routes,
-  scrollBehavior(to, from, savedPosition) {
-    if (savedPosition && to.meta.keepAlive) {
-      return savedPosition
-    }
-    return { x: 0, y: 0 }
-  },
+  routes
 }
 const router = new Router(config)
 

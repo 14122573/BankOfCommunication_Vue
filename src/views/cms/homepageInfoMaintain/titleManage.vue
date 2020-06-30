@@ -154,9 +154,9 @@ export default {
           this.$ajax
             .put({
               url:
-                this.$api.PUT_TITLE_MANAGE.replace('{id}', '/' + this.modifySection.idToIdentify,),
+                this.$api.PUT_TITLE_MANAGE.replace('{id}', this.modifySection.idToIdentify,),
               params: {
-                titleName: this.resetData.getFieldValue('newSectionName')
+                'titleName': this.resetData.getFieldValue('newSectionName')
               }
             })
             .then(res => {

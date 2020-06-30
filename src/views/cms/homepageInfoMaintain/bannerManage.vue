@@ -264,9 +264,10 @@ export default {
             })
             .then(res => {
               console.log(res)
-              
+
               if (res.code === '200') {
                 that.$message.success('删除成功')
+                that.getList()
               } else {
                 that.$message.error(res.msg)
               }

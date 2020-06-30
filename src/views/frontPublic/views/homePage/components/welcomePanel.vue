@@ -54,7 +54,7 @@ export default {
 </script>
 <style scoped>
 .welcome_user {
-  margin: 50px 0px;
+  margin: 80px 0px;
 }
 
 .welcome_panel {

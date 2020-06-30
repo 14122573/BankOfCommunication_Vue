@@ -4,8 +4,8 @@
 			<span class="title">修改知识文献</span>
 			<div class="detailOperations">
 				<a-button @click='$router.back()'>取消</a-button>
-				<a-button type="primary" @click='saveKnowledge("save")'>保存</a-button>
-				<a-button type="primary" @click='saveKnowledge("publish")'>保存并发布</a-button>
+				<a-button type="primary" @click='saveknowledge("save")'>保存</a-button>
+				<a-button type="primary" @click='saveknowledge("publish")'>保存并发布</a-button>
 			</div>
 		</div>
     <div  class="portalDetailContentWapper">
@@ -21,40 +21,27 @@
                   </a-form-item>
                 </a-col>
                 <a-col span="16">
-                  <a-form-item label="作者" :label-col="{span:4}" :wrapper-col="{span:20}">
-                    <a-input v-decorator="['author',{validateTrigger: 'blur',rules:rules.author}]" placeholder="请输入知识文献作者"></a-input>
+                  <a-form-item label="来源" :label-col="{span:4}" :wrapper-col="{span:20}">
+                    <a-input v-decorator="['source',{validateTrigger: 'blur',rules:rules.source}]" placeholder="请输入行业动态来源"></a-input>
                   </a-form-item>
                 </a-col>
-              </a-row>
-              <a-row :gutter='16'>
-                <a-col span="8">
-                  <a-form-item label="发表年代" :label-col="{span:8}" :wrapper-col="{span:16}">
-                    <a-input-number style="width:100%" :min="1900" :max="3000" v-decorator="['years',{validateTrigger: 'blur',rules:rules.years}]" placeholder="请输入知识文献发表年代"></a-input-number>
-                  </a-form-item>
-                </a-col>
-                <a-col span="8" v-if="ready">
-                  <a-form-item label="是否公开" :label-col="{span:8}" :wrapper-col="{span:16}">
-                    <a-radio-group :defaultValue="formData.anonymous" @change="onDataAnonymousChange">
-                      <a-radio-button v-for="item in createFormOption.anonymous" :key="item.value" :value="item.value">{{item.label}}</a-radio-button>
-                    </a-radio-group>
-                  </a-form-item>
-                </a-col>
-              </a-row>
-              <a-row :gutter='16'>
                 <a-col span="16">
-                  <a-form-item label="线上视频地址" :label-col="{span:4}" :wrapper-col="{span:20}">
-
-                    <a-row :gutter='16' align='top' justify="start" v-for="(url,index) in formData.videoUrlList" :key="index">
-                      <a-col span="20"><a-input v-model="formData.videoUrlList[index]" placeholder="请输入线上视频地址"></a-input></a-col>
-                      <a-col span="4"><a-button @click='deleteVideoUrl(index)' class="iconButton" icon='delete' type="danger" ghost></a-button></a-col>
-                    </a-row>
-
-                    <a-row style="margin:4px 0" align='top'>
-                      <a-col span="20" style="margin-bottom:4px;"><a-button style="width:100%" @click="addVideo" class="iconButton" icon='plus' type="dashed">添加一个线上视频地址</a-button></a-col>
-                      <a-col span="20"><a-alert message="请输入带有'Http://'或'https://'完整线上视频地址" type="info" showIcon /></a-col>
-                    </a-row>
+                  <a-form-item label="发布时间" :label-col="{span:4}" :wrapper-col="{span:16}">
+                    <a-date-picker v-decorator="['releaseDate', {rules: rules.releaseDate, initialValue: this.$moment().locale('zh-cn') }]" />
                   </a-form-item>
                 </a-col>
+                <a-col span="16">
+                  <a-form-item label="发稿人" :label-col="{span:4}" :wrapper-col="{span:20}">
+                    <a-input v-decorator="['author',{validateTrigger: 'blur',rules:rules.author, initialValue: postPerson }]" disabled></a-input>
+                  </a-form-item>
+                </a-col>
+                <a-col span="16">
+                  <a-form-item label="关键词" :label-col="{span:4}" :wrapper-col="{span:16}">
+                    <a-input v-decorator="['KeyWord',{validateTrigger: 'blur',rules:rules.KeyWord}]" placeholder="请输入关键词"></a-input>
+                  </a-form-item>
+                </a-col>
+              </a-row>
+              <a-row :gutter='16'>
                 <a-col span="16">
                   <a-form-item label="PDF文档" :label-col="{span:4}" :wrapper-col="{span:20}" v-if="ready">
                     <FileUpload @change="onUploadFileChange" :defaultFileList='uploadFileList.default' :acceptTypes="uploadConfig.acceptTypesArray" :maxCount="100"  :maxFileSize="uploadConfig.maxSize" :timestamp="Date.now()"></FileUpload>
@@ -88,55 +75,31 @@ export default {
     FileUpload, UeditorCompent
   },
   data() {
-    const validateVideoPath = (rule, value, callback) => {
-      if (!value) {
-        callback()
-      } else {
-        const startStr = value.substr(0, 8).toLowerCase()
-        if (startStr.indexOf('https://')!=-1 || startStr.indexOf('http://')!=-1) {
-          callback()
-        } else {
-          callback('请输入带有\'Http://\'或\'https://\'完整线上视频地址')
-        }
-      }
-    }
     return {
       id               : this.$route.params.id,
       ready            : false,
       knowledgeEditForm: this.$form.createForm(this),
-      createFormOption : {
-        // type:[{
-        //   label: '视频',
-        //   value: '0'
-        // },{
-        //   label: 'PDF',
-        //   value: '1'
-        // }],
-        anonymous: [ {
-          label: '公开',
-          value: '0'
-        }, {
-          label: '不公开',
-          value: '1'
-        }
-        ]
+      knowledgeDetails : {},
+      formData         : {
+        content: '',
       },
-      knowledgeDetails: {},
-      formData        : {
-        anonymous   : '',
-        content     : '',
-        videoUrlList: []
-      },
-      rules: {
+      postPerson: null,
+      rules     : {
         title: [
-          { required: true, whitespace: true, message: '请输入知识文献标题!' },
+          { required: true, whitespace: true, message: '请输入行业动态标题!' },
         ],
         author: [
-          { required: true, whitespace: true, message: '请输入知识文献作者!' }
+          { required: true, whitespace: true, message: '请输入行业动态作者!' }
         ],
-        years: [
-          { required: true, message: '请输入知识文献发表年代!仅能为1900~3000的四位数字' }
-        ]
+        KeyWord: [
+          { required: false, whitespace: true, message: '请输入关键词!' }
+        ],
+        releaseDate: [
+          { required: false, whitespace: true, message: '请输入发布时间!' }
+        ],
+        source: [
+          { required: true, whitespace: true, message: '请输入行业动态来源!' }
+        ],
       },
       uploadFileList: {
         default: [],
@@ -155,6 +118,18 @@ export default {
   },
   methods: {
     /**
+      获取当前用户名称
+     */
+    getUserInfo() {
+      this.$ajax.get({
+        url: this.$api.GET_USER_INFO,
+      }).then(res => {
+        let content = res.data.content
+        this.postPerson =  content.name
+      })
+    },
+
+    /**
      * 整理填写的线上视频地址数组和上传的文件数组，合并成指定提交的数据格式
      * @returns {Array} 合并后的文件数组
      */
@@ -164,8 +139,10 @@ export default {
           return {
             type    : 1,
             sort    : index+1,
-            filePath: item.url,
-            fileName: item.name
+            // filePath: item.url,
+            // fileName: item.name
+            fileId  : item.uid,
+            filePath: item.url
           }
         }else{ // 新上传的PDF
           return {
@@ -175,46 +152,7 @@ export default {
           }
         }
       })
-      const videoList = this.formData.videoUrlList.map((item, index) => {
-        return {
-          type    : 2,
-          sort    : fileList.length+index+1,
-          filePath: item
-        }
-      })
-      return fileList.concat(videoList)
-    },
-
-    /**
-     * 批量检查输入的线上视频地址是否符合格式
-     * @param {Array} urls 一维已填写的线上地址数组
-     * @returns {Boolean} 已传入地址数组中的每个元素是否符合url地址要求
-     */
-    checkVideoUrl(urls){
-      if(Array.isArray(urls) && urls.length > 0){
-        return urls.every(url => {
-          if (!url) return true
-          const str = url.toLowerCase()
-          return str.startsWith('https://') || str.startsWith('http://')
-        })
-      }else{
-        return true
-      }
-    },
-
-    /**
-     * 通过增加videoUrlList组数长度，控制可填写的视频地址input输入框个数
-     */
-    addVideo(){
-      this.formData.videoUrlList.push('')
-    },
-
-    /**
-     * 删除指定下标位置的线上视频地址
-     * @param {Number}  index formData.videoUrlList数组下标
-     */
-    deleteVideoUrl(index){
-      this.formData.videoUrlList.splice(index, 1)
+      return fileList
     },
 
     /**
@@ -222,14 +160,13 @@ export default {
      */
     getDetail(){
       this.$ajax.get({
-        url: this.$api.GET_CMS_KNOWLEDGE_DETAIL.replace('{id}', this.id)
+        url: this.$api.GET_ANNOUNCE_DETAIL.replace('{id}', this.id)
       }).then(res => {
         if(res.code =='200'){
           this.knowledgeDetails = this.$com.confirm(res, 'data.content', {})
           // console.log(this.knowledgeDetails)
           // 初始化修改表单内容
           this.$nextTick(function () {
-            this.formData.anonymous = !this.knowledgeDetails.anonymous?'0':this.knowledgeDetails.anonymous
             this.formData.content = !this.knowledgeDetails.content?'':this.knowledgeDetails.content
 
             // this.knowledgeDetails.attachments
@@ -237,6 +174,8 @@ export default {
               for(let i=0;i<this.knowledgeDetails.attachments.length;i++){
                 switch (this.knowledgeDetails.attachments[i].type) {
                 case '1': // 为文件上传的附件类型
+                  console.log('HERE')
+                  
                   this.uploadFileList.default.push({
                     uid   : '-'+(i+1),
                     name  : !this.knowledgeDetails.attachments[i].fileName?'none':this.knowledgeDetails.attachments[i].fileName,
@@ -263,9 +202,11 @@ export default {
             // console.log('list',this.formData.videoUrlList,this.uploadFileList)
 
             this.knowledgeEditForm.setFieldsValue({
-              title : this.knowledgeDetails.title,
-              author: this.knowledgeDetails.author,
-              years : this.knowledgeDetails.years,
+              title      : this.knowledgeDetails.title,
+              author     : this.knowledgeDetails.author,
+              KeyWord    : this.knowledgeDetails.KeyWord,
+              releaseDate: this.knowledgeDetails.releaseDate,
+              source     : this.knowledgeDetails.source,
             })
 
             this.ready = true
@@ -274,14 +215,6 @@ export default {
           this.$message.error(res.msg)
         }
       })
-    },
-
-    /**
-     * 监听表单’可否匿名浏览‘选项变动，并暂存
-     * @param {Object} e change事件对象
-     */
-    onDataAnonymousChange(e){
-      this.formData.anonymous = e.target.value
     },
 
     /**
@@ -296,20 +229,10 @@ export default {
      * 提交表单内容
      * @param {String} type 提交表单内容的数据保存类型，暂存：save；保存并发布：publish
      */
-    saveKnowledge(type){
+    saveknowledge(type){
       type = !type?'save':type
       this.knowledgeEditForm.validateFields(err => {
         if (!err) {
-          if(!this.checkVideoUrl(this.formData.videoUrlList)){
-            this.$modal.error({
-              title     : '表单验证未通过',
-              content   : '”线上视频“填写了不合规的URL地址，请输入带有\'http://\'或\'https://\'完整线上视频地址',
-              okText    : '确认',
-              cancelText: '取消',
-            })
-            return
-          }
-
           this.formData.content = this.$refs.ue.value2
           if(this.formData.content==''){
             this.$modal.error({
@@ -322,22 +245,24 @@ export default {
           }
 
           const postParams = Object.assign({}, this.formData, {
-            'title'      : this.knowledgeEditForm.getFieldValue('title'),
-            'author'     : this.knowledgeEditForm.getFieldValue('author'),
-            'years'      : this.knowledgeEditForm.getFieldValue('years'),
-            'status'     : type=='save'?'0':'1',
-            'attachments': this.arrangeFileList()
+            'title'          : this.knowledgeEditForm.getFieldValue('title'),
+            'author'         : this.knowledgeEditForm.getFieldValue('author'),
+            'KeyWord'        : this.knowledgeEditForm.getFieldValue('KeyWord'),
+            'releaseDate'    : this.knowledgeEditForm.getFieldValue('releaseDate'),
+            'endTime'        : this.knowledgeEditForm.getFieldValue('releaseDate'),
+            'source'         : this.knowledgeEditForm.getFieldValue('source'),
+            'attachments'    : this.arrangeFileList(),
+            'titleManageName': '行业动态'
           })
-          delete postParams.videoUrlList
           // console.log(postParams)
 
           this.$ajax.put({
-            url   : this.$api.PUT_CMS_KNOWLEDGE_DETAIL.replace('{id}', this.id),
+            url   : this.$api.PUT_ANNOUNCE_MODIFY.replace('{id}', this.id),
             params: postParams
           }).then(res => {
             if (res.code === '200') {
               this.$message.success(type=='save'?'暂存成功':'保存并发布成功')
-              this.$router.push({ name: '/cms/knowledge' })
+              this.$router.go(-1)
             }
           })
         }else{

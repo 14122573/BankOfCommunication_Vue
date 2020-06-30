@@ -2,7 +2,7 @@
   <div class="routerWapper">
     <div
       class="layoutMargin layoutPadding"
-      v-if="$route.name == '/cms/notice'"
+      v-if="$route.name == '/cms/topicList'"
     >
       <a-form class="protalForm" :form="farmingSearchForm">
         <a-row
@@ -20,7 +20,7 @@
               :wrapper-col="formItemWrapperCol"
             >
               <a-input
-                placeholder="请输入通知公告标题"
+                placeholder="请输入专题报告标题"
                 v-decorator="['title']"
               />
             </a-form-item>
@@ -117,7 +117,7 @@
           v-if="$permission('P32001')"
           type="primary"
           @click="goTo('create')"
-          >新建通知公告</a-button
+          >新建专题报告</a-button
         >
       </div>
       <a-table
@@ -229,6 +229,11 @@ export default {
           key      : 'title'
         },
         {
+          title    : '栏目',
+          dataIndex: 'id',
+          key      : 'id'
+        },
+        {
           title    : '发布时间',
           dataIndex: 'releaseDate',
           key      : 'releaseDate',
@@ -332,12 +337,12 @@ export default {
     }
   },
   beforeCreate() {
-    if (this.$route.name == '/cms/notice') {
+    if (this.$route.name == '/cms/topicList') {
       this.farmingSearchForm = this.$form.createForm(this)
     }
   },
   mounted() {
-    // if (this.$route.name == '/cms/notice') {
+    // if (this.$route.name == '/cms/topicList') {
     //   this.searchForm.status_in = this.toKeyString(
     //     this.defaultSearchForm.status,
     //     ','
@@ -383,7 +388,7 @@ export default {
         .get({
           url   : this.$api.GET_ANNOUNCE_LIST,
           params: {
-            titleManageId: this.$titleId.notificationId,
+            titleManageId: this.$titleId.topicId,
             pageNo       : 1,
             pageSize     : 10,
             status_in    : '0,1,2'
@@ -447,9 +452,6 @@ export default {
           onOk() {
             if (eventKey == 'delete') {
               vm.toDoDelete(data.id)
-              this.$router.push({
-                name: '/cms/notice'
-              })
             } else {
               vm.toChangeStatus(data.id, toStatus)
             }
@@ -550,12 +552,12 @@ export default {
       switch (type) {
       case 'create':
         this.$router.push({
-          name: '/cms/notice/create'
+          name: '/cms/topicList/create'
         })
         break
       case 'detail':
         this.$router.push({
-          name  : '/cms/notice/detail',
+          name  : '/cms/topicList/detail',
           params: {
             id: id
           }
@@ -563,7 +565,7 @@ export default {
         break
       case 'edit':
         this.$router.push({
-          name  : '/cms/notice/edit',
+          name  : '/cms/topicList/edit',
           params: {
             id: id
           }

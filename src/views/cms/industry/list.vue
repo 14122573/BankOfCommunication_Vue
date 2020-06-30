@@ -2,9 +2,9 @@
   <div class="routerWapper">
     <div
       class="layoutMargin layoutPadding"
-      v-if="$route.name == '/cms/notice'"
+      v-if="$route.name == '/cms/industry'"
     >
-      <a-form class="protalForm" :form="farmingSearchForm">
+      <a-form class="protalForm" :form="knowledgeSearchForm">
         <a-row
           class="formItemLine"
           type="flex"
@@ -20,7 +20,7 @@
               :wrapper-col="formItemWrapperCol"
             >
               <a-input
-                placeholder="请输入通知公告标题"
+                placeholder="请输入行业动态标题"
                 v-decorator="['title']"
               />
             </a-form-item>
@@ -117,7 +117,7 @@
           v-if="$permission('P32001')"
           type="primary"
           @click="goTo('create')"
-          >新建通知公告</a-button
+          >新建行业动态</a-button
         >
       </div>
       <a-table
@@ -219,10 +219,10 @@ export default {
         status   : [ '0', '1' ],
         anonymous: [ '0', '1' ]
       },
-      searchForm       : {},
-      knowledgeList    : [],
-      farmingSearchForm: this.$form.createForm(this),
-      listColumns      : [
+      searchForm         : {},
+      knowledgeList      : [],
+      knowledgeSearchForm: this.$form.createForm(this),
+      listColumns        : [
         {
           title    : '标题',
           dataIndex: 'title',
@@ -332,12 +332,12 @@ export default {
     }
   },
   beforeCreate() {
-    if (this.$route.name == '/cms/notice') {
-      this.farmingSearchForm = this.$form.createForm(this)
+    if (this.$route.name == '/cms/industry') {
+      this.knowledgeSearchForm = this.$form.createForm(this)
     }
   },
   mounted() {
-    // if (this.$route.name == '/cms/notice') {
+    // if (this.$route.name == '/cms/knowledge') {
     //   this.searchForm.status_in = this.toKeyString(
     //     this.defaultSearchForm.status,
     //     ','
@@ -383,7 +383,7 @@ export default {
         .get({
           url   : this.$api.GET_ANNOUNCE_LIST,
           params: {
-            titleManageId: this.$titleId.notificationId,
+            titleManageId: this.$titleId.industryId,
             pageNo       : 1,
             pageSize     : 10,
             status_in    : '0,1,2'
@@ -447,9 +447,6 @@ export default {
           onOk() {
             if (eventKey == 'delete') {
               vm.toDoDelete(data.id)
-              this.$router.push({
-                name: '/cms/notice'
-              })
             } else {
               vm.toChangeStatus(data.id, toStatus)
             }
@@ -483,7 +480,7 @@ export default {
     toChangeStatus(id, status) { 
       this.$ajax
         .put({
-          url: this.$api.PUT_ANNOUNCE_STATUS.replace('{id}', id).replace(
+          url: this.$api.PUT_CMS_KNOWLEDGE_STATUS.replace('{id}', id).replace(
             '{status}',
             status
           )
@@ -550,12 +547,12 @@ export default {
       switch (type) {
       case 'create':
         this.$router.push({
-          name: '/cms/notice/create'
+          name: '/cms/industry/create'
         })
         break
       case 'detail':
         this.$router.push({
-          name  : '/cms/notice/detail',
+          name  : '/cms/industry/detail',
           params: {
             id: id
           }
@@ -563,7 +560,7 @@ export default {
         break
       case 'edit':
         this.$router.push({
-          name  : '/cms/notice/edit',
+          name  : '/cms/industry/edit',
           params: {
             id: id
           }
@@ -585,7 +582,7 @@ export default {
       // }
       this.pagination.current = 1
       this.pagination.pageNo = 1
-      this.farmingSearchForm.setFieldsValue({
+      this.knowledgeSearchForm.setFieldsValue({
         title      : '',
         releaseDate: [],
         keywords   : '',
@@ -607,7 +604,7 @@ export default {
     },
 
     /**
-     * 调用结构，查询表单要求的知识文库资料
+     * 调用结构，查询表单要求的行业动态资料
      */
     getFarmingList() {
       let searchParms
@@ -615,24 +612,24 @@ export default {
         {},
         this.searchForm,
         {
-          title: !this.farmingSearchForm.getFieldValue('title')
+          title: !this.knowledgeSearchForm.getFieldValue('title')
             ? ''
-            : this.farmingSearchForm.getFieldValue('title'),
-          releaseDate: !this.farmingSearchForm.getFieldValue('releaseDate')
+            : this.knowledgeSearchForm.getFieldValue('title'),
+          releaseDate: !this.knowledgeSearchForm.getFieldValue('releaseDate')
             ? ''
-            : this.farmingSearchForm.getFieldValue('releaseDate'),
-          keywords: !this.farmingSearchForm.getFieldValue('keywords')
+            : this.knowledgeSearchForm.getFieldValue('releaseDate'),
+          keywords: !this.knowledgeSearchForm.getFieldValue('keywords')
             ? ''
-            : this.farmingSearchForm.getFieldValue('keywords'),
-          content: !this.farmingSearchForm.getFieldValue('content')
+            : this.knowledgeSearchForm.getFieldValue('keywords'),
+          content: !this.knowledgeSearchForm.getFieldValue('content')
             ? ''
-            : this.farmingSearchForm.getFieldValue('content'),
-          author: !this.farmingSearchForm.getFieldValue('author')
+            : this.knowledgeSearchForm.getFieldValue('content'),
+          author: !this.knowledgeSearchForm.getFieldValue('author')
             ? ''
-            : this.farmingSearchForm.getFieldValue('author'),
-          allIn_l: !this.farmingSearchForm.getFieldValue('allIn')
+            : this.knowledgeSearchForm.getFieldValue('author'),
+          allIn_l: !this.knowledgeSearchForm.getFieldValue('allIn')
             ? ''
-            : this.farmingSearchForm.getFieldValue('allIn'),
+            : this.knowledgeSearchForm.getFieldValue('allIn'),
         },
         {
           pageNo  : this.pagination.pageNo,

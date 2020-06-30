@@ -68,7 +68,7 @@ export default {
             that.data = this.$com.confirm(res, 'data.content', [])
             that.imgPlaceholder = this.$com.confirm(res, 'data.content.filePath', [])
             that.lunboName = this.$com.confirm(res, 'data.content.fileName', [])
-            that.jumpHref = this.$com.confirm(res, 'data.content.filePath', [])
+            that.jumpHref = this.$com.confirm(res, 'data.content.linkUrl', [])
           } else {
             this.$message.error(res.msg)
           }

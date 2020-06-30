@@ -105,7 +105,7 @@ export default {
     getCurrentBannerList() {
       this.$ajax
         .get({
-          url  : this.$api.MOCK_URL + this.$api.GET_BANNER_LIST,
+          url  : this.$api.GET_BANNER_LIST,
           query: {
             bannerGroup_nin: 0
           }
@@ -145,7 +145,7 @@ export default {
       let that = this
       this.$ajax
         .get({
-          url: this.$api.MOCK_URL + this.$api.GET_BANNER_SORT
+          url: this.$api.GET_BANNER_SORT
         })
         .then(res => {
           if (res.code === '200') {
@@ -180,12 +180,16 @@ export default {
     },
     deleteSort(value) {
       this.$ajax
-        .delete({
-          url: this.$api.MOCK_URL + this.$api.DELETE_BANNER.replace('{id}', value.imgId)
+        .put({
+          url   : this.$api.DELETE_BANNER.replace('{id}', value.id),
+          params: {
+            id: value.id
+          }
         })
         .then(res=>{
           if(res.code=='200') {
             this.$message.success('删除成功')
+            this.$router.go(-1)
           } else {
             this.$message.error(res.msg)
           }
@@ -207,6 +211,7 @@ export default {
         .then(res => {
           if (res.code === '200') {
             this.$message.success('排序成功')
+            this.$router.go(-1)
           } else {
             this.$message.error(res.msg)
           }

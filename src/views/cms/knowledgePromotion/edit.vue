@@ -1,7 +1,7 @@
 <template>
   <div class="portalDetailWapper">
 		<div class="portalDetailTitle">
-			<span class="title">修改知识文献</span>
+			<span class="title">修改科普知识</span>
 			<div class="detailOperations">
 				<a-button @click='$router.back()'>取消</a-button>
 				<a-button type="primary" @click='savefarming("save")'>保存</a-button>
@@ -17,12 +17,12 @@
               <a-row :gutter='16'>
                 <a-col span="16">
                   <a-form-item label="标题" :label-col="{span:4}" :wrapper-col="{span:20}">
-                    <a-input v-decorator="['title',{validateTrigger: 'blur',rules:rules.title}]" placeholder="请输入知识文献标题"></a-input>
+                    <a-input v-decorator="['title',{validateTrigger: 'blur',rules:rules.title}]" placeholder="请输入科普知识标题"></a-input>
                   </a-form-item>
                 </a-col>
                 <a-col span="16">
                   <a-form-item label="来源" :label-col="{span:4}" :wrapper-col="{span:20}">
-                    <a-input v-decorator="['source',{validateTrigger: 'blur',rules:rules.source}]" placeholder="请输入通知公告来源"></a-input>
+                    <a-input v-decorator="['source',{validateTrigger: 'blur',rules:rules.source}]" placeholder="请输入科普知识来源"></a-input>
                   </a-form-item>
                 </a-col>
                 <a-col span="16">
@@ -86,10 +86,10 @@ export default {
       postPerson: null,
       rules     : {
         title: [
-          { required: true, whitespace: true, message: '请输入通知公告标题!' },
+          { required: true, whitespace: true, message: '请输入科普知识标题!' },
         ],
         author: [
-          { required: true, whitespace: true, message: '请输入通知公告作者!' }
+          { required: true, whitespace: true, message: '请输入科普知识作者!' }
         ],
         KeyWord: [
           { required: false, whitespace: true, message: '请输入关键词!' }
@@ -98,7 +98,7 @@ export default {
           { required: false, whitespace: true, message: '请输入发布时间!' }
         ],
         source: [
-          { required: true, whitespace: true, message: '请输入通知公告来源!' }
+          { required: true, whitespace: true, message: '请输入科普知识来源!' }
         ],
       },
       uploadFileList: {
@@ -237,7 +237,7 @@ export default {
           if(this.formData.content==''){
             this.$modal.error({
               title     : '表单验证未通过',
-              content   : '请填写知识文献正文内容',
+              content   : '请填写科普知识正文内容',
               okText    : '确认',
               cancelText: '取消',
             })
@@ -252,7 +252,7 @@ export default {
             'endTime'        : this.farmingEditForm.getFieldValue('releaseDate'),
             'source'         : this.farmingEditForm.getFieldValue('source'),
             'attachments'    : this.arrangeFileList(),
-            'titleManageName': '通知公告'
+            'titleManageName': '科普知识'
           })
           // console.log(postParams)
 

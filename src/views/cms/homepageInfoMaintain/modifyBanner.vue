@@ -69,6 +69,7 @@ export default {
         ],
       },
       ready          : false,
+      imgPlaceholder : {},
       uploadFileList : [],
       defaultFileList: [],
       uploadConfig   : {
@@ -89,18 +90,20 @@ export default {
       this.imgContent = this.$refs.childFile.getUploadFileList()
       this.$ajax
         .put({
-          url   : this.$api.MOCK_URL + this.$api.PUT_BANNER + '', // 修改的bannerId
+          url   : this.$api.PUT_BANNER.replace('{id}', this.$route.params.id), // 修改的bannerId
           params: {
             bannerName: this.bannerCreateForm.getFieldValue('title'),
             linkUrl   : this.bannerCreateForm.getFieldValue('jumpHref'),
-            imgId     : that.imgContent[0].uid
+            imgId     : that.imgContent[0].uid,
+            id        : this.$route.params.id
           }
         })
         .then(res => {
           if (res.code === '200') {
-            console.log(2)
-            
-
+            this.$message.success('修改成功')
+            this.$router.push({
+              name: '/cms/homepageInfoMaintain'
+            })
           } else {
             this.$message.error(res.msg)
           }
@@ -111,10 +114,14 @@ export default {
       let query = this.$route.params.id
       this.$ajax
         .get({
-          url: this.$api.MOCK_URL + this.$api.GET_BANNER_DETAIL.replace('{id}', query)
+          url: this.$api.GET_BANNER_DETAIL.replace('{id}', query)
         })
         .then(res => {
           if (res.code === '200') {
+            this.bannerCreateForm.setFieldsValue({
+              title   : this.$com.confirm(res, 'data.content.bannerName', null),
+              jumpHref: this.$com.confirm(res, 'data.content.linkUrl', null)
+            })
             that.defaultFileList.push(
               {
                 'url'   : this.$com.confirm(res, 'data.content.filePath', {}),

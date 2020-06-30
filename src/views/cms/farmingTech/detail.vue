@@ -42,7 +42,7 @@
                     :labelSpan="4"
                     :textSpan="20"
                     :label="'发布时间'"
-                    :text="detailList.startTime"
+                    :text="detailList.releaseDate"
                   ></DetailsItem>
                 </a-col>
                 <a-col span="16" style="margin:8px 0;">
@@ -96,11 +96,13 @@ export default {
   },
   methods: {
     getDetailList() {
-      let params = this.$route.params.id
+      let id = this.$route.params.id
       this.$ajax
         .get({
-          url   : this.$api.MOCK_URL + this.$api.GET_ANNOUNCE_DETAIL,
-          params: params
+          url   : this.$api.GET_ANNOUNCE_DETAIL.replace('{id}', id),
+          params: {
+            id: id
+          }
         })
         .then(res => {
           if (res.code === '200') {

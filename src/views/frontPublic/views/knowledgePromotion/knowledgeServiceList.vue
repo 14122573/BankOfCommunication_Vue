@@ -40,7 +40,7 @@ export default {
             status_in    : '1',
             pageNo       : 1,
             pageSize     : 10,
-            titleManageId: this.$titleId.farmingId
+            titleManageId: this.$titleId.knowledgeId
           }
         })
         .then(res => {

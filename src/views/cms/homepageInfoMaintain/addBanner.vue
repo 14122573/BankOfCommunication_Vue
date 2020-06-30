@@ -91,7 +91,10 @@ export default {
         })
         .then(res => {
           if (res.code === '200') {
-            console.log()
+            this.$message.success('轮播图添加成功')
+            this.$router.push({
+              name: '/cms/homepageInfoMaintain'
+            })
             
           } else {
             this.$message.error(res.msg)

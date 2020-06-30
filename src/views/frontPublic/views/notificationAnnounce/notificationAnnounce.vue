@@ -11,7 +11,7 @@
                 list.author
               }}</a-descriptions-item>
               <a-descriptions-item label="发布日期">{{
-                list.startTime
+                list.releaseDate
               }}</a-descriptions-item>
               <a-descriptions-item label="来源">{{
                 !!list.source?list.source:"无来源信息"
@@ -56,8 +56,7 @@ export default {
       let articleId = this.$route.params.id
       this.$ajax
         .get({
-          url   : this.$api.MOCK_URL + this.$api.GET_PUB_ANNOUNCE_DETAIL,
-          params: articleId
+          url: this.$api.GET_PUB_ANNOUNCE_DETAIL.replace('{id}', articleId),
         })
         .then(res => {
           if(res.code === '200') {
@@ -71,8 +70,8 @@ export default {
 
 <style scoped>
 .pageWrapper {
-  padding: 0px 180px 30px 180px;
-  background-color: #f1f5f8;
+  max-width: 1000px;
+  margin: 30px auto;
 }
 
 .pageWrapper .navbar {

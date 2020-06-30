@@ -47,7 +47,7 @@
                         item.title
                       }}</a-col>
                       <a-col class="news_date" :span="6">{{
-                        $moment(item.startTime).format("YYYY-MM-DD")
+                        $moment(item.releaseDate).format("YYYY-MM-DD")
                       }}</a-col>
                     </a-row>
                   </div>
@@ -66,9 +66,9 @@ export default {
     return {
       loading: false,
       news   : [ {
-        farmingTechList       : [],
-        knowledgePromotionList: [],
-        cloudLessonList       : []
+        farmingTechList     : [],
+        knowledgeServiceList: [],
+        cloudLessonList     : []
       } ],
       currentIndex: 0,
       childroute  : [],
@@ -116,9 +116,12 @@ export default {
     fetchNews() {
       // 养殖技术
       this.$ajax.get({
-        url   : this.$api.MOCK_URL + this.$api.GET_PUB_ANNOUNCE_LIST,
+        url   : this.$api.GET_PUB_ANNOUNCE_LIST,
         params: {
-          titleManageId: '1'
+          titleManageId: this.$titleId.farmingId,
+          pageNo       : 1,
+          pageSize     : 6,
+          status_in    : '1'
         }
       }).then(res => {
         if(res.code == '200') {
@@ -128,23 +131,29 @@ export default {
       // 科普知识
       this.$ajax
         .get({
-          url   : this.$api.MOCK_URL + this.$api.GET_PUB_ANNOUNCE_LIST,
+          url   : this.$api.GET_PUB_ANNOUNCE_LIST,
           params: {
-            titleManageId: '2'
+            titleManageId: this.$titleId.knowledgeId,
+            pageNo       : 1,
+            pageSize     : 6,
+            status_in    : '1'
           }
         })
         .then(res => {
           if(res.code == '200') {
-            this.news.knowledgePromotionList = this.$com.confirm(res, 'data.content', [])
+            this.news.knowledgeServiceList = this.$com.confirm(res, 'data.content', [])
           }
         })
 
       // 云课堂
       this.$ajax
         .get({
-          url   : this.$api.MOCK_URL + this.$api.GET_PUB_ANNOUNCE_LIST,
+          url   : this.$api.GET_PUB_ANNOUNCE_LIST,
           params: {
-            titleManageId: '3'
+            titleManageId: this.$titleId.cloudId,
+            pageNo       : 1,
+            pageSize     : 6,
+            status_in    : '1'
           }
         })
         .then(res => {

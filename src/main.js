@@ -10,6 +10,7 @@ import common from './util/common'
 import Axios from 'axios'
 import ajax from '@/server/ajax'
 import api from '@/server/api'
+import titleId from '@/config/titleManageId'
 import { registerMicroApps, start } from 'qiankun'
 import PermissionControl from './util/permission-control.js' // 权限自定义指令 v-permission="code"
 import { PermissionFilter } from './util/permission-filter.js' // 权限全局方法 v-if="$permission('code')"
@@ -78,6 +79,7 @@ Vue.prototype.$message = message
 Vue.prototype.$store = store
 Vue.prototype.$permission = PermissionFilter
 Vue.prototype.$moment = moment
+Vue.prototype.$titleId = titleId
 Vue.prototype.$modal = Modal
 
 Vue.use(ActiveForm)

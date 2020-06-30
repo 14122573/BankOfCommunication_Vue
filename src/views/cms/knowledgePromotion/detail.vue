@@ -1,16 +1,16 @@
 <template>
   <div class="portalDetailWapper">
     <div class="portalDetailTitle">
-      <span class="title">通知公告详情</span>
+      <span class="title">科普知识详情</span>
       <div class="detailOperations">
         <a-button @click="$router.back()">取消</a-button>
       </div>
     </div>
     <div class="portalDetailContentWapper">
       <div class="portalDetailContentBody create-talent" ref="create-talent">
-        <a-form :form="noticeCreateForm">
+        <a-form :form="knowledgepromotionCreateForm">
           <div class="layoutMargin detailsPartSection">
-            <p class="detailsPartTitle">通知公告信息</p>
+            <p class="detailsPartTitle">科普知识信息</p>
             <div style="margin:0 16px;">
               <a-row type="flex" justify="start">
                 <a-col span="16" style="margin:8px 0;">
@@ -66,7 +66,7 @@
           </div>
 
           <div class="layoutMargin detailsPartSection">
-            <p class="detailsPartTitle">通知公告正文内容</p>
+            <p class="detailsPartTitle">科普知识正文内容</p>
             <div style="margin:0 16px;">
               <a-row type="flex" justify="start">
                 <a-col span="16" style="margin:8px 0;">
@@ -87,8 +87,8 @@
 export default {
   data() {
     return {
-      noticeCreateForm: this.$form.createForm(this),
-      detailList      : [] // 包含明细信息的list
+      knowledgepromotionCreateForm: this.$form.createForm(this),
+      detailList                  : [] // 包含明细信息的list
     }
   },
   mounted() {
@@ -100,7 +100,9 @@ export default {
       this.$ajax
         .get({
           url   : this.$api.GET_ANNOUNCE_DETAIL.replace('{id}', params),
-          params: params
+          params: {
+            id: params
+          }
         })
         .then(res => {
           if (res.code === '200') {
