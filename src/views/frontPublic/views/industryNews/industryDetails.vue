@@ -2,26 +2,26 @@
   <div>
     <div class="pageWrapper">
       <Navbar class="navbar" />
-      <div class="main">
+      <div class="main"> 
         <a-row>
-          <a-col :span="5">&nbsp;</a-col>
-          <a-col :span="14">
+          <a-col :span="4">&nbsp;</a-col>
+          <a-col :span="16">
             <a-descriptions class="title" :title="list.title">
               <a-descriptions-item label="发稿人">{{
-                list.author
+                list.creator
               }}</a-descriptions-item>
               <a-descriptions-item label="发布日期">{{
-                list.releaseDate
+                list.releaseDate?list.releaseDate.slice(0, 10):''
               }}</a-descriptions-item>
               <a-descriptions-item label="来源">{{
-                !!list.source?list.source:"无来源信息"
+                list.source
               }}</a-descriptions-item>
             </a-descriptions>
           </a-col>
-          <a-col :span="5">&nbsp;</a-col>
+          <a-col :span="4">&nbsp;</a-col>
         </a-row>
         <a-divider type="horizontal"></a-divider>
-        <a-card v-html="list.content" class="content" :bordered="false">
+        <a-card class="content" :bordered="false" v-html="list.content">
         </a-card>
       </div>
     </div>
@@ -41,6 +41,9 @@ export default {
   },
   mounted() {
     this.loadArticle()
+    this.$nextTick(() => {
+      document.querySelector('#components-layout-demo-basic').scrollTop = 0
+    })
   },
   methods: {
     loadArticle() {
@@ -61,8 +64,10 @@ export default {
 
 <style scoped>
 .pageWrapper {
+  padding: 0px 0px 30px 0px;
+  background-color: #f1f5f8;
   max-width: 1000px;
-  margin: 30px auto;
+  margin: 0 auto;
 }
 
 .pageWrapper .navbar {

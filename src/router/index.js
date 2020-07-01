@@ -22,9 +22,6 @@ router.beforeEach((to, from, next) => {
   store.commit('setWebviewSrc', to.meta && to.meta.src) // 判断有src的话为需要嵌入iframe的子项目
   // store.commit('setWebviewSrc', to.meta && to.meta.src) // 判断有src的话为需要嵌入iframe的子项目
 
-
-  console.log('去往: ' + to.path)
-
   const token = Cookie.get('token')
   const canEnterBind = Cookie.get('canEnterBind')
   // 当前无token且不在login页面则推到登录页面

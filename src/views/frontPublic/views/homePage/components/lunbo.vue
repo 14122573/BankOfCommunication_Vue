@@ -2,15 +2,13 @@
   <div class="lunbo">
     <!-- <a-carousel :after-change="onChange" effect="fade"> -->
     <a-carousel class="lunbo_carousel" effect="fade">
-      <div class="loginPlacement">
+      <div class="loginPlacement" v-for="(item, index) in bannerList" :key="index">
         <img
-          src="@/assets/images/home/sy_banner.jpg"
+          :src="item.filePath"
           alt=""
           style="height: 400px; margin: 0 auto;"
         />
       </div>
-      <div><h3>2</h3></div>
-      <div><h3>3</h3></div>
     </a-carousel>
     <LoginPanel
       v-if="pageType == 'login'"
@@ -48,24 +46,42 @@ export default {
       loginInfo    : '',
       username     : '',
       pageType     : 'login',
-      isready      : false
+      isready      : false,
+      bannerList   : []
     }
   },
   mounted() {
-    this.getToken()
+    this.getLunbo()
   },
   watch: {
-    pageType() {
-      this.pageType
-    },
+    // '$store.state.userInfos': {
+    //   handler: function(val) {
+    //     if(!!val){
+    //       console.log(val)
+    //       this.username = !val.name?'':val.name
+    //       this.pageType= !val.name?'login':val.name
+    //     }
+    //   },
+    //   deep: true
+    // },
     $route(to, from) {
       // 当前是否在index页，不在的话就隐藏loginpanel和welcomepanel
       to.name == 'index'
         ? (this.isInIndexPage = true)
         : (this.isInIndexPage = false)
-    }
+    },
   },
   methods: {
+    getLunbo() {
+      this.$ajax
+        .get({
+          url: this.$api.GET_PUB_BANNER_LIST
+        })
+        .then(res => {
+          this.bannerList = this.$com.confirm(res, 'data.content', []) 
+          this.getToken()
+        })
+    },
     pageTypeChange(data) {
       this.pageType = data
       this.username = data
@@ -84,8 +100,6 @@ export default {
               this.pageType = userInfo.name
             }
           })
-      } else {
-        console.log('cookie not exist')
       }
     }
   }
@@ -96,6 +110,7 @@ export default {
   position: relative;
   width: 100%;
   background-color: #ffffff;
+  height: 400px;
 }
 
 .lunbo .lunbo_carousel {

@@ -87,12 +87,25 @@ const TopicReportDetail = () =>
 // 子项目
 const FarmingTechContent = () =>
   import('@/views/frontPublic/views/farmingTech/farmingTechContent.vue')
+
+const FarmingTechContentDetail = () =>
+  import('@/views/frontPublic/views/farmingTech/farmingTechDetails.vue')
+
 const knowledgeServiceList = () =>
   import(
     '@/views/frontPublic/views/knowledgePromotion/knowledgeServiceList.vue'
   )
+
+const knowledgeServiceDetail = () =>
+  import(
+    '@/views/frontPublic/views/knowledgePromotion/knowledgeServiceDetails.vue'
+  )
+
 const CloudLessonContent = () =>
   import('@/views/frontPublic/views/cloudLesson/cloudLessonContent.vue')
+
+const cloudLessonDetail = () =>
+  import('@/views/frontPublic/views/cloudLesson/cloudLessonDetail.vue')
 
 // 内容管理-首页信息维护管理
 const HomepageInfoMaintainView = () => import('@/views/cms/homepageInfoMaintain/index')
@@ -1009,7 +1022,7 @@ const appRoutes = [
         meta     : { title: '通知公告列表' }
       }, 
       {
-        path     : '/homepage/votingRules',
+        path     : '/homepage/votingRules/:id',
         name     : 'votingRules',
         component: VotingRules,
         meta     : { title: '投票公告' }
@@ -1027,6 +1040,24 @@ const appRoutes = [
         meta     : { title: '行业动态详情' }
       },
       {
+        path     : '/homepage/knowledgeService/farmingTechDetail/:id',
+        name     : '/knowledgeService/farmingTechDetail',
+        component: FarmingTechContentDetail,
+        meta     : { title: '养殖技术详情' }
+      },
+      {
+        path     : '/homepage/knowledgeService/knowledgeServiceDetail/:id',
+        name     : '/knowledgeService/knowledgeServiceDetail',
+        component: knowledgeServiceDetail,
+        meta     : { title: '科普知识详情' }
+      },
+      {
+        path     : '/homepage/knowledgeService/cloudLessonDetail/:id',
+        name     : '/knowledgeService/cloudLessonDetail',
+        component: cloudLessonDetail,
+        meta     : { title: '云课堂详情' }
+      },
+      {
         path     : '/homepage/knowledgeService',
         name     : 'knowledgeService',
         component: KnowledgeService,
@@ -1036,20 +1067,32 @@ const appRoutes = [
             path     : '/homepage/knowledgeService/farmingTechList',
             name     : 'farmingTechList',
             component: FarmingTechContent,
-            meta     : { title: '养殖技术' }
+            meta     : { 
+              sectionId: '420295374075158528',
+              index    : '0',
+              title    : '养殖技术' 
+            }
           },
           {
             path     : '/homepage/knowledgeServiceList',
             name     : 'knowledgeServiceList',
             component: knowledgeServiceList,
-            meta     : { title: '科普知识' }
+            meta     : { 
+              sectionId: '420295378927968256',
+              index    : '1',
+              title    : '科普知识' 
+            }
           },
           {
             path     : '/homepage/cloudLessonList',
             name     : 'cloudLessonList',
             component: CloudLessonContent,
-            meta     : { title: '云课堂' }
-          }
+            meta     : { 
+              sectionId: '420295382191136768',
+              index    : '2',
+              title    : '云课堂' 
+            }
+          },
         ]
       },
       {

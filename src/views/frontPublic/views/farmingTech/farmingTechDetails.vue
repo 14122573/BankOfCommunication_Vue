@@ -21,7 +21,8 @@
           <a-col :span="4">&nbsp;</a-col>
         </a-row>
         <a-divider type="horizontal"></a-divider>
-        <a-card class="content" :bordered="false" v-html="list.content"></a-card>
+        <a-card class="content" :bordered="false" v-html="list.content">
+        </a-card>
       </div>
     </div>
   </div>
@@ -39,7 +40,7 @@ export default {
     Navbar
   },
   mounted() {
-    this.loadArticle()
+    this.loadArticle(),
     this.$nextTick(() => {
       document.querySelector('#components-layout-demo-basic').scrollTop = 0
     })
@@ -63,6 +64,7 @@ export default {
   },
 }
 </script>
+
 <style scoped>
 .pageWrapper {
   padding: 0px 0px 30px 0px;

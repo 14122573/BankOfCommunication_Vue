@@ -192,13 +192,20 @@ export default {
   },
   mounted(){
     this.$ajax.get({
-      url: this.$api.GET_TITLE_MANAGE
+      url   : this.$api.GET_VOTE_LIST,
+      params: {
+        status_in: '0,1,2,3',
+        pageNo   : this.currentPage,
+        pageSize : this.pageSize,
+        id_desc  : 1
+      }
     })
       .then(res => {
         console.log(res)
       
         if (res.code === '200') {
-          this.data = this.$com.confirm(res, 'data.content', [])
+          this.list = this.$com.confirm(res, 'data.content', [])
+          this.total = this.$com.confirm(res, 'data.totalRows', 0)
         } else {
           this.$message.error(res.msg)
         }

@@ -24,6 +24,11 @@ export default {
     Navbar,
     LeftNav,
   },
+  mounted() {
+    this.$nextTick(() => {
+      document.querySelector('#components-layout-demo-basic').scrollTop = 0
+    })
+  },
 }
 </script>
 

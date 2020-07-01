@@ -3,31 +3,6 @@
     <div class="pageWrapper">
       <Navbar class="navbar" />
       <div class="main"> 
-        <a-row>
-          <a-col :span="4">&nbsp;</a-col>
-          <a-col :span="16">
-            <a-descriptions class="title" :title="list.name">
-              <a-descriptions-item label="发稿人">{{
-                list.creator
-              }}</a-descriptions-item>
-              <a-descriptions-item label="发布日期">{{
-                list.startTime?list.startTime.slice(0, 10):''
-              }}</a-descriptions-item>
-              <a-descriptions-item label="来源">{{
-                list.source
-              }}</a-descriptions-item>
-            </a-descriptions>
-          </a-col>
-          <a-col :span="4">&nbsp;</a-col>
-        </a-row>
-        <a-divider type="horizontal"></a-divider>
-        <a-card class="content" :bordered="false">
-          {{ list.description }}
-        </a-card>
-      </div>
-    </div>
-    <div class="pageWrapper"> 
-      <div class="main" style="padding-top:10px;">  
         <div style="height:40px;display:flex;align-items:center;padding-bottom:10px;margin-bottom:20px;border-bottom:1px solid #eee;">
             <img src="@/assets/images/home/tp_icon.png" alt=""><span class="votingTitle">投票</span> 
         </div>
@@ -93,76 +68,12 @@ export default {
         openId : '', //不传值
         results: [], //填写结果 
       },
-      list: {
-        id         : '334151729957199872',
-        name       : '金正大董事长万连步代表：加强农业社会化服务业政策支持，促进乡村振兴',
-        description: '随着我国工业化、城镇化的深度推进、农村劳动力的大量转移进城，我国第一产业劳动力占比已从1978年的70.5%，下降到2017年的27%，农业内部劳动力越来越少。2018年农民工数量超过2.88亿，且多以年轻劳动力为主，50岁及以下农民工所占比重超过75%。“大国小农”仍是相当长一段时间内我国的基本国情，如何把小农户生产引入现代农业发展轨道，提升农业生产效率，进而提升农产品竞争力，成为当前一个重要的时代命题。',
-        startTime  : '2020-02-20',
-        source     : '新闻网',
-        creator    : '小明',
-        sort       : '01',
-        result     : '1',
-        currentNum : 3,
-        ruleNum    : 7,
-        subjects   : [
-          {
-            description: null,
-            id         : '111',
-            isRequired : '0', //是否必填：0是，1否
-            title      : '测试1',
-            type       : '1', //0是单选，1是多选
-            options    : [
-              {
-                id   : '111111',
-                value: 'sssss',
-              },
-              {
-                id   : '222222',
-                value: 'fffff',
-              },
-            ] 
-          },
-          {
-            description: null,
-            id         : '333',
-            isRequired : '0', //是否必填：0是，1否
-            title      : '测试2',
-            type       : '1', //0是单选，1是多选
-            options    : [
-              {
-                id   : '333333',
-                value: 'sssss',
-              },
-              {
-                id   : '444444',
-                value: 'fffff',
-              },
-            ] 
-          },
-          {
-            description: null,
-            id         : '222',
-            isRequired : '1',
-            title      : '测试3',
-            type       : '0',
-            options    : [
-              {
-                id   : '555555',
-                value: 'sssss',
-              },
-              {
-                id   : '666666',
-                value: 'fffff',
-              },
-            ] 
-          }, 
-        ]
-      }
+      list: {}
     }
   },
   mounted(){
     this.$ajax.get({
-      url: this.$api.GET_VOTE_INFO.replace('{id}', this.$route.query.id),
+      url: this.$api.GET_VOTE_INFO.replace('{id}', this.$route.params.id)
     }).then(res => {
       if(res.code == '200'){ 
         this.list = res.data.content
@@ -261,8 +172,10 @@ export default {
 
 <style scoped>
 .pageWrapper {
-  padding: 0px 180px 30px 180px;
+  padding: 0px 0px 30px 0px;
   background-color: #f1f5f8;
+  max-width: 1000px;
+  margin: 0 auto;
 }
 
 .pageWrapper .navbar {

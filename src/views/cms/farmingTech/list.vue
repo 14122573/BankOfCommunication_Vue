@@ -94,7 +94,7 @@
           </a-col>
           <a-col span="6" class="algin-right">
             <a-button @click="reset">重置</a-button>
-            <a-button type="primary" @click="getFarmingList">搜索</a-button>
+            <a-button type="primary" @click="getList">搜索</a-button>
             <a-button
               type="primary"
               v-if="simpleSearchForm"
@@ -240,15 +240,6 @@ export default {
           key      : 'author',
           width    : 100
         },
-        // {
-        //   title: '内容类型',
-        //   dataIndex: 'type',
-        //   key: 'type',
-        //   width: 100,
-        //   scopedSlots: {
-        //     customRender: 'knowledgeType'
-        //   }
-        // },
         {
           title      : '状态',
           dataIndex  : 'status',
@@ -267,59 +258,6 @@ export default {
           }
         }
       ],
-      // listColumns  : [
-      //   {
-      //     title    : '标题',
-      //     dataIndex: 'title',
-      //     key      : 'title'
-      //   },
-      //   {
-      //     title    : '作者',
-      //     dataIndex: 'author',
-      //     key      : 'author'
-      //   },
-      //   {
-      //     title    : '发表年份',
-      //     dataIndex: 'years',
-      //     key      : 'years',
-      //     width    : 80
-      //   },
-      //   // {
-      //   //   title: '内容类型',
-      //   //   dataIndex: 'type',
-      //   //   key: 'type',
-      //   //   width: 100,
-      //   //   scopedSlots: {
-      //   //     customRender: 'knowledgeType'
-      //   //   }
-      //   // },
-      //   {
-      //     title      : '状态',
-      //     dataIndex  : 'status',
-      //     key        : 'status',
-      //     width      : 140,
-      //     scopedSlots: {
-      //       customRender: 'knowledgeStatus'
-      //     }
-      //   },
-      //   {
-      //     title      : '操作人',
-      //     width      : 150,
-      //     dataIndex  : 'creator',
-      //     key        : 'creator',
-      //     scopedSlots: {
-      //       customRender: 'operator'
-      //     }
-      //   },
-      //   {
-      //     title      : '操作',
-      //     key        : 'operation',
-      //     width      : 180,
-      //     scopedSlots: {
-      //       customRender: 'action'
-      //     }
-      //   }
-      // ],
       pagination: {
         pageNo         : 1,
         pageSize       : 10,
@@ -331,25 +269,7 @@ export default {
       }
     }
   },
-  beforeCreate() {
-    if (this.$route.name == '/cms/farmingtech') {
-      this.farmingSearchForm = this.$form.createForm(this)
-    }
-  },
   mounted() {
-    // if (this.$route.name == '/cms/farmingtech') {
-    //   this.searchForm.status_in = this.toKeyString(
-    //     this.defaultSearchForm.status,
-    //     ','
-    //   )
-    //   // this.searchForm.type_in = this.toKeyString(this.defaultSearchForm.type,',')
-    //   this.searchForm.anonymous_in = this.toKeyString(
-    //     this.defaultSearchForm.anonymous,
-    //     ','
-    //   )
-    //   this.getFarmingList()
-    // }
-
     this.getList()
   },
   watch: {
@@ -378,15 +298,30 @@ export default {
     }
   },
   methods: {
+    /**
+     * 获取养殖技术列表页数据
+     */
     getList() {
+      let releaseDate = '', releaseDate_gt = '', releaseDate_lt = ''
+      if(this.farmingSearchForm.getFieldValue('releaseDate')){
+        releaseDate = this.farmingSearchForm.getFieldValue('releaseDate')
+        releaseDate_gt = this.$moment(releaseDate[0]).format('YYYY-MM-DD')
+        releaseDate_lt = this.$moment(releaseDate[1]).format('YYYY-MM-DD')
+      }
       this.$ajax
         .get({
           url   : this.$api.GET_ANNOUNCE_LIST,
           params: {
-            status_in    : '0,1,2',
-            pageNo       : this.pagination.pageNo,
-            pageSize     : this.pagination.pageSize,
-            titleManageId: this.$titleId.farmingId
+            title_l       : !this.farmingSearchForm.getFieldValue('title')? '' : this.farmingSearchForm.getFieldValue('title'),
+            releaseDate_lt: releaseDate_lt,
+            releaseDate_gt: releaseDate_gt,
+            keyWord_l     : !this.farmingSearchForm.getFieldValue('keywords') ? '' : this.farmingSearchForm.getFieldValue('keywords'),
+            content_l     : !this.farmingSearchForm.getFieldValue('content') ? '' : this.farmingSearchForm.getFieldValue('content'),
+            author_l      : !this.farmingSearchForm.getFieldValue('author') ? '' : this.farmingSearchForm.getFieldValue('author'),
+            status_in     : '0,1,2',
+            pageNo        : this.pagination.pageNo,
+            pageSize      : this.pagination.pageSize,
+            titleManageId : this.$titleId.farmingId,
           }
         })
         .then(res => {
@@ -613,24 +548,26 @@ export default {
         {},
         this.searchForm,
         {
-          title: !this.farmingSearchForm.getFieldValue('title')
+          title_l: !this.farmingSearchForm.getFieldValue('title')
             ? ''
             : this.farmingSearchForm.getFieldValue('title'),
-          releaseDate: !this.farmingSearchForm.getFieldValue('releaseDate')
+          releaseDate_l: !this.farmingSearchForm.getFieldValue('releaseDate')
             ? ''
             : this.farmingSearchForm.getFieldValue('releaseDate'),
-          keywords: !this.farmingSearchForm.getFieldValue('keywords')
+          keywords_l: !this.farmingSearchForm.getFieldValue('keywords')
             ? ''
             : this.farmingSearchForm.getFieldValue('keywords'),
-          content: !this.farmingSearchForm.getFieldValue('content')
+          content_l: !this.farmingSearchForm.getFieldValue('content')
             ? ''
             : this.farmingSearchForm.getFieldValue('content'),
-          author: !this.farmingSearchForm.getFieldValue('author')
+          author_l: !this.farmingSearchForm.getFieldValue('author')
             ? ''
             : this.farmingSearchForm.getFieldValue('author'),
           allIn_l: !this.farmingSearchForm.getFieldValue('allIn')
             ? ''
             : this.farmingSearchForm.getFieldValue('allIn'),
+          status_in    : '0,1,2',
+          titleManageId: this.$titleId.farmingId,
         },
         {
           pageNo  : this.pagination.pageNo,
@@ -640,12 +577,7 @@ export default {
       this.$ajax
         .get({
           url   : this.$api.GET_PUB_ANNOUNCE_LIST,
-          params: {
-            titleManageId: this.$titleId.farmingId,
-            pageNo       : 1,
-            pageSize     : 10,
-            status_in    : '0,1,2'
-          }
+          params: searchParms
         })
         .then(res => {
           this.pagination.total = this.$com.confirm(res, 'data.totalRows', 0)

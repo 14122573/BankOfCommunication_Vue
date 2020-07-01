@@ -22,7 +22,7 @@
                 </a-col>
                 <a-col span="16">
                   <a-form-item label="来源" :label-col="{span:4}" :wrapper-col="{span:20}">
-                    <a-input v-decorator="['source',{validateTrigger: 'blur',rules:rules.source}]" placeholder="请输入通知公告来源"></a-input>
+                    <a-input v-decorator="['source',{validateTrigger: 'blur',rules:rules.source}]" placeholder="请输入科普知识来源"></a-input>
                   </a-form-item>
                 </a-col>
                 <a-col span="16">
@@ -36,8 +36,8 @@
                   </a-form-item>
                 </a-col>
                 <a-col span="16">
-                  <a-form-item label="关键词" :label-col="{span:4}" :wrapper-col="{span:16}">
-                    <a-input v-decorator="['KeyWord',{validateTrigger: 'blur',rules:rules.KeyWord}]" placeholder="请输入关键词"></a-input>
+                  <a-form-item label="关键词" :label-col="{span:8}" :wrapper-col="{span:16}">
+                    <a-input v-decorator="['keyWord',{validateTrigger: 'blur',rules:rules.KeyWord}]" placeholder="请输入关键词"></a-input>
                   </a-form-item>
                 </a-col>
               </a-row>
@@ -86,10 +86,10 @@ export default {
       postPerson: null,
       rules     : {
         title: [
-          { required: true, whitespace: true, message: '请输入通知公告标题!' },
+          { required: true, whitespace: true, message: '请输入科普知识标题!' },
         ],
         author: [
-          { required: true, whitespace: true, message: '请输入通知公告作者!' }
+          { required: true, whitespace: true, message: '请输入科普知识作者!' }
         ],
         KeyWord: [
           { required: false, whitespace: true, message: '请输入关键词!' }
@@ -98,7 +98,7 @@ export default {
           { required: false, whitespace: true, message: '请输入发布时间!' }
         ],
         source: [
-          { required: true, whitespace: true, message: '请输入通知公告来源!' }
+          { required: true, whitespace: true, message: '请输入科普知识来源!' }
         ],
       },
       uploadFileList: {
@@ -106,7 +106,7 @@ export default {
         used   : []
       },
       uploadConfig: {
-        maxSize         : 5*1024*1024,
+        maxSize         : 10*1024*1024,
         acceptTypesArray: [ 'pdf' ]
       }
     }
@@ -159,11 +159,13 @@ export default {
      * 获取详情
      */
     getDetail(){
+      let that = this
       this.$ajax.get({
         url: this.$api.GET_ANNOUNCE_DETAIL.replace('{id}', this.id)
       }).then(res => {
         if(res.code =='200'){
           this.farmingDetails = this.$com.confirm(res, 'data.content', {})
+          
           // console.log(this.farmingDetails)
           // 初始化修改表单内容
           this.$nextTick(function () {
@@ -176,22 +178,18 @@ export default {
                 case '1': // 为文件上传的附件类型
                   console.log('HERE')
                   
-                  this.uploadFileList.default.push({
+                  that.uploadFileList.default.push({
                     uid   : '-'+(i+1),
                     name  : !this.farmingDetails.attachments[i].fileName?'none':this.farmingDetails.attachments[i].fileName,
                     status: 'done',
                     url   : this.farmingDetails.attachments[i].filePath
                   })
-                  this.uploadFileList.used.push({
+                  that.uploadFileList.used.push({
                     uid   : '-'+(i+1),
                     name  : !this.farmingDetails.attachments[i].fileName?'none':this.farmingDetails.attachments[i].fileName,
                     status: 'done',
                     url   : this.farmingDetails.attachments[i].filePath
                   })
-                  break
-                case '2': // 线上视频地址的数据
-                  // this.formData.videoUrlList.push(this.farmingDetails.attachments[i].filePath)
-                  this.formData.videoUrlList.push(this.farmingDetails.attachments[i].filePath)
                   break
                 default:
                   break
@@ -204,7 +202,7 @@ export default {
             this.farmingEditForm.setFieldsValue({
               title      : this.farmingDetails.title,
               author     : this.farmingDetails.author,
-              KeyWord    : this.farmingDetails.KeyWord,
+              keyWord    : this.farmingDetails.keyWord,
               releaseDate: this.farmingDetails.releaseDate,
               source     : this.farmingDetails.source,
             })
@@ -245,14 +243,15 @@ export default {
           }
 
           const postParams = Object.assign({}, this.formData, {
+            'id'             : this.id,
             'title'          : this.farmingEditForm.getFieldValue('title'),
             'author'         : this.farmingEditForm.getFieldValue('author'),
-            'KeyWord'        : this.farmingEditForm.getFieldValue('KeyWord'),
+            'keyWord'        : this.farmingEditForm.getFieldValue('keyWord'),
             'releaseDate'    : this.farmingEditForm.getFieldValue('releaseDate'),
-            'endTime'        : this.farmingEditForm.getFieldValue('releaseDate'),
             'source'         : this.farmingEditForm.getFieldValue('source'),
             'attachments'    : this.arrangeFileList(),
-            'titleManageName': '通知公告'
+            'status'         : type=='save'?'0':'1',
+            'titleManageName': '科普知识'
           })
           // console.log(postParams)
 

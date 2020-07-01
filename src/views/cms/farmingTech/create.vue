@@ -37,7 +37,7 @@
                 </a-col>
                 <a-col span="16">
                   <a-form-item label="关键词" :label-col="{span:4}" :wrapper-col="{span:16}">
-                    <a-input v-decorator="['KeyWord',{validateTrigger: 'blur',rules:rules.KeyWord}]" placeholder="请输入关键词"></a-input>
+                    <a-input v-decorator="['keyWord',{validateTrigger: 'blur',rules:rules.KeyWord}]" placeholder="请输入关键词"></a-input>
                   </a-form-item>
                 </a-col>
               </a-row>

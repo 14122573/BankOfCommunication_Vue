@@ -1,23 +1,23 @@
 <template>
   <div class="portalDetailWapper">
 		<div class="portalDetailTitle">
-			<span class="title">修改知识文献</span>
+			<span class="title">修改专题报告</span>
 			<div class="detailOperations">
 				<a-button @click='$router.back()'>取消</a-button>
-				<a-button type="primary" @click='savetopic("save")'>保存</a-button>
-				<a-button type="primary" @click='savetopic("publish")'>保存并发布</a-button>
+				<a-button type="primary" @click='savefarming("save")'>保存</a-button>
+				<a-button type="primary" @click='savefarming("publish")'>保存并发布</a-button>
 			</div>
 		</div>
     <div  class="portalDetailContentWapper">
       <div class="portalDetailContentBody create-talent" ref="create-talent">
-        <a-form :form="topicEditForm">
+        <a-form :form="farmingEditForm">
           <div class="layoutMargin detailsPartSection">
             <p class="detailsPartTitle">基本信息</p>
             <div style="margin:0 16px;">
               <a-row :gutter='16'>
                 <a-col span="16">
                   <a-form-item label="标题" :label-col="{span:4}" :wrapper-col="{span:20}">
-                    <a-input v-decorator="['title',{validateTrigger: 'blur',rules:rules.title}]" placeholder="请输入知识文献标题"></a-input>
+                    <a-input v-decorator="['title',{validateTrigger: 'blur',rules:rules.title}]" placeholder="请输入专题报告标题"></a-input>
                   </a-form-item>
                 </a-col>
                 <a-col span="16">
@@ -36,8 +36,8 @@
                   </a-form-item>
                 </a-col>
                 <a-col span="16">
-                  <a-form-item label="关键词" :label-col="{span:4}" :wrapper-col="{span:16}">
-                    <a-input v-decorator="['KeyWord',{validateTrigger: 'blur',rules:rules.KeyWord}]" placeholder="请输入关键词"></a-input>
+                  <a-form-item label="关键词" :label-col="{span:8}" :wrapper-col="{span:16}">
+                    <a-input v-decorator="['keyWord',{validateTrigger: 'blur',rules:rules.KeyWord}]" placeholder="请输入关键词"></a-input>
                   </a-form-item>
                 </a-col>
               </a-row>
@@ -76,11 +76,11 @@ export default {
   },
   data() {
     return {
-      id           : this.$route.params.id,
-      ready        : false,
-      topicEditForm: this.$form.createForm(this),
-      topicDetails : {},
-      formData     : {
+      id             : this.$route.params.id,
+      ready          : false,
+      farmingEditForm: this.$form.createForm(this),
+      farmingDetails : {},
+      formData       : {
         content: '',
       },
       postPerson: null,
@@ -106,7 +106,7 @@ export default {
         used   : []
       },
       uploadConfig: {
-        maxSize         : 5*1024*1024,
+        maxSize         : 10*1024*1024,
         acceptTypesArray: [ 'pdf' ]
       }
     }
@@ -159,39 +159,37 @@ export default {
      * 获取详情
      */
     getDetail(){
+      let that = this
       this.$ajax.get({
         url: this.$api.GET_ANNOUNCE_DETAIL.replace('{id}', this.id)
       }).then(res => {
         if(res.code =='200'){
-          this.topicDetails = this.$com.confirm(res, 'data.content', {})
-          // console.log(this.topicDetails)
+          this.farmingDetails = this.$com.confirm(res, 'data.content', {})
+          
+          // console.log(this.farmingDetails)
           // 初始化修改表单内容
           this.$nextTick(function () {
-            this.formData.content = !this.topicDetails.content?'':this.topicDetails.content
+            this.formData.content = !this.farmingDetails.content?'':this.farmingDetails.content
 
-            // this.topicDetails.attachments
-            if(Array.isArray(this.topicDetails.attachments)){
-              for(let i=0;i<this.topicDetails.attachments.length;i++){
-                switch (this.topicDetails.attachments[i].type) {
+            // this.farmingDetails.attachments
+            if(Array.isArray(this.farmingDetails.attachments)){
+              for(let i=0;i<this.farmingDetails.attachments.length;i++){
+                switch (this.farmingDetails.attachments[i].type) {
                 case '1': // 为文件上传的附件类型
                   console.log('HERE')
                   
-                  this.uploadFileList.default.push({
+                  that.uploadFileList.default.push({
                     uid   : '-'+(i+1),
-                    name  : !this.topicDetails.attachments[i].fileName?'none':this.topicDetails.attachments[i].fileName,
+                    name  : !this.farmingDetails.attachments[i].fileName?'none':this.farmingDetails.attachments[i].fileName,
                     status: 'done',
-                    url   : this.topicDetails.attachments[i].filePath
+                    url   : this.farmingDetails.attachments[i].filePath
                   })
-                  this.uploadFileList.used.push({
+                  that.uploadFileList.used.push({
                     uid   : '-'+(i+1),
-                    name  : !this.topicDetails.attachments[i].fileName?'none':this.topicDetails.attachments[i].fileName,
+                    name  : !this.farmingDetails.attachments[i].fileName?'none':this.farmingDetails.attachments[i].fileName,
                     status: 'done',
-                    url   : this.topicDetails.attachments[i].filePath
+                    url   : this.farmingDetails.attachments[i].filePath
                   })
-                  break
-                case '2': // 线上视频地址的数据
-                  // this.formData.videoUrlList.push(this.topicDetails.attachments[i].filePath)
-                  this.formData.videoUrlList.push(this.topicDetails.attachments[i].filePath)
                   break
                 default:
                   break
@@ -201,12 +199,12 @@ export default {
 
             // console.log('list',this.formData.videoUrlList,this.uploadFileList)
 
-            this.topicEditForm.setFieldsValue({
-              title      : this.topicDetails.title,
-              author     : this.topicDetails.author,
-              KeyWord    : this.topicDetails.KeyWord,
-              releaseDate: this.topicDetails.releaseDate,
-              source     : this.topicDetails.source,
+            this.farmingEditForm.setFieldsValue({
+              title      : this.farmingDetails.title,
+              author     : this.farmingDetails.author,
+              keyWord    : this.farmingDetails.keyWord,
+              releaseDate: this.farmingDetails.releaseDate,
+              source     : this.farmingDetails.source,
             })
 
             this.ready = true
@@ -229,15 +227,15 @@ export default {
      * 提交表单内容
      * @param {String} type 提交表单内容的数据保存类型，暂存：save；保存并发布：publish
      */
-    savetopic(type){
+    savefarming(type){
       type = !type?'save':type
-      this.topicEditForm.validateFields(err => {
+      this.farmingEditForm.validateFields(err => {
         if (!err) {
           this.formData.content = this.$refs.ue.value2
           if(this.formData.content==''){
             this.$modal.error({
               title     : '表单验证未通过',
-              content   : '请填写知识文献正文内容',
+              content   : '请填写专题报告正文内容',
               okText    : '确认',
               cancelText: '取消',
             })
@@ -245,13 +243,14 @@ export default {
           }
 
           const postParams = Object.assign({}, this.formData, {
-            'title'          : this.topicEditForm.getFieldValue('title'),
-            'author'         : this.topicEditForm.getFieldValue('author'),
-            'KeyWord'        : this.topicEditForm.getFieldValue('KeyWord'),
-            'releaseDate'    : this.topicEditForm.getFieldValue('releaseDate'),
-            'endTime'        : this.topicEditForm.getFieldValue('releaseDate'),
-            'source'         : this.topicEditForm.getFieldValue('source'),
+            'id'             : this.id,
+            'title'          : this.farmingEditForm.getFieldValue('title'),
+            'author'         : this.farmingEditForm.getFieldValue('author'),
+            'keyWord'        : this.farmingEditForm.getFieldValue('keyWord'),
+            'releaseDate'    : this.farmingEditForm.getFieldValue('releaseDate'),
+            'source'         : this.farmingEditForm.getFieldValue('source'),
             'attachments'    : this.arrangeFileList(),
+            'status'         : type=='save'?'0':'1',
             'titleManageName': '专题报告'
           })
           // console.log(postParams)

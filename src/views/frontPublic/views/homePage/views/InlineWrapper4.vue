@@ -1,14 +1,16 @@
 <template>
-  <div class="InlineWrapper">
-    <a-row>
-      <!-- <a-col :span="12" style="background-color: red"> -->
-      <a-col :span="12">
-        <KnowledgeService />
-      </a-col>
-      <a-col :span="12">
-        <TopicReport />
-      </a-col>
-    </a-row>
+  <div class="container">
+    <div class="InlineWrapper">
+      <a-row>
+        <!-- <a-col :span="12" style="background-color: red"> -->
+        <a-col :span="12">
+          <KnowledgeService />
+        </a-col>
+        <a-col :span="12">
+          <TopicReport />
+        </a-col>
+      </a-row>
+    </div>
   </div>
 </template>
 
@@ -24,6 +26,10 @@ export default {
 </script>
 
 <style scoped>
+.container {
+  background-color: #ffffff;
+}
+
 .InlineWrapper {
   height: 500px;
   max-width: 1000px;

@@ -4,7 +4,7 @@
       <a-card
         class="card"
         :loading="loading"
-        title="专题报告"
+        :title="title"
         :bordered="false"
         size="small"
         :headStyle="{ padding: '0', border: '0' }"
@@ -36,13 +36,24 @@ export default {
   data() {
     return {
       loading: false,
-      news   : []
+      news   : [],
+      title  : '',
+      titleId: '420295378927969647'
     }
   },
   mounted() {
-    this.fetchNews()
+    this.fetchNews(),
+    this.getTitleList()
   },
   methods: {
+    getTitleList() {
+      let homeSectionTitle = JSON.parse(sessionStorage.getItem('titleList'))
+      for(let i = 0 ; i < homeSectionTitle.length; i++) {
+        if(homeSectionTitle[i].id == this.titleId) {
+          this.title = homeSectionTitle[i].titleName
+        }
+      }
+    },
     articleDetails(item) {
       this.$router.push({
         name  : 'topicReportDetail',

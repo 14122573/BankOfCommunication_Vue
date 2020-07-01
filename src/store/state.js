@@ -20,5 +20,6 @@ export default {
   tabName          : '',
   listSearchParams : {},
   chooseSystemLists: [],
-  isLogin          : false
+  isLogin          : false,
+  homeSectionTitle : []
 }

@@ -4,13 +4,13 @@
 			<span class="title">修改知识文献</span>
 			<div class="detailOperations">
 				<a-button @click='$router.back()'>取消</a-button>
-				<a-button type="primary" @click='savecloudLesson("save")'>保存</a-button>
-				<a-button type="primary" @click='savecloudLesson("publish")'>保存并发布</a-button>
+				<a-button type="primary" @click='savefarming("save")'>保存</a-button>
+				<a-button type="primary" @click='savefarming("publish")'>保存并发布</a-button>
 			</div>
 		</div>
     <div  class="portalDetailContentWapper">
       <div class="portalDetailContentBody create-talent" ref="create-talent">
-        <a-form :form="cloudLessonEditForm">
+        <a-form :form="farmingEditForm">
           <div class="layoutMargin detailsPartSection">
             <p class="detailsPartTitle">基本信息</p>
             <div style="margin:0 16px;">
@@ -22,7 +22,7 @@
                 </a-col>
                 <a-col span="16">
                   <a-form-item label="来源" :label-col="{span:4}" :wrapper-col="{span:20}">
-                    <a-input v-decorator="['source',{validateTrigger: 'blur',rules:rules.source}]" placeholder="请输入云课堂来源"></a-input>
+                    <a-input v-decorator="['source',{validateTrigger: 'blur',rules:rules.source}]" placeholder="请输入科普知识来源"></a-input>
                   </a-form-item>
                 </a-col>
                 <a-col span="16">
@@ -36,8 +36,8 @@
                   </a-form-item>
                 </a-col>
                 <a-col span="16">
-                  <a-form-item label="关键词" :label-col="{span:4}" :wrapper-col="{span:16}">
-                    <a-input v-decorator="['KeyWord',{validateTrigger: 'blur',rules:rules.KeyWord}]" placeholder="请输入关键词"></a-input>
+                  <a-form-item label="关键词" :label-col="{span:8}" :wrapper-col="{span:16}">
+                    <a-input v-decorator="['keyWord',{validateTrigger: 'blur',rules:rules.KeyWord}]" placeholder="请输入关键词"></a-input>
                   </a-form-item>
                 </a-col>
               </a-row>
@@ -76,20 +76,20 @@ export default {
   },
   data() {
     return {
-      id                 : this.$route.params.id,
-      ready              : false,
-      cloudLessonEditForm: this.$form.createForm(this),
-      cloudLessonDetails : {},
-      formData           : {
+      id             : this.$route.params.id,
+      ready          : false,
+      farmingEditForm: this.$form.createForm(this),
+      farmingDetails : {},
+      formData       : {
         content: '',
       },
       postPerson: null,
       rules     : {
         title: [
-          { required: true, whitespace: true, message: '请输入云课堂标题!' },
+          { required: true, whitespace: true, message: '请输入科普知识标题!' },
         ],
         author: [
-          { required: true, whitespace: true, message: '请输入云课堂作者!' }
+          { required: true, whitespace: true, message: '请输入科普知识作者!' }
         ],
         KeyWord: [
           { required: false, whitespace: true, message: '请输入关键词!' }
@@ -98,7 +98,7 @@ export default {
           { required: false, whitespace: true, message: '请输入发布时间!' }
         ],
         source: [
-          { required: true, whitespace: true, message: '请输入云课堂来源!' }
+          { required: true, whitespace: true, message: '请输入科普知识来源!' }
         ],
       },
       uploadFileList: {
@@ -106,7 +106,7 @@ export default {
         used   : []
       },
       uploadConfig: {
-        maxSize         : 5*1024*1024,
+        maxSize         : 10*1024*1024,
         acceptTypesArray: [ 'pdf' ]
       }
     }
@@ -159,39 +159,37 @@ export default {
      * 获取详情
      */
     getDetail(){
+      let that = this
       this.$ajax.get({
         url: this.$api.GET_ANNOUNCE_DETAIL.replace('{id}', this.id)
       }).then(res => {
         if(res.code =='200'){
-          this.cloudLessonDetails = this.$com.confirm(res, 'data.content', {})
-          // console.log(this.cloudLessonDetails)
+          this.farmingDetails = this.$com.confirm(res, 'data.content', {})
+          
+          // console.log(this.farmingDetails)
           // 初始化修改表单内容
           this.$nextTick(function () {
-            this.formData.content = !this.cloudLessonDetails.content?'':this.cloudLessonDetails.content
+            this.formData.content = !this.farmingDetails.content?'':this.farmingDetails.content
 
-            // this.cloudLessonDetails.attachments
-            if(Array.isArray(this.cloudLessonDetails.attachments)){
-              for(let i=0;i<this.cloudLessonDetails.attachments.length;i++){
-                switch (this.cloudLessonDetails.attachments[i].type) {
+            // this.farmingDetails.attachments
+            if(Array.isArray(this.farmingDetails.attachments)){
+              for(let i=0;i<this.farmingDetails.attachments.length;i++){
+                switch (this.farmingDetails.attachments[i].type) {
                 case '1': // 为文件上传的附件类型
                   console.log('HERE')
                   
-                  this.uploadFileList.default.push({
+                  that.uploadFileList.default.push({
                     uid   : '-'+(i+1),
-                    name  : !this.cloudLessonDetails.attachments[i].fileName?'none':this.cloudLessonDetails.attachments[i].fileName,
+                    name  : !this.farmingDetails.attachments[i].fileName?'none':this.farmingDetails.attachments[i].fileName,
                     status: 'done',
-                    url   : this.cloudLessonDetails.attachments[i].filePath
+                    url   : this.farmingDetails.attachments[i].filePath
                   })
-                  this.uploadFileList.used.push({
+                  that.uploadFileList.used.push({
                     uid   : '-'+(i+1),
-                    name  : !this.cloudLessonDetails.attachments[i].fileName?'none':this.cloudLessonDetails.attachments[i].fileName,
+                    name  : !this.farmingDetails.attachments[i].fileName?'none':this.farmingDetails.attachments[i].fileName,
                     status: 'done',
-                    url   : this.cloudLessonDetails.attachments[i].filePath
+                    url   : this.farmingDetails.attachments[i].filePath
                   })
-                  break
-                case '2': // 线上视频地址的数据
-                  // this.formData.videoUrlList.push(this.cloudLessonDetails.attachments[i].filePath)
-                  this.formData.videoUrlList.push(this.cloudLessonDetails.attachments[i].filePath)
                   break
                 default:
                   break
@@ -201,12 +199,12 @@ export default {
 
             // console.log('list',this.formData.videoUrlList,this.uploadFileList)
 
-            this.cloudLessonEditForm.setFieldsValue({
-              title      : this.cloudLessonDetails.title,
-              author     : this.cloudLessonDetails.author,
-              KeyWord    : this.cloudLessonDetails.KeyWord,
-              releaseDate: this.cloudLessonDetails.releaseDate,
-              source     : this.cloudLessonDetails.source,
+            this.farmingEditForm.setFieldsValue({
+              title      : this.farmingDetails.title,
+              author     : this.farmingDetails.author,
+              keyWord    : this.farmingDetails.keyWord,
+              releaseDate: this.farmingDetails.releaseDate,
+              source     : this.farmingDetails.source,
             })
 
             this.ready = true
@@ -229,9 +227,9 @@ export default {
      * 提交表单内容
      * @param {String} type 提交表单内容的数据保存类型，暂存：save；保存并发布：publish
      */
-    savecloudLesson(type){
+    savefarming(type){
       type = !type?'save':type
-      this.cloudLessonEditForm.validateFields(err => {
+      this.farmingEditForm.validateFields(err => {
         if (!err) {
           this.formData.content = this.$refs.ue.value2
           if(this.formData.content==''){
@@ -245,14 +243,15 @@ export default {
           }
 
           const postParams = Object.assign({}, this.formData, {
-            'title'          : this.cloudLessonEditForm.getFieldValue('title'),
-            'author'         : this.cloudLessonEditForm.getFieldValue('author'),
-            'KeyWord'        : this.cloudLessonEditForm.getFieldValue('KeyWord'),
-            'releaseDate'    : this.cloudLessonEditForm.getFieldValue('releaseDate'),
-            'endTime'        : this.cloudLessonEditForm.getFieldValue('releaseDate'),
-            'source'         : this.cloudLessonEditForm.getFieldValue('source'),
+            'id'             : this.id,
+            'title'          : this.farmingEditForm.getFieldValue('title'),
+            'author'         : this.farmingEditForm.getFieldValue('author'),
+            'keyWord'        : this.farmingEditForm.getFieldValue('keyWord'),
+            'releaseDate'    : this.farmingEditForm.getFieldValue('releaseDate'),
+            'source'         : this.farmingEditForm.getFieldValue('source'),
             'attachments'    : this.arrangeFileList(),
-            'titleManageName': '云课堂'
+            'status'         : type=='save'?'0':'1',
+            'titleManageName': '科普知识'
           })
           // console.log(postParams)
 

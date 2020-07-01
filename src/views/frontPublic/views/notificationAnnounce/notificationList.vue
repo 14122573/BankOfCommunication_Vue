@@ -23,6 +23,9 @@ export default {
   },
   mounted() {
     this.fetchNews()
+    this.$nextTick(() => {
+      document.querySelector('#components-layout-demo-basic').scrollTop = 0
+    })
   },
   data() {
     return {
@@ -96,7 +99,6 @@ export default {
 
 .pageWrapper .content {
   background-color: #ffffff;
-  height: 500px;
   padding: 10px 30px;
   margin: 0 auto;
 }

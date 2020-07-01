@@ -1,13 +1,17 @@
 <template>
-  <div>
-    <div class="background">
-      <div class="pageWrapper">
-        <Navbar class="navbar" />
-        <div class="content">
-          <a-table :columns="columns" :data-source="news" :showHeader=false></a-table>
-        </div>
-      </div>
+<div class="width_cut">
+  <div class="pageWrapper">
+    <Navbar class="navbar" />
+    <div class="content">
+      <a-table
+        :columns="columns"
+        :data-source="news"
+        :showHeader="false"
+        :customRow="customRow"
+        :rowKey="news.id"
+      ></a-table>
     </div>
+  </div>
   </div>
 </template>
 
@@ -19,6 +23,9 @@ export default {
   },
   mounted() {
     this.fetchNews()
+    this.$nextTick(() => {
+      document.querySelector('#components-layout-demo-basic').scrollTop = 0
+    })
   },
   data() {
     return {
@@ -26,10 +33,12 @@ export default {
       columns: [
         {
           title    : '标题',
+          key      : 'title',
           dataIndex: 'title'
         },
         {
           title    : '日期',
+          key      : 'releaseDate',
           dataIndex: 'releaseDate',
           width    : 200
         }
@@ -37,6 +46,20 @@ export default {
     }
   },
   methods: {
+    customRow(record, index) {
+      return {
+        on: {
+          click: () => {
+            this.$router.push({
+              name  : 'topicReportDetail',
+              params: {
+                id: record.id
+              }
+            })
+          }
+        }
+      }
+    },
     fetchNews() {
       this.$ajax
         .get({
@@ -49,36 +72,37 @@ export default {
           }
         })
         .then(res => {
-          if(res.code == '200') {
+          if(res.code === '200') {
             this.news = this.$com.confirm(res, 'data.content', [])
           }
         })
     }
-  },
+  }
 }
 </script>
 
 <style scoped>
-  .background {
-    width: 100%;
-    background-color: #F1F5F8;
-  }
+.width_cut {
+  background-color: #f1f5f8;
+}
 
-  .pageWrapper {
-    max-width: 1000px;
-    margin: 0 auto;
-  }
+.pageWrapper {
+  max-width: 1000px;
+  margin: 0 auto;
+  height: 700px;
+}
 
-  .pageWrapper .navbar {
-    text-align: left;
-    padding: 30px 0px;
-  }
+.pageWrapper .navbar {
+  text-align: left;
+  padding: 30px 0px;
+}
 
-  .pageWrapper .content {
-    background-color: #FFFFFF;
-    height: 500px;
-    padding: 10px 30px;
-  }
+.pageWrapper .content {
+  background-color: #ffffff;
+  height: 500px;
+  padding: 10px 30px;
+  margin: 0 auto;
+}
 </style>
 
 <style lang="stylus">

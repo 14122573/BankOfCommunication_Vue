@@ -5,14 +5,14 @@
         <a-col :span="10">
           <a-form-item>
             <a-input
+              v-decorator="['lunboName']"
               label="名称"
               placeholder="请输入轮播图名称"
-              v-model="searchForm.username_l"
             />
           </a-form-item>
         </a-col>
         <a-col :span="6" class="algin-right">
-          <a-button>重置</a-button>
+          <a-button @click="resetForm">重置</a-button>
           <a-button type="primary" @click="search">搜索</a-button>
         </a-col>
       </a-row>
@@ -49,43 +49,6 @@
         /></span>
       </span>
     </a-table>
-
-    <a-modal
-      :maskClosable="false"
-      cancelText="取消"
-      okText="确认"
-      @ok="handleResetOk"
-      @cancel="handleCancel"
-      :width="465"
-      title="修改栏目"
-      :visible="modifyVisible"
-    >
-      <a-form :form="resetData">
-        <a-row>
-          <a-col span="24">
-            <a-form-item
-              label="栏目名称"
-              :label-col="{ span: 6 }"
-              :wrapper-col="{ span: 16 }"
-            >
-              <a-input
-                type="text"
-                placeholder="请输入新的栏目名称"
-                autocomplete="off"
-                v-decorator="[
-                  'newSectionName',
-                  {
-                    validateTrigger: 'blur',
-                    rules: [{ required: true, message: '请输入新的栏目名称' }]
-                  }
-                ]"
-              >
-              </a-input>
-            </a-form-item>
-          </a-col>
-        </a-row>
-      </a-form>
-    </a-modal>
   </div>
 </template>
 
@@ -99,9 +62,7 @@ export default {
   },
   data() {
     return {
-      searchForm: {
-        title: ''
-      },
+      searchForm   : this.$form.createForm(this),
       modifyVisible: false,
       pagination   : {
         pageNo         : 1,
@@ -149,39 +110,40 @@ export default {
     }
   },
   methods: {
-    modifyInfo(item) {
-      this.modifySection.idToIdentify = item.id
-      this.modifyVisible = true
-    },
-    getSearchParams() {
-      if (!!searchParams.params) {
-        Object.keys(searchParams.params).forEach(elem => {
-          this.searchForm[elem] = searchParams.params[elem]
-        })
-      }
-      if (!!searchParams.pagination) {
-        if (
-          !!searchParams.pagination.pageNo &&
-          searchParams.pagination.pageNo != 1
-        ) {
-          this.pagination.pageNo = searchParams.pagination.pageNo
-        }
-      }
+    /**
+     * 清空表单
+     */
+    resetForm(){
+      this.searchForm.resetFields()
+      this.pagination.current = 1
       this.getList()
     },
+
+    /**
+     * 翻页方法
+     * @params {number} current 当前点击页
+     */
     onChange(current) {
       this.pagination.pageNo = current
       this.pagination.current = current
       this.getList()
     },
+
+    /**
+     * 获取轮播图列表数据
+     */
     getList() {
-      const searchParams = JSON.parse(JSON.stringify(this.searchForm))
       this.$ajax
         .get({
-          url: this.$api.GET_BANNER_LIST
+          url   : this.$api.GET_BANNER_LIST,
+          params: {
+            bannerName_l: this.searchForm.getFieldValue('lunboName') ? this.searchForm.getFieldValue('lunboName'):''
+          }
         })
         .then(res => {
           if (res.code === '200') {
+            console.log(res)
+            
             this.data = this.$com.confirm(res, 'data.content', [])
           } else {
             this.$message.error(res.msg)
@@ -193,33 +155,6 @@ export default {
             this.searchForm
           )
         })
-    },
-    handleResetOk() {
-      this.resetData.validateFields(err => {
-        if (!err) {
-          this.$ajax
-            .put({
-              url:
-                'http://yapi.omniview.pro/mock/267/service-release/titleManage/' +
-                this.modifySection.idToIdentify,
-              params: {
-                titleName: this.resetData.getFieldValue('newSectionName')
-              }
-            })
-            .then(res => {
-              if (res.code === '200') {
-                this.$message.success('修改栏目名称成功')
-                this.handleCancel()
-                this.getList()
-              }
-            })
-        } else {
-          this.$com.getFormValidErrTips(this, err)
-        }
-      })
-    },
-    handleCancel() {
-      this.modifyVisible = false
     },
     search() {
       this.pagination.pageNo = 1

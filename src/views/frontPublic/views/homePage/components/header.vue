@@ -44,40 +44,52 @@ export default {
       currentRoute: [ '0' ],
       menuList    : [
         {
+          id   : '',
           key  : '0',
           title: '首页',
           name : 'homepage',
           path : [ '/homepage/index' ]
         },
         {
+          id   : '420294829105045504',
           key  : '1',
-          title: '通知公告',
+          // title: '通知公告',
+          title: '',
           name : 'notificationList',
           path : [ '/homepage/notificationNews' ]
         },
         {
+          id   : '420295370510000128',
           key  : '2',
-          title: '行业动态',
+          // title: '行业动态',
+          title: '',
           name : 'industryList',
           path : [ '/homepage/industryList', '/homepage/industryDetails' ]
         },
         {
+          id   : '',
           key  : '3',
           title: '知识服务',
           name : 'farmingTechList',
           path : [
             '/homepage/knowledgeService/farmingTechList',
             '/homepage/knowledgePromotionList',
-            '/homepage/cloudLessonList'
+            '/homepage/cloudLessonList',
+            '/homepage/knowledgeService/farmingTechDetail',
+            '/knowledgeService/knowledgeServiceDetail',
+            '/knowledgeService/cloudLessonDetail'
           ]
         },
         {
+          id   : '420295378927969647',
           key  : '4',
-          title: '专题报告',
+          // title: '专题报告',
+          title: '',
           name : 'topicReportList',
           path : [ '/homepage/topicReportList' ]
         },
-        {
+        { 
+          id   : '',
           key  : '5',
           title: '数据查询',
           name : 'dataSearch',
@@ -87,7 +99,8 @@ export default {
     }
   },
   mounted() {
-    this.getRoute()
+    this.getRoute(),
+    this.getHeaderTitle()
   },
   watch: {
     $route(to, from) {
@@ -103,6 +116,28 @@ export default {
     }
   },
   methods: {
+    getHeaderTitle() {
+      this.$ajax
+        .get({
+          url: this.$api.GET_TITLE_MANAGE
+        })
+        .then(res => {
+          if(res.code === '200') {
+            console.log(res)
+          
+            let content = res.data.content
+            for(let i = 0 ; i < content.length; i++) {
+              for(let j = 0 ; j < this.menuList.length; j++) {
+                if(this.menuList[j].id == content[i].id) {
+                  this.menuList[j].title = content[i].titleName
+                  break
+                }
+              }
+            }
+          }
+        
+        })
+    },
     getRoute() {
       let path = this.$route.path
       for (let i = 0; i < this.menuList.length; i++) {
@@ -114,7 +149,8 @@ export default {
           }
         }
       }
-    }
+    },
+
   }
 }
 </script>

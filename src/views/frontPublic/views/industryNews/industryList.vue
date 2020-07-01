@@ -7,7 +7,8 @@
         :columns="columns"
         :data-source="news"
         :showHeader="false"
-        :rowKey="news.id"
+        :customRow="customRow"
+        rowKey="title"
       ></a-table>
     </div>
   </div>
@@ -22,6 +23,9 @@ export default {
   },
   mounted() {
     this.fetchNews()
+    this.$nextTick(() => {
+      document.querySelector('#components-layout-demo-basic').scrollTop = 0
+    })
   },
   data() {
     return {
@@ -35,12 +39,27 @@ export default {
         {
           title    : '日期',
           key      : 'releaseDate',
-          dataIndex: 'releaseDate'
+          dataIndex: 'releaseDate',
+          width    : 200
         }
       ]
     }
   },
   methods: {
+    customRow(record, index) {
+      return {
+        on: {
+          click: () => {
+            this.$router.push({
+              name  : 'industryDetails',
+              params: {
+                id: record.id
+              }
+            })
+          }
+        }
+      }
+    },
     fetchNews() {
       this.$ajax
         .get({
@@ -49,7 +68,7 @@ export default {
             titleManageId: this.$titleId.industryId,
             pageNo       : 1,
             pageSize     : 10,
-            status_in    : '1'
+            status_in    : 1
           }
         })
         .then(res => {

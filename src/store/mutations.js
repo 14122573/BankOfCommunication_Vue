@@ -58,5 +58,8 @@ export default {
   },
   SET_ISLOGIN(state, isLogin) {
     state.isLogin = isLogin
+  },
+  SET_HOMESECTION_TITLE(state, titleList) {
+    state.titleList = titleList
   }
 }

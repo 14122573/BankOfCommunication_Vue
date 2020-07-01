@@ -6,7 +6,7 @@
       </a-layout-header>
       <a-layout-content>
         <Lunbo />
-        <router-view />
+        <router-view style="background-color: #f1f5f8 "/>
         <Footer />
       </a-layout-content>
       <!-- <a-layout-footer>Footer</a-layout-footer> -->
@@ -24,6 +24,19 @@ export default {
     Lunbo,
     Footer
   },
+  mounted() {
+    this.$ajax
+      .get({
+        url: this.$api.GET_TITLE_MANAGE
+      })
+      .then(res => {
+        if(res.code == '200') {
+          console.log(res)
+          let content = this.$com.confirm(res, 'data.content', {})
+          sessionStorage.setItem('titleList', JSON.stringify(content))
+        }
+      })
+  }
 }
 </script>
 
@@ -54,7 +67,7 @@ export default {
   line-height: 120px;
 }
 #components-layout-demo-basic > .ant-layout {
-  margin-bottom: 48px;
+  height: 100%;
 }
 #components-layout-demo-basic > .ant-layout:last-child {
   margin: 0;

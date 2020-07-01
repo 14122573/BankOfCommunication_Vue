@@ -50,7 +50,7 @@
                     :labelSpan="4"
                     :textSpan="20"
                     :label="'关键词'"
-                    :text="detailList.keyWords"
+                    :text="detailList.keyWord"
                   ></DetailsItem>
                 </a-col>
                 <a-col span="16" style="margin:8px 0;">

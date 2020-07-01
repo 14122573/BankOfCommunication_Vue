@@ -19,7 +19,7 @@
               v-for="(item, index) in list"
               :key="index"
             >
-              <router-link :to="item.path">{{ item.meta.title }}</router-link>
+              <router-link :to="item.path">{{ item.meta.sectionId?getTitle(item.meta.sectionId):item.meta.title }}</router-link>
             </a-breadcrumb-item>
           </a-breadcrumb>
         </a-col>
@@ -45,6 +45,14 @@ export default {
     this.getRoutes()
   },
   methods: {
+    getTitle(id){
+      let homeSectionTitle = JSON.parse(sessionStorage.getItem('titleList'))
+      for(let i = 0 ; i < homeSectionTitle.length; i++) {
+        if(homeSectionTitle[i].id == id) {
+          return homeSectionTitle[i].titleName
+        }
+      }
+    },
     getRoutes() {
       let currentRoute = this.$route
       let parentRoute = this.$route.matched[0]

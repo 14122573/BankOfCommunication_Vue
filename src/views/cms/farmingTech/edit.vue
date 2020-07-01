@@ -37,7 +37,7 @@
                 </a-col>
                 <a-col span="16">
                   <a-form-item label="关键词" :label-col="{span:8}" :wrapper-col="{span:16}">
-                    <a-input v-decorator="['KeyWord',{validateTrigger: 'blur',rules:rules.KeyWord}]" placeholder="请输入关键词"></a-input>
+                    <a-input v-decorator="['keyWord',{validateTrigger: 'blur',rules:rules.KeyWord}]" placeholder="请输入关键词"></a-input>
                   </a-form-item>
                 </a-col>
               </a-row>
@@ -202,7 +202,7 @@ export default {
             this.farmingEditForm.setFieldsValue({
               title      : this.farmingDetails.title,
               author     : this.farmingDetails.author,
-              KeyWord    : this.farmingDetails.KeyWord,
+              keyWord    : this.farmingDetails.keyWord,
               releaseDate: this.farmingDetails.releaseDate,
               source     : this.farmingDetails.source,
             })
@@ -243,15 +243,15 @@ export default {
           }
 
           const postParams = Object.assign({}, this.formData, {
-            'id'             : this.id,
-            'title'          : this.farmingEditForm.getFieldValue('title'),
-            'author'         : this.farmingEditForm.getFieldValue('author'),
-            'KeyWord'        : this.farmingEditForm.getFieldValue('KeyWord'),
-            'releaseDate'    : this.farmingEditForm.getFieldValue('releaseDate'),
-            'endTime'        : this.farmingEditForm.getFieldValue('releaseDate'),
-            'source'         : this.farmingEditForm.getFieldValue('source'),
-            'attachments'    : this.arrangeFileList(),
-            'titleManageName': '养殖技术'
+            'id'         : this.id,
+            'title'      : this.farmingEditForm.getFieldValue('title'),
+            'author'     : this.farmingEditForm.getFieldValue('author'),
+            'keyWord'    : this.farmingEditForm.getFieldValue('keyWord'),
+            'releaseDate': this.farmingEditForm.getFieldValue('releaseDate'),
+            'source'     : this.farmingEditForm.getFieldValue('source'),
+            'attachments': this.arrangeFileList(),
+            'status'     : type=='save'?'0':'1',
+            'titleName'  : '养殖技术'
           })
           // console.log(postParams)
 

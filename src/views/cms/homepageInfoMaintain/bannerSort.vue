@@ -22,7 +22,7 @@
                     {{record.bannerName}} 
                   </template>
                   <template v-else> 
-                    <a-form-item>
+                    <a-form-item style="margin:0px">
                       <a-select
                         @change="val => changeSort(val, record)"
                         placeholder="请选择需要排序的轮播图"
@@ -105,8 +105,8 @@ export default {
     getCurrentBannerList() {
       this.$ajax
         .get({
-          url  : this.$api.GET_BANNER_LIST,
-          query: {
+          url   : this.$api.GET_BANNER_LIST,
+          params: {
             bannerGroup_nin: 0
           }
         })
@@ -142,23 +142,23 @@ export default {
         })
     },
     getAvailableSortList() {
-      let that = this
       this.$ajax
         .get({
-          url: this.$api.GET_BANNER_SORT
+          url   : this.$api.GET_BANNER_SORT,
+          params: {
+            bannerGroup: 0
+          }
         })
         .then(res => {
           if (res.code === '200') {
             this.bannerTemp = this.$com.confirm(res, 'data.content', [])
             this.sortedBanner = [].concat(this.bannerTemp)
-            console.log('this.sortedBanner',this.sortedBanner)
           } else {
             this.$message.error(res.msg)
           }
         })
     },
     changeSort(value, record) {
-      console.log('changeSort',value,record.sort)
       this.bannerPingjie.push(
         {
           'id'  : value, 

@@ -176,6 +176,7 @@ export default {
 
   // // 轮播图
   GET_BANNER_LIST        : '/service-release/release/banner/chart',  //轮播图-查询
+  GET_PUB_BANNER_LIST    : '/service-release/release/public/banner/chart',
   GET_BANNER_DETAIL      : '/service-release/release/banner/chart/{id}', //轮播图-查看-详情
   DELETE_BANNER          : '/service-release/release/banner/chart/{id}', // 轮播图-删除
   PUT_BANNER             : '/service-release/release/banner/chart/{id}', //轮播图-修改

@@ -4,7 +4,7 @@
       <a-card
         class="card"
         :loading="loading"
-        title="行业动态"
+        :title="title"
         :bordered="false"
         size="small"
         :headStyle="{ padding: '0', border: '0' }"
@@ -54,13 +54,24 @@ export default {
   data() {
     return {
       loading: false,
-      news   : []
+      news   : [],
+      title  : '',
+      titleId: '420295370510000128'
     }
   },
   mounted() {
-    this.fetchNews()
+    this.fetchNews(),
+    this.getTitleList()
   },
   methods: {
+    getTitleList() {
+      let homeSectionTitle = JSON.parse(sessionStorage.getItem('titleList'))
+      for(let i = 0 ; i < homeSectionTitle.length; i++) {
+        if(homeSectionTitle[i].id == this.titleId) {
+          this.title = homeSectionTitle[i].titleName
+        }
+      }
+    },
     jumpToPage() {
       this.$router.push({
         name: 'industryList'

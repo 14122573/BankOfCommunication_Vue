@@ -2,26 +2,26 @@
   <div>
     <div class="pageWrapper">
       <Navbar class="navbar" />
-      <div class="main">
+      <div class="main"> 
         <a-row>
-          <a-col :span="5">&nbsp;</a-col>
-          <a-col :span="14">
+          <a-col :span="4">&nbsp;</a-col>
+          <a-col :span="16">
             <a-descriptions class="title" :title="list.title">
               <a-descriptions-item label="发稿人">{{
-                list.author
+                list.creator
               }}</a-descriptions-item>
               <a-descriptions-item label="发布日期">{{
-                list.releaseDate
+                list.releaseDate?list.releaseDate.slice(0, 10):''
               }}</a-descriptions-item>
               <a-descriptions-item label="来源">{{
-                !!list.source?list.source:"无来源信息"
+                list.source
               }}</a-descriptions-item>
             </a-descriptions>
           </a-col>
-          <a-col :span="5">&nbsp;</a-col>
+          <a-col :span="4">&nbsp;</a-col>
         </a-row>
         <a-divider type="horizontal"></a-divider>
-        <a-card v-html="list.content" class="content" :bordered="false">
+        <a-card class="content" :bordered="false" v-html="list.content">
         </a-card>
       </div>
     </div>
@@ -33,16 +33,7 @@ import Navbar from '@/views/frontPublic/components/navbar.vue'
 export default {
   data() {
     return {
-      list: {
-        // title:
-        //   '金正大董事长万连步代表：加强农业社会化服务业政策支持，促进乡村振兴',
-        // content:
-        //   '随着我国工业化、城镇化的深度推进、农村劳动力的大量转移进城，我国第一产业劳动力占比已从1978年的70.5%，下降到2017年的27%，农业内部劳动力越来越少。2018年农民工数量超过2.88亿，且多以年轻劳动力为主，50岁及以下农民工所占比重超过75%。“大国小农”仍是相当长一段时间内我国的基本国情，如何把小农户生产引入现代农业发展轨道，提升农业生产效率，进而提升农产品竞争力，成为当前一个重要的时代命题。',
-        // postDate  : '2020-02-20',
-        // source    : '新闻网',
-        // postAuthor: '小明',
-        // sort      : '01'
-      }
+      list: {}
     }
   },
   components: {
@@ -50,6 +41,9 @@ export default {
   },
   mounted() {
     this.loadArticle()
+    this.$nextTick(() => {
+      document.querySelector('#components-layout-demo-basic').scrollTop = 0
+    })
   },
   methods: {
     loadArticle() {
@@ -70,8 +64,10 @@ export default {
 
 <style scoped>
 .pageWrapper {
+  padding: 0px 0px 30px 0px;
+  background-color: #f1f5f8;
   max-width: 1000px;
-  margin: 30px auto;
+  margin: 0 auto;
 }
 
 .pageWrapper .navbar {
@@ -109,4 +105,24 @@ export default {
 .main[data-v-3d830607] .ant-card-body {
   $titleFontSize()
 }
+</style>
+<style lang="stylus" scoped>
+.votingTitle
+  $titleFontSize()
+  margin-left 20px
+.radioItem
+  $simpleFontSize()
+.radioTitle
+  $titleFontSize()   
+  height 35px
+  font-weight 600
+.isMust
+  color red
+.votingCeiling
+  height 200px
+  display flex
+  align-items center
+  justify-content center
+  font-size 18px
+  color #999 
 </style>

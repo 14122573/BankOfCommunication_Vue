@@ -615,24 +615,26 @@ export default {
         {},
         this.searchForm,
         {
-          title: !this.farmingSearchForm.getFieldValue('title')
+          title_l: !this.farmingSearchForm.getFieldValue('title')
             ? ''
             : this.farmingSearchForm.getFieldValue('title'),
-          releaseDate: !this.farmingSearchForm.getFieldValue('releaseDate')
+          releaseDate_l: !this.farmingSearchForm.getFieldValue('releaseDate')
             ? ''
             : this.farmingSearchForm.getFieldValue('releaseDate'),
-          keywords: !this.farmingSearchForm.getFieldValue('keywords')
+          keywords_l: !this.farmingSearchForm.getFieldValue('keywords')
             ? ''
             : this.farmingSearchForm.getFieldValue('keywords'),
-          content: !this.farmingSearchForm.getFieldValue('content')
+          content_l: !this.farmingSearchForm.getFieldValue('content')
             ? ''
             : this.farmingSearchForm.getFieldValue('content'),
-          author: !this.farmingSearchForm.getFieldValue('author')
+          author_l: !this.farmingSearchForm.getFieldValue('author')
             ? ''
             : this.farmingSearchForm.getFieldValue('author'),
           allIn_l: !this.farmingSearchForm.getFieldValue('allIn')
             ? ''
             : this.farmingSearchForm.getFieldValue('allIn'),
+          titleManageId: this.$titleId.notificationId,
+          status_in    : '0,1,2'
         },
         {
           pageNo  : this.pagination.pageNo,
@@ -641,7 +643,7 @@ export default {
       )
       this.$ajax
         .get({
-          url   : this.$api.GET_CMS_KNOWLEDGE_LIST,
+          url   : this.$api.GET_ANNOUNCE_LIST,
           params: searchParms
         })
         .then(res => {

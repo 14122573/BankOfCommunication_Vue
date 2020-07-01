@@ -5,7 +5,7 @@
         <a-menu-item v-for="(item, index) in childroute" :key="index">
           <router-link :to="item.path">
             <a-icon class="menu_icon" type="caret-right" />
-            <span>{{ item.meta.title }}</span>
+            <span>{{ getTitle(item.meta.sectionId) }}</span>
           </router-link>
         </a-menu-item>
       </a-menu>
@@ -27,6 +27,14 @@ export default {
   methods: {
     handleClick(data) {
       console.log(data)
+    },
+    getTitle(id){
+      let homeSectionTitle = JSON.parse(sessionStorage.getItem('titleList'))
+      for(let i = 0 ; i < homeSectionTitle.length; i++) {
+        if(homeSectionTitle[i].id == id) {
+          return homeSectionTitle[i].titleName
+        }
+      }
     },
     getChildRoutes() {
       let fromWhichRoute = this.fromWhichRoute

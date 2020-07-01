@@ -612,24 +612,26 @@ export default {
         {},
         this.searchForm,
         {
-          title: !this.cloudLessonSearchForm.getFieldValue('title')
+          title_l: !this.cloudLessonSearchForm.getFieldValue('title')
             ? ''
             : this.cloudLessonSearchForm.getFieldValue('title'),
-          releaseDate: !this.cloudLessonSearchForm.getFieldValue('releaseDate')
+          releaseDate_l: !this.cloudLessonSearchForm.getFieldValue('releaseDate')
             ? ''
             : this.cloudLessonSearchForm.getFieldValue('releaseDate'),
-          keywords: !this.cloudLessonSearchForm.getFieldValue('keywords')
+          keywords_l: !this.cloudLessonSearchForm.getFieldValue('keywords')
             ? ''
             : this.cloudLessonSearchForm.getFieldValue('keywords'),
-          content: !this.cloudLessonSearchForm.getFieldValue('content')
+          content_l: !this.cloudLessonSearchForm.getFieldValue('content')
             ? ''
             : this.cloudLessonSearchForm.getFieldValue('content'),
-          author: !this.cloudLessonSearchForm.getFieldValue('author')
+          author_l: !this.cloudLessonSearchForm.getFieldValue('author')
             ? ''
             : this.cloudLessonSearchForm.getFieldValue('author'),
           allIn_l: !this.cloudLessonSearchForm.getFieldValue('allIn')
             ? ''
             : this.cloudLessonSearchForm.getFieldValue('allIn'),
+          titleManageId: this.$titleId.cloudId,
+          status_in    : '0,1,2'
         },
         {
           pageNo  : this.pagination.pageNo,
@@ -638,7 +640,7 @@ export default {
       )
       this.$ajax
         .get({
-          url   : this.$api.GET_CMS_KNOWLEDGE_LIST,
+          url   : this.$api.GET_ANNOUNCE_LIST,
           params: searchParms
         })
         .then(res => {

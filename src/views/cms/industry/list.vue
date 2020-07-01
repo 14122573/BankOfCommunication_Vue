@@ -612,24 +612,26 @@ export default {
         {},
         this.searchForm,
         {
-          title: !this.knowledgeSearchForm.getFieldValue('title')
+          title_l: !this.knowledgeSearchForm.getFieldValue('title')
             ? ''
             : this.knowledgeSearchForm.getFieldValue('title'),
-          releaseDate: !this.knowledgeSearchForm.getFieldValue('releaseDate')
+          releaseDate_l: !this.knowledgeSearchForm.getFieldValue('releaseDate')
             ? ''
             : this.knowledgeSearchForm.getFieldValue('releaseDate'),
-          keywords: !this.knowledgeSearchForm.getFieldValue('keywords')
+          keywords_l: !this.knowledgeSearchForm.getFieldValue('keywords')
             ? ''
             : this.knowledgeSearchForm.getFieldValue('keywords'),
-          content: !this.knowledgeSearchForm.getFieldValue('content')
+          content_l: !this.knowledgeSearchForm.getFieldValue('content')
             ? ''
             : this.knowledgeSearchForm.getFieldValue('content'),
-          author: !this.knowledgeSearchForm.getFieldValue('author')
+          author_l: !this.knowledgeSearchForm.getFieldValue('author')
             ? ''
             : this.knowledgeSearchForm.getFieldValue('author'),
           allIn_l: !this.knowledgeSearchForm.getFieldValue('allIn')
             ? ''
             : this.knowledgeSearchForm.getFieldValue('allIn'),
+          titleManageId: this.$titleId.industryId,
+          status_in    : '0,1,2'
         },
         {
           pageNo  : this.pagination.pageNo,
@@ -638,7 +640,7 @@ export default {
       )
       this.$ajax
         .get({
-          url   : this.$api.GET_CMS_KNOWLEDGE_LIST,
+          url   : this.$api.GET_ANNOUNCE_LIST,
           params: searchParms
         })
         .then(res => {

@@ -2,7 +2,11 @@
   <div>
     <div class="pageWrapper" style="height: 800px; background-color: white">
       <div class="content">
-        <a-table :columns="columns" :data-source="news" :showHeader=false></a-table>
+        <a-table :columns="columns"
+          :data-source="news" 
+          :showHeader=false
+          :customRow="customRow"
+        ></a-table>
       </div>
     </div>
   </div>
@@ -32,6 +36,20 @@ export default {
     }
   },
   methods: {
+    customRow(record, index) {
+      return {
+        on: {
+          click: () => {
+            this.$router.push({
+              name  : '/knowledgeService/farmingTechDetail',
+              params: {
+                id: record.id
+              }
+            })
+          }
+        }
+      }
+    },
     fetchNews() {
       this.$ajax
         .get({
