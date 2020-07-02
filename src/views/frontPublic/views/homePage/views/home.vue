@@ -27,7 +27,7 @@ export default {
   mounted() {
     this.$ajax
       .get({
-        url: this.$api.GET_TITLE_MANAGE
+        url: this.$api.GET_PUB_TITLE_MANAGE
       })
       .then(res => {
         if(res.code == '200') {
