@@ -27,7 +27,7 @@
               </a-row>
               <a-row :gutter='16'>
                 <a-col span="16">
-                  <a-form-item label="上传附件" :label-col="{span:4}" :wrapper-col="{span:20}">
+                  <a-form-item label="上传图片" :label-col="{span:4}" :wrapper-col="{span:20}">
                     <FileUpload ref="childFile"
                       :multiple="false"
                       :maxCount="1"
@@ -80,26 +80,30 @@ export default {
       let that = this
       let query = this.$api.POST_BANNER
       this.imgContent = this.$refs.childFile.getUploadFileList()
-      this.$ajax
-        .post({
-          url   : query,
-          params: {
-            bannerName: this.bannerCreateForm.getFieldValue('title'),
-            linkUrl   : this.bannerCreateForm.getFieldValue('jumpHref'),
-            imgId     : that.imgContent[0].uid
-          }
-        })
-        .then(res => {
-          if (res.code === '200') {
-            this.$message.success('轮播图添加成功')
-            this.$router.push({
-              name: '/cms/homepageInfoMaintain'
-            })
+      if (this.imgContent.length == []) {
+        this.$message.error('请至少上传一张图片!')
+      } else {
+        this.$ajax
+          .post({
+            url   : query,
+            params: {
+              bannerName: this.bannerCreateForm.getFieldValue('title'),
+              linkUrl   : this.bannerCreateForm.getFieldValue('jumpHref'),
+              imgId     : that.imgContent[0].uid
+            }
+          })
+          .then(res => {
+            if (res.code === '200') {
+              this.$message.success('轮播图添加成功')
+              this.$router.push({
+                name: '/cms/homepageInfoMaintain'
+              })
             
-          } else {
-            this.$message.error(res.msg)
-          }
-        })
+            } else {
+              this.$message.error(res.msg)
+            }
+          })
+      }
     },
   }
 }

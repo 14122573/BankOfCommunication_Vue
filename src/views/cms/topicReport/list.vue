@@ -488,7 +488,10 @@ export default {
           url: this.$api.PUT_ANNOUNCE_STATUS.replace('{id}', id).replace(
             '{status}',
             status
-          )
+          ),
+          params: {
+            'id': id
+          }
         })
         .then(res => {
           if (res.code == '200') {

@@ -3,6 +3,31 @@
     <div class="pageWrapper">
       <Navbar class="navbar" />
       <div class="main"> 
+         <a-row>
+          <a-col :span="4">&nbsp;</a-col>
+          <a-col :span="16">
+            <a-descriptions class="title" :title="list.name">
+              <a-descriptions-item label="发稿人">{{
+                list.creator
+              }}</a-descriptions-item>
+              <a-descriptions-item label="发布日期">{{
+                list.startTime?list.startTime.slice(0, 10):''
+              }}</a-descriptions-item>
+              <a-descriptions-item label="来源">{{
+                list.source
+              }}</a-descriptions-item>
+            </a-descriptions>
+          </a-col>
+          <a-col :span="4">&nbsp;</a-col>
+        </a-row>
+        <a-divider type="horizontal"></a-divider>
+        <a-card class="content" :bordered="false">
+          {{ list.description }}
+        </a-card>
+      </div>
+    </div>
+    <div class="pageWrapper"> 
+      <div class="main" style="padding-top:10px;">  
         <div style="height:40px;display:flex;align-items:center;padding-bottom:10px;margin-bottom:20px;border-bottom:1px solid #eee;">
             <img src="@/assets/images/home/tp_icon.png" alt=""><span class="votingTitle">投票</span> 
         </div>

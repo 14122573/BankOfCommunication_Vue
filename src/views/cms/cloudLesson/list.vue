@@ -480,10 +480,13 @@ export default {
     toChangeStatus(id, status) { 
       this.$ajax
         .put({
-          url: this.$api.PUT_CMS_KNOWLEDGE_STATUS.replace('{id}', id).replace(
+          url: this.$api.PUT_ANNOUNCE_STATUS.replace('{id}', id).replace(
             '{status}',
             status
-          )
+          ),
+          params: {
+            'id': id
+          }
         })
         .then(res => {
           if (res.code == '200') {

@@ -2,7 +2,7 @@
 <div class="width_cut">
   <div class="pageWrapper">
     <Navbar class="navbar" />
-    <div class="content">
+    <div class="content" v-if="this.news.length !== 0">
       <a-table
         :columns="columns"
         :data-source="news"
@@ -10,6 +10,9 @@
         :customRow="customRow"
         rowKey="title"
       ></a-table>
+    </div>
+    <div class="noneCeiling" v-else>
+          <img src="@/assets/images/empty_placeholder.jpg" alt=""><span>暂无数据</span>
     </div>
   </div>
   </div>
@@ -108,4 +111,12 @@ export default {
 <style lang="stylus">
 .content[data-v-2cdc8027] .ant-table-tbody > tr > td
   $titleFontSize()
+
+.noneCeiling
+  height 200px
+  display flex
+  align-items center
+  justify-content center
+  font-size 18px
+  color #999 
 </style>

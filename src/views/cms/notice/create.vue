@@ -44,7 +44,7 @@
               <a-row>
                 <a-col span="16">
                   <a-form-item label="附件" :label-col="{span:4}" :wrapper-col="{span:20}">
-                    <FileUpload @change="onUploadFileChange"  :acceptTypes="uploadConfig.acceptTypesArray" :maxFileSize="uploadConfig.maxSize" :maxCount="100" :timestamp="Date.now()"></FileUpload>
+                    <FileUpload @change="onUploadFileChange"  :acceptTypes="uploadConfig.acceptTypesArray" :maxFileSize="uploadConfig.maxSize" :maxCount="9" :timestamp="Date.now()"></FileUpload>
                      <a-alert style="margin-top:16px" message="支持的格式为：word、excel、ceb、cebx" type="info" showIcon />
                   </a-form-item>
                 </a-col>
@@ -54,8 +54,8 @@
           <div class="layoutMargin detailsPartSection">
             <p class="detailsPartTitle">通知公告正文内容</p>
             <div style="margin:0 16px;">
-               <!-- <VueUeditorWrap v-model="formData.content" :config='ueditorConfig'></VueUeditorWrap> -->
-               <UeditorCompent ref="ue" :value="formData.content" ></UeditorCompent>
+               <UeditorCompent :value="formData.content" :config='ueditorConfig'></UeditorCompent>
+               <!-- <UeditorCompent ref="ue" :value="formData.content" ></UeditorCompent> -->
             </div>
           </div>
         </a-form>
@@ -89,6 +89,16 @@ export default {
       }
     }
     return { 
+      ueditorConfig: [
+        'undo', 'redo', '|',
+        'bold', 'italic', 'underline', 'fontborder', 'strikethrough', 'superscript', 'subscript', 'removeformat', 'formatmatch', 'autotypeset', 'blockquote', 'pasteplain', '|', 'forecolor', 'backcolor', 'insertorderedlist', 'insertunorderedlist', 'selectall', 'cleardoc', '|',
+        'rowspacingtop', 'rowspacingbottom', 'lineheight', '|',
+        'customstyle', 'paragraph', 'fontfamily', 'fontsize', '|',
+        'directionalityltr', 'directionalityrtl', 'indent', '|', 'imagenone', 'imageleft', 'imageright', 'imagecenter', '|',
+        'simpleupload', 'insertimage', 'edittable', 'edittd', 'insertvideo', 'map', 'inserttable', '|',
+        'justifyleft', 'justifycenter', 'justifyright', 'justifyjustify', '|', 'touppercase', 'tolowercase', '|',
+        'link', 'unlink',
+      ],
       createFormOption: {
         type: [ {
           label: '视频',

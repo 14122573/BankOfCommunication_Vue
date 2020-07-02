@@ -1,7 +1,7 @@
 <template>
   <div class="portalDetailWapper">
 		<div class="portalDetailTitle">
-			<span class="title">修改知识文献</span>
+			<span class="title">修改养殖技术</span>
 			<div class="detailOperations">
 				<a-button @click='$router.back()'>取消</a-button>
 				<a-button type="primary" @click='savefarming("save")'>保存</a-button>
@@ -17,7 +17,7 @@
               <a-row :gutter='16'>
                 <a-col span="16">
                   <a-form-item label="标题" :label-col="{span:4}" :wrapper-col="{span:20}">
-                    <a-input v-decorator="['title',{validateTrigger: 'blur',rules:rules.title}]" placeholder="请输入知识文献标题"></a-input>
+                    <a-input v-decorator="['title',{validateTrigger: 'blur',rules:rules.title}]" placeholder="请输入养殖技术标题"></a-input>
                   </a-form-item>
                 </a-col>
                 <a-col span="16">
@@ -36,16 +36,16 @@
                   </a-form-item>
                 </a-col>
                 <a-col span="16">
-                  <a-form-item label="关键词" :label-col="{span:8}" :wrapper-col="{span:16}">
+                  <a-form-item label="关键词" :label-col="{span:4}" :wrapper-col="{span:20}">
                     <a-input v-decorator="['keyWord',{validateTrigger: 'blur',rules:rules.KeyWord}]" placeholder="请输入关键词"></a-input>
                   </a-form-item>
                 </a-col>
               </a-row>
               <a-row :gutter='16'>
                 <a-col span="16">
-                  <a-form-item label="PDF文档" :label-col="{span:4}" :wrapper-col="{span:20}" v-if="ready">
-                    <FileUpload @change="onUploadFileChange" :defaultFileList='uploadFileList.default' :acceptTypes="uploadConfig.acceptTypesArray" :maxCount="100"  :maxFileSize="uploadConfig.maxSize" :timestamp="Date.now()"></FileUpload>
-                    <a-alert style="margin-top:16px" message="仅能上传PDF格式文件" type="info" showIcon />
+                  <a-form-item label="附件" :label-col="{span:4}" :wrapper-col="{span:20}" v-if="ready">
+                    <FileUpload @change="onUploadFileChange" :defaultFileList='uploadFileList.default' :acceptTypes="uploadConfig.acceptTypesArray" :maxCount="9"  :maxFileSize="uploadConfig.maxSize" :timestamp="Date.now()"></FileUpload>
+                    <a-alert style="margin-top:16px" message="支持的格式为：word、excel、ceb、cebx" type="info" showIcon />
                   </a-form-item>
                 </a-col>
               </a-row>
@@ -53,7 +53,7 @@
           </div>
 
           <div class="layoutMargin detailsPartSection">
-            <p class="detailsPartTitle">文献正文内容</p>
+            <p class="detailsPartTitle">养殖技术正文内容</p>
             <div style="margin:0 16px;"> 
                <UeditorCompent ref="ue" :value="formData.content" ></UeditorCompent>
             </div>
@@ -95,7 +95,7 @@ export default {
           { required: false, whitespace: true, message: '请输入关键词!' }
         ],
         releaseDate: [
-          { required: false, whitespace: true, message: '请输入发布时间!' }
+          { required: false, message: '请输入发布时间!' }
         ],
         source: [
           { required: true, whitespace: true, message: '请输入养殖技术来源!' }
@@ -107,7 +107,7 @@ export default {
       },
       uploadConfig: {
         maxSize         : 10*1024*1024,
-        acceptTypesArray: [ 'pdf' ]
+        acceptTypesArray: [ 'doc', 'docx', 'xlsx', 'xls', 'ceb', 'cebx' ]
       }
     }
   },
@@ -216,7 +216,7 @@ export default {
     },
 
     /**
-     * 监听表单’文献PDF附件‘上传变动，并暂存
+     * 监听表单’养殖技术PDF附件‘上传变动，并暂存
      * @param {Array} filelist 最新变动已上传的文件对象列表
      */
     onUploadFileChange(filelist){
@@ -235,7 +235,7 @@ export default {
           if(this.formData.content==''){
             this.$modal.error({
               title     : '表单验证未通过',
-              content   : '请填写知识文献正文内容',
+              content   : '请填写养殖技术正文内容',
               okText    : '确认',
               cancelText: '取消',
             })

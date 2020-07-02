@@ -162,6 +162,7 @@ export default {
             .then(res => {
               if (res.code === '200') {
                 this.$message.success('修改栏目名称成功')
+                this.resetData.setFieldsValue({ 'newSectionName': '' })
                 this.handleCancel()
                 this.getList()
               }
@@ -173,6 +174,7 @@ export default {
     },
     handleCancel() {
       this.modifyVisible = false
+      this.resetData.setFieldsValue({ 'newSectionName': '' })
     }
   }
 }

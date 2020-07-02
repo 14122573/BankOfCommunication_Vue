@@ -5,11 +5,11 @@
 			<!-- <a-tab-pane v-if="$permission('P03100')" tab="待分配权限" key="1">
 				<Pendingpermissions />
 			</a-tab-pane> -->
-			<a-tab-pane tab="栏目管理" key="1">
-				<titleManage />
-			</a-tab-pane>
-			<a-tab-pane tab="横幅图管理" key="2">
+			<a-tab-pane tab="横幅图管理" key="1">
 				<bannerManage />
+			</a-tab-pane>
+      <a-tab-pane tab="栏目管理" key="2">
+				<titleManage />
 			</a-tab-pane>
 		</a-tabs>
   </div>

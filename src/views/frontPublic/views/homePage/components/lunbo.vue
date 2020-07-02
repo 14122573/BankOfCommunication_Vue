@@ -1,8 +1,28 @@
 <template>
   <div class="lunbo">
     <!-- <a-carousel :after-change="onChange" effect="fade"> -->
-    <a-carousel class="lunbo_carousel" effect="fade">
-      <div class="loginPlacement" v-for="(item, index) in bannerList" :key="index">
+    <a-carousel class="lunbo_carousel" effect="fade" arrows>
+      <div
+        slot="prevArrow"
+        slot-scope="props"
+        class="custom-slick-arrow"
+        style="left: 5%;zIndex: 1"
+      >
+        <a-icon type="left-circle" />
+      </div>
+      <div
+        slot="nextArrow"
+        slot-scope="props"
+        class="custom-slick-arrow"
+        style="right: 5%"
+      >
+        <a-icon type="right-circle" />
+      </div>
+      <div
+        class="loginPlacement"
+        v-for="(item) in bannerList"
+        :key="item.bannerGroup"
+      >
         <img
           :src="item.filePath"
           alt=""
@@ -54,22 +74,12 @@ export default {
     this.getLunbo()
   },
   watch: {
-    // '$store.state.userInfos': {
-    //   handler: function(val) {
-    //     if(!!val){
-    //       console.log(val)
-    //       this.username = !val.name?'':val.name
-    //       this.pageType= !val.name?'login':val.name
-    //     }
-    //   },
-    //   deep: true
-    // },
     $route(to, from) {
       // 当前是否在index页，不在的话就隐藏loginpanel和welcomepanel
       to.name == 'index'
         ? (this.isInIndexPage = true)
         : (this.isInIndexPage = false)
-    },
+    }
   },
   methods: {
     getLunbo() {
@@ -78,7 +88,7 @@ export default {
           url: this.$api.GET_PUB_BANNER_LIST
         })
         .then(res => {
-          this.bannerList = this.$com.confirm(res, 'data.content', []) 
+          this.bannerList = this.$com.confirm(res, 'data.content', [])
           this.getToken()
         })
     },
@@ -106,6 +116,20 @@ export default {
 }
 </script>
 <style scoped>
+.ant-carousel >>> .custom-slick-arrow {
+  width: 25px;
+  height: 25px;
+  font-size: 25px;
+  color: #000;
+  background-color: rgba(31, 45, 61, 0.11);
+  opacity: 0.3;
+}
+.ant-carousel >>> .custom-slick-arrow:before {
+  display: none;
+}
+.ant-carousel >>> .custom-slick-arrow:hover {
+  opacity: 0.5;
+}
 .lunbo {
   position: relative;
   width: 100%;

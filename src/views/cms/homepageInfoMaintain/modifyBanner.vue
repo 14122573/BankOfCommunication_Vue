@@ -27,7 +27,7 @@
               </a-row>
               <a-row :gutter='16'>
                 <a-col span="16">
-                  <a-form-item label="上传附件" :label-col="{span:4}" :wrapper-col="{span:20}">
+                  <a-form-item label="上传图片" :label-col="{span:4}" :wrapper-col="{span:20}">
                     <FileUpload ref="childFile"
                       :multiple="false"
                       :maxCount="1"

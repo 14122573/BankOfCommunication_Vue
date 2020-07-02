@@ -171,6 +171,7 @@ export default {
 
   // 栏目管理 
   GET_TITLE_MANAGE       : '/service-release/release/title/manage', //栏目管理-查询
+  GET_PUB_TITLE_MANAGE   : '/service-release/release/public/title/manage',
   PUT_TITLE_MANAGE       : '/service-release/release/title/manage/{id}', //栏目管理-修改
   GET_TITLE_MANAGE_SINGLE: '/service-release/release/title/manage/{id}', //栏目管理-查询-单Id查询
 

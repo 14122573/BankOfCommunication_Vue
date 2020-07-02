@@ -102,7 +102,7 @@ export default {
           url   : this.$api.GET_ANNOUNCE_DETAIL.replace('{id}', id),
           params: {
             id: id
-          }
+          },
         })
         .then(res => {
           if (res.code === '200') {
@@ -117,20 +117,21 @@ export default {
      * @returns {Array}  [{name:带文件后缀的文件名称；url：已上传的文件地址},...]
      */
     makeFileList() {
-      const fileList = []
+      let fileList = []
       const attachments = !this.detailList.attachments
         ? []
         : this.detailList.attachments
       for (let i = 0; i < attachments.length; i++) {
-        console.log(JSON.stringify(attachments))
         
         if (attachments[i].type == '1') {
           fileList.push({
-            name: attachments[i].fileId,
+            name: attachments[i].fileName,
             url : attachments[i].filePath
           })
         }
       }
+      console.log(JSON.stringify(fileList))
+      
       return fileList
     }
   }
