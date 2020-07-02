@@ -22,7 +22,7 @@
                     {{record.bannerName}} 
                   </template>
                   <template v-else> 
-                    <a-form-item style="margin:0px">
+                    <a-form-item>
                       <a-select
                         @change="val => changeSort(val, record)"
                         placeholder="请选择需要排序的轮播图"
@@ -39,7 +39,8 @@
                   </template> 
                 </span>
                 <span slot="action" slot-scope="text, record">
-                  <a-button @click="deleteSort(record)" :disabled="!!record.bannerName?false:true">删除排序</a-button>
+                  <!-- <a-button @click="deleteSort(record)" :disabled="!!record.bannerName?false:true">删除排序</a-button> -->
+                  <a-button @click="deleteSort(record)">删除排序</a-button>
                 </span>
               </a-table>
             </a-form>
@@ -105,14 +106,16 @@ export default {
     getCurrentBannerList() {
       this.$ajax
         .get({
-          url   : this.$api.GET_BANNER_LIST,
+          url  : this.$api.GET_BANNER_LIST,
           params: {
             bannerGroup_nin: 0
           }
         })
         .then(res => {
+          console.log(res)
           if (res.code === '200') {
             this.bannerData = this.$com.confirm(res, 'data.content', [])
+            this.histortySortedData= []
             for (let i = 1; i <= 8; i++) {
               let target = {}
               for(let j = 0; j < this.bannerData.length; j++){
@@ -142,9 +145,10 @@ export default {
         })
     },
     getAvailableSortList() {
+      let that = this
       this.$ajax
         .get({
-          url   : this.$api.GET_BANNER_SORT,
+          url: this.$api.GET_BANNER_SORT,
           params: {
             bannerGroup: 0
           }
@@ -159,6 +163,7 @@ export default {
         })
     },
     changeSort(value, record) {
+      console.log('changeSort',value,record.sort)
       this.bannerPingjie.push(
         {
           'id'  : value, 
@@ -189,6 +194,9 @@ export default {
         .then(res=>{
           if(res.code=='200') {
             this.$message.success('删除成功')
+            this.getCurrentBannerList()
+            this.getAvailableSortList()
+            // this.$router.go(-1)
           } else {
             this.$message.error(res.msg)
           }
@@ -220,3 +228,9 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+.ant-form-item {
+  margin: 0px
+}
+</style>
