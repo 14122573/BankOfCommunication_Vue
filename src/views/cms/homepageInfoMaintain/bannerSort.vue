@@ -105,7 +105,7 @@ export default {
     getCurrentBannerList() {
       this.$ajax
         .get({
-          url  : this.$api.GET_BANNER_LIST,
+          url   : this.$api.GET_BANNER_LIST,
           params: {
             bannerGroup_nin: 0
           }
@@ -147,7 +147,7 @@ export default {
       let that = this
       this.$ajax
         .get({
-          url: this.$api.GET_BANNER_SORT,
+          url   : this.$api.GET_BANNER_SORT,
           params: {
             bannerGroup: 0
           }

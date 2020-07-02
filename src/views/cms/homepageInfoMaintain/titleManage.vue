@@ -57,97 +57,97 @@
 
 <script>
 export default {
-  name: "title-manage",
+  name: 'title-manage',
   mounted() {
-    if (this.$route.name == "/cms/homepageInfoMaintain") {
-      this.getList();
+    if (this.$route.name == '/cms/homepageInfoMaintain') {
+      this.getList()
     }
   },
   data() {
     return {
       searchForm: {
-        title: ""
+        title: ''
       },
       modifyVisible: false,
-      pagination: {
-        pageNo: 1,
-        pageSize: 10,
-        total: 0,
-        current: 1,
-        defaultCurrent: 1,
+      pagination   : {
+        pageNo         : 1,
+        pageSize       : 10,
+        total          : 0,
+        current        : 1,
+        defaultCurrent : 1,
         showQuickJumper: true,
-        onChange: this.onChange
+        onChange       : this.onChange
       },
-      data: [],
-      resetData: this.$form.createForm(this),
+      data         : [],
+      resetData    : this.$form.createForm(this),
       modifySection: [
         {
-          idToIdentify: null,
+          idToIdentify : null,
           renameSection: null
         }
       ],
       columns: [
         {
-          title: "已关联模块",
-          dataIndex: "id",
-          key: "id"
+          title    : '已关联模块',
+          dataIndex: 'id',
+          key      : 'id'
         },
         {
-          title: "栏目名称",
-          dataIndex: "titleName",
-          key: "titleName"
+          title    : '栏目名称',
+          dataIndex: 'titleName',
+          key      : 'titleName'
         },
         {
-          title: "操作",
-          dataIndex: "action",
-          key: "action",
-          width: 200,
+          title      : '操作',
+          dataIndex  : 'action',
+          key        : 'action',
+          width      : 200,
           scopedSlots: {
-            customRender: "action"
+            customRender: 'action'
           }
         }
       ]
-    };
+    }
   },
   methods: {
     modifyInfo(item) {
-      this.modifySection.idToIdentify = item.id;
-      this.modifyVisible = true;
+      this.modifySection.idToIdentify = item.id
+      this.modifyVisible = true
     },
     getSearchParams() {
       if (!!searchParams.params) {
         Object.keys(searchParams.params).forEach(elem => {
-          this.searchForm[elem] = searchParams.params[elem];
-        });
+          this.searchForm[elem] = searchParams.params[elem]
+        })
       }
       if (!!searchParams.pagination) {
         if (
           !!searchParams.pagination.pageNo &&
           searchParams.pagination.pageNo != 1
         ) {
-          this.pagination.pageNo = searchParams.pagination.pageNo;
+          this.pagination.pageNo = searchParams.pagination.pageNo
         }
       }
-      this.getList();
+      this.getList()
     },
     onChange(current) {
-      this.pagination.pageNo = current;
-      this.pagination.current = current;
-      this.getList();
+      this.pagination.pageNo = current
+      this.pagination.current = current
+      this.getList()
     },
     getList() {
-      let query = this.$api.GET_TITLE_MANAGE;
+      let query = this.$api.GET_TITLE_MANAGE
       this.$ajax
         .get({
           url: this.$api.GET_TITLE_MANAGE
         })
         .then(res => {
-          if (res.code === "200") {
-            this.data = this.$com.confirm(res, "data.content", []);
+          if (res.code === '200') {
+            this.data = this.$com.confirm(res, 'data.content', [])
           } else {
-            this.$message.error(res.msg);
+            this.$message.error(res.msg)
           }
-        });
+        })
     },
     // addStorage(content) {
     //   let storage = sessionStorage.getItem('titleList');
@@ -169,47 +169,47 @@ export default {
           this.$ajax
             .put({
               url: this.$api.PUT_TITLE_MANAGE.replace(
-                "{id}",
+                '{id}',
                 this.modifySection.idToIdentify
               ),
               params: {
-                titleName: this.resetData.getFieldValue("newSectionName")
+                titleName: this.resetData.getFieldValue('newSectionName')
               }
             })
             .then(res => {
-              if (res.code === "200") {
-                this.$message.success("修改栏目名称成功");
-                this.resetData.setFieldsValue({ newSectionName: "" });
+              if (res.code === '200') {
+                this.$message.success('修改栏目名称成功')
+                this.resetData.setFieldsValue({ newSectionName: '' })
                 // this.addStorage({id: this.modifySection.idToIdentify, titleName: this.resetData.getFieldValue('newSectionName')})
                 this.$ajax
                   .get({
                     url: this.$api.GET_PUB_TITLE_MANAGE
                   })
                   .then(res => {
-                    if (res.code == "200") {
-                      console.log(res);
-                      let content = this.$com.confirm(res, "data.content", {});
+                    if (res.code == '200') {
+                      console.log(res)
+                      let content = this.$com.confirm(res, 'data.content', {})
                       localStorage.setItem(
-                        "titleList",
+                        'titleList',
                         JSON.stringify(content)
-                      );
+                      )
                     }
-                  });
-                this.handleCancel();
-                this.getList();
+                  })
+                this.handleCancel()
+                this.getList()
               }
-            });
+            })
         } else {
-          this.$com.getFormValidErrTips(this, err);
+          this.$com.getFormValidErrTips(this, err)
         }
-      });
+      })
     },
     handleCancel() {
-      this.modifyVisible = false;
-      this.resetData.setFieldsValue({ newSectionName: "" });
+      this.modifyVisible = false
+      this.resetData.setFieldsValue({ newSectionName: '' })
     }
   }
-};
+}
 </script>
 
 <style scoped>
