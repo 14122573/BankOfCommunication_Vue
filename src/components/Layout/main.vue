@@ -249,6 +249,7 @@ export default {
         break
       case 'logout':
         this.plogout()
+        this.$store.commit('SET_ISLOGIN', false)
         break
       default:
         break

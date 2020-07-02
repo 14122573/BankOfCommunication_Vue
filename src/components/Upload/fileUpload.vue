@@ -135,7 +135,7 @@ export default {
 
       let message = ''
       message += !isAccept?('文件格式限定为'+this.uploadConfig.acceptTypes+'；'):''
-      message += !isLtMaxFileSize?'文件需小于'+this.maxFileSize+'B；':''
+      message += !isLtMaxFileSize?'文件需小于'+(this.maxFileSize/1024/1024)+'M；':''
       if(isAccept && isLtMaxFileSize){
         return true
       }else{

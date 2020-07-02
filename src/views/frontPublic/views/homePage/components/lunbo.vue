@@ -18,9 +18,14 @@
       >
         <a-icon type="right-circle" />
       </div>
-      <div
+      <!-- <div
         class="loginPlacement"
         v-for="(item) in bannerList"
+        :key="item.bannerGroup"
+      > -->
+      <div
+        class="loginPlacement"
+        v-for="(item) in bannerOneByOne()"
         :key="item.bannerGroup"
       >
         <img
@@ -67,7 +72,7 @@ export default {
       username     : '',
       pageType     : 'login',
       isready      : false,
-      bannerList   : []
+      bannerList   : [],
     }
   },
   mounted() {
@@ -82,6 +87,17 @@ export default {
     }
   },
   methods: {
+    bannerOneByOne() {
+      let bannerFilter = []
+
+      for(let i = this.bannerList.length-1; i >= 0; i--) {
+        if(this.bannerList[i].bannerGroup !== '0') {
+          bannerFilter.push(this.bannerList[i])
+        }
+      }
+      return bannerFilter
+      
+    },
     getLunbo() {
       this.$ajax
         .get({

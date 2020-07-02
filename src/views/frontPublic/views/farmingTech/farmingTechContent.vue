@@ -56,7 +56,7 @@ export default {
     fetchNews() {
       this.$ajax
         .get({
-          url   : this.$api.GET_ANNOUNCE_LIST,
+          url   : this.$api.GET_PUB_ANNOUNCE_LIST,
           params: {
             status_in    : '1',
             pageNo       : 1,

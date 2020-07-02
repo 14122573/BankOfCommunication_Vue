@@ -2,19 +2,19 @@
   <div class="old-user">
     <p class="gayLine noline "></p>
     <div class="wrapper-roles">
-        <div class="box" v-for="(item,index) in data" :key="index">
-          <div class="inner">
-            <div class="content">
-              <p class="roleName" :title='item.titleName'>{{item.titleName}} </p>
-            </div>
-            <div class="operate">
-              <template>
-                <span @click="modifyInfo(item)">修改</span>
-              </template>
-            </div>
+      <div class="box" v-for="(item, index) in data" :key="index">
+        <div class="inner">
+          <div class="content">
+            <p class="roleName" :title="item.titleName">{{ item.titleName }}</p>
+          </div>
+          <div class="operate">
+            <template>
+              <span @click="modifyInfo(item)">修改</span>
+            </template>
           </div>
         </div>
       </div>
+    </div>
 
     <a-modal
       :maskClosable="false"
@@ -57,139 +57,216 @@
 
 <script>
 export default {
-  name: 'title-manage',
+  name: "title-manage",
   mounted() {
-    if (this.$route.name == '/cms/homepageInfoMaintain') {
-      this.getList()
+    if (this.$route.name == "/cms/homepageInfoMaintain") {
+      this.getList();
     }
   },
   data() {
     return {
       searchForm: {
-        title: ''
+        title: ""
       },
       modifyVisible: false,
-      pagination   : {
-        pageNo         : 1,
-        pageSize       : 10,
-        total          : 0,
-        current        : 1,
-        defaultCurrent : 1,
+      pagination: {
+        pageNo: 1,
+        pageSize: 10,
+        total: 0,
+        current: 1,
+        defaultCurrent: 1,
         showQuickJumper: true,
-        onChange       : this.onChange
+        onChange: this.onChange
       },
-      data         : [],
-      resetData    : this.$form.createForm(this),
+      data: [],
+      resetData: this.$form.createForm(this),
       modifySection: [
         {
-          idToIdentify : null,
+          idToIdentify: null,
           renameSection: null
         }
       ],
       columns: [
         {
-          title    : '已关联模块',
-          dataIndex: 'id',
-          key      : 'id'
+          title: "已关联模块",
+          dataIndex: "id",
+          key: "id"
         },
         {
-          title    : '栏目名称',
-          dataIndex: 'titleName',
-          key      : 'titleName'
+          title: "栏目名称",
+          dataIndex: "titleName",
+          key: "titleName"
         },
         {
-          title      : '操作',
-          dataIndex  : 'action',
-          key        : 'action',
-          width      : 200,
+          title: "操作",
+          dataIndex: "action",
+          key: "action",
+          width: 200,
           scopedSlots: {
-            customRender: 'action'
+            customRender: "action"
           }
         }
       ]
-    }
+    };
   },
   methods: {
     modifyInfo(item) {
-      this.modifySection.idToIdentify = item.id
-      this.modifyVisible = true
+      this.modifySection.idToIdentify = item.id;
+      this.modifyVisible = true;
     },
     getSearchParams() {
       if (!!searchParams.params) {
         Object.keys(searchParams.params).forEach(elem => {
-          this.searchForm[elem] = searchParams.params[elem]
-        })
+          this.searchForm[elem] = searchParams.params[elem];
+        });
       }
       if (!!searchParams.pagination) {
         if (
           !!searchParams.pagination.pageNo &&
           searchParams.pagination.pageNo != 1
         ) {
-          this.pagination.pageNo = searchParams.pagination.pageNo
+          this.pagination.pageNo = searchParams.pagination.pageNo;
         }
       }
-      this.getList()
+      this.getList();
     },
     onChange(current) {
-      this.pagination.pageNo = current
-      this.pagination.current = current
-      this.getList()
+      this.pagination.pageNo = current;
+      this.pagination.current = current;
+      this.getList();
     },
     getList() {
-      let query = this.$api.GET_TITLE_MANAGE
-      this.$ajax.get({
-        url: this.$api.GET_TITLE_MANAGE
-      })
-        .then(res => {
-          if (res.code === '200') {
-            this.data = this.$com.confirm(res, 'data.content', [])
-          } else {
-            this.$message.error(res.msg)
-          }
+      let query = this.$api.GET_TITLE_MANAGE;
+      this.$ajax
+        .get({
+          url: this.$api.GET_TITLE_MANAGE
         })
+        .then(res => {
+          if (res.code === "200") {
+            this.data = this.$com.confirm(res, "data.content", []);
+          } else {
+            this.$message.error(res.msg);
+          }
+        });
     },
+    // addStorage(content) {
+    //   let storage = sessionStorage.getItem('titleList');
+    //   let temp = []
+    //   for(let i = 0; i < storage.length; i++) {
+    //     if(content.id == storage[i].id) {
+    //       temp.push({titleName: content.titleName, id: content.id})
+    //     } else {
+    //       temp.push({titleName: storage[i].titleName, id: content.id})
+    //     }
+    //   }
+    //   console.log(temp);
+
+    //   sessionStorage.setItem('titleList', temp)
+    // },
     handleResetOk() {
       this.resetData.validateFields(err => {
         if (!err) {
           this.$ajax
             .put({
-              url:
-                this.$api.PUT_TITLE_MANAGE.replace('{id}', this.modifySection.idToIdentify,),
+              url: this.$api.PUT_TITLE_MANAGE.replace(
+                "{id}",
+                this.modifySection.idToIdentify
+              ),
               params: {
-                'titleName': this.resetData.getFieldValue('newSectionName')
+                titleName: this.resetData.getFieldValue("newSectionName")
               }
             })
             .then(res => {
-              if (res.code === '200') {
-                this.$message.success('修改栏目名称成功')
-                this.resetData.setFieldsValue({ 'newSectionName': '' })
-                this.handleCancel()
-                this.getList()
+              if (res.code === "200") {
+                this.$message.success("修改栏目名称成功");
+                this.resetData.setFieldsValue({ newSectionName: "" });
+                // this.addStorage({id: this.modifySection.idToIdentify, titleName: this.resetData.getFieldValue('newSectionName')})
+                this.$ajax
+                  .get({
+                    url: this.$api.GET_PUB_TITLE_MANAGE
+                  })
+                  .then(res => {
+                    if (res.code == "200") {
+                      console.log(res);
+                      let content = this.$com.confirm(res, "data.content", {});
+                      localStorage.setItem(
+                        "titleList",
+                        JSON.stringify(content)
+                      );
+                    }
+                  });
+                this.handleCancel();
+                this.getList();
               }
-            })
+            });
         } else {
-          this.$com.getFormValidErrTips(this, err)
+          this.$com.getFormValidErrTips(this, err);
         }
-      })
+      });
     },
     handleCancel() {
-      this.modifyVisible = false
-      this.resetData.setFieldsValue({ 'newSectionName': '' })
+      this.modifyVisible = false;
+      this.resetData.setFieldsValue({ newSectionName: "" });
     }
   }
-}
+};
 </script>
 
 <style scoped>
-.wrapper-roles { display: flex; flex-wrap: wrap;}
-.box { width: 20%; padding: 0 8px 16px 8px;}
-.inner {height: 100px; display: flex; flex-direction: column; border: 1px solid #e8eaec;}
-.content { display: flex; flex: 1; flex-direction: column; justify-content: center; align-items: start; padding:0px 20px;}
-.content .roleName{ font-weight: bold; margin-bottom: 5px; word-break: break-all; display: inline-block; width: 100%; overflow: hidden; text-overflow:ellipsis; white-space: nowrap;}
+.wrapper-roles {
+  display: flex;
+  flex-wrap: wrap;
+}
+.box {
+  width: 20%;
+  padding: 0 8px 16px 8px;
+}
+.inner {
+  height: 100px;
+  display: flex;
+  flex-direction: column;
+  border: 1px solid #e8eaec;
+}
+.content {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  justify-content: center;
+  align-items: start;
+  padding: 0px 20px;
+}
+.content .roleName {
+  font-weight: bold;
+  margin-bottom: 5px;
+  word-break: break-all;
+  display: inline-block;
+  width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
 
-.operate { border-top: 1px solid #e8eaec; height: 40px; text-align: center; line-height: 40px; }
-.operate span { cursor: pointer; color: #1890ff}
-.inner.add-btn { background: #e8eaec; border: none; }
-.inner.add-btn > button {  width: 100%; height: 100%; font-size: 16px; color: #1890ff;}
-.center-p{ text-align: center;}
+.operate {
+  border-top: 1px solid #e8eaec;
+  height: 40px;
+  text-align: center;
+  line-height: 40px;
+}
+.operate span {
+  cursor: pointer;
+  color: #1890ff;
+}
+.inner.add-btn {
+  background: #e8eaec;
+  border: none;
+}
+.inner.add-btn > button {
+  width: 100%;
+  height: 100%;
+  font-size: 16px;
+  color: #1890ff;
+}
+.center-p {
+  text-align: center;
+}
 </style>

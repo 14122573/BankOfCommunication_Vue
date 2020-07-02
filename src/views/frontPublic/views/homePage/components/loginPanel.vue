@@ -154,7 +154,7 @@ export default {
               params: params
             })
             .then(res => {
-              const store = JSON.parse(sessionStorage.getItem('VuexStore'))
+              const store = JSON.parse(localStorage.getItem('VuexStore'))
               if (store) store.content = ''
               sessionStorage.setItem('VuexStore', JSON.stringify(store))
 

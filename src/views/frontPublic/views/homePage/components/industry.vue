@@ -65,7 +65,7 @@ export default {
   },
   methods: {
     getTitleList() {
-      let homeSectionTitle = JSON.parse(sessionStorage.getItem('titleList'))
+      let homeSectionTitle = JSON.parse(localStorage.getItem('titleList'))
       for(let i = 0 ; i < homeSectionTitle.length; i++) {
         if(homeSectionTitle[i].id == this.titleId) {
           this.title = homeSectionTitle[i].titleName
