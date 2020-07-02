@@ -176,15 +176,13 @@ const render = async ({ appContent, loading } = {}) => {
   let system = Object.assign({}, MicRouters)
 
   let projects = []
-  for (let i = 0; i < system.sit.length; i++) {
-    if (system.sit[i].name != 'zlzs') {
-      projects.push({
-        name      : system.sit[i].name,
-        entry     : system.sit[i].entry,
-        render,
-        activeRule: checkPrefix(system.sit[i].activeRule)
-      })
-    }
+  for (let i = 0; i < system.sit.length; i++) { 
+    projects.push({
+      name      : system.sit[i].name,
+      entry     : system.sit[i].entry,
+      render,
+      activeRule: checkPrefix(system.sit[i].activeRule)
+    }) 
   }
   registerMicroApps(projects) // 注册子项目
 
