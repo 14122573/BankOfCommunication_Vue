@@ -39,8 +39,7 @@
                   </template> 
                 </span>
                 <span slot="action" slot-scope="text, record">
-                  <!-- <a-button @click="deleteSort(record)" :disabled="!!record.bannerName?false:true">删除排序</a-button> -->
-                  <a-button @click="deleteSort(record)">删除排序</a-button>
+                  <a-button @click="deleteSort(record)" :disabled="!!record.bannerName?false:true">删除排序</a-button>
                 </span>
               </a-table>
             </a-form>
