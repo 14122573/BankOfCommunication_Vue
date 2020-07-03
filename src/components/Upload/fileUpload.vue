@@ -86,7 +86,7 @@ export default {
      * @returns {Boolean} true 允许继续添加上传
      */
     allowUpload(){
-      console.log("allowUpload");
+      console.log('allowUpload')
       
       if(this.uploadFileList.length<this.maxCount){
         return true
@@ -97,7 +97,7 @@ export default {
   },
   methods: {
     init(){
-      console.log("init");
+      console.log('init')
       
       this.ready = false
       // init UploadConfig
