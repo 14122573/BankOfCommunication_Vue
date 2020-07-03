@@ -160,11 +160,12 @@ export default {
 .lunbo .loginpanel {
   position: absolute;
   left: 50%;
-  top: 2%;
+  top: 8%;
   margin-left: 200px;
   box-shadow: 0px 0px 15px lightgrey;
   transform: scale(1, 1);
-  height: 380px;
+  height: 360px;
+  zoom: 0.9
 }
 /* For demo */
 .ant-carousel >>> .slick-slide {

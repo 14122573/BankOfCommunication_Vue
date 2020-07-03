@@ -55,7 +55,7 @@
             <p class="detailsPartTitle">养殖技术正文内容</p>
             <div style="margin:0 16px;">
                <!-- <VueUeditorWrap v-model="formData.content" :config='ueditorConfig'></VueUeditorWrap> -->
-               <UeditorCompent ref="ue" :value="formData.content" ></UeditorCompent>
+               <UeditorCompent :value="formData.content"></UeditorCompent>
             </div>
           </div>
         </a-form>

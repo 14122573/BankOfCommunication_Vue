@@ -451,8 +451,8 @@ export default {
 </script>
 <style>
 .lunbo .loginpanel[data-v-a9d4b7dc] .form_item {
-  margin: 5px 0px;
-  height: 70px;
+  margin: 0px 0px;
+  height: 65px;
 }
 
 .lunbo .loginpanel[data-v-a9d4b7dc] #components-form-demo-normal-login .login-form {

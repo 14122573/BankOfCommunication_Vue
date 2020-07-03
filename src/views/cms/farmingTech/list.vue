@@ -365,7 +365,7 @@ export default {
       case 'recall':
         opeation.title = '您确认撤销“' + data.title + '”的发布状态吗？'
         opeation.tips = '撤回后将无法再次编辑、发布或删除！'
-        toStatus = '2'
+        toStatus = '0'
         break
       default:
         break

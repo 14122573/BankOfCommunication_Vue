@@ -2,7 +2,6 @@
   <div>
     <a-card
       class="welcome_panel"
-      style="width: 300px; max-width: 300px; height: 380px;"
       title="欢迎登陆智能渔技！"
       :headStyle="{ padding: '20' }"
     >
@@ -15,7 +14,7 @@
             <a-button
               type="primary"
               class="login-form-button"
-              style="width: 100%"
+              style="width: 100%;"
               @click="enterCMS"
             >
               进入后台
@@ -53,6 +52,12 @@ export default {
 }
 </script>
 <style scoped>
+.welcome_panel {
+  width: 300px; 
+  max-width: 300px; 
+  height: 360px;
+}
+
 .welcome_user {
   margin: 80px 0px;
 }

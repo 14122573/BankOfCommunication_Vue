@@ -64,8 +64,6 @@ export default {
           { required: false, whitespace: true, message: '请输入跳转链接!' }
         ],
       },
-      ready         : false,
-      uploadFileList: [],
       uploadConfig  : {
         maxSize         : 1*1024*1024,
         acceptTypesArray: [ 'jpg', 'jpeg', 'png' ]
