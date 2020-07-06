@@ -80,7 +80,7 @@ export default {
     },
     carouselClick(path) {
       if(this.IsURL(path) == true) {
-        window.location.href = path
+        window.open(path)
       } else {
         this.$message.error("该图片无链接或链接错误")
       }

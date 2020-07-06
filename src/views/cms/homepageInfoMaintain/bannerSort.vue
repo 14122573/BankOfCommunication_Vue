@@ -163,12 +163,17 @@ export default {
     },
     changeSort(value, record) {
       console.log('changeSort',value,record.sort)
-      this.bannerPingjie.push(
-        {
-          'id'  : value, 
-          'sort': record.sort
+      for(let i = 0; i < this.bannerPingjie.length; i++) {
+        if(this.bannerPingjie[i].sort == record.sort) {
+          this.bannerPingjie.splice(i,1);
         }
-      )
+      }
+      this.bannerPingjie.push(
+            {
+              'id'  : value, 
+              'sort': record.sort
+            }
+          )
       this.bannerSort[record.sort] = value
       let temp= [].concat(this.bannerTemp)
       for(let i=0;i<temp.length;i++){
@@ -183,8 +188,8 @@ export default {
       this.sortedBanner = [].concat(temp)
     },
     deleteSort(value) {
-      console.log("bannerPingjie: " + JSON.stringify(this.alreadySorted));
-      console.log("value: " + JSON.stringify(value));
+      // console.log("BEFORE: bannerPingjie: " + JSON.stringify(this.alreadySorted));
+      // console.log("value: " + JSON.stringify(value));
       this.$ajax
         .put({
           url   : this.$api.DELETE_BANNER.replace('{id}', value.id),
@@ -200,7 +205,6 @@ export default {
               }
             }
             // 将需要删除的banner图从bannerPingjie中删除
-
             this.$message.success('删除成功')
             this.getCurrentBannerList()
             this.getAvailableSortList()
@@ -213,11 +217,15 @@ export default {
     saveBanner() {
       // historySortedData -> 已经拍过序的 包含8个包括空置的
       // bannerPingjie     -> 已选择的内容
+      
       for(let i =0; i < this.alreadySorted.length; i++) {
         if(this.bannerPingjie.indexOf(this.alreadySorted[i]) == -1) {
           this.bannerPingjie.push(this.alreadySorted[i])
         }
       }
+
+      console.log("AFTER: bannerPingjie: " + JSON.stringify(this.alreadySorted));
+            console.log("AFTER: bannerPingjie: " + JSON.stringify(this.bannerPingjie));
       this.$ajax
         .put({
           url   : this.$api.PUT_BANNER_SORT,

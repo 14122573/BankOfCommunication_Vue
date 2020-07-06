@@ -35,6 +35,7 @@
 									<a-menu-item key="person">账户信息</a-menu-item>
 									<a-menu-item v-if="showTransferDatas" key="transferDatas">转移个人数据</a-menu-item>
 									<a-menu-item v-if="$permission('P21001')" key="expert">专家个人信息</a-menu-item>
+                  <a-menu-item key="homepage">前往门户首页</a-menu-item>
 									<a-menu-item key="logout">退出登录</a-menu-item>
 								</a-menu>
 							</a-dropdown>
@@ -246,6 +247,9 @@ export default {
             loginPhone: this.loginPhone
           }
         })
+        break
+      case 'homepage':
+        this.$router.push({name: 'homepage'})
         break
       case 'logout':
         this.plogout()

@@ -16,19 +16,9 @@
               <PendingReview />
             </div>
           </a-col>
-          <a-col span='24' class="sectionBox">
-            <div class="section">
-              <VotePublish />
-            </div>
-          </a-col>
         </a-row>
         <a-row type="flex" justify="start" align='top' :gutter="12">
-          <a-col span='12' class="sectionBox">
-            <div class="section">
-              <NoticePublish :showPosition="'home'" :pageSize='10'></NoticePublish>
-            </div>
-          </a-col>
-          <a-col span='12' class="sectionBox">
+          <a-col span='24' class="sectionBox">
             <div class="section">
               <KnowledgePublish :showType="'less'" :pageSize='10'></KnowledgePublish>
             </div>
@@ -114,9 +104,7 @@
 
 <script>
 import { permission } from '@/util/mixins'
-import NoticePublish from '@/views/cms/noticePublish/noticeInLogin'
 import KnowledgePublish from '@/views/cms/knowledgePublish/authInHome'
-import VotePublish from '@/views/cms/vote/voteInHome'
 import ManualPublish from '@/views/cms/manual/manualInHome'
 import PendingReview from '@/views/expertManagement/review/listNew'
 
@@ -127,9 +115,7 @@ export default {
   mixins    : [ permission ],
   components: {
     PendingReview,
-    NoticePublish,
     KnowledgePublish,
-    VotePublish,
     ManualPublish,
     DataService
   },
