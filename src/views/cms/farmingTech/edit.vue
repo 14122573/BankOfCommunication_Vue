@@ -4,8 +4,16 @@
 			<span class="title">修改养殖技术</span>
 			<div class="detailOperations">
 				<a-button @click='$router.back()'>取消</a-button>
-				<a-button type="primary" @click='savefarming("save")'>保存</a-button>
-				<a-button type="primary" @click='savefarming("publish")'>保存并发布</a-button>
+				<a-button type="primary" @click="savefarming('save')">保存</a-button>
+        <a-button type="primary" @click="savefarming('saveNcreate')"
+          >保存并新建</a-button
+        >
+        <a-button type="primary" @click="savefarming('publish')"
+          >保存并发布</a-button
+        >
+        <a-button type="primary" @click="savefarming('publishNcreate')"
+          >发布并新建</a-button
+        >
 			</div>
 		</div>
     <div  class="portalDetailContentWapper">
@@ -32,7 +40,7 @@
                 </a-col>
                 <a-col span="16">
                   <a-form-item label="发稿人" :label-col="{span:4}" :wrapper-col="{span:20}">
-                    <a-input v-decorator="['author',{validateTrigger: 'blur',rules:rules.author, initialValue: postPerson }]" disabled></a-input>
+                    <a-input v-decorator="['author',{validateTrigger: 'blur',rules:rules.author, initialValue: postPerson }]"></a-input>
                   </a-form-item>
                 </a-col>
                 <a-col span="16">
@@ -229,6 +237,7 @@ export default {
      */
     savefarming(type){
       type = !type?'save':type
+      let description = "";
       this.farmingEditForm.validateFields(err => {
         if (!err) {
           this.formData.content = this.$refs.ue.value2
@@ -250,8 +259,9 @@ export default {
             'releaseDate': this.farmingEditForm.getFieldValue('releaseDate'),
             'source'     : this.farmingEditForm.getFieldValue('source'),
             'attachments': this.arrangeFileList(),
-            'status'     : type=='save'?'0':'1',
-            'titleName'  : '养殖技术'
+            'status'     : type=="save" || type == "saveNcreate" ? "0" : "1",
+            'titleName'  : '养殖技术',
+            'titleManageId': '420295374075158528'
           })
           // console.log(postParams)
 
@@ -260,8 +270,25 @@ export default {
             params: postParams
           }).then(res => {
             if (res.code === '200') {
-              this.$message.success(type=='save'?'暂存成功':'保存并发布成功')
-              this.$router.go(-1)
+              switch (type) {
+                  case "save":
+                    description = "暂存成功";
+                    this.$router.go(-1)
+                    break;
+                  case "saveNcreate":
+                    description = "暂存并新建成功";
+                    this.$router.push({name: '/cms/farmingtech/create'})
+                    break;
+                  case "publish":
+                    description = "发布成功";
+                    this.$router.go(-1)
+                    break;
+                  case "publishNcreate":
+                    description = "发布并新建成功";
+                    this.$router.push({name: '/cms/farmingtech/create'})
+                    break;
+              }
+              this.$message.success(description)
             }
           })
         }else{

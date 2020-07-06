@@ -23,6 +23,16 @@
         <a-divider type="horizontal"></a-divider>
         <a-card class="content" :bordered="false" v-html="list.content">
         </a-card>
+        <div class="tagPlace" v-if="list.attachments.length !== 0">
+          <a-divider type="horizontal"></a-divider>
+          <span>文件下载：</span>
+          <span v-for="(item, index) in list.attachments" :key="index">
+              <span>&nbsp;</span>
+              <a v-if="item.type == '1'" @click="tagClick(item.filePath)" style="text-decoration: underline">
+                {{item.fileName}}
+              </a>
+          </span>
+        </div>
       </div>
     </div>
   </div>
@@ -60,12 +70,41 @@ export default {
             this.list = this.$com.confirm(res, 'data.content', {})
           }
         })
+    },
+    /**
+     * 组装需要展示的文件数组
+     * @returns {Array}  [{name:带文件后缀的文件名称；url：已上传的文件地址},...]
+     */
+    makeFileList() {
+      let fileList = [];
+      const attachments = !this.list.attachments
+        ? []
+        : this.list.attachments;
+      for (let i = 0; i < attachments.length; i++) {
+        if (attachments[i].type == "1") {
+          fileList.push({
+            name: attachments[i].fileName,
+            url: attachments[i].filePath
+          });
+        }
+      }
+      console.log("1" + JSON.stringify(fileList));
+      return fileList;
+    },
+    tagClick(path) {
+      console.log(path);
+      
+      window.location.href = path
     }
   },
 }
 </script>
 
 <style scoped>
+
+.tagPlace {
+  text-align: left;
+}
 .pageWrapper {
   padding: 0px 0px 30px 0px;
   background-color: #f1f5f8;
