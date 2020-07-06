@@ -55,7 +55,7 @@
             <p class="detailsPartTitle">养殖技术正文内容</p>
             <div style="margin:0 16px;">
                <!-- <VueUeditorWrap v-model="formData.content" :config='ueditorConfig'></VueUeditorWrap> -->
-               <UeditorCompent :value="formData.content"></UeditorCompent>
+               <UeditorCompent ref="ue" :value="formData.content"></UeditorCompent>
             </div>
           </div>
         </a-form>
@@ -228,7 +228,7 @@ export default {
           //   })
           //   return
           // }
-
+          console.log(this.$refs.ue)
           this.formData.content = this.$refs.ue.value2
           if(this.formData.content==''){
             this.$modal.error({

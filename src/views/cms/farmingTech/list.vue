@@ -79,20 +79,7 @@
               />
             </a-form-item>
           </a-col>
-          <a-col span="8" v-if="!simpleSearchForm">
-            <a-form-item
-              class="formItem"
-              label="全部"
-              :label-col="formItemLabelCol"
-              :wrapper-col="formItemWrapperCol"
-            >
-              <a-input
-                placeholder="请输入搜索内容"
-                v-decorator="['allIn']"
-              />
-            </a-form-item>
-          </a-col>
-          <a-col span="6" class="algin-right">
+          <a-col span="8" class="algin-right">
             <a-button @click="reset">重置</a-button>
             <a-button type="primary" @click="getList">搜索</a-button>
             <a-button
@@ -523,8 +510,7 @@ export default {
         releaseDate: [],
         keywords   : '',
         content    : '',
-        author     : '',
-        allIn      : ''
+        author     : ''
       })
       this.getFarmingList()
     },
@@ -563,9 +549,6 @@ export default {
           author_l: !this.farmingSearchForm.getFieldValue('author')
             ? ''
             : this.farmingSearchForm.getFieldValue('author'),
-          allIn_l: !this.farmingSearchForm.getFieldValue('allIn')
-            ? ''
-            : this.farmingSearchForm.getFieldValue('allIn'),
           status_in    : '0,1,2',
           titleManageId: this.$titleId.farmingId,
         },

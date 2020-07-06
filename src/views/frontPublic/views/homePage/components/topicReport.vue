@@ -41,6 +41,9 @@ export default {
       titleId: '420295378927969647'
     }
   },
+  updated() {
+    this.getTitleList()
+  },
   mounted() {
     this.fetchNews(),
     this.getTitleList()

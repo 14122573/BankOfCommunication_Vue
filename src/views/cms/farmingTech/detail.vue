@@ -130,8 +130,7 @@ export default {
           })
         }
       }
-      console.log(JSON.stringify(fileList))
-      
+      console.log("1" + JSON.stringify(fileList))
       return fileList
     }
   }

@@ -189,7 +189,11 @@ export default {
     },
     deleteBanner(value) {
       let that = this
-      this.$modal.confirm({
+      console.log("值" + JSON.stringify(value));
+      if(value.bannerGroup !== '0') {
+        this.$message.success('该轮播图已被排序，无法删除')
+      } else {
+        this.$modal.confirm({
         title  : '您确认删除"' + value.bannerName + '"吗？',
         content: '删除后将无法找回!',
         onOk() {
@@ -210,6 +214,7 @@ export default {
         },
         onCancel() {}
       })
+      }
     }
   }
 }

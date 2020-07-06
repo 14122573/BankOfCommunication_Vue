@@ -28,18 +28,19 @@
               <a-row :gutter='16'>
                 <a-col span="16">
                   <a-form-item label="上传图片" :label-col="{span:4}" :wrapper-col="{span:20}">
-                    <FileUpload ref="childFile"
+                    <ImgUpload ref="childFile"
                       :multiple="false"
                       :maxCount="1"
                       :defaultFileList="defaultFileList"
                       :acceptTypes="uploadConfig.acceptTypesArray"
                       :maxFileSize="uploadConfig.maxSize"
                       :timestamp="Date.now()"
+                      @change="limousine"
                     />
                   </a-form-item>
                   <a-form-item label="图片预览" :label-col="{span:4}" :wrapper-col="{span:20}">
                     <img :src="imgPlaceholder" width="40%">
-                    <a-alert style="margin-top:16px" message="可上传最大1M的JPG, JPEG, PNG图片" type="info" showIcon />
+                    <a-alert style="margin-top:16px" message="可上传最大1M的JPG, JPEG, PNG图片，图片尺寸1462 * 420" type="info" showIcon />
                   </a-form-item>
                 </a-col>
               </a-row>
@@ -52,7 +53,7 @@
 </template>
 
 <script>
-import FileUpload from '@/components/Upload/fileUpload'
+import ImgUpload from '@/components/Upload/imgUpload'
 export default {
   data() {
     return {
@@ -82,9 +83,17 @@ export default {
     this.getDefaultFile()
   },
   components: {
-    FileUpload
+    ImgUpload
   },
   methods: {
+    limousine(value) {
+      if(value.length !== 0) {
+        this.imgPlaceholder = [];
+        this.imgPlaceholder = value[0].url
+      } else {
+        this.imgPlaceholder = []
+      }
+    },
     saveBanner() {
       let that = this
       this.imgContent = this.$refs.childFile.getUploadFileList()

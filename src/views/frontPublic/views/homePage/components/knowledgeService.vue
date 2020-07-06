@@ -23,7 +23,7 @@
         >
           <a-tab-pane
             key="0"
-            :tab="getTitle('420295374075158528')"
+            :tab="title1"
           >
             <div class="content_wrapper">
               <div class="noti-list" v-for="(item, index) in farmingTechList" :key="index">
@@ -57,7 +57,7 @@
 
           <a-tab-pane
             key="1"
-            :tab="getTitle('420295378927968256')"
+            :tab="title2"
           >
             <div class="content_wrapper">
               <div class="noti-list" v-for="(item, index) in knowledgeServiceList" :key="index">
@@ -91,7 +91,7 @@
 
           <a-tab-pane
             key="2"
-            :tab="getTitle('420295382191136768')"
+            :tab="title3"
           >
             <div class="content_wrapper">
               <div class="noti-list" v-for="(item, index) in cloudLessonList" :key="index">
@@ -137,6 +137,9 @@ export default {
         knowledgeServiceList: [],
         cloudLessonList     : []
       } ],
+      title1              : '',
+      title2              : '',
+      title3              : '',
       farmingTechList     : [],
       knowledgeServiceList: [],
       cloudLessonList     : [],
@@ -144,16 +147,27 @@ export default {
       childroute          : [],
     }
   },
+  updated() {
+    this.getTitle()
+  },
   mounted() {
     this.getChildRoute()
     this.fetchNews()
+    this.getTitle()
   },
   methods: {
-    getTitle(id){
+    getTitle(){
       let homeSectionTitle = JSON.parse(localStorage.getItem('titleList'))
       for(let i = 0 ; i < homeSectionTitle.length; i++) {
-        if(homeSectionTitle[i].id == id) {
-          return homeSectionTitle[i].titleName
+
+        if(homeSectionTitle[i].id == '420295374075158528') {
+          this.title1 = homeSectionTitle[i].titleName
+        }
+        if(homeSectionTitle[i].id == '420295378927968256') {
+          this.title2 = homeSectionTitle[i].titleName
+        }
+        if(homeSectionTitle[i].id == '420295382191136768') {
+          this.title3 = homeSectionTitle[i].titleName
         }
       }
     },

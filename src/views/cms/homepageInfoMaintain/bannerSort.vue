@@ -183,6 +183,8 @@ export default {
       this.sortedBanner = [].concat(temp)
     },
     deleteSort(value) {
+      console.log("bannerPingjie: " + JSON.stringify(this.alreadySorted));
+      console.log("value: " + JSON.stringify(value));
       this.$ajax
         .put({
           url   : this.$api.DELETE_BANNER.replace('{id}', value.id),
@@ -192,6 +194,13 @@ export default {
         })
         .then(res=>{
           if(res.code=='200') {
+            for(let i = 0; i < this.alreadySorted.length; i++) {
+              if(this.alreadySorted[i].id == value.id) {
+                this.alreadySorted.splice(i, 1)
+              }
+            }
+            // 将需要删除的banner图从bannerPingjie中删除
+
             this.$message.success('删除成功')
             this.getCurrentBannerList()
             this.getAvailableSortList()

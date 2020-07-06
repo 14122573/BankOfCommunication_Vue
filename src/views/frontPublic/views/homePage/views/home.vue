@@ -6,7 +6,7 @@
       </a-layout-header>
       <a-layout-content>
         <Lunbo />
-        <router-view style="background-color: #f1f5f8 "/>
+        <router-view style="background-color: #f1f5f8 " />
         <Footer />
       </a-layout-content>
       <!-- <a-layout-footer>Footer</a-layout-footer> -->
@@ -24,19 +24,20 @@ export default {
     Lunbo,
     Footer
   },
-  mounted() {
+  created() {
     this.$ajax
       .get({
         url: this.$api.GET_PUB_TITLE_MANAGE
       })
       .then(res => {
-        if(res.code == '200') {
+        if (res.code == '200') {
           console.log(res)
           let content = this.$com.confirm(res, 'data.content', {})
-          sessionStorage.setItem('titleList', JSON.stringify(content))
+          localStorage.setItem('titleList', JSON.stringify(content))
+          // this.$store.commit('SET_HOMESECTION_TITLE', content)
         }
       })
-  }
+  },
 }
 </script>
 
@@ -77,7 +78,6 @@ export default {
   background-color: #fff;
   margin: 0px 150px 0px 150px;
 }
-
 </style>
 
 <style lang="stylus">
@@ -85,7 +85,7 @@ export default {
   $megaFontSize()
 
 // 卡片标题
-.card-wrapper[data-v-e901bcca] .ant-card-head-title, 
+.card-wrapper[data-v-e901bcca] .ant-card-head-title,
 .card-wrapper[data-v-aff295e4] .ant-card-head-title,
 .ant-col[data-v-46edc5bc],
 .card-wrapper[data-v-32f8f9f2] .ant-card-head-title,

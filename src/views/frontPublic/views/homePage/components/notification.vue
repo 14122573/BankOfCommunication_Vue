@@ -83,6 +83,9 @@ export default {
       titleId: '420294829105045504'
     }
   },
+  updated() {
+    this.getTitleList()
+  },
   mounted() {
     this.getToken()
     this.fetchNews(this.isLogin)
@@ -92,6 +95,9 @@ export default {
     listenIsLogin() {
       return this.$store.state.isLogin
     },
+    // listenTitleName() {
+    //   return this.$store.state.homeSectionTitle
+    // }
   },
   watch: {
     listenIsLogin(newV, oldV) {
@@ -99,6 +105,9 @@ export default {
       this.getToken()
       this.getTitleList()
     },
+    // listenTitleName() {
+    //   this.getTitleList()
+    // }
   },
   methods: {
     getTitleList() {

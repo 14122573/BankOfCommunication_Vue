@@ -29,7 +29,7 @@ export default {
       console.log(data)
     },
     getTitle(id){
-      let homeSectionTitle = JSON.parse(sessionStorage.getItem('titleList'))
+      let homeSectionTitle = JSON.parse(localStorage.getItem('titleList'))
       for(let i = 0 ; i < homeSectionTitle.length; i++) {
         if(homeSectionTitle[i].id == id) {
           return homeSectionTitle[i].titleName
