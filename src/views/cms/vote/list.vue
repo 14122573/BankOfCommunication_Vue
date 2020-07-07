@@ -111,6 +111,11 @@ export default {
       list: [],
     }
   },
+  watch: {
+    $route(to, from) {
+      this.getList()
+    }
+  },
   mounted() {
     this.getList()
   },
