@@ -8,7 +8,7 @@
     </div>
     <div class="portalDetailContentWapper">
       <div class="portalDetailContentBody create-talent" ref="create-talent">
-        <a-form :form="knowledgeCreateForm">
+        <a-form :form="farmingCreateForm">
           <div class="layoutMargin detailsPartSection">
             <p class="detailsPartTitle">行业动态信息</p>
             <div style="margin:0 16px;">
@@ -54,12 +54,12 @@
                   ></DetailsItem>
                 </a-col>
                 <a-col span="16" style="margin:8px 0;">
-                  <DetailsFile
+                  <DetailsItem
                     :labelSpan="4"
                     :textSpan="20"
                     :label="'文件信息'"
-                    :files="makeFileList()"
-                  ></DetailsFile>
+                    :text="fileList"
+                  ></DetailsItem>
                 </a-col>
               </a-row>
             </div>
@@ -87,8 +87,9 @@
 export default {
   data() {
     return {
-      knowledgeCreateForm: this.$form.createForm(this),
-      detailList         : [] // 包含明细信息的list
+      farmingCreateForm: this.$form.createForm(this),
+      detailList       : [], // 包含明细信息的list
+      fileList         : ''
     }
   },
   mounted() {
@@ -96,18 +97,25 @@ export default {
   },
   methods: {
     getDetailList() {
-      let params = this.$route.params.id
+      let id = this.$route.params.id
       this.$ajax
         .get({
-          url   : this.$api.GET_ANNOUNCE_DETAIL.replace('{id}', params),
+          url   : this.$api.GET_ANNOUNCE_DETAIL.replace('{id}', id),
           params: {
-            id: params
+            id: id
           }
         })
         .then(res => {
           if (res.code === '200') {
             this.detailList = this.$com.confirm(res, 'data.content', {})
-            console.log(JSON.stringify(this.detailList))
+            const attachments = !this.detailList.attachments
+              ?   [] : this.detailList.attachments
+            // console.log(JSON.stringify(this.detailList))
+            for (let i = 0; i < attachments.length; i++) {
+              if (attachments[i].type == '1') {
+                i == attachments.length - 1 ? this.fileList += attachments[i].fileName : this.fileList += attachments[i].fileName + ', '
+              }
+            }
           }
         })
     },
@@ -117,20 +125,19 @@ export default {
      * @returns {Array}  [{name:带文件后缀的文件名称；url：已上传的文件地址},...]
      */
     makeFileList() {
-      const fileList = []
+      let fileList = []
       const attachments = !this.detailList.attachments
         ? []
         : this.detailList.attachments
       for (let i = 0; i < attachments.length; i++) {
-        console.log(JSON.stringify(attachments))
-        
         if (attachments[i].type == '1') {
           fileList.push({
-            name: attachments[i].fileId,
+            name: attachments[i].fileName,
             url : attachments[i].filePath
           })
         }
       }
+      console.log('1' + JSON.stringify(fileList))
       return fileList
     }
   }

@@ -79,20 +79,7 @@
               />
             </a-form-item>
           </a-col>
-          <a-col span="8" v-if="!simpleSearchForm">
-            <a-form-item
-              class="formItem"
-              label="全部"
-              :label-col="formItemLabelCol"
-              :wrapper-col="formItemWrapperCol"
-            >
-              <a-input
-                placeholder="请输入搜索内容"
-                v-decorator="['allIn']"
-              />
-            </a-form-item>
-          </a-col>
-          <a-col span="6" class="algin-right">
+          <a-col span="8" class="algin-right">
             <a-button @click="reset">重置</a-button>
             <a-button type="primary" @click="getList">搜索</a-button>
             <a-button
@@ -269,11 +256,6 @@ export default {
       }
     }
   },
-  beforeCreate() {
-    if (this.$route.name == '/cms/knowledgepromotion') {
-      this.farmingSearchForm = this.$form.createForm(this)
-    }
-  },
   mounted() {
     this.getList()
   },
@@ -304,7 +286,7 @@ export default {
   },
   methods: {
     /**
-     * 获取知识普及列表页数据
+     * 获取科普知识列表页数据
      */
     getList() {
       let releaseDate = '', releaseDate_gt = '', releaseDate_lt = ''
@@ -369,8 +351,8 @@ export default {
         break
       case 'recall':
         opeation.title = '您确认撤销“' + data.title + '”的发布状态吗？'
-        opeation.tips = '撤回后将无法再次编辑、发布或删除！'
-        toStatus = '2'
+        opeation.tips = '撤回后可以重新编辑、发布或删除！'
+        toStatus = '0'
         break
       default:
         break
@@ -483,7 +465,6 @@ export default {
      * @param {String} id 数据key
      */
     goTo(type, id) {
-      console.log(type)
       type = !type ? 'create' : type.toLowerCase()
       id = !id ? '' : id
       switch (type) {
@@ -529,8 +510,7 @@ export default {
         releaseDate: [],
         keywords   : '',
         content    : '',
-        author     : '',
-        allIn      : ''
+        author     : ''
       })
       this.getFarmingList()
     },
@@ -569,11 +549,8 @@ export default {
           author_l: !this.farmingSearchForm.getFieldValue('author')
             ? ''
             : this.farmingSearchForm.getFieldValue('author'),
-          allIn_l: !this.farmingSearchForm.getFieldValue('allIn')
-            ? ''
-            : this.farmingSearchForm.getFieldValue('allIn'),
-          titleManageId: this.$titleId.knowledgeId,
           status_in    : '0,1,2',
+          titleManageId: this.$titleId.knowledgeId,
         },
         {
           pageNo  : this.pagination.pageNo,
@@ -582,7 +559,7 @@ export default {
       )
       this.$ajax
         .get({
-          url   : this.$api.GET_ANNOUNCE_LIST,
+          url   : this.$api.GET_PUB_ANNOUNCE_LIST,
           params: searchParms
         })
         .then(res => {
@@ -591,7 +568,6 @@ export default {
           this.pagination.current = this.pagination.pageNo
           this.knowledgeList = this.$com.confirm(res, 'data.content', [])
           this.isReady = true
-          // console.log(this.knowledgeList)
         })
     }
   }

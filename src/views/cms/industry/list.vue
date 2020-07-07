@@ -4,7 +4,7 @@
       class="layoutMargin layoutPadding"
       v-if="$route.name == '/cms/industry'"
     >
-      <a-form class="protalForm" :form="knowledgeSearchForm">
+      <a-form class="protalForm" :form="farmingSearchForm">
         <a-row
           class="formItemLine"
           type="flex"
@@ -79,22 +79,9 @@
               />
             </a-form-item>
           </a-col>
-          <a-col span="8" v-if="!simpleSearchForm">
-            <a-form-item
-              class="formItem"
-              label="全部"
-              :label-col="formItemLabelCol"
-              :wrapper-col="formItemWrapperCol"
-            >
-              <a-input
-                placeholder="请输入搜索内容"
-                v-decorator="['allIn']"
-              />
-            </a-form-item>
-          </a-col>
-          <a-col span="6" class="algin-right">
+          <a-col span="8" class="algin-right">
             <a-button @click="reset">重置</a-button>
-            <a-button type="primary" @click="getFarmingList">搜索</a-button>
+            <a-button type="primary" @click="getList">搜索</a-button>
             <a-button
               type="primary"
               v-if="simpleSearchForm"
@@ -219,10 +206,10 @@ export default {
         status   : [ '0', '1' ],
         anonymous: [ '0', '1' ]
       },
-      searchForm         : {},
-      knowledgeList      : [],
-      knowledgeSearchForm: this.$form.createForm(this),
-      listColumns        : [
+      searchForm       : {},
+      knowledgeList    : [],
+      farmingSearchForm: this.$form.createForm(this),
+      listColumns      : [
         {
           title    : '标题',
           dataIndex: 'title',
@@ -240,15 +227,6 @@ export default {
           key      : 'author',
           width    : 100
         },
-        // {
-        //   title: '内容类型',
-        //   dataIndex: 'type',
-        //   key: 'type',
-        //   width: 100,
-        //   scopedSlots: {
-        //     customRender: 'knowledgeType'
-        //   }
-        // },
         {
           title      : '状态',
           dataIndex  : 'status',
@@ -267,59 +245,6 @@ export default {
           }
         }
       ],
-      // listColumns  : [
-      //   {
-      //     title    : '标题',
-      //     dataIndex: 'title',
-      //     key      : 'title'
-      //   },
-      //   {
-      //     title    : '作者',
-      //     dataIndex: 'author',
-      //     key      : 'author'
-      //   },
-      //   {
-      //     title    : '发表年份',
-      //     dataIndex: 'years',
-      //     key      : 'years',
-      //     width    : 80
-      //   },
-      //   // {
-      //   //   title: '内容类型',
-      //   //   dataIndex: 'type',
-      //   //   key: 'type',
-      //   //   width: 100,
-      //   //   scopedSlots: {
-      //   //     customRender: 'knowledgeType'
-      //   //   }
-      //   // },
-      //   {
-      //     title      : '状态',
-      //     dataIndex  : 'status',
-      //     key        : 'status',
-      //     width      : 140,
-      //     scopedSlots: {
-      //       customRender: 'knowledgeStatus'
-      //     }
-      //   },
-      //   {
-      //     title      : '操作人',
-      //     width      : 150,
-      //     dataIndex  : 'creator',
-      //     key        : 'creator',
-      //     scopedSlots: {
-      //       customRender: 'operator'
-      //     }
-      //   },
-      //   {
-      //     title      : '操作',
-      //     key        : 'operation',
-      //     width      : 180,
-      //     scopedSlots: {
-      //       customRender: 'action'
-      //     }
-      //   }
-      // ],
       pagination: {
         pageNo         : 1,
         pageSize       : 10,
@@ -331,25 +256,7 @@ export default {
       }
     }
   },
-  beforeCreate() {
-    if (this.$route.name == '/cms/industry') {
-      this.knowledgeSearchForm = this.$form.createForm(this)
-    }
-  },
   mounted() {
-    // if (this.$route.name == '/cms/knowledge') {
-    //   this.searchForm.status_in = this.toKeyString(
-    //     this.defaultSearchForm.status,
-    //     ','
-    //   )
-    //   // this.searchForm.type_in = this.toKeyString(this.defaultSearchForm.type,',')
-    //   this.searchForm.anonymous_in = this.toKeyString(
-    //     this.defaultSearchForm.anonymous,
-    //     ','
-    //   )
-    //   this.getFarmingList()
-    // }
-
     this.getList()
   },
   watch: {
@@ -378,15 +285,30 @@ export default {
     }
   },
   methods: {
+    /**
+     * 获取行业动态列表页数据
+     */
     getList() {
+      let releaseDate = '', releaseDate_gt = '', releaseDate_lt = ''
+      if(this.farmingSearchForm.getFieldValue('releaseDate')){
+        releaseDate = this.farmingSearchForm.getFieldValue('releaseDate')
+        releaseDate_gt = this.$moment(releaseDate[0]).format('YYYY-MM-DD')
+        releaseDate_lt = this.$moment(releaseDate[1]).format('YYYY-MM-DD')
+      }
       this.$ajax
         .get({
           url   : this.$api.GET_ANNOUNCE_LIST,
           params: {
-            titleManageId: this.$titleId.industryId,
-            pageNo       : 1,
-            pageSize     : 10,
-            status_in    : '0,1,2'
+            title_l       : !this.farmingSearchForm.getFieldValue('title')? '' : this.farmingSearchForm.getFieldValue('title'),
+            releaseDate_lt: releaseDate_lt,
+            releaseDate_gt: releaseDate_gt,
+            keyWord_l     : !this.farmingSearchForm.getFieldValue('keywords') ? '' : this.farmingSearchForm.getFieldValue('keywords'),
+            content_l     : !this.farmingSearchForm.getFieldValue('content') ? '' : this.farmingSearchForm.getFieldValue('content'),
+            author_l      : !this.farmingSearchForm.getFieldValue('author') ? '' : this.farmingSearchForm.getFieldValue('author'),
+            status_in     : '0,1,2',
+            pageNo        : this.pagination.pageNo,
+            pageSize      : this.pagination.pageSize,
+            titleManageId : this.$titleId.industryId,
           }
         })
         .then(res => {
@@ -396,7 +318,6 @@ export default {
           this.knowledgeList = this.$com.confirm(res, 'data.content', [])
           
           this.isReady = true
-          // console.log(this.knowledgeList)
         })
     },
     closeMoreSearch() {
@@ -430,8 +351,8 @@ export default {
         break
       case 'recall':
         opeation.title = '您确认撤销“' + data.title + '”的发布状态吗？'
-        opeation.tips = '撤回后将无法再次编辑、发布或删除！'
-        toStatus = '2'
+        opeation.tips = '撤回后可以重新编辑、发布或删除！'
+        toStatus = '0'
         break
       default:
         break
@@ -544,7 +465,6 @@ export default {
      * @param {String} id 数据key
      */
     goTo(type, id) {
-      console.log(type)
       type = !type ? 'create' : type.toLowerCase()
       id = !id ? '' : id
       switch (type) {
@@ -585,13 +505,12 @@ export default {
       // }
       this.pagination.current = 1
       this.pagination.pageNo = 1
-      this.knowledgeSearchForm.setFieldsValue({
+      this.farmingSearchForm.setFieldsValue({
         title      : '',
         releaseDate: [],
         keywords   : '',
         content    : '',
-        author     : '',
-        allIn      : ''
+        author     : ''
       })
       this.getFarmingList()
     },
@@ -607,7 +526,7 @@ export default {
     },
 
     /**
-     * 调用结构，查询表单要求的行业动态资料
+     * 调用结构，查询表单要求的知识文库资料
      */
     getFarmingList() {
       let searchParms
@@ -615,26 +534,23 @@ export default {
         {},
         this.searchForm,
         {
-          title_l: !this.knowledgeSearchForm.getFieldValue('title')
+          title_l: !this.farmingSearchForm.getFieldValue('title')
             ? ''
-            : this.knowledgeSearchForm.getFieldValue('title'),
-          releaseDate_l: !this.knowledgeSearchForm.getFieldValue('releaseDate')
+            : this.farmingSearchForm.getFieldValue('title'),
+          releaseDate_l: !this.farmingSearchForm.getFieldValue('releaseDate')
             ? ''
-            : this.knowledgeSearchForm.getFieldValue('releaseDate'),
-          keywords_l: !this.knowledgeSearchForm.getFieldValue('keywords')
+            : this.farmingSearchForm.getFieldValue('releaseDate'),
+          keywords_l: !this.farmingSearchForm.getFieldValue('keywords')
             ? ''
-            : this.knowledgeSearchForm.getFieldValue('keywords'),
-          content_l: !this.knowledgeSearchForm.getFieldValue('content')
+            : this.farmingSearchForm.getFieldValue('keywords'),
+          content_l: !this.farmingSearchForm.getFieldValue('content')
             ? ''
-            : this.knowledgeSearchForm.getFieldValue('content'),
-          author_l: !this.knowledgeSearchForm.getFieldValue('author')
+            : this.farmingSearchForm.getFieldValue('content'),
+          author_l: !this.farmingSearchForm.getFieldValue('author')
             ? ''
-            : this.knowledgeSearchForm.getFieldValue('author'),
-          allIn_l: !this.knowledgeSearchForm.getFieldValue('allIn')
-            ? ''
-            : this.knowledgeSearchForm.getFieldValue('allIn'),
+            : this.farmingSearchForm.getFieldValue('author'),
+          status_in    : '0,1,2',
           titleManageId: this.$titleId.industryId,
-          status_in    : '0,1,2'
         },
         {
           pageNo  : this.pagination.pageNo,
@@ -643,7 +559,7 @@ export default {
       )
       this.$ajax
         .get({
-          url   : this.$api.GET_ANNOUNCE_LIST,
+          url   : this.$api.GET_PUB_ANNOUNCE_LIST,
           params: searchParms
         })
         .then(res => {
@@ -652,7 +568,6 @@ export default {
           this.pagination.current = this.pagination.pageNo
           this.knowledgeList = this.$com.confirm(res, 'data.content', [])
           this.isReady = true
-          // console.log(this.knowledgeList)
         })
     }
   }

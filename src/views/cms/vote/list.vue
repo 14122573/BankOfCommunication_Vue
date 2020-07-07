@@ -292,7 +292,6 @@ export default {
             let content = `
               <h2 style="text-align: center">${name}</h2>
               <p style="text-align: center">投票日期：${startTime.split(' ')[0]} ~ ${endTime.split(' ')}</p>
-              <p style="text-align: center">${description}</p>
             `
             subjects.forEach((item, index) => {
               let options = ''

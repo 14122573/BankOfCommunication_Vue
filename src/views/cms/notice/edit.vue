@@ -4,8 +4,16 @@
 			<span class="title">修改通知公告</span>
 			<div class="detailOperations">
 				<a-button @click='$router.back()'>取消</a-button>
-				<a-button type="primary" @click='savefarming("save")'>保存</a-button>
-				<a-button type="primary" @click='savefarming("publish")'>保存并发布</a-button>
+				<a-button type="primary" @click="savefarming('save')">保存</a-button>
+        <a-button type="primary" @click="savefarming('saveNcreate')"
+          >保存并新建</a-button
+        >
+        <a-button type="primary" @click="savefarming('publish')"
+          >保存并发布</a-button
+        >
+        <a-button type="primary" @click="savefarming('publishNcreate')"
+          >发布并新建</a-button
+        >
 			</div>
 		</div>
     <div  class="portalDetailContentWapper">
@@ -22,7 +30,7 @@
                 </a-col>
                 <a-col span="16">
                   <a-form-item label="来源" :label-col="{span:4}" :wrapper-col="{span:20}">
-                    <a-input v-decorator="['source',{validateTrigger: 'blur',rules:rules.source}]" placeholder="请输入科普知识来源"></a-input>
+                    <a-input v-decorator="['source',{validateTrigger: 'blur',rules:rules.source}]" placeholder="请输入通知公告来源"></a-input>
                   </a-form-item>
                 </a-col>
                 <a-col span="16">
@@ -32,20 +40,20 @@
                 </a-col>
                 <a-col span="16">
                   <a-form-item label="发稿人" :label-col="{span:4}" :wrapper-col="{span:20}">
-                    <a-input v-decorator="['author',{validateTrigger: 'blur',rules:rules.author, initialValue: postPerson }]" disabled></a-input>
+                    <a-input v-decorator="['author',{validateTrigger: 'blur',rules:rules.author, initialValue: postPerson }]"></a-input>
                   </a-form-item>
                 </a-col>
                 <a-col span="16">
-                  <a-form-item label="关键词" :label-col="{span:8}" :wrapper-col="{span:16}">
+                  <a-form-item label="关键词" :label-col="{span:4}" :wrapper-col="{span:20}">
                     <a-input v-decorator="['keyWord',{validateTrigger: 'blur',rules:rules.KeyWord}]" placeholder="请输入关键词"></a-input>
                   </a-form-item>
                 </a-col>
               </a-row>
               <a-row :gutter='16'>
                 <a-col span="16">
-                  <a-form-item label="PDF文档" :label-col="{span:4}" :wrapper-col="{span:20}" v-if="ready">
+                  <a-form-item label="附件" :label-col="{span:4}" :wrapper-col="{span:20}" v-if="ready">
                     <FileUpload @change="onUploadFileChange" :defaultFileList='uploadFileList.default' :acceptTypes="uploadConfig.acceptTypesArray" :maxCount="9"  :maxFileSize="uploadConfig.maxSize" :timestamp="Date.now()"></FileUpload>
-                    <a-alert style="margin-top:16px" message="仅能上传PDF格式文件" type="info" showIcon />
+                    <a-alert style="margin-top:16px" message="支持的格式为：word、excel、ceb、cebx" type="info" showIcon />
                   </a-form-item>
                 </a-col>
               </a-row>
@@ -86,19 +94,19 @@ export default {
       postPerson: null,
       rules     : {
         title: [
-          { required: true, whitespace: true, message: '请输入科普知识标题!' },
+          { required: true, whitespace: true, message: '请输入通知公告标题!' },
         ],
         author: [
-          { required: true, whitespace: true, message: '请输入科普知识作者!' }
+          { required: true, whitespace: true, message: '请输入通知公告作者!' }
         ],
         KeyWord: [
           { required: false, whitespace: true, message: '请输入关键词!' }
         ],
         releaseDate: [
-          { required: false, whitespace: true, message: '请输入发布时间!' }
+          { required: false, message: '请输入发布时间!' }
         ],
         source: [
-          { required: true, whitespace: true, message: '请输入科普知识来源!' }
+          { required: true, whitespace: true, message: '请输入通知公告来源!' }
         ],
       },
       uploadFileList: {
@@ -107,7 +115,7 @@ export default {
       },
       uploadConfig: {
         maxSize         : 10*1024*1024,
-        acceptTypesArray: [ 'pdf' ]
+        acceptTypesArray: [ 'doc', 'docx', 'xlsx', 'xls', 'ceb', 'cebx' ]
       }
     }
   },
@@ -229,6 +237,7 @@ export default {
      */
     savefarming(type){
       type = !type?'save':type
+      let description = ''
       this.farmingEditForm.validateFields(err => {
         if (!err) {
           this.formData.content = this.$refs.ue.value2
@@ -243,15 +252,16 @@ export default {
           }
 
           const postParams = Object.assign({}, this.formData, {
-            'id'             : this.id,
-            'title'          : this.farmingEditForm.getFieldValue('title'),
-            'author'         : this.farmingEditForm.getFieldValue('author'),
-            'keyWord'        : this.farmingEditForm.getFieldValue('keyWord'),
-            'releaseDate'    : this.farmingEditForm.getFieldValue('releaseDate'),
-            'source'         : this.farmingEditForm.getFieldValue('source'),
-            'attachments'    : this.arrangeFileList(),
-            'status'         : type=='save'?'0':'1',
-            'titleManageName': '科普知识'
+            'id'           : this.id,
+            'title'        : this.farmingEditForm.getFieldValue('title'),
+            'author'       : this.farmingEditForm.getFieldValue('author'),
+            'keyWord'      : this.farmingEditForm.getFieldValue('keyWord'),
+            'releaseDate'  : this.farmingEditForm.getFieldValue('releaseDate'),
+            'source'       : this.farmingEditForm.getFieldValue('source'),
+            'attachments'  : this.arrangeFileList(),
+            'status'       : type=='save' || type == 'saveNcreate' ? '0' : '1',
+            'titleName'    : '通知公告',
+            'titleManageId': this.$titleId.notificationId
           })
           // console.log(postParams)
 
@@ -260,8 +270,27 @@ export default {
             params: postParams
           }).then(res => {
             if (res.code === '200') {
-              this.$message.success(type=='save'?'暂存成功':'保存并发布成功')
-              this.$router.go(-1)
+              switch (type) {
+              case 'save':
+                description = '暂存成功'
+                this.$router.go(-1)
+                break
+              case 'saveNcreate':
+                description = '暂存并新建成功'
+                this.$router.push({ name: '/cms/notice/create' })
+                break
+              case 'publish':
+                description = '发布成功'
+                this.$router.go(-1)
+                break
+              case 'publishNcreate':
+                description = '发布并新建成功'
+                this.$router.push({ name: '/cms/notice/create' })
+                break
+              default:
+                break
+              }
+              this.$message.success(description)
             }
           })
         }else{

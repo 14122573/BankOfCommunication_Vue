@@ -261,7 +261,7 @@ export default {
             'attachments'  : this.arrangeFileList(),
             'status'       : type=='save' || type == 'saveNcreate' ? '0' : '1',
             'titleName'    : '养殖技术',
-            'titleManageId': '420295374075158528'
+            'titleManageId': this.$titleId.farmingId
           })
           // console.log(postParams)
 
