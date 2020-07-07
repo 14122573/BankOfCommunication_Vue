@@ -4,7 +4,7 @@
     <a-carousel class="lunbo_carousel" effect="fade">
       <div
         class="loginPlacement"
-        v-for="item in bannerOneByOne()"
+        v-for="item in bannerList"
         :key="item.bannerGroup"
       >
         <a @click="carouselClick(item.linkUrl)">
@@ -68,16 +68,17 @@ export default {
     }
   },
   methods: {
-    bannerOneByOne() {
-      let bannerFilter = []
+    // 筛选出排过序的轮播图
+    // bannerOneByOne() {
+    //   let bannerFilter = []
 
-      for (let i = this.bannerList.length - 1; i >= 0; i--) {
-        if (this.bannerList[i].bannerGroup !== '0') {
-          bannerFilter.push(this.bannerList[i])
-        }
-      }
-      return bannerFilter
-    },
+    //   for (let i = this.bannerList.length - 1; i >= 0; i--) {
+    //     if (this.bannerList[i].bannerGroup !== '0') {
+    //       bannerFilter.push(this.bannerList[i])
+    //     }
+    //   }
+    //   return bannerFilter
+    // },
     carouselClick(path) {
       if(this.IsURL(path) == true) {
         window.open(path)
@@ -103,7 +104,10 @@ export default {
     getLunbo() {
       this.$ajax
         .get({
-          url: this.$api.GET_PUB_BANNER_LIST
+          url: this.$api.GET_PUB_BANNER_LIST,
+          params: {
+            bannerGroup_nin: 0
+          }
         })
         .then(res => {
           this.bannerList = this.$com.confirm(res, 'data.content', [])

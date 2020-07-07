@@ -3,7 +3,7 @@
     <div class="pageWrapper">
       <Navbar class="navbar" />
       <div class="main"> 
-        <a-row>
+        <a-row v-if="!useWrapper">
           <a-col :span="4">&nbsp;</a-col>
           <a-col :span="16">
             <a-descriptions class="title" :title="list.title">
@@ -19,8 +19,8 @@
             </a-descriptions>
           </a-col>
           <a-col :span="4">&nbsp;</a-col>
+          <a-divider type="horizontal"></a-divider>
         </a-row>
-        <a-divider type="horizontal"></a-divider>
         <a-card class="content" :bordered="false" v-html="list.content">
         </a-card>
       </div>
@@ -33,7 +33,8 @@ import Navbar from '@/views/frontPublic/components/navbar.vue'
 export default {
   data() {
     return {
-      list: {}
+      list: {},
+      useWrapper: false
     }
   },
   components: {
@@ -48,6 +49,7 @@ export default {
   methods: {
     loadArticle() {
       let articleId = this.$route.params.id
+      this.useWrapper = this.$route.params.wrapper
       this.$ajax
         .get({
           url: this.$api.GET_PUB_ANNOUNCE_DETAIL.replace('{id}', articleId),

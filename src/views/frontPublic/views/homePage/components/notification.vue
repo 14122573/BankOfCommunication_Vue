@@ -139,19 +139,22 @@ export default {
     },
     articleDetails(item) {
       // 0: 不可投票 1: 可投票
-      item.isVote === '0'
-        ? this.$router.push({
+      if(item.isVote === '0') {
+        this.$router.push({
           name  : 'notificationAnnounce',
           params: {
+            wrapper: item.voteId ? true : false, // 投票结果公示和通知公告文章显示方式， true投票结果公示，false通知公告文章
             id: item.id
           }
         })
-        : this.$router.push({
+      } else {
+        this.$router.push({
           name  : 'votingRules',
           params: {
             id: item.voteId ? item.voteId: item.id
           }
         })
+      }
     },
     fetchNews(isLogin) {
       this.news = []
