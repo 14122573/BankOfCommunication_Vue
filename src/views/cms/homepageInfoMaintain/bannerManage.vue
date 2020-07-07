@@ -189,31 +189,31 @@ export default {
     },
     deleteBanner(value) {
       let that = this
-      console.log("值" + JSON.stringify(value));
+      console.log('值' + JSON.stringify(value))
       if(value.bannerGroup !== '0') {
         this.$message.success('该轮播图已被排序，无法删除')
       } else {
         this.$modal.confirm({
-        title  : '您确认删除"' + value.bannerName + '"吗？',
-        content: '删除后将无法找回!',
-        onOk() {
-          that.$ajax
-            .delete({
-              url: that.$api.DELETE_BANNER.replace('{id}', value.id)
-            })
-            .then(res => {
-              console.log(res)
+          title  : '您确认删除"' + value.bannerName + '"吗？',
+          content: '删除后将无法找回!',
+          onOk() {
+            that.$ajax
+              .delete({
+                url: that.$api.DELETE_BANNER.replace('{id}', value.id)
+              })
+              .then(res => {
+                console.log(res)
 
-              if (res.code === '200') {
-                that.$message.success('删除成功')
-                that.getList()
-              } else {
-                that.$message.error(res.msg)
-              }
-            })
-        },
-        onCancel() {}
-      })
+                if (res.code === '200') {
+                  that.$message.success('删除成功')
+                  that.getList()
+                } else {
+                  that.$message.error(res.msg)
+                }
+              })
+          },
+          onCancel() {}
+        })
       }
     }
   }

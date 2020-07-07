@@ -148,9 +148,9 @@
 </style>
 
 <script>
-import FileUpload from "@/components/Upload/fileUpload";
+import FileUpload from '@/components/Upload/fileUpload'
 // import VueUeditorWrap from 'vue-ueditor-wrap'
-import UeditorCompent from "@/components/theThreeParty/ueditor.vue";
+import UeditorCompent from '@/components/theThreeParty/ueditor.vue'
 export default {
   components: {
     FileUpload,
@@ -159,62 +159,62 @@ export default {
   data() {
     const validateVideoPath = (rule, value, callback) => {
       if (!value) {
-        callback();
+        callback()
       } else {
-        const startStr = value.substr(0, 8).toLowerCase();
+        const startStr = value.substr(0, 8).toLowerCase()
         if (
-          startStr.indexOf("https://") != -1 ||
-          startStr.indexOf("http://") != -1
+          startStr.indexOf('https://') != -1 ||
+          startStr.indexOf('http://') != -1
         ) {
-          callback();
+          callback()
         } else {
-          callback("请输入带有'Http://'或'https://'完整线上视频地址");
+          callback('请输入带有\'Http://\'或\'https://\'完整线上视频地址')
         }
       }
-    };
+    }
     return {
       createFormOption: {
         type: [
           {
-            label: "视频",
-            value: "0"
+            label: '视频',
+            value: '0'
           },
           {
-            label: "PDF",
-            value: "1"
+            label: 'PDF',
+            value: '1'
           }
         ]
       },
       farmingCreateForm: this.$form.createForm(this),
-      formData: {
-        content: "",
-        videoUrlList: [""]
+      formData         : {
+        content     : '',
+        videoUrlList: [ '' ]
       },
       postPerson: null,
-      rules: {
+      rules     : {
         title: [
-          { required: true, whitespace: true, message: "请输入通知公告标题!" }
+          { required: true, whitespace: true, message: '请输入通知公告标题!' }
         ],
         author: [
-          { required: true, whitespace: true, message: "请输入通知公告作者!" }
+          { required: true, whitespace: true, message: '请输入通知公告作者!' }
         ],
-        releaseDate: [{ required: true, message: "请输入发布时间!" }],
-        KeyWord: [
-          { required: false, whitespace: true, message: "请输入关键词!" }
+        releaseDate: [ { required: true, message: '请输入发布时间!' } ],
+        KeyWord    : [
+          { required: false, whitespace: true, message: '请输入关键词!' }
         ],
         source: [
-          { required: true, whitespace: true, message: "请输入通知公告来源!" }
+          { required: true, whitespace: true, message: '请输入通知公告来源!' }
         ]
       },
       uploadFileList: [],
-      uploadConfig: {
-        maxSize: 10 * 1024 * 1024,
-        acceptTypesArray: ["doc", "docx", "xlsx", "xls", "ceb", "cebx"]
+      uploadConfig  : {
+        maxSize         : 10 * 1024 * 1024,
+        acceptTypesArray: [ 'doc', 'docx', 'xlsx', 'xls', 'ceb', 'cebx' ]
       }
-    };
+    }
   },
   mounted() {
-    this.getUserInfo();
+    this.getUserInfo()
   },
   methods: {
     /**
@@ -226,12 +226,12 @@ export default {
           url: this.$api.GET_USER_INFO
         })
         .then(res => {
-          let content = res.data.content;
-          this.postPerson = content.name;
+          let content = res.data.content
+          this.postPerson = content.name
           this.farmingCreateForm.setFieldsValue({
-            releaseDate: this.$moment().locale("zh-cn")
-          });
-        });
+            releaseDate: this.$moment().locale('zh-cn')
+          })
+        })
     },
 
     /**
@@ -241,20 +241,20 @@ export default {
     arrangeFileList() {
       const fileList = this.uploadFileList.map((item, index) => {
         return {
-          type: 1,
-          sort: index + 1,
-          fileId: item.uid,
+          type    : 1,
+          sort    : index + 1,
+          fileId  : item.uid,
           fileName: item.name
-        };
-      });
+        }
+      })
       const videoList = this.formData.videoUrlList.map((item, index) => {
         return {
-          type: 2,
-          sort: fileList.length + index + 1,
+          type    : 2,
+          sort    : fileList.length + index + 1,
           filePath: item
-        };
-      });
-      return fileList.concat(videoList);
+        }
+      })
+      return fileList.concat(videoList)
     },
 
     /**
@@ -265,12 +265,12 @@ export default {
     checkVideoUrl(urls) {
       if (Array.isArray(urls) && urls.length > 0) {
         return urls.every(url => {
-          if (!url) return true;
-          const str = url.toLowerCase();
-          return str.startsWith("https://") || str.startsWith("http://");
-        });
+          if (!url) return true
+          const str = url.toLowerCase()
+          return str.startsWith('https://') || str.startsWith('http://')
+        })
       } else {
-        return true;
+        return true
       }
     },
 
@@ -278,7 +278,7 @@ export default {
      * 通过增加videoUrlList组数长度，控制可填写的视频地址input输入框个数
      */
     addVideo() {
-      this.formData.videoUrlList.push("");
+      this.formData.videoUrlList.push('')
     },
 
     /**
@@ -286,7 +286,7 @@ export default {
      * @param {Number}  index formData.videoUrlList数组下标
      */
     deleteVideoUrl(index) {
-      this.formData.videoUrlList.splice(index, 1);
+      this.formData.videoUrlList.splice(index, 1)
     },
 
     /**
@@ -294,7 +294,7 @@ export default {
      * @param {Array} filelist 最新变动已上传的文件对象列表
      */
     onUploadFileChange(filelist) {
-      this.uploadFileList = [].concat(filelist);
+      this.uploadFileList = [].concat(filelist)
     },
 
     /**
@@ -302,69 +302,71 @@ export default {
      * @param {String} type 提交表单内容的数据保存类型，暂存：save；保存并发布：publish
      */
     savefarming(type) {
-      type = !type ? "save" : type;
-      let description = "";
+      type = !type ? 'save' : type
+      let description = ''
       this.farmingCreateForm.validateFields(err => {
         if (!err) {
-          this.formData.content = this.$refs.ue.value2;
-          if (this.formData.content == "") {
+          this.formData.content = this.$refs.ue.value2
+          if (this.formData.content == '') {
             this.$modal.error({
-              title: "表单验证未通过",
-              content: "请填写通知公告正文内容",
-              okText: "确认",
-              cancelText: "取消"
-            });
-            return;
+              title     : '表单验证未通过',
+              content   : '请填写通知公告正文内容',
+              okText    : '确认',
+              cancelText: '取消'
+            })
+            return
           }
 
           const postParams = Object.assign({}, this.formData, {
             titleManageId: this.$titleId.notificationId,
-            title: this.farmingCreateForm.getFieldValue("title"),
-            author: this.farmingCreateForm.getFieldValue("author"),
-            keyWord: this.farmingCreateForm.getFieldValue("keyWord"),
-            releaseDate: this.farmingCreateForm.getFieldValue("releaseDate"),
-            source: this.farmingCreateForm.getFieldValue("source"),
-            status: type == "save" || type == "saveNcreate" ? "0" : "1",
-            attachments: this.arrangeFileList()
-          });
-          delete postParams.videoUrlList;
+            title        : this.farmingCreateForm.getFieldValue('title'),
+            author       : this.farmingCreateForm.getFieldValue('author'),
+            keyWord      : this.farmingCreateForm.getFieldValue('keyWord'),
+            releaseDate  : this.farmingCreateForm.getFieldValue('releaseDate'),
+            source       : this.farmingCreateForm.getFieldValue('source'),
+            status       : type == 'save' || type == 'saveNcreate' ? '0' : '1',
+            attachments  : this.arrangeFileList()
+          })
+          delete postParams.videoUrlList
 
           this.$ajax
             .post({
-              url: this.$api.POST_ADD_ANNOUNCE,
+              url   : this.$api.POST_ADD_ANNOUNCE,
               params: postParams
             })
             .then(res => {
-              if (res.code === "200") {
+              if (res.code === '200') {
                 switch (type) {
-                  case "save":
-                    description = "暂存成功";
-                    this.$router.go(-1)
-                    break;
-                  case "saveNcreate":
-                    description = "暂存并新建成功";
-                    this.farmingCreateForm.resetFields();
-                    this.formData.content = ""
-                    break;
-                  case "publish":
-                    description = "发布成功";
-                    this.$router.go(-1)
-                    break;
-                  case "publishNcreate":
-                    description = "发布并新建成功";
-                    this.$router.push({name: '/cms/notice/create'})
-                    this.farmingCreateForm.resetFields();
-                    this.formData.content = ""
-                    break;
+                case 'save':
+                  description = '暂存成功'
+                  this.$router.go(-1)
+                  break
+                case 'saveNcreate':
+                  description = '暂存并新建成功'
+                  this.farmingCreateForm.resetFields()
+                  this.formData.content = ''
+                  break
+                case 'publish':
+                  description = '发布成功'
+                  this.$router.go(-1)
+                  break
+                case 'publishNcreate':
+                  description = '发布并新建成功'
+                  this.$router.push({ name: '/cms/notice/create' })
+                  this.farmingCreateForm.resetFields()
+                  this.formData.content = ''
+                  break
+                default:
+                  break
                 }
-                this.$message.success(description);
+                this.$message.success(description)
               }
-            });
+            })
         } else {
-          this.$com.getFormValidErrTips(this, err);
+          this.$com.getFormValidErrTips(this, err)
         }
-      });
+      })
     }
   }
-};
+}
 </script>

@@ -57,6 +57,7 @@ import ImgUpload from '@/components/Upload/imgUpload'
 export default {
   data() {
     return {
+      isTriggered     : false, // 检查上传框是否被修改
       data            : [],
       imgContent      : [],
       detailDesc      : [],
@@ -87,8 +88,9 @@ export default {
   },
   methods: {
     limousine(value) {
+      this.isTriggered = true
       if(value.length !== 0) {
-        this.imgPlaceholder = [];
+        this.imgPlaceholder = []
         this.imgPlaceholder = value[0].url
       } else {
         this.imgPlaceholder = []
@@ -96,27 +98,31 @@ export default {
     },
     saveBanner() {
       let that = this
-      this.imgContent = this.$refs.childFile.getUploadFileList()
-      this.$ajax
-        .put({
-          url   : this.$api.PUT_BANNER.replace('{id}', this.$route.params.id), // 修改的bannerId
-          params: {
-            bannerName: this.bannerCreateForm.getFieldValue('title'),
-            linkUrl   : this.bannerCreateForm.getFieldValue('jumpHref'),
-            imgId     : that.imgContent[0].uid,
-            id        : this.$route.params.id
-          }
-        })
-        .then(res => {
-          if (res.code === '200') {
-            this.$message.success('修改成功')
-            this.$router.push({
-              name: '/cms/homepageInfoMaintain'
-            })
-          } else {
-            this.$message.error(res.msg)
-          }
-        })
+      if(this.isTriggered == false) {
+        this.$router.go(-1)
+      } else {
+        this.imgContent = this.$refs.childFile.getUploadFileList()
+        this.$ajax
+          .put({
+            url   : this.$api.PUT_BANNER.replace('{id}', this.$route.params.id), // 修改的bannerId
+            params: {
+              bannerName: this.bannerCreateForm.getFieldValue('title'),
+              linkUrl   : this.bannerCreateForm.getFieldValue('jumpHref'),
+              imgId     : that.imgContent[0].uid,
+              id        : this.$route.params.id
+            }
+          })
+          .then(res => {
+            if (res.code === '200') {
+              this.$message.success('修改成功')
+              this.$router.push({
+                name: '/cms/homepageInfoMaintain'
+              })
+            } else {
+              this.$message.error(res.msg)
+            }
+          })
+      }
     },
     getDefaultFile() {
       let that = this

@@ -237,7 +237,7 @@ export default {
      */
     savefarming(type){
       type = !type?'save':type
-      let description = "";
+      let description = ''
       this.farmingEditForm.validateFields(err => {
         if (!err) {
           this.formData.content = this.$refs.ue.value2
@@ -252,15 +252,15 @@ export default {
           }
 
           const postParams = Object.assign({}, this.formData, {
-            'id'         : this.id,
-            'title'      : this.farmingEditForm.getFieldValue('title'),
-            'author'     : this.farmingEditForm.getFieldValue('author'),
-            'keyWord'    : this.farmingEditForm.getFieldValue('keyWord'),
-            'releaseDate': this.farmingEditForm.getFieldValue('releaseDate'),
-            'source'     : this.farmingEditForm.getFieldValue('source'),
-            'attachments': this.arrangeFileList(),
-            'status'     : type=="save" || type == "saveNcreate" ? "0" : "1",
-            'titleName'  : '养殖技术',
+            'id'           : this.id,
+            'title'        : this.farmingEditForm.getFieldValue('title'),
+            'author'       : this.farmingEditForm.getFieldValue('author'),
+            'keyWord'      : this.farmingEditForm.getFieldValue('keyWord'),
+            'releaseDate'  : this.farmingEditForm.getFieldValue('releaseDate'),
+            'source'       : this.farmingEditForm.getFieldValue('source'),
+            'attachments'  : this.arrangeFileList(),
+            'status'       : type=='save' || type == 'saveNcreate' ? '0' : '1',
+            'titleName'    : '养殖技术',
             'titleManageId': '420295374075158528'
           })
           // console.log(postParams)
@@ -271,22 +271,24 @@ export default {
           }).then(res => {
             if (res.code === '200') {
               switch (type) {
-                  case "save":
-                    description = "暂存成功";
-                    this.$router.go(-1)
-                    break;
-                  case "saveNcreate":
-                    description = "暂存并新建成功";
-                    this.$router.push({name: '/cms/farmingtech/create'})
-                    break;
-                  case "publish":
-                    description = "发布成功";
-                    this.$router.go(-1)
-                    break;
-                  case "publishNcreate":
-                    description = "发布并新建成功";
-                    this.$router.push({name: '/cms/farmingtech/create'})
-                    break;
+              case 'save':
+                description = '暂存成功'
+                this.$router.go(-1)
+                break
+              case 'saveNcreate':
+                description = '暂存并新建成功'
+                this.$router.push({ name: '/cms/farmingtech/create' })
+                break
+              case 'publish':
+                description = '发布成功'
+                this.$router.go(-1)
+                break
+              case 'publishNcreate':
+                description = '发布并新建成功'
+                this.$router.push({ name: '/cms/farmingtech/create' })
+                break
+              default:
+                break
               }
               this.$message.success(description)
             }

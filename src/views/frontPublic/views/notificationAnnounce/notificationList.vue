@@ -1,17 +1,17 @@
 <template>
-<div class="width_cut">
-  <div class="pageWrapper">
-    <Navbar class="navbar" />
-    <div class="content">
-      <a-table
-        :columns="columns"
-        :data-source="news"
-        :showHeader="false"
-        :customRow="customRow"
-        :rowKey="news.id"
-      ></a-table>
+  <div class="width_cut">
+    <div class="pageWrapper">
+      <Navbar class="navbar" />
+      <div class="content">
+        <a-table
+          :columns="columns"
+          :data-source="news"
+          :showHeader="false"
+          :customRow="customRow"
+          :rowKey="news.id"
+        ></a-table>
+      </div>
     </div>
-  </div>
   </div>
 </template>
 
@@ -22,7 +22,7 @@ export default {
     Navbar
   },
   mounted() {
-    this.fetchNews(isLogin)
+    this.fetchNews(this.isLogin)
     this.$nextTick(() => {
       document.querySelector('#components-layout-demo-basic').scrollTop = 0
     })
@@ -30,12 +30,12 @@ export default {
   computed: {
     listenIsLogin() {
       return this.$store.state.isLogin
-    },
+    }
   },
   watch: {
     listenIsLogin(newV, oldV) {
       this.fetchNews(newV)
-    },
+    }
   },
   data() {
     return {
@@ -53,7 +53,7 @@ export default {
           width    : 200
         }
       ],
-      isLogin: this.$store.state.isLogin,
+      isLogin: this.$store.state.isLogin
     }
   },
   methods: {
@@ -61,32 +61,43 @@ export default {
       return {
         on: {
           click: () => {
-            this.$router.push({
-              name  : 'notificationAnnounce',
-              params: {
-                id: record.id
-              }
-            })
+            console.log(JSON.stringify(record))
+
+            record.isVote === '0'
+              ? this.$router.push({
+                name  : 'notificationAnnounce',
+                params: {
+                  id: record.id
+                }
+              })
+              : this.$router.push({
+                name  : 'votingRules',
+                params: {
+                  id: record.voteId ? record.voteId : record.id
+                }
+              })
           }
         }
       }
     },
     fetchNews(isLogin) {
-      console.log(isLogin);
-      
+      console.log(isLogin)
+
       this.$ajax
         .get({
-          url   : isLogin ? this.$api.GET_ANNOUNCE_LIST : this.$api.GET_PUB_ANNOUNCE_LIST,
+          url: isLogin
+            ? this.$api.GET_ANNOUNCE_LIST
+            : this.$api.GET_PUB_ANNOUNCE_LIST,
           params: {
             titleManageId: this.$titleId.notificationId,
             pageNo       : 1,
             pageSize     : 10,
             status_in    : 1,
-            voteType     : isLogin ? 1:0
+            voteType     : isLogin ? 1 : 0
           }
         })
         .then(res => {
-          if(res.code === '200') {
+          if (res.code === '200') {
             this.news = this.$com.confirm(res, 'data.content', [])
           }
         })

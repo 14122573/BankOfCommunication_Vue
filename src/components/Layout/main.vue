@@ -249,7 +249,7 @@ export default {
         })
         break
       case 'homepage':
-        this.$router.push({name: 'homepage'})
+        this.$router.push({ name: 'homepage' })
         break
       case 'logout':
         this.plogout()

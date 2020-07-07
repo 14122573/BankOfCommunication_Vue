@@ -36,9 +36,9 @@
   </div>
 </template>
 <script>
-import LoginPanel from "@/views/frontPublic/views/homePage/components/loginPanel.vue";
-import LoggedInPanel from "@/views/frontPublic/views/homePage/components/welcomePanel.vue";
-import ResetPassword from "@/views/frontPublic/views/homePage/components/resetPassword.vue";
+import LoginPanel from '@/views/frontPublic/views/homePage/components/loginPanel.vue'
+import LoggedInPanel from '@/views/frontPublic/views/homePage/components/welcomePanel.vue'
+import ResetPassword from '@/views/frontPublic/views/homePage/components/resetPassword.vue'
 export default {
   components: {
     LoginPanel,
@@ -49,40 +49,40 @@ export default {
     return {
       isInIndexPage: true,
       // 查看子组件传来的用户鉴权信息
-      loginInfo: "",
-      username: "",
-      pageType: "login",
-      isready: false,
-      bannerList: []
-    };
+      loginInfo    : '',
+      username     : '',
+      pageType     : 'login',
+      isready      : false,
+      bannerList   : []
+    }
   },
   mounted() {
-    this.getLunbo();
+    this.getLunbo()
   },
   watch: {
     $route(to, from) {
       // 当前是否在index页，不在的话就隐藏loginpanel和welcomepanel
-      to.name == "index"
+      to.name == 'index'
         ? (this.isInIndexPage = true)
-        : (this.isInIndexPage = false);
+        : (this.isInIndexPage = false)
     }
   },
   methods: {
     bannerOneByOne() {
-      let bannerFilter = [];
+      let bannerFilter = []
 
       for (let i = this.bannerList.length - 1; i >= 0; i--) {
-        if (this.bannerList[i].bannerGroup !== "0") {
-          bannerFilter.push(this.bannerList[i]);
+        if (this.bannerList[i].bannerGroup !== '0') {
+          bannerFilter.push(this.bannerList[i])
         }
       }
-      return bannerFilter;
+      return bannerFilter
     },
     carouselClick(path) {
       if(this.IsURL(path) == true) {
         window.open(path)
       } else {
-        this.$message.error("该图片无链接或链接错误")
+        this.$message.error('该图片无链接或链接错误')
       }
       
     },
@@ -96,9 +96,9 @@ export default {
       + '[a-z]{2,6})' // first level domain- .com or .museum 
       + '(:[0-9]{1,4})?' // 端口- :80 
       + '((/?)|' // a slash isn't required if there is no file name 
-      + '(/[0-9a-zA-Z_!~*\'().;?:@&=+$,%#-]+)+/?)$'; 
-      var re=new RegExp(strRegex); 
-      return re.test(str_url);
+      + '(/[0-9a-zA-Z_!~*\'().;?:@&=+$,%#-]+)+/?)$' 
+      var re=new RegExp(strRegex) 
+      return re.test(str_url)
     },
     getLunbo() {
       this.$ajax
@@ -106,32 +106,32 @@ export default {
           url: this.$api.GET_PUB_BANNER_LIST
         })
         .then(res => {
-          this.bannerList = this.$com.confirm(res, "data.content", []);
-          this.getToken();
-        });
+          this.bannerList = this.$com.confirm(res, 'data.content', [])
+          this.getToken()
+        })
     },
     pageTypeChange(data) {
-      this.pageType = data;
-      this.username = data;
+      this.pageType = data
+      this.username = data
     },
     getToken() {
-      let cookie = this.$cookie.get("token");
+      let cookie = this.$cookie.get('token')
       if (!!cookie) {
         this.$ajax
           .get({
             url: this.$api.GET_USER_INFO
           })
           .then(res => {
-            let userInfo = res.data.content;
+            let userInfo = res.data.content
             if (!!userInfo.name) {
-              this.username = userInfo.name;
-              this.pageType = userInfo.name;
+              this.username = userInfo.name
+              this.pageType = userInfo.name
             }
-          });
+          })
       }
     }
   }
-};
+}
 </script>
 <style scoped>
 .ant-carousel >>> li.slick-active button {

@@ -71,28 +71,29 @@ export default {
           }
         })
     },
+
     /**
      * 组装需要展示的文件数组
      * @returns {Array}  [{name:带文件后缀的文件名称；url：已上传的文件地址},...]
      */
     makeFileList() {
-      let fileList = [];
+      let fileList = []
       const attachments = !this.list.attachments
         ? []
-        : this.list.attachments;
+        : this.list.attachments
       for (let i = 0; i < attachments.length; i++) {
-        if (attachments[i].type == "1") {
+        if (attachments[i].type == '1') {
           fileList.push({
             name: attachments[i].fileName,
-            url: attachments[i].filePath
-          });
+            url : attachments[i].filePath
+          })
         }
       }
-      console.log("1" + JSON.stringify(fileList));
-      return fileList;
+      console.log('1' + JSON.stringify(fileList))
+      return fileList
     },
     tagClick(path) {
-      console.log(path);
+      console.log(path)
       
       window.location.href = path
     }

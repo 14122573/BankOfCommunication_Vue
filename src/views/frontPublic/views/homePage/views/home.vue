@@ -40,6 +40,9 @@ export default {
     }
   },
   mounted() {
+    this.$nextTick(() => {
+      document.querySelector('#components-layout-demo-basic').scrollTop = 0
+    })
     if(this.$route.name == 'index') {
       this.display = true
     } else {
@@ -49,11 +52,11 @@ export default {
   watch: {
     $route(to, from) {
       if(to.name == 'index') {
-        this.routeTo = to.name;
+        this.routeTo = to.name
         this.display = true
         this.getBannerDisplay(true)
       } else {
-        this.routeTo = to.name;
+        this.routeTo = to.name
         this.display = false
         this.getBannerDisplay(false)
       }
@@ -75,14 +78,14 @@ export default {
   },
   methods: {
     getBannerDisplay(display) {
-      console.log("display的值" + display);
-      console.log("routeTo的值" + this.routeTo);
+      console.log('display的值' + display)
+      console.log('routeTo的值' + this.routeTo)
       
-      let result = false;
+      let result = false
       if(display == true) {
-        result = true;
+        result = true
       }
-      return result;
+      return result
     }
   }
 }
