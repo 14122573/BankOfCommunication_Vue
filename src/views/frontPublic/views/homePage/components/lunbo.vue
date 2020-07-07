@@ -104,7 +104,7 @@ export default {
     getLunbo() {
       this.$ajax
         .get({
-          url: this.$api.GET_PUB_BANNER_LIST,
+          url   : this.$api.GET_PUB_BANNER_LIST,
           params: {
             bannerGroup_nin: 0
           }

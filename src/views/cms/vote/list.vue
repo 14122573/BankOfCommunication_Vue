@@ -315,14 +315,14 @@ export default {
               this.$ajax.post({
                 url   : this.$api.POST_CMS_NOTICE,
                 params: {
-                  title : name,
+                  title        : name,
                   startTime,
                   endTime,
                   content,
-                  isTop : '0',
-                  isVote: '0',
-                  status: '1',
-                  voteId: id,
+                  isTop        : '0',
+                  isVote       : '0',
+                  status       : '1',
+                  voteId       : id,
                   titleManageId: this.$titleId.notificationId
                 }
               }).then(() => {

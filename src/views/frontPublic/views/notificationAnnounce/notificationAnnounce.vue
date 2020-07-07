@@ -33,7 +33,7 @@ import Navbar from '@/views/frontPublic/components/navbar.vue'
 export default {
   data() {
     return {
-      list: {},
+      list      : {},
       useWrapper: false
     }
   },

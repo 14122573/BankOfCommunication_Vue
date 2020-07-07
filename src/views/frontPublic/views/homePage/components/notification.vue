@@ -36,7 +36,7 @@
                   }}</a-col>
                 </a-row>
                 <a-row>
-                  <a-col class="news_content" :span="24" v-html="item.content">
+                  <a-col class="news_content" :span="24" v-html="item.introduction"> 
                   </a-col>
                 </a-row>
               </div>
@@ -144,7 +144,7 @@ export default {
           name  : 'notificationAnnounce',
           params: {
             wrapper: item.voteId ? true : false, // 投票结果公示和通知公告文章显示方式， true投票结果公示，false通知公告文章
-            id: item.id
+            id     : item.id
           }
         })
       } else {

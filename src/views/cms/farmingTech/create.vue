@@ -87,6 +87,23 @@
                 </a-col>
                 <a-col span="16">
                   <a-form-item
+                    label="简介"
+                    :label-col="{ span: 4 }"
+                    :wrapper-col="{ span: 20 }"
+                  >
+                    <a-input
+                      v-decorator="[
+                        'introduction',
+                        {
+                          validateTrigger: 'blur',
+                          rules: rules.introduction,
+                        }
+                      ]"
+                    ></a-input>
+                  </a-form-item>
+                </a-col>
+                <a-col span="16">
+                  <a-form-item
                     label="关键词"
                     :label-col="{ span: 4 }"
                     :wrapper-col="{ span: 16 }"
@@ -204,7 +221,10 @@ export default {
         ],
         source: [
           { required: true, whitespace: true, message: '请输入养殖技术来源!' }
-        ]
+        ],
+        introduction: [
+          { required: true, whitespace: true, message: '请输入养殖技术简介!' }
+        ],
       },
       uploadFileList: [],
       uploadConfig  : {
@@ -325,6 +345,7 @@ export default {
             releaseDate  : this.farmingCreateForm.getFieldValue('releaseDate'),
             source       : this.farmingCreateForm.getFieldValue('source'),
             status       : type == 'save' || type == 'saveNcreate' ? '0' : '1',
+            introduction : this.farmingCreateForm.getFieldValue('introduction'),
             attachments  : this.arrangeFileList()
           })
           delete postParams.videoUrlList

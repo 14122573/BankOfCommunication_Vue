@@ -68,7 +68,7 @@ export default {
                 name  : 'notificationAnnounce',
                 params: {
                   wrapper: record.voteId ? true : false, // 投票结果公示和通知公告文章显示方式， true投票结果公示，false通知公告文章
-                  id: record.id
+                  id     : record.id
                 }
               })
               : this.$router.push({
