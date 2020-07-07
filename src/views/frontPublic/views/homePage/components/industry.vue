@@ -10,7 +10,7 @@
         :headStyle="{ padding: '0', border: '0' }"
         :bodyStyle="{ padding: '0' }"
       >
-        <a-icon type="minus" class="title_icon" />
+        <img src="@/assets/images/home/section_line.png" height="4px" width="8%">
         <a class="more" slot="extra" @click="jumpToPage">更多 >></a>
         <div class="content_wrapper">
           <div class="news_wrapper" v-for="(item, index) in news" :key="index">

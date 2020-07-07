@@ -8,10 +8,10 @@
         <Lunbo v-if="getBannerDisplay(display)" />
         <a-carousel v-else-if="!getBannerDisplay(display)">
           <div class="fixedImgWrapper" v-if="routeTo == 'dataSearch' || routeTo == 'searchResult'">
-            <img class="fixedImg" src="@/assets/images/home/sj_banner.jpg" height="400px" alt="图片加载失败">
+            <img class="fixedImg" src="@/assets/images/home/sj_banner.jpg" height="400px" width='100%' alt="图片加载失败">
           </div>
           <div class="fixedImgWrapper" v-else>
-            <img class="fixedImg" src="@/assets/images/home/zs_banner.jpg" height="400px" alt="图片加载失败">
+            <img class="fixedImg" src="@/assets/images/home/zs_banner.jpg" height="400px" width='100%' alt="图片加载失败">
           </div>
         </a-carousel>
         <router-view style="background-color: #f1f5f8 " />

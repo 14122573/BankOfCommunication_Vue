@@ -10,7 +10,7 @@
         :headStyle="{ padding: '0', border: '0' }"
         :bodyStyle="{ padding: '0' }"
       >
-        <a-icon type="minus" class="title_icon" />
+        <img src="@/assets/images/home/section_line.png" height="4px" width="8%">
         <a class="more" slot="extra" @click="jumpToPage">更多 >></a>
         <div class="content_wrapper">
           <div style="height: 45px"></div>
@@ -18,7 +18,8 @@
             <a class="mouse_trigger" @click="articleDetails(item)">
               <div class="noti_oneline">
                 <a-row type="flex" justify="center" style="margin: 20px 0px">
-                  <a-col class="news_title" :span="16">{{ item.title }}</a-col>
+                  <a-col :span='1'><i style="width:8px;height:8px;border-radius:50%;background-color:black;display: inline-block; "></i></a-col>
+                  <a-col class="news_title" :span="15"> {{ item.title }}</a-col>
                   <a-col class="news_date" :span="8">{{
                     $moment(item.releaseDate).format("YYYY-MM-DD")
                   }}</a-col>
