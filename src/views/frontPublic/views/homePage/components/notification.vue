@@ -24,6 +24,7 @@
           </div>
           <div class="noti-list" v-for="(item, index) in news" :key="index">
             <a class="mouse_trigger" @click="articleDetails(item)">
+              <!-- 设置第一个通知为详情显示 -->
               <div class="noti_detail" v-if="index == 0">
                 <a-row type="flex" justify="center">
                   <a-col class="news_title" :span="16">{{ item.title }}</a-col>
@@ -39,6 +40,7 @@
                   </a-col>
                 </a-row>
               </div>
+              <!-- 设置除第一行外的通知为单行缩略显示 -->
               <div class="noti_oneline" v-else>
                 <a-row type="flex" justify="center" style="margin: 10px 0px">
                   <a-col :span="2">
@@ -60,8 +62,11 @@
                     </span>
                   </a-col>
                   <a-col class="news_title" :span="16">{{ item.title }}</a-col>
-                  <a-col class="news_date" :span="6">{{
+                  <a-col class="news_date" :span="6" v-if="!!item.releaseDate">{{
                     $moment(item.releaseDate).format("YYYY-MM-DD")
+                  }}</a-col>
+                  <a-col class="news_date" :span="6" v-else>{{
+                    $moment(item.createTime).format("YYYY-MM-DD")
                   }}</a-col>
                 </a-row>
               </div>

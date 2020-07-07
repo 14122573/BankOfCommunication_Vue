@@ -5,7 +5,15 @@
         <PHeader />
       </a-layout-header>
       <a-layout-content>
-        <Lunbo />
+        <Lunbo v-if="getBannerDisplay(display)" />
+        <a-carousel v-else-if="!getBannerDisplay(display)">
+          <div class="fixedImgWrapper" v-if="routeTo == 'dataSearch' || routeTo == 'searchResult'">
+            <img class="fixedImg" src="@/assets/images/home/sj_banner.jpg" height="400px" alt="图片加载失败">
+          </div>
+          <div class="fixedImgWrapper" v-else>
+            <img class="fixedImg" src="@/assets/images/home/zs_banner.jpg" height="400px" alt="图片加载失败">
+          </div>
+        </a-carousel>
         <router-view style="background-color: #f1f5f8 " />
         <Footer />
       </a-layout-content>
@@ -24,6 +32,33 @@ export default {
     Lunbo,
     Footer
   },
+  data() {
+    return {
+      display: true,
+      routeTo: '',
+      img    : ''
+    }
+  },
+  mounted() {
+    if(this.$route.name == 'index') {
+      this.display = true
+    } else {
+      this.display = false
+    }
+  },
+  watch: {
+    $route(to, from) {
+      if(to.name == 'index') {
+        this.routeTo = to.name;
+        this.display = true
+        this.getBannerDisplay(true)
+      } else {
+        this.routeTo = to.name;
+        this.display = false
+        this.getBannerDisplay(false)
+      }
+    }
+  },
   created() {
     this.$ajax
       .get({
@@ -38,12 +73,28 @@ export default {
         }
       })
   },
+  methods: {
+    getBannerDisplay(display) {
+      console.log("display的值" + display);
+      console.log("routeTo的值" + this.routeTo);
+      
+      let result = false;
+      if(display == true) {
+        result = true;
+      }
+      return result;
+    }
+  }
 }
 </script>
 
 <style scoped>
 .layout_style {
   width: 100%;
+}
+
+.fixedImg {
+  margin: 0 auto;
 }
 
 #components-layout-demo-basic {

@@ -21,8 +21,7 @@
           <a-col :span="4">&nbsp;</a-col>
         </a-row>
         <a-divider type="horizontal"></a-divider>
-          <a-card class="content" :bordered="false">
-            {{ list.description }}
+          <a-card class="content" :bordered="false" v-html="list.description">
         </a-card>
       </div>
     </div>

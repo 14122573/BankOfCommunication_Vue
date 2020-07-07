@@ -22,10 +22,20 @@ export default {
     Navbar
   },
   mounted() {
-    this.fetchNews()
+    this.fetchNews(isLogin)
     this.$nextTick(() => {
       document.querySelector('#components-layout-demo-basic').scrollTop = 0
     })
+  },
+  computed: {
+    listenIsLogin() {
+      return this.$store.state.isLogin
+    },
+  },
+  watch: {
+    listenIsLogin(newV, oldV) {
+      this.fetchNews(newV)
+    },
   },
   data() {
     return {
@@ -42,7 +52,8 @@ export default {
           dataIndex: 'releaseDate',
           width    : 200
         }
-      ]
+      ],
+      isLogin: this.$store.state.isLogin,
     }
   },
   methods: {
@@ -60,15 +71,18 @@ export default {
         }
       }
     },
-    fetchNews() {
+    fetchNews(isLogin) {
+      console.log(isLogin);
+      
       this.$ajax
         .get({
-          url   : this.$api.GET_PUB_ANNOUNCE_LIST,
+          url   : isLogin ? this.$api.GET_ANNOUNCE_LIST : this.$api.GET_PUB_ANNOUNCE_LIST,
           params: {
             titleManageId: this.$titleId.notificationId,
             pageNo       : 1,
             pageSize     : 10,
-            status_in    : 1
+            status_in    : 1,
+            voteType     : isLogin ? 1:0
           }
         })
         .then(res => {
