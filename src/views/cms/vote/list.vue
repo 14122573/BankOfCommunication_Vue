@@ -275,7 +275,7 @@ export default {
       }
       return Math.floor((option / total) * 100)
     },
-    publicResult({ id, name, description, startTime, endTime }) {
+    publicResult({ id, name, description, startTime, endTime, introduction }) {
       const config = {
         title  : '公布投票结果',
         content: '是否确认公布投票结果？',
@@ -318,6 +318,7 @@ export default {
                   title        : name,
                   startTime,
                   endTime,
+                  introduction,
                   content,
                   isTop        : '0',
                   isVote       : '0',
@@ -326,11 +327,6 @@ export default {
                   titleManageId: this.$titleId.notificationId
                 }
               }).then(() => {
-                // this.$modal.success({
-                //   title  : '成功',
-                //   content: config.msg,
-                //   okText : '确认',
-                // })
                 this.$ajax.put({
                   url: this.$api.PUT_VOTE_STATUS.replace('{id}', id).replace('{status}', '3')
                 }).then(() => {
