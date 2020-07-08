@@ -56,7 +56,7 @@ export default {
           // title: '通知公告',
           title: '',
           name : 'notificationList',
-          path : [ '/homepage/notificationNews' ]
+          path : [ '/homepage/notificationNews', 'homepage/notificationAnnounce', '/homepage/votingRules' ]
         },
         {
           id   : '420295370510000128',

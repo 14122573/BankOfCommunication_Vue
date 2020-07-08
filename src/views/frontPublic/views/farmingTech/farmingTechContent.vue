@@ -8,10 +8,18 @@
           :showHeader="false"
           :customRow="customRow"
           :rowKey="news.id"
+          :pagination="pagination"
         ></a-table>
       </div>
       <div class="noneCeiling" v-else>
-          <img src="@/assets/images/empty_placeholder.jpg" alt=""><span>暂无数据</span>
+          <div class="" style="position: absolute; left: 50%; top: 50%; width: 200px; height: 200px; margin-left: -100px; margin-top: -100px;">
+            <a-row>
+              <img src="@/assets/images/empty_placeholder.jpg" alt="">
+            </a-row>
+            <a-row>
+              <span style="color: #999">暂无数据</span>
+            </a-row>
+          </div>
       </div>
     </div>
   </div>
@@ -37,7 +45,16 @@ export default {
           dataIndex: 'releaseDate',
           width    : 180
         }
-      ]
+      ],
+      pagination: {
+        pageNo         : 1,
+        pageSize       : 10,
+        total          : 0,
+        current        : 1,
+        defaultCurrent : 1,
+        showQuickJumper: true,
+        onChange       : this.onPageChange
+      }
     }
   },
   methods: {
@@ -55,6 +72,11 @@ export default {
         }
       }
     },
+    onPageChange(current) {
+      this.pagination.current = current
+      this.pagination.pageNo = current
+      this.fetchNews()
+    },
     fetchNews() {
       this.$ajax
         .get({
@@ -63,10 +85,15 @@ export default {
             status_in    : '1',
             pageNo       : 1,
             pageSize     : 10,
-            titleManageId: this.$titleId.farmingId
+            titleManageId: this.$titleId.farmingId,
+            pageNo        : this.pagination.pageNo,
+            pageSize      : this.pagination.pageSize,
           }
         })
         .then(res => {
+          this.pagination.total = this.$com.confirm(res, 'data.totalRows', 0)
+          this.pagination.pageNo = this.$com.confirm(res, 'data.page', 1)
+          this.pagination.current = this.pagination.pageNo
           this.news = this.$com.confirm(res, 'data.content')
         })
     }
@@ -77,17 +104,14 @@ export default {
 <style scoped>
 .pageWrapper .content {
     background-color: #FFFFFF;
-    height: 500px;
+    height: 700px;
     padding: 10px 30px;
   }
 </style>
 
 <style lang="stylus" scoped>
 .noneCeiling
-  height 200px
-  display flex
-  align-items center
-  justify-content center
-  font-size 18px
-  color #999 
+  position relative
+  width 100%
+  height 700px
 </style>

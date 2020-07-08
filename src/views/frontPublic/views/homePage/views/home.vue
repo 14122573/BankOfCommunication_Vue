@@ -78,8 +78,6 @@ export default {
   },
   methods: {
     getBannerDisplay(display) {
-      console.log('display的值' + display)
-      console.log('routeTo的值' + this.routeTo)
       
       let result = false
       if(display == true) {
