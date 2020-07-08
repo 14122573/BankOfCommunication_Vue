@@ -224,7 +224,7 @@ export default {
         ],
         introduction: [
           { required: true, whitespace: true, message: '请输入通知公告简介!' },
-          { max: 250, message: '简介字数不能大于250个字'}
+          { max: 250, message: '简介字数不能大于250个字' }
         ]
       },
       uploadFileList: [],

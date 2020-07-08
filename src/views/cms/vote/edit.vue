@@ -95,13 +95,13 @@ export default {
   name: 'VoteEdit',
   data() {
     return {
-      voteId     : null, // null为新增模式，有值为修改模式
-      ruleType   : '0',
-      ruleNum    : 1,
-      creator    : '',
-      introduction : '',
-      description: '',
-      layout     : [
+      voteId      : null, // null为新增模式，有值为修改模式
+      ruleType    : '0',
+      ruleNum     : 1,
+      creator     : '',
+      introduction: '',
+      description : '',
+      layout      : [
         {
           name: {
             label   : '名称',

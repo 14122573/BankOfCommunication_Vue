@@ -63,8 +63,8 @@ export default {
         jumpHref: [
           { required: false, whitespace: true, message: '请输入跳转链接!' }
         ],
-        imgUpload : [
-          { required: true , message: '请上传一张图片!'}
+        imgUpload: [
+          { required: true , message: '请上传一张图片!' }
         ]
       },
       uploadConfig: {
@@ -87,25 +87,25 @@ export default {
             this.$message.error('请至少上传一张图片!')
           } else {
             this.$ajax
-            .post({
-              url   : query,
-              params: {
-                bannerName: this.bannerCreateForm.getFieldValue('title'),
-                linkUrl   : this.bannerCreateForm.getFieldValue('jumpHref'),
-                imgId     : that.imgContent[0].uid
-              }
-            })
-            .then(res => {
-              if (res.code === '200') {
-                this.$message.success('轮播图添加成功')
-                this.$router.push({
-                  name: '/cms/homepageInfoMaintain'
-                })
+              .post({
+                url   : query,
+                params: {
+                  bannerName: this.bannerCreateForm.getFieldValue('title'),
+                  linkUrl   : this.bannerCreateForm.getFieldValue('jumpHref'),
+                  imgId     : that.imgContent[0].uid
+                }
+              })
+              .then(res => {
+                if (res.code === '200') {
+                  this.$message.success('轮播图添加成功')
+                  this.$router.push({
+                    name: '/cms/homepageInfoMaintain'
+                  })
               
-              } else {
-                this.$message.error(res.msg)
-              }
-            })
+                } else {
+                  this.$message.error(res.msg)
+                }
+              })
           }
         } else {
           this.$com.getFormValidErrTips(this, err)

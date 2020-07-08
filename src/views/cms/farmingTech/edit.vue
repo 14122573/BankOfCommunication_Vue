@@ -127,7 +127,7 @@ export default {
         ],
         introduction: [
           { required: true, whitespace: true, message: '请输入养殖技术简介!' },
-          { max: 250, message: '简介字数不能大于250个字'}
+          { max: 250, message: '简介字数不能大于250个字' }
         ]
       },
       uploadFileList: {
@@ -229,12 +229,12 @@ export default {
             // console.log('list',this.formData.videoUrlList,this.uploadFileList)
 
             this.farmingEditForm.setFieldsValue({
-              title      : this.farmingDetails.title,
-              author     : this.farmingDetails.author,
-              keyWord    : this.farmingDetails.keyWord,
+              title       : this.farmingDetails.title,
+              author      : this.farmingDetails.author,
+              keyWord     : this.farmingDetails.keyWord,
               introduction: this.farmingDetails.introduction,
-              releaseDate: this.farmingDetails.releaseDate,
-              source     : this.farmingDetails.source,
+              releaseDate : this.farmingDetails.releaseDate,
+              source      : this.farmingDetails.source,
             })
 
             this.ready = true
@@ -280,7 +280,7 @@ export default {
             'keyWord'      : this.farmingEditForm.getFieldValue('keyWord'),
             'releaseDate'  : this.farmingEditForm.getFieldValue('releaseDate'),
             'source'       : this.farmingEditForm.getFieldValue('source'),
-            'introduction'   : this.farmingEditForm.getFieldValue('introduction'),
+            'introduction' : this.farmingEditForm.getFieldValue('introduction'),
             'attachments'  : this.arrangeFileList(),
             'status'       : type=='save' || type == 'saveNcreate' ? '0' : '1',
             'titleName'    : '养殖技术',
