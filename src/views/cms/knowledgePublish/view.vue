@@ -5,7 +5,7 @@
         <a-row type="flex" justify="space-between" align="middle" :gutter='16'>
           <a-col :span="20">
             <p class="titleName">{{knowledgeDetails.title}}</p>
-            <p class="titleSub"><span class="subcell"><span class="label">作者：</span>{{knowledgeDetails.author}}</span> <span class="subcell"><span class="label">年代：</span>{{knowledgeDetails.years}}</span></p>
+            <p class="titleSub"><span class="subcell"><span class="label">作者：</span>{{knowledgeDetails.author}}</span> <span class="subcell"><span class="label">年代：</span>{{knowledgeDetails.releaseDate}}</span></p>
           </a-col>
           <a-col :span="4"> <a-button type="primary" @click="goBackList" ghost>返回知识文献列表 </a-button> </a-col>
         </a-row>
@@ -13,7 +13,7 @@
       <div class="layoutMargin cmsContentBody" v-if='ready'>
         <div class="cmsContentHtml" v-html="knowledgeDetails.content"></div>
         <div class="cmsContentAttachments">
-          <a-row class="attachmentsPart">
+          <a-row class="attachmentsPart" v-if="videoUrlList.indexOf('null') != -1">
             <a-col span="4">相关线上视频地址：</a-col>
             <a-col span="20">
               <a class="item" v-for="(item,index) in videoUrlList" :key="index" :href="videoUrlList[index]" target="_blank"><a-icon type="link" />{{videoUrlList[index]}}</a>
@@ -86,7 +86,7 @@ export default {
      */
     getDetail(){
       this.$ajax.get({
-        url: this.$api.GET_CMS_KNOWLEDGE_DETAIL.replace('{id}', this.id)
+        url: this.$api.GET_ANNOUNCE_DETAIL.replace('{id}', this.id)
       }).then(res => {
         if(res.code =='200'){
           this.knowledgeDetails = this.$com.confirm(res, 'data.content', {})
