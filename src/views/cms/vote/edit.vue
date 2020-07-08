@@ -13,16 +13,6 @@
         <div class="layoutMargin detailsPartSection">
           <ActiveForm ref="basicForm" :layout="layout" :label-width="150" :model="model">
             <p slot="title" class="detailsPartTitle">基本信息</p>
-            <a-row>
-              <a-col :span="20" class="votingRules" style="display:flex;height:64px;">
-                <span class="formLabel" style="width:150px;text-align:right;line-height:34px;color:#333;">发布人：</span>
-                <a-input v-model="creator" placeholder="请输入" style="width:calc(90% - 150px);"/> 
-              </a-col>
-              <a-col :span="20" class="votingRules" style="display:flex;height:64px;">
-                <span class="formLabel" style="width:150px;text-align:right;line-height:34px;color:#333;">简介：</span>
-                <a-textarea v-model="introduction" placeholder="请输入" style="width:calc(90% - 150px);"></a-textarea>
-              </a-col>
-            </a-row>
             <div class="votingRules" style="display:flex;height:64px;">
               <span class="formLabel" style="width:150px;text-align:right;line-height:34px;color:#333;">投票规则：</span>
               <a-radio-group v-model="ruleType" @change="handleChange">
@@ -132,6 +122,29 @@ export default {
             },
             validate: {
               rules: [ { required: true, message: '请选择投票起止时间' } ]
+            }
+          }
+        },
+        {
+          creator: {
+            label   : '发布人',
+            type    : 'input',
+            width   : 20,
+            validate: {
+              rules: [ { required: true, message: '请输入发布人' } ]
+            }
+          }
+        },
+        {
+          introduction: {
+            label   : '简介',
+            type    : 'textarea',
+            width   : 20,
+            validate: {
+              rules: [ 
+                { required: true, message: '请输入简介' },
+                { max: 250, message: '简介内容不可超过250字' },
+              ]
             }
           }
         },
@@ -364,26 +377,9 @@ export default {
     saveData(status) {
       if (this.checkIsEditing()) return
       this.$refs.basicForm.validate(err => {
+        console.log(this.$refs.basicForm);
+        
         if (err) return
-        this.model.creator = this.creator
-        if (!this.model.creator || this.model.creator=='') {
-          this.$modal.error({
-            title  : '提示',
-            content: '请填写发布人',
-            okText : '确认',
-          })
-          return
-        }
-
-        this.model.introduction = this.introduction
-        if (!this.model.introduction || this.model.introduction=='') {
-          this.$modal.error({
-            title  : '提示',
-            content: '请填写简介',
-            okText : '确认',
-          })
-          return
-        }
 
         this.model.description = this.$refs.ue.value2
         if (!this.model.description || this.model.description=='') {
