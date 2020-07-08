@@ -57,7 +57,7 @@
                     <span v-if="item.isRequired === '0'" class="isMust">* </span>{{index+1}}.{{item.title}}<span> (单选)</span>
                   </a-col>
                   <a-col :span="24">
-                    <a-radio-group v-model="value" @change="(e)=>onRadioChange(e, item.id)" style="display: flex;flex-direction: column;justify-content: space-between;">
+                    <a-radio-group @change="(e)=>onRadioChange(e, item.id)" style="display: flex;flex-direction: column;justify-content: space-between;">
                         <a-radio v-for="v in item.options" :key="v.id" :value="v.id" style="width:100%;padding-bottom: 10px;"> 
                             <span class="radioItem">{{v.value}} </span>
                         </a-radio>
