@@ -76,7 +76,6 @@
                   </a-col>
                 </a-col>
               </a-row>
-              </a-row>
               <a-row :gutter='16'>
                 <a-col span="16">
                   <a-form-item label="附件" :label-col="{span:4}" :wrapper-col="{span:20}" v-if="ready">

@@ -377,7 +377,7 @@ export default {
     saveData(status) {
       if (this.checkIsEditing()) return
       this.$refs.basicForm.validate(err => {
-        console.log(this.$refs.basicForm);
+        console.log(this.$refs.basicForm)
         
         if (err) return
 
