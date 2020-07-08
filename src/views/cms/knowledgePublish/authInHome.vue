@@ -2,7 +2,7 @@
   <div class="knowledgeSection" v-if="isReady">
     <a-row class="knowledgeInHomeTitle" type="flex" justify="space-between" align="middle" :gutter='16' >
       <a-col :span="18"><a-divider class="divider" type="vertical" /><span class="title">新闻资讯</span></a-col>
-      <a-col :span="6" class="algin-right"><span v-if='knowledgeList.length>0' @click="$router.push({name:'/cms/knowledgePublish'})" class="more">查看全部</span></a-col>
+      <a-col :span="6" class="algin-right"><span v-if='knowledgeList.length>0' @click="$router.push({name:'/cms/industry'})" class="more">查看全部</span></a-col>
     </a-row>
 
     <div class="knowledgeInHomeList">

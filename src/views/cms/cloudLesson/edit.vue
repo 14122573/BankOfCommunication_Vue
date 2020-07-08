@@ -25,28 +25,22 @@
               <a-row :gutter='16'>
                 <a-col span="16">
                   <a-form-item label="标题" :label-col="{span:4}" :wrapper-col="{span:20}">
-                    <a-input v-decorator="['title',{validateTrigger: 'blur',rules:rules.title}]" placeholder="请输入云课堂标题"></a-input>
+                    <a-input v-decorator="['title',{validateTrigger: 'blur',rules:rules.title}]" placeholder="请输入养殖技术标题"></a-input>
                   </a-form-item>
                 </a-col>
-                <a-col span="16">
-                  <a-form-item label="来源" :label-col="{span:4}" :wrapper-col="{span:20}">
-                    <a-input v-decorator="['source',{validateTrigger: 'blur',rules:rules.source}]" placeholder="请输入云课堂来源"></a-input>
-                  </a-form-item>
-                </a-col>
-                <a-col span="16">
-                  <a-form-item label="发布时间" :label-col="{span:4}" :wrapper-col="{span:16}">
-                    <a-date-picker v-decorator="['releaseDate', {rules: rules.releaseDate, initialValue: this.$moment().locale('zh-cn') }]" />
-                  </a-form-item>
-                </a-col>
-                <a-col span="16">
-                  <a-form-item label="发稿人" :label-col="{span:4}" :wrapper-col="{span:20}">
-                    <a-input v-decorator="['author',{validateTrigger: 'blur',rules:rules.author, initialValue: postPerson }]"></a-input>
-                  </a-form-item>
-                </a-col>
-                <a-col span="16">
-                  <a-form-item label="关键词" :label-col="{span:4}" :wrapper-col="{span:20}">
-                    <a-input v-decorator="['keyWord',{validateTrigger: 'blur',rules:rules.KeyWord}]" placeholder="请输入关键词"></a-input>
-                  </a-form-item>
+              </a-row>
+              <a-row>
+                <a-col span='16'>
+                  <a-col span="12">
+                    <a-form-item label="来源" :label-col="{span:8}" :wrapper-col="{span:16}">
+                      <a-input v-decorator="['source',{validateTrigger: 'blur',rules:rules.source}]" placeholder="请输入养殖技术来源"></a-input>
+                    </a-form-item>
+                  </a-col>
+                  <a-col span="12">
+                    <a-form-item label="发稿人" :label-col="{span:8}" :wrapper-col="{span:16}">
+                      <a-input v-decorator="['author',{validateTrigger: 'blur',rules:rules.author, initialValue: postPerson }]"></a-input>
+                    </a-form-item>
+                  </a-col>
                 </a-col>
               </a-row>
               <a-row>
@@ -67,6 +61,21 @@
                       ></a-textarea>
                     </a-form-item>
                   </a-col>
+              </a-row>
+              <a-row>
+                <a-col span='16'>
+                  <a-col span="12">
+                    <a-form-item label="发布时间" :label-col="{span:8}" :wrapper-col="{span:16}">
+                      <a-date-picker v-decorator="['releaseDate', {rules: rules.releaseDate, initialValue: this.$moment().locale('zh-cn') }]" />
+                    </a-form-item>
+                  </a-col>
+                  <a-col span="12">
+                    <a-form-item label="关键词" :label-col="{span:8}" :wrapper-col="{span:16}">
+                      <a-input v-decorator="['keyWord',{validateTrigger: 'blur',rules:rules.KeyWord}]" placeholder="请输入关键词"></a-input>
+                    </a-form-item>
+                  </a-col>
+                </a-col>
+              </a-row>
               </a-row>
               <a-row :gutter='16'>
                 <a-col span="16">
@@ -122,7 +131,7 @@ export default {
           { required: false, whitespace: true, message: '请输入关键词!' }
         ],
         releaseDate: [
-          { required: false, message: '请输入发布时间!' }
+          { required: true, message: '请输入发布时间!' }
         ],
         source: [
           { required: true, whitespace: true, message: '请输入云课堂来源!' }

@@ -96,7 +96,7 @@ export default {
           name: {
             label   : '名称',
             type    : 'input',
-            width   : 20,
+            width   : 16,
             validate: {
               rules: [ { required: true, message: '请输入名称' } ]
             }
@@ -106,9 +106,19 @@ export default {
           source: {
             label   : '来源',
             type    : 'input',
-            width   : 20,
+            width   : 16,
             validate: {
               rules: [ { required: true, message: '请输入来源' } ]
+            }
+          }
+        },
+        {
+          creator: {
+            label   : '发布人',
+            type    : 'input',
+            width   : 16,
+            validate: {
+              rules: [ { required: true, message: '请输入发布人' } ]
             }
           }
         },
@@ -116,7 +126,7 @@ export default {
           date: {
             label       : '投票起止时间',
             type        : 'daterange',
-            width       : 20,
+            width       : 16,
             disabledDate: (current) => {
               return current && this.$moment(current, 'YYYY-MM-DD').isBefore(this.$moment().format('YYYY-MM-DD'))
             },
@@ -126,20 +136,10 @@ export default {
           }
         },
         {
-          creator: {
-            label   : '发布人',
-            type    : 'input',
-            width   : 20,
-            validate: {
-              rules: [ { required: true, message: '请输入发布人' } ]
-            }
-          }
-        },
-        {
           introduction: {
             label   : '简介',
             type    : 'textarea',
-            width   : 20,
+            width   : 16,
             validate: {
               rules: [ 
                 { required: true, message: '请输入简介' },

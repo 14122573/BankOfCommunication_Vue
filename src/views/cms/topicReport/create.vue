@@ -38,54 +38,50 @@
                     ></a-input>
                   </a-form-item>
                 </a-col>
-                <a-col span="16">
-                  <a-form-item
-                    label="来源"
-                    :label-col="{ span: 4 }"
-                    :wrapper-col="{ span: 20 }"
+              </a-row>
+                <a-row :gutter="0">
+                  <a-col
+                    span="16"
                   >
-                    <a-input
-                      v-decorator="[
-                        'source',
-                        { validateTrigger: 'blur', rules: rules.source }
-                      ]"
-                      placeholder="请输入专题报告来源"
-                    ></a-input>
-                  </a-form-item>
-                </a-col>
-                <a-col span="16">
-                  <a-form-item
-                    label="发布时间"
-                    :label-col="{ span: 4 }"
-                    :wrapper-col="{ span: 20 }"
-                  >
-                    <a-date-picker
-                      v-decorator="[
-                        'releaseDate',
-                        { validateTrigger: 'change', rules: rules.releaseDate }
-                      ]"
-                    />
-                  </a-form-item>
-                </a-col>
-                <a-col span="16">
-                  <a-form-item
-                    label="发稿人"
-                    :label-col="{ span: 4 }"
-                    :wrapper-col="{ span: 20 }"
-                  >
-                    <a-input
-                      v-decorator="[
-                        'author',
-                        {
-                          validateTrigger: 'blur',
-                          rules: rules.author,
-                          initialValue: postPerson
-                        }
-                      ]"
-                    ></a-input>
-                  </a-form-item>
-                </a-col>
-                <a-col span="16">
+                    <a-col span="12">
+                      <a-form-item
+                        label="来源"
+                        :label-col="{ span: 8 }"
+                        :wrapper-col="{ span: 16 }"
+                      >
+                        <a-input
+                          v-decorator="[
+                            'source',
+                            { validateTrigger: 'blur', rules: rules.source }
+                          ]"
+                          placeholder="请输入专题报告来源"
+                        ></a-input>
+                      </a-form-item>
+                    </a-col>
+
+                    <a-col span="12">
+                      <a-form-item
+                        label="发稿人"
+                        :label-col="{ span: 8 }"
+                        :wrapper-col="{ span: 16 }"
+                      >
+                        <a-input
+                          v-decorator="[
+                            'author',
+                            {
+                              validateTrigger: 'blur',
+                              rules: rules.author,
+                              initialValue: postPerson
+                            }
+                          ]"
+                          placeholder = '请输入发稿人'
+                        ></a-input>
+                      </a-form-item>
+                    </a-col>
+                  </a-col>
+                </a-row>
+                <a-row>
+                  <a-col span="16">
                   <a-form-item
                     label="简介"
                     :label-col="{ span: 4 }"
@@ -96,26 +92,49 @@
                         'introduction',
                         {
                           validateTrigger: 'blur',
-                          rules: rules.introduction,
+                          rules: rules.introduction
                         }
                       ]"
+                      placeholder="请输入简介"
                     ></a-textarea>
                   </a-form-item>
                 </a-col>
+                </a-row>
+              
+              <a-row>
                 <a-col span="16">
-                  <a-form-item
-                    label="关键词"
-                    :label-col="{ span: 4 }"
-                    :wrapper-col="{ span: 16 }"
-                  >
-                    <a-input
-                      v-decorator="[
-                        'keyWord',
-                        { validateTrigger: 'blur', rules: rules.KeyWord }
-                      ]"
-                      placeholder="请输入关键词"
-                    ></a-input>
-                  </a-form-item>
+                  <a-col span='12'>
+                    <a-form-item
+                      label="发布时间"
+                      :label-col="{ span: 8 }"
+                      :wrapper-col="{ span: 16 }"
+                    >
+                      <a-date-picker
+                        v-decorator="[
+                          'releaseDate',
+                          {
+                            validateTrigger: 'change',
+                            rules: rules.releaseDate
+                          }
+                        ]"
+                      />
+                    </a-form-item>
+                  </a-col>
+                  <a-col span='12'>
+                    <a-form-item
+                      label="关键词"
+                      :label-col="{ span: 8 }"
+                      :wrapper-col="{ span: 16 }"
+                    >
+                      <a-input
+                        v-decorator="[
+                          'keyWord',
+                          { validateTrigger: 'blur', rules: rules.KeyWord }
+                        ]"
+                        placeholder="请输入关键词"
+                      ></a-input>
+                    </a-form-item>
+                  </a-col>
                 </a-col>
               </a-row>
               <a-row>
@@ -129,7 +148,7 @@
                       @change="onUploadFileChange"
                       :acceptTypes="uploadConfig.acceptTypesArray"
                       :maxFileSize="uploadConfig.maxSize"
-                      :maxCount="100"
+                      :maxCount="9"
                       :timestamp="Date.now()"
                     ></FileUpload>
                     <a-alert
