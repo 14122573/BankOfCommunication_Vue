@@ -18,6 +18,10 @@
                 <span class="formLabel" style="width:150px;text-align:right;line-height:34px;color:#333;">发布人：</span>
                 <a-input v-model="creator" placeholder="请输入" style="width:calc(90% - 150px);"/> 
               </a-col>
+              <a-col :span="20" class="votingRules" style="display:flex;height:64px;">
+                <span class="formLabel" style="width:150px;text-align:right;line-height:34px;color:#333;">缩略简介：</span>
+                <a-textarea v-model="introduction" placeholder="请输入" style="width:calc(90% - 150px);"></a-textarea>
+              </a-col>
             </a-row>
             <div class="votingRules" style="display:flex;height:64px;">
               <span class="formLabel" style="width:150px;text-align:right;line-height:34px;color:#333;">投票规则：</span>
@@ -95,6 +99,7 @@ export default {
       ruleType   : '0',
       ruleNum    : 1,
       creator    : '',
+      introduction : '',
       description: '',
       layout     : [
         {
@@ -208,9 +213,10 @@ export default {
         url: this.$api.GET_VOTE_DETAIL.replace('{id}', this.voteId)
       }).then(res => { 
         console.log(res)
-        const { name, creator, ruleType, ruleNum, source, startTime, endTime, description, subjects } = res.data.content
+        const { name, creator, introduction, ruleType, ruleNum, source, startTime, endTime, description, subjects } = res.data.content
         this.description = description
         this.creator = creator
+        this.introduction = introduction
         this.ruleType = ruleType?ruleType:'0'
         if(ruleType == '1'){ 
           this.ruleNum = ruleNum 
@@ -368,6 +374,17 @@ export default {
           })
           return
         }
+
+        this.model.introduction = this.introduction
+        if (!this.model.introduction || this.model.introduction=='') {
+          this.$modal.error({
+            title  : '提示',
+            content: '请填写缩略简介',
+            okText : '确认',
+          })
+          return
+        }
+
         this.model.description = this.$refs.ue.value2
         if (!this.model.description || this.model.description=='') {
           this.$modal.error({
@@ -402,11 +419,12 @@ export default {
           method = 'put'
           url = this.$api.PUT_EDIT_VOTE.replace('{id}', this.voteId)
         }
-        const { name, source, creator, ruleType, ruleNum, description, date } = this.model
+        const { name, source, creator,introduction, ruleType, ruleNum, description, date } = this.model
         const params = {
           name,
           source,
           creator,
+          introduction,
           ruleType,
           ruleNum,
           description,

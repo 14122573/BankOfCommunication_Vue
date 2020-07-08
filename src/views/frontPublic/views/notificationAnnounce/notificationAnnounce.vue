@@ -21,7 +21,7 @@
           <a-col :span="4">&nbsp;</a-col>
           <a-divider type="horizontal"></a-divider>
         </a-row>
-        <a-card class="content" :bordered="false" v-html="list.content">
+        <a-card style="overflow-x: scroll" class="content" :bordered="false" v-html="list.content">
         </a-card>
       </div>
     </div>

@@ -87,6 +87,23 @@
                 </a-col>
                 <a-col span="16">
                   <a-form-item
+                    label="简介"
+                    :label-col="{ span: 4 }"
+                    :wrapper-col="{ span: 20 }"
+                  >
+                    <a-textarea
+                      v-decorator="[
+                        'introduction',
+                        {
+                          validateTrigger: 'blur',
+                          rules: rules.introduction,
+                        }
+                      ]"
+                    ></a-textarea>
+                  </a-form-item>
+                </a-col>
+                <a-col span="16">
+                  <a-form-item
                     label="关键词"
                     :label-col="{ span: 4 }"
                     :wrapper-col="{ span: 16 }"
@@ -204,6 +221,10 @@ export default {
         ],
         source: [
           { required: true, whitespace: true, message: '请输入科普知识来源!' }
+        ],
+        introduction: [
+          { required: true, whitespace: true, message: '请输入科普知识简介!' },
+          { max: 250, message: '简介字数不能大于250个字'}
         ]
       },
       uploadFileList: [],
@@ -325,6 +346,7 @@ export default {
             releaseDate  : this.farmingCreateForm.getFieldValue('releaseDate'),
             source       : this.farmingCreateForm.getFieldValue('source'),
             status       : type == 'save' || type == 'saveNcreate' ? '0' : '1',
+            introduction : this.farmingCreateForm.getFieldValue('introduction'),
             attachments  : this.arrangeFileList()
           })
           delete postParams.videoUrlList

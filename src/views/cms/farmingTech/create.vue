@@ -91,7 +91,7 @@
                     :label-col="{ span: 4 }"
                     :wrapper-col="{ span: 20 }"
                   >
-                    <a-input
+                    <a-textarea
                       v-decorator="[
                         'introduction',
                         {
@@ -99,7 +99,7 @@
                           rules: rules.introduction,
                         }
                       ]"
-                    ></a-input>
+                    ></a-textarea>
                   </a-form-item>
                 </a-col>
                 <a-col span="16">
@@ -223,7 +223,8 @@ export default {
           { required: true, whitespace: true, message: '请输入养殖技术来源!' }
         ],
         introduction: [
-          { required: true, whitespace: true, message: '请输入养殖技术简介!' }
+          { required: true, whitespace: true, message: '请输入养殖技术简介!' },
+          { max: 250, message: '简介字数不能大于250个字'}
         ],
       },
       uploadFileList: [],
