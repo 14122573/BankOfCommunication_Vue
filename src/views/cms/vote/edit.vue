@@ -19,7 +19,7 @@
                 <a-input v-model="creator" placeholder="请输入" style="width:calc(90% - 150px);"/> 
               </a-col>
               <a-col :span="20" class="votingRules" style="display:flex;height:64px;">
-                <span class="formLabel" style="width:150px;text-align:right;line-height:34px;color:#333;">缩略简介：</span>
+                <span class="formLabel" style="width:150px;text-align:right;line-height:34px;color:#333;">简介：</span>
                 <a-textarea v-model="introduction" placeholder="请输入" style="width:calc(90% - 150px);"></a-textarea>
               </a-col>
             </a-row>
@@ -38,7 +38,7 @@
               </a-radio-group>
             </div>
             <div style="display:flex;">
-              <span class="formLabel" style="width:150px;text-align:right;color:#333;">简介：</span>
+              <span class="formLabel" style="width:150px;text-align:right;color:#333;">正文：</span>
               <UeditorCompent ref="ue" :value="description" ></UeditorCompent>
             </div> 
           </ActiveForm>
@@ -95,13 +95,13 @@ export default {
   name: 'VoteEdit',
   data() {
     return {
-      voteId      : null, // null为新增模式，有值为修改模式
-      ruleType    : '0',
-      ruleNum     : 1,
-      creator     : '',
-      introduction: '',
-      description : '',
-      layout      : [
+      voteId     : null, // null为新增模式，有值为修改模式
+      ruleType   : '0',
+      ruleNum    : 1,
+      creator    : '',
+      introduction : '',
+      description: '',
+      layout     : [
         {
           name: {
             label   : '名称',
@@ -379,7 +379,7 @@ export default {
         if (!this.model.introduction || this.model.introduction=='') {
           this.$modal.error({
             title  : '提示',
-            content: '请填写缩略简介',
+            content: '请填写简介',
             okText : '确认',
           })
           return
@@ -389,7 +389,7 @@ export default {
         if (!this.model.description || this.model.description=='') {
           this.$modal.error({
             title  : '提示',
-            content: '请填写投票简介',
+            content: '请填写投票正文',
             okText : '确认',
           })
           return

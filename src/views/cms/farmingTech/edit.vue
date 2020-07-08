@@ -49,23 +49,25 @@
                   </a-form-item>
                 </a-col>
               </a-row>
-              <a-col span="16">
-                  <a-form-item
-                    label="简介"
-                    :label-col="{ span: 4 }"
-                    :wrapper-col="{ span: 20 }"
-                  >
-                    <a-textarea
-                      v-decorator="[
-                        'introduction',
-                        {
-                          validateTrigger: 'blur',
-                          rules: rules.introduction,
-                        }
-                      ]"
-                    ></a-textarea>
-                  </a-form-item>
-                </a-col>
+              <a-row>
+                <a-col span="16">
+                    <a-form-item
+                      label="简介"
+                      :label-col="{ span: 4 }"
+                      :wrapper-col="{ span: 20 }"
+                    >
+                      <a-textarea
+                        v-decorator="[
+                          'introduction',
+                          {
+                            validateTrigger: 'blur',
+                            rules: rules.introduction,
+                          }
+                        ]"
+                      ></a-textarea>
+                    </a-form-item>
+                  </a-col>
+              </a-row>
               <a-row :gutter='16'>
                 <a-col span="16">
                   <a-form-item label="附件" :label-col="{span:4}" :wrapper-col="{span:20}" v-if="ready">

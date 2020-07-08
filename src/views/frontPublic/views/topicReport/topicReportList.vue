@@ -4,12 +4,12 @@
     <Navbar class="navbar" />
     <div class="content" v-if="this.news.length !== 0">
       <a-table
-        :columns="columns"
-        :data-source="news"
-        :showHeader="false"
-        :customRow="customRow"
-        :rowKey="news.id"
-      ></a-table>
+          :columns="columns"
+          :data-source="news"
+          :showHeader="false"
+          :customRow="customRow"
+          :rowKey="news.id"
+        ></a-table>
     </div>
 
     <div class="noneCeiling" v-else>

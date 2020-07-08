@@ -2,7 +2,7 @@
   <div class="width_cut">
     <div class="pageWrapper">
       <Navbar class="navbar" />
-      <div class="content">
+      <div class="content" v-if="this.news.length !== 0">
         <a-table
           :columns="columns"
           :data-source="news"
@@ -10,6 +10,9 @@
           :customRow="customRow"
           :rowKey="news.id"
         ></a-table>
+      </div>
+      <div class="noneCeiling" v-else>
+          <img src="@/assets/images/empty_placeholder.jpg" alt=""><span>暂无数据</span>
       </div>
     </div>
   </div>
