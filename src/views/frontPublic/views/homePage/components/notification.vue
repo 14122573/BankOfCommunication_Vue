@@ -36,7 +36,7 @@
                   }}</a-col>
                 </a-row>
                 <a-row>
-                  <a-col class="news_content" :span="24" v-html="item.introduction"> 
+                  <a-col class="news_content" :span="24" :title="item.introduction" v-html="item.introduction"> 
                   </a-col>
                 </a-row>
               </div>

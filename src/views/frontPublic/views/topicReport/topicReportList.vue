@@ -93,7 +93,7 @@ export default {
 .pageWrapper {
   max-width: 1000px;
   margin: 0 auto;
-  height: 700px;
+  padding: 0px 0px 30px 0px;
 }
 
 .pageWrapper .navbar {

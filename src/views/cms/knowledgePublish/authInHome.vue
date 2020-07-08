@@ -60,7 +60,7 @@ export default {
   methods: {
     goToView(id){
       this.$router.push({
-        name  : '/cms/knowledgePublish/view',
+        name  : 'industryDetails',
         params: {
           id: id
         }
