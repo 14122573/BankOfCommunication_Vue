@@ -30,7 +30,7 @@
         <div style="height:40px;display:flex;align-items:center;padding-bottom:10px;margin-bottom:20px;border-bottom:1px solid #eee;">
             <img src="@/assets/images/home/tp_icon.png" alt=""><span class="votingTitle">投票</span> 
         </div>
-        <div v-if="list.result=='0' || list.ruleNum>list.currentNum" :style="'text-align:left;background: url('+tp_bj+') #fff no-repeat right bottom;background-size:contain;'">
+        <div v-if="list.result=='0' || list.ruleNum>list.currentNum" :style="'text-align:left;background: url('+tp_bj+') #fff no-repeat right bottom;'">
           <template v-for="(item, index) in list.subjects">
             <template v-if="item.type=='1'">
                 <a-row :key="item.id" style="margin-bottom:20px;">
