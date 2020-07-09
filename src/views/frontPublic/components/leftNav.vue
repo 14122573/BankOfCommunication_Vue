@@ -25,9 +25,6 @@ export default {
     this.getChildRoutes()
   },
   methods: {
-    handleClick(data) {
-      console.log(data)
-    },
     getTitle(id){
       let homeSectionTitle = JSON.parse(localStorage.getItem('titleList'))
       for(let i = 0 ; i < homeSectionTitle.length; i++) {
@@ -50,7 +47,6 @@ export default {
             if (routeSelectionInside[j].path == currentRoute) {
               route4nav = routeSelectionInside[j].children
               for(let k = 0; k < route4nav.length; k++) {
-                console.log(this.$route.path)
                 if(this.$route.path == route4nav[k].path) {
                   fromWhichRoute.push(k)
                 }

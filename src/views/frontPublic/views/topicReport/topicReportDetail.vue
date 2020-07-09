@@ -22,7 +22,7 @@
         </a-row>
         <a-divider type="horizontal"></a-divider>
         <a-card class="content" :bordered="false" v-html="list.content"></a-card>
-        <div style="text-align: left" v-if="list.attachments.length !== 0">
+        <div style="text-align: left" v-if="list.attachments && !list.attachments.length == 0 && (list.attachments.length == 1 && list.attachments[0].type == '2' ? false : true)">
           <a-divider type="horizontal"></a-divider>
           <span>文件下载：</span>
           <span v-for="(item, index) in list.attachments" :key="index">

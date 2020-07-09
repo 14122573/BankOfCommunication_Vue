@@ -249,6 +249,8 @@ export default {
         })
         break
       case 'homepage':
+        this.$cookie.remove('NavbarList')
+        this.$store.commit('SET_DEFAULTMENU_STATUS', [])
         this.$router.push({ name: 'homepage' })
         break
       case 'logout':
