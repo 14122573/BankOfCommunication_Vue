@@ -204,8 +204,7 @@ export default {
       }).then(res => {
         if(res.code =='200'){
           this.farmingDetails = this.$com.confirm(res, 'data.content', {})
-          
-          // console.log(this.farmingDetails)
+           
           // 初始化修改表单内容
           this.$nextTick(function () {
             this.formData.content = !this.farmingDetails.content?'':this.farmingDetails.content
@@ -214,8 +213,7 @@ export default {
             if(Array.isArray(this.farmingDetails.attachments)){
               for(let i=0;i<this.farmingDetails.attachments.length;i++){
                 switch (this.farmingDetails.attachments[i].type) {
-                case '1': // 为文件上传的附件类型
-                  console.log('HERE')
+                case '1': // 为文件上传的附件类型 
                   
                   that.uploadFileList.default.push({
                     uid   : '-'+(i+1),
@@ -235,8 +233,7 @@ export default {
                 }
               }
             }
-
-            // console.log('list',this.formData.videoUrlList,this.uploadFileList)
+ 
 
             this.farmingEditForm.setFieldsValue({
               title       : this.farmingDetails.title,
@@ -295,8 +292,7 @@ export default {
             'status'       : type=='save' || type == 'saveNcreate' ? '0' : '1',
             'titleName'    : '养殖技术',
             'titleManageId': this.$titleId.farmingId
-          })
-          // console.log(postParams)
+          }) 
 
           this.$ajax.put({
             url   : this.$api.PUT_ANNOUNCE_MODIFY.replace('{id}', this.id),

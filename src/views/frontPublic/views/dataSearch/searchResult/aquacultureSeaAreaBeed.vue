@@ -413,10 +413,8 @@ export default {
     clearHover(record) {
       return {
         on: {
-          mouseenter: (event) => {
-            // console.log(event)
-            let chooseTool = event.srcElement.lastChild
-            // console.log(chooseTool)
+          mouseenter: (event) => { 
+            let chooseTool = event.srcElement.lastChild 
 
             // return document.getElementsByClassName(chooseTool).style.backgroundColor = '#2a93f5'
 

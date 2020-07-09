@@ -68,8 +68,7 @@ export default {
         url: this.$api.GET_PUB_TITLE_MANAGE
       })
       .then(res => {
-        if (res.code == '200') {
-          console.log(res)
+        if (res.code == '200') { 
           let content = this.$com.confirm(res, 'data.content', {})
           localStorage.setItem('titleList', JSON.stringify(content))
           // this.$store.commit('SET_HOMESECTION_TITLE', content)

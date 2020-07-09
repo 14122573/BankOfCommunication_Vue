@@ -291,8 +291,7 @@ export default {
     getList() {
       let releaseDate = '', releaseDate_gt = '', releaseDate_lt = ''
       if(this.farmingSearchForm.getFieldValue('releaseDate')){
-        releaseDate = this.farmingSearchForm.getFieldValue('releaseDate')
-        console.log(releaseDate)
+        releaseDate = this.farmingSearchForm.getFieldValue('releaseDate') 
         
         releaseDate_gt = this.$moment(releaseDate[0]).format('YYYY-MM-DD')
         releaseDate_lt = this.$moment(releaseDate[1]).format('YYYY-MM-DD')

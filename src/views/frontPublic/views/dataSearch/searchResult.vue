@@ -19,8 +19,7 @@ export default {
     query: Array
   },
   mounted() {
-    this.fetchData()
-    console.log(this.query)
+    this.fetchData() 
   },
   data() {
     return {

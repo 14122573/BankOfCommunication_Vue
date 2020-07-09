@@ -174,12 +174,10 @@ export default {
         } else {
           this.options.areas = result
         }
-        this.options.areas = [ ...this.options.areas ]
-        // console.log(this.options.areas)
+        this.options.areas = [ ...this.options.areas ] 
       })
     },
-    async setAreaOptions(ids) { // 处理数据来回显省市区级联选择框的数据
-      // console.log(ids)
+    async setAreaOptions(ids) { // 处理数据来回显省市区级联选择框的数据 
       if (!ids || ids.length <= 0) return
       await this.$ajax.all(
         this.$ajax.get({
@@ -260,8 +258,7 @@ export default {
     // 查询按钮
     search() {
       sessionStorage.setItem('isReload', true)
-      // 判断是否简单搜索,是则初始化省市县数据
-      // console.log(!this.simpleSearchForm)
+      // 判断是否简单搜索,是则初始化省市县数据 
       if (!this.simpleSearchForm) {
         this.getList()
       } else {
@@ -298,16 +295,14 @@ export default {
         countyId  : !countyId ? '' : countyId,
         // 街道
         townId    : !townId ? '' : townId,
-      })
-      // console.log(searchParams)
+      }) 
       await this.$ajax.get({
         url   : this.$api.GET_VETERINARYALL,
         params: searchParams
       }).then(res => {
 
         if (res.code === '200') {
-          this.formList = this.$com.confirm(res, 'data.content', [])
-          // console.log(this.formList)
+          this.formList = this.$com.confirm(res, 'data.content', []) 
 
         } else {
           this.$message.error(res.msg)
@@ -369,10 +364,7 @@ export default {
             }
           })
         }
-      }
-      // console.log(this.$store.state.listSearchParams)
-      // console.log(searchParams.params)
-      // console.log(this.arr)
+      } 
       this.setAreaOptions(this.arr)
       this.getList()
     },

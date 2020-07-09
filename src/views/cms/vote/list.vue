@@ -205,8 +205,7 @@ export default {
         id_desc  : 1
       }
     })
-      .then(res => {
-        console.log(res)
+      .then(res => { 
       
         if (res.code === '200') {
           this.list = this.$com.confirm(res, 'data.content', [])
@@ -386,18 +385,6 @@ export default {
     handlePageChange({ current }) {
       this.currentPage = current
       this.getList()
-    },
-    getMuted() {
-      this.$ajax
-        .get({
-          url: this.$api.GET_BANNER_DETAIL.replace('{id}', 1)
-        })
-        .then(res => {
-          if (res.code === '200') {
-            console.log(res)
-            
-          }
-        })
     }
   }
 }

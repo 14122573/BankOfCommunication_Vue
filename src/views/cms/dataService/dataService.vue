@@ -30,8 +30,7 @@ export default {
     toVeterinary() {
       if (typeof(this.$cookie.get('token')) == 'undefined') {
         this.$router.push({ name: '/veterinary' })
-      }else{
-        // console.log(2)
+      }else{ 
         this.$router.push({ name: 'homeVeterinaryList' })
       }
     }

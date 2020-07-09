@@ -224,8 +224,7 @@ export default {
     getDetail() { //修改的时候获取数据
       this.$ajax.get({
         url: this.$api.GET_VOTE_DETAIL.replace('{id}', this.voteId)
-      }).then(res => { 
-        console.log(res)
+      }).then(res => {  
         const { name, creator, introduction, ruleType, ruleNum, source, startTime, endTime, description, subjects } = res.data.content
         this.description = description
         this.creator = creator
@@ -242,10 +241,8 @@ export default {
         this.questionList = subjects
       })
     },
-    handleChange(e){
-      // console.log('radio checked', e.target.value)
-      // this.result = e.target.value
-      // console.log(this.result)
+    handleChange(e){ 
+      // this.result = e.target.value 
     },
     addNewQuestion() {
       if (this.checkIsEditing()) return
@@ -376,8 +373,7 @@ export default {
     },
     saveData(status) {
       if (this.checkIsEditing()) return
-      this.$refs.basicForm.validate(err => {
-        console.log(this.$refs.basicForm)
+      this.$refs.basicForm.validate(err => { 
         
         if (err) return
 
@@ -428,8 +424,7 @@ export default {
           endTime  : date[1],
           status,
           subjects : this.questionList,
-        } 
-        console.log(params)
+        }  
         this.$ajax[method]({
           url,
           params,
