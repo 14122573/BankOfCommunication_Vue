@@ -71,6 +71,7 @@ export default {
         ],
       },
       ready          : false,
+      parseImgId     : null,
       imgPlaceholder : {},
       uploadFileList : [],
       defaultFileList: [],
@@ -98,31 +99,43 @@ export default {
     },
     saveBanner() {
       let that = this
+      let params = {}
+      // if(this.isTriggered == false) {
+      //   this.$router.go(-1)
+      // } else {
       if(this.isTriggered == false) {
-        this.$router.go(-1)
+        params = {
+          bannerName: this.bannerCreateForm.getFieldValue('title'),
+          linkUrl   : this.bannerCreateForm.getFieldValue('jumpHref'),
+          imgId     : this.parseImgId,
+          id        : this.$route.params.id
+        }
       } else {
         this.imgContent = this.$refs.childFile.getUploadFileList()
-        this.$ajax
-          .put({
-            url   : this.$api.PUT_BANNER.replace('{id}', this.$route.params.id), // 修改的bannerId
-            params: {
-              bannerName: this.bannerCreateForm.getFieldValue('title'),
-              linkUrl   : this.bannerCreateForm.getFieldValue('jumpHref'),
-              imgId     : that.imgContent[0].uid,
-              id        : this.$route.params.id
-            }
-          })
-          .then(res => {
-            if (res.code === '200') {
-              this.$message.success('修改成功')
-              this.$router.push({
-                name: '/cms/homepageInfoMaintain'
-              })
-            } else {
-              this.$message.error(res.msg)
-            }
-          })
+        params = {
+          bannerName: this.bannerCreateForm.getFieldValue('title'),
+          linkUrl   : this.bannerCreateForm.getFieldValue('jumpHref'),
+          imgId     : that.imgContent[0].uid,
+          id        : this.$route.params.id
+        }
       }
+
+      this.$ajax
+        .put({
+          url   : this.$api.PUT_BANNER.replace('{id}', this.$route.params.id), // 修改的bannerId
+          params: params
+        })
+        .then(res => {
+          if (res.code === '200') {
+            this.$message.success('修改成功')
+            this.$router.push({
+              name: '/cms/homepageInfoMaintain'
+            })
+          } else {
+            this.$message.error(res.msg)
+          }
+        })
+      // }
     },
     getDefaultFile() {
       let that = this
@@ -137,6 +150,7 @@ export default {
               title   : this.$com.confirm(res, 'data.content.bannerName', null),
               jumpHref: this.$com.confirm(res, 'data.content.linkUrl', null)
             })
+            this.parseImgId = this.$com.confirm(res, 'data.content.imgId', null),
             that.defaultFileList.push(
               {
                 'url'   : this.$com.confirm(res, 'data.content.filePath', {}),

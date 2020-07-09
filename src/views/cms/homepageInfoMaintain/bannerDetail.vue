@@ -67,7 +67,7 @@ export default {
           if (res.code === '200') {
             that.data = this.$com.confirm(res, 'data.content', {})
             that.imgPlaceholder = this.$com.confirm(res, 'data.content.filePath', '')
-            that.lunboName = this.$com.confirm(res, 'data.content.fileName', '')
+            that.lunboName = this.$com.confirm(res, 'data.content.bannerName', '')
             that.jumpHref = this.$com.confirm(res, 'data.content.linkUrl', '')
           } else {
             this.$message.error(res.msg)

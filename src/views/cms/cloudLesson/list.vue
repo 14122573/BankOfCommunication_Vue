@@ -507,7 +507,7 @@ export default {
       this.pagination.pageNo = 1
       this.farmingSearchForm.setFieldsValue({
         title      : '',
-        releaseDate: [],
+        releaseDate: '',
         keywords   : '',
         content    : '',
         author     : ''
