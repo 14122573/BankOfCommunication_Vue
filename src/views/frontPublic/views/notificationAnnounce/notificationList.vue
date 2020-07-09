@@ -118,8 +118,8 @@ export default {
             pageSize     : 10,
             status_in    : 1,
             voteType     : isLogin ? 1 : 0,
-            pageNo        : this.pagination.pageNo,
-            pageSize      : this.pagination.pageSize,
+            pageNo       : this.pagination.pageNo,
+            pageSize     : this.pagination.pageSize,
           }
         })
         .then(res => {

@@ -90,8 +90,8 @@ export default {
             pageNo       : 1,
             pageSize     : 10,
             status_in    : '1',
-            pageNo        : this.pagination.pageNo,
-            pageSize      : this.pagination.pageSize,
+            pageNo       : this.pagination.pageNo,
+            pageSize     : this.pagination.pageSize,
           }
         })
         .then(res => {

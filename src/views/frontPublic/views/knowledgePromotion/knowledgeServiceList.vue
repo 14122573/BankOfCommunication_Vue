@@ -84,8 +84,8 @@ export default {
             pageNo       : 1,
             pageSize     : 10,
             titleManageId: this.$titleId.knowledgeId,
-            pageNo        : this.pagination.pageNo,
-            pageSize      : this.pagination.pageSize,
+            pageNo       : this.pagination.pageNo,
+            pageSize     : this.pagination.pageSize,
           }
         })
         .then(res => {

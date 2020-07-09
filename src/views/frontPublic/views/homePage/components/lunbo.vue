@@ -1,7 +1,7 @@
 <template>
   <div class="lunbo">
     <!-- <a-carousel :after-change="onChange" effect="fade"> -->
-    <a-carousel class="lunbo_carousel" effect="fade">
+    <a-carousel class="lunbo_carousel" effect="scrollx" autoplay :autoplaySpeed="aSpeed">
       <div
         class="loginPlacement"
         v-for="item in bannerList"
@@ -53,7 +53,8 @@ export default {
       username     : '',
       pageType     : 'login',
       isready      : false,
-      bannerList   : []
+      bannerList   : [],
+      aSpeed       : 5000
     }
   },
   mounted() {
