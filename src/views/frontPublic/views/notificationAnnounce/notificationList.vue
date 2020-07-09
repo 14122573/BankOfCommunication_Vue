@@ -59,8 +59,8 @@ export default {
         },
         {
           title    : '日期',
-          key      : 'releaseDate',
-          dataIndex: 'releaseDate',
+          key      : 'createTime',
+          dataIndex: 'createTime',
           width    : 200
         }
       ],

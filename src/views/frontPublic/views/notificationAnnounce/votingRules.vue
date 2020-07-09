@@ -183,7 +183,7 @@ export default {
         if(res.code == '200'){ 
           this.$modal.success({
             title  : '成功',
-            content: '投票成功成功',
+            content: '投票成功',
             okText : '确认',
           })
           this.$router.back()
