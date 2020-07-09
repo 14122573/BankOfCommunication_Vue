@@ -7,7 +7,7 @@
 </template>
 
 <script>
-import NotifyNIndustry from '@/views/frontPublic/views/homePage/views/inlineWrapper2.vue'
+import NotifyNIndustry from './inlineWrapper2.vue'
 import DataSearch from '@/views/frontPublic/views/homePage/components/dataSearch.vue'
 import KnowledgeNTopic from '@/views/frontPublic/views/homePage/views/inlineWrapper4.vue'
 export default {
