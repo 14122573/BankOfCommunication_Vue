@@ -345,14 +345,19 @@ export default {
     },
     getList() {
       const { name = null, status, date = [] } = this.model
+      if(date && date[1]){
+        var arr = date[1].split('-')
+        arr[2] = Number(arr[2])+1
+        var startTime_lte = arr.join('-')
+      }
       const params = {
-        name_l      : name,
-        status_in   : status.join(','),
-        startTime_gt: date[0] || null,
-        endTime_lt  : date[1] || null,
-        pageNo      : this.currentPage,
-        pageSize    : this.pageSize,
-        id_desc     : 1
+        name_l       : name,
+        status_in    : status.join(','),
+        startTime_gte: date[0] || null,
+        startTime_lte: startTime_lte || null,
+        pageNo       : this.currentPage,
+        pageSize     : this.pageSize,
+        id_desc      : 1
       }
       this.$ajax.get({
         url: this.$api.GET_VOTE_LIST,
