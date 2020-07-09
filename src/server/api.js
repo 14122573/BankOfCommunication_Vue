@@ -20,12 +20,13 @@ default:
 // 默认环境下（开发环境）
   // BASE_URL = 'http://fish.omniview.pro/api'
   BASE_URL = 'http://iftp.omniview.pro/api'
-  MOCK_URL = 'http://yapi.omniview.pro/mock/183'
+  MOCK_URL = 'http://yapi.omniview.pro/mock/267'
   break
 }
 
 export default {
   BASE_URL,
+  MOCK_URL,
   // 全局远程配置文件
   CONFIGS_EXPORTREVIEW_ROUTERS   : BASE_URL.replace('/api', '')+'/attr/exportReviewRouterConfigs.json', //portal专家库评审各子系统内容的菜单跳转配置文件
   CONFIGS_MICSYSTEMS_ROUTERS     : BASE_URL.replace('/api', '')+'/attr/micRouters.json', // 接入portal的子项目路由
@@ -73,6 +74,7 @@ export default {
   GET_CHECK_POINTCODE_EXIT    : '/service-permission/perm/pointKey/repeat', //确认功能码是否已存在
   // 系统配置 -- 角色管理
   GET_ROLE_LIST               : '/service-permission/perm/roles', //获取角色列表
+  GET_CHOOSE_ROLE_LIST        : '/service-permission/perm/available/roles', //获取可选范围角色列表
   GET_ALL_ROLE                : '/service-permission/perm/menu/tree', //获取权限
   ADD_ROLE_POST               : '/service-permission/perm/role', // 新增角色
   ROLE_DETAIL                 : '/service-permission/perm/roles/{id}', // 查询角色权限
@@ -165,5 +167,34 @@ export default {
   DELETE_MANUAL           : '/service-release/release/handbook/{id}', // 删除手册
   // 兽医
   GET_VETERINARYALL       : '/veterinary/veterinary/public/doctor/publicInfo/allpub', // 全部兽医
-  GET_VETERINARY          : '/veterinary/veterinary/public/doctor/publicInfo/pub/{id}/{type}'// 单个兽医
+  GET_VETERINARY          : '/veterinary/veterinary/public/doctor/publicInfo/pub/{id}/{type}',// 单个兽医
+
+  // 栏目管理 
+  GET_TITLE_MANAGE       : '/service-release/release/title/manage', //栏目管理-查询
+  GET_PUB_TITLE_MANAGE   : '/service-release/release/public/title/manage',
+  PUT_TITLE_MANAGE       : '/service-release/release/title/manage/{id}', //栏目管理-修改
+  GET_TITLE_MANAGE_SINGLE: '/service-release/release/title/manage/{id}', //栏目管理-查询-单Id查询
+
+  // // 轮播图
+  GET_BANNER_LIST        : '/service-release/release/banner/chart',  //轮播图-查询
+  GET_PUB_BANNER_LIST    : '/service-release/release/public/banner/chart',
+  GET_BANNER_DETAIL      : '/service-release/release/banner/chart/{id}', //轮播图-查看-详情
+  DELETE_BANNER          : '/service-release/release/banner/chart/{id}', // 轮播图-删除
+  PUT_BANNER             : '/service-release/release/banner/chart/{id}', //轮播图-修改
+  POST_BANNER            : '/service-release/release/banner/chart', //轮播图-新增
+  GET_BANNER_SORT        : '/service-release/release/banner/group', //轮播图-排序-查询可排序数据
+  PUT_BANNER_SORT        : '/service-release/release/banner/group', // 轮播图-排序-添加排序顺序
+  PUT_BANNER_SORT_REMOVE : '/service-release/release/banner/group/{id}', // 轮播图-排序-删除指定轮播图排列顺序
+  // 公告
+  GET_ANNOUNCE_LIST      : '/service-release/release/news', //列表（需登录）
+  GET_ANNOUNCE_DETAIL    : '/service-release/release/news/{id}',//明细（需登录）
+  GET_PUB_ANNOUNCE_LIST  : '/service-release/release/public/news', //列表
+  GET_PUB_ANNOUNCE_DETAIL: '/service-release/release/public/news/{id}', //明细
+  POST_ADD_ANNOUNCE      : '/service-release/release/news', //新增
+  PUT_ANNOUNCE_TOP       : '/service-release/release/news/top/{id}/{top}', //置顶
+  PUT_ANNOUNCE_MODIFY    : '/service-release/release/news/{id}', //修改
+  DELETE_ANNOUNCE        : '/service-release/release/news/{id}', //删除
+  PUT_ANNOUNCE_STATUS    : '/service-release/release/news/{id}/{status}', //修改状态
+  POST_VOTE              : '/service-release/release/public/vote/result/{id}', //投票
+  GET_VOTE_INFO          : '/service-release/release/public/vote/{id}', //投票详情
 }

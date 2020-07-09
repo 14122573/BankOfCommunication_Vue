@@ -13,6 +13,24 @@
         <div class="layoutMargin detailsPartSection">
           <ActiveForm ref="basicForm" :layout="layout" :label-width="150" :model="model">
             <p slot="title" class="detailsPartTitle">基本信息</p>
+            <div class="votingRules" style="display:flex;height:64px;">
+              <span class="formLabel" style="width:150px;text-align:right;line-height:34px;color:#333;">投票规则：</span>
+              <a-radio-group v-model="ruleType" @change="handleChange">
+                <a-radio value="0">
+                  不限制投票次数
+                </a-radio>
+                <a-radio value="1">
+                  限制投票次数
+                  <template v-if="ruleType === '1'">最大为 
+                    <a-input-number :precision="0" :min='1' :max="1000" v-model="ruleNum" placeholder="请输入"/> 次
+                  </template>
+                </a-radio>
+              </a-radio-group>
+            </div>
+            <div style="display:flex;">
+              <span class="formLabel" style="width:150px;text-align:right;color:#333;">正文：</span>
+              <UeditorCompent ref="ue" :value="description" ></UeditorCompent>
+            </div> 
           </ActiveForm>
         </div>
       </div>
@@ -58,29 +76,49 @@
 </template>
 
 <script>
+import UeditorCompent from '@/components/theThreeParty/ueditor.vue'
+
 export default {
+  components: {
+    UeditorCompent
+  },
   name: 'VoteEdit',
   data() {
     return {
-      voteId: null, // null为新增模式，有值为修改模式
-      layout: [
+      voteId      : null, // null为新增模式，有值为修改模式
+      ruleType    : '0',
+      ruleNum     : 1,
+      creator     : '',
+      introduction: '',
+      description : '',
+      layout      : [
         {
           name: {
             label   : '名称',
             type    : 'input',
-            width   : 20,
+            width   : 16,
             validate: {
               rules: [ { required: true, message: '请输入名称' } ]
             }
           },
+        }, 
+        {
+          source: {
+            label   : '来源',
+            type    : 'input',
+            width   : 16,
+            validate: {
+              rules: [ { required: true, message: '请输入来源' } ]
+            }
+          }
         },
         {
-          description: {
-            label   : '简介',
-            type    : 'textarea',
-            width   : 20,
+          creator: {
+            label   : '发布人',
+            type    : 'input',
+            width   : 16,
             validate: {
-              rules: [ { required: true, message: '请输入简介' } ]
+              rules: [ { required: true, message: '请输入发布人' } ]
             }
           }
         },
@@ -88,12 +126,25 @@ export default {
           date: {
             label       : '投票起止时间',
             type        : 'daterange',
-            width       : 20,
+            width       : 16,
             disabledDate: (current) => {
               return current && this.$moment(current, 'YYYY-MM-DD').isBefore(this.$moment().format('YYYY-MM-DD'))
             },
             validate: {
               rules: [ { required: true, message: '请选择投票起止时间' } ]
+            }
+          }
+        },
+        {
+          introduction: {
+            label   : '简介',
+            type    : 'textarea',
+            width   : 16,
+            validate: {
+              rules: [ 
+                { required: true, message: '请输入简介' },
+                { max: 250, message: '简介内容不可超过250字' },
+              ]
             }
           }
         },
@@ -152,6 +203,16 @@ export default {
       isEditing      : false, // question是编辑模式还是完成模式的依据
     }
   },
+  watch: {
+    '$store.state.userInfos': {
+      handler: function(val) {
+        if(!!val){
+          this.creator = '111'//!val.username?'':val.username
+        }
+      },
+      deep: true
+    },
+  },
   mounted() {
     const { query } = this.$route
     if (query && query.id) {
@@ -160,18 +221,28 @@ export default {
     }
   },
   methods: {
-    getDetail() {
+    getDetail() { //修改的时候获取数据
       this.$ajax.get({
         url: this.$api.GET_VOTE_DETAIL.replace('{id}', this.voteId)
-      }).then(res => {
-        const { name, startTime, endTime, description, subjects } = res.data.content
+      }).then(res => {  
+        const { name, creator, introduction, ruleType, ruleNum, source, startTime, endTime, description, subjects } = res.data.content
+        this.description = description
+        this.creator = creator
+        this.introduction = introduction
+        this.ruleType = ruleType?ruleType:'0'
+        if(ruleType == '1'){ 
+          this.ruleNum = ruleNum 
+        }
         this.model = {
-          name,
+          name, 
+          source,
           date: [ startTime, endTime ],
-          description,
         }
         this.questionList = subjects
       })
+    },
+    handleChange(e){ 
+      // this.result = e.target.value 
     },
     addNewQuestion() {
       if (this.checkIsEditing()) return
@@ -302,8 +373,29 @@ export default {
     },
     saveData(status) {
       if (this.checkIsEditing()) return
-      this.$refs.basicForm.validate(err => {
+      this.$refs.basicForm.validate(err => { 
+        
         if (err) return
+
+        this.model.description = this.$refs.ue.value2
+        if (!this.model.description || this.model.description=='') {
+          this.$modal.error({
+            title  : '提示',
+            content: '请填写投票正文',
+            okText : '确认',
+          })
+          return
+        }
+        this.model.ruleType = this.ruleType
+        this.model.ruleNum = this.ruleNum
+        if (this.model.ruleType == '1' && !this.model.ruleNum) {
+          this.$modal.error({
+            title  : '提示',
+            content: '请填写最大投票次数',
+            okText : '确认',
+          })
+          return
+        }
         if (this.questionList.length == 0) {
           this.$modal.error({
             title  : '提示',
@@ -319,33 +411,45 @@ export default {
           method = 'put'
           url = this.$api.PUT_EDIT_VOTE.replace('{id}', this.voteId)
         }
-        const { name, description, date } = this.model
+        const { name, source, creator,introduction, ruleType, ruleNum, description, date } = this.model
         const params = {
           name,
+          source,
+          creator,
+          introduction,
+          ruleType,
+          ruleNum,
           description,
           startTime: date[0],
           endTime  : date[1],
           status,
           subjects : this.questionList,
-        }
+        }  
         this.$ajax[method]({
           url,
           params,
         }).then(res => {
-          if (status == '1') {
-            this.$modal.success({
-              title  : '成功',
-              content: '保存并发布成功',
-              okText : '确认',
-            })
-          } else {
-            this.$modal.success({
-              title  : '成功',
-              content: '保存成功',
-              okText : '确认',
-            })
+          if( res.code == '200'){
+            if (status == '1') {
+              // this.$modal.success({
+              //   title  : '成功',
+              //   content: '保存并发布成功',
+              //   okText : '确认',
+              // }) 
+              this.$message.success('保存并发布成功', 5)
+              this.$router.push({ path: '/cms/vote' })
+            } else {
+              // this.$modal.success({
+              //   title  : '成功',
+              //   content: '保存成功',
+              //   okText : '确认',
+              // })
+              this.$message.success('保存成功', 5)
+              this.$router.push({ path: '/cms/vote' })
+            }
           }
-          this.$nextTick(() => this.$router.back())
+          
+          // this.$nextTick(() => this.$router.push({ path: '/cms/vote' }))
         })
       })
     },
@@ -394,4 +498,19 @@ export default {
   .actions > i:last-child:hover {
     color: red;
   }
+  .formLabel::before {
+    display: inline-block;
+    margin-right: 4px;
+    color: #f5222d;
+    font-size: 14px;
+    font-family: SimSun, sans-serif;
+    line-height: 1;
+    content: '*';
+  }
+</style>
+<style lang="stylus">
+.votingRules 
+  .ant-radio-wrapper
+    line-height 34px
+
 </style>

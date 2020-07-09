@@ -19,5 +19,7 @@ export default {
   },
   tabName          : '',
   listSearchParams : {},
-  chooseSystemLists: []
+  chooseSystemLists: [],
+  isLogin          : false,
+  homeSectionTitle : []
 }

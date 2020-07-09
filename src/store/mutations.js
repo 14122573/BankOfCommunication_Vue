@@ -56,4 +56,10 @@ export default {
   SET_CHOOSESYSLISTS(state, chooseSystemLists) {
     state.chooseSystemLists = JSON.parse(JSON.stringify(chooseSystemLists))
   },
+  SET_ISLOGIN(state, isLogin) {
+    state.isLogin = isLogin
+  },
+  SET_HOMESECTION_TITLE(state, titleList) {
+    state.titleList = titleList
+  }
 }

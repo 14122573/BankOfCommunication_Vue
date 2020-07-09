@@ -1,14 +1,14 @@
 <template>
   <div class="knowledgeSection" v-if="isReady">
     <a-row class="knowledgeInHomeTitle" type="flex" justify="space-between" align="middle" :gutter='16' >
-      <a-col :span="18"><a-divider class="divider" type="vertical" /><span class="title">知识库</span></a-col>
-      <a-col :span="6" class="algin-right"><span v-if='knowledgeList.length>0' @click="$router.push({name:'/cms/knowledgePublish'})" class="more">查看全部</span></a-col>
+      <a-col :span="18"><a-divider class="divider" type="vertical" /><span class="title">新闻资讯</span></a-col>
+      <a-col :span="6" class="algin-right"><span v-if='knowledgeList.length>0' @click="$router.push({name:'/cms/industry'})" class="more">查看全部</span></a-col>
     </a-row>
 
     <div class="knowledgeInHomeList">
       <template v-if='knowledgeList.length>0'>
         <template v-for="(knowledge,index) in knowledgeList">
-          <div @click="goToView(knowledge.id)" :class='{"knowledge":true,"hasBg":(index+1)%2==1}' :key="index">[{{knowledge.years}}] - [{{knowledge.author}}] - {{knowledge.title}} </div>
+          <div @click="goToView(knowledge.id)" :class='{"knowledge":true,"hasBg":(index+1)%2==1}' :key="index">[{{knowledge.releaseDate}}] - [{{knowledge.author}}] - {{knowledge.title}} </div>
         </template>
       </template>
       <template v-else>
@@ -60,7 +60,7 @@ export default {
   methods: {
     goToView(id){
       this.$router.push({
-        name  : '/cms/knowledgePublish/view',
+        name  : 'industryDetails',
         params: {
           id: id
         }
@@ -75,10 +75,11 @@ export default {
       searchParms = Object.assign({}, this.searchForm, {
         pageNo         : this.pagination.pageNo,
         pageSize       : this.pagination.pageSize,
+        titleManageId  : this.$titleId.industryId,
         createTime_desc: 'desc'
       })
       this.$ajax.get({
-        url   : this.$api.GET_CMS_KNOWLEDGE_LIST,
+        url   : this.$api.GET_ANNOUNCE_LIST,
         params: searchParms
       }).then(res => {
         this.pagination.total = this.$com.confirm(res, 'data.totalRows', 0)

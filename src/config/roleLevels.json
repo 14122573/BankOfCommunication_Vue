@@ -1,0 +1,33 @@
+[
+    {
+        "level":1,
+        "levelName":"第一级"
+    },{
+        "level":2,
+        "levelName":"第二级"
+    },{
+        "level":3,
+        "levelName":"第三级"
+    },{
+        "level":4,
+        "levelName":"第四级"
+    },{
+        "level":5,
+        "levelName":"第五级"
+    },{
+        "level":6,
+        "levelName":"第六级"
+    },{
+        "level":7,
+        "levelName":"第七级"
+    },{
+        "level":8,
+        "levelName":"第八级"
+    },{
+        "level":9,
+        "levelName":"第九级"
+    },{
+        "level":10,
+        "levelName":"第十级"
+    }
+]

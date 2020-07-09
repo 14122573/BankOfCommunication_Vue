@@ -86,13 +86,11 @@ export default {
         }else{
           this.$message.error(res.msg)
         }
-        // console.log('oldSysUrls',this.micSysConfigs,this.oldSysUrls)
       })
     }
   },
   computed: {
     menus() {
-      // console.log('computed',this.$store.state.menuList)
       return this.$store.state.menuList
     }
   },
@@ -132,7 +130,6 @@ export default {
      *
      */
     navigateTo({ item, key }, menu) {
-      // console.log(item, key, menu)
       if(menu.meta){
         const openMode = menu.meta.openMode?menu.meta.openMode:'normal'
         switch (openMode) {

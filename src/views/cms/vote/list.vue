@@ -111,6 +111,11 @@ export default {
       list: [],
     }
   },
+  watch: {
+    $route(to, from) {
+      this.getList()
+    }
+  },
   mounted() {
     this.getList()
   },
@@ -190,6 +195,26 @@ export default {
       ]
     }
   },
+  mounted(){
+    this.$ajax.get({
+      url   : this.$api.GET_VOTE_LIST,
+      params: {
+        status_in: '0,1,2,3',
+        pageNo   : this.currentPage,
+        pageSize : this.pageSize,
+        id_desc  : 1
+      }
+    })
+      .then(res => { 
+      
+        if (res.code === '200') {
+          this.list = this.$com.confirm(res, 'data.content', [])
+          this.total = this.$com.confirm(res, 'data.totalRows', 0)
+        } else {
+          this.$message.error(res.msg)
+        }
+      })
+  },
   methods: {
     handleExpand() {
       this.expand = !this.expand
@@ -249,7 +274,7 @@ export default {
       }
       return Math.floor((option / total) * 100)
     },
-    publicResult({ id, name, description, startTime, endTime }) {
+    publicResult({ id, name, description, startTime, endTime, introduction }) {
       const config = {
         title  : '公布投票结果',
         content: '是否确认公布投票结果？',
@@ -266,7 +291,6 @@ export default {
             let content = `
               <h2 style="text-align: center">${name}</h2>
               <p style="text-align: center">投票日期：${startTime.split(' ')[0]} ~ ${endTime.split(' ')}</p>
-              <p style="text-align: center">${description}</p>
             `
             subjects.forEach((item, index) => {
               let options = ''
@@ -287,18 +311,24 @@ export default {
                   ${options}
                 </div>
               `
-              this.$ajax.post({
-                url   : this.$api.POST_CMS_NOTICE,
-                params: {
-                  title : name,
-                  startTime,
-                  endTime,
-                  content,
-                  isTop : '0',
-                  isVote: '1',
-                  status: '1',
-                  voteId: id,
-                }
+            })
+            this.$ajax.post({
+              url   : this.$api.POST_CMS_NOTICE,
+              params: {
+                title        : name,
+                startTime,
+                endTime,
+                introduction,
+                content,
+                isTop        : '0',
+                isVote       : '0',
+                status       : '1',
+                voteId       : id,
+                titleManageId: this.$titleId.notificationId
+              }
+            }).then(() => {
+              this.$ajax.put({
+                url: this.$api.PUT_VOTE_STATUS.replace('{id}', id).replace('{status}', '3')
               }).then(() => {
                 this.$modal.success({
                   title  : '成功',
@@ -314,13 +344,19 @@ export default {
     },
     getList() {
       const { name = null, status, date = [] } = this.model
+      if(date && date[1]){
+        var arr = date[1].split('-')
+        arr[2] = Number(arr[2])+1
+        var startTime_lte = arr.join('-')
+      }
       const params = {
-        name_l      : name,
-        status_in   : status.join(','),
-        startTime_gt: date[0] || null,
-        endTime_lt  : date[1] || null,
-        pageNo      : this.currentPage,
-        pageSize    : this.pageSize,
+        name_l       : name,
+        status_in    : status.join(','),
+        startTime_gte: date[0] || null,
+        startTime_lte: startTime_lte || null,
+        pageNo       : this.currentPage,
+        pageSize     : this.pageSize,
+        id_desc      : 1
       }
       this.$ajax.get({
         url: this.$api.GET_VOTE_LIST,
@@ -349,7 +385,7 @@ export default {
     handlePageChange({ current }) {
       this.currentPage = current
       this.getList()
-    },
+    }
   }
 }
 </script>

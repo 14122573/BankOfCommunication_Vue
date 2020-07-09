@@ -1,105 +1,143 @@
 <template>
   <div class="portalDetailWapper">
-    <div class="portalDetailTitle" v-if="ready">
-        <span class="title">{{noticeDetail.title}}</span>
-        <div class="detailOperations">
-            <a-button @click='$router.back()'>取消</a-button>
-            <a-button type="primary" @click='editKnowledge("save")'>保存</a-button>
-            <a-button type="primary" @click='editKnowledge("publish")'>保存并发布</a-button>
-        </div>
-    </div>
-    <div class="portalDetailContentWapper">
-      <div class="portalDetailContentBody">
-        <a-form :form="noticeEditForm">
+		<div class="portalDetailTitle">
+			<span class="title">修改通知公告</span>
+			<div class="detailOperations">
+				<a-button @click='$router.back()'>取消</a-button>
+				<a-button type="primary" @click="savefarming('save')">保存</a-button>
+        <a-button type="primary" @click="savefarming('saveNcreate')"
+          >保存并新建</a-button
+        >
+        <a-button type="primary" @click="savefarming('publish')"
+          >保存并发布</a-button
+        >
+        <a-button type="primary" @click="savefarming('publishNcreate')"
+          >发布并新建</a-button
+        >
+			</div>
+		</div>
+    <div  class="portalDetailContentWapper">
+      <div class="portalDetailContentBody create-talent" ref="create-talent">
+        <a-form :form="farmingEditForm">
           <div class="layoutMargin detailsPartSection">
             <p class="detailsPartTitle">基本信息</p>
             <div style="margin:0 16px;">
               <a-row :gutter='16'>
                 <a-col span="16">
                   <a-form-item label="标题" :label-col="{span:4}" :wrapper-col="{span:20}">
-                    <a-input v-decorator="['title',{validateTrigger: 'blur',rules:rules.title}]" placeholder="请输入通知公告标题"></a-input>
-                  </a-form-item>
-                </a-col>
-                <a-col span="16" v-if="ready">
-                  <a-form-item label="生效起始时间" :label-col="{span:4}" :wrapper-col="{span:20}">
-                    <a-switch :defaultChecked='formData.openEffectStart' @change="onStartEffectChange" style='margin-right:10px;' />
-                    <a-date-picker style="width:300px" v-show="formData.openEffectStart" v-decorator="['startTime']" :format="timeFormat" showTime/>
-                  </a-form-item>
-                </a-col>
-                <a-col span="16" v-if="ready">
-                  <a-form-item label="生效截止时间" :label-col="{span:4}" :wrapper-col="{span:20}">
-                    <a-switch :defaultChecked='formData.openEffectEnd'  @change="onEndEffectChange" style='margin-right:10px;' />
-                    <a-date-picker style="width:300px" v-show="formData.openEffectEnd" v-decorator="['endTime']" :format="timeFormat" :showTime="{ defaultValue: $moment('00:00:00', 'HH:mm:ss') }"/>
+                    <a-input v-decorator="['title',{validateTrigger: 'blur',rules:rules.title}]" placeholder="请输入养殖技术标题"></a-input>
                   </a-form-item>
                 </a-col>
               </a-row>
-              <a-row :gutter='16' v-if="ready">
-                <a-col span="8">
-                  <a-form-item label="置顶否" :label-col="{span:8}" :wrapper-col="{span:16}">
-                    <a-radio-group :defaultValue="formData.isTop" @change="onPlacmentChange">
-                      <a-radio-button v-for="item in createFormOption.isTop" :key="item.value" :value="item.value">{{item.label}}</a-radio-button>
-                    </a-radio-group>
-                  </a-form-item>
+              <a-row>
+                <a-col span='16'>
+                  <a-col span="12">
+                    <a-form-item label="来源" :label-col="{span:8}" :wrapper-col="{span:16}">
+                      <a-input v-decorator="['source',{validateTrigger: 'blur',rules:rules.source}]" placeholder="请输入养殖技术来源"></a-input>
+                    </a-form-item>
+                  </a-col>
+                  <a-col span="12">
+                    <a-form-item label="发稿人" :label-col="{span:8}" :wrapper-col="{span:16}">
+                      <a-input v-decorator="['author',{validateTrigger: 'blur',rules:rules.author, initialValue: postPerson }]"></a-input>
+                    </a-form-item>
+                  </a-col>
                 </a-col>
               </a-row>
-              <a-row :gutter="16">
+              <a-row>
                 <a-col span="16">
-                  <a-form-item label="PDF文档" :label-col="{span:4}" :wrapper-col="{span:20}" v-if="ready">
-                    <FileUpload @change="onUploadFileChange" :defaultFileList='uploadFileList.default' :acceptTypes="uploadConfig.acceptTypesArray" :maxCount="100"  :maxFileSize="uploadConfig.maxSize" :timestamp="Date.now()"></FileUpload>
-                    <a-alert style="margin-top:16px" message="仅能上传PDF格式文件" type="info" showIcon />
+                    <a-form-item
+                      label="简介"
+                      :label-col="{ span: 4 }"
+                      :wrapper-col="{ span: 20 }"
+                    >
+                      <a-textarea
+                        v-decorator="[
+                          'introduction',
+                          {
+                            validateTrigger: 'blur',
+                            rules: rules.introduction,
+                          }
+                        ]"
+                      ></a-textarea>
+                    </a-form-item>
+                  </a-col>
+              </a-row>
+              <a-row>
+                <a-col span='16'>
+                  <a-col span="12">
+                    <a-form-item label="发布时间" :label-col="{span:8}" :wrapper-col="{span:16}">
+                      <a-date-picker v-decorator="['releaseDate', {rules: rules.releaseDate, initialValue: this.$moment().locale('zh-cn') }]" />
+                    </a-form-item>
+                  </a-col>
+                  <a-col span="12">
+                    <a-form-item label="关键词" :label-col="{span:8}" :wrapper-col="{span:16}">
+                      <a-input v-decorator="['keyWord',{validateTrigger: 'blur',rules:rules.KeyWord}]" placeholder="请输入关键词"></a-input>
+                    </a-form-item>
+                  </a-col>
+                </a-col>
+              </a-row>
+              <a-row :gutter='16'>
+                <a-col span="16">
+                  <a-form-item label="附件" :label-col="{span:4}" :wrapper-col="{span:20}" v-if="ready">
+                    <FileUpload @change="onUploadFileChange" :defaultFileList='uploadFileList.default' :acceptTypes="uploadConfig.acceptTypesArray" :maxCount="9"  :maxFileSize="uploadConfig.maxSize" :timestamp="Date.now()"></FileUpload>
+                    <a-alert style="margin-top:16px" message="支持的格式为：word、excel、ceb、cebx" type="info" showIcon />
                   </a-form-item>
                 </a-col>
               </a-row>
             </div>
           </div>
-        </a-form>
-        <div class="layoutMargin detailsPartSection">
-          <p class="detailsPartTitle">正文内容</p>
-          <div style="margin:0 16px;">
-            <UeditorCompent @ready="editorReady" ref="ue" :value="formData.defaultContent" ></UeditorCompent>
+
+          <div class="layoutMargin detailsPartSection">
+            <p class="detailsPartTitle">通知公告正文内容</p>
+            <div style="margin:0 16px;"> 
+               <UeditorCompent ref="ue" :value="formData.content" ></UeditorCompent>
+            </div>
           </div>
-        </div>
+        </a-form>
       </div>
     </div>
   </div>
 
 </template>
+<style scoped>
+.iconButton{ padding:3px 6px}
+</style>
 <script>
+import FileUpload from '@/components/Upload/fileUpload' 
 import UeditorCompent from '@/components/theThreeParty/ueditor.vue'
-import FileUpload from '@/components/Upload/fileUpload'
 export default {
-  components: { UeditorCompent, FileUpload },
+  components: {
+    FileUpload, UeditorCompent
+  },
   data() {
     return {
-      ready           : false,
-      id              : this.$route.params.id,
-      timeFormat      : 'YYYY-MM-DD HH:mm:ss',
-      noticeEditForm  : this.$form.createForm(this),
-      noticeDetail    : {},
-      createFormOption: {
-        isTop: [ {
-          label: '不置顶',
-          value: '0'
-        }, {
-          label: '置顶',
-          value: '1'
-        } ],
+      id             : this.$route.params.id,
+      ready          : false,
+      farmingEditForm: this.$form.createForm(this),
+      farmingDetails : {},
+      formData       : {
+        content: '',
       },
-      st      : '',
-      formData: {
-        isTop          : '0',
-        openEffectStart: false,
-        openEffectEnd  : false,
-        defaultContent : 'qwerqwreq',
-        content        : ''
-      },
-      defaultEffectTime: {
-        startTime: '1900-01-01 00:00:00',
-        endTime  : '2099-01-01 00:00:00'
-      },
-      rules: {
+      postPerson: null,
+      rules     : {
         title: [
           { required: true, whitespace: true, message: '请输入通知公告标题!' },
+        ],
+        author: [
+          { required: true, whitespace: true, message: '请输入通知公告作者!' }
+        ],
+        KeyWord: [
+          { required: false, whitespace: true, message: '请输入关键词!' }
+        ],
+        releaseDate: [
+          { required: true, message: '请输入发布时间!' }
+        ],
+        source: [
+          { required: true, whitespace: true, message: '请输入通知公告来源!' }
+        ],
+        introduction: [
+          { required: true, whitespace: true, message: '请输入养殖技术简介!' },
+          { max: 250, message: '简介字数不能大于250个字' }
         ]
       },
       uploadFileList: {
@@ -107,120 +145,43 @@ export default {
         used   : []
       },
       uploadConfig: {
-        maxSize         : 5*1024*1024,
-        acceptTypesArray: [ 'pdf' ]
+        maxSize         : 10*1024*1024,
+        acceptTypesArray: [ 'doc', 'docx', 'xlsx', 'xls', 'ceb', 'cebx' ]
       }
     }
   },
   created(){
-    this.getDetail()
   },
   mounted() {
+    this.getDetail()
   },
   methods: {
-    getDetail(){
+    /**
+      获取当前用户名称
+     */
+    getUserInfo() {
       this.$ajax.get({
-        url: this.$api.GET_CMS_NOTICE_DETAIL.replace('{id}', this.id)
+        url: this.$api.GET_USER_INFO,
       }).then(res => {
-        if(res.code =='200'){
-          this.noticeDetail = this.$com.confirm(res, 'data.content', {})
-          this.formData.defaultContent = this.noticeDetail.content
-          this.formData.isTop = this.noticeDetail.isTop
-          this.formData.openEffectStart = this.$com.oneOf(this.noticeDetail.startTime, [ '', this.defaultEffectTime.startTime ])?false:true
-          this.formData.openEffectEnd = this.$com.oneOf(this.noticeDetail.endTime, [ '', this.defaultEffectTime.endTime ])?false:true
-
-          // 附件
-          if(Array.isArray(this.noticeDetail.attachments)){
-            for(let i=0;i<this.noticeDetail.attachments.length;i++){
-              this.uploadFileList.default.push({
-                uid   : '-'+(i+1),
-                name  : !this.noticeDetail.attachments[i].fileName?'none':this.noticeDetail.attachments[i].fileName,
-                status: 'done',
-                url   : this.noticeDetail.attachments[i].filePath
-              })
-              this.uploadFileList.used.push({
-                uid   : '-'+(i+1),
-                name  : !this.noticeDetail.attachments[i].fileName?'none':this.noticeDetail.attachments[i].fileName,
-                status: 'done',
-                url   : this.noticeDetail.attachments[i].filePath
-              })
-            }
-            // console.log(this.noticeDetail.attachments)   // --- 获取原有的文件
-          }
-          //初始化表单数据
-          this.$nextTick(function () {
-            this.noticeEditForm.setFieldsValue({ title: this.noticeDetail.title })
-            if(this.formData.openEffectStart){
-              this.noticeEditForm.setFieldsValue({ startTime: this.$moment(this.noticeDetail.startTime, this.timeFormat) })
-            }
-            if(this.formData.openEffectEnd){
-              this.noticeEditForm.setFieldsValue({ endTime: this.$moment(this.noticeDetail.endTime, this.timeFormat) })
-            }
-          })
-
-          this.ready=true
-
-        }else{
-          this.$message.error(res.msg)
-        }
+        let content = res.data.content
+        this.postPerson =  content.name
       })
     },
 
     /**
-     * 监听表单’是否开启生效起始时间‘选项变动，并暂存
-     * @param {Boolean} checked true：开启
+     * 整理填写的线上视频地址数组和上传的文件数组，合并成指定提交的数据格式
+     * @returns {Array} 合并后的文件数组
      */
-    onStartEffectChange(checked){
-      this.formData.openEffectStart = checked
-    },
-
-    /**
-     * 监听表单’是否开启生效截止时间‘选项变动，并暂存
-     * @param {Boolean} checked true：开启
-     */
-    onEndEffectChange(checked){
-      this.formData.openEffectEnd = checked
-    },
-
-    /**
-     * 监听表单’置顶否‘选项变动，并暂存
-     * @param {Object} e change事件对象
-     */
-    onPlacmentChange(e){
-      this.formData.isTop = e.target.value
-    },
-
-    /**
-     * 监听表单’文献PDF附件‘上传变动，并暂存
-     * @param {Array} filelist 最新变动已上传的文件对象列表
-     */
-    onUploadFileChange(filelist){
-      this.uploadFileList.used = [].concat(filelist)
-      // console.log(this.uploadFileList)
-
-    },
-
-    /**
-     * 监听UEditor内容变更，并存储
-     * @param {Object} instance
-     */
-    editorReady(instance) {
-      instance.setContent(this.formData.content)
-      instance.addListener('contentChange', () => {
-        this.formData.content = instance.getContent()
-        // console.log('editorReady',this.formData.content )
-      })
-    },
     arrangeFileList(){
-      const { used } = this.uploadFileList
-      if (!used || used.length <= 0) return []
-      return used.map((item, index) => {
+      const fileList = this.uploadFileList.used.map((item, index) => {
         if(item.uid && item.uid.toString().indexOf('-')==0){// 未修改PDF
           return {
             type    : 1,
             sort    : index+1,
-            filePath: item.url,
-            fileName: item.name
+            // filePath: item.url,
+            // fileName: item.name
+            fileId  : item.uid,
+            filePath: item.url
           }
         }else{ // 新上传的PDF
           return {
@@ -230,61 +191,134 @@ export default {
           }
         }
       })
+      return fileList
+    },
+
+    /**
+     * 获取详情
+     */
+    getDetail(){
+      let that = this
+      this.$ajax.get({
+        url: this.$api.GET_ANNOUNCE_DETAIL.replace('{id}', this.id)
+      }).then(res => {
+        if(res.code =='200'){
+          this.farmingDetails = this.$com.confirm(res, 'data.content', {})
+           
+          // 初始化修改表单内容
+          this.$nextTick(function () {
+            this.formData.content = !this.farmingDetails.content?'':this.farmingDetails.content
+
+            // this.farmingDetails.attachments
+            if(Array.isArray(this.farmingDetails.attachments)){
+              for(let i=0;i<this.farmingDetails.attachments.length;i++){
+                switch (this.farmingDetails.attachments[i].type) {
+                case '1': // 为文件上传的附件类型 
+                  
+                  that.uploadFileList.default.push({
+                    uid   : '-'+(i+1),
+                    name  : !this.farmingDetails.attachments[i].fileName?'none':this.farmingDetails.attachments[i].fileName,
+                    status: 'done',
+                    url   : this.farmingDetails.attachments[i].filePath
+                  })
+                  that.uploadFileList.used.push({
+                    uid   : '-'+(i+1),
+                    name  : !this.farmingDetails.attachments[i].fileName?'none':this.farmingDetails.attachments[i].fileName,
+                    status: 'done',
+                    url   : this.farmingDetails.attachments[i].filePath
+                  })
+                  break
+                default:
+                  break
+                }
+              }
+            } 
+
+            this.farmingEditForm.setFieldsValue({
+              title       : this.farmingDetails.title,
+              author      : this.farmingDetails.author,
+              keyWord     : this.farmingDetails.keyWord,
+              introduction: this.farmingDetails.introduction,
+              releaseDate : this.farmingDetails.releaseDate,
+              source      : this.farmingDetails.source,
+            })
+
+            this.ready = true
+          })
+        }else{
+          this.$message.error(res.msg)
+        }
+      })
+    },
+
+    /**
+     * 监听表单’通知公告PDF附件‘上传变动，并暂存
+     * @param {Array} filelist 最新变动已上传的文件对象列表
+     */
+    onUploadFileChange(filelist){
+      this.uploadFileList.used = [].concat(filelist)
     },
 
     /**
      * 提交表单内容
      * @param {String} type 提交表单内容的数据保存类型，暂存：save；保存并发布：publish
      */
-    editKnowledge(type){
+    savefarming(type){
       type = !type?'save':type
-      this.noticeEditForm.validateFields(err => {
+      let description = ''
+      this.farmingEditForm.validateFields(err => {
         if (!err) {
-          //检查生效起始时间设置，并存储或提示
-          if(this.formData.openEffectStart){
-            if(!this.noticeEditForm.getFieldValue('startTime')){
-              this.$com.getFormValidErrTips(this, err, '请填写生效起始时间！')
-              return
-            }else{
-              this.formData.startTime = this.$moment(this.noticeEditForm.getFieldValue('startTime')).format(this.timeFormat)
-            }
-          }else{
-            this.formData.startTime = this.defaultEffectTime.startTime
-          }
-          //检查生效截止时间设置，并存储或提示
-          if(this.formData.openEffectEnd){
-            if(!this.noticeEditForm.getFieldValue('endTime')){
-              this.$com.getFormValidErrTips(this, err, '请填写生效截止时间！')
-              return
-            }else{
-              this.formData.endTime = this.$moment(this.noticeEditForm.getFieldValue('endTime')).format(this.timeFormat)
-            }
-          }else{
-            this.formData.endTime = this.defaultEffectTime.endTime
-          }
-          //检查生效截止时间设置，并存储或提示
-          if(this.formData.content.length<1){
-            this.$com.getFormValidErrTips(this, err, '请填写通知公告正文内容！')
+          this.formData.content = this.$refs.ue.value2
+          if(this.formData.content==''){
+            this.$modal.error({
+              title     : '表单验证未通过',
+              content   : '请填写通知公告正文内容',
+              okText    : '确认',
+              cancelText: '取消',
+            })
             return
           }
-          const postParams = Object.assign({}, this.formData, {
-            'title'      : this.noticeEditForm.getFieldValue('title'),
-            'isVote'     : '0', // 默认创建的为非投票结果文章
-            'status'     : type=='save'?'0':'1',
-            'attachments': this.arrangeFileList()
-          })
 
-          delete postParams.openEffectStart
-          delete postParams.openEffectEnd
-          delete postParams.defaultContent
+          const postParams = Object.assign({}, this.formData, {
+            'id'           : this.id,
+            'title'        : this.farmingEditForm.getFieldValue('title'),
+            'author'       : this.farmingEditForm.getFieldValue('author'),
+            'keyWord'      : this.farmingEditForm.getFieldValue('keyWord'),
+            'releaseDate'  : this.farmingEditForm.getFieldValue('releaseDate'),
+            'source'       : this.farmingEditForm.getFieldValue('source'),
+            'introduction' : this.farmingEditForm.getFieldValue('introduction'),
+            'attachments'  : this.arrangeFileList(),
+            'status'       : type=='save' || type == 'saveNcreate' ? '0' : '1',
+            'titleName'    : '通知公告',
+            'titleManageId': this.$titleId.notificationId
+          }) 
 
           this.$ajax.put({
-            url   : this.$api.PUT_CMS_NOTICE_DETAIL.replace('{id}', this.id),
+            url   : this.$api.PUT_ANNOUNCE_MODIFY.replace('{id}', this.id),
             params: postParams
           }).then(res => {
             if (res.code === '200') {
-              this.$message.success(type=='save'?'暂存成功':'保存并发布成功')
-              this.$router.push({ name: '/cms/notice' })
+              switch (type) {
+              case 'save':
+                description = '暂存成功'
+                this.$router.go(-1)
+                break
+              case 'saveNcreate':
+                description = '暂存并新建成功'
+                this.$router.push({ name: '/cms/notice/create' })
+                break
+              case 'publish':
+                description = '发布成功'
+                this.$router.go(-1)
+                break
+              case 'publishNcreate':
+                description = '发布并新建成功'
+                this.$router.push({ name: '/cms/notice/create' })
+                break
+              default:
+                break
+              }
+              this.$message.success(description)
             }
           })
         }else{
@@ -295,4 +329,7 @@ export default {
   }
 }
 </script>
+<style scoped>
+
+</style>
 

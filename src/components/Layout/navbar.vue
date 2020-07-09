@@ -38,7 +38,6 @@ export default {
   },
   mounted() {
     const list = this.$cookie.get('NavbarList')
-    // console.log('NavbarList',JSON.parse(list))
     if(list && list.length>0){
       this.list = JSON.parse(list)
     }else{
@@ -96,13 +95,11 @@ export default {
   watch: {
     $route(to, from) {
       let navList = []
-      // console.log('navbar',to, from,to.matched)
       if(to && to.matched && Array.isArray(to.matched)){
         if (!to.name) {
           const parentRoute = this.routeList.find(item => to.path.startsWith(item.path))
           navList.push({ title: '首页', routerName: 'home', path: '/home' })
           if(parentRoute){
-            // console.log('navbar in ',to,parentRoute)
             navList.push({ title: parentRoute.meta.title, routerName: parentRoute.name, path: parentRoute.path, openMode: !parentRoute.meta.openMode?'normal':parentRoute.meta.openMode })
           }
         }

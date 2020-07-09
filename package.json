@@ -12,11 +12,10 @@
     "build:devol": "cross-env NODE_ENV='devol' node build/build.js",
     "build:sit": "cross-env NODE_ENV='sit' node build/build.js",
     "build:uat": "cross-env NODE_ENV='uat' node build/build.js"
-
   },
   "dependencies": {
     "@chenfengyuan/vue-qrcode": "^1.0.2",
-    "ant-design-vue": "^1.4.3",
+    "ant-design-vue": "^1.5.0",
     "axios": "^0.19.2",
     "babel-polyfill": "^6.26.0",
     "crypto-js": "^4.0.0",

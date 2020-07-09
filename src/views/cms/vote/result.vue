@@ -11,7 +11,7 @@
     <div class="container">
       <h2>{{content.name}}</h2>
       <p>投票日期：{{`${content.startTime && content.startTime.split(' ')[0]} ~ ${content.endTime && content.endTime.split(' ')[0]}`}}</p>
-      <p v-if="content.description">{{content.description}}</p>
+      <p v-if="content.description" v-html="content.description"></p>
       <div v-for="(item, index) in content.subjects" :key="item.key">
         <p class="title">
           {{`${index + 1}、${item.title}`}}

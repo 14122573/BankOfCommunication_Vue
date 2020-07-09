@@ -1,9 +1,9 @@
 <template>
   <div id="portalApp">
-    <a-locale-provider :locale="zh_CN">
+    <a-config-provider :locale="zh_CN">
       <!-- <Loader /> -->
       <router-view/>
-    </a-locale-provider>
+    </a-config-provider>
   </div>
 </template>
 

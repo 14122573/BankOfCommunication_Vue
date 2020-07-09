@@ -1,6 +1,6 @@
 // 整体布局文件
 <template>
-<a-locale-provider :locale="zh_CN">
+<a-config-provider :locale="zh_CN">
 	<a-layout id="portal">
 		<Loader />
 		<template v-if="showPurePage">
@@ -35,6 +35,7 @@
 									<a-menu-item key="person">账户信息</a-menu-item>
 									<a-menu-item v-if="showTransferDatas" key="transferDatas">转移个人数据</a-menu-item>
 									<a-menu-item v-if="$permission('P21001')" key="expert">专家个人信息</a-menu-item>
+                  <a-menu-item key="homepage">前往门户首页</a-menu-item>
 									<a-menu-item key="logout">退出登录</a-menu-item>
 								</a-menu>
 							</a-dropdown>
@@ -60,7 +61,7 @@
 			</a-layout>
 		</template>
 	</a-layout>
-</a-locale-provider>
+</a-config-provider>
 </template>
 <script>
 import{ mapState } from 'vuex'
@@ -132,8 +133,7 @@ export default {
     $route(to, from) {
       this.calcBackTopTarget()
       // 切换页面时获取返回顶部按钮的dom依据
-      // let MicConfigs = this.$store.state.micSystemResourceConfig?this.$store.state.micSystemResourceConfig[process.env.NODE_ENV=='development'?'sit':process.env.NODE_ENV]:[]
-      // // console.log('calcBackTopTarget',MicConfigs)
+      // let MicConfigs = this.$store.state.micSystemResourceConfig?this.$store.state.micSystemResourceConfig[process.env.NODE_ENV=='development'?'sit':process.env.NODE_ENV]:[] 
       // if (MicConfigs.length > 0) {
       //   // 根据配置文件的子项目路由前缀自动识别state.showSpaContent应该是true还是false
       //   this.showSpaContent = MicConfigs.some(item => to.path.startsWith(item.pathPrefix))
@@ -247,8 +247,14 @@ export default {
           }
         })
         break
+      case 'homepage':
+        this.$cookie.remove('NavbarList')
+        this.$store.commit('SET_DEFAULTMENU_STATUS', [])
+        this.$router.push({ name: 'homepage' })
+        break
       case 'logout':
         this.plogout()
+        this.$store.commit('SET_ISLOGIN', false)
         break
       default:
         break

@@ -1,222 +1,409 @@
 <template>
   <div class="portalDetailWapper">
-		<div class="portalDetailTitle">
-			<span class="title">新建通知公告</span>
-			<div class="detailOperations">
-				<a-button @click='$router.back()'>取消</a-button>
-				<a-button type="primary" @click='saveKnowledge("save")'>保存</a-button>
-				<a-button type="primary" @click='saveKnowledge("publish")'>保存并发布</a-button>
-			</div>
-		</div>
-    <div  class="portalDetailContentWapper">
+    <div class="portalDetailTitle">
+      <span class="title">新建通知公告</span>
+      <div class="detailOperations">
+        <a-button @click="$router.back()">取消</a-button>
+        <a-button type="primary" @click="savefarming('save')">保存</a-button>
+        <a-button type="primary" @click="savefarming('saveNcreate')"
+          >保存并新建</a-button
+        >
+        <a-button type="primary" @click="savefarming('publish')"
+          >保存并发布</a-button
+        >
+        <a-button type="primary" @click="savefarming('publishNcreate')"
+          >发布并新建</a-button
+        >
+      </div>
+    </div>
+    <div class="portalDetailContentWapper">
       <div class="portalDetailContentBody create-talent" ref="create-talent">
-        <a-form :form="noticeCreateForm">
+        <a-form :form="farmingCreateForm">
           <div class="layoutMargin detailsPartSection">
             <p class="detailsPartTitle">基本信息</p>
             <div style="margin:0 16px;">
-              <a-row :gutter='16'>
-                <a-col span="16">
-                  <a-form-item label="标题" :label-col="{span:4}" :wrapper-col="{span:20}">
-                    <a-input v-decorator="['title',{validateTrigger: 'blur',rules:rules.title}]" placeholder="请输入通知公告标题"></a-input>
-                  </a-form-item>
-                </a-col>
-                <a-col span="16">
-                  <a-form-item label="生效起始时间" :label-col="{span:4}" :wrapper-col="{span:20}">
-                    <a-switch @change="onStartEffectChange" style='margin-right:10px;' />
-                    <!-- <a-date-picker style="width:300px" @change='onStartEffectTimeChange' @ok='onStartEffectTimeCheck' v-show="formData.openEffectStart" v-decorator="['startTime']" format="YYYY-MM-DD HH:mm:ss" :disabledDate="disabledDate" :disabledTime="disabledDateTime" :showTime="{ defaultValue: $moment('00:00:00', 'HH:mm:ss') }"/> -->
-                    <a-date-picker style="width:300px" v-show="formData.openEffectStart" v-decorator="['startTime']" :format="timeFormat" showTime />
-                  </a-form-item>
-                </a-col>
-                <a-col span="16">
-                  <a-form-item label="生效截止时间" :label-col="{span:4}" :wrapper-col="{span:20}">
-                    <a-switch @change="onEndEffectChange" style='margin-right:10px;' />
-                    <a-date-picker style="width:300px" v-show="formData.openEffectEnd" v-decorator="['endTime']" :format="timeFormat" showTime />
-                  </a-form-item>
-                </a-col>
-              </a-row>
-              <a-row :gutter='16'>
-                <a-col span="8">
-                  <a-form-item label="置顶否" :label-col="{span:8}" :wrapper-col="{span:16}">
-                    <a-radio-group :defaultValue="formData.isTop" @change="onPlacmentChange">
-                      <a-radio-button v-for="item in createFormOption.isTop" :key="item.value" :value="item.value">{{item.label}}</a-radio-button>
-                    </a-radio-group>
-                  </a-form-item>
-                </a-col>
-              </a-row>
               <a-row :gutter="16">
                 <a-col span="16">
-                  <a-form-item label="附件" :label-col="{span:4}" :wrapper-col="{span:20}">
-                    <FileUpload @change="onUploadFileChange"  :acceptTypes="uploadConfig.acceptTypesArray" :maxFileSize="uploadConfig.maxSize" :maxCount="100" :timestamp="Date.now()"></FileUpload>
-                      <a-alert style="margin-top:16px" message="仅能上传PDF格式文件" type="info" showIcon />
+                  <a-form-item
+                    label="标题"
+                    :label-col="{ span: 4 }"
+                    :wrapper-col="{ span: 20 }"
+                  >
+                    <a-input
+                      v-decorator="[
+                        'title',
+                        { validateTrigger: 'blur', rules: rules.title }
+                      ]"
+                      placeholder="请输入通知公告标题"
+                    ></a-input>
+                  </a-form-item>
+                </a-col>
+              </a-row>
+                <a-row :gutter="0">
+                  <a-col
+                    span="16"
+                  >
+                    <a-col span="12">
+                      <a-form-item
+                        label="来源"
+                        :label-col="{ span: 8 }"
+                        :wrapper-col="{ span: 16 }"
+                      >
+                        <a-input
+                          v-decorator="[
+                            'source',
+                            { validateTrigger: 'blur', rules: rules.source }
+                          ]"
+                          placeholder="请输入通知公告来源"
+                        ></a-input>
+                      </a-form-item>
+                    </a-col>
+
+                    <a-col span="12">
+                      <a-form-item
+                        label="发稿人"
+                        :label-col="{ span: 8 }"
+                        :wrapper-col="{ span: 16 }"
+                      >
+                        <a-input
+                          v-decorator="[
+                            'author',
+                            {
+                              validateTrigger: 'blur',
+                              rules: rules.author,
+                              initialValue: postPerson
+                            }
+                          ]"
+                          placeholder = '请输入发稿人'
+                        ></a-input>
+                      </a-form-item>
+                    </a-col>
+                  </a-col>
+                </a-row>
+                <a-row>
+                  <a-col span="16">
+                  <a-form-item
+                    label="简介"
+                    :label-col="{ span: 4 }"
+                    :wrapper-col="{ span: 20 }"
+                  >
+                    <a-textarea
+                      v-decorator="[
+                        'introduction',
+                        {
+                          validateTrigger: 'blur',
+                          rules: rules.introduction
+                        }
+                      ]"
+                      placeholder="请输入简介"
+                    ></a-textarea>
+                  </a-form-item>
+                </a-col>
+                </a-row>
+              
+              <a-row>
+                <a-col span="16">
+                  <a-col span='12'>
+                    <a-form-item
+                      label="发布时间"
+                      :label-col="{ span: 8 }"
+                      :wrapper-col="{ span: 16 }"
+                    >
+                      <a-date-picker
+                        v-decorator="[
+                          'releaseDate',
+                          {
+                            validateTrigger: 'change',
+                            rules: rules.releaseDate
+                          }
+                        ]"
+                      />
+                    </a-form-item>
+                  </a-col>
+                  <a-col span='12'>
+                    <a-form-item
+                      label="关键词"
+                      :label-col="{ span: 8 }"
+                      :wrapper-col="{ span: 16 }"
+                    >
+                      <a-input
+                        v-decorator="[
+                          'keyWord',
+                          { validateTrigger: 'blur', rules: rules.KeyWord }
+                        ]"
+                        placeholder="请输入关键词"
+                      ></a-input>
+                    </a-form-item>
+                  </a-col>
+                </a-col>
+              </a-row>
+              <a-row>
+                <a-col span="16">
+                  <a-form-item
+                    label="附件"
+                    :label-col="{ span: 4 }"
+                    :wrapper-col="{ span: 20 }"
+                  >
+                    <FileUpload
+                      @change="onUploadFileChange"
+                      :acceptTypes="uploadConfig.acceptTypesArray"
+                      :maxFileSize="uploadConfig.maxSize"
+                      :maxCount="9"
+                      :timestamp="Date.now()"
+                    ></FileUpload>
+                    <a-alert
+                      style="margin-top:16px"
+                      message="支持的格式为：word、excel、ceb、cebx"
+                      type="info"
+                      showIcon
+                    />
                   </a-form-item>
                 </a-col>
               </a-row>
             </div>
           </div>
           <div class="layoutMargin detailsPartSection">
-            <p class="detailsPartTitle">正文内容</p>
+            <p class="detailsPartTitle">通知公告正文内容</p>
             <div style="margin:0 16px;">
-              <UeditorCompent style='width:80%' @ready="editorReady" ref="ue"  ></UeditorCompent>
+              <!-- <VueUeditorWrap v-model="formData.content" :config='ueditorConfig'></VueUeditorWrap> -->
+              <UeditorCompent
+                ref="ue"
+                :value="formData.content"
+              ></UeditorCompent>
             </div>
           </div>
         </a-form>
       </div>
     </div>
   </div>
-
 </template>
+<style scoped>
+.iconButton {
+  padding: 3px 6px;
+}
+</style>
+
 <script>
-import UeditorCompent from '@/components/theThreeParty/ueditor'
 import FileUpload from '@/components/Upload/fileUpload'
+// import VueUeditorWrap from 'vue-ueditor-wrap'
+import UeditorCompent from '@/components/theThreeParty/ueditor.vue'
 export default {
-  components: { UeditorCompent, FileUpload },
+  components: {
+    FileUpload,
+    UeditorCompent
+  },
   data() {
+    const validateVideoPath = (rule, value, callback) => {
+      if (!value) {
+        callback()
+      } else {
+        const startStr = value.substr(0, 8).toLowerCase()
+        if (
+          startStr.indexOf('https://') != -1 ||
+          startStr.indexOf('http://') != -1
+        ) {
+          callback()
+        } else {
+          callback('请输入带有\'Http://\'或\'https://\'完整线上视频地址')
+        }
+      }
+    }
     return {
-      timeFormat      : 'YYYY-MM-DD HH:mm:ss',
-      noticeCreateForm: this.$form.createForm(this),
       createFormOption: {
-        isTop: [ {
-          label: '不置顶',
-          value: '0'
-        }, {
-          label: '置顶',
-          value: '1'
-        } ],
+        type: [
+          {
+            label: '视频',
+            value: '0'
+          },
+          {
+            label: 'PDF',
+            value: '1'
+          }
+        ]
       },
-      formData: {
-        isTop          : '0',
-        openEffectStart: false,
-        openEffectEnd  : false,
-        content        : ''
+      farmingCreateForm: this.$form.createForm(this),
+      formData         : {
+        content     : '',
+        videoUrlList: [ '' ]
       },
-      defaultEffectTime: {
-        startTime: '1900-01-01 00:00:00',
-        endTime  : '2099-01-01 00:00:00'
-      },
-      rules: {
+      postPerson: null,
+      rules     : {
         title: [
-          { required: true, whitespace: true, message: '请输入通知公告标题!' },
+          { required: true, whitespace: true, message: '请输入通知公告标题!' }
+        ],
+        author: [
+          { required: true, whitespace: true, message: '请输入通知公告作者!' }
+        ],
+        releaseDate: [ { required: true, message: '请输入发布时间!' } ],
+        KeyWord    : [
+          { required: false, whitespace: true, message: '请输入关键词!' }
+        ],
+        source: [
+          { required: true, whitespace: true, message: '请输入通知公告来源!' }
+        ],
+        introduction: [
+          { required: true, whitespace: true, message: '请输入通知公告简介!' },
+          { max: 250, message: '简介字数不能大于250个字' }
         ]
       },
       uploadFileList: [],
       uploadConfig  : {
-        maxSize         : 5*1024*1024,
-        acceptTypesArray: [ 'pdf' ]
+        maxSize         : 10 * 1024 * 1024,
+        acceptTypesArray: [ 'doc', 'docx', 'xlsx', 'xls', 'ceb', 'cebx' ]
       }
     }
   },
   mounted() {
+    this.getUserInfo()
   },
   methods: {
     /**
-     * 监听表单’是否开启生效起始时间‘选项变动，并暂存
-     * @param {Boolean} checked true：开启
+      获取当前用户名称
      */
-    onStartEffectChange(checked){
-      this.formData.openEffectStart = checked
+    getUserInfo() {
+      this.$ajax
+        .get({
+          url: this.$api.GET_USER_INFO
+        })
+        .then(res => {
+          let content = res.data.content
+          this.postPerson = content.name
+          this.farmingCreateForm.setFieldsValue({
+            releaseDate: this.$moment().locale('zh-cn')
+          })
+        })
     },
 
     /**
-     * 监听表单’是否开启生效截止时间‘选项变动，并暂存
-     * @param {Boolean} checked true：开启
+     * 整理填写的线上视频地址数组和上传的文件数组，合并成指定提交的数据格式
+     * @returns {Array} 合并后的文件数组
      */
-    onEndEffectChange(checked){
-      this.formData.openEffectEnd = checked
-    },
-
-    /**
-     * 监听表单’置顶否‘选项变动，并暂存
-     * @param {Object} e change事件对象
-     */
-    onPlacmentChange(e){
-      this.formData.isTop = e.target.value
-    },
-
-    /**
-     * 监听UEditor内容变更，并存储
-     * @param {Object} instance
-     */
-    editorReady(instance) {
-      instance.setContent(this.formData.content)
-      instance.addListener('contentChange', () => {
-        this.formData.content = instance.getContent()
-        // console.log('editorReady',this.formData.content )
+    arrangeFileList() {
+      const fileList = this.uploadFileList.map((item, index) => {
+        return {
+          type    : 1,
+          sort    : index + 1,
+          fileId  : item.uid,
+          fileName: item.name
+        }
       })
+      const videoList = this.formData.videoUrlList.map((item, index) => {
+        return {
+          type    : 2,
+          sort    : fileList.length + index + 1,
+          filePath: item
+        }
+      })
+      return fileList.concat(videoList)
     },
 
     /**
-     * 监听表单’文献PDF附件‘上传变动，并暂存
+     * 批量检查输入的线上视频地址是否符合格式
+     * @param {Array} urls 一维已填写的线上地址数组
+     * @returns {Boolean} 已传入地址数组中的每个元素是否符合url地址要求
+     */
+    checkVideoUrl(urls) {
+      if (Array.isArray(urls) && urls.length > 0) {
+        return urls.every(url => {
+          if (!url) return true
+          const str = url.toLowerCase()
+          return str.startsWith('https://') || str.startsWith('http://')
+        })
+      } else {
+        return true
+      }
+    },
+
+    /**
+     * 通过增加videoUrlList组数长度，控制可填写的视频地址input输入框个数
+     */
+    addVideo() {
+      this.formData.videoUrlList.push('')
+    },
+
+    /**
+     * 删除指定下标位置的线上视频地址
+     * @param {Number}  index formData.videoUrlList数组下标
+     */
+    deleteVideoUrl(index) {
+      this.formData.videoUrlList.splice(index, 1)
+    },
+
+    /**
+     * 监听表单’通知公告PDF附件‘上传变动，并暂存
      * @param {Array} filelist 最新变动已上传的文件对象列表
      */
-    onUploadFileChange(filelist){
+    onUploadFileChange(filelist) {
       this.uploadFileList = [].concat(filelist)
-      // console.log(this.uploadFileList)
-
     },
 
     /**
      * 提交表单内容
      * @param {String} type 提交表单内容的数据保存类型，暂存：save；保存并发布：publish
      */
-    saveKnowledge(type){
-      type = !type?'save':type
-      this.noticeCreateForm.validateFields(err => {
+    savefarming(type) {
+      type = !type ? 'save' : type
+      let description = ''
+      this.farmingCreateForm.validateFields(err => {
         if (!err) {
-          //检查生效起始时间设置，并存储或提示
-          if(this.formData.openEffectStart){
-            if(!this.noticeCreateForm.getFieldValue('startTime')){
-              this.$com.getFormValidErrTips(this, err, '请填写生效起始时间！')
-              return
-            }else{
-              this.formData.startTime = this.$moment(this.noticeCreateForm.getFieldValue('startTime')).format(this.timeFormat)
-            }
-          }else{
-            this.formData.startTime = this.defaultEffectTime.startTime
-          }
-          //检查生效截止时间设置，并存储或提示
-          if(this.formData.openEffectEnd){
-            if(!this.noticeCreateForm.getFieldValue('endTime')){
-              this.$com.getFormValidErrTips(this, err, '请填写生效截止时间！')
-              return
-            }else{
-              this.formData.endTime = this.$moment(this.noticeCreateForm.getFieldValue('endTime')).format(this.timeFormat)
-            }
-          }else{
-            this.formData.endTime = this.defaultEffectTime.endTime
-          }
-          //检查生效截止时间设置，并存储或提示
-          if(this.formData.content.length<1){
-            this.$com.getFormValidErrTips(this, err, '请填写通知公告正文内容！')
+          this.formData.content = this.$refs.ue.value2
+          if (this.formData.content == '') {
+            this.$modal.error({
+              title     : '表单验证未通过',
+              content   : '请填写通知公告正文内容',
+              okText    : '确认',
+              cancelText: '取消'
+            })
             return
           }
-          const attachments = this.uploadFileList.map(item => {
-            return {
-              fileId  : item.uid,
-              type    : '1',
-              filePath: item.url,
-            }
-          })
+
           const postParams = Object.assign({}, this.formData, {
-            'title' : this.noticeCreateForm.getFieldValue('title'),
-            'isVote': '0', // 默认创建的为非投票结果文章
-            'status': type=='save'?'0':'1',
-            attachments, // 附件
+            titleManageId: this.$titleId.notificationId,
+            title        : this.farmingCreateForm.getFieldValue('title'),
+            author       : this.farmingCreateForm.getFieldValue('author'),
+            keyWord      : this.farmingCreateForm.getFieldValue('keyWord'),
+            releaseDate  : this.farmingCreateForm.getFieldValue('releaseDate'),
+            source       : this.farmingCreateForm.getFieldValue('source'),
+            introduction : this.farmingCreateForm.getFieldValue('introduction'),
+            status       : type == 'save' || type == 'saveNcreate' ? '0' : '1',
+            attachments  : this.arrangeFileList()
           })
+          delete postParams.videoUrlList
 
-          delete postParams.openEffectStart
-          delete postParams.openEffectEnd
-
-          this.$ajax.post({
-            url   : this.$api.POST_CMS_NOTICE,
-            params: postParams
-          }).then(res => {
-            // console.log(res)
-            if (res.code === '200') {
-              this.$message.success(type=='save'?'暂存成功':'保存并发布成功')
-              this.$router.push({ name: '/cms/notice' })
-            }
-          })
-        }else{
+          this.$ajax
+            .post({
+              url   : this.$api.POST_ADD_ANNOUNCE,
+              params: postParams
+            })
+            .then(res => {
+              if (res.code === '200') {
+                switch (type) {
+                case 'save':
+                  description = '暂存成功'
+                  this.$router.go(-1)
+                  break
+                case 'saveNcreate':
+                  description = '暂存并新建成功'
+                  this.farmingCreateForm.resetFields()
+                  this.formData.content = ''
+                  break
+                case 'publish':
+                  description = '发布成功'
+                  this.$router.go(-1)
+                  break
+                case 'publishNcreate':
+                  description = '发布并新建成功'
+                  this.$router.push({ name: '/cms/notice/create' })
+                  this.farmingCreateForm.resetFields()
+                  this.formData.content = ''
+                  break
+                default:
+                  break
+                }
+                this.$message.success(description)
+              }
+            })
+        } else {
           this.$com.getFormValidErrTips(this, err)
         }
       })
@@ -224,4 +411,3 @@ export default {
   }
 }
 </script>
-

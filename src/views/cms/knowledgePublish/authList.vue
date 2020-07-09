@@ -193,13 +193,14 @@ export default {
         title_l        : !this.knowledgeSearchForm.getFieldValue('title')?'':this.knowledgeSearchForm.getFieldValue('title'),
         author_l       : !this.knowledgeSearchForm.getFieldValue('author')?'':this.knowledgeSearchForm.getFieldValue('author'),
         status_in      : '1',
-        createTime_desc: 'desc'
+        createTime_desc: 'desc',
+        titleManageId  : this.$titleId.industryId
       }, {
         pageNo  : this.pagination.pageNo,
         pageSize: this.pagination.pageSize
       })
       this.$ajax.get({
-        url   : this.$api.GET_CMS_KNOWLEDGE_LIST,
+        url   : this.$api.GET_ANNOUNCE_LIST,
         params: searchParms
       }).then(res => {
         this.pagination.total = this.$com.confirm(res, 'data.totalRows', 0)

@@ -97,11 +97,8 @@ export default {
           'url'     : this.file[i],
         })
       }
-    }
-    // console.log(this.file)
-    // console.log(this.files)
-    this.fileList = this.netList.concat(this.fileList)
-    // console.log(this.fileList)
+    } 
+    this.fileList = this.netList.concat(this.fileList) 
 
   },
   methods: {

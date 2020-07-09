@@ -5,8 +5,11 @@ const TipsNetworkErr = () => import('@/views/tips/network')
 const TipsInnerNetworkErr = () => import('@/views/tips/innerNetwork')
 const TipsNoAuth = () => import('@/views/tips/auth')
 const ErrorPage = () => import('@/views/tips/error-page')
+const HomeFeature = () =>
+  import('@/views/frontPublic/views/homePage/views/homeFeature')
 const HomePage = () => import('@/views/home')
 const LoginPage = () => import('@/views/login/login')
+const Home = () => import('@/views/frontPublic/views/homePage/views/home')
 const RegisterPage = () => import('@/views/login/register')
 const OldSysLogout = () => import('@/views/login/oldSysLogout')
 const BindPhone = () => import('@/views/login/bindPhone')
@@ -46,19 +49,97 @@ const NewUserView = () =>
 // 专家管理人员
 const LibraryEdit = () =>
   import('@/views/expertManagement/components/libraryEdit') // 人才库、专家库、专家个人信息的新增及修改共用组件
-const demo = () => import('@/views/demo/use-ueditor')
 const ExtractExample = () => import('@/components/ActiveExtract/example')
-// 内容管理-知识文库
-const KnowledgeList = () => import('@/views/cms/knowledge/list')
-const KnowledgeCreate = () => import('@/views/cms/knowledge/create')
-const KnowledgeEdit = () => import('@/views/cms/knowledge/edit')
-const KnowledgeDetail = () => import('@/views/cms/knowledge/details')
+// 内容管理-行业动态
+const KnowledgeList = () => import('@/views/cms/industry/list')
+const KnowledgeCreate = () => import('@/views/cms/industry/create')
+const KnowledgeEdit = () => import('@/views/cms/industry/edit')
+const KnowledgeDetail = () => import('@/views/cms/industry/details')
 const KnowledgePublishedList = () =>
   import('@/views/cms/knowledgePublish/authList')
 const KnowledgePublishedAnonymousList = () =>
   import('@/views/cms/knowledgePublish/anonymousList')
 const KnowledgeView = () => import('@/views/cms/knowledgePublish/view')
+
+// 首页
+const NotificationAnnounce = () =>
+  import('@/views/frontPublic/views/notificationAnnounce/notificationAnnounce')
+const NotificationList = () =>
+  import('@/views/frontPublic/views/notificationAnnounce/notificationList')
+const VotingRules = () =>
+  import('@/views/frontPublic/views/notificationAnnounce/votingRules')
+const IndustryList = () =>
+  import('@/views/frontPublic/views/industryNews/industryList.vue')
+
+const IndustryDetails = () => 
+  import('@/views/frontPublic/views/industryNews/industryDetails.vue')
+const DataSearch = () =>
+  import('@/views/frontPublic/views/dataSearch/dataSearch.vue')
+const DataSearchResult = () =>
+  import('@/views/frontPublic/views/dataSearch/searchResult.vue')
+const KnowledgeService = () =>
+  import('@/views/frontPublic/views/knowledgeService/knowledgeService.vue')
+const TopicReportList = () =>
+  import('@/views/frontPublic/views/topicReport/topicReportList')
+
+const TopicReportDetail = () =>
+  import('@/views/frontPublic/views/topicReport/TopicReportDetail')
+// 子项目
+const FarmingTechContent = () =>
+  import('@/views/frontPublic/views/farmingTech/farmingTechContent.vue')
+
+const FarmingTechContentDetail = () =>
+  import('@/views/frontPublic/views/farmingTech/farmingTechDetails.vue')
+
+const knowledgeServiceList = () =>
+  import(
+    '@/views/frontPublic/views/knowledgePromotion/knowledgeServiceList.vue'
+  )
+
+const knowledgeServiceDetail = () =>
+  import(
+    '@/views/frontPublic/views/knowledgePromotion/knowledgeServiceDetails.vue'
+  )
+
+const CloudLessonContent = () =>
+  import('@/views/frontPublic/views/cloudLesson/cloudLessonContent.vue')
+
+const cloudLessonDetail = () =>
+  import('@/views/frontPublic/views/cloudLesson/cloudLessonDetail.vue')
+
+// 内容管理-首页信息维护管理
+const HomepageInfoMaintainView = () => import('@/views/cms/homepageInfoMaintain/index')
+const AddBanner = () => import('@/views/cms/homepageInfoMaintain/addBanner')
+const ModifyBanner = () => import('@/views/cms/homepageInfoMaintain/modifyBanner')
+const BannerDetail = () => import('@/views/cms/homepageInfoMaintain/bannerDetail')
+const BannerSort = () => import('@/views/cms/homepageInfoMaintain/bannerSort')
+
+// 内容管理-养殖技术
+const FarmingTechList = () => import('@/views/cms/farmingTech/list')
+const FarmingCreate = () => import('@/views/cms/farmingTech/create')
+const FarmingDetail = () => import('@/views/cms/farmingTech/detail')
+const FarmingEdit = () => import('@/views/cms/farmingTech/edit')
+
+// 内容管理-科普知识
+const KnowledgePromotionList = () => import('@/views/cms/knowledgePromotion/list')
+const KnowledgePromotionCreate = () => import('@/views/cms/knowledgePromotion/create')
+const KnowledgePromotionDetail = () => import('@/views/cms/knowledgePromotion/detail')
+const KnowledgePromotionEdit = () => import('@/views/cms/knowledgePromotion/edit')
+
+// 内容管理-云课堂
+const CloudLessonList = () => import('@/views/cms/cloudLesson/list')
+const CloudLessonCreate = () => import('@/views/cms/cloudLesson/create')
+const CloudLessonDetail = () => import('@/views/cms/cloudLesson/detail')
+const CloudLessonEdit = () => import('@/views/cms/cloudLesson/edit')
+
+// 内容管理 - 专题报告
+const TopicList = () => import('@/views/cms/topicReport/list')
+const TopicCreate = () => import('@/views/cms/topicReport/create')
+const TopicDetail = () => import('@/views/cms/topicReport/detail')
+const TopicEdit = () => import('@/views/cms/topicReport/edit')
+
 // 内容管理-通知公告
+
 const NoticeList = () => import('@/views/cms/notice/list')
 const NoticeCreate = () => import('@/views/cms/notice/create')
 const NoticeEdit = () => import('@/views/cms/notice/edit')
@@ -78,6 +159,9 @@ const ManualView = () => import('@/views/cms/manual/manual-view')
 // 数据服务 - 渔业兽医
 const VeterinaryList = () => import('@/views/cms/dataService/veterinaryList')
 const VeterinaryView = () => import('@/views/cms/dataService/view')
+
+// 知识服务
+// const KnowledgeService = () => import('@/views/new_login/components/knowledgeService')
 
 /**
  * 要求：
@@ -107,12 +191,6 @@ const appRoutes = [
         name     : 'home',
         component: HomePage,
         meta     : { title: '首页' }
-      },
-      {
-        path     : '/demo',
-        name     : 'demo',
-        component: demo,
-        meta     : { title: 'demo' }
       },
       {
         path     : '/home/homeVeterinaryList',
@@ -435,11 +513,127 @@ const appRoutes = [
         },
         children: [
           {
-            path     : '/cms/knowledge',
-            name     : '/cms/knowledge',
-            component: KnowledgeList,
+            path     : '/cms/homepageInfoMaintain',
+            name     : '/cms/homepageInfoMaintain',
+            component: HomepageInfoMaintainView,
             meta     : {
-              title      : '知识文库管理',
+              title      : '首页信息维护管理',
+              menuPath   : true,
+              authCode   : 'P03000',
+              menuIcon   : 'cluster',
+              hideInBread: false,
+              openMode   : 'normal'
+            },
+            children: [
+              {
+                path     : '/cms/homepageInfoMaintain/addBanner',
+                name     : '/cms/homepageInfoMaintain/addBanner',
+                component: AddBanner,
+                meta     : {
+                  title      : '添加轮播图',
+                  menuPath   : true,
+                  authCode   : 'P32000',
+                  menuIcon   : 'file-text',
+                  hideInBread: false,
+                },
+              },
+              {
+                path     : '/cms/homepageInfoMaintain/modifyBanner/:id',
+                name     : '/cms/homepageInfoMaintain/modifyBanner',
+                component: ModifyBanner,
+                meta     : {
+                  title      : '修改轮播图',
+                  menuPath   : true,
+                  authCode   : 'P32000',
+                  menuIcon   : 'file-text',
+                  hideInBread: false,
+                },
+              },
+              {
+                path     : '/cms/homepageInfoMaintain/bannerDetail/:id',
+                name     : '/cms/homepageInfoMaintain/bannerDetail',
+                component: BannerDetail,
+                meta     : {
+                  title      : '轮播图详情',
+                  menuPath   : false,
+                  authCode   : 'P03301',
+                  menuIcon   : 'cluster',
+                  hideInBread: false,
+                  openMode   : 'normal'
+                },
+              },
+              {
+                path     : '/cms/homepageInfoMaintain/bannerSort',
+                name     : '/cms/homepageInfoMaintain/bannerSort',
+                component: BannerSort,
+                meta     : {
+                  title      : '轮播图排序',
+                  menuPath   : true,
+                  authCode   : 'P32000',
+                  menuIcon   : 'file-text',
+                  hideInBread: false,
+                },
+              }
+            ]
+          },
+          {
+            path     : '/cms/farmingtech',
+            name     : '/cms/farmingtech',
+            component: FarmingTechList,
+            meta     : {
+              title      : '养殖技术管理',
+              tabName    : 'farmingNews',
+              menuPath   : true,
+              authCode   : 'P32000',
+              menuIcon   : 'file-text',
+              hideInBread: false,
+            },
+            children: [
+              {
+                path     : '/cms/farmingtech/create',
+                name     : '/cms/farmingtech/create',
+                component: FarmingCreate,
+                meta     : {
+                  title      : '新建养殖技术',
+                  menuPath   : false,
+                  authCode   : 'P32001',
+                  menuIcon   : 'file-text',
+                  hideInBread: false
+                }
+              },
+              {
+                path     : '/cms/farmingtech/edit/:id',
+                name     : '/cms/farmingtech/edit',
+                component: FarmingEdit,
+                meta     : {
+                  title      : '修改养殖技术',
+                  menuPath   : false,
+                  authCode   : 'P32001',
+                  menuIcon   : 'file-text',
+                  hideInBread: false
+                }
+              },
+              {
+                path     : '/cms/farmingtech/:id',
+                name     : '/cms/farmingtech/detail',
+                component: FarmingDetail,
+                meta     : {
+                  title      : '查看养殖技术详情',
+                  menuPath   : false,
+                  authCode   : 'P33003',
+                  menuIcon   : 'file-text',
+                  hideInBread: false
+                }
+              }
+            ]
+          },
+          {
+            path     : '/cms/knowledgepromotion',
+            name     : '/cms/knowledgepromotion',
+            component: KnowledgePromotionList,
+            meta     : {
+              title      : '科普知识管理',
+              tabName    : 'knowledgeNews',
               menuPath   : true,
               authCode   : 'P32000',
               menuIcon   : 'file-text',
@@ -447,11 +641,112 @@ const appRoutes = [
             },
             children: [
               {
-                path     : '/cms/knowledge/create',
-                name     : '/cms/knowledge/create',
+                path     : '/cms/knowledgepromotion/create',
+                name     : '/cms/knowledgepromotion/create',
+                component: KnowledgePromotionCreate,
+                meta     : {
+                  title      : '新建科普知识',
+                  menuPath   : false,
+                  authCode   : 'P32001',
+                  menuIcon   : 'file-text',
+                  hideInBread: false
+                }
+              },
+              {
+                path     : '/cms/knowledgepromotion/edit/:id',
+                name     : '/cms/knowledgepromotion/edit',
+                component: KnowledgePromotionEdit,
+                meta     : {
+                  title      : '修改科普知识',
+                  menuPath   : false,
+                  authCode   : 'P32001',
+                  menuIcon   : 'file-text',
+                  hideInBread: false
+                }
+              },
+              {
+                path     : '/cms/knowledgepromotion/:id',
+                name     : '/cms/knowledgepromotion/detail',
+                component: KnowledgePromotionDetail,
+                meta     : {
+                  title      : '查看科普知识详情',
+                  menuPath   : false,
+                  authCode   : 'P33003',
+                  menuIcon   : 'file-text',
+                  hideInBread: false
+                },
+              }
+            ]
+          },
+          {
+            path     : '/cms/cloudlesson',
+            name     : '/cms/cloudlesson',
+            component: CloudLessonList,
+            meta     : {
+              title      : '云课堂管理',
+              menuPath   : true,
+              tabName    : 'cloudLessonNews',
+              authCode   : 'P32000',
+              menuIcon   : 'file-text',
+              hideInBread: false
+            },
+            children: [
+              {
+                path     : '/cms/cloudlesson/create',
+                name     : '/cms/cloudlesson/create',
+                component: CloudLessonCreate,
+                meta     : {
+                  title      : '新建云课堂',
+                  menuPath   : false,
+                  authCode   : 'P32001',
+                  menuIcon   : 'file-text',
+                  hideInBread: false
+                }
+              },
+              {
+                path     : '/cms/cloudlesson/edit/:id',
+                name     : '/cms/cloudlesson/edit',
+                component: CloudLessonEdit,
+                meta     : {
+                  title      : '修改云课堂',
+                  menuPath   : false,
+                  authCode   : 'P32001',
+                  menuIcon   : 'file-text',
+                  hideInBread: false
+                }
+              },
+              {
+                path     : '/cms/cloudlesson/:id',
+                name     : '/cms/cloudlesson/detail',
+                component: CloudLessonDetail,
+                meta     : {
+                  title      : '查看云课堂详情',
+                  menuPath   : false,
+                  authCode   : 'P33003',
+                  menuIcon   : 'file-text',
+                  hideInBread: false
+                }
+              }
+            ]
+          },
+          {
+            path     : '/cms/industry',
+            name     : '/cms/industry',
+            component: KnowledgeList,
+            meta     : {
+              title      : '行业动态管理',
+              menuPath   : true,
+              authCode   : 'P32000',
+              menuIcon   : 'file-text',
+              hideInBread: false
+            },
+            children: [
+              {
+                path     : '/cms/industry/create',
+                name     : '/cms/industry/create',
                 component: KnowledgeCreate,
                 meta     : {
-                  title      : '新建知识文献',
+                  title      : '新建行业动态',
                   menuPath   : false,
                   authCode   : 'P32001',
                   menuIcon   : 'file-text',
@@ -459,11 +754,11 @@ const appRoutes = [
                 }
               },
               {
-                path     : '/cms/knowledge/edit/:id',
-                name     : '/cms/knowledge/edit',
+                path     : '/cms/industry/edit/:id',
+                name     : '/cms/industry/edit',
                 component: KnowledgeEdit,
                 meta     : {
-                  title      : '修改知识文献',
+                  title      : '修改行业动态',
                   menuPath   : false,
                   authCode   : 'P32001',
                   menuIcon   : 'file-text',
@@ -471,11 +766,11 @@ const appRoutes = [
                 }
               },
               {
-                path     : '/cms/knowledge/:id',
-                name     : '/cms/knowledge/details',
+                path     : '/cms/industry/:id',
+                name     : '/cms/industry/detail',
                 component: KnowledgeDetail,
                 meta     : {
-                  title      : '查看知识文献详情',
+                  title      : '查看行业动态详情',
                   menuPath   : false,
                   authCode   : 'P33003',
                   menuIcon   : 'file-text',
@@ -533,10 +828,59 @@ const appRoutes = [
               },
               {
                 path     : '/cms/notice/:id',
-                name     : '/cms/notice/details',
+                name     : '/cms/notice/detail',
                 component: NoticeDetail,
                 meta     : {
                   title      : '通知公告详情',
+                  menuPath   : false,
+                  authCode   : 'P31005',
+                  menuIcon   : 'file-text',
+                  hideInBread: false
+                }
+              }
+            ]
+          },{
+            path     : '/cms/topicList',
+            name     : '/cms/topicList',
+            component: TopicList,
+            meta     : {
+              title      : '专题报告管理',
+              menuPath   : true,
+              authCode   : 'P31000',
+              menuIcon   : 'file-text',
+              hideInBread: false
+            },
+            children: [
+              {
+                path     : '/cms/topicList/create',
+                name     : '/cms/topicList/create',
+                component: TopicCreate,
+                meta     : {
+                  title      : '新建专题报告',
+                  menuPath   : false,
+                  authCode   : 'P31001',
+                  menuIcon   : 'file-text',
+                  hideInBread: false
+                }
+              },
+              {
+                path     : '/cms/topicList/edit/:id',
+                name     : '/cms/topicList/edit',
+                component: TopicEdit,
+                meta     : {
+                  title      : '修改专题报告',
+                  menuPath   : false,
+                  authCode   : 'P31001',
+                  menuIcon   : 'file-text',
+                  hideInBread: false
+                }
+              },
+              {
+                path     : '/cms/topicList/:id',
+                name     : '/cms/topicList/detail',
+                component: TopicDetail,
+                meta     : {
+                  title      : '专题报告详情',
                   menuPath   : false,
                   authCode   : 'P31005',
                   menuIcon   : 'file-text',
@@ -637,11 +981,147 @@ const appRoutes = [
       }
     ]
   },
+  //内容发布
+  
+  // 旧的登录页面
+  // {
+  //   path     : '/login', name     : 'login', component: LoginPage,
+  //   meta     : { title: '登录' },
+  // },
   {
     path     : '/login',
-    name     : 'login',
-    component: LoginPage,
-    meta     : { title: '登录' }
+    redirect : '/homepage/index',
+    name     : 'homepage',
+    component: Home,
+    meta     : { title: '主页' },
+    children : [
+      {
+        path     : '/homepage/index',
+        component: HomeFeature,
+        name     : 'index',
+        meta     : { title: '首页' },
+        children : [
+          {
+            path     : '/homepage/login',
+            component: HomeFeature
+            // name     : 'new_login',
+            // meta     : { title: '内容' },
+          }
+        ]
+      },
+      {
+        path     : '/homepage/notificationAnnounce/:id',
+        name     : 'notificationAnnounce',
+        component: NotificationAnnounce,
+        meta     : { title: '通知公告' }
+      }, 
+      {
+        path     : '/homepage/notificationNews',
+        name     : 'notificationList',
+        component: NotificationList,
+        meta     : { title: '通知公告列表' }
+      }, 
+      {
+        path     : '/homepage/votingRules/:id',
+        name     : 'votingRules',
+        component: VotingRules,
+        meta     : { title: '投票公告' }
+      },
+      {
+        path     : '/homepage/industryList',
+        name     : 'industryList',
+        component: IndustryList,
+        meta     : { title: '行业动态列表' }
+      },
+      {
+        path     : '/homepage/industryDetails/:id',
+        name     : 'industryDetails',
+        component: IndustryDetails,
+        meta     : { title: '行业动态详情' }
+      },
+      {
+        path     : '/homepage/knowledgeService/farmingTechDetail/:id',
+        name     : '/knowledgeService/farmingTechDetail',
+        component: FarmingTechContentDetail,
+        meta     : { title: '养殖技术详情' }
+      },
+      {
+        path     : '/homepage/knowledgeService/knowledgeServiceDetail/:id',
+        name     : '/knowledgeService/knowledgeServiceDetail',
+        component: knowledgeServiceDetail,
+        meta     : { title: '科普知识详情' }
+      },
+      {
+        path     : '/homepage/knowledgeService/cloudLessonDetail/:id',
+        name     : '/knowledgeService/cloudLessonDetail',
+        component: cloudLessonDetail,
+        meta     : { title: '云课堂详情' }
+      },
+      {
+        path     : '/homepage/knowledgeService',
+        name     : 'knowledgeService',
+        component: KnowledgeService,
+        meta     : { title: '知识服务' },
+        children : [
+          {
+            path     : '/homepage/knowledgeService/farmingTechList',
+            name     : 'farmingTechList',
+            component: FarmingTechContent,
+            meta     : { 
+              sectionId: '420295374075158528',
+              index    : '0',
+              title    : '养殖技术' 
+            }
+          },
+          {
+            path     : '/homepage/knowledgeServiceList',
+            name     : 'knowledgeServiceList',
+            component: knowledgeServiceList,
+            meta     : { 
+              sectionId: '420295378927968256',
+              index    : '1',
+              title    : '科普知识' 
+            }
+          },
+          {
+            path     : '/homepage/cloudLessonList',
+            name     : 'cloudLessonList',
+            component: CloudLessonContent,
+            meta     : { 
+              sectionId: '420295382191136768',
+              index    : '2',
+              title    : '云课堂' 
+            }
+          },
+        ]
+      },
+      {
+        path     : '/homepage/topicReportList',
+        name     : 'topicReportList',
+        component: TopicReportList,
+        meta     : { title: '专题报告列表' }
+      },
+      {
+        path     : '/homepage/topicReportDetail/:id',
+        name     : 'topicReportDetail',
+        component: TopicReportDetail,
+        meta     : { title: '专题报告' }
+      },
+      {
+        path     : '/homepage/dataSearch',
+        name     : 'dataSearch',
+        component: DataSearch,
+        meta     : { title: '数据查询' },
+        children : [
+          {
+            path     : '/homepage/dataSearch/result',
+            name     : 'searchResult',
+            component: DataSearchResult,
+            meta     : { title: '查询结果' }
+          }
+        ]
+      }
+    ]
   },
   {
     path     : '/register',
@@ -685,7 +1165,136 @@ const appRoutes = [
     component: TipsUpperLimitErr,
     meta     : { title: '访问频繁' }
   },
-  // 匿名浏览知识文库
+  // 匿名浏览行业动态
+  {
+    path     : '/cms/knowledgeAnonymous',
+    name     : '/cms/knowledgeAnonymous',
+    component: KnowledgePublishedAnonymousList,
+    meta     : {
+      title      : '知识文献',
+      menuPath   : false,
+      menuIcon   : 'file-text',
+      hideInBread: false
+    }
+  },
+  {
+    path     : '/cms/knowledgePublish/:id',
+    name     : '/cms/knowledgePublish/view',
+    component: KnowledgeView,
+    meta     : {
+      title      : '浏览知识文献',
+      menuPath   : false,
+      menuIcon   : 'file-text',
+      hideInBread: false
+    }
+  },
+  // 浏览通知公告
+  {
+    path     : '/cms/noticePublish',
+    name     : '/cms/noticePublish',
+    component: NoticePublishedList,
+    meta     : {
+      title      : '通知公告',
+      menuPath   : false,
+      menuIcon   : 'file-text',
+      hideInBread: false
+    }
+  },
+  {
+    path     : '/cms/noticePublish/:id',
+    name     : '/cms/noticePublish/view',
+    component: NoticeView,
+    meta     : {
+      title      : '浏览通知公告',
+      menuPath   : false,
+      menuIcon   : 'file-text',
+      hideInBread: false
+    }
+  },
+  // 浏览操作手册
+  {
+    path     : '/cms/manualPublish',
+    name     : '/cms/manualPublish',
+    component: ManualView,
+    meta     : {
+      title      : '操作手册',
+      menuPath   : false,
+      menuIcon   : 'file-text',
+      hideInBread: false
+    }
+  },
+  // 渔业兽医
+  {
+    path     : '/veterinary',
+    name     : '/veterinary',
+    component: VeterinaryList,
+    meta     : {
+      title      : '渔业兽医',
+      menuPath   : false,
+      menuIcon   : 'file-text',
+      hideInBread: false
+    }
+  },
+  {
+    path     : '/veterinary/view',
+    name     : '/veterinary/view',
+    component: VeterinaryView,
+    meta     : {
+      title      : '渔业兽医',
+      menuPath   : false,
+      menuIcon   : 'file-text',
+      hideInBread: false
+    }
+  },
+  // {
+  //   path     : '/login',
+  //   name     : 'login',
+  //   component: LoginPage,
+  //   meta     : { title: '登录' }
+  // },
+  {
+    path     : '/register',
+    name     : 'register',
+    component: RegisterPage,
+    meta     : { title: '注册' }
+  },
+  {
+    path     : '/bindPhone',
+    name     : 'bindPhone',
+    component: BindPhone,
+    meta     : { title: '选择系统绑定手机号' }
+  },
+  {
+    path     : '/bindTemporarayAccount',
+    name     : 'bindTemporarayAccount',
+    component: BindTemporarayAccount,
+    meta     : { title: '选择系统绑定手机号' }
+  },
+  {
+    path     : '/oldSysLogout',
+    name     : 'oldSysLogout',
+    component: OldSysLogout,
+    meta     : { title: '老系统安全登出' }
+  },
+  {
+    path     : '/networkerr',
+    name     : 'networkerr',
+    component: TipsNetworkErr,
+    meta     : { title: '网络错误' }
+  },
+  {
+    path     : '/error-page',
+    name     : 'error-page',
+    component: ErrorPage,
+    meta     : { title: '404' }
+  },
+  {
+    path     : '/upperLimitErr',
+    name     : 'upperLimitErr',
+    component: TipsUpperLimitErr,
+    meta     : { title: '访问频繁' }
+  },
+  // 匿名浏览行业动态
   {
     path     : '/cms/knowledgeAnonymous',
     name     : '/cms/knowledgeAnonymous',

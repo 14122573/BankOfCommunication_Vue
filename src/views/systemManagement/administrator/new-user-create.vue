@@ -399,7 +399,7 @@ export default {
         sparams.id_in = curUserRoles
       }
       this.$ajax.get({
-        url   : this.$api.GET_ROLE_LIST,
+        url   : this.$api.GET_CHOOSE_ROLE_LIST,
         params: sparams
       }).then(res => {
         this.roleList = this.$com.confirm(res, 'data.content', [])

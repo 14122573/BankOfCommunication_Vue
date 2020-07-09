@@ -300,6 +300,7 @@ export default {
         if (res.code === '200') {
           this.pagination.total = this.$com.confirm(res, 'data.totalRows', 0)
           this.data = this.$com.confirm(res, 'data.content', [])
+          
         } else {
           this.$message.error(res.msg)
         }

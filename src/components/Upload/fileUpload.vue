@@ -85,7 +85,8 @@ export default {
      * 是否允许继续添加上传文件
      * @returns {Boolean} true 允许继续添加上传
      */
-    allowUpload(){
+    allowUpload(){ 
+      
       if(this.uploadFileList.length<this.maxCount){
         return true
       }else{
@@ -94,7 +95,8 @@ export default {
     }
   },
   methods: {
-    init(){
+    init(){ 
+      
       this.ready = false
       // init UploadConfig
       this.uploadConfig.acceptTypesArray = this.acceptTypes
@@ -135,7 +137,7 @@ export default {
 
       let message = ''
       message += !isAccept?('文件格式限定为'+this.uploadConfig.acceptTypes+'；'):''
-      message += !isLtMaxFileSize?'文件需小于'+this.maxFileSize+'B；':''
+      message += !isLtMaxFileSize?'文件需小于'+(this.maxFileSize/1024/1024)+'M；':''
       if(isAccept && isLtMaxFileSize){
         return true
       }else{
