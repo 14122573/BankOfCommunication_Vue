@@ -312,31 +312,31 @@ export default {
                   ${options}
                 </div>
               `
-              this.$ajax.post({
-                url   : this.$api.POST_CMS_NOTICE,
-                params: {
-                  title        : name,
-                  startTime,
-                  endTime,
-                  introduction,
-                  content,
-                  isTop        : '0',
-                  isVote       : '0',
-                  status       : '1',
-                  voteId       : id,
-                  titleManageId: this.$titleId.notificationId
-                }
+            })
+            this.$ajax.post({
+              url   : this.$api.POST_CMS_NOTICE,
+              params: {
+                title        : name,
+                startTime,
+                endTime,
+                introduction,
+                content,
+                isTop        : '0',
+                isVote       : '0',
+                status       : '1',
+                voteId       : id,
+                titleManageId: this.$titleId.notificationId
+              }
+            }).then(() => {
+              this.$ajax.put({
+                url: this.$api.PUT_VOTE_STATUS.replace('{id}', id).replace('{status}', '3')
               }).then(() => {
-                this.$ajax.put({
-                  url: this.$api.PUT_VOTE_STATUS.replace('{id}', id).replace('{status}', '3')
-                }).then(() => {
-                  this.$modal.success({
-                    title  : '成功',
-                    content: config.msg,
-                    okText : '确认',
-                  })
-                  this.getList()
+                this.$modal.success({
+                  title  : '成功',
+                  content: config.msg,
+                  okText : '确认',
                 })
+                this.getList()
               })
             })
           })
