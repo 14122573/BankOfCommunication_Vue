@@ -41,6 +41,10 @@ export default {
         name: 'home'
       })
     },
+
+    /**
+     * @description 登出账户，将isLogin状态修改为登出, 同时通知给父组件lunbo
+     */
     handleLogout() {
       this.$store.commit('SET_ISLOGIN', false) 
       

@@ -31,6 +31,10 @@ export default {
     bannerManage
   },
   methods: {
+    /**
+     * @description 将tab的状态保存
+     * @param {String} key 当前的tab-pane
+     */
     callback(key) {
       this.$store.commit('SET_TABNAME', key)
     },

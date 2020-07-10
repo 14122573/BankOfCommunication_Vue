@@ -156,6 +156,9 @@ export default {
     this.getTitle()
   },
   methods: {
+    /**
+     * @description 获取栏目卡片的名称
+     */
     getTitle(){
       let homeSectionTitle = JSON.parse(localStorage.getItem('titleList'))
       if(!!homeSectionTitle && homeSectionTitle.length !== 0) {
@@ -175,7 +178,7 @@ export default {
     },
 
     /**
-     * TAB页的回调
+     * @description TAB页的回调
      */
     callback(key) {
       this.currentIndex = key
@@ -203,12 +206,22 @@ export default {
     handleClick() {
       this.loading = !this.loading
     },
+
+    /**
+     * @description 点击更多页后，根据当前tab页的index跳转到对应的栏目列表
+     * @param {Int} index tab的Index
+     */
     jumpToPage(index) {
       let routeTo = this.childroute
       this.$router.push({
         name: routeTo[index].name
       })
     },
+
+    /**
+     * @description 根据id跳转到具体的文章详情
+     * @param {Array} id 列表页点击的id
+     */
     articleDetail(id) {
       
       switch (this.currentIndex) {
@@ -242,6 +255,10 @@ export default {
         break
       }
     },
+
+    /**
+     * @description 获取栏目内容列表
+     */
     fetchNews() {
       // 养殖技术
       this.$ajax.get({

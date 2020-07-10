@@ -71,11 +71,15 @@ export default {
         if (res.code == '200') { 
           let content = this.$com.confirm(res, 'data.content', {})
           localStorage.setItem('titleList', JSON.stringify(content))
-          // this.$store.commit('SET_HOMESECTION_TITLE', content)
         }
       })
   },
   methods: {
+    /**
+     * @description 是否展示轮播图
+     * @param {Bool} display 是否展示
+     * @returns {Bool} 是否展示
+     */
     getBannerDisplay(display) {
       
       let result = false

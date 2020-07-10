@@ -77,6 +77,9 @@ export default {
     ImgUpload
   },
   methods: {
+    /**
+     * @description 保存轮播图
+     */
     saveBanner() {
       let that = this
       let query = this.$api.POST_BANNER

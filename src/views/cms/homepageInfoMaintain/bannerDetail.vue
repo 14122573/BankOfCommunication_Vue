@@ -45,7 +45,6 @@ export default {
     return {
       data            : [],
       bannerId        : null,
-      detailDesc      : [],
       imgPlaceholder  : [],
       lunboName       : null,
       jumpHref        : null,
@@ -56,6 +55,9 @@ export default {
     this.getList()
   },
   methods: {
+    /**
+     * @description 获取轮播图详情信息
+     */
     getList() {
       let that = this
       this.bannerId = this.$route.params.id

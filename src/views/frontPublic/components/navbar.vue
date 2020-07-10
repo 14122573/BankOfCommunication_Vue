@@ -45,6 +45,12 @@ export default {
     this.getRoutes()
   },
   methods: {
+    /**
+     * 点击栏目名称去到对应的栏目
+     * 
+     * @param {String} id - 栏目id
+     * @returns {String} 栏目名称
+     */
     getTitle(id){
       let homeSectionTitle = JSON.parse(localStorage.getItem('titleList'))
       for(let i = 0 ; i < homeSectionTitle.length; i++) {
@@ -53,6 +59,10 @@ export default {
         }
       }
     },
+
+    /**
+     * 二级面包屑功能实现
+     */
     getRoutes() {
       let currentRoute = this.$route
       let parentRoute = this.$route.matched[0]
