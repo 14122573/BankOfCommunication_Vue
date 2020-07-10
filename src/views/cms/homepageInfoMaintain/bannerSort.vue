@@ -110,8 +110,7 @@ export default {
             bannerGroup_nin: 0
           }
         })
-        .then(res => {
-          console.log(res)
+        .then(res => { 
           if (res.code === '200') {
             this.bannerData = this.$com.confirm(res, 'data.content', [])
             this.histortySortedData= []
@@ -161,8 +160,7 @@ export default {
           }
         })
     },
-    changeSort(value, record) {
-      console.log('changeSort',value,record.sort)
+    changeSort(value, record) { 
       for(let i = 0; i < this.bannerPingjie.length; i++) {
         if(this.bannerPingjie[i].sort == record.sort) {
           this.bannerPingjie.splice(i,1)
@@ -187,9 +185,7 @@ export default {
       }
       this.sortedBanner = [].concat(temp)
     },
-    deleteSort(value) {
-      console.log('BEFORE: alreadySorted: ' + JSON.stringify(this.alreadySorted))
-      console.log('value: ' + JSON.stringify(value))
+    deleteSort(value) { 
       this.$ajax
         .put({
           url   : this.$api.DELETE_BANNER.replace('{id}', value.id),
@@ -203,9 +199,7 @@ export default {
               if(this.alreadySorted[i].id == value.id) {
                 this.alreadySorted.splice(i, 100)
               }
-            }
-            console.log('AFTER: alreadySorted: ' + JSON.stringify(this.alreadySorted))
-            console.log('AFTER: bannerPingjie: ' + JSON.stringify(this.bannerPingjie))
+            } 
             // 将需要删除的banner图从bannerPingjie中删除
             this.$message.success('删除成功')
             this.getCurrentBannerList()
@@ -218,9 +212,7 @@ export default {
     },
     saveBanner() {
       // historySortedData -> 已经拍过序的 包含8个包括空置的
-      // bannerPingjie     -> 已选择的内容
-      console.log('AFTER: alreadySorted: ' + JSON.stringify(this.alreadySorted))
-      console.log('AFTER: bannerPingjie: ' + JSON.stringify(this.bannerPingjie))
+      // bannerPingjie     -> 已选择的内容 
       for(let i =0; i < this.alreadySorted.length; i++) {
         if(this.bannerPingjie.indexOf(this.alreadySorted[i]) == -1) {
           this.bannerPingjie.push(this.alreadySorted[i])

@@ -158,8 +158,7 @@ export default {
     //     } else {
     //       temp.push({titleName: storage[i].titleName, id: content.id})
     //     }
-    //   }
-    //   console.log(temp);
+    //   } 
 
     //   sessionStorage.setItem('titleList', temp)
     // },
@@ -186,8 +185,7 @@ export default {
                     url: this.$api.GET_PUB_TITLE_MANAGE
                   })
                   .then(res => {
-                    if (res.code == '200') {
-                      console.log(res)
+                    if (res.code == '200') { 
                       let content = this.$com.confirm(res, 'data.content', {})
                       localStorage.setItem(
                         'titleList',

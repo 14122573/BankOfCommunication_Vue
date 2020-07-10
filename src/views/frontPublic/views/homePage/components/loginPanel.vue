@@ -160,8 +160,7 @@ export default {
 
               if (res.code == '200') {
                 this.$cookie.set('canEnterBind', '200')
-                this.$store.commit('SET_ISLOGIN', true)
-                console.log(this.$store.state.isLogin)
+                this.$store.commit('SET_ISLOGIN', true) 
                 this.jumpOpeation(res)
                 this.visibleError = false
               } else {
@@ -290,8 +289,7 @@ export default {
               .then(res => {
                 let userInfo = res.data.content
                 if (!!userInfo.name) {
-                  this.username = userInfo.name
-                  console.log('clicked')
+                  this.username = userInfo.name 
                   // document.getElementById('login').style.display = 'none'
                   // document.getElementById('loggedin').style.display = 'block'
                   // this.loginSwitch()
@@ -335,12 +333,10 @@ export default {
       }
     },
     // getToken() {
-    //   let cookie = this.$cookie.get('token')
-    //   console.log('cookie' + cookie)
+    //   let cookie = this.$cookie.get('token') 
     //   if (!!cookie) {
     //     document.getElementById('login').style.display= 'none'
-    //     document.getElementById('loggedin').style.display = 'block'
-    //     console.log('!!cookie')
+    //     document.getElementById('loggedin').style.display = 'block' 
     //     this.$ajax
     //       .get({
     //         url: this.$api.GET_USER_INFO
@@ -353,8 +349,7 @@ export default {
     //       })
     //   } else {
     //     document.getElementById('login').style.display = 'block'
-    //     document.getElementById('loggedin').style.display = 'none'
-    //     console.log('cookie not exist')
+    //     document.getElementById('loggedin').style.display = 'none' 
     //   }
     // },
     validatePassword(rule, value, callback) {
@@ -373,8 +368,7 @@ export default {
     //   this.$emit('isLogin', {
     //     login   : 'logged in',
     //     username: this.username
-    //   })
-    //   console.log('emitted')
+    //   }) 
     // },
     //得到url传递参数
     getQueryString(name) {

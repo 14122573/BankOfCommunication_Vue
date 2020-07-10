@@ -80,8 +80,7 @@ export default {
     customRow(record, index) {
       return {
         on: {
-          click: () => {
-            console.log(JSON.stringify(record))
+          click: () => { 
 
             record.isVote === '0'
               ? this.$router.push({

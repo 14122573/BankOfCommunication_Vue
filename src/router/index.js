@@ -16,8 +16,7 @@ const config = {
 }
 const router = new Router(config)
 
-router.beforeEach((to, from, next) => {
-  // console.log('portal', JSON.parse(sessionStorage.getItem('VuexStore')))
+router.beforeEach((to, from, next) => { 
   // TODO
   store.commit('setWebviewSrc', to.meta && to.meta.src) // 判断有src的话为需要嵌入iframe的子项目
   // store.commit('setWebviewSrc', to.meta && to.meta.src) // 判断有src的话为需要嵌入iframe的子项目
@@ -31,7 +30,6 @@ router.beforeEach((to, from, next) => {
       next()
     } else {
       const uneedTokenRouter=[ '/veterinary/view', '/veterinary', '/cms/noticePublish', '/cms/noticePublish/view', '/cms/knowledgePublish/view', '/cms/knowledgeAnonymous', 'upperLimitErr', 'register', 'oldSysLogout', 'networkerr' ]
-      // console.log(to.name,Common.oneOf(to.name,uneedTokenRouter) )
       // if (Common.oneOf(to.name,uneedTokenRouter) || (to.name == 'bindPhone' && canEnterBind == '200')) {
       if (Common.oneOf(to.name, uneedTokenRouter) || to.name.indexOf('/homepage')>=0 || (Common.oneOf(to.name, [ 'bindPhone', 'bindTemporarayAccount' ]) && canEnterBind == '200')) {
         next()

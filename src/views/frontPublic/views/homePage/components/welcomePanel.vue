@@ -42,8 +42,7 @@ export default {
       })
     },
     handleLogout() {
-      this.$store.commit('SET_ISLOGIN', false)
-      console.log(this.$store.state.isLogin)
+      this.$store.commit('SET_ISLOGIN', false) 
       
       Common.handleLogOut()
       this.$emit('on-change', 'login')

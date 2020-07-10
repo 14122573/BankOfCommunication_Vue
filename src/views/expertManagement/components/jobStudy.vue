@@ -174,8 +174,7 @@ export default {
     handleChange(value, i) {
       this.workExperienceDate [i]= value
     },
-    handlePanelChange(value, mode, i) {
-      // console.log(value, mode,i,this.formJob.getFieldValue('workExperience'))
+    handlePanelChange(value, mode, i) { 
       // var str='workExperience['+i+'].date'
       // this.formJob.setFieldsValue({
       //   str:value

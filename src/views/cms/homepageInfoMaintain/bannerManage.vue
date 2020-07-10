@@ -141,8 +141,7 @@ export default {
           }
         })
         .then(res => {
-          if (res.code === '200') {
-            console.log(res)
+          if (res.code === '200') { 
             
             this.data = this.$com.confirm(res, 'data.content', [])
           } else {
@@ -188,8 +187,7 @@ export default {
       })
     },
     deleteBanner(value) {
-      let that = this
-      console.log('值' + JSON.stringify(value))
+      let that = this 
       if(value.bannerGroup !== '0') {
         this.$message.success('该轮播图已被排序，无法删除')
       } else {
@@ -201,8 +199,7 @@ export default {
               .delete({
                 url: that.$api.DELETE_BANNER.replace('{id}', value.id)
               })
-              .then(res => {
-                console.log(res)
+              .then(res => { 
 
                 if (res.code === '200') {
                   that.$message.success('删除成功')

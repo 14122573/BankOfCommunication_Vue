@@ -122,9 +122,7 @@ export default {
           url: this.$api.GET_PUB_TITLE_MANAGE
         })
         .then(res => {
-          if(res.code === '200') {
-            console.log(res)
-          
+          if(res.code === '200') { 
             let content = res.data.content
             for(let i = 0 ; i < content.length; i++) {
               for(let j = 0 ; j < this.menuList.length; j++) {

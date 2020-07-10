@@ -88,12 +88,10 @@ export default {
             url : attachments[i].filePath
           })
         }
-      }
-      console.log('1' + JSON.stringify(fileList))
+      } 
       return fileList
     },
-    tagClick(path) {
-      console.log(path)
+    tagClick(path) { 
       
       window.location.href = path
     }

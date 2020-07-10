@@ -109,8 +109,7 @@ export default {
           if (res.code === '200') {
             this.detailList = this.$com.confirm(res, 'data.content', {})
             const attachments = !this.detailList.attachments
-              ?   [] : this.detailList.attachments
-            // console.log(JSON.stringify(this.detailList))
+              ?   [] : this.detailList.attachments 
             for (let i = 0; i < attachments.length; i++) {
               if (attachments[i].type == '1') {
                 i == attachments.length - 1 ? this.fileList += attachments[i].fileName : this.fileList += attachments[i].fileName + ', '
@@ -136,8 +135,7 @@ export default {
             url : attachments[i].filePath
           })
         }
-      }
-      console.log('1' + JSON.stringify(fileList))
+      } 
       return fileList
     }
   }

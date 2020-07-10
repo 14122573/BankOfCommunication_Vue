@@ -186,8 +186,7 @@ export default {
     },
     getLists(){
       const options = this.$com.dealObjectValue(this.datasSearchForm.getFieldsValue())
-      const params = {}
-      // console.log(!options.systemCode,this.allSystemCodes)
+      const params = {} 
       if(!options.systemCode){
         params.systemCode = this.allSystemCodes
       }else{
