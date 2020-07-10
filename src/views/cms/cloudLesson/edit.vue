@@ -80,7 +80,7 @@
                 <a-col span="16">
                   <a-form-item label="附件" :label-col="{span:4}" :wrapper-col="{span:20}" v-if="ready">
                     <FileUpload @change="onUploadFileChange" :defaultFileList='uploadFileList.default' :acceptTypes="uploadConfig.acceptTypesArray" :maxCount="9"  :maxFileSize="uploadConfig.maxSize" :timestamp="Date.now()"></FileUpload>
-                    <a-alert style="margin-top:16px" message="支持的格式为：word、excel、ceb、cebx" type="info" showIcon />
+                    <a-alert style="margin-top:16px" message="最多上传9个附件，每个附件不得大于10M，支持的格式为：word、excel、ceb、cebx" type="info" showIcon />
                   </a-form-item>
                 </a-col>
               </a-row>

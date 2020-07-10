@@ -142,7 +142,7 @@ export default {
             width   : 16,
             validate: {
               rules: [ 
-                { required: true, message: '请输入简介' },
+                { required: true, message: '请输入250个字以内的简介' },
                 { max: 250, message: '简介内容不可超过250字' },
               ]
             }
