@@ -7,7 +7,12 @@
         v-for="item in bannerList"
         :key="item.bannerGroup"
       >
-        <a @click="carouselClick(item.linkUrl)">
+        <img v-if="item.linkUrl == null || !IsURL(item.linkUrl)"
+            :src="item.filePath"
+            alt="ImgPlaceholder"
+            style="height: 400px; margin: 0 auto;"
+        />
+        <a @click="carouselClick(item.linkUrl)" v-else>
           <img
             :src="item.filePath"
             alt="ImgPlaceholder"
@@ -77,10 +82,7 @@ export default {
         } else if (this.IsURL(path) == true) {
           window.open('http://' + path)
         }
-      } else {
-        this.$message.error('该图片无链接')
       }
-      
     },
     IsURL (str_url) { 
       var strRegex = '^((https|http|ftp|rtsp|mms)?://)' 
