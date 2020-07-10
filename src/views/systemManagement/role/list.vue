@@ -141,6 +141,7 @@ export default {
     },
     // 修改按钮
     edit(item){
+      console.log(item)
       this.$router.push({
         name : '/systemManagement/role/edit',
         query: {

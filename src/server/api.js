@@ -97,6 +97,7 @@ export default {
   PUT_EDIT_ORGANIZATION_LIST  : '/service-permission/perm/group/{id}', //修改组织机构
   DELETE_ORGANIZATION_LIST    : '/service-permission/perm/group/{id}', //删除组织机构
   GET_ORGANIZATION_LIST_DETAIL: '/service-permission/perm/group/{id}', //组织机构详情
+  GET_USER_PERMS              : '/service-permission/perm/user/perms', // 获取用户权限点
   //系统管理 -- 行政区划维护
   POST_ADD_AREA               : '/service-user/user/area', //新增行政区
   PUT_REVISE_AREA             : '/service-user/user/area/{id}', //修改行政区

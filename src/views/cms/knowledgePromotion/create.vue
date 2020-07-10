@@ -95,7 +95,7 @@
                           rules: rules.introduction
                         }
                       ]"
-                      placeholder="请输入简介"
+                      placeholder="请输入250个字以内的简介"
                     ></a-textarea>
                   </a-form-item>
                 </a-col>
@@ -153,7 +153,7 @@
                     ></FileUpload>
                     <a-alert
                       style="margin-top:16px"
-                      message="支持的格式为：word、excel、ceb、cebx"
+                      message="最多上传9个附件，每个附件不得大于10M，支持的格式为：word、excel、ceb、cebx"
                       type="info"
                       showIcon
                     />

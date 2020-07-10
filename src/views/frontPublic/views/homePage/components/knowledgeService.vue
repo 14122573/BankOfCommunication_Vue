@@ -158,16 +158,18 @@ export default {
   methods: {
     getTitle(){
       let homeSectionTitle = JSON.parse(localStorage.getItem('titleList'))
-      for(let i = 0 ; i < homeSectionTitle.length; i++) {
+      if(!!homeSectionTitle && homeSectionTitle.length !== 0) {
+        for(let i = 0 ; i < homeSectionTitle.length; i++) {
 
-        if(homeSectionTitle[i].id == '420295374075158528') {
-          this.title1 = homeSectionTitle[i].titleName
-        }
-        if(homeSectionTitle[i].id == '420295378927968256') {
-          this.title2 = homeSectionTitle[i].titleName
-        }
-        if(homeSectionTitle[i].id == '420295382191136768') {
-          this.title3 = homeSectionTitle[i].titleName
+          if(homeSectionTitle[i].id == '420295374075158528') {
+            this.title1 = homeSectionTitle[i].titleName
+          }
+          if(homeSectionTitle[i].id == '420295378927968256') {
+            this.title2 = homeSectionTitle[i].titleName
+          }
+          if(homeSectionTitle[i].id == '420295382191136768') {
+            this.title3 = homeSectionTitle[i].titleName
+          }
         }
       }
     },

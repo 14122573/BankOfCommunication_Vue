@@ -69,10 +69,34 @@ export default {
       showTree    : false,
       roleName    : null,
       userCount   : null,
+      roleIds     : [], // 功能点的id数组
       roleLevels,
     }
   },
+  mounted() {
+    this.getRoleIds() 
+  },
+  beforeCreate() {
+    this.formData = this.$form.createForm(this)
+  },
   methods: {
+    /**
+     * 获取当前用户权限
+     */
+    getRoleIds(){
+      this.$ajax.get({
+        url: this.$api.GET_USER_PERMS 
+      }).then(res => { 
+        if(res.code == '200'){
+          let arr =res.data.content
+          for(let i=0;i<arr.length;i++){
+            this.roleIds.push(arr[i].id)
+            this.roleIds.push(arr[i].parentId)
+          }
+          this.getTree()
+        }
+      })
+    },
     // 查询权限树
     getTree(){
       this.$ajax.get({
@@ -99,9 +123,17 @@ export default {
      * 整理权限树
      */
     getTreeNode(item, index){
-      const childrenNode={
-        title: item.permName,
-        key  : item.id
+      if(this.roleIds.indexOf(item.id)<0){
+        var childrenNode={
+          title   : item.permName,
+          key     : item.id,
+          disabled: true,
+        }
+      }else{
+        var childrenNode={
+          title: item.permName,
+          key  : item.id
+        }
       }
       if(item.childList && item.childList.length){
         childrenNode.children = []
@@ -130,7 +162,6 @@ export default {
           this.checkedKeys=data.perm.map((item) => {
             return item.id
           })
-
           this.expandedKeys=JSON.parse(JSON.stringify(this.checkedKeys))
           this.showTree=true
         }else{
@@ -215,12 +246,6 @@ export default {
         }
       })
     },
-  },
-  mounted() {
-    this.getTree()
-  },
-  beforeCreate() {
-    this.formData = this.$form.createForm(this)
   },
 }
 </script>
