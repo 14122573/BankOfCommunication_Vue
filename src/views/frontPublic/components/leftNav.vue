@@ -26,6 +26,7 @@ export default {
   },
   methods: {
     /**
+     * 左边栏功能实现
      * 显示当前路由的名称
      * @returns { String } - 当前路由的名称
      */

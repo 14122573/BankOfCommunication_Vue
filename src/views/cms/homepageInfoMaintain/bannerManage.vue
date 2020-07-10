@@ -111,7 +111,7 @@ export default {
   },
   methods: {
     /**
-     * 清空表单
+     * @description 清空表单
      */
     resetForm(){
       this.searchForm.resetFields()
@@ -120,7 +120,7 @@ export default {
     },
 
     /**
-     * 翻页方法
+     * @description 翻页方法
      * @params {number} current 当前点击页
      */
     onChange(current) {
@@ -130,7 +130,7 @@ export default {
     },
 
     /**
-     * 获取轮播图列表数据
+     * @description 获取轮播图列表数据
      */
     getList() {
       this.$ajax
@@ -155,16 +155,29 @@ export default {
           )
         })
     },
+
+    /**
+     * @description 搜索轮播图
+     */
     search() {
       this.pagination.pageNo = 1
       this.pagination.current = 1
       this.getList()
     },
+
+    /**
+     * @description 添加轮播图
+     */
     addBanner() {
       this.$router.push({
         name: '/cms/homepageInfoMaintain/addBanner'
       })
     },
+
+    /**
+     * @description 修改对应id的轮播图
+     * @param {String} value 轮播图id
+     */
     modifyBanner(value) {
       this.$router.push({
         name  : '/cms/homepageInfoMaintain/modifyBanner',
@@ -173,11 +186,20 @@ export default {
         }
       })
     },
+
+    /**
+     * @description 轮播图排序
+     */
     bannerSort() {
       this.$router.push({
         name: '/cms/homepageInfoMaintain/bannerSort'
       })
     },
+
+    /**
+     * @description 查看轮播图详情
+     * @param {Array} value 对应的轮播图内容
+     */
     bannerDetail(value) {
       this.$router.push({
         name  : '/cms/homepageInfoMaintain/bannerDetail',
@@ -186,6 +208,11 @@ export default {
         }
       })
     },
+
+    /**
+     * @description 删除轮播图
+     * @param {Array} value 该轮播图的信息
+     */
     deleteBanner(value) {
       let that = this 
       if(value.bannerGroup !== '0') {

@@ -88,6 +88,10 @@ export default {
     ImgUpload
   },
   methods: {
+    /**
+     * @description 轮播图上传是否被触发
+     * @param {Array} value 上传的图片地址
+     */
     limousine(value) {
       this.isTriggered = true
       if(value.length !== 0) {
@@ -97,12 +101,13 @@ export default {
         this.imgPlaceholder = []
       }
     },
+
+    /**
+     * @description 保存轮播图
+     */
     saveBanner() {
       let that = this
       let params = {}
-      // if(this.isTriggered == false) {
-      //   this.$router.go(-1)
-      // } else {
       if(this.isTriggered == false) {
         params = {
           bannerName: this.bannerCreateForm.getFieldValue('title'),
@@ -137,6 +142,10 @@ export default {
         })
       // }
     },
+
+    /**
+     * @description 获取当前轮播图内容
+     */
     getDefaultFile() {
       let that = this
       let query = this.$route.params.id

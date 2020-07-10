@@ -97,24 +97,28 @@ export default {
     this.getTitleList()
   },
   computed: {
+    /**
+     * @description 获取isLogin的状态
+     */
     listenIsLogin() {
       return this.$store.state.isLogin
     },
-    // listenTitleName() {
-    //   return this.$store.state.homeSectionTitle
-    // }
   },
   watch: {
+    /**
+     * @description 监听isLogin的状态是否发生改变
+     * @param {Bool} newV isLogin状态
+     */
     listenIsLogin(newV, oldV) {
       this.fetchNews(newV)
       this.getToken()
       this.getTitleList()
     },
-    // listenTitleName() {
-    //   this.getTitleList()
-    // }
   },
   methods: {
+    /**
+     * @description 获取栏目卡片的名称
+     */
     getTitleList() {
       let homeSectionTitle = JSON.parse(localStorage.getItem('titleList'))
       if(!!homeSectionTitle && homeSectionTitle.length !== 0) {
@@ -125,6 +129,10 @@ export default {
         }
       }
     },
+
+    /**
+     * @description 如果账户已经登录，则修改登录状态为true
+     */
     getToken() {
       let cookie = this.$cookie.get('token')
       if (!!cookie) {
@@ -139,6 +147,11 @@ export default {
     handleClick() {
       this.loading = !this.loading
     },
+
+    /**
+     * @description 展示文章内容详情
+     * @param {Array} item 点击的文章内容
+     */
     articleDetails(item) {
       // 0: 不可投票 1: 可投票
       if(item.isVote === '0') {
@@ -158,6 +171,11 @@ export default {
         })
       }
     },
+
+    /**
+     * @description 获取栏目内容列表, 登录和不登录情况下调用不一样的接口
+     * @param {Bool} isLogin 是否登录
+     */
     fetchNews(isLogin) {
       this.news = []
       this.$ajax

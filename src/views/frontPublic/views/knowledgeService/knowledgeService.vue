@@ -25,6 +25,9 @@ export default {
     LeftNav,
   },
   mounted() {
+    /**
+     * @description 在DOM加载完成后，将当前的页面指向顶点
+     */
     this.$nextTick(() => {
       document.querySelector('#components-layout-demo-basic').scrollTop = 0
     })

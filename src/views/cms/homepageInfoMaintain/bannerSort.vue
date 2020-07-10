@@ -84,16 +84,13 @@ export default {
         }
       ],
       form              : this.$form.createForm(this),
-      histortySortedData: [],
-      alreadySorted     : [],
-      bannerData        : [],
-      selectOptions     : [],
-      // 获取当前的查询列表
-      sortedBanner      : [],
-      UnsortedBanner    : [],
-      bannerSort        : {},
-      bannerTemp        : [],
-      bannerPingjie     : []
+      histortySortedData: [], // 已经拍过序的 包含8个包括空置的
+      alreadySorted     : [], // 已暂时排序的
+      bannerData        : [], // 所有的轮播图信息，包括排序和没排序的
+      sortedBanner      : [], // 可供排序的轮播图
+      bannerSort        : {}, // 已暂时排序的
+      bannerTemp        : [], // 还没排序的
+      bannerPingjie     : []  // 已选择的内容 
     }
   },
   mounted() {
@@ -101,7 +98,9 @@ export default {
     this.getAvailableSortList()
   },
   methods: {
-    //获取当前所有的banner图信息
+    /**
+     * @description 获取当前所有的banner图信息
+     */
     getCurrentBannerList() {
       this.$ajax
         .get({
@@ -142,6 +141,10 @@ export default {
           }
         })
     },
+
+    /**
+     * @description 获取当前可排序的banner图信息
+     */
     getAvailableSortList() {
       let that = this
       this.$ajax
@@ -160,6 +163,12 @@ export default {
           }
         })
     },
+
+    /**
+     * @description 在选中某个轮播图后，在其他选择框中不可再选中该轮播图
+     * @param {String} value 轮播图对应的id
+     * @param {Array} record 轮播图对应的暂时排序
+     */
     changeSort(value, record) { 
       for(let i = 0; i < this.bannerPingjie.length; i++) {
         if(this.bannerPingjie[i].sort == record.sort) {
@@ -185,6 +194,11 @@ export default {
       }
       this.sortedBanner = [].concat(temp)
     },
+
+    /**
+     * @description 删除某个已排过序的轮播图
+     * @param {Array} value 删除的轮播图内容
+     */
     deleteSort(value) { 
       this.$ajax
         .put({
@@ -210,6 +224,10 @@ export default {
           }
         })
     },
+
+    /**
+     * @description 保存当前的轮播图设定
+     */
     saveBanner() {
       // historySortedData -> 已经拍过序的 包含8个包括空置的
       // bannerPingjie     -> 已选择的内容 

@@ -56,6 +56,11 @@ export default {
     }
   },
   methods: {
+    /**
+     * @description 点击栏目list中的某一条跳转到对应的文章详情
+     * @param {List, Int} 包含行内容的record, 索引
+     * @returns {Array} 点击某一条后的回调函数
+     */
     customRow(record, index) {
       return {
         on: {
@@ -70,11 +75,20 @@ export default {
         }
       }
     },
+
+    /**
+     * @description 表格页面切换
+     * @param {Int} current 传入当前页
+     */
     onPageChange(current) {
       this.pagination.current = current
       this.pagination.pageNo = current
       this.fetchNews()
     },
+
+    /**
+     * @description 获取栏目内容列表
+     */
     fetchNews() {
       this.$ajax
         .get({

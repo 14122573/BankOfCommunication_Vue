@@ -103,6 +103,10 @@ export default {
     this.getHeaderTitle()
   },
   watch: {
+    /**
+     * @description 监听路由属性，根据前往的路由，对菜单栏的选中做出改变
+     * @param {List} to 
+     */
     $route(to, from) {
       for (let i = 0; i < this.menuList.length; i++) {
         let pathList = this.menuList[i].path
@@ -116,6 +120,9 @@ export default {
     }
   },
   methods: {
+    /**
+     * @description 获取并显示header里的栏目标题
+     */
     getHeaderTitle() {
       this.$ajax
         .get({

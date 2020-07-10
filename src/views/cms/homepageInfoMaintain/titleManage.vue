@@ -110,31 +110,23 @@ export default {
     }
   },
   methods: {
+    /**
+     * @description 修改栏目标题
+     * @param {Array} 需要改的栏目内容
+     */
     modifyInfo(item) {
       this.modifySection.idToIdentify = item.id
       this.modifyVisible = true
-    },
-    getSearchParams() {
-      if (!!searchParams.params) {
-        Object.keys(searchParams.params).forEach(elem => {
-          this.searchForm[elem] = searchParams.params[elem]
-        })
-      }
-      if (!!searchParams.pagination) {
-        if (
-          !!searchParams.pagination.pageNo &&
-          searchParams.pagination.pageNo != 1
-        ) {
-          this.pagination.pageNo = searchParams.pagination.pageNo
-        }
-      }
-      this.getList()
     },
     onChange(current) {
       this.pagination.pageNo = current
       this.pagination.current = current
       this.getList()
     },
+    
+    /**
+     * @description 获取当前所有的栏目名称
+     */
     getList() {
       let query = this.$api.GET_TITLE_MANAGE
       this.$ajax
@@ -149,19 +141,10 @@ export default {
           }
         })
     },
-    // addStorage(content) {
-    //   let storage = sessionStorage.getItem('titleList');
-    //   let temp = []
-    //   for(let i = 0; i < storage.length; i++) {
-    //     if(content.id == storage[i].id) {
-    //       temp.push({titleName: content.titleName, id: content.id})
-    //     } else {
-    //       temp.push({titleName: storage[i].titleName, id: content.id})
-    //     }
-    //   } 
 
-    //   sessionStorage.setItem('titleList', temp)
-    // },
+    /**
+     * @description 点击修改栏目名称
+     */
     handleResetOk() {
       this.resetData.validateFields(err => {
         if (!err) {
@@ -202,6 +185,10 @@ export default {
         }
       })
     },
+
+    /**
+     * @description 取消修改栏目名称
+     */
     handleCancel() {
       this.modifyVisible = false
       this.resetData.setFieldsValue({ newSectionName: '' })

@@ -67,6 +67,9 @@ export default {
     this.getTitleList()
   },
   methods: {
+    /**
+     * @description 获取栏目卡片的名称
+     */
     getTitleList() {
       let homeSectionTitle = JSON.parse(localStorage.getItem('titleList'))
       if(!!homeSectionTitle && homeSectionTitle.length !== 0) {
@@ -82,6 +85,11 @@ export default {
         name: 'industryList'
       })
     },
+
+    /**
+     * @description 根据id跳转到具体的文章详情
+     * @param {Array} item 该新闻的所有字段
+     */
     articleDetails(item) {
       this.$router.push({
         name  : 'industryDetails',
@@ -90,6 +98,10 @@ export default {
         }
       })
     },
+
+    /**
+     * @description 获取栏目内容列表
+     */
     fetchNews() {
       this.$ajax
         .get({

@@ -52,11 +52,18 @@ export default {
   },
   mounted() {
     this.loadArticle()
+
+    /**
+     * @description 在DOM加载完成后，将当前的页面指向顶点
+     */
     this.$nextTick(() => {
       document.querySelector('#components-layout-demo-basic').scrollTop = 0
     })
   },
   methods: {
+    /**
+     * @description 载入id对应的文章
+     */
     loadArticle() {
       let articleId = this.$route.params.id
       this.useWrapper = this.$route.params.wrapper

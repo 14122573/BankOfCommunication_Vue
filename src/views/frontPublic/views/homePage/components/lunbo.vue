@@ -66,14 +66,21 @@ export default {
     this.getLunbo()
   },
   watch: {
+    /**
+     * @description 判断当前是否在index页，不在的话就隐藏loginpanel和welcomepanel
+     * @param {Array} to 路由要去的页面
+     */
     $route(to, from) {
-      // 当前是否在index页，不在的话就隐藏loginpanel和welcomepanel
       to.name == 'index'
         ? (this.isInIndexPage = true)
         : (this.isInIndexPage = false)
     }
   },
   methods: {
+    /**
+     * @description 点击轮播图跳转到轮播图对应的链接
+     * @param {String} path 轮播图对应的链接
+     */
     carouselClick(path) {
       if(!!path) {
         // 如果为正确的链接地址且开头为http或https
@@ -84,6 +91,11 @@ export default {
         }
       }
     },
+
+    /**
+     * @description 检查轮播图链接是否有效
+     * @returns {Bool} 返回校验结果
+     */
     IsURL (str_url) { 
       var strRegex = '^((https|http|ftp|rtsp|mms)?://)' 
       + '?(([0-9a-z_!~*\'().&=+$%-]+: )?[0-9a-z_!~*\'().&=+$%-]+@)?' //ftp的user@ 
@@ -98,6 +110,12 @@ export default {
       var re=new RegExp(strRegex) 
       return re.test(str_url)
     },
+
+    /**
+     * @description 根据轮播图的bannerGroup进行排序
+     * @param {String} propertyName 需要根据排序的字段
+     * @returns {Int} 返回排序的结果
+     */
     compare(propertyName) {
       return function(object1, object2) {
         var value1 = object1[propertyName]
@@ -111,6 +129,10 @@ export default {
         }
       }
     },
+
+    /**
+     * @description 获取需要展示的轮播图
+     */
     getLunbo() {
       let toSortList = []
       this.$ajax
@@ -127,10 +149,18 @@ export default {
           this.getToken()
         })
     },
+
+    /**
+     * @description 监听并用于切换LoginPanel, welcomepanel的状态
+     */
     pageTypeChange(data) {
       this.pageType = data
       this.username = data
     },
+
+    /**
+     * @description 获取当前用户的token
+     */
     getToken() {
       let cookie = this.$cookie.get('token')
       if (!!cookie) {
