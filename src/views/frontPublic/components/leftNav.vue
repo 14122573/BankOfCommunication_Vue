@@ -25,6 +25,10 @@ export default {
     this.getChildRoutes()
   },
   methods: {
+    /**
+     * 显示当前路由的名称
+     * @returns { String } - 当前路由的名称
+     */
     getTitle(id){
       let homeSectionTitle = JSON.parse(localStorage.getItem('titleList'))
       for(let i = 0 ; i < homeSectionTitle.length; i++) {
@@ -33,6 +37,10 @@ export default {
         }
       }
     },
+
+    /**
+     * 获取当前路由的 父路由名称 和 同级路由的名称
+     */
     getChildRoutes() {
       let fromWhichRoute = this.fromWhichRoute
       let parentRoute = this.$route.matched[0].path

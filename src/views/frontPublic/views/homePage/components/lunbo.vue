@@ -70,10 +70,15 @@ export default {
   },
   methods: {
     carouselClick(path) {
-      if(this.IsURL(path) == true) {
-        window.open(path)
+      if(!!path) {
+        // 如果为正确的链接地址且开头为http或https
+        if(this.IsURL(path) == true && (path.indexOf('http://') == 0 || path.indexOf('https://') == 0)) {
+          window.open(path)
+        } else if (this.IsURL(path) == true) {
+          window.open('http://' + path)
+        }
       } else {
-        this.$message.error('该图片无链接或链接错误')
+        this.$message.error('该图片无链接')
       }
       
     },
@@ -91,7 +96,21 @@ export default {
       var re=new RegExp(strRegex) 
       return re.test(str_url)
     },
+    compare(propertyName) {
+      return function(object1, object2) {
+        var value1 = object1[propertyName]
+        var value2 = object2[propertyName]
+        if (value2 < value1) {
+          return 1
+        } else if (value2 > value1) {
+          return -1
+        } else {
+          return 0
+        }
+      }
+    },
     getLunbo() {
+      let toSortList = []
       this.$ajax
         .get({
           url   : this.$api.GET_PUB_BANNER_LIST,
@@ -100,7 +119,9 @@ export default {
           }
         })
         .then(res => {
-          this.bannerList = this.$com.confirm(res, 'data.content', [])
+          toSortList = this.$com.confirm(res, 'data.content', [])
+          toSortList.sort(this.compare('bannerGroup'))
+          this.bannerList = toSortList
           this.getToken()
         })
     },
