@@ -52,9 +52,11 @@ export default {
   methods: {
     getTitleList() {
       let homeSectionTitle = JSON.parse(localStorage.getItem('titleList'))
-      for(let i = 0 ; i < homeSectionTitle.length; i++) {
-        if(homeSectionTitle[i].id == this.titleId) {
-          this.title = homeSectionTitle[i].titleName
+      if(!!homeSectionTitle && homeSectionTitle.length !== 0) {
+        for(let i = 0 ; i < homeSectionTitle.length; i++) {
+          if(homeSectionTitle[i].id == this.titleId) {
+            this.title = homeSectionTitle[i].titleName
+          }
         }
       }
     },

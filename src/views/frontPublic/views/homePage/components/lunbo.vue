@@ -69,17 +69,6 @@ export default {
     }
   },
   methods: {
-    // 筛选出排过序的轮播图
-    // bannerOneByOne() {
-    //   let bannerFilter = []
-
-    //   for (let i = this.bannerList.length - 1; i >= 0; i--) {
-    //     if (this.bannerList[i].bannerGroup !== '0') {
-    //       bannerFilter.push(this.bannerList[i])
-    //     }
-    //   }
-    //   return bannerFilter
-    // },
     carouselClick(path) {
       if(this.IsURL(path) == true) {
         window.open(path)
