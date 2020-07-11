@@ -1,7 +1,7 @@
 <template>
     <!--    水产养殖面积-海水养殖面积-按养殖品种分-->
-    <a-row class="tableWrapper searchResult">
-      <a-col :span="24">
+  <a-row class="tableWrapper searchResult">
+    <a-col :span="24">
       <a-table
         :columns="columns"
         :data-source="dataList"
@@ -9,10 +9,11 @@
         size="small"
         :scroll="{ x: 'calc(700px + 50%)' }"
         :rowClassName="setRowColor"
-        :customHeaderRow="clearHover"
+        :pagination='pagination'
+        rowKey='id'
       />
-      </a-col>
-    </a-row>
+    </a-col>
+  </a-row>
 </template>
 
 <script>
@@ -26,165 +27,49 @@ export default {
       }
     }
   },
-  mounted() {
-    this.fetchData()
-  },
   data() {
     return {
-      dataList: [],
-      province: [
-        {
-          name: '北京市',
-          id  : '110000000000'
-        },
-        {
-          name: '天津市',
-          id  : '120000000000'
-        },
-        {
-          name: '河北省',
-          id  : '130000000000'
-        },
-        {
-          name: '山西省',
-          id  : '140000000000'
-        },
-        {
-          name: '内蒙古自治区',
-          id  : '150000000000'
-        },
-        {
-          name: '辽宁省',
-          id  : '210000000000'
-        },
-        {
-          name: '吉林省',
-          id  : '220000000000'
-        },
-        {
-          name: '黑龙江省',
-          id  : '230000000000'
-        },
-        {
-          name: '上海市',
-          id  : '310000000000'
-        },
-        {
-          name: '江苏省',
-          id  : '320000000000'
-        },
-        {
-          name: '浙江省',
-          id  : '330000000000'
-        },
-        {
-          name: '安徽省',
-          id  : '340000000000'
-        },
-        {
-          name: '福建省',
-          id  : '350000000000'
-        },
-        {
-          name: '江西省',
-          id  : '360000000000'
-        },
-        {
-          name: '山东省',
-          id  : '370000000000'
-        },
-        {
-          name: '河南省',
-          id  : '410000000000'
-        },
-        {
-          name: '湖北省',
-          id  : '420000000000'
-        },
-        {
-          name: '湖南省',
-          id  : '430000000000'
-        },
-        {
-          name: '广东省',
-          id  : '440000000000'
-        },
-        {
-          name: '广西壮族自治区',
-          id  : '450000000000'
-        },
-        {
-          name: '海南省',
-          id  : '460000000000'
-        },
-        {
-          name: '重庆市',
-          id  : '500000000000'
-        },
-        {
-          name: '四川省',
-          id  : '510000000000'
-        },
-        {
-          name: '贵州省',
-          id  : '520000000000'
-        },
-        {
-          name: '云南省',
-          id  : '530000000000'
-        },
-        {
-          name: '西藏自治区',
-          id  : '540000000000'
-        },
-        {
-          name: '陕西省',
-          id  : '610000000000'
-        },
-        {
-          name: '甘肃省',
-          id  : '620000000000'
-        },
-        {
-          name: '青海省',
-          id  : '630000000000'
-        },
-        {
-          name: '宁夏回族自治区',
-          id  : '640000000000'
-        },
-        {
-          name: '新疆维吾尔自治区',
-          id  : '650000000000'
-        }
-      ],
+      dataList  : [],
+      pagination: {
+        pageNo         : 1,
+        pageSize       : 10,
+        total          : 0,
+        current        : 1,
+        defaultCurrent : 1,
+        showQuickJumper: true,
+        onChange       : this.onPageChange
+      },
       columns: [
         {
           title    : '年份',
           dataIndex: 'year',
           key      : 'year',
-          width    : 120,
-          fixed    : 'left'
+          width    : 150,
+          fixed    : 'left',
+          align    : 'center'
         },
         {
           title    : '区域',
           dataIndex: 'area',
           key      : 'area',
-          width    : 100,
-          fixed    : 'left'
+          width    : 150,
+          fixed    : 'left',
+          align    : 'center'
         },
         {
           title    : '总计',
           dataIndex: 'sum',
           key      : 'sum',
           width    : 150,
-          fixed    : 'left'
+          fixed    : 'left',
+          align    : 'center'
         },
         {
           title    : '鱼类',
           dataIndex: 'fishSum',
           key      : 'fishSum',
-          width    : 200
+          width    : 150,
+          align    : 'center'
         },
         {
           title   : '甲壳类',
@@ -193,7 +78,8 @@ export default {
               title    : '合计',
               dataIndex: 'crustaceansSum',
               key      : 'crustaceansSum',
-              width    : 100
+              width    : 150,
+              align    : 'center'
             },
             {
               title   : '虾',
@@ -202,25 +88,29 @@ export default {
                   title    : '其中：南美白对虾',
                   dataIndex: 'southAmericanShrimp',
                   key      : 'southAmericanShrimp',
-                  width    : 150
+                  width    : 150,
+                  align    : 'center'
                 },
                 {
                   title    : '斑节对虾',
                   dataIndex: 'spotSectionPrawns',
                   key      : 'spotSectionPrawns',
-                  width    : 120
+                  width    : 150,
+                  align    : 'center'
                 },
                 {
                   title    : '中国对虾',
                   dataIndex: 'penaeusChinensis',
                   key      : 'penaeusChinensis',
-                  width    : 100
+                  width    : 150,
+                  align    : 'center'
                 },
                 {
                   title    : '日本对虾',
-                  dataIndex: 'JapPrawn',
-                  key      : 'JapPrawn',
-                  width    : 100
+                  dataIndex: 'japPrawn',
+                  key      : 'japPrawn',
+                  width    : 150,
+                  align    : 'center'
                 }
               ]
             },
@@ -231,13 +121,15 @@ export default {
                   title    : '其中：梭子蟹',
                   dataIndex: 'swimmingCrab',
                   key      : 'swimmingCrab',
-                  width    : 150
+                  width    : 150,
+                  align    : 'center'
                 },
                 {
                   title    : '青蟹',
                   dataIndex: 'greenCrab',
                   key      : 'greenCrab',
-                  width    : 120
+                  width    : 150,
+                  align    : 'center'
                 }
               ]
             }
@@ -250,63 +142,73 @@ export default {
               title    : '合计',
               dataIndex: 'shellfishSum',
               key      : 'shellfishSum',
-              width    : 100
+              width    : 150,
+              align    : 'center'
             },
             {
               title    : '其中：牡蛎',
               dataIndex: 'oysters',
               key      : 'oysters',
-              width    : 100
+              width    : 150,
+              align    : 'center'
             },
             {
               title    : '鲍',
               dataIndex: 'bao',
               key      : 'bao',
-              width    : 120
+              width    : 150,
+              align    : 'center'
             },
             {
               title    : '螺',
               dataIndex: 'screw',
               key      : 'screw',
-              width    : 100
+              width    : 150,
+              align    : 'center'
             },
             {
               title    : '蚶',
               dataIndex: 'cockle',
               key      : 'cockle',
-              width    : 100
+              width    : 150,
+              align    : 'center'
             }
             ,
             {
               title    : '贻贝',
               dataIndex: 'mussels',
               key      : 'mussels',
-              width    : 120
+              width    : 150,
+              align    : 'center'
             },
             {
               title    : '江珧',
               dataIndex: 'jiangYao',
               key      : 'jiangYao',
-              width    : 100
+              width    : 150,
+              align    : 'center'
             },
             {
               title    : '扇贝',
               dataIndex: 'scallops',
               key      : 'scallops',
-              width    : 100
+              width    : 150,
+              align    : 'center'
             }
             ,
             {
               title    : '蛤',
               dataIndex: 'clam',
               key      : 'clam',
-              width    : 100
+              width    : 150,
+              align    : 'center'
             },
             {
               title    : '蛏',
               dataIndex: 'respectively',
               key      : 'respectively',
-              width    : 100
+              width    : 150,
+              align    : 'center'
             }
           ]
         },
@@ -317,56 +219,65 @@ export default {
               title    : '合计',
               dataIndex: 'algaeSum',
               key      : 'algaeSum',
-              width    : 100
+              width    : 150,
+              align    : 'center'
             },
             {
               title    : '其中：海带',
               dataIndex: 'kelp',
               key      : 'kelp',
-              width    : 100
+              width    : 150,
+              align    : 'center'
             },
             {
               title    : '裙带菜',
               dataIndex: 'wakame',
               key      : 'wakame',
-              width    : 100
+              width    : 150,
+              align    : 'center'
             },
             {
               title    : '紫菜',
               dataIndex: 'nori',
               key      : 'nori',
-              width    : 120
+              width    : 150,
+              align    : 'center'
             },
             {
               title    : '江蓠',
               dataIndex: 'gracilaria',
               key      : 'gracilaria',
-              width    : 100
+              width    : 150,
+              align    : 'center'
             },
             {
               title    : '麒麟菜',
               dataIndex: 'eucheuma',
               key      : 'eucheuma',
-              width    : 100
+              width    : 150,
+              align    : 'center'
             }
             ,
             {
               title    : '石花菜',
               dataIndex: 'agarWeed',
               key      : 'agarWeed',
-              width    : 120
+              width    : 150,
+              align    : 'center'
             },
             {
               title    : '羊栖菜',
               dataIndex: 'sheepFood',
               key      : 'sheepFood',
-              width    : 100
+              width    : 150,
+              align    : 'center'
             },
             {
               title    : '苔菜',
               dataIndex: 'greenMoss',
               key      : 'greenMoss',
-              width    : 100
+              width    : 150,
+              align    : 'center'
             }
           ]
         }
@@ -378,50 +289,76 @@ export default {
               title    : '合计',
               dataIndex: 'otherSum',
               key      : 'otherSum',
-              width    : 100
+              width    : 150,
+              align    : 'center'
             },
             {
               title    : '其中：海参',
               dataIndex: 'seaCucumber',
               key      : 'seaCucumber',
-              width    : 100
+              width    : 150,
+              align    : 'center'
             },
             {
               title    : '海胆',
               dataIndex: 'seaUrchin',
               key      : 'seaUrchin',
-              width    : 120
+              width    : 150,
+              align    : 'center'
             },
             {
               title    : '海水珍珠',
               dataIndex: 'seawaterPearl',
               key      : 'seawaterPearl',
-              width    : 100
+              width    : 150,
+              align    : 'center'
             },
             {
               title    : '海蜇',
               dataIndex: 'jellyfish',
               key      : 'jellyfish',
-              width    : 100
+              width    : 150,
+              align    : 'center'
             }
           ]
         }
       ]
     }
   },
+  watch: {
+    queryParams: {
+      handler(val, oldVal) {
+        console.log(this.queryParams)
+        this.getList()
+      },
+      deep: true
+    }
+  },
+  created() {
+    this.getList()
+  },
   methods: {
-    clearHover(record) {
-      return {
-        on: {
-          mouseenter: (event) => { 
-            let chooseTool = event.srcElement.lastChild 
+    onPageChange(current) {
+      this.pagination.current = current
+      // this.pagination.pageNo = current
+      this.getList()
+    },
+    getList(){
+      let searchParms = Object.assign({}, this.queryParams, {}, {
+        current: this.pagination.current,
+        size   : this.pagination.pageSize,
+      })
 
-            // return document.getElementsByClassName(chooseTool).style.backgroundColor = '#2a93f5'
-
-            // return event.srcElement.lastChild.style.backgroundColor = "#2a93f5"
-          }
-        }
-      }
+      this.$ajax.get({
+        url   : 'http://47.101.223.16:7066/aquacultureSeaAreaBeed',
+        params: searchParms
+      }).then(res => {
+        this.pagination.total = this.$com.confirm(res, 'data.total', 0)
+        this.pagination.current = this.$com.confirm(res, 'data.current', 1)
+        this.pagination.current = this.pagination.current
+        this.dataList = this.$com.confirm(res, 'data.records', [])
+        this.isReady = true
+      })
     },
     setRowColor(record, index) {
       let className = index % 2 ? 'row_gray' : 'row_normal'
@@ -439,7 +376,7 @@ export default {
           southAmericanShrimp: '25,578,522,85',//南美白对虾
           spotSectionPrawns  : '25,578,522,85',//斑节对虾
           penaeusChinensis   : '25,578,522,85',//中国对虾
-          JapPrawn           : '25,578,522,85',//日本对虾
+          japPrawn           : '25,578,522,85',//日本对虾
           swimmingCrab       : '25,578,522,85',//梭子蟹
           greenCrab          : '25,578,522,85',//青蟹
           shellfishSum       : '25,578,522,85',//贝类合计

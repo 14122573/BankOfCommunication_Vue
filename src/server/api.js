@@ -2,7 +2,8 @@ let BASE_URL = '', MOCK_URL=''
 switch (process.env.NODE_ENV) {
 case 'devol':
 // 本地线上部署环境下
-  BASE_URL = 'http://fish.omniview.pro/api'
+//   BASE_URL = 'http://fish.omniview.pro/api'
+  BASE_URL = 'http://192.168.3.5:7066'
   break
 case 'sit':
 // sit环境下
@@ -198,4 +199,24 @@ export default {
   PUT_ANNOUNCE_STATUS    : '/service-release/release/news/{id}/{status}', //修改状态
   POST_VOTE              : '/service-release/release/public/vote/result/{id}', //投票
   GET_VOTE_INFO          : '/service-release/release/public/vote/{id}', //投票详情
+
+  //公共数据查询
+  GET_DATA_FP_LIST      : '/service-release/release/news', //渔业经济总产值
+  GET_DATA_AFSB_LIST    : '/service-release/release/news', //水产品总产量-养殖产品（海水养殖）-按养殖品种分
+  GET_DATA_AFSW_LIST    : '/service-release/release/news', //水产品总产量-养殖产品（海水养殖）-按养殖水域和养殖方式分
+  GET_DATA_AFFB_LIST    : '/service-release/release/news', //水产品总产量-养殖产品（淡水养殖）-按养殖品种分
+  GET_DATA_AFFW_LIST    : '/service-release/release/news', //水产品总产量-养殖产品（淡水养殖）-按养殖水域和养殖方式分
+  GET_DATA_ACSB_LIST    : '/service-release/release/news', //水产品总产量-捕捞产品（海洋捕捞）-按捕捞品种分
+  GET_DATA_ACSA_LIST    : '/service-release/release/news', //水产品总产量-捕捞产品（海洋捕捞）-按捕捞海域和捕捞渔具分
+  GET_DATA_ACFB_LIST    : '/service-release/release/news', //水产品总产量-捕捞产品（淡水捕捞）-按捕捞品种分
+  GET_DATA_AO_LIST      : '/service-release/release/news', //水产品总产量-捕捞产品（远洋渔业）
+  GET_DATA_AFA_LIST     : '/service-release/release/news', //水产养殖面积-淡水养殖面积（按养殖水域和养殖方式分）
+  GET_DATA_ASAB_LIST    : '/service-release/release/news', //水产养殖面积-海水养殖面积-按养殖品种分
+  GET_DATA_ASAW_LIST    : '/service-release/release/news', //水产养殖面积-海水养殖面积-按养殖水域和养殖方式分
+  GET_DATA_WF_LIST      : '/service-release/release/news', //水产苗种产量
+  GET_DATA_FIO_LIST     : '/service-release/release/news', //渔民家庭收支
+  GET_DATA_STAFF_LIST   : '/service-release/release/news', //渔业人口与从业人员
+  GET_DATA_SEASTAFF_LIST: '/service-release/release/news', //海洋渔业人口与从业人员
+  GET_DATA_ARSUM_LIST   : '/service-release/release/news', //水产品加工-水产加工品总量
+  GET_DATA_ARSTATUS_LIST: '/service-release/release/news', //水产加工企业，冷库情况
 }

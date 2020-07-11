@@ -5,27 +5,30 @@
         <Navbar class="navbar" />
         <div class="content">
           <a-row class="row_style">
-            <a-col :span="9">
+            <a-col :span="12">
               指标名称:
               <a-cascader
                 :options="options"
                 placeholder="请选择指标名称"
                 @change="handleChange"
+                :display-render="displayRender"
+                :default-value="['fishProduction']"
               />
             </a-col>
-            <a-col :span="9">
+            <a-col :span="12">
               请选择年份：
               <a-date-picker
                 :open="isopen"
-                :value="yearPickerValue"
+                :value="queryParams.year"
                 mode="year"
                 format="YYYY"
                 placeholder="请选择年份"
                 @panelChange="handleYearPicker"
                 @openChange="handleOpenChange"
-              />
+                :allowClear="false"
+              ><a-icon slot="suffixIcon" v-if="queryParams.year != null" type="close" @click.stop="reset" /></a-date-picker>
             </a-col>
-            <a-col :span="6">
+            <!--<a-col :span="6">
               <a-row type="flex" justify="end">
                 <a-col :span="24">
                   <a-button type="primary" @click="showResult"
@@ -34,12 +37,12 @@
                   <a-button type="default">重置</a-button>
                 </a-col>
               </a-row>
-            </a-col>
+            </a-col>-->
           </a-row>
           <a-row style="height: 20px"/>
           <a-row style="background-color: #FFF">
   <!--          <SearchResult :query="query"/>-->
-            <component :is="zhibiaoValue" :queryParams="queryParams"></component>
+            <component :is="queryParams.zhibiaoValue" :queryParams="queryParams"></component>
           </a-row>
         </div>
       </div>
@@ -99,17 +102,20 @@ export default {
     aquaticRepairStatus
   },
   methods: {
-    showResult() {
-      let query = this.queryParams
-      let zhibiao = this.zhibiaoValue
-      let yearpicker = moment(this.yearPickerValue).format('YYYY')
-    },
+
     handleChange(data) {
-      this.zhibiaoValue = data.pop()
+      // console.log(data)
+      // this.queryParams.zhibiaoValue = data.pop()
+      this.queryParams.zhibiaoValue = data[data.length-1]
+      // console.log(this.queryParams.zhibiaoValue)
     },
     handleYearPicker(year) {
-      this.yearPickerValue = year
+      // this.queryParams.year = year
+      this.queryParams.year = moment(year).format('YYYY')
+      console.log(typeof(this.queryParams.year))
       this.isopen = false
+      // this.queryParams.yearPickerValue = moment(this.yearPickerValue).format('YYYY')
+      // console.log(this.yearPickerValue)
     },
     handleOpenChange(status) {
       if (status) {
@@ -117,15 +123,25 @@ export default {
       } else {
         this.isopen = false
       }
+    },
+    displayRender({ labels }) {
+      return labels[labels.length-1]
+    },
+    reset(){
+      this.queryParams.year = null
     }
   },
   data() {
     return {
-      yearPickerValue: null,
-      zhibiaoValue   : 'fishProduction',
-      isopen         : false,
-      queryParams    : {},
-      options        : [
+      // yearPickerValue: null,
+      // zhibiaoValue   : 'fishProduction',
+      searchResult: [],
+      isopen      : false,
+      queryParams : {
+        zhibiaoValue: 'fishProduction',
+        year        : null
+      },
+      options: [
         {
           value: 'fishProduction',
           label: '渔业经济总产值'
@@ -265,7 +281,7 @@ export default {
 }
 
 .row_style {
-  background-color: #FFF; 
+  background-color: #FFF;
   line-height: 120px
 }
 
@@ -284,3 +300,4 @@ export default {
   background-color: #f1f5f8;
 }
 </style>
+
