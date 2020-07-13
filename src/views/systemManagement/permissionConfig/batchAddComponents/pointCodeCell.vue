@@ -27,20 +27,25 @@ export default {
     const validatePointCode = (rule, value, callback) => {
       const code = (!this.sysCode?'':this.sysCode)+(!value?'':value)
       if(!this.sysCode){
+        this.$emit('change', '')
         callback('请选择系统！')
       }else{
-        if(!code){
+        if(!value){
+          this.$emit('change', '')
           callback('请填写功能点编码')
         }else{
           if (!!value && value.length>0 && !!this.sysCode && !this.$com.checkNumber(value)) {
+            this.$emit('change', '')
             callback('功能编码仅能填写数字')
           } else {
             this.$ajax.get({
               url: this.$api.GET_CHECK_POINTCODE_EXIT + '?pointKey=' + code
             }).then(res => {
               if (res.data.content === false) {
+                this.$emit('change', (this.systemCode + value))
                 callback()
               } else {
+                this.$emit('change', '')
                 callback('功能点编码已存在!')
               }
             })
@@ -79,16 +84,15 @@ export default {
   },
   methods: {
     handleChange (e) {
-      const value = e.target.value
-      this.value = value
-      this.check()
+      // const value = e.target.value
+      // this.value = value
     },
     check () {
-      this.pointKeyForm.validateFields(err => {
-        if (!err) {
-          this.$emit('change', (this.systemCode + this.value))
-        }
-      })
+      // this.pointKeyForm.validateFields(err => {
+      //   if (!err) {
+      //     this.$emit('change', (this.systemCode + this.value))
+      //   }
+      // })
     },
   },
 }

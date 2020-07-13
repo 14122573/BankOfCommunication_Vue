@@ -45,26 +45,28 @@ export default {
   methods: {
     validatePointName(rule, value, callback){
       if(!value && !this.value){
+        this.$emit('change', '' )
         callback('请填写功能点名称')
       }else{
+        this.$emit('change', value )
         callback()
       }
     },
     handleChange (e) {
-      const value = e.target.value
-      this.value = value
-      this.pointNameForm.validateFields(err => {
-        if (!err) {
-          this.$emit('change', this.value)
-        }
-      })
+      // const value = e.target.value
+      // this.value = value
+      // this.pointNameForm.validateFields(err => {
+      //   if (!err) {
+      //     this.$emit('change', this.value)
+      //   }
+      // })
     },
     check () {
-      this.pointNameForm.validateFields(err => {
-        if (!err) {
-          this.$emit('change', this.value)
-        }
-      })
+      // this.pointNameForm.validateFields(err => {
+      //   if (!err) {
+      //     this.$emit('change', this.value)
+      //   }
+      // })
     },
   },
 }
