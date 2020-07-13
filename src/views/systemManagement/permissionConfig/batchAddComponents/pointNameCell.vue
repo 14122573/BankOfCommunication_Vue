@@ -1,7 +1,7 @@
 <template>
   <a-form class="protalForm" :form="pointNameForm">
     <a-form-item class='formItem' label="">
-      <a-input v-decorator="['pointName',{rules:formRules.pointName}]" class="cellInput" @change="handleChange" @pressEnter="check"/>
+      <a-input v-decorator="['pointName',{ validateTrigger:'blur', rules:formRules.pointName}]" class="cellInput"/>
     </a-form-item>
   </a-form>
 </template>
@@ -22,42 +22,23 @@ export default {
       formRules: {
         // 相关管理信息
         pointName: [
-          { required: true, whitespace: true, message: '请填写功能点名称' }
+          { required: true, whitespace: true, validator: this.validatePointName } // message: '请填写功能点名称' }
         ],
       },
-    }
-  },
-  watch: {
-    pointName(){
-      this.value = this.pointName
-      this.pointNameForm.setFieldsValue({ pointName: this.value })
-      this.pointNameForm.validateFields()
     }
   },
   beforeCreate() {
     this.pointNameForm = this.$form.createForm(this)
   },
-  created(){
-    this.$nextTick(() => {
-      this.pointNameForm.setFieldsValue({ pointName: this.pointName })
-    })
-  },
   methods: {
-    handleChange (e) {
-      const value = e.target.value
-      this.value = value
-      this.pointNameForm.validateFields(err => {
-        if (!err) {
-          this.$emit('change', this.value)
-        }
-      })
-    },
-    check () {
-      this.pointNameForm.validateFields(err => {
-        if (!err) {
-          this.$emit('change', this.value)
-        }
-      })
+    validatePointName(rule, value, callback){
+      if(!value && !this.value){
+        this.$emit('change', '' )
+        callback('请填写功能点名称')
+      }else{
+        this.$emit('change', value )
+        callback()
+      }
     },
   },
 }
