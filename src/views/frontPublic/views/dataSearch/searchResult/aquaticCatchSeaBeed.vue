@@ -1,17 +1,19 @@
 <template>
     <!--    水产品总产量-捕捞产品（海洋捕捞）-按捕捞品种分-->
-    <a-row class="tableWrapper searchResult">
-      <a-col :span="24">
-        <a-table
-          :columns="columns"
-          :data-source="dataList"
-          bordered
-          size="small"
-          :scroll="{ x: 'calc(700px + 50%)' }"
-          :rowClassName="setRowColor"
-        />
-      </a-col>
-    </a-row>
+  <a-row class="tableWrapper searchResult">
+    <a-col :span="24">
+      <a-table
+        :columns="columns"
+        :data-source="dataList"
+        bordered
+        size="small"
+        :scroll="{ x: 'calc(700px + 50%)' }"
+        :rowClassName="setRowColor"
+        :pagination='pagination'
+        rowKey='id'
+      />
+    </a-col>
+  </a-row>
 </template>
 
 <script>
@@ -25,159 +27,42 @@ export default {
       }
     }
   },
-  mounted() {
-    this.fetchData()
-  },
   data() {
     return {
-      dataList: [],
-      province: [
-        {
-          name: '北京市',
-          id  : '110000000000'
-        },
-        {
-          name: '天津市',
-          id  : '120000000000'
-        },
-        {
-          name: '河北省',
-          id  : '130000000000'
-        },
-        {
-          name: '山西省',
-          id  : '140000000000'
-        },
-        {
-          name: '内蒙古自治区',
-          id  : '150000000000'
-        },
-        {
-          name: '辽宁省',
-          id  : '210000000000'
-        },
-        {
-          name: '吉林省',
-          id  : '220000000000'
-        },
-        {
-          name: '黑龙江省',
-          id  : '230000000000'
-        },
-        {
-          name: '上海市',
-          id  : '310000000000'
-        },
-        {
-          name: '江苏省',
-          id  : '320000000000'
-        },
-        {
-          name: '浙江省',
-          id  : '330000000000'
-        },
-        {
-          name: '安徽省',
-          id  : '340000000000'
-        },
-        {
-          name: '福建省',
-          id  : '350000000000'
-        },
-        {
-          name: '江西省',
-          id  : '360000000000'
-        },
-        {
-          name: '山东省',
-          id  : '370000000000'
-        },
-        {
-          name: '河南省',
-          id  : '410000000000'
-        },
-        {
-          name: '湖北省',
-          id  : '420000000000'
-        },
-        {
-          name: '湖南省',
-          id  : '430000000000'
-        },
-        {
-          name: '广东省',
-          id  : '440000000000'
-        },
-        {
-          name: '广西壮族自治区',
-          id  : '450000000000'
-        },
-        {
-          name: '海南省',
-          id  : '460000000000'
-        },
-        {
-          name: '重庆市',
-          id  : '500000000000'
-        },
-        {
-          name: '四川省',
-          id  : '510000000000'
-        },
-        {
-          name: '贵州省',
-          id  : '520000000000'
-        },
-        {
-          name: '云南省',
-          id  : '530000000000'
-        },
-        {
-          name: '西藏自治区',
-          id  : '540000000000'
-        },
-        {
-          name: '陕西省',
-          id  : '610000000000'
-        },
-        {
-          name: '甘肃省',
-          id  : '620000000000'
-        },
-        {
-          name: '青海省',
-          id  : '630000000000'
-        },
-        {
-          name: '宁夏回族自治区',
-          id  : '640000000000'
-        },
-        {
-          name: '新疆维吾尔自治区',
-          id  : '650000000000'
-        }
-      ],
+      dataList  : [],
+      pagination: {
+        pageNo         : 1,
+        pageSize       : 10,
+        total          : 0,
+        current        : 1,
+        defaultCurrent : 1,
+        showQuickJumper: true,
+        onChange       : this.onPageChange
+      },
       columns: [
         {
           title    : '年份',
           dataIndex: 'year',
           key      : 'year',
-          width    : 120,
-          fixed    : 'left'
+          width    : 150,
+          fixed    : 'left',
+          align    : 'center'
         },
         {
           title    : '区域',
           dataIndex: 'area',
           key      : 'area',
-          width    : 100,
-          fixed    : 'left'
+          width    : 150,
+          fixed    : 'left',
+          align    : 'center'
         },
         {
           title    : '总计',
           dataIndex: 'sum',
           key      : 'sum',
           width    : 150,
-          fixed    : 'left'
+          fixed    : 'left',
+          align    : 'center'
         },
         {
           title   : '鱼类',
@@ -186,176 +71,203 @@ export default {
               title    : '合计',
               dataIndex: 'fishSum',
               key      : 'fishSum',
-              width    : 200
+              width    : 150,
+              align    : 'center'
             },
             {
               title    : '海鳗',
               dataIndex: 'eel',
               key      : 'eel',
-              width    : 200
+              width    : 150,
+              align    : 'center'
             },
             {
               title    : '鳓鱼',
               dataIndex: 'chineseHerring',
               key      : 'chineseHerring',
-              width    : 100
+              width    : 150,
+              align    : 'center'
             },
             {
               title    : '鳀鱼',
               dataIndex: 'anchovy',
               key      : 'anchovy',
-              width    : 100
+              width    : 150,
+              align    : 'center'
             },
             {
               title    : '沙丁鱼',
               dataIndex: 'sardines',
               key      : 'sardines',
-              width    : 100
+              width    : 150,
+              align    : 'center'
             },
             {
               title    : '鲱鱼',
               dataIndex: 'herring',
               key      : 'herring',
-              width    : 100
+              width    : 150,
+              align    : 'center'
             },
             {
               title    : '石斑鱼',
               dataIndex: 'grouper',
               key      : 'grouper',
-              width    : 100
+              width    : 150,
+              align    : 'center'
             }
             ,
             {
               title    : '鲷',
               dataIndex: 'bream',
               key      : 'bream',
-              width    : 100
+              width    : 150,
+              align    : 'center'
             }
             ,
             {
               title    : '蓝圆鲹',
               dataIndex: 'blueCircleTrevally',
               key      : 'blueCircleTrevally',
-              width    : 100
+              width    : 150,
+              align    : 'center'
             }
             ,
             {
               title    : '白姑鱼',
               dataIndex: 'whiteChineseCroaker',
               key      : 'whiteChineseCroaker',
-              width    : 100
+              width    : 150,
+              align    : 'center'
             }
             ,
             {
               title    : '黄姑鱼',
               dataIndex: 'spottedMaigre',
               key      : 'spottedMaigre',
-              width    : 100
+              width    : 150,
+              align    : 'center'
             },
             {
               title    : '鮸鱼',
               dataIndex: 'mianFish',
               key      : 'mianFish',
-              width    : 200
+              width    : 150,
+              align    : 'center'
             },
             {
               title    : '大黄鱼',
               dataIndex: 'bigYellowFish',
               key      : 'bigYellowFish',
-              width    : 100
+              width    : 150,
+              align    : 'center'
             },
             {
               title    : '小黄鱼',
               dataIndex: 'smallYellowFish',
               key      : 'smallYellowFish',
-              width    : 100
+              width    : 150,
+              align    : 'center'
             },
             {
               title    : '梅童鱼',
               dataIndex: 'babyCroaker',
               key      : 'babyCroaker',
-              width    : 100
+              width    : 150,
+              align    : 'center'
             },
             {
               title    : '方头鱼',
               dataIndex: 'tilefish',
               key      : 'tilefish',
-              width    : 100
+              width    : 150,
+              align    : 'center'
             },
             {
               title    : '玉筋鱼',
               dataIndex: 'yuJinFish',
               key      : 'yuJinFish',
-              width    : 100
+              width    : 150,
+              align    : 'center'
             }
             ,
             {
               title    : '带鱼',
               dataIndex: 'hairtail',
               key      : 'hairtail',
-              width    : 100
+              width    : 150,
+              align    : 'center'
             }
             ,
             {
               title    : '金线鱼',
               dataIndex: 'goldFish',
               key      : 'goldFish',
-              width    : 100
+              width    : 150,
+              align    : 'center'
             }
             ,
             {
               title    : '梭鱼',
               dataIndex: 'barracuda',
               key      : 'barracuda',
-              width    : 100
+              width    : 150,
+              align    : 'center'
             }
             ,
             {
               title    : '鲐鱼',
               dataIndex: 'taiFish',
               key      : 'taiFish',
-              width    : 100
+              width    : 150,
+              align    : 'center'
             },
             {
               title    : '鲅鱼',
               dataIndex: 'baFish',
               key      : 'baFish',
-              width    : 100
+              width    : 150,
+              align    : 'center'
             }
             ,
             {
               title    : '金枪鱼',
               dataIndex: 'tuna',
               key      : 'tuna',
-              width    : 100
+              width    : 150,
+              align    : 'center'
             }
             ,
             {
               title    : '鲳鱼',
               dataIndex: 'pomfret',
               key      : 'pomfret',
-              width    : 100
+              width    : 150,
+              align    : 'center'
             }
             ,
             {
               title    : '马面鲀',
               dataIndex: 'horseFaceFish',
               key      : 'horseFaceFish',
-              width    : 100
+              width    : 150,
+              align    : 'center'
             }
             ,
             {
               title    : '竹荚鱼',
               dataIndex: 'horseMackerel',
               key      : 'horseMackerel',
-              width    : 100
+              width    : 150,
+              align    : 'center'
             }
             ,
             {
               title    : '鲻鱼',
               dataIndex: 'mullet',
               key      : 'mullet',
-              width    : 100
+              width    : 150,
+              align    : 'center'
             }
           ]
         },
@@ -366,7 +278,8 @@ export default {
               title    : '合计',
               dataIndex: 'crustaceansSum',
               key      : 'crustaceansSum',
-              width    : 100
+              width    : 150,
+              align    : 'center'
             },
             {
               title   : '虾',
@@ -375,25 +288,29 @@ export default {
                   title    : '毛虾',
                   dataIndex: 'maoShrimp',
                   key      : 'maoShrimp',
-                  width    : 150
+                  width    : 150,
+                  align    : 'center'
                 },
                 {
                   title    : '对虾',
                   dataIndex: 'duiShrimp',
                   key      : 'duiShrimp',
-                  width    : 120
+                  width    : 150,
+                  align    : 'center'
                 },
                 {
                   title    : '鹰抓虾',
                   dataIndex: 'eagleShrimp',
                   key      : 'eagleShrimp',
-                  width    : 100
+                  width    : 150,
+                  align    : 'center'
                 },
                 {
                   title    : '虾蛄',
                   dataIndex: 'mantisShrimp',
                   key      : 'mantisShrimp',
-                  width    : 100
+                  width    : 150,
+                  align    : 'center'
                 }
               ]
             },
@@ -404,19 +321,22 @@ export default {
                   title    : '梭子蟹',
                   dataIndex: 'swimmingCrab',
                   key      : 'swimmingCrab',
-                  width    : 150
+                  width    : 150,
+                  align    : 'center'
                 },
                 {
                   title    : '青蟹',
                   dataIndex: 'greenCrabs',
                   key      : 'greenCrabs',
-                  width    : 120
+                  width    : 150,
+                  align    : 'center'
                 },
                 {
                   title    : '蟳',
                   dataIndex: 'xunCrabs',
                   key      : 'xunCrabs',
-                  width    : 100
+                  width    : 150,
+                  align    : 'center'
                 }
               ]
             }
@@ -426,13 +346,15 @@ export default {
           title    : '贝类',
           dataIndex: 'shellfishSum',
           key      : 'shellfishSum',
-          width    : 100
+          width    : 150,
+          align    : 'center'
         },
         {
           title    : '藻类',
           dataIndex: 'algaeSum',
           key      : 'algaeSum',
-          width    : 100
+          width    : 150,
+          align    : 'center'
         }
         ,
         {
@@ -442,25 +364,29 @@ export default {
               title    : '合计',
               dataIndex: 'cephalopodsSum',
               key      : 'cephalopodsSum',
-              width    : 100
+              width    : 150,
+              align    : 'center'
             },
             {
               title    : '乌贼',
               dataIndex: 'squid',
               key      : 'squid',
-              width    : 100
+              width    : 150,
+              align    : 'center'
             },
             {
               title    : '鱿鱼',
               dataIndex: 'youFish',
               key      : 'youFish',
-              width    : 120
+              width    : 150,
+              align    : 'center'
             },
             {
               title    : '章鱼',
               dataIndex: 'octopus',
               key      : 'octopus',
-              width    : 100
+              width    : 150,
+              align    : 'center'
             }
           ]
         },
@@ -471,20 +397,56 @@ export default {
               title    : '合计',
               dataIndex: 'otherSum',
               key      : 'otherSum',
-              width    : 100
+              width    : 150,
+              align    : 'center'
             },
             {
               title    : '海蜇',
               dataIndex: 'jellyfish',
               key      : 'jellyfish',
-              width    : 100
+              width    : 150,
+              align    : 'center'
             }
           ]
         }
       ]
     }
   },
+  watch: {
+    queryParams: {
+      handler(val, oldVal) {
+        console.log(this.queryParams)
+        this.getList()
+      },
+      deep: true
+    }
+  },
+  created() {
+    this.getList()
+  },
   methods: {
+    onPageChange(current) {
+      this.pagination.current = current
+      // this.pagination.pageNo = current
+      this.getList()
+    },
+    getList(){
+      let searchParms = Object.assign({}, this.queryParams, {}, {
+        current: this.pagination.current,
+        size   : this.pagination.pageSize,
+      })
+
+      this.$ajax.get({
+        url   : 'http://47.101.223.16:7066/aquaticCatchSeaBeed',
+        params: searchParms
+      }).then(res => {
+        this.pagination.total = this.$com.confirm(res, 'data.total', 0)
+        this.pagination.current = this.$com.confirm(res, 'data.current', 1)
+        this.pagination.current = this.pagination.current
+        this.dataList = this.$com.confirm(res, 'data.records', [])
+        this.isReady = true
+      })
+    },
     setRowColor(record, index) {
       let className = index % 2 ? 'row_gray' : 'row_normal'
       return className
