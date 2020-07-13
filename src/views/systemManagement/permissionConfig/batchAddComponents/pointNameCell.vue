@@ -1,7 +1,7 @@
 <template>
   <a-form class="protalForm" :form="pointNameForm">
     <a-form-item class='formItem' label="">
-      <a-input v-decorator="['pointName',{rules:formRules.pointName}]" class="cellInput" @change="handleChange" @pressEnter="check"/>
+      <a-input v-decorator="['pointName',{ validateTrigger:'blur', rules:formRules.pointName}]" class="cellInput"/>
     </a-form-item>
   </a-form>
 </template>
@@ -27,20 +27,8 @@ export default {
       },
     }
   },
-  watch: {
-    pointName(){
-      this.value = this.pointName
-      this.pointNameForm.setFieldsValue({ pointName: this.value })
-      this.pointNameForm.validateFields()
-    }
-  },
   beforeCreate() {
     this.pointNameForm = this.$form.createForm(this)
-  },
-  created(){
-    this.$nextTick(() => {
-      this.pointNameForm.setFieldsValue({ pointName: this.pointName })
-    })
   },
   methods: {
     validatePointName(rule, value, callback){
@@ -51,22 +39,6 @@ export default {
         this.$emit('change', value )
         callback()
       }
-    },
-    handleChange (e) {
-      // const value = e.target.value
-      // this.value = value
-      // this.pointNameForm.validateFields(err => {
-      //   if (!err) {
-      //     this.$emit('change', this.value)
-      //   }
-      // })
-    },
-    check () {
-      // this.pointNameForm.validateFields(err => {
-      //   if (!err) {
-      //     this.$emit('change', this.value)
-      //   }
-      // })
     },
   },
 }

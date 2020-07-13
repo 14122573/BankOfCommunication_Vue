@@ -1,7 +1,7 @@
 <template>
   <a-form class="protalForm" :form="pointKeyForm">
     <a-form-item class='formItem' label="">
-      <a-input :addonBefore="systemCode?systemCode:''" v-decorator="['pointKey',{rules:formRules.pointCode}]" class="cellInput" @change="handleChange" @pressEnter="check"/>
+      <a-input :addonBefore="systemCode?systemCode:''" v-decorator="['pointKey',{ validateTrigger:'blur', rules:formRules.pointCode}]" class="cellInput"/>
     </a-form-item>
   </a-form>
 </template>
@@ -66,34 +66,13 @@ export default {
   beforeCreate() {
     this.pointKeyForm = this.$form.createForm(this)
   },
-  created(){
-    this.$nextTick(() => {
-      this.pointKeyForm.setFieldsValue({ pointKey: this.value })
-    })
-  },
   watch: {
     sysCode(){
       this.systemCode = this.sysCode
       this.pointKeyForm.validateFields()
-    },
-    pointCode(){
-      this.value = this.pointCode
-      this.pointKeyForm.setFieldsValue({ pointKey: this.value })
-      this.pointKeyForm.validateFields()
-    }
+    }, 
   },
   methods: {
-    handleChange (e) {
-      // const value = e.target.value
-      // this.value = value
-    },
-    check () {
-      // this.pointKeyForm.validateFields(err => {
-      //   if (!err) {
-      //     this.$emit('change', (this.systemCode + this.value))
-      //   }
-      // })
-    },
   },
 }
 </script>
