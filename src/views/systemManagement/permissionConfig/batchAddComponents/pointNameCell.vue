@@ -22,7 +22,7 @@ export default {
       formRules: {
         // 相关管理信息
         pointName: [
-          { required: true, whitespace: true, message: '请填写功能点名称' }
+          { required: true, whitespace: true, validator: this.validatePointName } // message: '请填写功能点名称' }
         ],
       },
     }
@@ -43,6 +43,13 @@ export default {
     })
   },
   methods: {
+    validatePointName(rule, value, callback){
+      if(!value && !this.value){
+        callback('请填写功能点名称')
+      }else{
+        callback()
+      }
+    },
     handleChange (e) {
       const value = e.target.value
       this.value = value

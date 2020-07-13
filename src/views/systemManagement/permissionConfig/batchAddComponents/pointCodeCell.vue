@@ -26,21 +26,25 @@ export default {
   data () {
     const validatePointCode = (rule, value, callback) => {
       const code = (!this.sysCode?'':this.sysCode)+(!value?'':value)
-      if(!code){
-        callback('请填写功能点编码')
+      if(!this.sysCode){
+        callback('请选择系统！')
       }else{
-        if (!!value && value.length>0 && !!this.sysCode && !this.$com.checkNumber(value)) {
-          callback('功能编码仅能填写数字')
-        } else {
-          this.$ajax.get({
-            url: this.$api.GET_CHECK_POINTCODE_EXIT + '?pointKey=' + code
-          }).then(res => {
-            if (res.data.content === false) {
-              callback()
-            } else {
-              callback('功能点编码已存在!')
-            }
-          })
+        if(!code){
+          callback('请填写功能点编码')
+        }else{
+          if (!!value && value.length>0 && !!this.sysCode && !this.$com.checkNumber(value)) {
+            callback('功能编码仅能填写数字')
+          } else {
+            this.$ajax.get({
+              url: this.$api.GET_CHECK_POINTCODE_EXIT + '?pointKey=' + code
+            }).then(res => {
+              if (res.data.content === false) {
+                callback()
+              } else {
+                callback('功能点编码已存在!')
+              }
+            })
+          }
         }
       }
     }
