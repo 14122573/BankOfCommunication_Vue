@@ -346,13 +346,15 @@ export default {
     //验证账户是否合法
     validateAccount(rule, value, callback) {
       if (!this.form.getFieldValue('username') && !this.form.getFieldValue('pwd')) {
-        this.errorMsgDisplay = '请输入账户和密码!'
+        this.errorMsgDisplay = '请输入用户名和密码!'
       }  else if (
         !value ||
         value == undefined ||
         value.split(' ').join('').length === 0
       ) {
-        this.errorMsgDisplay = '请输入账户'
+        this.errorMsgDisplay = '请输入用户名'
+      } else if(!this.form.getFieldValue('pwd')) {
+        this.errorMsgDisplay = '请输入密码'
       } else {
         if (this.$cookie.get('threeTime')) {
           const lists = JSON.parse(this.$cookie.get('threeTime'))
@@ -398,7 +400,7 @@ export default {
     // },
     validatePassword(rule, value, callback) {
       if(!this.form.getFieldValue('username') && !this.form.getFieldValue('pwd')) {
-        this.errorMsgDisplay = '请输入账户和密码!'
+        this.errorMsgDisplay = '请输入用户名和密码!'
       } else if (
         !value ||
         value == undefined ||
@@ -406,6 +408,8 @@ export default {
       ) {
         this.visibleError = false
         this.errorMsgDisplay = '请输入密码!'
+      } else if (!this.form.getFieldValue('username')) {
+        this.errorMsgDisplay = '请输入用户名'
       } else {
         callback()
       }
