@@ -58,11 +58,11 @@ export default {
 .welcome_panel {
   width: 300px; 
   max-width: 300px; 
-  height: 360px;
+  height: 346px;
 }
 
 .welcome_user {
-  margin: 80px 0px;
+  margin: 70px 0px;
 }
 
 .welcome_panel {

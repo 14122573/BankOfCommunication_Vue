@@ -5,7 +5,7 @@
         align="middle"
         justify="start"
         type="flex"
-        style="height: 200px; margin: 0px 50px"
+        style="height: 200px; margin: 0px 56px 0px 36px;"
       >
         <a-col :span="11">
           <a-list :split=false>

@@ -1,10 +1,11 @@
 <template>
   <div id="components-layout-demo-basic">
     <a-layout class="layout_style">
-      <a-layout-header>
+      <!-- <a-layout-header>
         <PHeader />
-      </a-layout-header>
-      <a-layout-content>
+      </a-layout-header> -->
+      <a-layout-content style="background-color: white">
+        <PHeader />
         <Lunbo v-if="getBannerDisplay(display)" />
         <a-carousel v-else-if="!getBannerDisplay(display)">
           <div class="fixedImgWrapper" v-if="routeTo == 'dataSearch' || routeTo == 'searchResult'">

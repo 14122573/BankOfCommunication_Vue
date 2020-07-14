@@ -6,6 +6,15 @@
       class="login-form"
     >
       <a-form-item class="form_item">
+        <!-- <a-input
+          v-decorator="[
+            'username',
+            { validateTrigger: 'blur', rules: [{ validator: validateAccount }] }
+          ]"
+          placeholder="账户或手机号"
+          autocomplete="off"
+          @change="!!form.getFieldValue('pwd') ? errorMsgDisplay = '' : errorMsgDisplay = '请输入密码'"
+        > -->
         <a-input
           v-decorator="[
             'username',
@@ -13,12 +22,27 @@
           ]"
           placeholder="账户或手机号"
           autocomplete="off"
-          @change="visibleError = false"
+          @change="errorMsgDisplay = ''"
         >
           <a-icon slot="prefix" type="user" style="color: rgba(0,0,0,.25)" />
         </a-input>
       </a-form-item>
       <a-form-item class="form_item">
+        <!-- <a-input
+          v-decorator="[
+            'pwd',
+            {
+              validateTrigger: 'blur',
+              rules: [{ validator: validatePassword }]
+            }
+          ]"
+          :type="isType"
+          id="pwds"
+          placeholder="密码"
+          autocomplete="off"
+          @change="!!form.getFieldValue('username') ? errorMsgDisplay = '' : errorMsgDisplay = '请输入用户名'"
+          @focus="pasBlur"
+        > -->
         <a-input
           v-decorator="[
             'pwd',
@@ -31,15 +55,22 @@
           id="pwds"
           placeholder="密码"
           autocomplete="off"
+          @change="errorMsgDisplay = ''"
           @focus="pasBlur"
         >
           <a-icon slot="prefix" type="lock" style="color: rgba(0,0,0,.25)" />
         </a-input>
       </a-form-item>
-      <a-form-item class="form_item">
-        <a class="login-form-forgot" @click="resetPassword">
+      <a-form-item class="form_item_forget">
+        
+        <a-row>
+          <a style="display: inline; height: 20px; line-height: 20px" class="login-form-forgot" @click="resetPassword">
           忘记密码
-        </a>
+          </a>
+        </a-row>
+        <a-row>
+          <div style="text-align: left; color: red; height: 40px; line-height: 40px">{{ errorMsgDisplay }}</div>
+        </a-row>
         <a-button type="primary" class="login-form-button" @click="handleLogin">
           登陆
         </a-button>
@@ -66,17 +97,18 @@ export default {
   mixins: [ permission ],
   data() {
     return {
-      username    : '',
-      pageType    : 'login',
-      loginFailMsg: '',
-      visibleError: false,
-      isType      : 'text',
+      username       : '',
+      pageType       : 'login',
+      loginFailMsg   : '',
+      visibleError   : false,
+      isType         : 'text',
       // 设置是否7天免登录
-      remember    : false,
-      successText : '',
-      errorCount  : 0,
-      figure      : Math.random(),
-      isLogin     : false
+      remember       : false,
+      successText    : '',
+      errorCount     : 0,
+      figure         : Math.random(),
+      isLogin        : false,
+      errorMsgDisplay: ''
     }
   },
   mounted() {
@@ -102,6 +134,16 @@ export default {
     },
   },
   methods: {
+    // getValidated() {
+    //   this.form.validateFields(err => {
+    //     if(err) {
+    //       this.errorMsgDisplay = err
+    //     } else {
+    //       this.errorMsgDisplay = ''
+    //     }
+    //     return this.errorMsgDisplay
+    //   })
+    // },
     toRegister() {
       this.$router.push({
         name: 'register'
@@ -303,12 +345,16 @@ export default {
     },
     //验证账户是否合法
     validateAccount(rule, value, callback) {
-      if (
+      if (!this.form.getFieldValue('username') && !this.form.getFieldValue('pwd')) {
+        this.errorMsgDisplay = '请输入用户名和密码!'
+      }  else if (
         !value ||
         value == undefined ||
         value.split(' ').join('').length === 0
       ) {
-        callback('请输入账户或手机号!')
+        this.errorMsgDisplay = '请输入用户名'
+      } else if(!this.form.getFieldValue('pwd')) {
+        this.errorMsgDisplay = '请输入密码'
       } else {
         if (this.$cookie.get('threeTime')) {
           const lists = JSON.parse(this.$cookie.get('threeTime'))
@@ -353,13 +399,17 @@ export default {
     //   }
     // },
     validatePassword(rule, value, callback) {
-      if (
+      if(!this.form.getFieldValue('username') && !this.form.getFieldValue('pwd')) {
+        this.errorMsgDisplay = '请输入用户名和密码!'
+      } else if (
         !value ||
         value == undefined ||
         value.split(' ').join('').length === 0
       ) {
         this.visibleError = false
-        callback('请输入密码!')
+        this.errorMsgDisplay = '请输入密码!'
+      } else if (!this.form.getFieldValue('username')) {
+        this.errorMsgDisplay = '请输入用户名'
       } else {
         callback()
       }
@@ -445,8 +495,13 @@ export default {
 </script>
 <style>
 .lunbo .loginpanel[data-v-a9d4b7dc] .form_item {
+  margin: 8px 0px;
+  /* height: 65px; */
+}
+
+.lunbo .loginpanel[data-v-a9d4b7dc] .form_item_forget {
   margin: 0px 0px;
-  height: 65px;
+  height: 44px;
 }
 
 .lunbo .loginpanel[data-v-a9d4b7dc] #components-form-demo-normal-login .login-form {
