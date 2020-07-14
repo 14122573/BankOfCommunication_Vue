@@ -10,13 +10,13 @@
         <img v-if="item.linkUrl == null || !IsURL(item.linkUrl)"
             :src="item.filePath"
             alt="ImgPlaceholder"
-            style="height: 400px; margin: 0 auto;"
+            style="height: 400px; margin: 0 auto; width: 100%"
         />
         <a @click="carouselClick(item.linkUrl)" v-else>
           <img
             :src="item.filePath"
             alt="ImgPlaceholder"
-            style="height: 400px; margin: 0 auto;"
+            style="height: 400px; margin: 0 auto; width: 100%"
           />
         </a>
       </div>
@@ -221,7 +221,7 @@ export default {
 
 .lunbo .loginpanel {
   position: absolute;
-  left: 50%;
+  left: 49.6%;
   top: 8%;
   margin-left: 200px;
   box-shadow: 0px 0px 15px lightgrey;

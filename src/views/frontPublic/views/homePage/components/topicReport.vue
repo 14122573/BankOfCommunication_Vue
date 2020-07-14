@@ -150,7 +150,7 @@ export default {
   height: 400px;
   /* overflow: scroll; */
   overflow: hidden;
-  margin: 30px 50px 30px 50px;
+  margin: 30px 56px 30px 30px;
 }
 
 .card-wrapper .card {

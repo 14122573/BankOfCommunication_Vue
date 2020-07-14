@@ -264,7 +264,7 @@ export default {
   height: 500px;
   /* overflow: scroll; */
   overflow: hidden;
-  margin: 30px 50px 30px 50px;
+  margin: 30px 30px 30px 36px;
 }
 
 .card-wrapper .card {

@@ -20,14 +20,14 @@
                 :bordered="false"
                 :bodyStyle="{ padding: '0' }"
               >
-                <a-row type="flex" justify="center" style="margin: 20px 10px">
+                <a-row type="flex" justify="center" align='center' style="margin: 20px 10px">
                   <a-col class="news_sort" :span="2">{{ 10 > index ? "0" + (index+1) : index + 1 }}</a-col>
                   <a-col :span="1">
                     <a-divider style="height: 5em" type="vertical"></a-divider>
                   </a-col>
                   <a-col :span="21">
                     <a-row type="flex" justify="space-around">
-                      <a-col class="news_title" :span="16">{{
+                      <a-col class="news_title" :title='item.title' :span="16">{{
                         item.title
                       }}</a-col>
                       <a-col class="news_date" :span="8">{{
@@ -183,7 +183,7 @@ export default {
   height: 500px;
   /* overflow: scroll; */
   overflow: hidden;
-  margin: 30px 50px 30px 50px;
+  margin: 30px 56px 30px 30px;
 }
 
 .card-wrapper .card {
@@ -200,6 +200,6 @@ export default {
 }
 
 .content_wrapper .news_wrapper_inside {
-  height: 105px;
+  height: 100px;
 }
 </style>

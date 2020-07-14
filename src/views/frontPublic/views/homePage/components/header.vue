@@ -8,7 +8,7 @@
       :gutter="10"
     >
       <a-col :span="9">
-        <a-row>
+        <a-row style="margin-left: 30px">
           <a-col :span="4"
             ><img src="@/assets/images/logo.png" alt="" class="logo"
           /></a-col>
@@ -20,6 +20,7 @@
       <a-col :span="15">
         <div class="loginFrameMenu">
           <a-menu
+            class="menuStyle"
             mode="horizontal"
             :default-selected-keys="currentRoute"
             :selected-keys="currentRoute"
@@ -164,11 +165,13 @@ export default {
 .loginFrameBody {
   margin: 0 auto;
   max-width: 1000px;
+  height: 66px;
 }
 .loginFrameTitle {
   color: #000;
   font-weight: bold;
   margin-bottom: 10px;
+  line-height: 60px;
 }
 .loginFrameTitle .logo {
   height: 60px;
@@ -184,6 +187,9 @@ export default {
 <style lang="stylus" scoped>
 .ant-col .ant-col-19[data-v-8fc72786]
   $megaFontSize()
+
+.loginFrameMenu
+  margin-right 0px 30px;
 
 .loginFrameMenu > ul
   $titleFontSize()
