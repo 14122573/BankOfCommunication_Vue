@@ -242,5 +242,8 @@ export default {
 }
 
 .loginPlacement {
+  width: 100%;
+  text-align: center;
+  overflow: hidden;
 }
 </style>
