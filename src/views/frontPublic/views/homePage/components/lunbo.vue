@@ -222,11 +222,11 @@ export default {
 .lunbo .loginpanel {
   position: absolute;
   left: 49.6%;
-  top: 8%;
+  top: 11%;
   margin-left: 200px;
   box-shadow: 0px 0px 15px lightgrey;
   transform: scale(1, 1);
-  height: 360px;
+  height: 346px;
   zoom: 0.9;
 }
 /* For demo */
