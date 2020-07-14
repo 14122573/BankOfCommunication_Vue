@@ -20,7 +20,7 @@
                 :bordered="false"
                 :bodyStyle="{ padding: '0' }"
               >
-                <a-row type="flex" justify="center" align='center' style="margin: 20px 10px">
+                <a-row type="flex" justify="center" align='middle' style="margin: 20px 10px">
                   <a-col class="news_sort" :span="2">{{ 10 > index ? "0" + (index+1) : index + 1 }}</a-col>
                   <a-col :span="1">
                     <a-divider style="height: 5em" type="vertical"></a-divider>

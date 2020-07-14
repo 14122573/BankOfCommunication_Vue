@@ -64,7 +64,7 @@
       <a-form-item class="form_item_forget">
         
         <a-row>
-          <a style="display: inline; height: 20px; line-height: 20px"class="login-form-forgot" @click="resetPassword">
+          <a style="display: inline; height: 20px; line-height: 20px" class="login-form-forgot" @click="resetPassword">
           忘记密码
           </a>
         </a-row>
@@ -97,18 +97,18 @@ export default {
   mixins: [ permission ],
   data() {
     return {
-      username    : '',
-      pageType    : 'login',
-      loginFailMsg: '',
-      visibleError: false,
-      isType      : 'text',
+      username       : '',
+      pageType       : 'login',
+      loginFailMsg   : '',
+      visibleError   : false,
+      isType         : 'text',
       // 设置是否7天免登录
-      remember    : false,
-      successText : '',
-      errorCount  : 0,
-      figure      : Math.random(),
-      isLogin     : false,
-      errorMsgDisplay : ''
+      remember       : false,
+      successText    : '',
+      errorCount     : 0,
+      figure         : Math.random(),
+      isLogin        : false,
+      errorMsgDisplay: ''
     }
   },
   mounted() {
@@ -353,8 +353,7 @@ export default {
         value.split(' ').join('').length === 0
       ) {
         this.errorMsgDisplay = '请输入账户'
-      }
-       else {
+      } else {
         if (this.$cookie.get('threeTime')) {
           const lists = JSON.parse(this.$cookie.get('threeTime'))
           lists.forEach((ele, index) => {
