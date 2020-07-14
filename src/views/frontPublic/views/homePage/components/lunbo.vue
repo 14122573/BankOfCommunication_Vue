@@ -10,13 +10,13 @@
         <img v-if="item.linkUrl == null || !IsURL(item.linkUrl)"
             :src="item.filePath"
             alt="ImgPlaceholder"
-            style="height: 400px; margin: 0 auto; width: 100%"
+            style="height: 400px; margin: 0 auto;"
         />
         <a @click="carouselClick(item.linkUrl)" v-else>
           <img
             :src="item.filePath"
             alt="ImgPlaceholder"
-            style="height: 400px; margin: 0 auto; width: 100%"
+            style="height: 400px; margin: 0 auto;"
           />
         </a>
       </div>
