@@ -10,13 +10,13 @@
         <img v-if="item.linkUrl == null || !IsURL(item.linkUrl)"
             :src="item.filePath"
             alt="ImgPlaceholder"
-            style="height: 400px; margin: 0 auto;"
+            style="height: 400px; margin: 0 auto; width: 100%; object-fit: cover;"
         />
         <a @click="carouselClick(item.linkUrl)" v-else>
           <img
             :src="item.filePath"
             alt="ImgPlaceholder"
-            style="height: 400px; margin: 0 auto;"
+            style="height: 400px; margin: 0 auto; width: 100%; object-fit: cover;"
           />
         </a>
       </div>
@@ -59,7 +59,8 @@ export default {
       pageType     : 'login',
       isready      : false,
       bannerList   : [],
-      aSpeed       : 5000
+      aSpeed       : 5000,
+      deviceWidth  : null
     }
   },
   mounted() {
@@ -217,6 +218,7 @@ export default {
 
 .lunbo .lunbo_carousel {
   width: 100%;
+  overflow: hidden;
 }
 
 .lunbo .loginpanel {
@@ -242,8 +244,6 @@ export default {
 }
 
 .loginPlacement {
-  width: 100%;
-  text-align: center;
   overflow: hidden;
 }
 </style>
