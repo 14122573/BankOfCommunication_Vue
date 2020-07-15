@@ -83,7 +83,7 @@ const TopicReportList = () =>
   import('@/views/frontPublic/views/topicReport/topicReportList')
 
 const TopicReportDetail = () =>
-  import('@/views/frontPublic/views/topicReport/TopicReportDetail')
+  import('@/views/frontPublic/views/topicReport/topicReportDetail')
 // 子项目
 const FarmingTechContent = () =>
   import('@/views/frontPublic/views/farmingTech/farmingTechContent.vue')

@@ -2,7 +2,7 @@
   <div>
     <a-card
       class="welcome_panel"
-      title="欢迎登陆智能渔技！"
+      title="欢迎登录智能渔技！"
       :headStyle="{ padding: '20' }"
     >
       <div class="button_list">
