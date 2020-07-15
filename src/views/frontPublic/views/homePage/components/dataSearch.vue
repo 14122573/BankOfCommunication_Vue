@@ -5,7 +5,7 @@
         align="middle"
         justify="start"
         type="flex"
-        style="height: 200px; margin: 0px 56px 0px 36px;"
+        style="height: 300px; margin: 0px 56px 0px 36px;"
       >
         <a-col :span="11">
           <a-list :split=false>
@@ -72,12 +72,12 @@ export default {
   text-align: left;
 }
 .background {
-  height: 200px;
+  height: 300px;
   margin: 20px 0px 20px 0px;
 }
 
 .searchWrapper {
-  height: 200px;
+  height: 300px;
   max-width: 1000px;
   margin: 0 auto;
 }
