@@ -72,7 +72,7 @@
           <div style="text-align: left; color: red; height: 40px; line-height: 40px">{{ errorMsgDisplay }}</div>
         </a-row>
         <a-button type="primary" class="login-form-button" @click="handleLogin">
-          登陆
+          登录
         </a-button>
         <a-button
           type="default"
