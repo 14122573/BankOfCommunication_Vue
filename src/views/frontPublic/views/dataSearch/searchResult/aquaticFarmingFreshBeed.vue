@@ -502,4 +502,16 @@ export default {
   }
 }
 </script>
+<style lang="stylus">
+  .row_gray {
+    background-color: #F2F6FC;
+  }
 
+  .row_normal {
+    background-color: white;
+  }
+  .searchResult th
+    background-color #2a93f5 !important
+    color #fff !important
+    text-align center !important
+</style>
