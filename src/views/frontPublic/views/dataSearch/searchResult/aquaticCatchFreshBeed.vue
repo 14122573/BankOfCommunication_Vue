@@ -158,7 +158,7 @@ export default {
       })
 
       this.$ajax.get({
-        url   : 'http://47.101.223.16:7066/aquaticCatchFreshBeed',
+        url   : this.$api.GET_DATA_ACFB_LIST,
         params: searchParms
       }).then(res => {
         this.pagination.total = this.$com.confirm(res, 'data.total', 0)

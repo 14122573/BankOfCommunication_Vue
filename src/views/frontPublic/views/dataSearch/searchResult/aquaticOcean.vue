@@ -136,7 +136,7 @@ export default {
       })
 
       this.$ajax.get({
-        url   : 'http://47.101.223.16:7066/aquaticOcean',
+        url   : this.$api.GET_DATA_AO_LIST,
         params: searchParms
       }).then(res => {
         this.pagination.total = this.$com.confirm(res, 'data.total', 0)

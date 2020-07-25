@@ -202,21 +202,21 @@ export default {
 
   //公共数据查询
   GET_DATA_FP_LIST      : '/service-dv/dv/public/fishProduction', //渔业经济总产值
-  GET_DATA_AFSB_LIST    : '/service-dv/dv/public/aquaticFarmingSeaBeed/list', //水产品总产量-养殖产品（海水养殖）-按养殖品种分
-  GET_DATA_AFSW_LIST    : '/service-dv/dv/public/aquaticFarmingSeaWay/list', //水产品总产量-养殖产品（海水养殖）-按养殖水域和养殖方式分
-  GET_DATA_AFFB_LIST    : '/service-dv/dv/public/aquaticFarmingFreshBeed/list', //水产品总产量-养殖产品（淡水养殖）-按养殖品种分
-  GET_DATA_AFFW_LIST    : '/service-dv/dv/public/aquaticFarmingFreshWay/list', //水产品总产量-养殖产品（淡水养殖）-按养殖水域和养殖方式分
-  GET_DATA_ACSB_LIST    : '/service-dv/dv/public/aquaticCatchSeaBeed/list', //水产品总产量-捕捞产品（海洋捕捞）-按捕捞品种分
-  GET_DATA_ACSA_LIST    : '/service-dv/dv/public/aquaticCatchSeaArea/list', //水产品总产量-捕捞产品（海洋捕捞）-按捕捞海域和捕捞渔具分
-  GET_DATA_ACFB_LIST    : '/service-dv/dv/public/aquaticCatchFreshBeed/list', //水产品总产量-捕捞产品（淡水捕捞）-按捕捞品种分
-  GET_DATA_AO_LIST      : '/service-dv/dv/public/aquaticOcean/list', //水产品总产量-捕捞产品（远洋渔业）
+  GET_DATA_AFSB_LIST    : '/service-dv/dv/public/aquaticFarmingSeaBeed', //水产品总产量-养殖产品（海水养殖）-按养殖品种分
+  GET_DATA_AFSW_LIST    : '/service-dv/dv/public/aquaticFarmingSeaWay', //水产品总产量-养殖产品（海水养殖）-按养殖水域和养殖方式分
+  GET_DATA_AFFB_LIST    : '/service-dv/dv/public/aquaticFarmingFreshBeed', //水产品总产量-养殖产品（淡水养殖）-按养殖品种分
+  GET_DATA_AFFW_LIST    : '/service-dv/dv/public/aquaticFarmingFreshWay', //水产品总产量-养殖产品（淡水养殖）-按养殖水域和养殖方式分
+  GET_DATA_ACSB_LIST    : '/service-dv/dv/public/aquaticCatchSeaBeed', //水产品总产量-捕捞产品（海洋捕捞）-按捕捞品种分
+  GET_DATA_ACSA_LIST    : '/service-dv/dv/public/aquaticCatchSeaArea', //水产品总产量-捕捞产品（海洋捕捞）-按捕捞海域和捕捞渔具分
+  GET_DATA_ACFB_LIST    : '/service-dv/dv/public/aquaticCatchFreshBeed', //水产品总产量-捕捞产品（淡水捕捞）-按捕捞品种分
+  GET_DATA_AO_LIST      : '/service-dv/dv/public/aquaticOcean', //水产品总产量-捕捞产品（远洋渔业）
   GET_DATA_AFA_LIST     : '/service-dv/dv/public/aquacultureFreshArea', //水产养殖面积-淡水养殖面积（按养殖水域和养殖方式分）
-  GET_DATA_ASAB_LIST    : '/service-dv/dv/public/aquacultureSeaAreaBeed/list', //水产养殖面积-海水养殖面积-按养殖品种分
-  GET_DATA_ASAW_LIST    : '/service-dv/dv/public/aquacultureSeaAreaWay/list', //水产养殖面积-海水养殖面积-按养殖水域和养殖方式分
-  GET_DATA_WF_LIST      : '/service-dv/dv/public/waterFry/list', //水产苗种产量
-  GET_DATA_FIO_LIST     : '/service-dv/dv/public/familyInOut/list', //渔民家庭收支
-  GET_DATA_STAFF_LIST   : '/service-dv/dv/public/staff/list', //渔业人口与从业人员
-  GET_DATA_SEASTAFF_LIST: '/service-dv/dv/public/seaStaff/list', //海洋渔业人口与从业人员
-  GET_DATA_ARSUM_LIST   : '/service-dv/dv/public/aquaticRepairSum/list', //水产品加工-水产加工品总量
-  GET_DATA_ARSTATUS_LIST: '/service-dv/dv/public/aquaticRepairStatus/list', //水产加工企业，冷库情况
+  GET_DATA_ASAB_LIST    : '/service-dv/dv/public/aquacultureSeaAreaBeed', //水产养殖面积-海水养殖面积-按养殖品种分
+  GET_DATA_ASAW_LIST    : '/service-dv/dv/public/aquacultureSeaAreaWay', //水产养殖面积-海水养殖面积-按养殖水域和养殖方式分
+  GET_DATA_WF_LIST      : '/service-dv/dv/public/waterFry', //水产苗种产量
+  GET_DATA_FIO_LIST     : '/service-dv/dv/public/familyInOut', //渔民家庭收支
+  GET_DATA_STAFF_LIST   : '/service-dv/dv/public/staff', //渔业人口与从业人员
+  GET_DATA_SEASTAFF_LIST: '/service-dv/dv/public/seaStaff', //海洋渔业人口与从业人员
+  GET_DATA_ARSUM_LIST   : '/service-dv/dv/public/aquaticRepairSum', //水产品加工-水产加工品总量
+  GET_DATA_ARSTATUS_LIST: '/service-dv/dv/public/aquaticRepairStatus', //水产加工企业，冷库情况
 }
