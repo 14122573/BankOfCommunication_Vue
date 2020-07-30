@@ -120,9 +120,10 @@ export default {
      * @description 获取栏目内容列表
      */
     fetchNews(isLogin) {
+      let cookie = this.$cookie.get('token')
       this.$ajax
         .get({
-          url: isLogin
+          url: isLogin && !!cookie
             ? this.$api.GET_ANNOUNCE_LIST
             : this.$api.GET_PUB_ANNOUNCE_LIST,
           params: {

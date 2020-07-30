@@ -21,6 +21,7 @@
         </a>
       </div>
     </a-carousel>
+    {{pageType}}
     <LoginPanel
       v-if="pageType == 'login'"
       v-show="isInIndexPage"
@@ -156,6 +157,7 @@ export default {
      * @description 监听并用于切换LoginPanel, welcomepanel的状态
      */
     pageTypeChange(data) {
+      console.log(data)
       if(typeof(data) == 'object') {
         this.pageType = data.username
         this.username = data.username
@@ -180,10 +182,18 @@ export default {
           .then(res => {
             let userInfo = res.data.content
             if (!!userInfo.name) {
+              console.log('zaiqueren')
               this.username = userInfo.name
               this.pageType = userInfo.name
             }
           })
+      } else {
+        console.log(cookie)
+        // // 没有token有两种情况，一种是用户没登录，一种是老用户已登录
+        // if(isOldSys = true) {
+        //   this.username = "ok"
+        //   this.pageType = "1"
+        // }
       }
     }
   }
