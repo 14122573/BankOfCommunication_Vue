@@ -7,7 +7,7 @@
     >
       <div class="button_list">
         <a-row class="welcome_user">
-          <div>您好，{{ nameprop }}</div>
+          <div>您好，{{ nameprop.username }}</div>
         </a-row>
         <a-form class="welcome_form">
           <a-form-item class="form_item">
@@ -33,13 +33,27 @@
 import Common from '@/util/common'
 export default {
   props: {
-    nameprop: String
+    nameprop: Object
   },
   methods: {
     enterCMS() {
-      this.$router.push({
-        name: 'home'
-      })
+      switch (this.nameprop.isOldSys) {
+      case true:
+        console.log()
+        this.$router.push({
+          name: 'bindPhone'
+        })
+        break
+
+      case false: 
+        this.$router.push({
+          name: 'home'
+        })
+        break
+
+      default:
+        break
+      }
     },
 
     /**

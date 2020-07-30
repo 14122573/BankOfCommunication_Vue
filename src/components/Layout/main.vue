@@ -224,7 +224,7 @@ export default {
           this.$cookie.remove('canEnterBind')
           this.$cookie.remove('NavbarList')
           this.$router.push({
-            name: 'login'
+            name: 'index'
           })
         })
       }
@@ -250,7 +250,7 @@ export default {
       case 'homepage':
         this.$cookie.remove('NavbarList')
         this.$store.commit('SET_DEFAULTMENU_STATUS', [])
-        this.$router.push({ name: 'homepage' })
+        this.$router.push({ name: 'index' })
         break
       case 'logout':
         this.plogout()

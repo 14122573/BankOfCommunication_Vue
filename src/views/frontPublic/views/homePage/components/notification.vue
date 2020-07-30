@@ -173,14 +173,19 @@ export default {
     },
 
     /**
-     * @description 获取栏目内容列表, 登录和不登录情况下调用不一样的接口
+     * @description 获取栏目内容列表, 登录和不登录情况下调用不一样的接口。如果是老用户，则不调用cms接口展示首页通知公告。新用户则调用。
      * @param {Bool} isLogin 是否登录
      */
     fetchNews(isLogin) {
+
+      // isLogin = true 及 有token => 新用户
+      // isLogin = true 及 无token => 老用户
+      let cookie = this.$cookie.get('token')
       this.news = []
       this.$ajax
         .get({
-          url   : isLogin ? this.$api.GET_ANNOUNCE_LIST : this.$api.GET_PUB_ANNOUNCE_LIST,
+          // url   : isLogin ? this.$api.GET_ANNOUNCE_LIST : this.$api.GET_PUB_ANNOUNCE_LIST,
+          url   : isLogin && !!cookie ? this.$api.GET_ANNOUNCE_LIST : this.$api.GET_PUB_ANNOUNCE_LIST,
           params: {
             titleManageId: this.$titleId.notificationId,
             pageNo       : 1,
