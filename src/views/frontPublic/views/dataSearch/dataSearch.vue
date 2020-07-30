@@ -12,7 +12,7 @@
                 placeholder="请选择指标名称"
                 @change="handleChange"
                 :display-render="displayRender"
-                :default-value="['fishProduction']"
+                :default-value="[queryParams.zhibiaoValue]"
               />
             </a-col>
             <a-col :span="12">
@@ -26,7 +26,7 @@
                 @panelChange="handleYearPicker"
                 @openChange="handleOpenChange"
                 :allowClear="false"
-              ><a-icon slot="suffixIcon" v-if="queryParams.year != null" type="close" @click.stop="reset" /></a-date-picker>
+              ><a-icon slot="suffixIcon" v-if="queryParams.year != null" type="close-circle" @click.stop="reset" /></a-date-picker>
             </a-col>
             <!--<a-col :span="6">
               <a-row type="flex" justify="end">
@@ -101,21 +101,25 @@ export default {
     aquaticRepairSum,
     aquaticRepairStatus
   },
+  created() {
+    if(this.$route.params.indicators){
+      this.queryParams.zhibiaoValue = this.$route.params.indicators
+      this.queryParams.year = this.$route.params.year
+    }
+    if(!this.$route.params.year){
+      this.queryParams.year = (new Date().getFullYear() - 1).toString()
+    }
+    if(this.queryParams.zhibiaoValue){
+      this.queryParams.year = (new Date().getFullYear() - 1).toString()
+    }
+  },
   methods: {
-
     handleChange(data) {
-      // console.log(data)
-      // this.queryParams.zhibiaoValue = data.pop()
       this.queryParams.zhibiaoValue = data[data.length-1]
-      // console.log(this.queryParams.zhibiaoValue)
     },
     handleYearPicker(year) {
-      // this.queryParams.year = year
       this.queryParams.year = moment(year).format('YYYY')
-      console.log(typeof(this.queryParams.year))
       this.isopen = false
-      // this.queryParams.yearPickerValue = moment(this.yearPickerValue).format('YYYY')
-      // console.log(this.yearPickerValue)
     },
     handleOpenChange(status) {
       if (status) {
@@ -125,10 +129,13 @@ export default {
       }
     },
     displayRender({ labels }) {
-      return labels[labels.length-1]
+      if (labels.length){
+        return labels[labels.length-1]
+      }
+      return this.$route.params.labels[this.$route.params.labels.length-1]
     },
     reset(){
-      this.queryParams.year = null
+      this.queryParams.year = (new Date().getFullYear() - 1).toString()
     }
   },
   data() {
@@ -139,7 +146,7 @@ export default {
       isopen      : false,
       queryParams : {
         zhibiaoValue: 'fishProduction',
-        year        : null
+        year        : (new Date().getFullYear() - 1).toString()
       },
       options: [
         {
@@ -300,4 +307,5 @@ export default {
   background-color: #f1f5f8;
 }
 </style>
+
 
