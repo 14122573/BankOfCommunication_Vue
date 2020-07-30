@@ -104,22 +104,21 @@ export default {
   created() {
     if(this.$route.params.indicators){
       this.queryParams.zhibiaoValue = this.$route.params.indicators
-    }
-    if(this.queryParams.zhibiaoValue){
       this.queryParams.year = this.$route.params.year
     }
-    // console.log(this.$route.params.indicators)
-    // console.log(this.queryParams.zhibiaoValue)
+    if(!this.$route.params.year){
+      this.queryParams.year = (new Date().getFullYear() - 1).toString()
+    }
+    if(this.queryParams.zhibiaoValue){
+      this.queryParams.year = (new Date().getFullYear() - 1).toString()
+    }
   },
   methods: {
     handleChange(data) {
-      // console.log(data[data.length-1])
       this.queryParams.zhibiaoValue = data[data.length-1]
-      // console.log(typeof this.queryParams.zhibiaoValue)
     },
     handleYearPicker(year) {
       this.queryParams.year = moment(year).format('YYYY')
-      // console.log(typeof(this.queryParams.year))
       this.isopen = false
     },
     handleOpenChange(status) {
@@ -136,7 +135,7 @@ export default {
       return this.$route.params.labels[this.$route.params.labels.length-1]
     },
     reset(){
-      this.queryParams.year = null
+      this.queryParams.year = (new Date().getFullYear() - 1).toString()
     }
   },
   data() {
@@ -147,7 +146,7 @@ export default {
       isopen      : false,
       queryParams : {
         zhibiaoValue: 'fishProduction',
-        year        : null
+        year        : (new Date().getFullYear() - 1).toString()
       },
       options: [
         {

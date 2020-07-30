@@ -12,7 +12,7 @@
             <a-list-item>
               <a-col style="font-weight:bold">数据查询</a-col>
             </a-list-item>
-            <a-list-item>
+            <a-list-item style="text-align: left">
                   指标名称:
                   <a-cascader
                     :options="options"
@@ -195,7 +195,7 @@ export default {
         }
       ],
       indicators: 'fishProduction',
-      year      : null,
+      year      : (new Date().getFullYear() - 1).toString(),
       labels    : [],
       isopen    : false,
     }

@@ -150,6 +150,7 @@ export default {
     }
   },
   created() {
+    console.log(this.queryParams)
     this.getList()
   },
   methods: {
