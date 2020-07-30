@@ -105,14 +105,13 @@ export default {
     if(this.$route.params.indicators){
       this.queryParams.zhibiaoValue = this.$route.params.indicators
       this.queryParams.year = this.$route.params.year
-    }
-    if(!this.$route.params.year){
-      this.queryParams.year = (new Date().getFullYear() - 1).toString()
-    }
-    if(this.queryParams.zhibiaoValue){
+    }else {
       this.queryParams.year = (new Date().getFullYear() - 1).toString()
     }
   },
+  // mounted(){
+  //   console.log(this.queryParams.year)
+  // },
   methods: {
     handleChange(data) {
       this.queryParams.zhibiaoValue = data[data.length-1]
