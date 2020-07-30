@@ -42,8 +42,8 @@ import routes from '@/router/index.js'
 export default {
   data() {
     return {
-      currentRoute: [ '0' ],
-      menuList    : [
+      currentRoute: [ '0' ], // 默认当前菜单为第一个菜单
+      menuList    : [ // 菜单列表(将需要关联的路由的path填入到path里)
         {
           id   : '',
           key  : '0',
@@ -144,6 +144,10 @@ export default {
         
         })
     },
+    
+    /**
+     * @description 页面第一次加载让当前路由对应的菜单高亮
+     */
     getRoute() {
       let path = this.$route.path
       for (let i = 0; i < this.menuList.length; i++) {

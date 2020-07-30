@@ -4,9 +4,9 @@ case 'devol':
   // 本地线上部署环境下
   BASE_URL = 'http://fish.omniview.pro/api'
   break
-  case 'sit':
-    // sit环境下
-    BASE_URL = '/api'
+case 'sit':
+  // sit环境下
+  BASE_URL = '/api'
   break
 case 'uat':
   // uat环境下

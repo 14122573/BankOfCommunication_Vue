@@ -108,7 +108,7 @@ export default {
       errorCount     : 0,
       figure         : Math.random(),
       isLogin        : false,
-      errorMsgDisplay: ''
+      errorMsgDisplay: '',
     }
   },
   mounted() {
@@ -285,9 +285,18 @@ export default {
             })
           }
         } else {
-          this.$router.push({
-            name: 'bindPhone'
-          })
+          // oldUser => 
+          if (!!gainDatas[0].username) {
+            this.username = gainDatas[0].username
+            // document.getElementById('login').style.display = 'none'
+            // document.getElementById('loggedin').style.display = 'block'
+            // this.loginSwitch()
+            // this.getToken()
+            this.$emit('on-change', { 'username': this.username, 'isOldAccount': true })
+          }
+          // this.$router.push({
+          //   name: 'bindPhone'
+          // })
         }
       } else if (res.msg == 'bind') {
         this.$router.push({
@@ -336,7 +345,8 @@ export default {
                   // document.getElementById('loggedin').style.display = 'block'
                   // this.loginSwitch()
                   // this.getToken()
-                  this.$emit('on-change', this.username)
+                  // this.$emit('on-change', this.username)
+                  this.$emit('on-change', { 'username': this.username, 'isOldAccount': false })
                 }
               })
           }

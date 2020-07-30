@@ -34,7 +34,7 @@
       id="loggedin"
       v-show="isInIndexPage"
       @on-change="pageTypeChange"
-      :nameprop="this.username"
+      :nameprop="{'username': this.username, 'isOldSys': this.isOldSys}"
       class="loginpanel"
     />
     <ResetPassword v-if="pageType == 'forget'" @on-change="pageTypeChange" />
@@ -55,6 +55,7 @@ export default {
       isInIndexPage: true,
       // 查看子组件传来的用户鉴权信息
       loginInfo    : '',
+      isOldSys     : false,
       username     : '',
       pageType     : 'login',
       isready      : false,
@@ -155,8 +156,15 @@ export default {
      * @description 监听并用于切换LoginPanel, welcomepanel的状态
      */
     pageTypeChange(data) {
-      this.pageType = data
-      this.username = data
+      if(typeof(data) == 'object') {
+        this.pageType = data.username
+        this.username = data.username
+        this.isOldSys = true
+      } else {
+        this.pageType = data
+        this.username = data
+        this.isOldSys = false
+      }
     },
 
     /**
