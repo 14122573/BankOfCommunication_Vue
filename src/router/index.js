@@ -29,11 +29,14 @@ router.beforeEach((to, from, next) => {
     if (to.path.indexOf('/homepage') !== -1) { // 首页所有路由允许访问
       next()
     } else {
+      console.log('outer')
       const uneedTokenRouter=[ '/veterinary/view', '/veterinary', '/cms/noticePublish', '/cms/noticePublish/view', '/cms/knowledgePublish/view', '/cms/knowledgeAnonymous', 'upperLimitErr', 'register', 'oldSysLogout', 'networkerr' ]
       // if (Common.oneOf(to.name,uneedTokenRouter) || (to.name == 'bindPhone' && canEnterBind == '200')) {
       if (Common.oneOf(to.name, uneedTokenRouter) || to.name.indexOf('/homepage')>=0 || (Common.oneOf(to.name, [ 'bindPhone', 'bindTemporarayAccount' ]) && canEnterBind == '200')) {
+        console.log('insider')
         next()
       } else {
+        console.log('insider222')
         next('/login')
       }
     }
