@@ -1,13 +1,12 @@
 let BASE_URL = '', MOCK_URL=''
 switch (process.env.NODE_ENV) {
 case 'devol':
-// 本地线上部署环境下
+  // 本地线上部署环境下
   BASE_URL = 'http://fish.omniview.pro/api'
-  //   BASE_URL = 'http://192.168.3.5:7066'
   break
-case 'sit':
-// sit环境下
-  BASE_URL = 'http://iftp.omniview.pro/api'
+  case 'sit':
+    // sit环境下
+    BASE_URL = '/api'
   break
 case 'uat':
   // uat环境下
@@ -19,7 +18,6 @@ case 'production':
   break
 default:
 // 默认环境下（开发环境）
-  // BASE_URL = 'http://fish.omniview.pro/api'
   BASE_URL = 'http://iftp.omniview.pro/api'
   MOCK_URL = 'http://yapi.omniview.pro/mock/267'
   break
