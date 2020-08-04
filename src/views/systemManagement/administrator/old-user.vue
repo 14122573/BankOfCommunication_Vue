@@ -212,9 +212,11 @@ export default {
       this.$ajax.get({
         url: this.$api.SYSTEM_LIST_ALL_GET
       }).then(res => {
-        if (res.code === '200') {
+        if (res.code === '200') { 
           const data = this.$com.confirm(res, 'data.content', [])
-          this.systemList = data.map((item) => {
+          let reg = /S([0-9]{4})/
+          let systemList = data.filter(e => !reg.test(e.sysCode)) 
+          this.systemList = systemList.map((item) => {
             return {
               label: item.sysName,
               value: item.id
@@ -408,9 +410,10 @@ export default {
       const searchParams = !this.$store.state.listSearchParams?null:this.$store.state.listSearchParams[this.$route.name+'/old']
       if(!!searchParams && !!searchParams.routeName && (this.$route.name+'/old' == searchParams.routeName)){
         if(!!searchParams.params){
-          Object.keys(searchParams.params).forEach(elem => {
-            this.searchForm[elem] = searchParams.params[elem]
-          })
+          // Object.keys(searchParams.params).forEach(elem => {
+          //   this.searchForm[elem] = searchParams.params[elem]
+          // })
+          this.searchForm = JSON.parse(JSON.stringify(searchParams.params)) 
         }
         if(!!searchParams.pagination){
           if(!!searchParams.pagination.pageNo && searchParams.pagination.pageNo!=1){

@@ -40,7 +40,7 @@
                   </a-form-item>
                   <a-form-item label="图片预览" :label-col="{span:4}" :wrapper-col="{span:20}">
                     <img :src="imgPlaceholder" width="40%">
-                    <a-alert style="margin-top:16px" message="可上传最大1M的JPG, JPEG, PNG图片，图片尺寸1462 * 420" type="info" showIcon />
+                    <a-alert style="margin-top:16px" message="可上传最大1M的JPG, JPEG, PNG图片，建议图片尺寸1920 * 400" type="info" showIcon />
                   </a-form-item>
                 </a-col>
               </a-row>

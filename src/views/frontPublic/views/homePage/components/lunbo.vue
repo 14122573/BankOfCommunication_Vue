@@ -8,19 +8,20 @@
         :key="item.bannerGroup"
       >
         <img v-if="item.linkUrl == null || !IsURL(item.linkUrl)"
+            class="img-style"
             :src="item.filePath"
             alt="ImgPlaceholder"
-            style="height: 400px; margin: 0 auto;"
         />
         <a @click="carouselClick(item.linkUrl)" v-else>
           <img
+            class="img-style"
             :src="item.filePath"
             alt="ImgPlaceholder"
-            style="height: 400px; margin: 0 auto;"
           />
         </a>
       </div>
     </a-carousel>
+    {{pageType}}
     <LoginPanel
       v-if="pageType == 'login'"
       v-show="isInIndexPage"
@@ -34,7 +35,7 @@
       id="loggedin"
       v-show="isInIndexPage"
       @on-change="pageTypeChange"
-      :nameprop="this.username"
+      :nameprop="{'username': this.username, 'isOldSys': this.isOldSys}"
       class="loginpanel"
     />
     <ResetPassword v-if="pageType == 'forget'" @on-change="pageTypeChange" />
@@ -55,11 +56,13 @@ export default {
       isInIndexPage: true,
       // 查看子组件传来的用户鉴权信息
       loginInfo    : '',
+      isOldSys     : false,
       username     : '',
       pageType     : 'login',
       isready      : false,
       bannerList   : [],
-      aSpeed       : 5000
+      aSpeed       : 5000,
+      deviceWidth  : null
     }
   },
   mounted() {
@@ -154,8 +157,15 @@ export default {
      * @description 监听并用于切换LoginPanel, welcomepanel的状态
      */
     pageTypeChange(data) {
-      this.pageType = data
-      this.username = data
+      if(typeof(data) == 'object') {
+        this.pageType = data.username
+        this.username = data.username
+        this.isOldSys = true
+      } else {
+        this.pageType = data
+        this.username = data
+        this.isOldSys = false
+      }
     },
 
     /**
@@ -175,6 +185,12 @@ export default {
               this.pageType = userInfo.name
             }
           })
+      } else {
+        // // 没有token有两种情况，一种是用户没登录，一种是老用户已登录
+        // if(isOldSys = true) {
+        //   this.username = "ok"
+        //   this.pageType = "1"
+        // }
       }
     }
   }
@@ -215,18 +231,14 @@ export default {
   height: 400px;
 }
 
-.lunbo .lunbo_carousel {
-  width: 100%;
-}
-
 .lunbo .loginpanel {
   position: absolute;
-  left: 50%;
-  top: 8%;
+  left: 49.6%;
+  top: 11%;
   margin-left: 200px;
   box-shadow: 0px 0px 15px lightgrey;
   transform: scale(1, 1);
-  height: 360px;
+  height: 346px;
   zoom: 0.9;
 }
 /* For demo */
@@ -241,6 +253,20 @@ export default {
   color: #fff;
 }
 
+.lunbo .lunbo_carousel {
+  width: 100%;
+  overflow: hidden;
+}
+
 .loginPlacement {
+  margin: 0 auto;
+  overflow: hidden;
+}
+
+.img-style {
+  height: 400px;
+  margin: 0 auto; 
+  width: 100%; 
+  object-fit: cover;
 }
 </style>

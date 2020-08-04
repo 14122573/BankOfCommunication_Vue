@@ -254,7 +254,7 @@ export default {
       })
 
       this.$ajax.get({
-        url   : 'http://47.101.223.16:7066/aquaticRepairSum',
+        url   : this.$api.GET_DATA_ARSUM_LIST,
         params: searchParms
       }).then(res => {
         this.pagination.total = this.$com.confirm(res, 'data.total', 0)
@@ -297,5 +297,17 @@ export default {
   }
 }
 </script>
+<style lang="stylus">
+  .row_gray {
+    background-color: #F2F6FC;
+  }
 
+  .row_normal {
+    background-color: white;
+  }
+  .searchResult th
+    background-color #2a93f5 !important
+    color #fff !important
+    text-align center !important
+</style>
 

@@ -35,7 +35,7 @@
                         :maxFileSize="uploadConfig.maxSize"
                         :timestamp="Date.now()"
                       />
-                      <a-alert style="margin-top:16px" message="可上传最大1M的JPG, JPEG, PNG图片，图片尺寸1462 * 420" type="info" showIcon />
+                      <a-alert style="margin-top:16px" message="可上传最大1M的JPG, JPEG, PNG图片，建议图片尺寸1920 * 400" type="info" showIcon />
                     </a-form-item>
                   </a-col>
                 </a-row>

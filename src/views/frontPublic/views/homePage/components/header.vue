@@ -8,7 +8,7 @@
       :gutter="10"
     >
       <a-col :span="9">
-        <a-row>
+        <a-row style="margin-left: 30px">
           <a-col :span="4"
             ><img src="@/assets/images/logo.png" alt="" class="logo"
           /></a-col>
@@ -20,6 +20,7 @@
       <a-col :span="15">
         <div class="loginFrameMenu">
           <a-menu
+            class="menuStyle"
             mode="horizontal"
             :default-selected-keys="currentRoute"
             :selected-keys="currentRoute"
@@ -41,8 +42,8 @@ import routes from '@/router/index.js'
 export default {
   data() {
     return {
-      currentRoute: [ '0' ],
-      menuList    : [
+      currentRoute: [ '0' ], // 默认当前菜单为第一个菜单
+      menuList    : [ // 菜单列表(将需要关联的路由的path填入到path里)
         {
           id   : '',
           key  : '0',
@@ -143,6 +144,10 @@ export default {
         
         })
     },
+    
+    /**
+     * @description 页面第一次加载让当前路由对应的菜单高亮
+     */
     getRoute() {
       let path = this.$route.path
       for (let i = 0; i < this.menuList.length; i++) {
@@ -164,11 +169,13 @@ export default {
 .loginFrameBody {
   margin: 0 auto;
   max-width: 1000px;
+  height: 66px;
 }
 .loginFrameTitle {
   color: #000;
   font-weight: bold;
   margin-bottom: 10px;
+  line-height: 60px;
 }
 .loginFrameTitle .logo {
   height: 60px;
@@ -184,6 +191,9 @@ export default {
 <style lang="stylus" scoped>
 .ant-col .ant-col-19[data-v-8fc72786]
   $megaFontSize()
+
+.loginFrameMenu
+  margin-right 0px 30px;
 
 .loginFrameMenu > ul
   $titleFontSize()

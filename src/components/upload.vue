@@ -17,7 +17,6 @@ export default {
   methods: {
     handleChange(info) {
       if (info.file.status !== 'uploading') { 
-        
       }
       if (info.file.status === 'done') {
         // this.$message.success(`${info.file.name} file uploaded successfully`)
