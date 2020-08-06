@@ -154,15 +154,11 @@ export default {
     getDefaultRole(params) {
       this.$ajax.get({
         url: this.$api.ROLE_DETAIL.replace('{id}', params)
-      }).then(res => {
+      }).then(res => { 
         if (res.code === '200') {
           const data = res.data.content
           for(let i=0;i<data.length;i++){
-            if(false ===data[i].canDelete){
-              // 无逻辑
-            }else{
-              this.checkedKeys.push(data[i].id)
-            }
+            this.checkedKeys.push(data[i].id)
           }
           this.detailReady ++
         }

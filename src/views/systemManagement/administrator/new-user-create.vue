@@ -316,7 +316,8 @@ export default {
       this.$ajax.get({
         url   : this.$api.GET_AREA_NEXT,
         params: {
-          parentId: this.isAdminator ? '0' : this.$store.state.userInfos.area.id
+          // parentId: this.isAdminator ? '0' : this.$store.state.userInfos.area.id
+          parentId: this.isAdminator ? '0' : this.$store.state.userInfos.area?this.$store.state.userInfos.area.id:0
         }
       }).then(res => {
         const datas = this.$com.confirm(res, 'data.content', [])
