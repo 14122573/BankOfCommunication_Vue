@@ -27,33 +27,35 @@ export default {
   BASE_URL,
   MOCK_URL,
   // 全局远程配置文件
-  CONFIGS_EXPORTREVIEW_ROUTERS   : BASE_URL.replace('/api', '')+'/attr/exportReviewRouterConfigs.json', //portal专家库评审各子系统内容的菜单跳转配置文件
-  CONFIGS_MICSYSTEMS_ROUTERS     : BASE_URL.replace('/api', '')+'/attr/micRouters.json', // 接入portal的子项目路由
-  CONFIGS_MICSYSTEMS_LIST        : BASE_URL.replace('/api', '') +'/attr/System.json', // 接入portal的子系统部署地址及唯一识别码的配置清单
+  CONFIGS_EXPORTREVIEW_ROUTERS: BASE_URL.replace('/api', '')+'/attr/exportReviewRouterConfigs.json', //portal专家库评审各子系统内容的菜单跳转配置文件
+  CONFIGS_MICSYSTEMS_ROUTERS  : BASE_URL.replace('/api', '')+'/attr/micRouters.json', // 接入portal的子项目路由
+  CONFIGS_MICSYSTEMS_LIST     : BASE_URL.replace('/api', '') +'/attr/System.json', // 接入portal的子系统部署地址及唯一识别码的配置清单
   // 用户信息
   // 用户信息
-  GET_USER_INFO                  : '/service-user/user/login/user/info', // 获取用户信息
-  POST_LOGIN                     : '/service-user/user/public/login', //登录
-  POST_LOGOUT                    : '/service-user/user/logout', //登出
-  POST_REGISTER                  : '/service-user/user/public/register/acct', //注册
-  CHECKTOKEN_POST                : '/service-user/user/scrt/check/token', //验证token是否有效
-  REFRESH_TOKEN_POST             : '/service-user/user/public/refresh/token', //刷新token
-  GET_USER_PEIMISSION            : '/service-permission/perm/user/menus/code', //用户菜单权限
-  GET_SEND_CODE                  : '/service-user/user/public/send/bindPhone/{phone}', //发送验证码
-  POST_CHECK_CODE                : '/service-user/user/public/bind/phone/check', //校验手机验证码
-  POST_BIND_USERINFO_UNBIND      : '/service-user/user/public/login/bind/info', //绑定用户信息 (false)
-  POST_BIND_USERINFO_BIND        : '/service-user/user/public/bind/phone', //绑定用户信息 (true)
-  GET_SELECT_SYSTEM              : '/service-user/user/public/login/chooseSys', //选择系统
-  GET_CHECK_PHONE                : '/service-user/user/public/check/phone/bind', //是否绑定
-  POST_FIND_PASSWORD             : '/service-user/user/public/forget/pwd', //找回密码
-  GET_CODE                       : '/service-user/user/public/captcha/code', //得到验证码
-  GET_CHECK_PHONE_EXIST          : '/service-user/user/public/check/phone/exist', //判断手机是否存在
-  GET_PHONE_CODE                 : '/service-user/user/public/send/{type}/{phone}', // 发送验证码 （用于注册、忘记密码）
-  POST_CHECK_PHONE_CODE          : '/service-user/user/public/check/{type}/{phone}/{code}', // 验证手机验证码 （用于注册、忘记密码）
-  PUT_PERSONAL_RESET_PWD         : 'service-user/user/pwd', // 个人中心重置密码
-  PUT_USER_PHONE                 : '/service-user/user/phone/{phone}/{code}', // 登录用户修改手机号
-  PUT_EDIT_USER                  : '/service-user/user/user', // 登录用户修改个人信息
-  POST_BIND_TEMPUSERINFO_BIND    : '/service-user/user/public/temp/bind/info', // 临时账号，绑定手机及用户信息
+  GET_USER_INFO               : '/service-user/user/login/user/info', // 获取用户信息
+  POST_LOGIN                  : '/service-user/user/public/login', //登录
+  POST_LOGOUT                 : '/service-user/user/logout', //登出
+  POST_REGISTER               : '/service-user/user/public/register/acct', //注册
+  CHECKTOKEN_POST             : '/service-user/user/scrt/check/token', //验证token是否有效
+  REFRESH_TOKEN_POST          : '/service-user/user/public/refresh/token', //刷新token
+  GET_USER_PEIMISSION         : '/service-permission/perm/user/menus/code', //用户菜单权限
+  GET_SEND_CODE               : '/service-user/user/public/send/bindPhone/{phone}', //发送验证码
+  POST_CHECK_CODE             : '/service-user/user/public/bind/phone/check', //校验手机验证码
+  POST_BIND_USERINFO_UNBIND   : '/service-user/user/public/login/bind/info', //绑定用户信息 (false)
+  POST_BIND_USERINFO_BIND     : '/service-user/user/public/bind/phone', //绑定用户信息 (true)
+  GET_SELECT_SYSTEM           : '/service-user/user/public/login/chooseSys', //选择系统
+  GET_CHECK_PHONE             : '/service-user/user/public/check/phone/bind', //是否绑定
+  POST_FIND_PASSWORD          : '/service-user/user/public/forget/pwd', //找回密码
+  GET_CODE                    : '/service-user/user/public/captcha/code', //得到验证码
+  GET_CHECK_PHONE_EXIST       : '/service-user/user/public/check/phone/exist', //判断手机是否存在
+  GET_PHONE_CODE              : '/service-user/user/public/send/{type}/{phone}', // 发送验证码 （用于注册、忘记密码）
+  POST_CHECK_PHONE_CODE       : '/service-user/user/public/check/{type}/{phone}/{code}', // 验证手机验证码 （用于注册、忘记密码）
+  PUT_PERSONAL_RESET_PWD      : 'service-user/user/pwd', // 个人中心重置密码
+  PUT_USER_PHONE              : '/service-user/user/phone/{phone}/{code}', // 登录用户修改手机号
+  PUT_EDIT_USER               : '/service-user/user/user', // 登录用户修改个人信息
+  POST_BIND_TEMPUSERINFO_BIND : '/service-user/user/public/temp/bind/info', // 临时账号，绑定手机及用户信息
+  PUT_UNBUILDING_OLD_PHONE    : '/service-user/user/untie/phone/{phone}', //解绑老账号所绑定的手机号
+
   // 用户在子业务系统中的数据
   GET_EXPERT_REVIEW_TODO_LIST    : '/service-expert/expert/extract/{expertId}', //专家待评审项目。获取当前接口传参专家需要评审的数据,? status:0-未完成 1-完成 null/""-全部
   GET_DECLARATION_LIST           : '/service-user/user/user/datas', //获取申报人，在子业务系统提交过的所有材料

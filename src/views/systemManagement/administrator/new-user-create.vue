@@ -422,11 +422,7 @@ export default {
           if (res.code === '200') {
             const data = res.data.content
             for(let i=0;i<data.length;i++){
-              if(false ===data[i].canDelete){
-                // 无逻辑
-              }else{
-                this.checkedKeys.push(data[i].id)
-              }
+              this.checkedKeys.push(data[i].id)
             }
           } else {
             this.$message.error(res.msg)
