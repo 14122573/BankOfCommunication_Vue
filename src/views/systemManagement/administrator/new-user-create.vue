@@ -421,8 +421,8 @@ export default {
         }).then(res => {
           if (res.code === '200') { 
             const data = res.data.content
-            for(let i=0;i<data.length;i++){ 
-              this.checkedKeys.push(data[i].id) 
+            for(let i=0;i<data.length;i++){
+              this.checkedKeys.push(data[i].id)
             }
           } else {
             this.$message.error(res.msg)

@@ -44,7 +44,7 @@
 				<span class="actionBtn" v-if="record.status == '9'  && $permission('P03201')" @click="viewModal('0',record,'1')">启用<a-divider  type="vertical" /></span>
 				<span class="actionBtn" v-if="record.status == '1'  && $permission('P03201')" @click="viewModal('1',record,'9')">禁用	<a-divider type="vertical" /></span>
 				<span class="actionBtn" v-if="record.status != '8'  && $permission('P03203')" @click="viewModal('2',record,'8')">注销</span>
-				<!-- <span class="actionBtn" v-if="record.phone && $permission('P03303')" @click="unbundlingPhone(record)">	<a-divider type="vertical" />解绑手机</span> -->
+        <!-- <span class="actionBtn" v-if="record.phone && $permission('P03303')" @click="unbundlingPhone(record)">	<a-divider type="vertical" />解绑手机</span> -->
 			</span>
 		</a-table>
 		<!-- 重置密码表单 -->
@@ -402,8 +402,8 @@ export default {
       this.resetPwdShow = false
       this.passwordStrength = false
       this.resetData.resetFields()
-    },
-
+    }, 
+    
     /**
      * 解绑手机号
      */
