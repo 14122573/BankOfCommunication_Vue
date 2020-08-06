@@ -419,14 +419,10 @@ export default {
         this.$ajax.get({
           url: this.$api.ROLE_DETAIL.replace('{id}', params)
         }).then(res => {
-          if (res.code === '200') {
+          if (res.code === '200') { 
             const data = res.data.content
-            for(let i=0;i<data.length;i++){
-              if(false ===data[i].canDelete){
-                // 无逻辑
-              }else{
-                this.checkedKeys.push(data[i].id)
-              }
+            for(let i=0;i<data.length;i++){ 
+              this.checkedKeys.push(data[i].id) 
             }
           } else {
             this.$message.error(res.msg)

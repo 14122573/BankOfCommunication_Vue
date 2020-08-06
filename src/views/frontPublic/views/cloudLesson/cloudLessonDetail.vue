@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="cloudLessonDetail">
     <div class="pageWrapper">
       <Navbar class="navbar" />
       <div class="main"> 
@@ -107,6 +107,10 @@ export default {
   text-align: left;
   line-height: 30px;
 }
+
+.content img{
+  max-width: 100%;
+}
 </style>
 
 <style lang="stylus">
@@ -123,5 +127,9 @@ export default {
 // 正文
 .main[data-v-3d830607] .ant-card-body {
   $titleFontSize()
+}
+
+.cloudLessonDetail .content img{
+  max-width: 100%;
 }
 </style>
