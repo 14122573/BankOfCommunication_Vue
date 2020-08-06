@@ -408,21 +408,22 @@ export default {
      * 解绑手机号
      */
     unbundlingPhone(record){ 
+      const _this = this
       this.$modal.confirm({
         title     : '确定解除手机号绑定吗？', 
         okText    : '确认',
         cancelText: '取消',
         onOk() {
-          this.$ajax.put({
-            url   : this.$api.PUT_UNBUILDING_OLD_PHONE.replace('{phone}', record.phone),
+          _this.$ajax.put({
+            url   : _this.$api.PUT_UNBUILDING_OLD_PHONE.replace('{phone}', record.phone),
             params: {
               oldUserId: record.id,
               phone    : record.phone
             }
           }).then(res => {
             if (res.code === '200') {
-              this.$message.success('解除绑定成功！') 
-              this.getList()
+              _this.$message.success('解除绑定成功！') 
+              _this.getList()
             }
           })
         },
