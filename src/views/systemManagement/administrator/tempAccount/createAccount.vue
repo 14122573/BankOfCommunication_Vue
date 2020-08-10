@@ -130,12 +130,16 @@ export default {
               // id:this.isAdminator?this.tempAccountCreateForm.getFieldValue('area'):this.tempAccountCreateForm.getFieldValue('area').key
               id: this.tempAccountCreateForm.getFieldValue('area')
             },
-            'group': {
-              id: this.tempAccountCreateForm.getFieldValue('group')
-            },
+            // 'group': {
+            //   id: this.tempAccountCreateForm.getFieldValue('group')
+            // },
             'number': this.tempAccountCreateForm.getFieldValue('number')
           })
-
+          if(this.tempAccountCreateForm.getFieldValue('group')){
+            createParams.group = {
+              id: this.tempAccountCreateForm.getFieldValue('group')
+            }
+          } 
           this.$ajax.post({
             url   : this.$api.POST_TEMPACCOUT_CREATE,
             params: createParams
@@ -157,14 +161,14 @@ export default {
         params: {
           parentId: this.isAdminator ? '0' : this.$store.state.userInfos.area.id
         }
-      }).then(res => {
+      }).then(res => { 
         const datas = this.$com.confirm(res, 'data.content', [])
         datas.forEach((ele, index) => {
           this.administrativeRegions.push(this.getTreeNode(ele, index))
-        })
+        }) 
       })
     },
-    getTreeNode(item, index) {
+    getTreeNode(item, index) { 
       const childrenNode = {
         title   : item.areaName,
         value   : item.id,
@@ -172,6 +176,9 @@ export default {
         key     : item.id,
         parentId: item.parentId,
         children: item.childList
+      }
+      if(item.id == '999999'){
+        childrenNode.selectable = false
       }
       return childrenNode
     },
