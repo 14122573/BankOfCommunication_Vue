@@ -192,9 +192,7 @@ export default {
         this.selectedIds.deleteIds = id
       }else{
         this.selectedIds.deleteIds = this.selectedIds.selectIds
-      }
-      console.log(id)
-      console.log(this.selectedIds.deleteIds)
+      } 
       if(this.selectedIds.deleteIds==''){
         this.$modal.warning({
           title  : '未选择临时账户批次',
