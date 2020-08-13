@@ -122,17 +122,19 @@ export default {
       roleList             : [],
       roles                : [],
       // 是否从个人中心-账户信息跳转过来的
-      fromCenter           : false,
+      fromCenter           : true,
     }
+  },
+  created(){  
+    const { fromCenter } = this.$route.query
+    // 从个人中心-账户信息跳过来的不能修改手机号
+    this.fromCenter = (fromCenter && fromCenter === '1')
   },
   mounted() {
     this.isAdminator = this.$store.state.userInfos.isAllPerm
     this.getArea()
     this.getTree()
     this.getRoleLists()
-    const { fromCenter } = this.$route.query
-    // 从个人中心-账户信息跳过来的不能修改手机号
-    this.fromCenter = (fromCenter && fromCenter === '1')
   },
   methods: {
     // 查询权限树
