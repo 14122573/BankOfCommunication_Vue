@@ -13,61 +13,72 @@
 					<a-row class="formItemLine">
 						<a-col span="8">
 							<a-form-item class="formItem" label="姓名" v-bind="colSpe">
-								<a-input placeholder="请输入" v-decorator="['name',searchFormRules.name]" />
+								<a-input placeholder="请输入" v-decorator="['name',{
+                  validateTrigger: 'blur', rules: [ { required: true, message : '请输入姓名' } ]
+                }]" />
 							</a-form-item>
 						</a-col>
 						<a-col span="8">
 							<a-form-item class="formItem" label="账号" v-bind="colSpe">
-								<a-input placeholder="请输入手机号" :disabled="fromCenter" v-decorator="['phone',searchFormRules.phone]" />
+								<a-input placeholder="请输入手机号" :disabled="fromCenter" v-decorator="['phone',{
+                  validateTrigger: 'blur', rules: [ { required : true, validator: this.validatePhone } ]
+                }]" />
 							</a-form-item>
 						</a-col>
 						<a-col span="8">
 							<a-form-item class="formItem" label="邮箱" v-bind="colSpe">
-								<a-input placeholder="请输入" v-decorator="['mail',searchFormRules.mail]" />
+								<a-input placeholder="请输入" v-decorator="['mail',{
+                  validateTrigger: 'blur', rules: [ { required: true, message: '请输入邮箱' }, { type: 'email', message: '邮箱格式不合法' } ]
+                }]" />
 							</a-form-item>
 						</a-col>
 					</a-row>
 					<a-row class="formItemLine">
 						<a-col span="8">
 							<a-form-item class="formItem" label="邮编" v-bind="colSpe">
-								<a-input placeholder="请输入" v-decorator="['zipCode',searchFormRules.zipCode]" />
+								<a-input placeholder="请输入" v-decorator="['zipCode',{
+                  validateTrigger: 'blur', rules: [ { required: true, message: '请输入邮编' } ]
+                }]" />
 							</a-form-item>
 						</a-col>
 						<a-col span="16">
 							<a-form-item class="formItem" label="单位名称" :label-col="{span:3}" :wrapper-col="{span:15}" v-bind="colSpe">
-								<a-input placeholder="请输入" v-decorator="['dept',searchFormRules.dept]" />
+								<a-input placeholder="请输入" v-decorator="['dept',{
+                  validateTrigger: 'blur', rules: [ { required: true, message: '请输入单位名称' } ]
+                } ]" />
 							</a-form-item>
 						</a-col>
 					</a-row>
 					<a-row class="formItemLine">
 						<a-col span="16">
 							<a-form-item class="formItem" label="地址" :label-col="{span:3}" :wrapper-col="{span:15}">
-								<a-input placeholder="请输入" v-decorator="['addr',searchFormRules.addr]" />
+								<a-input placeholder="请输入" v-decorator="['addr',{
+                  validateTrigger: 'blur', rules: [ { required: true, message: '请输入地址' } ]
+                }]" />
 							</a-form-item>
 						</a-col>
 					</a-row>
 					<a-row class="formItemLine">
 						<a-col span="8" v-if="!fromCenter">
 							<a-form-item label="角色名称" v-bind="colSpe">
-								<a-select placeholder="请选择" @change="roleChange" allowClear mode="multiple" labelInValue v-decorator="['notes', searchFormRules.notes]">
+								<a-select placeholder="请选择" @change="roleChange" allowClear mode="multiple" labelInValue v-decorator="['notes', {
+                  validateTrigger: 'blur', rules: [ { required: true, message: '请选择角色名称！' } ]
+                }]">
 									<a-select-option v-for="(item,index) in roleList" :key="index" :value="item.id">{{item.roleName}}</a-select-option>
 								</a-select>
 							</a-form-item>
 						</a-col>
 						<a-col span="8" v-if="!fromCenter">
-							<a-form-item label="所属区域" v-bind="colSpe">
-								<!-- <a-select v-if="isAdminator !== true" placeholder="请选择" labelInValue @change="onChangeTree" showSearch
-								 v-decorator="['area',searchFormRules.area]">
-									<a-select-option v-for="(item,index) in administrativeRegions" :key="index" :value="item.id">{{item.title}}</a-select-option>
-								</a-select> -->
-								<a-tree-select :treeData="administrativeRegions" v-decorator="['area',searchFormRules.area]" :loadData="onLoadData"
-								 :dropdownStyle="{ maxHeight: '200px', overflow: 'auto' }" placeholder='请选择' allowClear @change="onChangeTree">
+							<a-form-item label="所属区域" v-bind="colSpe"> 
+								<a-tree-select :treeData="administrativeRegions" :loadData="onLoadData" v-decorator="['area', {
+                  validateTrigger: 'change', rules: [ { required: true, message: '请选择所属区域！'} ]
+                }]" :dropdownStyle="{ maxHeight: '200px', overflow: 'auto' }" placeholder='请选择' allowClear @change="onChangeTree">
 								</a-tree-select>
 							</a-form-item>
 						</a-col>
 						<a-col span="8" v-if="!fromCenter">
 							<a-form-item label="组织机构" v-bind="colSpe">
-								<a-select v-decorator="['group',searchFormRules.group]" allowClear placeholder='请选择'>
+								<a-select v-decorator="['group']" allowClear placeholder='请选择'>
 									<a-select-option v-for="(item,index) in groupLists" :key="index" :value="item.id">{{item.groupName}}</a-select-option>
 								</a-select>
 							</a-form-item>
@@ -100,71 +111,10 @@ export default {
           span: 15
         }
       },
-      autoExpandParent: true,
-      checkedKeys     : [],
-      selectedKeys    : [],
-      treeData        : [],
-      searchFormRules : {
-        name: {
-          validateTrigger: 'blur',
-          rules          : [ {
-            required: true,
-            message : '请输入姓名'
-          } ]
-        },
-        phone: {
-          validateTrigger: 'blur',
-          rules          : [ {
-            required : true,
-            validator: this.validatePhone
-          } ]
-        },
-        mail: {
-          validateTrigger: 'blur',
-          rules          : [ {
-            required: true,
-            message : '请输入邮箱'
-          }, {
-            type   : 'email',
-            message: '邮箱格式不合法'
-          } ]
-        },
-        zipCode: {
-          validateTrigger: 'blur',
-          rules          : [ {
-            required: true,
-            message : '请输入邮编'
-          } ]
-        },
-        dept: {
-          validateTrigger: 'blur',
-          rules          : [ {
-            required: true,
-            message : '请输入单位名称'
-          } ]
-        },
-        addr: {
-          validateTrigger: 'blur',
-          rules          : [ {
-            required: true,
-            message : '请输入地址'
-          } ]
-        },
-        area: {
-          validateTrigger: 'change',
-          rules          : [ {
-            required: true,
-            message : '请选择所属区域！'
-          } ]
-        },
-        notes: {
-          validateTrigger: 'blur',
-          rules          : [ {
-            required: true,
-            message : '请选择角色名称！'
-          } ]
-        }
-      },
+      autoExpandParent     : true,
+      checkedKeys          : [],
+      selectedKeys         : [],
+      treeData             : [], 
       isAdminator          : '',
       administrativeRegions: [],
       groupLists           : [],
@@ -218,6 +168,7 @@ export default {
     //添加账户
     handleAdd() {
       this.searchForm.validateFields((err, values) => {
+        console.log(values)
         if (!err) {
           values.area = {
             id  : this.areaCode,
