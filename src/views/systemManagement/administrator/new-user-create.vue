@@ -58,8 +58,8 @@
 							</a-form-item>
 						</a-col>
 					</a-row>
-					<a-row class="formItemLine">
-						<a-col span="8" v-if="!fromCenter">
+					<a-row class="formItemLine" v-if="!fromCenter">
+						<a-col span="8">
 							<a-form-item label="角色名称" v-bind="colSpe">
 								<a-select placeholder="请选择" @change="roleChange" allowClear mode="multiple" labelInValue v-decorator="['notes', {
                   validateTrigger: 'blur', rules: [ { required: true, message: '请选择角色名称！' } ]
@@ -68,7 +68,7 @@
 								</a-select>
 							</a-form-item>
 						</a-col>
-						<a-col span="8" v-if="!fromCenter">
+						<a-col span="8">
 							<a-form-item label="所属区域" v-bind="colSpe"> 
 								<a-tree-select :treeData="administrativeRegions" :loadData="onLoadData" v-decorator="['area', {
                   validateTrigger: 'change', rules: [ { required: true, message: '请选择所属区域！'} ]
@@ -76,7 +76,7 @@
 								</a-tree-select>
 							</a-form-item>
 						</a-col>
-						<a-col span="8" v-if="!fromCenter">
+						<a-col span="8">
 							<a-form-item label="组织机构" v-bind="colSpe">
 								<a-select v-decorator="['group']" allowClear placeholder='请选择'>
 									<a-select-option v-for="(item,index) in groupLists" :key="index" :value="item.id">{{item.groupName}}</a-select-option>
@@ -168,13 +168,14 @@ export default {
     //添加账户
     handleAdd() {
       this.searchForm.validateFields((err, values) => {
-        console.log(values)
+        console.log(values, err)
         if (!err) {
           values.area = {
             id  : this.areaCode,
             name: this.areaName
           }
           const isSelect = this.searchForm.isFieldTouched('group')
+          console.log(isSelect)
           if (isSelect) {
             if (values.group != '' && values.group != undefined) {
               const groupId = JSON.parse(JSON.stringify(values.group))
@@ -187,6 +188,7 @@ export default {
               delete values.group
             }
           } else {
+            console.log(this.detail)
             if (this.detail && this.detail.group != null) {
               values.group = {
                 id  : this.detail.group.id,
@@ -202,6 +204,7 @@ export default {
           values.roleNames = (this.roles.map(ele => {
             return ele.label
           })).join(',')
+          console.log(values)
           if (!this.$route.query.id) {
             this.$ajax.post({
               url   : this.$api.POST_ADD_USER,
@@ -231,6 +234,7 @@ export default {
               }
             })
           } else {
+            console.log(this.fromCenter)
             if (this.fromCenter) {
               // 如果是用户中心-基本信息过来修改的则用此接口
               this.$ajax.put({
