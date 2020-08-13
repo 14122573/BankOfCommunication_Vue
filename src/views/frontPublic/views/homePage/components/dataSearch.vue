@@ -212,7 +212,6 @@ export default {
     handleChange(data) {
       // this.indicators = data
       this.indicators = data[data.length-1]
-      // console.log(data)
     },
     handleYearPicker(year) {
       this.year = moment(year).format('YYYY')

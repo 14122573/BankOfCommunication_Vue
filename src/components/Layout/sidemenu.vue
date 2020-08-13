@@ -144,7 +144,6 @@ export default {
                 params: {
                   sysname: menu.meta.title
                 } })
-              console.log(href)
               window.open(href, '_blank')
             }else{
               this.$router.push({ name: 'noautherr' })
