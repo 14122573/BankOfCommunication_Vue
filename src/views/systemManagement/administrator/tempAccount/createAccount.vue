@@ -176,10 +176,7 @@ export default {
         key     : item.id,
         parentId: item.parentId,
         children: item.childList
-      }
-      if(item.id == '999999'){
-        childrenNode.selectable = false
-      }
+      } 
       return childrenNode
     },
     onLoadData(treeNode) {
