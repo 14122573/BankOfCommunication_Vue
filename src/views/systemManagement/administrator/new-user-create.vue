@@ -129,6 +129,7 @@ export default {
     const { fromCenter } = this.$route.query
     // 从个人中心-账户信息跳过来的不能修改手机号
     this.fromCenter = (fromCenter && fromCenter === '1')
+    console.log(this.fromCenter)
   },
   mounted() {
     this.isAdminator = this.$store.state.userInfos.isAllPerm
