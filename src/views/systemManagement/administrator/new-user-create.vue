@@ -129,7 +129,6 @@ export default {
     const { fromCenter } = this.$route.query
     // 从个人中心-账户信息跳过来的不能修改手机号
     this.fromCenter = (fromCenter && fromCenter === '1')
-    console.log(this.fromCenter)
   },
   mounted() {
     this.isAdminator = this.$store.state.userInfos.isAllPerm
@@ -171,14 +170,12 @@ export default {
     //添加账户
     handleAdd() {
       this.searchForm.validateFields((err, values) => {
-        console.log(values, err)
         if (!err) {
           values.area = {
             id  : this.areaCode,
             name: this.areaName
           }
           const isSelect = this.searchForm.isFieldTouched('group')
-          console.log(isSelect)
           if (isSelect) {
             if (values.group != '' && values.group != undefined) {
               const groupId = JSON.parse(JSON.stringify(values.group))
@@ -191,7 +188,6 @@ export default {
               delete values.group
             }
           } else {
-            console.log(this.detail)
             if (this.detail && this.detail.group != null) {
               values.group = {
                 id  : this.detail.group.id,
@@ -207,7 +203,6 @@ export default {
           values.roleNames = (this.roles.map(ele => {
             return ele.label
           })).join(',')
-          console.log(values)
           if (!this.$route.query.id) {
             this.$ajax.post({
               url   : this.$api.POST_ADD_USER,
@@ -237,7 +232,6 @@ export default {
               }
             })
           } else {
-            console.log(this.fromCenter)
             if (this.fromCenter) {
               // 如果是用户中心-基本信息过来修改的则用此接口
               this.$ajax.put({
