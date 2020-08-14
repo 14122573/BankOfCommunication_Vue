@@ -1,6 +1,7 @@
 <template>
 <a-modal :maskClosable="false" cancelText="取消" okText="批量创建" @ok="handleCreate" @cancel="handleCancel" :width="465"
 	 title="批量添加临时账户" :visible="isShow">
+  <Loader />
   <a-form class="protalForm" :form="tempAccountCreateForm">
 			<a-row type="flex" class="formItemLine" justify="space-between" align='middle' >
         <a-col span="20">
@@ -38,9 +39,12 @@
 	</a-modal>
 </template>
 <script>
-
+import Loader from '@/components/Loader/loader'
 export default {
-  name : 'create-temp-user',
+  name      : 'create-temp-user',
+  components: {
+    Loader,
+  },
   props: {
     resetShow: {
       type    : Boolean,
@@ -125,6 +129,7 @@ export default {
     handleCreate(){
       this.tempAccountCreateForm.validateFields(err => {
         if (!err) {
+          this.$store.commit('setLoading', true)
           const createParams = Object.assign({}, this.createDatas, {
             'area': {
               // id:this.isAdminator?this.tempAccountCreateForm.getFieldValue('area'):this.tempAccountCreateForm.getFieldValue('area').key
@@ -144,6 +149,7 @@ export default {
             url   : this.$api.POST_TEMPACCOUT_CREATE,
             params: createParams
           }).then(res => {
+            this.$store.commit('setLoading', false)
             if (res.code === '200') {
               this.$message.success('添加成功')
               this.resetForm()

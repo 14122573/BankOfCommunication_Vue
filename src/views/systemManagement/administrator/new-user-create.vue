@@ -209,17 +209,22 @@ export default {
           values.roleIds = (this.roles.map(ele => {
             return ele.key
           })).join(',')
-          if(values.roleIds!=''){
-            values.roleIds += ','
-          }
+          if(needSaveRoldIDsOrg && needSaveRoldIDsOrg.length>0){
+            if(values.roleIds!=''){
+              values.roleIds += ','
+            }
+          } 
           values.roleIds += (needSaveRoldIDsOrg.map(ele => {
             return ele.key
           })).join(',')
+
           values.roleNames = (this.roles.map(ele => {
             return ele.label
           })).join(',')
-          if(values.roleNames!=''){
-            values.roleNames += ','
+          if(needSaveRoldIDsOrg && needSaveRoldIDsOrg.length>0){
+            if(values.roleNames!=''){
+              values.roleNames += ','
+            }
           }
           values.roleNames += (needSaveRoldIDsOrg.map(ele => {
             return ele.label
@@ -393,7 +398,7 @@ export default {
       })
 
       this.roles = item
-      treeRoles = this.roles.concat(treeRoles)
+      treeRoles = item.concat(treeRoles)
       if (treeRoles.length != 0) {
         const params = treeRoles.map((it) => {
           return it.key
