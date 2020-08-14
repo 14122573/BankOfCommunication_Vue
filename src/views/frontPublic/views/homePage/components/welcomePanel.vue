@@ -39,13 +39,12 @@ export default {
     enterCMS() {
       switch (this.nameprop.isOldSys) {
       case true:
-        console.log()
         this.$router.push({
           name: 'bindPhone'
         })
         break
 
-      case false: 
+      case false:
         this.$router.push({
           name: 'home'
         })
@@ -60,8 +59,8 @@ export default {
      * @description 登出账户，将isLogin状态修改为登出, 同时通知给父组件lunbo
      */
     handleLogout() {
-      this.$store.commit('SET_ISLOGIN', false) 
-      
+      this.$store.commit('SET_ISLOGIN', false)
+
       Common.handleLogOut()
       this.$emit('on-change', 'login')
     }
@@ -70,8 +69,8 @@ export default {
 </script>
 <style scoped>
 .welcome_panel {
-  width: 300px; 
-  max-width: 300px; 
+  width: 300px;
+  max-width: 300px;
   height: 346px;
 }
 

@@ -152,9 +152,11 @@ export default {
       return childrenNode
     },
     getDefaultRole(params) {
+      let roleIds = params.split(',')
+      let filterRoleIds = roleIds.filter(e => e!='999999')
       this.$ajax.get({
-        url: this.$api.ROLE_DETAIL.replace('{id}', params)
-      }).then(res => { 
+        url: this.$api.ROLE_DETAIL.replace('{id}', filterRoleIds)
+      }).then(res => {
         if (res.code === '200') {
           const data = res.data.content
           for(let i=0;i<data.length;i++){

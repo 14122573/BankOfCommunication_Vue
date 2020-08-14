@@ -69,7 +69,7 @@
 							</a-form-item>
 						</a-col>
 						<a-col span="8">
-							<a-form-item label="所属区域" v-bind="colSpe"> 
+							<a-form-item label="所属区域" v-bind="colSpe">
 								<a-tree-select :treeData="administrativeRegions" :loadData="onLoadData" v-decorator="['area', {
                   validateTrigger: 'change', rules: [ { required: true, message: '请选择所属区域！'} ]
                 }]" :dropdownStyle="{ maxHeight: '200px', overflow: 'auto' }" placeholder='请选择' allowClear @change="onChangeTree">
@@ -102,6 +102,7 @@ export default {
   data() {
     return {
       exclusionRoleIds: [ '999999', '899999', '133333', '144444', '155555', '166666', '177777', '188888', '199999', '1000000', '122221', '122222', '122223', '122224', '122225', '122226', '122227', '122228', '122231', '122232', '122233', '122234' ],
+      userRoldIDsOrg  : [],
       dateFormat      : 'YYYY-MM-DD',
       colSpe          : {
         labelCol: {
@@ -114,7 +115,7 @@ export default {
       autoExpandParent     : true,
       checkedKeys          : [],
       selectedKeys         : [],
-      treeData             : [], 
+      treeData             : [],
       isAdminator          : '',
       administrativeRegions: [],
       groupLists           : [],
@@ -123,9 +124,10 @@ export default {
       roles                : [],
       // 是否从个人中心-账户信息跳转过来的
       fromCenter           : true,
+
     }
   },
-  created(){  
+  created(){
     const { fromCenter } = this.$route.query
     // 从个人中心-账户信息跳过来的不能修改手机号
     this.fromCenter = (fromCenter && fromCenter === '1')
@@ -197,12 +199,37 @@ export default {
               values.group = null
             }
           }
+          //  将当前用户已有的且无法分配的角色，与当前新分配的角色，进行合并
+          let needSaveRoldIDsOrg = []
+          this.userRoldIDsOrg.forEach((userRoldId)=>{
+            if(this.$com.oneOf(userRoldId.key, this.exclusionRoleIds)){
+              needSaveRoldIDsOrg.push(userRoldId)
+            }
+          })
           values.roleIds = (this.roles.map(ele => {
             return ele.key
           })).join(',')
+          if(needSaveRoldIDsOrg && needSaveRoldIDsOrg.length>0){
+            if(values.roleIds!=''){
+              values.roleIds += ','
+            }
+          } 
+          values.roleIds += (needSaveRoldIDsOrg.map(ele => {
+            return ele.key
+          })).join(',')
+
           values.roleNames = (this.roles.map(ele => {
             return ele.label
           })).join(',')
+          if(needSaveRoldIDsOrg && needSaveRoldIDsOrg.length>0){
+            if(values.roleNames!=''){
+              values.roleNames += ','
+            }
+          }
+          values.roleNames += (needSaveRoldIDsOrg.map(ele => {
+            return ele.label
+          })).join(',')
+
           if (!this.$route.query.id) {
             this.$ajax.post({
               url   : this.$api.POST_ADD_USER,
@@ -363,9 +390,17 @@ export default {
     },
     // 角色切换
     roleChange(item) {
+      let treeRoles = []
+      this.userRoldIDsOrg.forEach((userRoldId)=>{
+        if(this.$com.oneOf(userRoldId.key, this.exclusionRoleIds)){
+          treeRoles.push(userRoldId)
+        }
+      })
+
       this.roles = item
-      if (item.length != 0) {
-        const params = item.map((it) => {
+      treeRoles = item.concat(treeRoles)
+      if (treeRoles.length != 0) {
+        const params = treeRoles.map((it) => {
           return it.key
         })
         this.checkedKeys = []
@@ -409,19 +444,22 @@ export default {
         } = this.detail
 
         // 整理当前用户详情中的角色ID数据，去除重复
-        const datas = this.detail.roleIds != null ? this.detail.roleIds.split(',') : []
+        const userRoldIdsOrg = this.detail.roleIds != null ? this.detail.roleIds.split(',') : []
+        if(userRoldIdsOrg.length>0 && userRoldIdsOrg[0]=='999999'){
+          userRoldIdsOrg.shift()
+        }
         const userRoleIDs = []
-        for(var i=0;i<datas.length;i++){
-          if(!this.$com.oneOf(datas[i], userRoleIDs) && !this.$com.oneOf(datas[i], this.exclusionRoleIds)){
-            userRoleIDs.push(datas[i])
+        for(var i=0;i<userRoldIdsOrg.length;i++){
+          if(!this.$com.oneOf(userRoldIdsOrg[i], userRoleIDs) && !this.$com.oneOf(userRoldIdsOrg[i], this.exclusionRoleIds)){
+            userRoleIDs.push(userRoldIdsOrg[i])
           }
         }
         // 整理当前用户详情中的角色名称数据，去除重复
-        const datas1 = this.detail.roleNames != null ? this.detail.roleNames.split(',') : []
+        const userRoldNamesOrg = this.detail.roleNames != null ? this.detail.roleNames.split(',') : []
         const userRoleNames = []
-        for(var i=0;i<datas1.length;i++){
-          if(userRoleNames.indexOf(datas1[i]) == -1){
-            userRoleNames.push(datas1[i])
+        for(var i=0;i<userRoldNamesOrg.length;i++){
+          if(userRoleNames.indexOf(userRoldNamesOrg[i]) == -1){
+            userRoleNames.push(userRoldNamesOrg[i])
           }
         }
         // 组装需要展示在用户信息表单“角色名称”项的初始数据
@@ -430,6 +468,14 @@ export default {
             'key'  : ele,
             'label': userRoleNames[index]
           }
+        })
+        let _this = this
+        this.userRoldIDsOrg = []
+        userRoldIdsOrg.forEach((ele, index) => {
+          this.userRoldIDsOrg.push({
+            'key'  : ele,
+            'label': userRoldNamesOrg[index]
+          })
         })
         const setDatas = {
           mail,
@@ -451,7 +497,7 @@ export default {
         setDatas.notes = userRoleIDs
         this.roles = userRoleIDs
         this.searchForm.setFieldsValue(setDatas)
-        this.roleChange(userRoleIDs)
+        this.roleChange(this.userRoldIDsOrg)
       })
     },
     validatePhone(rule, value, callback) {
