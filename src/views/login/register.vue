@@ -401,8 +401,11 @@ export default {
 </script>
 
 <style>
-.ant-input-affix-wrapper { 	height: 44px; text-align: left; }
+.registerFrame .ant-input-affix-wrapper { 	height: 44px; text-align: left; }
+.registerFrame .ant-input-affix-wrapper .ant-input { position: relative; text-align: inherit; height: 100%;}
+</style>
 
+<style scoped>
 .registerFrame { 	width: 100%; height: 100%; min-height: 700px; margin: 0px; padding: 0px; position: relative; background-size: cover; }
 .registerWapper { width: 900px; height: 540px; background-color: #fff; position:relative; margin: auto; top: calc((100% - 540px)/2); background-size: 100%; padding: 10px 20px; font-size: 26px; color: rgba(101, 101, 101);}
 .registerWapper .logo {height: 70px;}

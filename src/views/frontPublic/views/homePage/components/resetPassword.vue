@@ -68,7 +68,6 @@
       >
         <a-form-item>
           <a-input
-            size='small'
             v-decorator="[
               'username',
               {
@@ -89,7 +88,6 @@
           <a-row type="flex">
             <a-col :span="15">
               <a-input
-                size='small'
                 v-decorator="[
                   'code',
                   {
@@ -126,7 +124,6 @@
         <input type="password" style="display:none" />
         <a-form-item>
           <a-input
-            size='small'
             v-decorator="[
               'pwd',
               {
@@ -155,7 +152,6 @@
         ></testStrong>
         <a-form-item>
           <a-input
-            size='small'
             v-decorator="[
               'rePassword',
               {
@@ -381,14 +377,11 @@ export default {
   }
 }
 </script>
-
+<style>
+.loginpanel .ant-input-affix-wrapper { height: 44px; text-align: left; }
+.loginpanel .ant-input-affix-wrapper .ant-input { position: relative; text-align: inherit; height: 100%;}
+</style>
 <style scoped>
-.form > div {
-  width: 260px;
-  position: absolute;
-  left: 35px;
-  top: 35px;
-}
 
 .findPassword {
   height: calc(100% - 35px);

@@ -2,7 +2,7 @@
   <div class="cloudLessonDetail">
     <div class="pageWrapper">
       <Navbar class="navbar" />
-      <div class="main"> 
+      <div class="main">
         <a-row>
           <a-col :span="4">&nbsp;</a-col>
           <a-col :span="16">
@@ -111,17 +111,17 @@ export default {
 
 <style lang="stylus">
 // 主标题
-.main[data-v-3d830607] .ant-descriptions-title {
+.cloudLessonDetail .main .ant-descriptions-title {
   $megaFontSize()
 }
 
 // 标题下来源信息
-.ant-row[data-v-3d830607] .ant-descriptions-item > span {
+.cloudLessonDetail .ant-row  .ant-descriptions-item > span {
   $titleFontSize()
 }
 
 // 正文
-.main[data-v-3d830607] .ant-card-body {
+.cloudLessonDetail .main .ant-card-body {
   $titleFontSize()
 }
 
