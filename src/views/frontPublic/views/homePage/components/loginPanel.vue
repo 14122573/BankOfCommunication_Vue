@@ -6,15 +6,6 @@
       class="login-form"
     >
       <a-form-item class="form_item">
-        <!-- <a-input
-          v-decorator="[
-            'username',
-            { validateTrigger: 'blur', rules: [{ validator: validateAccount }] }
-          ]"
-          placeholder="账户或手机号"
-          autocomplete="off"
-          @change="!!form.getFieldValue('pwd') ? errorMsgDisplay = '' : errorMsgDisplay = '请输入密码'"
-        > -->
         <a-input
           v-decorator="[
             'username',
@@ -47,7 +38,6 @@
         </a-input>
       </a-form-item>
       <a-form-item class="form_item_forget">
-
         <a-row>
           <a style="display: inline; height: 20px; line-height: 20px" class="login-form-forgot" @click="resetPassword">
           忘记密码
@@ -270,18 +260,10 @@ export default {
             })
           }
         } else {
-          // oldUser =>
           if (!!gainDatas[0].username) {
             this.username = gainDatas[0].username
-            // document.getElementById('login').style.display = 'none'
-            // document.getElementById('loggedin').style.display = 'block'
-            // this.loginSwitch()
-            // this.getToken()
             this.$emit('on-change', { 'username': this.username, 'isOldAccount': true })
           }
-          // this.$router.push({
-          //   name: 'bindPhone'
-          // })
         }
       } else if (res.msg == 'bind') {
         this.$router.push({
@@ -488,10 +470,31 @@ export default {
   }
 }
 </script>
+<style scoped>
+.form_item {
+  margin: 8px 0px;
+}
+
+.form_item_forget {
+  margin: 0px 0px;
+  height: 44px;
+}
+
+.login-form {
+  max-width: 300px;
+}
+.login-form-forgot {
+  float: right;
+}
+.login-form-button {
+  width: 100%;
+}
+</style>
+
 <style>
-#components-form-demo-normal-login .ant-input-affix-wrapper { 	height: 44px; text-align: left; }
-#components-form-demo-normal-login .ant-input-affix-wrapper input {height: 44px; text-align: left;}
-#components-form-demo-normal-login .form_item {
+#components-form-demo-normal-login .ant-input-affix-wrapper { height: 44px; text-align: left; }
+#components-form-demo-normal-login .ant-input-affix-wrapper .ant-input { position: relative; text-align: inherit; height: 100%;}
+/* #components-form-demo-normal-login .form_item {
   margin: 8px 0px;
 }
 
@@ -508,7 +511,7 @@ export default {
 }
  #components-form-demo-normal-login .login-form-button {
   width: 100%;
-}
+} */
 
 /* .lunbo .loginpanel[data-v-a9d4b7dc] .form_item {
   margin: 8px 0px;
