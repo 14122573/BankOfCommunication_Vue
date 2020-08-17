@@ -28,21 +28,6 @@
         </a-input>
       </a-form-item>
       <a-form-item class="form_item">
-        <!-- <a-input
-          v-decorator="[
-            'pwd',
-            {
-              validateTrigger: 'blur',
-              rules: [{ validator: validatePassword }]
-            }
-          ]"
-          :type="isType"
-          id="pwds"
-          placeholder="密码"
-          autocomplete="off"
-          @change="!!form.getFieldValue('username') ? errorMsgDisplay = '' : errorMsgDisplay = '请输入用户名'"
-          @focus="pasBlur"
-        > -->
         <a-input
           v-decorator="[
             'pwd',
@@ -62,7 +47,7 @@
         </a-input>
       </a-form-item>
       <a-form-item class="form_item_forget">
-        
+
         <a-row>
           <a style="display: inline; height: 20px; line-height: 20px" class="login-form-forgot" @click="resetPassword">
           忘记密码
@@ -202,7 +187,7 @@ export default {
 
               if (res.code == '200') {
                 this.$cookie.set('canEnterBind', '200')
-                this.$store.commit('SET_ISLOGIN', true) 
+                this.$store.commit('SET_ISLOGIN', true)
                 this.jumpOpeation(res)
                 this.visibleError = false
               } else {
@@ -285,7 +270,7 @@ export default {
             })
           }
         } else {
-          // oldUser => 
+          // oldUser =>
           if (!!gainDatas[0].username) {
             this.username = gainDatas[0].username
             // document.getElementById('login').style.display = 'none'
@@ -340,7 +325,7 @@ export default {
               .then(res => {
                 let userInfo = res.data.content
                 if (!!userInfo.name) {
-                  this.username = userInfo.name 
+                  this.username = userInfo.name
                   // document.getElementById('login').style.display = 'none'
                   // document.getElementById('loggedin').style.display = 'block'
                   // this.loginSwitch()
@@ -389,10 +374,10 @@ export default {
       }
     },
     // getToken() {
-    //   let cookie = this.$cookie.get('token') 
+    //   let cookie = this.$cookie.get('token')
     //   if (!!cookie) {
     //     document.getElementById('login').style.display= 'none'
-    //     document.getElementById('loggedin').style.display = 'block' 
+    //     document.getElementById('loggedin').style.display = 'block'
     //     this.$ajax
     //       .get({
     //         url: this.$api.GET_USER_INFO
@@ -405,7 +390,7 @@ export default {
     //       })
     //   } else {
     //     document.getElementById('login').style.display = 'block'
-    //     document.getElementById('loggedin').style.display = 'none' 
+    //     document.getElementById('loggedin').style.display = 'none'
     //   }
     // },
     validatePassword(rule, value, callback) {
@@ -428,7 +413,7 @@ export default {
     //   this.$emit('isLogin', {
     //     login   : 'logged in',
     //     username: this.username
-    //   }) 
+    //   })
     // },
     //得到url传递参数
     getQueryString(name) {
@@ -504,9 +489,29 @@ export default {
 }
 </script>
 <style>
-.lunbo .loginpanel[data-v-a9d4b7dc] .form_item {
+#components-form-demo-normal-login .ant-input-affix-wrapper { 	height: 44px; text-align: left; }
+#components-form-demo-normal-login .ant-input-affix-wrapper input {height: 44px; text-align: left;}
+#components-form-demo-normal-login .form_item {
   margin: 8px 0px;
-  /* height: 65px; */
+}
+
+#components-form-demo-normal-login .form_item_forget {
+  margin: 0px 0px;
+  height: 44px;
+}
+
+#components-form-demo-normal-login .login-form {
+  max-width: 300px;
+}
+ #components-form-demo-normal-login .login-form-forgot {
+  float: right;
+}
+ #components-form-demo-normal-login .login-form-button {
+  width: 100%;
+}
+
+/* .lunbo .loginpanel[data-v-a9d4b7dc] .form_item {
+  margin: 8px 0px;
 }
 
 .lunbo .loginpanel[data-v-a9d4b7dc] .form_item_forget {
@@ -522,6 +527,6 @@ export default {
 }
 .lunbo .loginpanel[data-v-a9d4b7dc] #components-form-demo-normal-login .login-form-button {
   width: 100%;
-}
+} */
 
 </style>
