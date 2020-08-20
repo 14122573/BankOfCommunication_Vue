@@ -401,9 +401,9 @@ export default {
             window.open(openUrl, '_parent')
           } else {
             this.$com.setToken(gainDatas.access_token, gainDatas.refresh_token)
-            // this.$router.push({
-            //   name: 'home',
-            // })
+            this.$router.push({
+              name: 'home',
+            })
           }
         }
       })
