@@ -67,7 +67,8 @@ export default {
         oldPwd: {
           validateTrigger: 'blur',
           rules          : [ {
-            required: true
+            required: true,
+            message : '请输入原密码!'
           } ]
         },
         newPwd: {
@@ -111,6 +112,8 @@ export default {
               this.$message.success('重置密码成功')
               this.resetForm()
               this.$emit('on-close')
+            }else{
+              this.$message.error(res.msg)
             }
           })
         }else{
