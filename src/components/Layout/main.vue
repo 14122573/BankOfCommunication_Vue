@@ -130,7 +130,7 @@ export default {
       },
       deep: true
     },
-    $route(to, from) {
+    $route(to, from) { 
       this.calcBackTopTarget()
       // 切换页面时获取返回顶部按钮的dom依据
       // let MicConfigs = this.$store.state.micSystemResourceConfig?this.$store.state.micSystemResourceConfig[process.env.NODE_ENV=='development'?'sit':process.env.NODE_ENV]:[] 
