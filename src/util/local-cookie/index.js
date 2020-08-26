@@ -4,4 +4,4 @@ import localcookie from './local-cookie'
 
 const isElectronApp = window.navigator.userAgent.indexOf('Electron') !== -1
 
-export default isElectronApp ? localcookie : jscookie
+export default isElectronApp ? localcookie : localcookie
