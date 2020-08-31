@@ -144,14 +144,14 @@ export default {
             createParams.group = {
               id: this.tempAccountCreateForm.getFieldValue('group')
             }
-          } 
+          }
           this.$ajax.post({
             url   : this.$api.POST_TEMPACCOUT_CREATE,
             params: createParams
           }).then(res => {
             this.$store.commit('setLoading', false)
             if (res.code === '200') {
-              this.$message.success('添加成功')
+              this.$message.success('添加成功！所创建的临时账户数据需等待10分钟后查询。')
               this.resetForm()
               this.$emit('on-success', true)
             }
@@ -167,14 +167,14 @@ export default {
         params: {
           parentId: this.isAdminator ? '0' : this.$store.state.userInfos.area.id
         }
-      }).then(res => { 
+      }).then(res => {
         const datas = this.$com.confirm(res, 'data.content', [])
         datas.forEach((ele, index) => {
           this.administrativeRegions.push(this.getTreeNode(ele, index))
-        }) 
+        })
       })
     },
-    getTreeNode(item, index) { 
+    getTreeNode(item, index) {
       const childrenNode = {
         title   : item.areaName,
         value   : item.id,
@@ -182,7 +182,7 @@ export default {
         key     : item.id,
         parentId: item.parentId,
         children: item.childList
-      } 
+      }
       return childrenNode
     },
     onLoadData(treeNode) {
