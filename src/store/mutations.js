@@ -49,7 +49,6 @@ export default {
   },
   SET_TABNAME(state, data) {
     state.tabName = data
-    console.log('SET_TABNAME', state.tabName,data)
   },
   SET_SEARCHPARAMS(state, searchParams) {
     state.listSearchParams[searchParams.routeName] = JSON.parse(JSON.stringify(searchParams))

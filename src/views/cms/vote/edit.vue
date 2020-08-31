@@ -225,13 +225,10 @@ export default {
       this.$ajax.get({
         url: this.$api.GET_VOTE_DETAIL.replace('{id}', this.voteId)
       }).then(res => {
-        console.log(res.data.content)
         const { name, creator, introduction, ruleType, ruleNum, source, startTime, endTime, description, subjects } = res.data.content
         this.description = description
         this.creator = creator
-        console.log('this.creator',this.creator,creator)
         this.introduction = introduction
-        console.log('this.introduction',this.introduction,introduction)
         this.ruleType = ruleType?ruleType:'0'
         if(ruleType == '1'){
           this.ruleNum = ruleNum

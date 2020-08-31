@@ -382,7 +382,6 @@ export default {
         url   : this.$api.GET_CHOOSE_ROLE_LIST,
         params: sparams
       }).then(res => {
-        console.log(res)
         this.roleList = this.$com.confirm(res, 'data.content', [])
         if (this.$route.query.id) {
           this.getDetail()
@@ -423,7 +422,6 @@ export default {
       this.$ajax.get({
         url: this.$api.GET_USER_DETAIL.replace('{id}', this.$route.query.id)
       }).then(res => {
-        console.log(res)
         this.detail = res.data.content
         if (this.detail.area != null) {
           // if (!this.isAdminator) {
