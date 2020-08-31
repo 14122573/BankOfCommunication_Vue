@@ -407,7 +407,7 @@ export default {
         this.$ajax.get({
           url: this.$api.ROLE_DETAIL.replace('{id}', params)
         }).then(res => {
-          if (res.code === '200') {
+          if (res.code === '200') { 
             const data = res.data.content
             for(let i=0;i<data.length;i++){
               this.checkedKeys.push(data[i].id)
