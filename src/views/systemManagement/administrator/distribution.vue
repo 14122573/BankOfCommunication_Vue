@@ -16,8 +16,10 @@
           <a-row class="formItemLine">
             <a-col span="8">
               <a-form-item label="角色名称" :label-col="labelCol" :wrapper-col="wrapperCol">
-                <a-select placeholder="请选择" :options='options.roleList' @change="roleChange" allowClear mode="multiple"
-                labelInValue v-decorator="['role', {rules: [rules.required],validateTrigger:'change'}]" />
+                <a-select placeholder="请选择"  @change="roleChange" allowClear mode="multiple"
+                labelInValue v-decorator="['role', {rules: [rules.required],validateTrigger:'change'}]" >
+                  <a-select-option v-for="(item,index) in options.roleList" :key="index" :value="item.id">{{item.roleName}}</a-select-option>
+	              </a-select>
               </a-form-item>
             </a-col>
             <a-col span="8">
@@ -53,8 +55,11 @@ export default {
   },
   data() {
     return {
-      formData: this.$form.createForm(this),
-      labelCol: {
+      formData        : this.$form.createForm(this),
+      exclusionRoleIds: [ '999999', '899999', '133333', '144444', '155555', '166666', '177777', '188888', '199999', '1000000', '122221', '122222', '122223', '122224', '122225', '122226', '122227', '122228', '122231', '122232', '122233', '122234' ],
+      userRoldIDsOrg  : [],
+      detail          : null,
+      labelCol        : {
         span: 8
       },
       wrapperCol: {
@@ -84,25 +89,27 @@ export default {
   methods: {
     // 角色切换
     roleChange(item) {
+      let treeRoles = []
+      this.userRoldIDsOrg.forEach((userRoldId)=>{
+        if(this.$com.oneOf(userRoldId.key, this.exclusionRoleIds)){
+          treeRoles.push(userRoldId)
+        }
+      })
+
       this.roles = item
-      if (item.length === 0) {
-        this.checkedKeys = []
-      } else {
-        const params = item.map((it) => {
+      treeRoles = item.concat(treeRoles)
+      if (treeRoles.length != 0) {
+        const params = treeRoles.map((it) => {
           return it.key
         })
+        this.checkedKeys = []
         this.$ajax.get({
           url: this.$api.ROLE_DETAIL.replace('{id}', params)
         }).then(res => {
           if (res.code === '200') {
-            const data = this.$com.confirm(res, 'data.content', [])
-            this.checkedKeys = []
+            const data = res.data.content
             for(let i=0;i<data.length;i++){
-              if(false ===data[i].canDelete){
-                // 无逻辑
-              }else{
-                this.checkedKeys.push(data[i].id)
-              }
+              this.checkedKeys.push(data[i].id)
             }
           } else {
             this.$message.error(res.msg)
@@ -150,47 +157,77 @@ export default {
         })
       }
     },
-    //   查询options 获取角色名称的options
-    getOptions() {
-      const info = this.$store.state.userInfos
-      const optionList = [ {
-        url   : this.$api.GET_CHOOSE_ROLE_LIST,
-        name  : 'roleList',
-        params: {
-          pageNo  : 1,
-          pageSize: 10000
-        }
-      } ]
-      if (info.area && this.isAdminator !== true) {
-        optionList.push({
-          url   : this.$api.GET_AREA_NEXT,
-          name  : 'areaList',
-          params: {
-            parentId: info.area.id
-          }
-        })
-      } else {
-        this.getArea()
+
+    getRoleLists() {
+      const curUserRoles = this.$store.state.userInfos.roleIds
+      const sparams = {
+        pageNo  : 1,
+        pageSize: 10000
       }
-      optionList.forEach(item => {
-        this.$ajax.get({
-          url   : item.url,
-          params: item.params
-        }).then(res => {
-          if (res.code === '200') {
-            const data = this.$com.confirm(res, 'data.content', [])
-            this.options[item.name] = data.map(item => {
-              return {
-                label: item.roleName || item.areaName,
-                value: item.id
-              }
-            })
-          } else {
-            this.$message.error(res.msg)
-          }
-        })
+      if(!!curUserRoles){
+        sparams.id_in = curUserRoles
+      }
+      this.$ajax.get({
+        url   : this.$api.GET_CHOOSE_ROLE_LIST,
+        params: sparams
+      }).then(res => {
+        this.options.roleList = this.$com.confirm(res, 'data.content', [])
+        if (this.$route.query.id) {
+          this.getDetail()
+        }
       })
     },
+    getDetail() {
+      this.$ajax.get({
+        url: this.$api.GET_USER_DETAIL.replace('{id}', this.$route.query.id)
+      }).then(res => {
+        this.detail = this.$com.confirm(res, 'data.content',{})
+
+        // 整理当前用户详情中的角色ID数据，去除重复
+        const userRoldIdsOrg = this.detail.roleIds != null ? this.detail.roleIds.split(',') : []
+        if(userRoldIdsOrg.length>0 && userRoldIdsOrg[0]=='999999'){
+          userRoldIdsOrg.shift()
+        }
+        const userRoleIDs = []
+        for(var i=0;i<userRoldIdsOrg.length;i++){
+          if(!this.$com.oneOf(userRoldIdsOrg[i], userRoleIDs) && !this.$com.oneOf(userRoldIdsOrg[i], this.exclusionRoleIds)){
+            userRoleIDs.push(userRoldIdsOrg[i])
+          }
+        }
+        // 整理当前用户详情中的角色名称数据，去除重复
+        const userRoldNamesOrg = this.detail.roleNames != null ? this.detail.roleNames.split(',') : []
+        const userRoleNames = []
+        for(var i=0;i<userRoldNamesOrg.length;i++){
+          if(userRoleNames.indexOf(userRoldNamesOrg[i]) == -1){
+            userRoleNames.push(userRoldNamesOrg[i])
+          }
+        }
+        // 组装需要展示在用户信息表单“角色名称”项的初始数据
+        userRoleIDs.forEach((ele, index) => {
+          userRoleIDs[index] = {
+            'key'  : ele,
+            'label': userRoleNames[index]
+          }
+        })
+        let _this = this
+        this.userRoldIDsOrg = []
+        userRoldIdsOrg.forEach((ele, index) => {
+          this.userRoldIDsOrg.push({
+            'key'  : ele,
+            'label': userRoldNamesOrg[index]
+          })
+        })
+        let setDatas = {
+          organ: this.detail.group != null ? this.detail.group.id : '',
+          area : this.detail.area != null ? this.detail.area.areaName : ''
+        }
+
+        this.roles = userRoleIDs
+        this.formData.setFieldsValue(setDatas)
+        this.roleChange(this.userRoldIDsOrg)
+      })
+    },
+
     // // 查询权限树
     getTree() {
       this.$ajax.get({
@@ -254,7 +291,7 @@ export default {
       this.$ajax.get({
         url   : this.$api.GET_AREA_NEXT,
         params: {
-          parentId: this.isAdminator ? '0' : this.$store.state.userInfos.area.id
+          parentId: this.isAdminator ? '0' : this.$store.state.userInfos.area?this.$store.state.userInfos.area.id:0
         }
       }).then(res => {
         const datas = this.$com.confirm(res, 'data.content', [])
@@ -316,7 +353,9 @@ export default {
   },
   mounted() {
     this.isAdminator = this.$store.state.userInfos.isAllPerm
-    this.$ajax.all(this.getOptions(), this.getTree())
+    this.getArea()
+    this.getTree()
+    this.getRoleLists()
   }
 }
 </script>
