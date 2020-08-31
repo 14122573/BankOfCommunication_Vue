@@ -297,7 +297,7 @@ export default {
           })
           params.roleNames = params.roleNames.join(',')
           params.id = this.$route.query.id
-          this.$ajax.put({
+          this.$ajax.post({
             url   : this.$api.CONFIG_ROLES_TO_USER,
             params: params
           }).then((res) => {

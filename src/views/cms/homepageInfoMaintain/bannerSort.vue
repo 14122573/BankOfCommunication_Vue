@@ -17,11 +17,11 @@
                 <span slot="sort" slot-scope="text, record, index">
                   <span>{{ index + 1 }}</span>
                 </span>
-                <span slot="dropdown" slot-scope="text, record"> 
+                <span slot="dropdown" slot-scope="text, record">
                   <template v-if="!!record.bannerName">
-                    {{record.bannerName}} 
+                    {{record.bannerName}}
                   </template>
-                  <template v-else> 
+                  <template v-else>
                     <a-form-item>
                       <a-select
                         @change="val => changeSort(val, record)"
@@ -36,7 +36,7 @@
                         </a-select-option>
                       </a-select>
                     </a-form-item>
-                  </template> 
+                  </template>
                 </span>
                 <span slot="action" slot-scope="text, record">
                   <a-button @click="deleteSort(record)" :disabled="!!record.bannerName?false:true">删除排序</a-button>
@@ -90,7 +90,7 @@ export default {
       sortedBanner      : [], // 可供排序的轮播图
       bannerSort        : {}, // 已暂时排序的
       bannerTemp        : [], // 还没排序的
-      bannerPingjie     : []  // 已选择的内容 
+      bannerPingjie     : []  // 已选择的内容
     }
   },
   mounted() {
@@ -109,7 +109,7 @@ export default {
             bannerGroup_nin: 0
           }
         })
-        .then(res => { 
+        .then(res => {
           if (res.code === '200') {
             this.bannerData = this.$com.confirm(res, 'data.content', [])
             this.histortySortedData= []
@@ -169,7 +169,7 @@ export default {
      * @param {String} value 轮播图对应的id
      * @param {Array} record 轮播图对应的暂时排序
      */
-    changeSort(value, record) { 
+    changeSort(value, record) {
       for(let i = 0; i < this.bannerPingjie.length; i++) {
         if(this.bannerPingjie[i].sort == record.sort) {
           this.bannerPingjie.splice(i,1)
@@ -177,7 +177,7 @@ export default {
       }
       this.bannerPingjie.push(
         {
-          'id'  : value, 
+          'id'  : value,
           'sort': record.sort
         }
       )
@@ -199,30 +199,28 @@ export default {
      * @description 删除某个已排过序的轮播图
      * @param {Array} value 删除的轮播图内容
      */
-    deleteSort(value) { 
-      this.$ajax
-        .put({
-          url   : this.$api.DELETE_BANNER.replace('{id}', value.id),
-          params: {
-            id: value.id
+    deleteSort(value) {
+      this.$ajax.post({
+        url   : this.$api.PUT_BANNER_SORT_REMOVE.replace('{id}', value.id),
+        params: {
+          id: value.id
+        }
+      }).then(res=>{
+        if(res.code=='200') {
+          for(let i = 0; i < this.alreadySorted.length; i++) {
+            if(this.alreadySorted[i].id == value.id) {
+              this.alreadySorted.splice(i, 100)
+            }
           }
-        })
-        .then(res=>{
-          if(res.code=='200') {
-            for(let i = 0; i < this.alreadySorted.length; i++) {
-              if(this.alreadySorted[i].id == value.id) {
-                this.alreadySorted.splice(i, 100)
-              }
-            } 
-            // 将需要删除的banner图从bannerPingjie中删除
-            this.$message.success('删除成功')
-            this.getCurrentBannerList()
-            this.getAvailableSortList()
-            // this.$router.go(-1)
-          } else {
-            this.$message.error(res.msg)
-          }
-        })
+          // 将需要删除的banner图从bannerPingjie中删除
+          this.$message.success('删除成功')
+          this.getCurrentBannerList()
+          this.getAvailableSortList()
+          // this.$router.go(-1)
+        } else {
+          this.$message.error(res.msg)
+        }
+      })
     },
 
     /**
@@ -230,27 +228,25 @@ export default {
      */
     saveBanner() {
       // historySortedData -> 已经拍过序的 包含8个包括空置的
-      // bannerPingjie     -> 已选择的内容 
+      // bannerPingjie     -> 已选择的内容
       for(let i =0; i < this.alreadySorted.length; i++) {
         if(this.bannerPingjie.indexOf(this.alreadySorted[i]) == -1) {
           this.bannerPingjie.push(this.alreadySorted[i])
         }
       }
 
-      this.$ajax
-        .put({
-          url   : this.$api.PUT_BANNER_SORT,
-          params: this.bannerPingjie
-        })
-        .then(res => {
-          if (res.code === '200') {
-            this.$message.success('排序成功')
-            this.$router.go(-1)
-          } else {
-            this.$message.error(res.msg)
-          }
-        })
-      
+      this.$ajax.post({
+        url   : this.$api.PUT_BANNER_SORT,
+        params: this.bannerPingjie
+      }).then(res => {
+        if (res.code === '200') {
+          this.$message.success('排序成功')
+          this.$router.go(-1)
+        } else {
+          this.$message.error(res.msg)
+        }
+      })
+
     }
   }
 }

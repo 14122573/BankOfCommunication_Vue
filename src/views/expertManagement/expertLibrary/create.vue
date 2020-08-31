@@ -560,7 +560,7 @@ export default {
       let link, msg, methods
       if (this.$route.query.id) {
         link = this.$api.EXPORT_TYPE_EDIT.replace('{experId}', this.$route.query.id)
-        methods = 'put'
+        methods = 'post'
         msg = '修改成功！'
       } else {
         link = this.$api.EXPORT_TYPE

@@ -45,6 +45,9 @@ export default {
     return {
     }
   },
+  created(){
+
+  },
   methods: {
     rememberTab(key) {
       this.$store.commit('SET_TABNAME', key)

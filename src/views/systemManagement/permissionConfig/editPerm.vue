@@ -188,7 +188,7 @@ export default {
             'pointSet': this.getSelectPointSetObject(this.permEditForm.getFieldValue('pointIds'))
           })
 
-          this.$ajax.put({
+          this.$ajax.post({
             url   : this.$api.PUT_PREMSBRANCH.replace('{id}', this.perm.key),
             params: putParams
           }).then(res => {

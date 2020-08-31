@@ -141,8 +141,8 @@ export default {
           }
         })
         .then(res => {
-          if (res.code === '200') { 
-            
+          if (res.code === '200') {
+
             this.data = this.$com.confirm(res, 'data.content', [])
           } else {
             this.$message.error(res.msg)
@@ -214,7 +214,7 @@ export default {
      * @param {Array} value 该轮播图的信息
      */
     deleteBanner(value) {
-      let that = this 
+      let that = this
       if(value.bannerGroup !== '0') {
         this.$message.success('该轮播图已被排序，无法删除')
       } else {
@@ -222,19 +222,17 @@ export default {
           title  : '您确认删除"' + value.bannerName + '"吗？',
           content: '删除后将无法找回!',
           onOk() {
-            that.$ajax
-              .delete({
-                url: that.$api.DELETE_BANNER.replace('{id}', value.id)
-              })
-              .then(res => { 
+            that.$ajax.post({
+              url: that.$api.DELETE_BANNER.replace('{id}', value.id)
+            }).then(res => {
 
-                if (res.code === '200') {
-                  that.$message.success('删除成功')
-                  that.getList()
-                } else {
-                  that.$message.error(res.msg)
-                }
-              })
+              if (res.code === '200') {
+                that.$message.success('删除成功')
+                that.getList()
+              } else {
+                that.$message.error(res.msg)
+              }
+            })
           },
           onCancel() {}
         })

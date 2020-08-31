@@ -46,7 +46,7 @@ export default {
   },
   methods: {
     handleDel() {
-      this.$ajax.delete({
+      this.$ajax.post({
         url: this.$api.DELETE_ORGANIZATION_LIST.replace('{id}', this.$route.query.id)
       }).then(res => {
         if (res.code == '200') {

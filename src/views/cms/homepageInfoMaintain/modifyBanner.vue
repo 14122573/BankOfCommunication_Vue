@@ -125,21 +125,19 @@ export default {
         }
       }
 
-      this.$ajax
-        .put({
-          url   : this.$api.PUT_BANNER.replace('{id}', this.$route.params.id), // 修改的bannerId
-          params: params
-        })
-        .then(res => {
-          if (res.code === '200') {
-            this.$message.success('修改成功')
-            this.$router.push({
-              name: '/cms/homepageInfoMaintain'
-            })
-          } else {
-            this.$message.error(res.msg)
-          }
-        })
+      this.$ajax.post({
+        url   : this.$api.PUT_BANNER.replace('{id}', this.$route.params.id), // 修改的bannerId
+        params: params
+      }).then(res => {
+        if (res.code === '200') {
+          this.$message.success('修改成功')
+          this.$router.push({
+            name: '/cms/homepageInfoMaintain'
+          })
+        } else {
+          this.$message.error(res.msg)
+        }
+      })
       // }
     },
 
@@ -169,7 +167,7 @@ export default {
               }
             )
             that.imgPlaceholder = this.$com.confirm(res, 'data.content.filePath', {})
-            
+
           } else {
             this.$message.error(res.msg)
           }

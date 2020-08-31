@@ -383,7 +383,7 @@ export default {
       default:
         break
       }
-      this.$ajax.put({
+      this.$ajax.post({
         url: apiUrl
       }).then(res => {
         if (res.code == '200') {
@@ -466,7 +466,7 @@ export default {
       this.$refs.reset.resetForm()
     },
     handleResetOk(values) {
-      this.$ajax.put({
+      this.$ajax.post({
         url   : this.$api.USER_UPDATE_PWD,
         params: {
           id    : this.opeation.item.id,

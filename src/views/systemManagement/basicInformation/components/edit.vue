@@ -122,7 +122,7 @@ export default {
     handleOk() {
       this.editForm.validateFields(err => {
         if (!err) {
-          this.$ajax.put({
+          this.$ajax.post({
             url   : this.apis.put.replace('{id}', this.item.id),
             params: {
               name: this.editForm.getFieldValue('title'),

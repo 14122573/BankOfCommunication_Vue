@@ -180,7 +180,7 @@ export default {
       this.getList()
     },
     handleOkDelete(){
-      this.$ajax.delete({
+      this.$ajax.post({
         url: this.$api.DELETE_CHARACTER.replace('{id}', this.deleteData.id),
       }).then(res => {
         if(res.code === '200'){

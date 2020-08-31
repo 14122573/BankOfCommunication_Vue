@@ -68,7 +68,7 @@ export default {
   created() {
     const { defaultSelectedKeys, defaultOpenKeys } = this.$store.state.defaultMenuStatus
     this.defaultSelectedKeys = defaultSelectedKeys || []
-    this.defaultOpenKeys = (defaultOpenKeys.length <= 0 || !defaultOpenKeys[0]) ? [] : defaultOpenKeys
+    this.defaultOpenKeys = (this.defaultOpenKeys.length <= 0 || !defaultOpenKeys[0]) ? [] : defaultOpenKeys
 
     // 获取目前接入portal的所有新系统、老系统配置
     if (this.$cookie.get('token')) {
