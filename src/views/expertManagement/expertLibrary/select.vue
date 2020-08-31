@@ -284,7 +284,7 @@ export default {
     },
     handleAdd() {
       if (this.selectedRowKeys.length > 0) {
-        this.$ajax.put({
+        this.$ajax.post({
           url   : this.$api.PUT_CHANGE_EXPERT,
           params: this.selectedRowKeys
         }).then(res => {

@@ -118,7 +118,7 @@ export default {
               }
             })
           }else if(this.title=='修改行政区'){
-            this.$ajax.put({
+            this.$ajax.post({
               url   : this.$api.PUT_REVISE_AREA.replace('{id}', this.selectedKeys[0]),
               params: {
                 areaName: this.form.getFieldValue('branchName'),
@@ -148,7 +148,7 @@ export default {
       this.$modal.confirm({
         title: '确定要删除吗？',
         onOk() {
-          _this.$ajax.delete({
+          _this.$ajax.post({
             url: _this.$api.DELETE_AREA.replace('{id}', _this.selectedKeys[0]),
           }).then(res => {
             _this.showTree=false

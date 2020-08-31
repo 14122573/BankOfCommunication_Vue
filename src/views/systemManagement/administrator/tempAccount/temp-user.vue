@@ -188,11 +188,11 @@ export default {
      * @param {String} id 单条删除时，传入的批次id
      */
     comfirmDeleteTempAccounts(id){
-      if(!!id && typeof id=='string'){
+      if(!!id && (typeof id=='string' || typeof id=='number')){
         this.selectedIds.deleteIds = id
       }else{
         this.selectedIds.deleteIds = this.selectedIds.selectIds
-      } 
+      }
       if(this.selectedIds.deleteIds==''){
         this.$modal.warning({
           title  : '未选择临时账户批次',
@@ -220,7 +220,7 @@ export default {
      * 执行临时账户批次删除。并刷新列表
      */
     deleteTempAccounts(){
-      this.$ajax.delete({
+      this.$ajax.post({
         url: this.$api.DELETE_TEMPACCOUT.replace('{ids}', this.selectedIds.deleteIds)
       }).then(res => {
         if (res.code === '200') {

@@ -261,7 +261,7 @@ export default {
           } else {
             if (this.fromCenter) {
               // 如果是用户中心-基本信息过来修改的则用此接口
-              this.$ajax.put({
+              this.$ajax.post({
                 url   : this.$api.PUT_EDIT_USER,
                 params: values,
               }).then(res => {
@@ -274,7 +274,7 @@ export default {
               })
               return
             }
-            this.$ajax.put({
+            this.$ajax.post({
               url   : this.$api.PUT_USER_LIST.replace('{id}', this.$route.query.id),
               params: values
             }).then(res => {

@@ -203,7 +203,7 @@ export default {
     },
     //确认删除
     handleOk() {
-      this.$ajax.delete({
+      this.$ajax.post({
         url: this.$api.DELETE_ORGANIZATION_LIST.replace(
           '{id}',
           this.opeationItem.id

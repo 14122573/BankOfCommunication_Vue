@@ -135,7 +135,7 @@ export default {
 
     },
     confirmDelete(){
-      this.$ajax.delete({
+      this.$ajax.post({
         url: this.apis.delete.replace('{id}', this.deleteData.id)
       }).then(res => {
         if (res.code === '200') {

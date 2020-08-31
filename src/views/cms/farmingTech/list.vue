@@ -291,8 +291,8 @@ export default {
     getList() {
       let releaseDate = '', releaseDate_gt = '', releaseDate_lt = ''
       if(this.farmingSearchForm.getFieldValue('releaseDate')){
-        releaseDate = this.farmingSearchForm.getFieldValue('releaseDate') 
-        
+        releaseDate = this.farmingSearchForm.getFieldValue('releaseDate')
+
         releaseDate_gt = this.$moment(releaseDate[0]).format('YYYY-MM-DD')
         releaseDate_lt = this.$moment(releaseDate[1]).format('YYYY-MM-DD')
       }
@@ -317,7 +317,7 @@ export default {
           this.pagination.pageNo = this.$com.confirm(res, 'data.page', 1)
           this.pagination.current = this.pagination.pageNo
           this.knowledgeList = this.$com.confirm(res, 'data.content', [])
-          
+
           this.isReady = true
         })
     },
@@ -399,24 +399,22 @@ export default {
      * @param {String} id 被操作数据key
      * @param {String} status 目标状态Key ，发布：1；失效：2
      */
-    toChangeStatus(id, status) { 
-      this.$ajax
-        .put({
-          url: this.$api.PUT_ANNOUNCE_STATUS.replace('{id}', id).replace(
-            '{status}',
-            status
-          ),
-          params: {
-            'id': id
-          }
-        })
-        .then(res => {
-          if (res.code == '200') {
-            const successMsg = status == '1' ? '发布成功' : '撤回成功'
-            this.$message.success(successMsg)
-            this.getFarmingList()
-          }
-        })
+    toChangeStatus(id, status) {
+      this.$ajax.post({
+        url: this.$api.PUT_ANNOUNCE_STATUS.replace('{id}', id).replace(
+          '{status}',
+          status
+        ),
+        params: {
+          'id': id
+        }
+      }).then(res => {
+        if (res.code == '200') {
+          const successMsg = status == '1' ? '发布成功' : '撤回成功'
+          this.$message.success(successMsg)
+          this.getFarmingList()
+        }
+      })
     },
 
     /**

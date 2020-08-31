@@ -74,7 +74,7 @@ export default {
     }
   },
   mounted() {
-    this.getRoleIds() 
+    this.getRoleIds()
   },
   beforeCreate() {
     this.formData = this.$form.createForm(this)
@@ -85,8 +85,8 @@ export default {
      */
     getRoleIds(){
       this.$ajax.get({
-        url: this.$api.GET_USER_PERMS 
-      }).then(res => { 
+        url: this.$api.GET_USER_PERMS
+      }).then(res => {
         if(res.code == '200'){
           let arr =res.data.content
           for(let i=0;i<arr.length;i++){
@@ -147,7 +147,7 @@ export default {
     // 查询角色详情
     getRoleInfo(id){
       this.$ajax.get({
-        url: this.$api.PUT_CHARACTER.replace('{id}', id)
+        url: this.$api.GET_CHARACTER.replace('{id}', id)
       }).then(res => {
         if(res.code === '200'){
           const data=res.data.content
@@ -176,7 +176,7 @@ export default {
           let msg, link, methods
           if(this.$route.query.id){
             link=this.$api.PUT_CHARACTER.replace('{id}', this.$route.query.id)
-            methods='put'
+            methods='post'
             msg='修改成功'
           }else{
             link=this.$api.ADD_ROLE_POST
@@ -235,7 +235,7 @@ export default {
       }
     },
     handleOkDelete(){
-      this.$ajax.delete({
+      this.$ajax.post({
         url: this.$api.DELETE_CHARACTER.replace('{id}', this.$route.query.id),
       }).then(res => {
         if(res.code === '200'){

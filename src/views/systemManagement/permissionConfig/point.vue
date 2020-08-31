@@ -154,7 +154,7 @@ export default {
      * 执行删除功能点，成功后刷新页面
      */
     handleDeletePoint(){
-      this.$ajax.delete({
+      this.$ajax.post({
         url: this.$api.DELETE_PREMSPOINT.replace('{id}', this.deleteData.id)
       }).then(res => {
         if (res.code === '200') {

@@ -12,7 +12,7 @@
     <div class="box" v-for="(item,index) in list" :key="index">
       <div class="inner">
         <div class="content">
-          <p class="name">{{item.name}} <br /> 
+          <p class="name">{{item.name}} <br />
             <span v-if="item.lv">({{item.lv}})</span>
           </p>
 
@@ -125,7 +125,7 @@ export default {
 
     },
     confirmDelete(){
-      this.$ajax.delete({
+      this.$ajax.post({
         url   : this.$api.DELETE_EXPERT_BASE.replace('{id}', this.deleteData.id),
         params: {
           type: this.baseType
