@@ -137,39 +137,39 @@ export default {
 
   // 内容发布
   // 如果是本地开发的话会跨域，故设置了webpack代理，具体设置在/config/index.js的dev.proxyTable中
-  GET_UEDITOR_SERVICE_URL : (process.env.NODE_ENV === 'development' ? '/ueditorDevBase' : BASE_URL)+'/service-release/release/public/ueditor/execute', //ueditor 文件上传配置service_url地址
+  GET_UEDITOR_SERVICE_URL: (process.env.NODE_ENV === 'development' ? '/ueditorDevBase' : BASE_URL)+'/service-release/release/public/ueditor/execute', //ueditor 文件上传配置service_url地址
   // 内容发布-知识库
-  GET_CMS_KNOWLEDGE_LIST  : '/service-release/release/public/knowledge', //获取知识库文档列表
-  POST_CMS_KNOWLEDGE      : '/service-release/release/knowledge', //新建知识文档
-  GET_CMS_KNOWLEDGE_DETAIL: '/service-release/release/public/knowledge/{id}', //获取知识库详情信息
-  PUT_CMS_KNOWLEDGE_DETAIL: '/service-release/release/knowledge/{id}', //修改知识库详情信息
-  DELETE_CMS_KNOWLEDGE    : '/service-release/release/knowledge/{id}', //删除单条知识库文档
-  PUT_CMS_KNOWLEDGE_STATUS: '/service-release/release/knowledge/{id}/{status}', //修改单条知识库文档状态
+  GET_CMS_KNOWLEDGE_LIST : '/service-release/release/public/knowledge', //获取知识库文档列表
+  // POST_CMS_KNOWLEDGE      : '/service-release/release/knowledge', //新建知识文档
+  // GET_CMS_KNOWLEDGE_DETAIL: '/service-release/release/public/knowledge/{id}', //获取知识库详情信息
+  // PUT_CMS_KNOWLEDGE_DETAIL: '/service-release/release/knowledge/{id}', //修改知识库详情信息
+  // DELETE_CMS_KNOWLEDGE    : '/service-release/release/knowledge/{id}', //删除单条知识库文档
+  // PUT_CMS_KNOWLEDGE_STATUS: '/service-release/release/knowledge/{id}/{status}', //修改单条知识库文档状态
   // 内容发布-通知公告
-  GET_CMS_NOTICE_LIST     : '/service-release/release/public/news', //获取通知公告列表
-  POST_CMS_NOTICE         : '/service-release/release/news', //新建通知公告
-  GET_CMS_NOTICE_DETAIL   : '/service-release/release/public/news/{id}', //获取通知公告详情信息
-  PUT_CMS_NOTICE_DETAIL   : '/service-release/release/news/{id}', //修改通知公告详情信息
-  DELETE_CMS_NOTICE       : '/service-release/release/news/{id}', //删除单条通知公告文档
-  PUT_CMS_NOTICE_STATUS   : '/service-release/release/news/{id}/{status}', //修改单条通知公告状态
-  PUT_CMS_NOTICE_PLACEMENT: '/service-release/release/news/top/{id}/{top}', //置顶通知公告，top（是否置顶）： 0-否 1-是
+  GET_CMS_NOTICE_LIST    : '/service-release/release/public/news', //获取通知公告列表
+  POST_CMS_NOTICE        : '/service-release/release/news', //新建通知公告
+  GET_CMS_NOTICE_DETAIL  : '/service-release/release/public/news/{id}', //获取通知公告详情信息
+  // PUT_CMS_NOTICE_DETAIL   : '/service-release/release/news/{id}', //修改通知公告详情信息
+  // DELETE_CMS_NOTICE       : '/service-release/release/news/{id}', //删除单条通知公告文档
+  // PUT_CMS_NOTICE_STATUS   : '/service-release/release/news/{id}/{status}', //修改单条通知公告状态
+  // PUT_CMS_NOTICE_PLACEMENT: '/service-release/release/news/top/{id}/{top}', //置顶通知公告，top（是否置顶）： 0-否 1-是
   // 内容发布-投票管理
-  GET_VOTE_LIST           : '/service-release/release/public/vote', // 获取投票列表
-  POST_ADD_VOTE           : '/service-release/release/vote', // 新增投票
-  GET_VOTE_DETAIL         : '/service-release/release/public/vote/{id}', // 获取投票详情
-  GET_VOTE_VIEW           : '/service-release/release/public/vote/result/{id}', // 查看投票信息
-  PUT_EDIT_VOTE           : '/service-release/release/vote/{id}', // 修改投票
-  DELETE_VOTE             : '/service-release/release/vote/{id}', // 删除投票
-  PUT_VOTE_STATUS         : '/service-release/release/vote/{id}/{status}', // 修改投票的状态
-  GET_VOTE_RESULT         : '/service-release/release/vote/result/count/{id}', // 获取投票结果公示
+  GET_VOTE_LIST          : '/service-release/release/public/vote', // 获取投票列表
+  POST_ADD_VOTE          : '/service-release/release/vote', // 新增投票
+  GET_VOTE_DETAIL        : '/service-release/release/public/vote/{id}', // 获取投票详情
+  GET_VOTE_VIEW          : '/service-release/release/public/vote/result/{id}', // 查看投票信息
+  PUT_EDIT_VOTE          : '/service-release/release/vote/{id}', // 修改投票
+  DELETE_VOTE            : '/service-release/release/vote/{id}', // 删除投票
+  PUT_VOTE_STATUS        : '/service-release/release/vote/{id}/{status}', // 修改投票的状态
+  GET_VOTE_RESULT        : '/service-release/release/vote/result/count/{id}', // 获取投票结果公示
   // 内容发布-操作手册
-  GET_MANUAL_LIST         : '/service-release/release/public/handbooks', //获取手册列表
-  POST_ADD_MANUAL         : '/service-release/release/handbook', // 新增手册
-  PUT_EDIT_MANUAL         : '/service-release/release/handbook/{id}', // 编辑手册
-  DELETE_MANUAL           : '/service-release/release/handbook/{id}', // 删除手册
+  GET_MANUAL_LIST        : '/service-release/release/public/handbooks', //获取手册列表
+  POST_ADD_MANUAL        : '/service-release/release/handbook', // 新增手册
+  PUT_EDIT_MANUAL        : '/service-release/release/handbook/{id}', // 编辑手册
+  DELETE_MANUAL          : '/service-release/release/handbook/{id}', // 删除手册
   // 兽医
-  GET_VETERINARYALL       : '/veterinary/veterinary/public/doctor/publicInfo/allpub', // 全部兽医
-  GET_VETERINARY          : '/veterinary/veterinary/public/doctor/publicInfo/pub/{id}/{type}',// 单个兽医
+  GET_VETERINARYALL      : '/veterinary/veterinary/public/doctor/publicInfo/allpub', // 全部兽医
+  GET_VETERINARY         : '/veterinary/veterinary/public/doctor/publicInfo/pub/{id}/{type}',// 单个兽医
 
   // 栏目管理
   GET_TITLE_MANAGE       : '/service-release/release/title/manage', //栏目管理-查询
