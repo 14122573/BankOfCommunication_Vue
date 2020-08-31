@@ -295,7 +295,7 @@ export default {
         pageSize: this.pagination.pageSize
       })
       this.$ajax.get({
-        url   : this.$api.USER_LIST_TYPE_GET.replace('{type}', '/new'),
+        url   : this.$api.USER_LIST_TYPE_GET.replace('{type}', 'new'),
         params: params
       }).then(res => {
         this.dataTable = this.$com.confirm(res, 'data.content', [])
