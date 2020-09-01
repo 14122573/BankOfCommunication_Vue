@@ -1,186 +1,76 @@
 <template>
   <div class="routerWapper">
-    <div
-      class="layoutMargin layoutPadding"
-      v-if="$route.name == '/cms/notice'"
-    >
+    <div class="layoutMargin layoutPadding" v-if="$route.name == '/cms/notice'" >
       <a-form class="protalForm" :form="farmingSearchForm">
-        <a-row
-          class="formItemLine"
-          type="flex"
-          :justify="simpleSearchForm ? 'end' : 'space-between'"
-          align="middle"
-          :gutter="simpleSearchForm ? 16 : 0"
-        >
+        <a-row class="formItemLine" type="flex" :justify="simpleSearchForm ? 'end' : 'space-between'" align="middle" :gutter="simpleSearchForm ? 16 : 0">
           <a-col span="8">
-            <a-form-item
-              class="formItem"
-              :label="simpleSearchForm ? '' : '标题'"
-              :label-col="formItemLabelCol"
-              :wrapper-col="formItemWrapperCol"
-            >
-              <a-input
-                placeholder="请输入通知公告标题"
-                v-decorator="['title']"
-              />
+            <a-form-item class="formItem" :label="simpleSearchForm ? '' : '标题'" :label-col="formItemLabelCol" :wrapper-col="formItemWrapperCol"  >
+              <a-input placeholder="请输入通知公告标题" v-decorator="['title']" />
             </a-form-item>
           </a-col>
-          <!-- <a-col span="8" v-if="!simpleSearchForm">
-            <a-form-item class='formItem' label="内容类型"  :label-col="formItemLabelCol" :wrapper-col="formItemWrapperCol">
-              <a-checkbox-group :options="searchFormOption.type" :defaultValue="defaultSearchForm.type" @change="onTypeChange" />
-            </a-form-item>
-          </a-col> -->
           <a-col span="8" v-if="!simpleSearchForm">
-            <a-form-item
-              class="formItem"
-              label="发布日期"
-              :label-col="formItemLabelCol"
-              :wrapper-col="formItemWrapperCol"
-            >
+            <a-form-item class="formItem" label="发布日期" :label-col="formItemLabelCol" :wrapper-col="formItemWrapperCol" >
               <a-range-picker v-decorator="['releaseDate', {rules: [{ type: 'array', required: false, message: '请选择时间' }]}]" />
             </a-form-item>
           </a-col>
           <a-col span="8" v-if="!simpleSearchForm">
-            <a-form-item
-              class="formItem"
-              label="关键词"
-              :label-col="formItemLabelCol"
-              :wrapper-col="formItemWrapperCol"
-            >
-              <a-input
-                placeholder="请输入关键词"
-                v-decorator="['keywords']"
-              />
+            <a-form-item class="formItem" label="关键词" :label-col="formItemLabelCol" :wrapper-col="formItemWrapperCol" >
+              <a-input placeholder="请输入关键词"  v-decorator="['keywords']" />
             </a-form-item>
           </a-col>
           <a-col span="8" v-if="!simpleSearchForm">
-            <a-form-item
-              class="formItem"
-              label="正文"
-              :label-col="formItemLabelCol"
-              :wrapper-col="formItemWrapperCol"
-            >
-              <a-input
-                placeholder="请输入正文"
-                v-decorator="['content']"
-              />
+            <a-form-item class="formItem" label="正文" :label-col="formItemLabelCol" :wrapper-col="formItemWrapperCol" >
+              <a-input placeholder="请输入正文" v-decorator="['content']" />
             </a-form-item>
           </a-col>
           <a-col span="8" v-if="!simpleSearchForm">
-            <a-form-item
-              class="formItem"
-              label="发稿人"
-              :label-col="formItemLabelCol"
-              :wrapper-col="formItemWrapperCol"
-            >
-              <a-input
-                placeholder="请输入发稿人"
-                v-decorator="['author']"
-              />
+            <a-form-item class="formItem" label="发稿人" :label-col="formItemLabelCol" :wrapper-col="formItemWrapperCol" >
+              <a-input placeholder="请输入发稿人" v-decorator="['author']" />
             </a-form-item>
           </a-col>
           <a-col span="8" class="algin-right">
             <a-button @click="reset">重置</a-button>
             <a-button type="primary" @click="getList">搜索</a-button>
-            <a-button
-              type="primary"
-              v-if="simpleSearchForm"
-              @click="showMoreSearch"
-              >更多搜索</a-button
-            >
-            <a-button
-              type="primary"
-              v-if="!simpleSearchForm"
-              @click="closeMoreSearch"
-              >简单搜索</a-button
-            >
+            <a-button type="primary" v-if="simpleSearchForm" @click="showMoreSearch" >更多搜索</a-button >
+            <a-button type="primary" v-if="!simpleSearchForm" @click="closeMoreSearch" >简单搜索</a-button >
           </a-col>
         </a-row>
       </a-form>
       <p class="gayLine"></p>
       <div class="portalTableOperates">
-        <a-button
-          icon="plus"
-          v-if="$permission('P32001')"
-          type="primary"
-          @click="goTo('create')"
-          >新建通知公告</a-button
-        >
+        <a-button icon="plus" v-if="$permission('P32001')" type="primary" @click="goTo('create')" >新建通知公告</a-button>
       </div>
-      <a-table
-        size="small"
-        class="portalTable"
-        :columns="listColumns"
-        :dataSource="knowledgeList"
-        rowKey="id"
-        :pagination="pagination"
-      >
-        <span slot="knowledgeType" slot-scope="text, record">
-          <a-tag v-if="record.type == '1'" color="pink">PDF</a-tag>
-          <a-tag v-if="record.type == '0'" color="purple">视频</a-tag>
-        </span>
-        <span slot="knowledgeStatus" slot-scope="text, record">
-          <CMSDataStatus
-            :cmsType="'knowledge'"
-            :status="record.status"
-          ></CMSDataStatus>
-        </span>
-        <span slot="operator" slot-scope="text, record">
-          <DataOperatorInList
-            :creator="!record.creator ? '' : record.creator"
-            :lastOperator="!record.operator ? '' : record.operator"
-          ></DataOperatorInList>
-        </span>
-        <span slot="action" slot-scope="text, record">
-          <span
-            class="actionBtn"
-            v-if="$permission('P33003')"
-            @click="goTo('detail', record.id)"
-            >查看<a-divider
-              v-if="$com.oneOf(record.status, ['0', '1'])"
-              type="vertical"
-          /></span>
+      <a-table size="small" class="portalTable" :columns="listColumns" :dataSource="knowledgeList" rowKey="id"  :pagination="pagination"  >
+        <template slot="knowledgeTitle" slot-scope="text, record">
+          <span>{{record.title}}</span>
+          <a-tag v-if="record.isVote == '1'" color="orange">投票结果公示</a-tag>
+        </template>
+        <template slot="knowledgeStatus" slot-scope="text, record">
+          <CMSDataStatus :cmsType="'knowledge'" :status="record.status" ></CMSDataStatus>
+        </template>
+        <template slot="operator" slot-scope="text, record">
+          <DataOperatorInList :creator="!record.creator ? '' : record.creator" :lastOperator="!record.operator ? '' : record.operator" ></DataOperatorInList>
+        </template>
+        <template slot="action" slot-scope="text, record">
+          <span class="actionBtn" v-if="$permission('P33003')" @click="goTo('detail', record.id)" >查看<a-divider v-if="$com.oneOf(record.status, ['0', '1'])" type="vertical" /></span>
           <template v-if="record.status == '0'">
-            <span
-              class="actionBtn"
-              v-if="$permission('P32001')"
-              @click="goTo('edit', record.id)"
-              >修改<a-divider type="vertical"
-            /></span>
+            <span class="actionBtn" v-if="$permission('P32001')" @click="goTo('edit', record.id)" >修改<a-divider type="vertical" /></span>
             <a-dropdown>
               <span class="actionBtn"> 更多 <a-icon type="down" /> </span>
-              <a-menu
-                slot="overlay"
+              <a-menu slot="overlay"
                 @click="
                   event => {
                     doListOpeations(event.key, record);
                   }
                 "
               >
-                <a-menu-item
-                  class="actionBtn"
-                  key="publish"
-                  v-if="$permission('P32004')"
-                >
-                  发布
-                </a-menu-item>
-                <a-menu-item
-                  class="actionBtn"
-                  key="delete"
-                  v-if="$permission('P32002')"
-                >
-                  删除
-                </a-menu-item>
+                <a-menu-item class="actionBtn" key="publish"  v-if="$permission('P32004')"> 发布 </a-menu-item>
+                <a-menu-item class="actionBtn" key="delete" v-if="$permission('P32002')" > 删除</a-menu-item>
               </a-menu>
             </a-dropdown>
           </template>
-          <span
-            class="actionBtn"
-            v-if="record.status == '1' && $permission('P32004')"
-            @click="doListOpeations('recall', record)"
-            >撤回</span
-          >
-        </span>
+          <span class="actionBtn" v-if="record.status == '1' && record.isVote == '0' && $permission('P32004')" @click="doListOpeations('recall', record)" >撤回</span>
+        </template>
       </a-table>
     </div>
     <RouterWapper v-else></RouterWapper>
@@ -211,9 +101,12 @@ export default {
       farmingSearchForm: this.$form.createForm(this),
       listColumns      : [
         {
-          title    : '标题',
-          dataIndex: 'title',
-          key      : 'title'
+          title      : '标题',
+          dataIndex  : 'title',
+          key        : 'title',
+          scopedSlots: {
+            customRender: 'knowledgeTitle'
+          }
         },
         {
           title    : '发布时间',
