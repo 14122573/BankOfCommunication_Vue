@@ -151,7 +151,11 @@ export default {
           }).then(res => {
             this.$store.commit('setLoading', false)
             if (res.code === '200') {
-              this.$message.success('添加成功！所创建的临时账户数据需等待10分钟后查询。')
+              this.$modal.success({
+                title  : '添加成功',
+                content: '本批次临时账户已进入创建队列。稍后刷新列表即可查看。',
+                okText : '确认'
+              })
               this.resetForm()
               this.$emit('on-success', true)
             }

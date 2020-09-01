@@ -85,13 +85,11 @@ export default {
   name: 'VoteEdit',
   data() {
     return {
-      voteId      : null, // null为新增模式，有值为修改模式
-      ruleType    : '0',
-      ruleNum     : 1,
-      creator     : '',
-      introduction: '',
-      description : '',
-      layout      : [
+      voteId     : null, // null为新增模式，有值为修改模式
+      ruleType   : '0',
+      ruleNum    : 1,
+      description: '',
+      layout     : [
         {
           name: {
             label   : '名称',
@@ -204,14 +202,14 @@ export default {
     }
   },
   watch: {
-    '$store.state.userInfos': {
-      handler: function(val) {
-        if(!!val){
-          this.creator = '111'//!val.username?'':val.username
-        }
-      },
-      deep: true
-    },
+    // '$store.state.userInfos': {
+    //   handler: function(val) {
+    //     if(!!val){
+    //       this.creator = !val.username?'':val.username
+    //     }
+    //   },
+    //   deep: true
+    // },
   },
   mounted() {
     const { query } = this.$route
@@ -227,8 +225,6 @@ export default {
       }).then(res => {
         const { name, creator, introduction, ruleType, ruleNum, source, startTime, endTime, description, subjects } = res.data.content
         this.description = description
-        this.creator = creator
-        this.introduction = introduction
         this.ruleType = ruleType?ruleType:'0'
         if(ruleType == '1'){
           this.ruleNum = ruleNum
@@ -237,6 +233,8 @@ export default {
           name,
           source,
           date: [ startTime, endTime ],
+          creator,
+          introduction
         }
         this.questionList = subjects
       })
