@@ -76,6 +76,9 @@ export default {
             this.list = this.$com.confirm(res, 'data.content', {})
           }
         })
+    },
+    tagClick(path) { 
+      window.location.href = path
     }
   },
 }
