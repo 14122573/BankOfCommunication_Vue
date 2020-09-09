@@ -213,10 +213,10 @@ export default {
       this.$ajax.get({
         url: this.$api.SYSTEM_LIST_ALL_GET
       }).then(res => {
-        if (res.code === '200') { 
+        if (res.code === '200') {
           const data = this.$com.confirm(res, 'data.content', [])
           let reg = /S([0-9]{4})/
-          let systemList = data.filter(e => !reg.test(e.sysCode)) 
+          let systemList = data.filter(e => !reg.test(e.sysCode))
           this.systemList = systemList.map((item) => {
             return {
               label: item.sysName,
@@ -303,7 +303,7 @@ export default {
         if (res.code === '200') {
           this.pagination.total = this.$com.confirm(res, 'data.totalRows', 0)
           this.data = this.$com.confirm(res, 'data.content', [])
-          
+
         } else {
           this.$message.error(res.msg)
         }
@@ -364,7 +364,7 @@ export default {
     },
     // 确定操作
     handleOk() {
-      this.$ajax.put({
+      this.$ajax.post({
         url: this.$api.CHECK_USER_STATUS.replace('{id}', this.modalData.id).replace('{status}', this.checkStatus).replace(
           '{type}', 'old')
       }).then(res => {
@@ -378,7 +378,7 @@ export default {
     handleResetOk() {
       this.resetData.validateFields(err => {
         if (!err) {
-          this.$ajax.put({
+          this.$ajax.post({
             url   : this.$api.USER_UPDATE_PWD,
             params: {
               id    : this.resetId,
@@ -403,18 +403,18 @@ export default {
       this.passwordStrength = false
       this.resetData.resetFields()
     },
-    
+
     /**
      * 解绑手机号
      */
-    unbundlingPhone(record){ 
+    unbundlingPhone(record){
       const _this = this
       this.$modal.confirm({
-        title     : '确定解除手机号绑定吗？', 
+        title     : '确定解除手机号绑定吗？',
         okText    : '确认',
         cancelText: '取消',
         onOk() {
-          _this.$ajax.put({
+          _this.$ajax.post({
             url   : _this.$api.PUT_UNBUILDING_OLD_PHONE.replace('{phone}', record.phone),
             params: {
               oldUserId: record.id,
@@ -422,7 +422,7 @@ export default {
             }
           }).then(res => {
             if (res.code === '200') {
-              _this.$message.success('解除绑定成功！') 
+              _this.$message.success('解除绑定成功！')
               _this.getList()
             }
           })
@@ -440,7 +440,7 @@ export default {
           // Object.keys(searchParams.params).forEach(elem => {
           //   this.searchForm[elem] = searchParams.params[elem]
           // })
-          this.searchForm = JSON.parse(JSON.stringify(searchParams.params)) 
+          this.searchForm = JSON.parse(JSON.stringify(searchParams.params))
         }
         if(!!searchParams.pagination){
           if(!!searchParams.pagination.pageNo && searchParams.pagination.pageNo!=1){

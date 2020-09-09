@@ -178,7 +178,7 @@ export default {
           if(this.baseType=='3'){
             putParams.lv = this.editForm.getFieldValue('lv')
           }
-          this.$ajax.put({
+          this.$ajax.post({
             url   : this.$api.PUT_EXPERT_BASE.replace('{id}', this.item.id),
             params: putParams
           }).then(res => {

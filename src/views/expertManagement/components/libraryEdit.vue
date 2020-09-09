@@ -159,11 +159,11 @@
                 </a-col>
               </a-row> -->
             </div>
-          </a-form>   
+          </a-form>
           <jobStudy ref="jobStudy" class="marginRef" :options="options" :colSpa="colSpa" :textSpa="textSpa"/>
           <jobSpace ref="jobSpace" class="marginRef" :isExpert="isExpert" :options="options" :colSpa="colSpa" :textSpa="textSpa" />
         </div>
-        
+
       </div>
       <!-- <div class="target">
         <div class="icon" v-show="changeSmall">
@@ -180,7 +180,7 @@
           <a-anchor-link v-if="isExpert" href="#management" title="相关管理信息" />
         </a-anchor>
       </div> -->
-    </div> 
+    </div>
 
 		<a-modal :visible="previewVisible"  style="text-align:center" :width="600" :footer="null" @cancel="previewVisible = false">
 			<img alt="一寸照" style="width: 80%;height:auto" :src="previewImage" />
@@ -618,7 +618,7 @@ export default {
       let link, msg, methods
       if (this.currentId) {
         link = this.$api.EXPORT_TYPE_EDIT.replace('{experId}', this.currentId)
-        methods = 'put'
+        methods = 'post'
         msg = '修改成功！'
       } else {
         link = this.$api.EXPORT_TYPE
@@ -690,7 +690,7 @@ export default {
                 }else{
                   item.date = [ date[0] ? this.changeDateData(date[0]) : null, date[1] ? this.changeDateData(date[1]) : null ]
                 }
-                
+
                 this.$delete(item, 'index')
               }
               return item
@@ -821,7 +821,7 @@ export default {
         for(let i=0;i<jobStudy.workExperience.length;i++){
           jobStudy.workExperience[i].date=workExperienceDate[i]
         }
-        
+
         jobSpace.researchDirection=this.$refs.jobSpace.researchDirectionTags.join('、')
         jobSpace.topicWord=this.$refs.jobSpace.topicWordTags.join('、')
         const data = Object.assign({},
@@ -871,7 +871,7 @@ export default {
           if((data[0].type==undefined ||data[0].type=='')&&(data[0].content==undefined ||data[0].content=='')&&(data[0].date==undefined ||data[0].date=='')){
             return true
           }else if(data[0].type &&data[0].content &&data[0].date){
-            return true   
+            return true
           }else{
             return false
           }

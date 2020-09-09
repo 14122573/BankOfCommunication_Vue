@@ -123,7 +123,7 @@ export default {
       this.pagination.current = current
       this.getList()
     },
-    
+
     /**
      * @description 获取当前所有的栏目名称
      */
@@ -148,38 +148,34 @@ export default {
     handleResetOk() {
       this.resetData.validateFields(err => {
         if (!err) {
-          this.$ajax
-            .put({
-              url: this.$api.PUT_TITLE_MANAGE.replace(
-                '{id}',
-                this.modifySection.idToIdentify
-              ),
-              params: {
-                titleName: this.resetData.getFieldValue('newSectionName')
-              }
-            })
-            .then(res => {
-              if (res.code === '200') {
-                this.$message.success('修改栏目名称成功')
-                this.resetData.setFieldsValue({ newSectionName: '' })
-                // this.addStorage({id: this.modifySection.idToIdentify, titleName: this.resetData.getFieldValue('newSectionName')})
-                this.$ajax
-                  .get({
-                    url: this.$api.GET_PUB_TITLE_MANAGE
-                  })
-                  .then(res => {
-                    if (res.code == '200') { 
-                      let content = this.$com.confirm(res, 'data.content', {})
-                      localStorage.setItem(
-                        'titleList',
-                        JSON.stringify(content)
-                      )
-                    }
-                  })
-                this.handleCancel()
-                this.getList()
-              }
-            })
+          this.$ajax.post({
+            url: this.$api.PUT_TITLE_MANAGE.replace(
+              '{id}',
+              this.modifySection.idToIdentify
+            ),
+            params: {
+              titleName: this.resetData.getFieldValue('newSectionName')
+            }
+          }).then(res => {
+            if (res.code === '200') {
+              this.$message.success('修改栏目名称成功')
+              this.resetData.setFieldsValue({ newSectionName: '' })
+              // this.addStorage({id: this.modifySection.idToIdentify, titleName: this.resetData.getFieldValue('newSectionName')})
+              this.$ajax.get({
+                url: this.$api.GET_PUB_TITLE_MANAGE
+              }).then(res => {
+                if (res.code == '200') {
+                  let content = this.$com.confirm(res, 'data.content', {})
+                  localStorage.setItem(
+                    'titleList',
+                    JSON.stringify(content)
+                  )
+                }
+              })
+              this.handleCancel()
+              this.getList()
+            }
+          })
         } else {
           this.$com.getFormValidErrTips(this, err)
         }

@@ -430,7 +430,7 @@ export default {
           }
         })
       })
-      this.$ajax.put({
+      this.$ajax.post({
         url   : this.$api.EXPORT_TYPE_EDIT.replace( '{experId}', this.expertId ),
         params: data
       }).then(res => {

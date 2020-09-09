@@ -100,7 +100,7 @@ export default {
     handleResetOk() {
       this.resetData.validateFields(err => {
         if (!err) {
-          this.$ajax.put({
+          this.$ajax.post({
             url   : this.$api.PUT_PERSONAL_RESET_PWD,
             params: {
               old     : encryptDes(this.resetData.getFieldValue('oldPwd')),

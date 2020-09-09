@@ -89,7 +89,7 @@
 
           <div class="layoutMargin detailsPartSection">
             <p class="detailsPartTitle">养殖技术正文内容</p>
-            <div style="margin:0 16px;"> 
+            <div style="margin:0 16px;">
                <UeditorCompent ref="ue" :value="formData.content" ></UeditorCompent>
             </div>
           </div>
@@ -103,7 +103,7 @@
 .iconButton{ padding:3px 6px}
 </style>
 <script>
-import FileUpload from '@/components/Upload/fileUpload' 
+import FileUpload from '@/components/Upload/fileUpload'
 import UeditorCompent from '@/components/theThreeParty/ueditor.vue'
 export default {
   components: {
@@ -204,7 +204,7 @@ export default {
       }).then(res => {
         if(res.code =='200'){
           this.farmingDetails = this.$com.confirm(res, 'data.content', {})
-           
+
           // 初始化修改表单内容
           this.$nextTick(function () {
             this.formData.content = !this.farmingDetails.content?'':this.farmingDetails.content
@@ -213,8 +213,8 @@ export default {
             if(Array.isArray(this.farmingDetails.attachments)){
               for(let i=0;i<this.farmingDetails.attachments.length;i++){
                 switch (this.farmingDetails.attachments[i].type) {
-                case '1': // 为文件上传的附件类型 
-                  
+                case '1': // 为文件上传的附件类型
+
                   that.uploadFileList.default.push({
                     uid   : '-'+(i+1),
                     name  : !this.farmingDetails.attachments[i].fileName?'none':this.farmingDetails.attachments[i].fileName,
@@ -233,7 +233,7 @@ export default {
                 }
               }
             }
- 
+
 
             this.farmingEditForm.setFieldsValue({
               title       : this.farmingDetails.title,
@@ -292,9 +292,9 @@ export default {
             'status'       : type=='save' || type == 'saveNcreate' ? '0' : '1',
             'titleName'    : '养殖技术',
             'titleManageId': this.$titleId.farmingId
-          }) 
+          })
 
-          this.$ajax.put({
+          this.$ajax.post({
             url   : this.$api.PUT_ANNOUNCE_MODIFY.replace('{id}', this.id),
             params: postParams
           }).then(res => {

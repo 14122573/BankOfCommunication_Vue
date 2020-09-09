@@ -115,7 +115,7 @@ export default {
       this.$refs.form.validate(err => {
         if (err) return
         const { newPhone, phoneCode } = this.model
-        this.$ajax.put({
+        this.$ajax.post({
           url: this.$api.PUT_USER_PHONE.replace('{phone}', newPhone).replace('{code}', phoneCode)
         }).then(res => {
           this.$modal.success({

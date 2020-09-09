@@ -110,6 +110,10 @@ export default {
   text-align: left;
   line-height: 30px;
 }
+
+.content img{
+  max-width: 100%;
+}
 </style>
 
 <style lang="stylus">

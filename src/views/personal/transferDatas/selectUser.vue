@@ -130,7 +130,7 @@ export default {
     toTransfer(targetUser){
       const hasAuth = this.checkAuthCode(targetUser.permKey)
       if(hasAuth){
-        this.$ajax.put({
+        this.$ajax.post({
           url   : this.$api.PUT_DECLARATION_TRANSFER,
           params: {
             targetUserId: targetUser.id,
@@ -164,7 +164,7 @@ export default {
         return false
       }
       let unInNum = 0
-      this.needsAuthCodes.forEach(code => { 
+      this.needsAuthCodes.forEach(code => {
         if(!userCodesArray.includes(code)){
           unInNum ++
         }

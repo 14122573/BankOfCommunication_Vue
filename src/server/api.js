@@ -65,13 +65,13 @@ export default {
   // 系统配置
   // 系统配置 -- 权限配置管理
   POST_PREMSBRANCH            : '/service-permission/perm/perm', //单个新增权限分支
-  PUT_PREMSBRANCH             : '/service-permission/perm/perm/{id}', //修改权限分支
-  DELETE_PREMSBRANCH          : '/service-permission/perm/perm/{id}', //删除权限分支
+  PUT_PREMSBRANCH             : '/service-permission/perm/permP/{id}', //修改权限分支
+  DELETE_PREMSBRANCH          : '/service-permission/perm/permD/{id}', //删除权限分支
   GET_PREMSPOINT_LIST         : '/service-permission/perm/points', //获取功能点清单
   POST_PREMSPOINT             : '/service-permission/perm/point', //单个添加功能点
   POST_PREMSPOINT_BATCH       : '/service-permission/perm/point/batch', //批量添加功能点
-  PUT_PREMSPOINT              : '/service-permission/perm/point/{id}', //修改功能点
-  DELETE_PREMSPOINT           : '/service-permission/perm/point/{id}', //删除功能点
+  PUT_PREMSPOINT              : '/service-permission/perm/pointP/{id}', //修改功能点
+  DELETE_PREMSPOINT           : '/service-permission/perm/pointD/{id}', //删除功能点
   GET_CHECK_POINTCODE_EXIT    : '/service-permission/perm/pointKey/repeat', //确认功能码是否已存在
   // 系统配置 -- 角色管理
   GET_ROLE_LIST               : '/service-permission/perm/roles', //获取角色列表
@@ -79,49 +79,50 @@ export default {
   GET_ALL_ROLE                : '/service-permission/perm/menu/tree', //获取权限
   ADD_ROLE_POST               : '/service-permission/perm/role', // 新增角色
   ROLE_DETAIL                 : '/service-permission/perm/roles/{id}', // 查询角色权限
-  PUT_CHARACTER               : '/service-permission/perm/role/{id}', //编辑角色
-  DELETE_CHARACTER            : '/service-permission/perm/role/{id}', //删除角色
+  GET_CHARACTER               : '/service-permission/perm/role/{id}', //查看角色
+  PUT_CHARACTER               : '/service-permission/perm/roleP/{id}', //编辑角色
+  DELETE_CHARACTER            : '/service-permission/perm/roleD/{id}', //删除角色
   USER_LIST_TYPE_GET          : '/service-user/user/accounts/{type}', // 用户{type} old老用户列表   new-新用户列表
   SYSTEM_LIST_ALL_GET         : '/service-user/user/systems', //查询系统列表
   CHECK_USER_STATUS           : '/service-user/user/acct/{id}/status/{status}/{type}', //切换用户状态
   GET_AREA_NEXT               : '/service-user/user/area/next', //获取下级地区
   GET_PUBLIC_AREA_NEXT        : '/service-user/user/public/areas', //获取下级地区(无需登录)
-  USER_ACCOUNT_DETAIL         : '/service-user/user/account/{id}', //待分配权限详情
+  // USER_ACCOUNT_DETAIL         : '/service-user/user/account/{id}', //待分配权限详情
   GET_ORGANIZATION_LIST       : '/service-permission/perm/groups', //组织机构列表
   CONFIG_ROLES_TO_USER        : '/service-user/user/config/roles', //给用户分配权限
   USER_UPDATE_PWD             : '/service-user/user/update/pwd', //管理员修改密码
   POST_ADD_USER               : '/service-user/user/account', //管理员新增用户
   GET_USER_DETAIL             : '/service-user/user/account/{id}', //新用户详情
-  PUT_USER_LIST               : '/service-user/user/account/{id}', //新用户修改
+  PUT_USER_LIST               : '/service-user/user/accountP/{id}', //新用户修改
   GET_EXPORT_USER_LIST        : BASE_URL+'/service-user/user/export/users', //新用户导出
   POST_ADD_ORGANIZATION_LIST  : '/service-permission/perm/group', //新增组织机构
-  PUT_EDIT_ORGANIZATION_LIST  : '/service-permission/perm/group/{id}', //修改组织机构
-  DELETE_ORGANIZATION_LIST    : '/service-permission/perm/group/{id}', //删除组织机构
+  PUT_EDIT_ORGANIZATION_LIST  : '/service-permission/perm/groupP/{id}', //修改组织机构
+  DELETE_ORGANIZATION_LIST    : '/service-permission/perm/groupD/{id}', //删除组织机构
   GET_ORGANIZATION_LIST_DETAIL: '/service-permission/perm/group/{id}', //组织机构详情
   GET_USER_PERMS              : '/service-permission/perm/user/perms', // 获取用户权限点
   //系统管理 -- 行政区划维护
   POST_ADD_AREA               : '/service-user/user/area', //新增行政区
-  PUT_REVISE_AREA             : '/service-user/user/area/{id}', //修改行政区
-  DELETE_AREA                 : '/service-user/user/area/{id}', //删除行政区
+  PUT_REVISE_AREA             : '/service-user/user/areaP/{id}', //修改行政区
+  DELETE_AREA                 : '/service-user/user/areaD/{id}', //删除行政区
 
   // 系统配置 -- 用户管理 -- 临时账号管理
   GET_TEMPACCOUT_BATCH_LIST    : '/service-user/user/temp/acct/batch', //批次列表
   POST_TEMPACCOUT_CREATE       : '/service-user/user/temp/accounts', //批量添加临时账号
-  PUT_TEMPACCOUT_BATCH_CREATE  : '/service-user/user/temp/acct/produce', //生成临时数据批次
+  // PUT_TEMPACCOUT_BATCH_CREATE  : '/service-user/user/temp/acct/produce', //生成临时数据批次
   GET_TEMPACCOUT_EXCEL_BY_BATCH: '/service-user/user/export/temp/acct?batch={batchids}&token={token}', //导出临时账号
   GET_TEMPACCOUT_LIST          : '/service-user/user/temp/accounts', //临时账号列表
-  DELETE_TEMPACCOUT            : '/service-user/user/temp/account?ids={ids}', //批量删除临时账户
+  DELETE_TEMPACCOUT            : '/service-user/user/temp/accountD?ids={ids}', //批量删除临时账户
 
   // 系统配置 --- 基础信息
   GET_SYSBASICINFO_BREED_LIST       : '/service-expert/expert/breed', // 获取水产品种大类列表
   POST_SYSBASICINFO_BREED           : '/service-expert/expert/breed', //新增水产品种大类
-  PUT_SYSBASICINFO_BREED            : '/service-expert/expert/breed/{id}', //修改水产品种大类
-  DELETE_SYSBASICINFO_BREED         : '/service-expert/expert/breed/{id}', //删除水产品种大类
+  PUT_SYSBASICINFO_BREED            : '/service-expert/expert/breedP/{id}', //修改水产品种大类
+  DELETE_SYSBASICINFO_BREED         : '/service-expert/expert/breedD/{id}', //删除水产品种大类
   // 专家管理
   GET_EXPERT_BASE_LIST              : '/service-expert/expert/dictionary/{type}', //专家字典信息列表接口，type: 0-民族 1-单位性质 2-职务 3-职称 4-学历 5-学位 6-工作领域 7-专业组别 8-研究方向
   POST_EXPERT_BASE                  : '/service-expert/expert/dictionary', //新增专家字典信息列表接口，
-  PUT_EXPERT_BASE                   : '/service-expert/expert/dictionary/{id}', //修改专家字典信息列表接口，
-  DELETE_EXPERT_BASE                : '/service-expert/expert/dictionary/{id}', //删除专家字典信息列表接口，
+  PUT_EXPERT_BASE                   : '/service-expert/expert/dictionaryP/{id}', //修改专家字典信息列表接口，
+  DELETE_EXPERT_BASE                : '/service-expert/expert/dictionaryD/{id}', //删除专家字典信息列表接口，
   GET_EXPERT_PROF_LV                : '/service-expert/expert/prof/lv', // 获取专家库职称级别列表
   GET_JOB_TITLE_TREE                : '/service-expert/expert/prof/tree', //职称树形结构
   GET_EXPERT_LIST                   : '/service-expert/expert/expert', //专家库列表
@@ -131,61 +132,61 @@ export default {
   PUT_CHANGE_EXPERT                 : '/service-user/user/become/expert', //成为专家
   GET_USER_EXPERT_LIST              : '/service-user/user/accounts/new/expert',
   IMPORT_EXPERT_ALL                 : '/service-expert/expert/expert/import', //专家库导入
-  EXPORT_TYPE_EDIT                  : '/service-expert/expert/expert/{experId}',
+  EXPORT_TYPE_EDIT                  : '/service-expert/expert/expertP/{experId}', // 修改专家人员
   UPLOAD_TEMP                       : '/zuul/service-file/file/upload/1/temp', //上传图片
   TEMPLAT_DOWNLOAD_EXPERT_AND_TALENT: '/template/导入模版.xlsx', //专家库人才库导入模板下载
 
   // 内容发布
   // 如果是本地开发的话会跨域，故设置了webpack代理，具体设置在/config/index.js的dev.proxyTable中
-  GET_UEDITOR_SERVICE_URL : (process.env.NODE_ENV === 'development' ? '/ueditorDevBase' : BASE_URL)+'/service-release/release/public/ueditor/execute', //ueditor 文件上传配置service_url地址
+  GET_UEDITOR_SERVICE_URL: (process.env.NODE_ENV === 'development' ? '/ueditorDevBase' : BASE_URL)+'/service-release/release/public/ueditor/execute', //ueditor 文件上传配置service_url地址
   // 内容发布-知识库
-  GET_CMS_KNOWLEDGE_LIST  : '/service-release/release/public/knowledge', //获取知识库文档列表
-  POST_CMS_KNOWLEDGE      : '/service-release/release/knowledge', //新建知识文档
-  GET_CMS_KNOWLEDGE_DETAIL: '/service-release/release/public/knowledge/{id}', //获取知识库详情信息
-  PUT_CMS_KNOWLEDGE_DETAIL: '/service-release/release/knowledge/{id}', //修改知识库详情信息
-  DELETE_CMS_KNOWLEDGE    : '/service-release/release/knowledge/{id}', //删除单条知识库文档
-  PUT_CMS_KNOWLEDGE_STATUS: '/service-release/release/knowledge/{id}/{status}', //修改单条知识库文档状态
+  GET_CMS_KNOWLEDGE_LIST : '/service-release/release/public/knowledge', //获取知识库文档列表
+  // POST_CMS_KNOWLEDGE      : '/service-release/release/knowledge', //新建知识文档
+  // GET_CMS_KNOWLEDGE_DETAIL: '/service-release/release/public/knowledge/{id}', //获取知识库详情信息
+  // PUT_CMS_KNOWLEDGE_DETAIL: '/service-release/release/knowledge/{id}', //修改知识库详情信息
+  // DELETE_CMS_KNOWLEDGE    : '/service-release/release/knowledge/{id}', //删除单条知识库文档
+  // PUT_CMS_KNOWLEDGE_STATUS: '/service-release/release/knowledge/{id}/{status}', //修改单条知识库文档状态
   // 内容发布-通知公告
-  GET_CMS_NOTICE_LIST     : '/service-release/release/public/news', //获取通知公告列表
-  POST_CMS_NOTICE         : '/service-release/release/news', //新建通知公告
-  GET_CMS_NOTICE_DETAIL   : '/service-release/release/public/news/{id}', //获取通知公告详情信息
-  PUT_CMS_NOTICE_DETAIL   : '/service-release/release/news/{id}', //修改通知公告详情信息
-  DELETE_CMS_NOTICE       : '/service-release/release/news/{id}', //删除单条通知公告文档
-  PUT_CMS_NOTICE_STATUS   : '/service-release/release/news/{id}/{status}', //修改单条通知公告状态
-  PUT_CMS_NOTICE_PLACEMENT: '/service-release/release/news/top/{id}/{top}', //置顶通知公告，top（是否置顶）： 0-否 1-是
+  GET_CMS_NOTICE_LIST    : '/service-release/release/public/news', //获取通知公告列表
+  POST_CMS_NOTICE        : '/service-release/release/news', //新建通知公告
+  GET_CMS_NOTICE_DETAIL  : '/service-release/release/public/news/{id}', //获取通知公告详情信息
+  // PUT_CMS_NOTICE_DETAIL   : '/service-release/release/news/{id}', //修改通知公告详情信息
+  // DELETE_CMS_NOTICE       : '/service-release/release/news/{id}', //删除单条通知公告文档
+  // PUT_CMS_NOTICE_STATUS   : '/service-release/release/news/{id}/{status}', //修改单条通知公告状态
+  // PUT_CMS_NOTICE_PLACEMENT: '/service-release/release/news/top/{id}/{top}', //置顶通知公告，top（是否置顶）： 0-否 1-是
   // 内容发布-投票管理
-  GET_VOTE_LIST           : '/service-release/release/public/vote', // 获取投票列表
-  POST_ADD_VOTE           : '/service-release/release/vote', // 新增投票
-  GET_VOTE_DETAIL         : '/service-release/release/public/vote/{id}', // 获取投票详情
-  GET_VOTE_VIEW           : '/service-release/release/public/vote/result/{id}', // 查看投票信息
-  PUT_EDIT_VOTE           : '/service-release/release/vote/{id}', // 修改投票
-  DELETE_VOTE             : '/service-release/release/vote/{id}', // 删除投票
-  PUT_VOTE_STATUS         : '/service-release/release/vote/{id}/{status}', // 修改投票的状态
-  GET_VOTE_RESULT         : '/service-release/release/vote/result/count/{id}', // 获取投票结果公示
+  GET_VOTE_LIST          : '/service-release/release/public/vote', // 获取投票列表
+  POST_ADD_VOTE          : '/service-release/release/vote', // 新增投票
+  GET_VOTE_DETAIL        : '/service-release/release/public/vote/{id}', // 获取投票详情
+  GET_VOTE_VIEW          : '/service-release/release/public/vote/result/{id}', // 查看投票信息
+  PUT_EDIT_VOTE          : '/service-release/release/voteP/{id}', // 修改投票
+  DELETE_VOTE            : '/service-release/release/voteD/{id}', // 删除投票
+  PUT_VOTE_STATUS        : '/service-release/release/vote/{id}/{status}', // 修改投票的状态
+  GET_VOTE_RESULT        : '/service-release/release/vote/result/count/{id}', // 获取投票结果公示
   // 内容发布-操作手册
-  GET_MANUAL_LIST         : '/service-release/release/public/handbooks', //获取手册列表
-  POST_ADD_MANUAL         : '/service-release/release/handbook', // 新增手册
-  PUT_EDIT_MANUAL         : '/service-release/release/handbook/{id}', // 编辑手册
-  DELETE_MANUAL           : '/service-release/release/handbook/{id}', // 删除手册
+  GET_MANUAL_LIST        : '/service-release/release/public/handbooks', //获取手册列表
+  POST_ADD_MANUAL        : '/service-release/release/handbook', // 新增手册
+  PUT_EDIT_MANUAL        : '/service-release/release/handbookP/{id}', // 编辑手册
+  DELETE_MANUAL          : '/service-release/release/handbookD/{id}', // 删除手册
   // 兽医
-  GET_VETERINARYALL       : '/veterinary/veterinary/public/doctor/publicInfo/allpub', // 全部兽医
-  GET_VETERINARY          : '/veterinary/veterinary/public/doctor/publicInfo/pub/{id}/{type}',// 单个兽医
+  GET_VETERINARYALL      : '/veterinary/veterinary/public/doctor/publicInfo/allpub', // 全部兽医
+  GET_VETERINARY         : '/veterinary/veterinary/public/doctor/publicInfo/pub/{id}/{type}',// 单个兽医
 
   // 栏目管理
-  GET_TITLE_MANAGE       : '/service-release/release/title/manage', //栏目管理-查询
-  GET_PUB_TITLE_MANAGE   : '/service-release/release/public/title/manage',
-  PUT_TITLE_MANAGE       : '/service-release/release/title/manage/{id}', //栏目管理-修改
-  GET_TITLE_MANAGE_SINGLE: '/service-release/release/title/manage/{id}', //栏目管理-查询-单Id查询
+  GET_TITLE_MANAGE    : '/service-release/release/title/manage', //栏目管理-查询
+  GET_PUB_TITLE_MANAGE: '/service-release/release/public/title/manage',
+  PUT_TITLE_MANAGE    : '/service-release/release/title/manageP/{id}', //栏目管理-修改
+  // GET_TITLE_MANAGE_SINGLE: '/service-release/release/title/manage/{id}', //栏目管理-查询-单Id查询
 
   // // 轮播图
   GET_BANNER_LIST        : '/service-release/release/banner/chart',  //轮播图-查询
   GET_PUB_BANNER_LIST    : '/service-release/release/public/banner/chart',
   GET_BANNER_DETAIL      : '/service-release/release/banner/chart/{id}', //轮播图-查看-详情
-  DELETE_BANNER          : '/service-release/release/banner/chart/{id}', // 轮播图-删除
-  PUT_BANNER             : '/service-release/release/banner/chart/{id}', //轮播图-修改
+  DELETE_BANNER          : '/service-release/release/banner/chartD/{id}', // 轮播图-删除
+  PUT_BANNER             : '/service-release/release/banner/chartP/{id}', //轮播图-修改
   POST_BANNER            : '/service-release/release/banner/chart', //轮播图-新增
   GET_BANNER_SORT        : '/service-release/release/banner/group', //轮播图-排序-查询可排序数据
-  PUT_BANNER_SORT        : '/service-release/release/banner/group', // 轮播图-排序-添加排序顺序
+  PUT_BANNER_SORT        : '/service-release/release/banner/groupP', // 轮播图-排序-添加排序顺序
   PUT_BANNER_SORT_REMOVE : '/service-release/release/banner/group/{id}', // 轮播图-排序-删除指定轮播图排列顺序
   // 公告
   GET_ANNOUNCE_LIST      : '/service-release/release/news', //列表（需登录）
@@ -193,8 +194,8 @@ export default {
   GET_PUB_ANNOUNCE_LIST  : '/service-release/release/public/news', //列表
   GET_PUB_ANNOUNCE_DETAIL: '/service-release/release/public/news/{id}', //明细
   POST_ADD_ANNOUNCE      : '/service-release/release/news', //新增
-  PUT_ANNOUNCE_TOP       : '/service-release/release/news/top/{id}/{top}', //置顶
-  PUT_ANNOUNCE_MODIFY    : '/service-release/release/news/{id}', //修改
+  // PUT_ANNOUNCE_TOP       : '/service-release/release/news/top/{id}/{top}', //置顶
+  PUT_ANNOUNCE_MODIFY    : '/service-release/release/newsP/{id}', //修改
   DELETE_ANNOUNCE        : '/service-release/release/news/{id}', //删除
   PUT_ANNOUNCE_STATUS    : '/service-release/release/news/{id}/{status}', //修改状态
   POST_VOTE              : '/service-release/release/public/vote/result/{id}', //投票

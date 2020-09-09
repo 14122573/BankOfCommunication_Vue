@@ -213,7 +213,7 @@ export default {
             if(values.roleIds!=''){
               values.roleIds += ','
             }
-          } 
+          }
           values.roleIds += (needSaveRoldIDsOrg.map(ele => {
             return ele.key
           })).join(',')
@@ -229,63 +229,63 @@ export default {
           values.roleNames += (needSaveRoldIDsOrg.map(ele => {
             return ele.label
           })).join(',')
-          console.log(values)
-          // if (!this.$route.query.id) {
-          //   this.$ajax.post({
-          //     url   : this.$api.POST_ADD_USER,
-          //     params: values
-          //   }).then(res => {
-          //     if (res.code == '200') {
-          //       const _this=this
-          //       this.$modal.confirm({
-          //         title: '新增成功！是否继续完善人员信息？',
-          //         type : 'success',
-          //         icon : 'check-circle',
-          //         onOk() {
-          //           _this.$router.push({
-          //             name : '/systemManagement/administrator/edit',
-          //             query: {
-          //               id        : res.data.content,
-          //               loginPhone: _this.searchForm.getFieldValue('phone'),
-          //             }
-          //           })
-          //         },
-          //         onCancel() {
-          //           _this.$router.push({
-          //             name: '/systemManagement/administrator'
-          //           })
-          //         },
-          //       })
-          //     }
-          //   })
-          // } else {
-          //   if (this.fromCenter) {
-          //     // 如果是用户中心-基本信息过来修改的则用此接口
-          //     this.$ajax.put({
-          //       url   : this.$api.PUT_EDIT_USER,
-          //       params: values,
-          //     }).then(res => {
-          //       this.$modal.success({
-          //         title  : '成功',
-          //         content: '修改成功',
-          //         okText : '确认',
-          //       })
-          //       this.$nextTick(() => this.$router.back())
-          //     })
-          //     return
-          //   }
-          //   this.$ajax.put({
-          //     url   : this.$api.PUT_USER_LIST.replace('{id}', this.$route.query.id),
-          //     params: values
-          //   }).then(res => {
-          //     if (res.code == '200') {
-          //       this.$message.success('修改成功！')
-          //       this.$router.push({
-          //         name: '/systemManagement/administrator'
-          //       })
-          //     }
-          //   })
-          // }
+
+          if (!this.$route.query.id) {
+            this.$ajax.post({
+              url   : this.$api.POST_ADD_USER,
+              params: values
+            }).then(res => {
+              if (res.code == '200') {
+                const _this=this
+                this.$modal.confirm({
+                  title: '新增成功！是否继续完善人员信息？',
+                  type : 'success',
+                  icon : 'check-circle',
+                  onOk() {
+                    _this.$router.push({
+                      name : '/systemManagement/administrator/edit',
+                      query: {
+                        id        : res.data.content,
+                        loginPhone: _this.searchForm.getFieldValue('phone'),
+                      }
+                    })
+                  },
+                  onCancel() {
+                    _this.$router.push({
+                      name: '/systemManagement/administrator'
+                    })
+                  },
+                })
+              }
+            })
+          } else {
+            if (this.fromCenter) {
+              // 如果是用户中心-基本信息过来修改的则用此接口
+              this.$ajax.post({
+                url   : this.$api.PUT_EDIT_USER,
+                params: values,
+              }).then(res => {
+                this.$modal.success({
+                  title  : '成功',
+                  content: '修改成功',
+                  okText : '确认',
+                })
+                this.$nextTick(() => this.$router.back())
+              })
+              return
+            }
+            this.$ajax.post({
+              url   : this.$api.PUT_USER_LIST.replace('{id}', this.$route.query.id),
+              params: values
+            }).then(res => {
+              if (res.code == '200') {
+                this.$message.success('修改成功！')
+                this.$router.push({
+                  name: '/systemManagement/administrator'
+                })
+              }
+            })
+          }
         } else {
           this.$com.getFormValidErrTips(this, err)
         }
@@ -382,7 +382,6 @@ export default {
         url   : this.$api.GET_CHOOSE_ROLE_LIST,
         params: sparams
       }).then(res => {
-        console.log(res)
         this.roleList = this.$com.confirm(res, 'data.content', [])
         if (this.$route.query.id) {
           this.getDetail()
@@ -408,7 +407,7 @@ export default {
         this.$ajax.get({
           url: this.$api.ROLE_DETAIL.replace('{id}', params)
         }).then(res => {
-          if (res.code === '200') {
+          if (res.code === '200') { 
             const data = res.data.content
             for(let i=0;i<data.length;i++){
               this.checkedKeys.push(data[i].id)
@@ -423,7 +422,6 @@ export default {
       this.$ajax.get({
         url: this.$api.GET_USER_DETAIL.replace('{id}', this.$route.query.id)
       }).then(res => {
-        console.log(res)
         this.detail = res.data.content
         if (this.detail.area != null) {
           // if (!this.isAdminator) {

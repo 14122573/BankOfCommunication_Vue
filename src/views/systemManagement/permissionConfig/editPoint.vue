@@ -197,7 +197,7 @@ export default {
             'pointName': this.pointEditForm.getFieldValue('pointName'),
             'pointKey' : (!this.editForm.type?'':this.editForm.type)+this.pointEditForm.getFieldValue('pointKey'),
           })
-          this.$ajax.put({
+          this.$ajax.post({
             url   : this.$api.PUT_PREMSPOINT.replace('{id}', this.pointDetail.id),
             params: putParams
           }).then(res => {

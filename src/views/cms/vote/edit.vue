@@ -21,7 +21,7 @@
                 </a-radio>
                 <a-radio value="1">
                   限制投票次数
-                  <template v-if="ruleType === '1'">最大为 
+                  <template v-if="ruleType === '1'">最大为
                     <a-input-number :precision="0" :min='1' :max="1000" v-model="ruleNum" placeholder="请输入"/> 次
                   </template>
                 </a-radio>
@@ -30,7 +30,7 @@
             <div style="display:flex;">
               <span class="formLabel" style="width:150px;text-align:right;color:#333;">正文：</span>
               <UeditorCompent ref="ue" :value="description" ></UeditorCompent>
-            </div> 
+            </div>
           </ActiveForm>
         </div>
       </div>
@@ -85,13 +85,11 @@ export default {
   name: 'VoteEdit',
   data() {
     return {
-      voteId      : null, // null为新增模式，有值为修改模式
-      ruleType    : '0',
-      ruleNum     : 1,
-      creator     : '',
-      introduction: '',
-      description : '',
-      layout      : [
+      voteId     : null, // null为新增模式，有值为修改模式
+      ruleType   : '0',
+      ruleNum    : 1,
+      description: '',
+      layout     : [
         {
           name: {
             label   : '名称',
@@ -101,7 +99,7 @@ export default {
               rules: [ { required: true, message: '请输入名称' } ]
             }
           },
-        }, 
+        },
         {
           source: {
             label   : '来源',
@@ -141,7 +139,7 @@ export default {
             type    : 'textarea',
             width   : 16,
             validate: {
-              rules: [ 
+              rules: [
                 { required: true, message: '请输入250个字以内的简介' },
                 { max: 250, message: '简介内容不可超过250字' },
               ]
@@ -204,14 +202,14 @@ export default {
     }
   },
   watch: {
-    '$store.state.userInfos': {
-      handler: function(val) {
-        if(!!val){
-          this.creator = '111'//!val.username?'':val.username
-        }
-      },
-      deep: true
-    },
+    // '$store.state.userInfos': {
+    //   handler: function(val) {
+    //     if(!!val){
+    //       this.creator = !val.username?'':val.username
+    //     }
+    //   },
+    //   deep: true
+    // },
   },
   mounted() {
     const { query } = this.$route
@@ -224,25 +222,25 @@ export default {
     getDetail() { //修改的时候获取数据
       this.$ajax.get({
         url: this.$api.GET_VOTE_DETAIL.replace('{id}', this.voteId)
-      }).then(res => {  
+      }).then(res => {
         const { name, creator, introduction, ruleType, ruleNum, source, startTime, endTime, description, subjects } = res.data.content
         this.description = description
-        this.creator = creator
-        this.introduction = introduction
         this.ruleType = ruleType?ruleType:'0'
-        if(ruleType == '1'){ 
-          this.ruleNum = ruleNum 
+        if(ruleType == '1'){
+          this.ruleNum = ruleNum
         }
         this.model = {
-          name, 
+          name,
           source,
           date: [ startTime, endTime ],
+          creator,
+          introduction
         }
         this.questionList = subjects
       })
     },
-    handleChange(e){ 
-      // this.result = e.target.value 
+    handleChange(e){
+      // this.result = e.target.value
     },
     addNewQuestion() {
       if (this.checkIsEditing()) return
@@ -373,8 +371,8 @@ export default {
     },
     saveData(status) {
       if (this.checkIsEditing()) return
-      this.$refs.basicForm.validate(err => { 
-        
+      this.$refs.basicForm.validate(err => {
+
         if (err) return
 
         this.model.description = this.$refs.ue.value2
@@ -408,7 +406,7 @@ export default {
         let url = this.$api.POST_ADD_VOTE
         if (this.voteId) {
           // 如果是修改模式则改变请求方式和url
-          method = 'put'
+          method = 'post'
           url = this.$api.PUT_EDIT_VOTE.replace('{id}', this.voteId)
         }
         const { name, source, creator,introduction, ruleType, ruleNum, description, date } = this.model
@@ -424,7 +422,7 @@ export default {
           endTime  : date[1],
           status,
           subjects : this.questionList,
-        }  
+        }
         this.$ajax[method]({
           url,
           params,
@@ -435,7 +433,7 @@ export default {
               //   title  : '成功',
               //   content: '保存并发布成功',
               //   okText : '确认',
-              // }) 
+              // })
               this.$message.success('保存并发布成功', 5)
               this.$router.push({ path: '/cms/vote' })
             } else {
@@ -448,7 +446,7 @@ export default {
               this.$router.push({ path: '/cms/vote' })
             }
           }
-          
+
           // this.$nextTick(() => this.$router.push({ path: '/cms/vote' }))
         })
       })
@@ -509,7 +507,7 @@ export default {
   }
 </style>
 <style lang="stylus">
-.votingRules 
+.votingRules
   .ant-radio-wrapper
     line-height 34px
 

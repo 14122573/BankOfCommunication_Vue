@@ -205,8 +205,8 @@ export default {
         id_desc  : 1
       }
     })
-      .then(res => { 
-      
+      .then(res => {
+
         if (res.code === '200') {
           this.list = this.$com.confirm(res, 'data.content', [])
           this.total = this.$com.confirm(res, 'data.totalRows', 0)
@@ -225,7 +225,7 @@ export default {
         content: '是否确认删除该草稿投票信息？删除后将不会出现在列表中',
         okType : 'danger',
         onOk   : () => {
-          this.$ajax.delete({
+          this.$ajax.post({
             url: this.$api.DELETE_VOTE.replace('{id}', id)
           }).then(() => {
             this.$modal.success({
@@ -255,7 +255,7 @@ export default {
         title  : config.title,
         content: config.content,
         onOk   : () => {
-          this.$ajax.put({
+          this.$ajax.post({
             url: this.$api.PUT_VOTE_STATUS.replace('{id}', id).replace('{status}', status)
           }).then(() => {
             this.$modal.success({
@@ -327,7 +327,7 @@ export default {
                 titleManageId: this.$titleId.notificationId
               }
             }).then(() => {
-              this.$ajax.put({
+              this.$ajax.post({
                 url: this.$api.PUT_VOTE_STATUS.replace('{id}', id).replace('{status}', '3')
               }).then(() => {
                 this.$modal.success({

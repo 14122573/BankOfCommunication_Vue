@@ -160,7 +160,7 @@ export default {
         content: '是否确认删除该操作手册？',
         okType : 'danger',
         onOk   : () => {
-          this.$ajax.delete({
+          this.$ajax.post({
             url: this.$api.DELETE_MANUAL.replace('{id}', id)
           }).then(() => {
             this.$modal.success({
@@ -231,7 +231,7 @@ export default {
             params.fileId = this.uploadFileList[0].uid
             params.fileName = this.uploadFileList[0].name
           }
-          this.$ajax.put({
+          this.$ajax.post({
             url: this.$api.PUT_EDIT_MANUAL.replace('{id}', this.editId),
             params,
           }).then(res => {

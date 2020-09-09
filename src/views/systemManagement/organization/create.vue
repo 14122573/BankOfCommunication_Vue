@@ -154,7 +154,7 @@ export default {
               }
             })
           } else {
-            this.$ajax.put({
+            this.$ajax.post({
               url   : this.$api.PUT_EDIT_ORGANIZATION_LIST.replace('{id}', this.$route.query.id),
               params: values
             }).then(res => {

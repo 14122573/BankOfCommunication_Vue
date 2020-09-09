@@ -231,7 +231,7 @@ export default {
       })
     },
     confirmDelRoleNode(){
-      this.$ajax.delete({
+      this.$ajax.post({
         url: this.$api.DELETE_PREMSBRANCH.replace('{id}', this.selectedNode.key)
       }).then(res => {
         if (res.code === '200') {
