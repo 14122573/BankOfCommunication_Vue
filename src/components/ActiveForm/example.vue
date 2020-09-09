@@ -172,7 +172,7 @@ export default {
           name    : 'accounts.xlsx',
           // file为新开页下载，pic根据你的event回调来定
           fileType: 'file',
-          url     : 'http://iftp.omniview.pro/temp/1567069629359-634052a98b43d554976a440bf07a35af.xlsx',
+          url     : 'http://znyj.nftec.agri.cn/temp/1567069629359-634052a98b43d554976a440bf07a35af.xlsx',
         },
         example9: [
           {
@@ -182,7 +182,7 @@ export default {
             status  : null,
             type    : null,
             uid     : 'f58ba55c2ce847a0bc7ea0ca74fadcb9',
-            url     : 'http://iftp.omniview.pro/temp/1567069629359-634052a98b43d554976a440bf07a35af.xlsx',
+            url     : 'http://znyj.nftec.agri.cn/temp/1567069629359-634052a98b43d554976a440bf07a35af.xlsx',
           }
         ],
         example10: '纯展示数据用',
@@ -203,7 +203,7 @@ export default {
         example8: {
           name    : 'accounts.xlsx',
           fileType: 'file',
-          url     : 'http://iftp.omniview.pro/temp/1567069629359-634052a98b43d554976a440bf07a35af.xlsx',
+          url     : 'http://znyj.nftec.agri.cn/temp/1567069629359-634052a98b43d554976a440bf07a35af.xlsx',
         },
       }
     },

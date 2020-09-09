@@ -232,8 +232,8 @@ export default {
       selectedRows       : [],
       selectedList       : [],
       url                : {
-        dictionary: 'http://iftp.omniview.pro/api/service-expert/expert/dictionary/',
-        profTree  : 'http://iftp.omniview.pro/api/service-expert/expert/prof/tree'
+        dictionary: 'http://znyj.nftec.agri.cn/api/service-expert/expert/dictionary/',
+        profTree  : 'http://znyj.nftec.agri.cn/api/service-expert/expert/prof/tree'
       },
     }
   },
