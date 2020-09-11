@@ -12,7 +12,9 @@
             <a-list-item>
               <a-col style="font-weight:bold">数据查询</a-col>
             </a-list-item>
-            <a-list-item style="text-align: left">
+            <a-list-item style="text-align: left;">
+              <a-row style="width: 100%">
+                <a-col :span="12">
                   指标名称:
                   <a-cascader
                     :options="options"
@@ -20,42 +22,16 @@
                     @change="handleChange"
                     :display-render="displayRender"
                     :default-value="['fishProduction']"
-                  />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-              请选择年份:
-              <a-date-picker
-                format="YYYY"
-                :open="isopen"
-                mode="year"
-                :value="year"
-                placeholder="请选择年份"
-                @panelChange="handleYearPicker"
-                @openChange="handleOpenChange"
-                :allowClear="false"
-              ><a-icon slot="suffixIcon" v-if="year != null" type="close-circle" @click.stop="reset" /></a-date-picker>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                  />
+                </a-col>
+                <a-col :span="12">
+                  <contrast :yearList="yearList" :year.sync="year"></contrast>
+                </a-col>
+              </a-row>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
               <a-button type="primary" icon="search" @click="jumpToPage">查询</a-button>
             </a-list-item>
           </a-list>
         </a-col>
-        <!--<a-col :span="12">
-          <a-list :split=false>
-            <a-list-item>
-              <a-col style="font-weight:bold">数据查询</a-col>
-            </a-list-item>
-            <a-list-item>
-              请选择年份:
-              <a-date-picker
-                format="YYYY"
-                mode="year"
-                :value="year"
-                placeholder="请选择年份"
-                @panelChange="handleYearPicker"
-                @openChange="handleOpenChange"
-                :allowClear="false"
-              />
-              <a-button type="primary" icon="search" @click="jumpToPage">查询</a-button>
-            </a-list-item>
-          </a-list>
-        </a-col>-->
       </a-row>
     </div>
   </div>
@@ -63,7 +39,11 @@
 
 <script>
 import moment from 'moment'
+import contrast from '@/components/Cockpit/contrast'
 export default {
+  components: {
+    contrast
+  },
   data(){
     return {
       options: [
@@ -197,40 +177,165 @@ export default {
       indicators: 'fishProduction',
       year      : (new Date().getFullYear() - 1).toString(),
       labels    : [],
-      isopen    : false,
+      yearList  : []
     }
+  },
+  watch: {
+    'queryParams.zhibiaoValue': {
+      handler: function(val) {
+        // eslint-disable-next-line default-case
+        switch (val) {
+        case 'fishProduction' :
+          this.$ajax.get({
+            url: this.$api.GET_DATA_FP_YEAR,
+          }).then(res => {
+            this.yearList = res.data
+          })
+          break
+        case 'aquaticFarmingSeaBeed' :
+          this.$ajax.get({
+            url: this.$api.GET_DATA_AFSB_YEAR,
+          }).then(res => {
+            this.yearList = res.data
+          })
+          break
+        case 'aquaticFarmingSeaWay' :
+          this.$ajax.get({
+            url: this.$api.GET_DATA_AFSW_YEAR,
+          }).then(res => {
+            this.yearList = res.data
+          })
+          break
+        case 'aquaticFarmingFreshBeed' :
+          this.$ajax.get({
+            url: this.$api.GET_DATA_AFFB_YEAR,
+          }).then(res => {
+            this.yearList = res.data
+          })
+          break
+        case 'aquaticFarmingFreshWay' :
+          this.$ajax.get({
+            url: this.$api.GET_DATA_AFFW_YEAR,
+          }).then(res => {
+            this.yearList = res.data
+          })
+          break
+        case 'aquaticCatchSeaBeed' :
+          this.$ajax.get({
+            url: this.$api.GET_DATA_ACSB_YEAR,
+          }).then(res => {
+            this.yearList = res.data
+          })
+          break
+        case 'aquaticCatchSeaArea' :
+          this.$ajax.get({
+            url: this.$api.GET_DATA_ACSA_YEAR,
+          }).then(res => {
+            this.yearList = res.data
+          })
+          break
+        case 'aquaticCatchFreshBeed' :
+          this.$ajax.get({
+            url: this.$api.GET_DATA_ACFB_YEAR,
+          }).then(res => {
+            this.yearList = res.data
+          })
+          break
+        case 'aquaticOcean' :
+          this.$ajax.get({
+            url: this.$api.GET_DATA_AO_YEAR,
+          }).then(res => {
+            this.yearList = res.data
+          })
+          break
+        case 'aquacultureFreshArea' :
+          this.$ajax.get({
+            url: this.$api.GET_DATA_AFA_YEAR,
+          }).then(res => {
+            this.yearList = res.data
+          })
+          break
+        case 'aquacultureSeaAreaBeed' :
+          this.$ajax.get({
+            url: this.$api.GET_DATA_ASAB_YEAR,
+          }).then(res => {
+            this.yearList = res.data
+          })
+          break
+        case 'aquacultureSeaAreaWay' :
+          this.$ajax.get({
+            url: this.$api.GET_DATA_ASAW_YEAR,
+          }).then(res => {
+            this.yearList = res.data
+          })
+          break
+        case 'waterFry' :
+          this.$ajax.get({
+            url: this.$api.GET_DATA_WF_YEAR,
+          }).then(res => {
+            this.yearList = res.data
+          })
+          break
+        case 'familyInOut' :
+          this.$ajax.get({
+            url: this.$api.GET_DATA_FIO_YEAR,
+          }).then(res => {
+            this.yearList = res.data
+          })
+          break
+        case 'staff' :
+          this.$ajax.get({
+            url: this.$api.GET_DATA_STAFF_YEAR,
+          }).then(res => {
+            this.yearList = res.data
+          })
+          break
+        case 'seaStaff' :
+          this.$ajax.get({
+            url: this.$api.GET_DATA_SEASTAFF_YEAR,
+          }).then(res => {
+            this.yearList = res.data
+          })
+          break
+        case 'aquaticRepairSum' :
+          this.$ajax.get({
+            url: this.$api.GET_DATA_ARSUM_YEAR,
+          }).then(res => {
+            this.yearList = res.data
+          })
+          break
+        case 'aquaticRepairStatus' :
+          this.$ajax.get({
+            url: this.$api.GET_DATA_ARSTATUS_YEAR,
+          }).then(res => {
+            this.yearList = res.data
+          })
+          break
+        }
+      }
+    }
+  },
+  created() {
+    this.$ajax.get({
+      url: this.$api.GET_DATA_FP_YEAR,
+    }).then(res => {
+      this.yearList = res.data
+    })
   },
   methods: {
     jumpToPage() {
-      // this.labels = JSON.stringify(this.labels)
-      console.log(this.labels)
       this.$router.push({
         name  : 'dataSearch',
         params: { indicators: this.indicators,year: this.year,labels: this.labels }
       })
     },
     handleChange(data) {
-      // this.indicators = data
       this.indicators = data[data.length-1]
-    },
-    handleYearPicker(year) {
-      this.year = moment(year).format('YYYY')
-      this.isopen = false
-    },
-    reset(){
-      this.year = null
     },
     displayRender({ labels }) {
       this.labels = labels
       return labels[labels.length-1]
-    },
-    handleOpenChange(status) {
-      if (status) {
-        this.isopen = true
-      } else {
-        this.isopen = false
-      }
-    },
+    }
   },
 }
 </script>

@@ -220,4 +220,24 @@ export default {
   GET_DATA_SEASTAFF_LIST: '/service-dv/dv/public/seaStaff', //海洋渔业人口与从业人员
   GET_DATA_ARSUM_LIST   : '/service-dv/dv/public/aquaticRepairSum', //水产品加工-水产加工品总量
   GET_DATA_ARSTATUS_LIST: '/service-dv/dv/public/aquaticRepairStatus', //水产加工企业，冷库情况
+
+  //公共数据年份查询
+  GET_DATA_FP_YEAR      : '/service-dv/dv/public/fishProduction/groupByYear', //渔业经济总产值
+  GET_DATA_AFSB_YEAR    : '/service-dv/dv/public/aquaticFarmingSeaBeed/groupByYear', //水产品总产量-养殖产品（海水养殖）-按养殖品种分
+  GET_DATA_AFSW_YEAR    : '/service-dv/dv/public/aquaticFarmingSeaWay/groupByYear', //水产品总产量-养殖产品（海水养殖）-按养殖水域和养殖方式分
+  GET_DATA_AFFB_YEAR    : '/service-dv/dv/public/aquaticFarmingFreshBeed/groupByYear', //水产品总产量-养殖产品（淡水养殖）-按养殖品种分
+  GET_DATA_AFFW_YEAR    : '/service-dv/dv/public/aquaticFarmingFreshWay/groupByYear', //水产品总产量-养殖产品（淡水养殖）-按养殖水域和养殖方式分
+  GET_DATA_ACSB_YEAR    : '/service-dv/dv/public/aquaticCatchSeaBeed/groupByYear', //水产品总产量-捕捞产品（海洋捕捞）-按捕捞品种分
+  GET_DATA_ACSA_YEAR    : '/service-dv/dv/public/aquaticCatchSeaArea/groupByYear', //水产品总产量-捕捞产品（海洋捕捞）-按捕捞海域和捕捞渔具分
+  GET_DATA_ACFB_YEAR    : '/service-dv/dv/public/aquaticCatchFreshBeed/groupByYear', //水产品总产量-捕捞产品（淡水捕捞）-按捕捞品种分
+  GET_DATA_AO_YEAR      : '/service-dv/dv/public/aquaticOcean/groupByYear', //水产品总产量-捕捞产品（远洋渔业）
+  GET_DATA_AFA_YEAR     : '/service-dv/dv/public/aquacultureFreshArea/groupByYear', //水产养殖面积-淡水养殖面积（按养殖水域和养殖方式分）
+  GET_DATA_ASAB_YEAR    : '/service-dv/dv/public/aquacultureSeaAreaBeed/groupByYear', //水产养殖面积-海水养殖面积-按养殖品种分
+  GET_DATA_ASAW_YEAR    : '/service-dv/dv/public/aquacultureSeaAreaWay/groupByYear', //水产养殖面积-海水养殖面积-按养殖水域和养殖方式分
+  GET_DATA_WF_YEAR      : '/service-dv/dv/public/waterFry/groupByYear', //水产苗种产量
+  GET_DATA_FIO_YEAR     : '/service-dv/dv/public/familyInOut/groupByYear', //渔民家庭收支
+  GET_DATA_STAFF_YEAR   : '/service-dv/dv/public/staff/groupByYear', //渔业人口与从业人员
+  GET_DATA_SEASTAFF_YEAR: '/service-dv/dv/public/seaStaff/groupByYear', //海洋渔业人口与从业人员
+  GET_DATA_ARSUM_YEAR   : '/service-dv/dv/public/aquaticRepairSum/groupByYear', //水产品加工-水产加工品总量
+  GET_DATA_ARSTATUS_YEAR: '/service-dv/dv/public/aquaticRepairStatus/groupByYear', //水产加工企业，冷库情况
 }
