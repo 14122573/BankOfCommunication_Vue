@@ -153,7 +153,7 @@
                     ></FileUpload>
                     <a-alert
                       style="margin-top:16px"
-                      message="最多上传9个附件，每个附件不得大于10M，支持的格式为：word、excel、ceb、cebx"
+                      message="最多上传9个附件，每个附件不得大于10M，支持的格式为：word、excel、ceb、cebx、pdf"
                       type="info"
                       showIcon
                     />
@@ -249,7 +249,7 @@ export default {
       uploadFileList: [],
       uploadConfig  : {
         maxSize         : 10 * 1024 * 1024,
-        acceptTypesArray: [ 'doc', 'docx', 'xlsx', 'xls', 'ceb', 'cebx' ]
+        acceptTypesArray: [ 'doc', 'docx', 'xlsx', 'xls', 'ceb', 'cebx', 'pdf' ]
       }
     }
   },
