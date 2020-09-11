@@ -16,32 +16,11 @@
               />
             </a-col>
             <a-col :span="12">
-              请选择年份：
-              <a-date-picker
-                :open="isopen"
-                :value="queryParams.year"
-                mode="year"
-                format="YYYY"
-                placeholder="请选择年份"
-                @panelChange="handleYearPicker"
-                @openChange="handleOpenChange"
-                :allowClear="false"
-              ><a-icon slot="suffixIcon" v-if="queryParams.year != null" type="close-circle" @click.stop="reset" /></a-date-picker>
+              <contrast :year.sync="queryParams.year" :yearList="yearList"></contrast>
             </a-col>
-            <!--<a-col :span="6">
-              <a-row type="flex" justify="end">
-                <a-col :span="24">
-                  <a-button type="primary" @click="showResult"
-                    >提交</a-button
-                  >
-                  <a-button type="default">重置</a-button>
-                </a-col>
-              </a-row>
-            </a-col>-->
           </a-row>
           <a-row style="height: 20px"/>
           <a-row style="background-color: #FFF">
-  <!--          <SearchResult :query="query"/>-->
             <component :is="queryParams.zhibiaoValue" :queryParams="queryParams"></component>
           </a-row>
         </div>
@@ -52,6 +31,9 @@
 
 <script>
 import Navbar from '@/views/frontPublic/components/navbar.vue'
+
+import contrast from '@/components/Cockpit/contrast'
+
 import moment from 'moment'
 import fishProduction from '@/views/frontPublic/views/dataSearch/searchResult/fishProduction.vue'
 import aquaticFarmingSeaBeed from '@/views/frontPublic/views/dataSearch/searchResult/aquaticFarmingSeaBeed.vue'
@@ -99,9 +81,15 @@ export default {
     staff,
     seaStaff,
     aquaticRepairSum,
-    aquaticRepairStatus
+    aquaticRepairStatus,
+    contrast
   },
   created() {
+    this.$ajax.get({
+      url: this.$api.GET_DATA_FP_YEAR,
+    }).then(res => {
+      this.yearList = res.data
+    })
     if(this.$route.params.indicators){
       this.queryParams.zhibiaoValue = this.$route.params.indicators
       this.queryParams.year = this.$route.params.year
@@ -109,41 +97,156 @@ export default {
       this.queryParams.year = (new Date().getFullYear() - 1).toString()
     }
   },
-  // mounted(){
-  //   console.log(this.queryParams.year)
-  // },
+  watch: {
+    'queryParams.zhibiaoValue': {
+      handler: function(val) {
+        // eslint-disable-next-line default-case
+        switch (val) {
+        case 'fishProduction' :
+          this.$ajax.get({
+            url: this.$api.GET_DATA_FP_YEAR,
+          }).then(res => {
+            this.yearList = res.data
+          })
+          break
+        case 'aquaticFarmingSeaBeed' :
+          this.$ajax.get({
+            url: this.$api.GET_DATA_AFSB_YEAR,
+          }).then(res => {
+            this.yearList = res.data
+          })
+          break
+        case 'aquaticFarmingSeaWay' :
+          this.$ajax.get({
+            url: this.$api.GET_DATA_AFSW_YEAR,
+          }).then(res => {
+            this.yearList = res.data
+          })
+          break
+        case 'aquaticFarmingFreshBeed' :
+          this.$ajax.get({
+            url: this.$api.GET_DATA_AFFB_YEAR,
+          }).then(res => {
+            this.yearList = res.data
+          })
+          break
+        case 'aquaticFarmingFreshWay' :
+          this.$ajax.get({
+            url: this.$api.GET_DATA_AFFW_YEAR,
+          }).then(res => {
+            this.yearList = res.data
+          })
+          break
+        case 'aquaticCatchSeaBeed' :
+          this.$ajax.get({
+            url: this.$api.GET_DATA_ACSB_YEAR,
+          }).then(res => {
+            this.yearList = res.data
+          })
+          break
+        case 'aquaticCatchSeaArea' :
+          this.$ajax.get({
+            url: this.$api.GET_DATA_ACSA_YEAR,
+          }).then(res => {
+            this.yearList = res.data
+          })
+          break
+        case 'aquaticCatchFreshBeed' :
+          this.$ajax.get({
+            url: this.$api.GET_DATA_ACFB_YEAR,
+          }).then(res => {
+            this.yearList = res.data
+          })
+          break
+        case 'aquaticOcean' :
+          this.$ajax.get({
+            url: this.$api.GET_DATA_AO_YEAR,
+          }).then(res => {
+            this.yearList = res.data
+          })
+          break
+        case 'aquacultureFreshArea' :
+          this.$ajax.get({
+            url: this.$api.GET_DATA_AFA_YEAR,
+          }).then(res => {
+            this.yearList = res.data
+          })
+          break
+        case 'aquacultureSeaAreaBeed' :
+          this.$ajax.get({
+            url: this.$api.GET_DATA_ASAB_YEAR,
+          }).then(res => {
+            this.yearList = res.data
+          })
+          break
+        case 'aquacultureSeaAreaWay' :
+          this.$ajax.get({
+            url: this.$api.GET_DATA_ASAW_YEAR,
+          }).then(res => {
+            this.yearList = res.data
+          })
+          break
+        case 'waterFry' :
+          this.$ajax.get({
+            url: this.$api.GET_DATA_WF_YEAR,
+          }).then(res => {
+            this.yearList = res.data
+          })
+          break
+        case 'familyInOut' :
+          this.$ajax.get({
+            url: this.$api.GET_DATA_FIO_YEAR,
+          }).then(res => {
+            this.yearList = res.data
+          })
+          break
+        case 'staff' :
+          this.$ajax.get({
+            url: this.$api.GET_DATA_STAFF_YEAR,
+          }).then(res => {
+            this.yearList = res.data
+          })
+          break
+        case 'seaStaff' :
+          this.$ajax.get({
+            url: this.$api.GET_DATA_SEASTAFF_YEAR,
+          }).then(res => {
+            this.yearList = res.data
+          })
+          break
+        case 'aquaticRepairSum' :
+          this.$ajax.get({
+            url: this.$api.GET_DATA_ARSUM_YEAR,
+          }).then(res => {
+            this.yearList = res.data
+          })
+          break
+        case 'aquaticRepairStatus' :
+          this.$ajax.get({
+            url: this.$api.GET_DATA_ARSTATUS_YEAR,
+          }).then(res => {
+            this.yearList = res.data
+          })
+          break
+        }
+      }
+    }
+  },
   methods: {
     handleChange(data) {
       this.queryParams.zhibiaoValue = data[data.length-1]
-    },
-    handleYearPicker(year) {
-      this.queryParams.year = moment(year).format('YYYY')
-      this.isopen = false
-    },
-    handleOpenChange(status) {
-      if (status) {
-        this.isopen = true
-      } else {
-        this.isopen = false
-      }
     },
     displayRender({ labels }) {
       if (labels.length){
         return labels[labels.length-1]
       }
       return this.$route.params.labels[this.$route.params.labels.length-1]
-    },
-    reset(){
-      this.queryParams.year = (new Date().getFullYear() - 1).toString()
     }
   },
   data() {
     return {
-      // yearPickerValue: null,
-      // zhibiaoValue   : 'fishProduction',
-      searchResult: [],
-      isopen      : false,
-      queryParams : {
+      yearList   : [],
+      queryParams: {
         zhibiaoValue: 'fishProduction',
         year        : (new Date().getFullYear() - 1).toString()
       },
