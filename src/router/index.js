@@ -39,7 +39,7 @@ router.beforeEach((to, from, next) => {
     }
   } else { // 已经登录
     // if (Common.oneOf(to.name,['login','bindPhone'])) {
-    if (Common.oneOf(to.name, [ 'bindPhone', 'bindTemporarayAccount' ])) {
+    if (Common.oneOf(to.name, [ 'bindPhone', 'bindTemporarayAccount', 'Layout' ])) {
       next('/home')
     } else {
       next()
