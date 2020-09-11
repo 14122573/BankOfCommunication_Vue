@@ -6,12 +6,13 @@
         <div class="content">
           <a-row class="row_style">
             <a-col :span="12">
-              指标名称:
+              指标名称：
               <a-cascader
                 :options="options"
                 placeholder="请选择指标名称"
                 @change="handleChange"
                 :display-render="displayRender"
+                :allow-clear="false"
                 :default-value="[queryParams.zhibiaoValue]"
               />
             </a-col>
