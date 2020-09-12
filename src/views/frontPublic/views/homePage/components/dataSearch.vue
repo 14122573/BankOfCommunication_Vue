@@ -15,13 +15,14 @@
             <a-list-item style="text-align: left;">
               <a-row style="width: 100%">
                 <a-col :span="12">
-                  指标名称:
+                  指标名称：
                   <a-cascader
                     :options="options"
                     placeholder="请选择指标名称"
                     @change="handleChange"
                     :display-render="displayRender"
                     :default-value="['fishProduction']"
+                    :allow-clear="false"
                   />
                 </a-col>
                 <a-col :span="12">

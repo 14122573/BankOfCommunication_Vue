@@ -6,6 +6,7 @@
         :default-value="yearOne"
         class="select_left"
         @change="handleYear"
+        style="width: 200px"
       >
         <a-select-option class="card_select_select-option" :value="item" v-for="(item,index) in heros" :key="index">
           <span>{{item}}</span>
@@ -47,3 +48,4 @@ export default {
   }
 }
 </script>
+
