@@ -103,7 +103,7 @@
               
               <a-row>
                 <a-col span="16">
-                  <a-col span='12'>
+                  <!-- <a-col span='12'>
                     <a-form-item
                       label="发布时间"
                       :label-col="{ span: 8 }"
@@ -119,12 +119,12 @@
                         ]"
                       />
                     </a-form-item>
-                  </a-col>
-                  <a-col span='12'>
+                  </a-col> -->
+                  <a-col span='24'>
                     <a-form-item
                       label="关键词"
-                      :label-col="{ span: 8 }"
-                      :wrapper-col="{ span: 16 }"
+                      :label-col="{ span: 4 }"
+                      :wrapper-col="{ span: 20 }"
                     >
                       <a-input
                         v-decorator="[
@@ -234,8 +234,8 @@ export default {
         author: [
           { required: true, whitespace: true, message: '请输入云课堂作者!' }
         ],
-        releaseDate: [ { required: true, message: '请输入发布时间!' } ],
-        KeyWord    : [
+        // releaseDate: [ { required: true, message: '请输入发布时间!' } ],
+        KeyWord: [
           { required: false, whitespace: true, message: '请输入关键词!' }
         ],
         source: [
@@ -268,9 +268,9 @@ export default {
         .then(res => {
           let content = res.data.content
           this.postPerson = content.name
-          this.farmingCreateForm.setFieldsValue({
-            releaseDate: this.$moment().locale('zh-cn')
-          })
+          // this.farmingCreateForm.setFieldsValue({
+          //   releaseDate: this.$moment().locale('zh-cn')
+          // })
         })
     },
 
@@ -362,7 +362,7 @@ export default {
             title        : this.farmingCreateForm.getFieldValue('title'),
             author       : this.farmingCreateForm.getFieldValue('author'),
             keyWord      : this.farmingCreateForm.getFieldValue('keyWord'),
-            releaseDate  : this.farmingCreateForm.getFieldValue('releaseDate'),
+            // releaseDate  : this.farmingCreateForm.getFieldValue('releaseDate'),
             source       : this.farmingCreateForm.getFieldValue('source'),
             introduction : this.farmingCreateForm.getFieldValue('introduction'),
             status       : type == 'save' || type == 'saveNcreate' ? '0' : '1',

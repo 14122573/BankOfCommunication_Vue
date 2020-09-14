@@ -64,13 +64,13 @@
               </a-row>
               <a-row>
                 <a-col span='16'>
-                  <a-col span="12">
+                  <!-- <a-col span="12">
                     <a-form-item label="发布时间" :label-col="{span:8}" :wrapper-col="{span:16}">
                       <a-date-picker v-decorator="['releaseDate', {rules: rules.releaseDate, initialValue: this.$moment().locale('zh-cn') }]" />
                     </a-form-item>
-                  </a-col>
-                  <a-col span="12">
-                    <a-form-item label="关键词" :label-col="{span:8}" :wrapper-col="{span:16}">
+                  </a-col> -->
+                  <a-col span="24">
+                    <a-form-item label="关键词" :label-col="{span:4}" :wrapper-col="{span:20}">
                       <a-input v-decorator="['keyWord',{validateTrigger: 'blur',rules:rules.KeyWord}]" placeholder="请输入关键词"></a-input>
                     </a-form-item>
                   </a-col>
@@ -129,9 +129,9 @@ export default {
         KeyWord: [
           { required: false, whitespace: true, message: '请输入关键词!' }
         ],
-        releaseDate: [
-          { required: true, message: '请输入发布时间!' }
-        ],
+        // releaseDate: [
+        //   { required: true, message: '请输入发布时间!' }
+        // ],
         source: [
           { required: true, whitespace: true, message: '请输入云课堂来源!' }
         ],
@@ -238,7 +238,7 @@ export default {
               title       : this.farmingDetails.title,
               author      : this.farmingDetails.author,
               keyWord     : this.farmingDetails.keyWord,
-              releaseDate : this.farmingDetails.releaseDate,
+              // releaseDate : this.farmingDetails.releaseDate,
               introduction: this.farmingDetails.introduction,
               source      : this.farmingDetails.source,
             })
@@ -284,7 +284,7 @@ export default {
             'title'        : this.farmingEditForm.getFieldValue('title'),
             'author'       : this.farmingEditForm.getFieldValue('author'),
             'keyWord'      : this.farmingEditForm.getFieldValue('keyWord'),
-            'releaseDate'  : this.farmingEditForm.getFieldValue('releaseDate'),
+            // 'releaseDate'  : this.farmingEditForm.getFieldValue('releaseDate'),
             'source'       : this.farmingEditForm.getFieldValue('source'),
             'introduction' : this.farmingEditForm.getFieldValue('introduction'),
             'attachments'  : this.arrangeFileList(),
