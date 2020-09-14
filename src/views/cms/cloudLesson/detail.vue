@@ -61,6 +61,14 @@
                     :text="fileList"
                   ></DetailsItem>
                 </a-col>
+                <a-col span="16" style="margin:8px 0;">
+                  <DetailsItem
+                    :labelSpan="4"
+                    :textSpan="20"
+                    :label="'简介'"
+                    :text="detailList.introduction"
+                  ></DetailsItem>
+                </a-col>
               </a-row>
             </div>
           </div>
