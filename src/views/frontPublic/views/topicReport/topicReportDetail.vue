@@ -8,7 +8,7 @@
           <a-col :span="16">
             <a-descriptions class="title" :title="list.title">
               <a-descriptions-item label="发稿人">{{
-                list.creator
+                list.author
               }}</a-descriptions-item>
               <a-descriptions-item label="发布日期">{{
                 list.releaseDate?list.releaseDate.slice(0, 10):''
