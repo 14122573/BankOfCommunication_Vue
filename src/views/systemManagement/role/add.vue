@@ -123,7 +123,7 @@ export default {
      * 整理权限树
      */
     getTreeNode(item, index){
-      if(this.roleIds.length>0 && this.roleIds.indexOf(item.id)<0){
+      if(this.roleIds.length>0 && this.roleIds.indexOf(item.id)<0 && !this.$store.state.userInfos.isAllPerm){
         var childrenNode={
           title   : item.permName,
           key     : item.id,
