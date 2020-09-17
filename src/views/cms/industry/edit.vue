@@ -173,6 +173,7 @@ export default {
      * @returns {Array} 合并后的文件数组
      */
     arrangeFileList(){
+      console.log(this.uploadFileList)
       const fileList = this.uploadFileList.used.map((item, index) => {
         if(item.uid && item.uid.toString().indexOf('-')==0){// 未修改PDF
           return {
@@ -181,13 +182,16 @@ export default {
             // filePath: item.url,
             // fileName: item.name
             fileId  : item.uid,
-            filePath: item.url
+            filePath: item.url,
+            fileName: item.name
           }
         }else{ // 新上传的PDF
           return {
-            type  : 1,
-            sort  : index+1,
-            fileId: item.uid
+            type    : 1,
+            sort    : index+1,
+            fileId  : item.uid,
+            filePath: item.url,
+            fileName: item.name
           }
         }
       })
@@ -222,7 +226,7 @@ export default {
                     url   : this.farmingDetails.attachments[i].filePath
                   })
                   that.uploadFileList.used.push({
-                    uid   : '-'+(i+1),
+                    uid   : null,
                     name  : !this.farmingDetails.attachments[i].fileName?'none':this.farmingDetails.attachments[i].fileName,
                     status: 'done',
                     url   : this.farmingDetails.attachments[i].filePath
@@ -294,7 +298,7 @@ export default {
           })
 
           this.$ajax.post({
-            url   : this.$api.PUT_ANNOUNCE_MODIFY.replace('{id}', this.id),
+            url   : this.$api.POST_ANNOUNCE_MODIFY.replace('{id}', this.id),
             params: postParams
           }).then(res => {
             if (res.code === '200') {

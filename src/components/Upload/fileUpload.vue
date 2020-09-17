@@ -158,6 +158,7 @@ export default {
      * @param {Array} uploadFileList 已暂存的已上传文件对象列表
      */
     handleUpload(data, uploadFileList) {
+      // console.log('handleUpload阶段')
       const formData = new FormData()
       formData.append('file', data.file)
       data.onProgress()

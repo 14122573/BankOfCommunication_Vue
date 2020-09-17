@@ -195,7 +195,7 @@ export default {
   GET_PUB_ANNOUNCE_DETAIL: '/service-release/release/public/news/{id}', //明细
   POST_ADD_ANNOUNCE      : '/service-release/release/news', //新增
   // PUT_ANNOUNCE_TOP       : '/service-release/release/news/top/{id}/{top}', //置顶
-  PUT_ANNOUNCE_MODIFY    : '/service-release/release/newsP/{id}', //修改
+  POST_ANNOUNCE_MODIFY   : '/service-release/release/newsP/{id}', //修改
   DELETE_ANNOUNCE        : '/service-release/release/news/{id}', //删除
   PUT_ANNOUNCE_STATUS    : '/service-release/release/news/{id}/{status}', //修改状态
   POST_VOTE              : '/service-release/release/public/vote/result/{id}', //投票
