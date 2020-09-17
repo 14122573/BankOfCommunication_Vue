@@ -382,7 +382,7 @@ export default {
      */
     toDoDelete(id) {
       this.$ajax
-        .delete({
+        .post({
           url: this.$api.DELETE_ANNOUNCE.replace('{id}', id)
         })
         .then(res => {
