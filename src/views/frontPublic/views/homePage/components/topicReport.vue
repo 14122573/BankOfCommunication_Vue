@@ -18,9 +18,12 @@
             <a class="mouse_trigger" @click="articleDetails(item)">
               <div class="noti_oneline">
                 <a-row type="flex" justify="center" style="margin: 20px 0px">
-                  <a-col :span='1'><i style="width:8px;height:8px;border-radius:50%;background-color:black;display: inline-block; "></i></a-col>
-                  <a-col class="news_title" :span="15"> {{ item.title }}</a-col>
-                  <a-col class="news_date" :span="8">{{
+                  <!-- <a-col :span='1'><i style="width:8px;height:8px;border-radius:50%;background-color:black;display: inline-block; "></i></a-col> -->
+                  <a-col :span="2">
+                    <img src="@/assets/images/home/bt_icon.png" alt="" srcset="" width="50%" />
+                  </a-col>
+                  <a-col class="news_title" :span="16"> {{ item.title }}</a-col>
+                  <a-col class="news_date" :span="6">{{
                     $moment(item.releaseDate).format("YYYY-MM-DD")
                   }}</a-col>
                 </a-row>
