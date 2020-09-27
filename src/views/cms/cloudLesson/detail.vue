@@ -34,7 +34,7 @@
                     :labelSpan="4"
                     :textSpan="20"
                     :label="'栏目'"
-                    :text="detailList.id"
+                    :text="detailList.titleManageName"
                   ></DetailsItem>
                 </a-col>
                 <a-col span="16" style="margin:8px 0;">
@@ -117,7 +117,7 @@ export default {
           if (res.code === '200') {
             this.detailList = this.$com.confirm(res, 'data.content', {})
             const attachments = !this.detailList.attachments
-              ?   [] : this.detailList.attachments 
+              ?   [] : this.detailList.attachments
             for (let i = 0; i < attachments.length; i++) {
               if (attachments[i].type == '1') {
                 i == attachments.length - 1 ? this.fileList += attachments[i].fileName : this.fileList += attachments[i].fileName + ', '
@@ -143,7 +143,7 @@ export default {
             url : attachments[i].filePath
           })
         }
-      } 
+      }
       return fileList
     }
   }
