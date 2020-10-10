@@ -13,6 +13,7 @@ const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
 
 // const env = require('../config/prod.env')
 let env = require('../config/prod.env')
+console.log(process.env.NODE_ENV)
 if (process.env.NODE_ENV === 'sit') {
   env = require('../config/sit.env')
 } else if (process.env.NODE_ENV === 'uat') {

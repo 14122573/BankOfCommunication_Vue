@@ -6,7 +6,7 @@ case 'devol':
   break
 case 'sit':
   // sit环境下
-  BASE_URL = '/api'
+  BASE_URL = 'http://iftp.omniview.pro/api'
   break
 case 'uat':
   // uat环境下
