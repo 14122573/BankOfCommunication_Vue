@@ -59,6 +59,8 @@ import {
   BackTop,
   Carousel,
   Tooltip,
+  Result,
+  Popover,
   List
 } from 'ant-design-vue'
 import './assets/base.css' // 引入全局样式
@@ -84,6 +86,7 @@ Vue.prototype.$modal = Modal
 
 Vue.use(ActiveForm)
 Vue.use(ActiveTable)
+Vue.use(Popover)
 Vue.use(Button)
 Vue.use(Spin)
 Vue.use(Layout)
@@ -91,6 +94,7 @@ Vue.use(Menu)
 Vue.use(Icon)
 Vue.use(Breadcrumb)
 Vue.use(Form)
+Vue.use(Result)
 Vue.use(Input)
 Vue.use(InputNumber)
 Vue.use(Card)

@@ -22,10 +22,10 @@
 							<NavBar />
 						</div>
 						<div>
-							<a-badge class="navTidings" :count="tidingsCount" showZero>
+							<!-- <a-badge class="navTidings" :count="tidingsCount" showZero>
 								<a href="#">
 									<a-icon type="bell" /></a>
-							</a-badge>
+							</a-badge> -->
 							<a-dropdown class="navdropmenu">
 								<span>
 									<a-icon type="user" /> <span class="name">{{username}}</span>

@@ -2,7 +2,7 @@
   <a-card style="width: 300px; max-width: 300px; text-align: center" class="loginpanel" title="重置密码">
     <a slot="extra" @click="handleJump">立即登录</a>
     <div class="findPassword">
-      <div v-if="appearIndex == 0" class="linksTips">
+      <!-- <div v-if="appearIndex == 0" class="linksTips">
         <div @click="appearIndex = 2">
           <img src="@/assets/images/bgResetPwd.png" alt="" class="bgImage" />
           <a-row
@@ -60,11 +60,10 @@
             </a-row>
           </div>
         </div>
-      </div>
+      </div> -->
       <a-form
         :form="formRegister"
         class="register-form"
-        v-if="appearIndex == 2"
       >
         <a-form-item>
           <a-input
@@ -82,6 +81,9 @@
               type="mobile"
               style="color: rgba(0,0,0,.25)"
             />
+            <a-tooltip placement='left' slot="suffix" :title="teleSuffInfo.title" :get-popup-container="getPopupContainer" :auto-adjust-overflow="false">
+              <a-icon :type="teleSuffInfo.icon" :style="teleSuffInfo.color" />
+            </a-tooltip>
           </a-input>
         </a-form-item>
         <a-form-item>
@@ -105,6 +107,9 @@
                   type="code"
                   style="color: rgba(0,0,0,.25)"
                 />
+                <a-tooltip slot="suffix" :title="veriSuffInfo.title" :get-popup-container="getPopupContainer" :auto-adjust-overflow="false">
+                  <a-icon :type="veriSuffInfo.icon" :style="veriSuffInfo.color" />
+                </a-tooltip>
               </a-input>
             </a-col>
             <a-col :span="8" :offset="1">
@@ -140,6 +145,9 @@
             @focus="pasBlur"
           >
             <a-icon slot="prefix" type="lock" style="color: rgba(0,0,0,.25)" />
+            <a-tooltip slot="suffix" :title="nPassSuffInfo.title" :get-popup-container="getPopupContainer" :auto-adjust-overflow="false">
+              <a-icon :type="nPassSuffInfo.icon" :style="nPassSuffInfo.color" />
+            </a-tooltip>
           </a-input>
         </a-form-item>
         <testStrong
@@ -174,6 +182,9 @@
             @focus="pasBlur"
           >
             <a-icon slot="prefix" type="lock" style="color: rgba(0,0,0,.25)" />
+            <a-tooltip slot="suffix" :title="rPassSuffInfo.title" :get-popup-container="getPopupContainer" :auto-adjust-overflow="false">
+              <a-icon :type="rPassSuffInfo.icon" :style="rPassSuffInfo.color" />
+            </a-tooltip>
           </a-input>
         </a-form-item>
         <a-form-item>
@@ -204,6 +215,10 @@ export default {
   },
   data() {
     return {
+      teleSuffInfo    : { title: '', icon: '', color: '' },
+      veriSuffInfo    : { title: '', icon: '', color: '' },
+      nPassSuffInfo   : { title: '', icon: '', color: '' }, // 新密码
+      rPassSuffInfo   : { title: '', icon: '', color: '' }, // 重复密码
       pageType        : 'login',
       btnTxt          : '发送验证码',
       disableBtn      : true,
@@ -218,17 +233,31 @@ export default {
     }
   },
   methods: {
+    getPopupContainer(trigger) {
+      return trigger.parentElement
+    },
     //校验手机号--忘记密码
     validatePhoneForget(rule, value, callback) {
+      console.log('vvvGood')
       if (
         !value ||
         value == undefined ||
         value.split(' ').join('').length === 0
       ) {
-        callback('请输入手机号!')
+        // callback('请输入手机号!')
+        this.teleSuffInfo = {
+          title: '请输入手机号',
+          icon : 'close-circle',
+          color: 'color: red'
+        }
       } else {
         if (!this.$com.checkPhone(value)) {
-          callback('手机号输入不合法!')
+          // callback('手机号输入不合法!')
+          this.teleSuffInfo = {
+            title: '手机号输入不合法',
+            icon : 'close-circle',
+            color: 'color: red'
+          }
           this.disableBtn = true
         } else {
           if (value.length == 11) {
@@ -240,9 +269,19 @@ export default {
               .then(res => {
                 if (res.data.content === true) {
                   this.disableBtn = false
+                  this.teleSuffInfo = {
+                    title: '',
+                    icon : '',
+                    color: ''
+                  }
                   callback()
                 } else {
-                  callback('不存在此用户!')
+                  // callback('不存在此用户!')
+                  this.teleSuffInfo = {
+                    title: '不存在此用户',
+                    icon : 'close-circle',
+                    color: 'color: red'
+                  }
                   this.disableBtn = true
                 }
               })
@@ -257,10 +296,20 @@ export default {
         value == undefined ||
         value.split(' ').join('').length === 0
       ) {
-        callback('请输入手机验证码!')
+        // callback('请输入手机验证码!')
+        this.veriSuffInfo = {
+          title: '请输入手机验证码!',
+          icon : 'close-circle',
+          color: 'color: red'
+        }
       } else {
         if (!/^\d{6}$/.test(value)) {
-          callback('请输入6位数字验证码!')
+          // callback('请输入6位数字验证码!')
+          this.veriSuffInfo = {
+            title: '请输入6位数字验证码!',
+            icon : 'close-circle',
+            color: 'color: red'
+          }
         } else {
           this.$ajax
             .get({
@@ -270,8 +319,18 @@ export default {
             })
             .then(res => {
               if (res.code != '200') {
-                callback(res.msg)
+                // callback(res.msg)
+                this.veriSuffInfo = {
+                  title: res.msg,
+                  icon : 'close-circle',
+                  color: 'color: red'
+                }
               } else {
+                this.veriSuffInfo = {
+                  title: '',
+                  icon : '',
+                  color: ''
+                }
                 callback()
               }
             })
@@ -286,17 +345,32 @@ export default {
         value == undefined ||
         value.split(' ').join('').length === 0
       ) {
-        callback('请输入密码！')
+        // callback('请输入密码！')
+        this.nPassSuffInfo = {
+          title: '请输入密码!',
+          icon : 'close-circle',
+          color: 'color: red'
+        }
         this.passwordStrength = false
       } else {
         if (!this.$com.checkPassword(value)) {
-          callback('请输入6位以上的数字字母组合！')
+          // callback('请输入6位以上的数字字母组合！')
+          this.nPassSuffInfo = {
+            title: '请输入6位以上的数字字母组合！',
+            icon : 'close-circle',
+            color: 'color: red'
+          }
           this.passwordStrength = false
         } else {
           if (value && this.confirmDirty) {
             form.validateFields([ 'rePassword' ], {
               force: true
             })
+          }
+          this.nPassSuffInfo = {
+            title: '',
+            icon : '',
+            color: ''
           }
           callback()
           this.passwordStrength = true
@@ -306,8 +380,18 @@ export default {
     compareToFirstPassword(rule, value, callback) {
       const form = this.formRegister
       if (value && value !== form.getFieldValue('pwd')) {
-        callback('密码输入不一致!')
+        // callback('密码输入不一致!')
+        this.rPassSuffInfo = {
+          title: '密码输入不一致',
+          icon : 'close-circle',
+          color: 'color: red'
+        }
       } else {
+        this.rPassSuffInfo = {
+          title: '',
+          icon : '',
+          color: ''
+        }
         callback()
       }
     },
@@ -362,8 +446,11 @@ export default {
             })
             .then(res => {
               if (res.code == '200') {
-                this.$emit('on-success', '找回密码成功！')
-                this.$message.success('找回密码成功！')
+                // this.$emit('on-success', '找回密码成功！')
+                // this.$message.success('找回密码成功！')
+                this.$emit('on-change', 'success')
+              } else {
+                this.$emit('on-change', 'failure')
               }
             })
         } else {

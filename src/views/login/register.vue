@@ -1,14 +1,15 @@
 <template>
 	<div class="registerFrame" :style="'background-image: url(' + require('@/assets/images/bg.jpg') + ')'">
 		<Loader />
-    <FrameTop></FrameTop>
+    <PHeader />
+    <!-- <FrameTop></FrameTop> -->
 		<div class="registerWapper" :style="'background: url(' + require('@/assets/images/border.png') + ' no-repeat bottom center'">
-			<div>
+			<!-- <div>
 				<a-row type="flex" justify="start" align="middle" :gutter="10">
 					<a-col><img src="@/assets/images/logo.png" alt="" class="logo"></a-col>
 					<a-col>“智能渔技”综合信息服务平台</a-col>
 				</a-row>
-			</div>
+			</div> -->
 			<div class="resigerFormWapper">
         <template v-if="!showSuccess">
           <div class='resigerTitle' >
@@ -19,7 +20,7 @@
             <a-row type="flex" justify="start" align="middle" :gutter="10">
               <a-col :span="7">
                 <a-form-item>
-                  <a-input v-decorator="[ 'phone', { validateTrigger:'blur', rules: [ { validator: validatePhone}] } ]" placeholder="手机号">
+                  <a-input v-decorator="[ 'phone', { validateTrigger:'change', rules: [ { validator: validatePhone}] } ]" placeholder="手机号">
                     <a-icon slot="prefix" type="mobile" style="color: rgba(0,0,0,.25)" />
                   </a-input>
                 </a-form-item>
@@ -143,12 +144,13 @@ import Loader from '@/components/Loader/loader'
 import { encryptDes } from '@/util/des-cryptojs'
 import FrameTop from '@/views/login/components/frameTop'
 import FrameFooter from '@/views/login/components/footer'
+import PHeader from '@/views/frontPublic/views/homePage/components/headerCms.vue'
 export default {
   name      : 'Register',
   components: {
     Loader,
     testStrong,
-    FrameTop, FrameFooter
+    FrameTop, FrameFooter,PHeader
   },
   beforeCreate() {
     this.formRegister = this.$form.createForm(this)
@@ -407,7 +409,7 @@ export default {
 
 <style scoped>
 .registerFrame { 	width: 100%; height: 100%; min-height: 700px; margin: 0px; padding: 0px; position: relative; background-size: cover; }
-.registerWapper { width: 900px; height: 540px; background-color: #fff; position:relative; margin: auto; top: calc((100% - 540px)/2); background-size: 100%; padding: 10px 20px; font-size: 26px; color: rgba(101, 101, 101);}
+.registerWapper { width: 900px; height: 460px; background-color: #fff; position:relative; margin: auto; top: calc((100% - 540px)/2); background-size: 100%; padding: 10px 20px; font-size: 26px; color: rgba(101, 101, 101);}
 .registerWapper .logo {height: 70px;}
 .resigerTitle { margin-bottom: 20px; }
 .resigerTitle .title { font-size: 20px; font-weight: bold; }
@@ -415,6 +417,7 @@ export default {
 .resigerTitle .errTips { font-size:14px; padding-left:20px; color:#FF3737; line-height:20px;}
 .resigerTitle .errIcon{ padding-right:5px}
 
+.registerWapper {zoom: 0.9}
 .resigerFormWapper { margin: 0 auto; height: 400px; font-size: 14px; margin-top: 20px; text-align: left; overflow: hidden; overflow-y: auto; padding: 0 10px;}
 .resigerFormWapper::-webkit-scrollbar {
   /*滚动条整体样式*/

@@ -8,7 +8,7 @@
     <div class="knowledgeInHomeList">
       <template v-if='knowledgeList.length>0'>
         <template v-for="(knowledge,index) in knowledgeList">
-          <div @click="goToView(knowledge.id)" :class='{"knowledge":true,"hasBg":(index+1)%2==1}' :key="index">[{{knowledge.releaseDate}}] - [{{knowledge.author}}] - {{knowledge.title}} </div>
+          <div @click="goToView(knowledge.id)" :class='{"knowledge":true,"hasBg":(index+1)%2==1}' :key="index">[{{knowledge.releaseDate}}] — {{knowledge.title}} </div>
         </template>
       </template>
       <template v-else>

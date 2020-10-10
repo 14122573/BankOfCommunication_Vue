@@ -1,7 +1,13 @@
 <template>
   <div class="reviewSection">
     <a-row class="reviewInHomeTitle" type="flex" justify="space-between" align="middle" :gutter='16' >
-      <a-col :span="18"><a-divider class="divider" type="vertical" /><span class="title">待办评审</span></a-col>
+      <a-col :span="18"><a-divider class="divider" type="vertical" /><span class="title">待办评审</span>
+        <a-badge class="navTidings" :count="tidingsCount" showZero>
+					<a href="#">
+						<a-icon type="bell" />
+          </a>
+				</a-badge>
+      </a-col>
     </a-row>
     <template v-if="sysListForSearch.length>0 && reviewTypeList.length>0 && preparate.isReady">
       <template v-if="reviewList.length>0">
@@ -43,6 +49,7 @@ export default {
         isReady         : 0,
         defaultActiveKey: ''
       },
+      tidingsCount    : 0,
       sysListForSearch: [],
       reviewTypeList  : [],
       reviewList      : [],
