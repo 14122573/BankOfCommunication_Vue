@@ -70,6 +70,7 @@
         
     </a-modal>
     <div class="sectionContent">
+      <a-row style="height: 50px"></a-row>
       <a-row align='middle' justify='center'>
         <div v-if="manualList.length > 0" class="manual-wrapper">
           <div v-for="(item, index) in manualList" :key="index">
