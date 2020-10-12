@@ -13,7 +13,7 @@
               <a-col :span='19' style="padding-left: 8px">
                 {{knowledge.title}}
               </a-col>
-              <a-col :span='5' style="text-align: right">
+              <a-col :span='5' style="text-align: right; font-weight: normal">
                 {{knowledge.releaseDate}}
               </a-col>
             </a-row>
