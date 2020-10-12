@@ -26,9 +26,18 @@
         </div>
       </template>
       <template v-else>
-        <a-alert message="暂无数据" type="info" >
+        <!-- <a-alert message="暂无数据" type="info" >
           <p slot="description"> 您暂无需要评审的内容 </p>
-        </a-alert>
+        </a-alert> -->
+        <a-row style="padding: 40px 40px" type='flex' align='middle'>
+          <a-col :span='11' style="text-align: right">
+            <img src="@/assets/images/no data.png" style="zoom: 0.8"/>
+          </a-col>
+          <a-col :span='12' :offset='1' style='color: #AAABAC; text-align: left'>
+            <a-row style="font-size: 18px; font-weight: bold">暂无数据</a-row>
+            <a-row>您暂无需要评审的内容</a-row>
+          </a-col>
+        </a-row>
       </template>
     </template>
     <template v-else>

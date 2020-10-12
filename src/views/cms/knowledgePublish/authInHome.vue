@@ -8,7 +8,16 @@
     <div class="knowledgeInHomeList">
       <template v-if='knowledgeList.length>0'>
         <template v-for="(knowledge,index) in knowledgeList">
-          <div @click="goToView(knowledge.id)" :class='{"knowledge":true,"hasBg":(index+1)%2==1}' :key="index">[{{knowledge.releaseDate}}] — {{knowledge.title}} </div>
+          <div @click="goToView(knowledge.id)" :class='{"knowledge":true,"hasBg":(index+1)%2==1}' :key="index" style="margin-bottom: 5px">
+            <a-row>
+              <a-col :span='19' style="padding-left: 8px">
+                {{knowledge.title}}
+              </a-col>
+              <a-col :span='5' style="text-align: right">
+                {{knowledge.releaseDate}}
+              </a-col>
+            </a-row>
+          </div>
         </template>
       </template>
       <template v-else>

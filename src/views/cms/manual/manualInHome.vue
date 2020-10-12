@@ -30,16 +30,78 @@
         </a-popover>
       </a-col>
     </a-row>
-    <div class="sectionContent">
-      <a-row type='flex' align='middle' justify='center'>
-        <div v-if="manualList.length > 0" class="manual-wrapper">
-          <div v-for="(item, index) in manualList" :key="index" @click="handleView(item)">
-            <!-- <a-col :span='4' style="font-size: 8px"> -->
-              <!-- <img src="@/assets/images/pdf.png" />
-              {{item.name}} -->
-              {{item}}
-            <!-- </a-col> -->
+    <a-modal
+      :width="465"
+      :closable="false"
+      :visible="modifyVisible"
+      :footer="null"
+    >
+        <span slot="title">
+          <a-row>
+            <a-col :span='22'>
+              <a-divider type='vertical' style="width: 5px; height: 16px; background-color: #1890ff"/>全部操作手册
+            </a-col>
+            <a-col :span='2'>
+              <a @click="changeModalState()" style="color: grey; font-size: 12px">关闭</a>
+            </a-col>
+          </a-row>
+        </span>
+
+        <a-row>
+          <div v-for="(item, index) in manualList" :key="index">
+            <div v-if="index % 5 == 0">
+              <a-col :span='4' style="font-size: 10px; margin-bottom: 16px; cursor: pointer;">
+                <span @click="handleView(item.path)">
+                  <img src="@/assets/images/pdf.png" width='50px' height="50px" style="display: block"/>
+                  {{item.name.length > 3? item.name.substring(0, 4) + '...':item.name}}
+                </span>
+              </a-col>
+            </div>
+            <div v-else>
+              <a-col :span='4' :offset='1' style="font-size: 10px; margin-bottom: 16px; cursor: pointer;">
+                <span @click="handleView(item.path)">
+                  <img src="@/assets/images/pdf.png" width='50px' height="50px" style="display: block"/>
+                  {{item.name.length > 3? item.name.substring(0, 4) + '...':item.name}}
+                </span>
+              </a-col>
+            </div>
           </div>
+        </a-row>
+        
+    </a-modal>
+    <div class="sectionContent">
+      <a-row align='middle' justify='center'>
+        <div v-if="manualList.length > 0" class="manual-wrapper">
+          <div v-for="(item, index) in manualList" :key="index">
+            <!-- 如果当前的文件数量少于5个（不包括5个），则不显示查看更多 -->
+            <div v-if="index == 0" style="cursor: pointer;">
+              <a-col :span='4' style="font-size: 10px;">
+                <span @click="handleView(item.path)">
+                  <img src="@/assets/images/pdf.png" width='50px' height="50px" style="display: block"/>
+                  {{item.name.length > 3? item.name.substring(0, 4) + '...':item.name}}
+                </span>
+              </a-col>
+            </div>
+
+            <div v-else-if="index > 0 && index < 4" style="cursor: pointer">
+              <a-col :span='4' :offset='1' style="font-size: 10px;">
+                <span @click="handleView(item.path)">
+                  <img src="@/assets/images/pdf.png" width='50px' height="50px" style="display: block"/>
+                  {{item.name.length > 3? item.name.substring(0, 4) + '...':item.name}}
+                </span>
+              </a-col>
+            </div>
+
+            <div v-else-if="index == 4" style="cursor: pointer">
+              <a-col :span='4' :offset='1' style="font-size: 10px;">
+                <span @click="changeModalState()">
+                  <img src="@/assets/images/all.png" width='50px' height="50px" style="display: block;"/>
+                  查看全部
+                </span>
+              </a-col>
+            </div>
+          </div>
+          <!-- {{manualList}} -->
         </div>
         <!-- <div v-if="manualList.length > 0" @click="handleView" class="manual-wrapper">
           <img src="@/assets/images/pdf.png" />
@@ -58,7 +120,8 @@ export default {
   name: 'ManualPublish',
   data() {
     return {
-      manualList: [],
+      manualList   : [],
+      modifyVisible: false
     }
   },
   mounted() {
@@ -67,8 +130,8 @@ export default {
   methods: {
     getManualList() {
       const params = {
-        pageNo  : 1,
-        pageSize: 4
+        // pageNo  : 1,
+        // pageSize: 10
       }
       this.$ajax.get({
         url: this.$api.GET_MANUAL_LIST,
@@ -77,14 +140,17 @@ export default {
         this.manualList = this.$com.confirm(res, 'data.content', [])
       })
     },
-    handleView(item) {
-      window.open(item.path, '_blank')
+    handleView(path) {
+      window.open(path, '_blank')
     },
     routerTo(name) {
       this.$router.push({
         name,
       })
     },
+    changeModalState() {
+      this.modifyVisible = !this.modifyVisible
+    }
   },
 }
 </script>
@@ -95,10 +161,11 @@ export default {
 .sectionTitle .divider{ font-size: 16px; background-color:#1890ff; height: 16px; width: 5px; border-radius: 4px;}
 .sectionTitle .title{ font-size: 16px;}
 .sectionTitle .more{ cursor: pointer; color: #1890ff}
-.manual-wrapper {text-align: center; padding-bottom: 16px; cursor: pointer;}
-.manual-wrapper:hover {color: #1890ff}
+/* .manual-wrapper {text-align: center; padding-bottom: 16px; cursor: pointer;} */
+.manual-wrapper {text-align: center; padding-bottom: 16px;}
+/* .manual-wrapper:hover {color: #1890ff} */
 .manual-wrapper > img {width: 50px;}
 .noDataBox {height: 70px; color:rgba(0,0,0,0.6); font-size: 30px; display: flex;flex-direction: column; align-items: center;justify-content: center;}
-.sectionContent {height: 120px}
+.sectionContent {height: 200px}
 
 </style>
