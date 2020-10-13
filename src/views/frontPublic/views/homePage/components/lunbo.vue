@@ -31,7 +31,7 @@
     />
 
     <LoggedInPanel
-      v-if="pageType !== 'login' && pageType !== 'forget'"
+      v-if="pageType !== 'login' && pageType !== 'forget' && pageType !== 'success'"
       id="loggedin"
       v-show="isInIndexPage"
       @on-change="pageTypeChange"
@@ -39,17 +39,22 @@
       class="loginpanel"
     />
     <ResetPassword v-if="pageType == 'forget'" @on-change="pageTypeChange" />
+    <ResetSuccessModal v-if="pageType == 'success'" @on-change="pageTypeChange" class="loginpanel"/>
   </div>
 </template>
 <script>
 import LoginPanel from '@/views/frontPublic/views/homePage/components/loginPanel.vue'
 import LoggedInPanel from '@/views/frontPublic/views/homePage/components/welcomePanel.vue'
 import ResetPassword from '@/views/frontPublic/views/homePage/components/resetPassword.vue'
+import ResetSuccessModal from '@/views/frontPublic/views/homePage/components/resetSuccessModal.vue'
+import ResetFailureModal from '@/views/frontPublic/views/homePage/components/resetFailureModal.vue'
 export default {
   components: {
     LoginPanel,
     LoggedInPanel,
-    ResetPassword
+    ResetPassword,
+    ResetSuccessModal,
+    ResetFailureModal
   },
   data() {
     return {
@@ -157,11 +162,29 @@ export default {
      * @description 监听并用于切换LoginPanel, welcomepanel的状态
      */
     pageTypeChange(data) {
+      console.log(data)
+      // if(typeof(data) == 'object') {
+      //   this.pageType = data.username
+      //   this.username = data.username
+      //   this.isOldSys = true
+      // } else {
+      //   this.pageType = data
+      //   this.username = data
+      //   this.isOldSys = false
+      // }
       if(typeof(data) == 'object') {
         this.pageType = data.username
         this.username = data.username
         this.isOldSys = true
-      } else {
+      } else if(data == 'login') {
+        this.pageType = data
+        this.username = data
+        this.isOldSys = false
+      } else if(data == 'success') {
+        this.pageType = data
+        this.username = data
+        this.isOldSys = false
+      } else if(data == 'forget') {
         this.pageType = data
         this.username = data
         this.isOldSys = false
@@ -198,17 +221,23 @@ export default {
 </script>
 <style scoped>
 .ant-carousel >>> li.slick-active button {
-  height: 10px;
-  width: 10px;
+  height: 14px;
+  width: 14px;
   background: #467fea;
   border-radius: 10px;
+  box-shadow: 0 0 5px 5px white;
 }
 
 .ant-carousel >>> li button {
-  height: 10px;
-  width: 10px;
-  background-color: grey;
+  height: 14px;
+  width: 14px;
+  background-color: white;
   border-radius: 10px;
+  box-shadow: 0 0 5px 5px #467fea;
+}
+
+.ant-carousel >>> .slick-dots {
+  height: 10px
 }
 .ant-carousel >>> .custom-slick-arrow {
   width: 25px;

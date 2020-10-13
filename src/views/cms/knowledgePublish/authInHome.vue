@@ -8,7 +8,16 @@
     <div class="knowledgeInHomeList">
       <template v-if='knowledgeList.length>0'>
         <template v-for="(knowledge,index) in knowledgeList">
-          <div @click="goToView(knowledge.id)" :class='{"knowledge":true,"hasBg":(index+1)%2==1}' :key="index">[{{knowledge.releaseDate}}] - [{{knowledge.author}}] - {{knowledge.title}} </div>
+          <div @click="goToView(knowledge.id)" :class='{"knowledge":true,"hasBg":(index+1)%2==1}' :key="index" style="margin-bottom: 5px">
+            <a-row>
+              <a-col :span='18' style="padding-left: 8px; text-overflow:ellipsis; white-space:nowrap; overflow:hidden;">
+                {{knowledge.title}}
+              </a-col>
+              <a-col :span='6' style="text-align: right; font-weight: normal">
+                {{knowledge.releaseDate}}
+              </a-col>
+            </a-row>
+          </div>
         </template>
       </template>
       <template v-else>
@@ -27,7 +36,7 @@
 .knowledgeInHomeTitle .title{ font-size: 16px;}
 .knowledgeInHomeTitle .more{ cursor: pointer; color: #1890ff}
 
-.knowledgeInHomeList { min-height: 320px}
+.knowledgeInHomeList { min-height: 230px}
 .knowledge{ padding:2px 0;line-height:1.5em;  cursor: pointer; color:rgba(0,0,0,0.6);
 font-weight: bold; padding-right:8px; word-break: break-all; display: inline-block; width: 100%; overflow: hidden; text-overflow:ellipsis; white-space: nowrap;}
 .noDataBox {height: 240px; color:rgba(0,0,0,0.6); font-size: 30px; display: flex;flex-direction: column; align-items: center;justify-content: center;}
@@ -47,7 +56,7 @@ export default {
       },
       pagination: {
         pageNo        : 1,
-        pageSize      : 10,
+        pageSize      : 5,
         total         : 0,
         current       : 1,
         defaultCurrent: 1,

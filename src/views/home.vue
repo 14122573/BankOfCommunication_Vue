@@ -29,7 +29,7 @@
       <a-col span='8'>
         <div class="sectionBox">
           <!-- 数据服务 -->
-          <div class="section mb16 dataSer" @click="openDataService()">
+          <!-- <div class="section mb16 dataSer" @click="openDataService()">
             <img src="@/assets/images/Group 12@3x.png" >
             <div class="demo">
               <p>
@@ -37,9 +37,9 @@
                 数据服务
               </p>
             </div>
-          </div>
+          </div> -->
           <!-- 管理员联系方式 -->
-          <div class="section mb16">
+          <!-- <div class="section mb16">
             <div class="sectionBody">
               <a-row class="sectionTitle" type="flex" justify="space-between" align="middle">
                 <a-col :span="18"><a-divider class="divider" type="vertical" /><span class="title">管理员联系方式</span></a-col>
@@ -48,15 +48,9 @@
                 <p class="contact">xinnn / 123123123</p>
               </div>
             </div>
-          </div>
-          <!-- 操作手册 -->
-          <div class="section mb16">
-            <div class="sectionBody">
-              <ManualPublish />
-            </div>
-          </div>
+          </div> -->
           <!-- 天气日历 -->
-          <div class="section">
+          <div class="section mb16">
             <div class="sectionBody">
               <a-row class="sectionTitle" type="flex" justify="space-between" align="middle">
                 <a-col :span="18"><a-divider class="divider" type="vertical" /><span class="title">天气日历</span></a-col>
@@ -66,6 +60,12 @@
                 <a-calendar style="width:100%" :fullscreen="false" > </a-calendar>
                 <img class="border-img" src="@/assets/images/border.png"/>
               </div>
+            </div>
+          </div>
+          <!-- 操作手册 -->
+          <div class="section mb16">
+            <div class="sectionBody">
+              <ManualPublish />
             </div>
           </div>
         </div>

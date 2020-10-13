@@ -8,11 +8,30 @@
         <PHeader />
         <Lunbo v-if="getBannerDisplay(display)" />
         <a-carousel v-else-if="!getBannerDisplay(display)">
-          <div class="fixedImgWrapper" v-if="routeTo == 'dataSearch' || routeTo == 'searchResult'">
+          <!-- <div class="fixedImgWrapper" v-if="routeTo == 'dataSearch' || routeTo == 'searchResult'">
             <img class="fixedImg" src="@/assets/images/home/sj_banner.jpg" height="400px" width='100%' alt="图片加载失败">
           </div>
           <div class="fixedImgWrapper" v-else>
             <img class="fixedImg" src="@/assets/images/home/zs_banner.jpg" height="400px" width='100%' alt="图片加载失败">
+          </div> -->
+          <div class="fixedImgWrapper" v-if="routeTo == 'dataSearch' || routeTo == 'searchResult'">
+            <img class="fixedImg" src="@/assets/images/home/home_sjcx.jpg"  width='100%' alt="图片加载失败">
+          </div>
+
+          <div class="fixedImgWrapper" v-else-if="routeTo == 'notificationList' || routeTo == 'notificationAnnounce'">
+            <img class="fixedImg" src="@/assets/images/home/home_tzgg.jpg"  width='100%' alt="图片加载失败">
+          </div>
+
+          <div class="fixedImgWrapper" v-else-if="routeTo == 'industryList' || routeTo == 'industryDetails'">
+            <img class="fixedImg" src="@/assets/images/home/home_hydt.jpg"  width='100%' alt="图片加载失败">
+          </div>
+
+          <div class="fixedImgWrapper" v-else-if="routeTo == 'farmingTechList' || routeTo == 'knowledgeServiceList' || routeTo == 'cloudLessonList'">
+            <img class="fixedImg" src="@/assets/images/home/home_ssfw.jpg"  width='100%' alt="图片加载失败">
+          </div>
+
+          <div class="fixedImgWrapper" v-else-if="routeTo == 'topicReportList' || routeTo == 'topicReportDetail'">
+            <img class="fixedImg" src="@/assets/images/home/home_ztbg.jpg"  width='100%' alt="图片加载失败">
           </div>
         </a-carousel>
         <router-view style="background-color: #f1f5f8 " />

@@ -238,7 +238,8 @@ export default {
       passwordStrength: false,
       disablePhone    : false,
       visibleModal    : false,
-      gainDatas       : {}
+      gainDatas       : {},
+      registerCount   : 1
     }
   },
   mounted() {
@@ -355,27 +356,31 @@ export default {
       }
     },
     showRight() {
-      if (this.pageType != '') {
-        if (this.pageType == 'isBind') {
-          if (this.right == '完成绑定') {
-            this.handleBind()
+      if(this.registerCount > 0) {
+        console.log('内' + this.registerCount)
+        if (this.pageType != '') {
+          if (this.pageType == 'isBind') {
+            if (this.right == '完成绑定') {
+              this.handleBind()
+            } else {
+              this.right = '完成绑定'
+              this.left = '上一步'
+              this.disablePhone = false
+              this.disableBtn = true
+            }
           } else {
-            this.right = '完成绑定'
-            this.left = '上一步'
-            this.disablePhone = false
-            this.disableBtn = true
+            this.goLogin()
           }
         } else {
-          this.goLogin()
+          this.$modal.error({
+            title     : '提示',
+            content   : '请先选择系统，再进行下一步！',
+            okText    : '确认',
+            cancelText: '取消',
+          })
         }
-      } else {
-        this.$modal.error({
-          title     : '提示',
-          content   : '请先选择系统，再进行下一步！',
-          okText    : '确认',
-          cancelText: '取消',
-        })
-      }
+        this.registerCount -= 1
+      } 
 
     },
     goLogin() {
@@ -600,7 +605,7 @@ export default {
 		position: absolute;
 		bottom: 30px;
 		left: -22px;
-		width: 944px;
+		width: 900px;
 		display: flex;
 		justify-content: space-between;
 	}

@@ -2,13 +2,17 @@
   <div class="dataService">
     <a-modal :footer="null" centered v-model="visible" >
       <a-row type="flex" justify="space-around" class="demo">
-        <a-col :span="10" class="dataModal" @click="toVeterinary">
+        <a-col :span="7" class="dataModal" @click="toVeterinary">
             <img src="@/assets/images/veterinary.png" alt="" class="icon2">
             <p class="title">官方兽医</p>
         </a-col>
-        <a-col :span="10" class="dataModal">
+        <a-col :span="7" class="dataModal">
             <img src="@/assets/images/fishProduction.png" alt="" class="icon2">
             <p class="title">全国渔业生产情况</p>
+        </a-col>
+        <a-col :span="7" class="dataModal">
+            <img src="@/assets/images/fishProduction.png" alt="" class="icon2" @click="routeTo('dataSearch')">
+            <p class="title">数据查询</p>
         </a-col>
       </a-row>
     </a-modal>
@@ -33,6 +37,9 @@ export default {
       }else{ 
         this.$router.push({ name: 'homeVeterinaryList' })
       }
+    },
+    routeTo(path) {
+      this.$router.push({ name: path })
     }
   },
 }
