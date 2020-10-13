@@ -36,7 +36,7 @@
 .knowledgeInHomeTitle .title{ font-size: 16px;}
 .knowledgeInHomeTitle .more{ cursor: pointer; color: #1890ff}
 
-.knowledgeInHomeList { min-height: 360px}
+.knowledgeInHomeList { min-height: 230px}
 .knowledge{ padding:2px 0;line-height:1.5em;  cursor: pointer; color:rgba(0,0,0,0.6);
 font-weight: bold; padding-right:8px; word-break: break-all; display: inline-block; width: 100%; overflow: hidden; text-overflow:ellipsis; white-space: nowrap;}
 .noDataBox {height: 240px; color:rgba(0,0,0,0.6); font-size: 30px; display: flex;flex-direction: column; align-items: center;justify-content: center;}
@@ -56,7 +56,7 @@ export default {
       },
       pagination: {
         pageNo        : 1,
-        pageSize      : 10,
+        pageSize      : 5,
         total         : 0,
         current       : 1,
         defaultCurrent: 1,
