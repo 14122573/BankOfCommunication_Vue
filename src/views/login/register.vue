@@ -150,7 +150,9 @@ export default {
   components: {
     Loader,
     testStrong,
-    FrameTop, FrameFooter,PHeader
+    FrameTop, 
+    FrameFooter,
+    PHeader
   },
   beforeCreate() {
     this.formRegister = this.$form.createForm(this)

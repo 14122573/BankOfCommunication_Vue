@@ -19,11 +19,15 @@
       </a-col>
       <a-col :span="12">
         <div class="loginFrameMenu">
-          <a-menu
+          <!-- <a-menu
             class="menuStyle"
             mode="horizontal"
             :default-selected-keys="currentRoute"
             :selected-keys="currentRoute"
+          > -->
+          <a-menu
+            class="menuStyle"
+            mode="horizontal"
           >
             <a-menu-item v-for="item in menuList" :key="item.key">
               <router-link :to="{ name: item.name }">{{

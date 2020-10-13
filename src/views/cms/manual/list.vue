@@ -17,6 +17,9 @@
     :total="total"
     class="portalTable"
   >
+    <div slot="system" slot-scope="{text, record}">
+      {{record.sysName}}
+    </div>
     <div slot="operator" slot-scope="{text, record}">
       <DataOperatorInList :defaultFileList="uploadFileList" :creator='!record.creator?"":record.creator' :lastOperator='!record.operator?"":record.operator' />
     </div>
@@ -30,6 +33,22 @@
     <a-form v-if="showModal" :form="modalForm">
       <a-form-item label="名称" :label-col="{span:4}" :wrapper-col="{span:20}">
         <a-input v-decorator="['name',{validateTrigger: 'blur',rules:rules.name}]" placeholder="请输入操作手册名称"></a-input>
+      </a-form-item>
+      <a-form-item label="系统" :label-col="{span:4}" :wrapper-col="{span:20}">
+        <a-select placeholder="请选择需要添加的系统" v-decorator="['system',{validateTrigger: 'blur',rules:rules.system}]" show-search>
+          <a-select-opt-group>
+            <span slot="label"><a-icon type="cluster" /> 新系统</span>
+            <a-select-option v-for="(item) in newSysList" :key="item.sysCode" :value="item.sysName">
+              {{ item.sysName }}
+            </a-select-option>
+          </a-select-opt-group>
+          <a-select-opt-group>
+            <span slot="label"><a-icon type="cluster" /> 老系统</span>
+            <a-select-option v-for="(item) in oldSysList" :key="item.sysCode" :value="item.sysName">
+              {{ item.sysName }}
+            </a-select-option>
+          </a-select-opt-group>
+        </a-select>
       </a-form-item>
       <a-form-item label="附件" :label-col="{span:4}" :wrapper-col="{span:20}">
         <FileUpload v-decorator="['upload',{ valuePropName: 'defaultFileList', initialValue: uploadFileList, rules:rules.file}]" @change="handleUpload"  :acceptTypes="uploadConfig.acceptTypesArray" :maxFileSize="uploadConfig.maxSize" :maxCount="1" :timestamp="Date.now()"/>
@@ -61,6 +80,9 @@ export default {
     return {
       modalForm: this.$form.createForm(this),
       rules    : {
+        system: [
+          { required: true, whitespace: true, message: '请选择需要添加的系统!' },
+        ],
         name: [
           { required: true, whitespace: true, message: '请输入操作手册名称!' },
         ],
@@ -75,6 +97,8 @@ export default {
         maxSize         : 5*1024*1024,
         acceptTypesArray: [ 'pdf' ]
       },
+      oldSysList : [],
+      newSysList : [],
       model      : {},
       total      : 0,
       currentPage: 1,
@@ -84,6 +108,11 @@ export default {
           title    : '名称',
           dataIndex: 'name',
           align    : 'left',
+        },
+        {
+          title      : '所属系统',
+          dataIndex  : 'system',
+          scopedSlots: { customRender: 'system' },
         },
         {
           title      : '操作人',
@@ -148,7 +177,8 @@ export default {
     }
   },
   mounted() {
-    this.getList()
+    this.getList(),
+    this.getSysList()
   },
   methods: {
     handleUpload(filelist) {
@@ -175,6 +205,33 @@ export default {
     },
     handleView({ path }) {
       window.open(path, '_blank')
+    },
+    getSysList() {
+      this.$ajax.get({
+        url: this.$api.SYSTEM_LIST_ALL_GET
+      }).then(res => {
+        if(res.code === '200'){
+          const data = this.$com.confirm(res, 'data.content', [])
+          for(let i = 0; i < data.length; i ++) {
+            this.newSysList.push({ 'sysCode': data[i].sysCode, 'sysName': data[i].sysName })
+          }
+        }else{
+          this.$message.error(res.msg)
+        }
+      })
+      this.$ajax
+        .get({
+          url: this.$api.GET_USER_INFO
+        })
+        .then(res => {
+          let content = this.$com.confirm(res, 'data.content', [])
+          // 获取当前用户有访问权限的老系统列表
+          for(let i = 0; i < content.sysDicSet.length; i++) {
+            this.oldSysList.push([ { 'sysCode': content.sysDicSet[i].sysCode, 'sysName': content.sysDicSet[i].sysName } ])
+          }
+        })
+      console.log(this.oldSysList)
+      console.log(JSON.stringify(this.newSysList))
     },
     getList() {
       const { name = null } = this.model
@@ -204,13 +261,15 @@ export default {
       this.editId = null
       this.showModal = true
     },
-    editManual({ id, name, fileName, path }) {
+    editManual({ id, name, fileName, path, sysCode, sysName }) {
       this.showModal = true
       this.editId = id
+      console.log(sysName)
       this.$nextTick(() => {
         this.modalForm.setFieldsValue({
           name,
           upload: [ { name: fileName, url: path, uid: id } ],
+          system: sysName
         })
       })
     },
@@ -220,9 +279,22 @@ export default {
           this.$com.getFormValidErrTips(this, err)
           return
         }
+        // 根据sysName去查sysCode
+        let selectedSysName = this.modalForm.getFieldValue('system')
+        let selectedSysCode = ''
+        let allSysList = this.oldSysList.concat(this.newSysList)
+        
+        for(let i = 0; i < allSysList.length; i++) {
+          if(allSysList[i].sysName == selectedSysName) {
+            selectedSysCode = allSysList[i].sysCode
+          }
+        }
+        console.log([ selectedSysCode, selectedSysName ])
         if (this.editId) {
           const params = {
             name    : this.modalForm.getFieldValue('name'),
+            sysCode : selectedSysCode,
+            sysName : selectedSysName,
             path    : this.modalForm.getFieldValue('upload').url,
             fileName: this.modalForm.getFieldValue('upload').name,
           }
@@ -246,10 +318,23 @@ export default {
           })
           return
         }
+        // // 根据sysName去查sysCode
+        // let selectedSysName = this.modalForm.getFieldValue('system')
+        // let selectedSysCode = ''
+        // let allSysList = this.oldSysList.concat(this.newSysList)
+        
+        // for(let i = 0; i < allSysList.length; i++) {
+        //   if(allSysList[i].sysName == selectedSysName) {
+        //     selectedSysCode = allSysList[i].sysCode
+        //   }
+        // }
+        
         this.$ajax.post({
           url   : this.$api.POST_ADD_MANUAL,
           params: {
             name    : this.modalForm.getFieldValue('name'),
+            sysCode : selectedSysCode,
+            sysName : selectedSysName,
             fileName: this.uploadFileList[0].name,
             path    : this.uploadFileList[0].url,
             fileId  : this.uploadFileList[0].uid,

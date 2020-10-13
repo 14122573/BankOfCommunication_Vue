@@ -15,7 +15,7 @@
             <img class="fixedImg" src="@/assets/images/home/zs_banner.jpg" height="400px" width='100%' alt="图片加载失败">
           </div> -->
           <div class="fixedImgWrapper" v-if="routeTo == 'dataSearch' || routeTo == 'searchResult'">
-            <img class="fixedImg" src="@/assets/images/home/home_sjcx.jpg" width='100%' alt="图片加载失败">
+            <img class="fixedImg" src="@/assets/images/home/home_sjcx.jpg"  width='100%' alt="图片加载失败">
           </div>
 
           <div class="fixedImgWrapper" v-else-if="routeTo == 'notificationList' || routeTo == 'notificationAnnounce'">

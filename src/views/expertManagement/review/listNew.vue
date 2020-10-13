@@ -2,7 +2,7 @@
   <div class="reviewSection">
     <a-row class="reviewInHomeTitle" type="flex" justify="space-between" align="middle" :gutter='16' >
       <a-col :span="18"><a-divider class="divider" type="vertical" /><span class="title">待办评审</span>
-        <a-badge class="navTidings" :count="tidingsCount" showZero>
+        <a-badge class="navTidings" :count="getCountResult()" showZero>
 					<a href="#">
 						<a-icon type="bell" />
           </a>
@@ -65,7 +65,7 @@ export default {
       reviewSingleList: [],
       reviewListPage  : {
         pageNo         : 1,
-        pageSize       : 10,
+        pageSize       : 5,
         total          : 0,
         current        : 1,
         defaultCurrent : 1,
@@ -98,7 +98,8 @@ export default {
         // 继续请求页面数据
         this.getReviewTypeList()
         this.getSysCodOptions()
-        this.getReviewList()
+        this.getReviewList(),
+        this.getCurrentUserInfo()
       }else{
         // 获取失败，展示提示文字
         this.$message.error('获取配置文件错误')
@@ -106,6 +107,63 @@ export default {
     })
   },
   methods: {
+    getCurrentUserInfo() {
+      this.$ajax
+        .get({
+          url: this.$api.GET_USER_INFO
+        })
+        .then(res => {
+          let content = res.data.content
+          let userId = content.id
+          // this.farmingCreateForm.setFieldsValue({
+          //   releaseDate: this.$moment().locale('zh-cn')
+          // })
+          this.loopTodoList(userId)
+        })
+    },
+
+    /**
+     * @description 根据用户id循环汇总各子系统的待办事项
+     * @param {String} id 用户id
+     */
+    loopTodoList(userId) {
+      let result
+      let list = []
+
+      this.$ajax.get({
+        url: this.$api.GET_EXPERT_REVIEW_TODO_LIST.replace('{expertId}', userId)
+      }).then(res => {
+        if(res.code === '200'){
+          let tidings = this.$com.confirm(res, 'data.content', [])
+          for (let i = 0; i < tidings.length; i++) {
+            for(let j = 0; j < tidings[i].list.length; j++) {
+              list.push(tidings[i].list[j])
+            }
+          }
+          this.tidingsCount = list.length
+        }else{
+          this.$message.error(res.msg)
+        }
+      })
+    },
+
+    /**
+     * @description 获取待办事项的条数
+     * @returns {result} 需要显示在待办事项上的条数
+     */
+    getCountResult() {
+      let result
+      if(this.tidingsCount > 99 && this.tidingsCount < 999) {
+        result = '99+'
+      } else if(this.tidingsCount > 999) {
+        result = '999+'
+      } else {
+        result = this.tidingsCount
+      }
+
+      return result
+    },
+
     /**
      * 根据syscode获取系统名称
      * @param {String} code 系统code
@@ -283,7 +341,9 @@ export default {
       }
       this.$ajax.get({
         url   : this.$api.GET_EXPERT_REVIEW_TODO_LIST.replace('{expertId}', this.expertId),
-        params: { status: 0 }
+        params: { 
+          status: 0,
+        }
       }).then(res => {
         if(res.code === '200'){
           this.reviewList = []
@@ -317,7 +377,7 @@ export default {
 }
 </script>
 <style scoped>
-.reviewSection {margin: 0 16px; padding-top: 16px; padding-bottom: 16px;}
+.reviewSection {margin: 0 16px; padding-top: 16px; padding-bottom: 16px; height: 302px}
 .reviewInHomeTitle { margin-bottom: 16px; padding-bottom: 8px; border-bottom: 1px solid  rgba(0,0,0,0.1)}
 .reviewInHomeTitle .divider{ font-size: 16px; background-color:#1890ff; height: 16px; width: 5px; border-radius: 4px;}
 .reviewInHomeTitle .title{ font-size: 16px;}

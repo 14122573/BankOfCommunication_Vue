@@ -10,10 +10,10 @@
         <template v-for="(knowledge,index) in knowledgeList">
           <div @click="goToView(knowledge.id)" :class='{"knowledge":true,"hasBg":(index+1)%2==1}' :key="index" style="margin-bottom: 5px">
             <a-row>
-              <a-col :span='19' style="padding-left: 8px">
+              <a-col :span='18' style="padding-left: 8px; text-overflow:ellipsis; white-space:nowrap; overflow:hidden;">
                 {{knowledge.title}}
               </a-col>
-              <a-col :span='5' style="text-align: right; font-weight: normal">
+              <a-col :span='6' style="text-align: right; font-weight: normal">
                 {{knowledge.releaseDate}}
               </a-col>
             </a-row>
@@ -36,7 +36,7 @@
 .knowledgeInHomeTitle .title{ font-size: 16px;}
 .knowledgeInHomeTitle .more{ cursor: pointer; color: #1890ff}
 
-.knowledgeInHomeList { min-height: 320px}
+.knowledgeInHomeList { min-height: 360px}
 .knowledge{ padding:2px 0;line-height:1.5em;  cursor: pointer; color:rgba(0,0,0,0.6);
 font-weight: bold; padding-right:8px; word-break: break-all; display: inline-block; width: 100%; overflow: hidden; text-overflow:ellipsis; white-space: nowrap;}
 .noDataBox {height: 240px; color:rgba(0,0,0,0.6); font-size: 30px; display: flex;flex-direction: column; align-items: center;justify-content: center;}

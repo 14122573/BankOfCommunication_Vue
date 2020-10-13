@@ -70,7 +70,7 @@
         
     </a-modal>
     <div class="sectionContent">
-      <a-row style="height: 50px"></a-row>
+      <a-row style="height: 70px"></a-row>
       <a-row align='middle' justify='center'>
         <div v-if="manualList.length > 0" class="manual-wrapper">
           <div v-for="(item, index) in manualList" :key="index">
@@ -167,6 +167,6 @@ export default {
 /* .manual-wrapper:hover {color: #1890ff} */
 .manual-wrapper > img {width: 50px;}
 .noDataBox {height: 70px; color:rgba(0,0,0,0.6); font-size: 30px; display: flex;flex-direction: column; align-items: center;justify-content: center;}
-.sectionContent {height: 200px}
+.sectionContent {height: 230px}
 
 </style>
