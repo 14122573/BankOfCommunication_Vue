@@ -36,18 +36,9 @@
       </a-form-item>
       <a-form-item label="系统" :label-col="{span:4}" :wrapper-col="{span:20}">
         <a-select placeholder="请选择需要添加的系统" v-decorator="['system',{validateTrigger: 'blur',rules:rules.system}]" show-search>
-          <a-select-opt-group>
-            <span slot="label"><a-icon type="cluster" /> 新系统</span>
-            <a-select-option v-for="(item) in newSysList" :key="item.sysCode" :value="item.sysName">
-              {{ item.sysName }}
-            </a-select-option>
-          </a-select-opt-group>
-          <a-select-opt-group>
-            <span slot="label"><a-icon type="cluster" /> 老系统</span>
-            <a-select-option v-for="(item) in oldSysList" :key="item.sysCode" :value="item.sysName">
-              {{ item.sysName }}
-            </a-select-option>
-          </a-select-opt-group>
+          <a-select-option v-for="(item) in sysList" :key="item.sysCode" :value="item.sysName">
+            {{ item.sysName }}
+          </a-select-option>
         </a-select>
       </a-form-item>
       <a-form-item label="附件" :label-col="{span:4}" :wrapper-col="{span:20}">
@@ -97,8 +88,9 @@ export default {
         maxSize         : 5*1024*1024,
         acceptTypesArray: [ 'pdf' ]
       },
-      oldSysList : [],
-      newSysList : [],
+      // oldSysList : [],
+      // newSysList : [],
+      sysList    : [], // 包含所有新老系统，不看用户权限
       model      : {},
       total      : 0,
       currentPage: 1,
@@ -213,25 +205,12 @@ export default {
         if(res.code === '200'){
           const data = this.$com.confirm(res, 'data.content', [])
           for(let i = 0; i < data.length; i ++) {
-            this.newSysList.push({ 'sysCode': data[i].sysCode, 'sysName': data[i].sysName })
+            this.sysList.push({ 'sysCode': data[i].sysCode, 'sysName': data[i].sysName })
           }
         }else{
           this.$message.error(res.msg)
         }
       })
-      this.$ajax
-        .get({
-          url: this.$api.GET_USER_INFO
-        })
-        .then(res => {
-          let content = this.$com.confirm(res, 'data.content', [])
-          // 获取当前用户有访问权限的老系统列表
-          for(let i = 0; i < content.sysDicSet.length; i++) {
-            this.oldSysList.push([ { 'sysCode': content.sysDicSet[i].sysCode, 'sysName': content.sysDicSet[i].sysName } ])
-          }
-        })
-      console.log(this.oldSysList)
-      console.log(JSON.stringify(this.newSysList))
     },
     getList() {
       const { name = null } = this.model
@@ -282,11 +261,10 @@ export default {
         // 根据sysName去查sysCode
         let selectedSysName = this.modalForm.getFieldValue('system')
         let selectedSysCode = ''
-        let allSysList = this.oldSysList.concat(this.newSysList)
         
-        for(let i = 0; i < allSysList.length; i++) {
-          if(allSysList[i].sysName == selectedSysName) {
-            selectedSysCode = allSysList[i].sysCode
+        for(let i = 0; i < this.sysList.length; i++) {
+          if(this.sysList[i].sysName == selectedSysName) {
+            selectedSysCode = this.sysList[i].sysCode
           }
         }
         console.log([ selectedSysCode, selectedSysName ])
