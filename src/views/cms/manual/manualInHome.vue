@@ -53,7 +53,7 @@
               <a-col :span='4' style="font-size: 10px; margin-bottom: 16px; cursor: pointer;">
                 <span @click="handleView(item.path)">
                   <img src="@/assets/images/pdf.png" width='50px' height="50px" style="display: block"/>
-                  {{item.name.length > 3? item.name.substring(0, 4) + '...':item.name}}
+                  <span>{{item.name.length > 3? item.name.substring(0, 4) + '...':item.name}}</span>
                 </span>
               </a-col>
             </div>
@@ -61,7 +61,7 @@
               <a-col :span='4' :offset='1' style="font-size: 10px; margin-bottom: 16px; cursor: pointer;">
                 <span @click="handleView(item.path)">
                   <img src="@/assets/images/pdf.png" width='50px' height="50px" style="display: block"/>
-                  {{item.name.length > 3? item.name.substring(0, 4) + '...':item.name}}
+                  <span>{{item.name.length > 3? item.name.substring(0, 4) + '...':item.name}}</span>
                 </span>
               </a-col>
             </div>
@@ -125,7 +125,8 @@ export default {
     }
   },
   mounted() {
-    this.getManualList()
+    this.getManualList(),
+    this.getPermittedSysList()
   },
   methods: {
     getManualList() {
@@ -150,6 +151,23 @@ export default {
     },
     changeModalState() {
       this.modifyVisible = !this.modifyVisible
+    },
+    getPermittedSysList() {
+      let authCodeList
+      this.$ajax.get({
+        url: this.$api.GET_USER_PEIMISSION
+      }).then(res=>{
+        if(res.data!=undefined && res.data!=null && res.data.content!=undefined && res.data.content!=null){
+          // 当前用户全部权限编码，包含菜单及功能操作
+          authCodeList = this.$com.confirm(res, 'data.content', [])
+          let authString = authCodeList.toString()
+          this.$ajax.get({
+            url: this.$api.GET_MANUAL_LIST + '?sysCode_in=' + authString
+          }).then(res => {
+            this.manualList = this.$com.confirm(res, 'data.content', [])
+          })
+        }
+      })
     }
   },
 }
