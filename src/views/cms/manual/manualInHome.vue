@@ -116,6 +116,7 @@
 </template>
 
 <script>
+// import { filter } from 'vue/types/umd'
 export default {
   name: 'ManualPublish',
   data() {
@@ -125,7 +126,7 @@ export default {
     }
   },
   mounted() {
-    this.getManualList(),
+    // this.getManualList(),
     this.getPermittedSysList()
   },
   methods: {
@@ -160,9 +161,29 @@ export default {
         if(res.data!=undefined && res.data!=null && res.data.content!=undefined && res.data.content!=null){
           // 当前用户全部权限编码，包含菜单及功能操作
           authCodeList = this.$com.confirm(res, 'data.content', [])
-          let authString = authCodeList.toString()
+          // let authString = authCodeList.toString()
+          let filteredList = []
+          let finalisedList = []
+          for(let i = 0; i < authCodeList.length; i++) {
+            if(authCodeList[i].length > 4) { // 新系统
+              filteredList.push(authCodeList[i].substring(0, 5))
+            } else { // 老系统
+              filteredList.push(authCodeList[i])
+            }
+          }
+
+          if(!!filteredList && filteredList.length > 0) {
+            for(let i = 0; i < filteredList.length; i++) {
+              if((this.$com.oneOf(filteredList[i], filteredList) == true) && (this.$com.oneOf(filteredList[i], finalisedList) == false)) {
+                finalisedList.push(filteredList[i])
+              }
+            }
+          }
+
+
+          // 传入新老系统的系统代码
           this.$ajax.get({
-            url: this.$api.GET_MANUAL_LIST + '?sysCode_in=' + authString
+            url: this.$api.GET_MANUAL_LIST + '?sysCode_in=' + finalisedList.toString()
           }).then(res => {
             this.manualList = this.$com.confirm(res, 'data.content', [])
           })
