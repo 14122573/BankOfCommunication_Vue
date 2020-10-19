@@ -7,8 +7,9 @@
       align="middle"
       :gutter="10"
     >
-      <a-col :span="9">
-        <a-row style="margin-left: 30px">
+      <a-col :span="12">
+        <!-- <a-row style="margin-left: 30px"> -->
+        <a-row>
           <a-col :span="4"
             ><img src="@/assets/images/logo.png" alt="" class="logo"
           /></a-col>
@@ -17,7 +18,7 @@
           </a-col>
         </a-row>
       </a-col>
-      <a-col :span="15">
+      <a-col :span="12">
         <div class="loginFrameMenu">
           <a-menu
             class="menuStyle"
@@ -168,7 +169,7 @@ export default {
 <style scoped>
 .loginFrameBody {
   margin: 0 auto;
-  max-width: 1000px;
+  max-width: 980px;
   height: 66px;
 }
 .loginFrameTitle {
@@ -186,6 +187,10 @@ export default {
   height: 64px;
   line-height: 62px;
 }
+
+.ant-menu-item, .ant-menu-submenu-title {
+  padding: 0px 10px
+}
 </style>
 
 <style lang="stylus" scoped>
@@ -197,4 +202,7 @@ export default {
 
 .loginFrameMenu > ul
   $titleFontSize()
+
+.logo_title
+  $logoFontSize()
 </style>
