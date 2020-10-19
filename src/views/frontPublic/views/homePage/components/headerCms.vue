@@ -8,7 +8,8 @@
       :gutter="10"
     >
       <a-col :span="12">
-        <a-row style="margin-left: 180px">
+        <!-- <a-row style="margin-left: 180px"> -->
+        <a-row style="margin-left: 230px">
           <a-col :span="4"
             ><img src="@/assets/images/logo.png" alt="" class="logo"
           /></a-col>
@@ -191,6 +192,10 @@ export default {
   height: 64px;
   line-height: 62px;
 }
+
+.ant-menu-item, .ant-menu-submenu-title {
+  padding: 0px 10px
+}
 </style>
 
 <style lang="stylus" scoped>
@@ -202,4 +207,7 @@ export default {
 
 .loginFrameMenu > ul
   $titleFontSize()
+
+.logo_title
+  $logoFontSize()
 </style>
