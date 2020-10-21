@@ -605,7 +605,7 @@ export default {
 		position: absolute;
 		bottom: 30px;
 		left: -22px;
-		width: 900px;
+		width: 944px;
 		display: flex;
 		justify-content: space-between;
 	}
