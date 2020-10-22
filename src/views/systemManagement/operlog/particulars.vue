@@ -84,8 +84,8 @@
 export default {
   data() {
     return {
-      detail:{}
-    };
+      detail: {}
+    }
   },
   mounted() {
     this.getDetail()
@@ -112,16 +112,16 @@ export default {
           cancelText: '取消',
           onOk() {
             _this.$ajax.post({
-                url: _this.$api.POST_OPERLOG_DELECT_BYID.replace('{id}', item)
+              url: _this.$api.POST_OPERLOG_DELECT_BYID.replace('{id}', item)
             }).then(res => {
-                _this.$router.push({name : '/systemManagement/operlog'})
+              _this.$router.push({ name: '/systemManagement/operlog' })
             })
           }
         })
       }
     }
   },
-};
+}
 </script>
 <style scoped>
 </style>

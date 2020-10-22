@@ -496,35 +496,35 @@ const appRoutes = [
               openMode   : 'normal'
             },
             children: []
-            },
+          },
           // 操作日志
           {
-            path: '/systemManagement/operlog',
-            name: '/systemManagement/operlog',
+            path     : '/systemManagement/operlog',
+            name     : '/systemManagement/operlog',
             component: () =>
                 import ('@/views/systemManagement/operlog/index'),
             meta: {
-                title      : '操作日志',
-                menuPath   : true,
-                authCode   : 'P05000',
+              title      : '操作日志',
+              menuPath   : true,
+              authCode   : 'P05000',
+              menuIcon   : 'cluster',
+              hideInBread: false,
+              openMode   : 'normal'
+            },
+            children: [ {
+              path     : '/systemManagement/operlog/particulars',
+              name     : '/systemManagement/operlog/particulars',
+              component: () =>
+                    import ('@/views/systemManagement/operlog/particulars'),
+              meta: {
+                title      : '查看日志详情',
+                menuPath   : false,
+                authCode   : 'P05001',
                 menuIcon   : 'cluster',
                 hideInBread: false,
                 openMode   : 'normal'
-            },
-            children: [{
-                path     : '/systemManagement/operlog/particulars',
-                name     : '/systemManagement/operlog/particulars',
-                component: () =>
-                    import ('@/views/systemManagement/operlog/particulars'),
-                meta     : {
-                  title      : '查看日志详情',
-                  menuPath   : false,
-                  authCode   : 'P05001',
-                  menuIcon   : 'cluster',
-                  hideInBread: false,
-                  openMode   : 'normal'
-                }
-              }]
+              }
+            } ]
           }
         ]
       },

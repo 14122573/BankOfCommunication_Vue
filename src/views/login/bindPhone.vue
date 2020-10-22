@@ -2,194 +2,196 @@
 	<div class="loginFrame" :style="'background-image: url(' + require('@/assets/images/bg.jpg') + ')'">
     <FrameTop></FrameTop>
 		<div class="chooseSystem" id="ChooseSystem">
-			<div>
-				<a-row type="flex" justify="start" align="middle" :gutter="10">
-					<a-col><img src="@/assets/images/logo.png" alt="" class="logo"></a-col>
-					<a-col>“智能渔技”综合信息服务平台</a-col>
-				</a-row>
-			</div>
-			<div class="systemBlock" v-if='right!="完成绑定"'>
-				<div class="systemTitle">
-					请选择登录系统
-				</div>
-				<div class="systemLists">
-          <a-row :gutter="16">
-          <template v-for="(item,index) in systemLists">
-            <a-col span='6' :key="index">
-              <div class="systemItem" @click="selectSystem(item,index)">
-                {{item.sysDic.sysName}}
-                <img src="@/assets/images/system-s.png" alt="" class="checkImage" v-show='activeIndex==index' />
-                <img src="@/assets/images/isBind.png" alt="" class="checkImage" v-show='item.isBind=="true"||item.isBind=="1"' />
-              </div>
-            </a-col>
-          </template>
+      <a-spin tip="正在提交，请稍候..." :spinning='spinning'>
+        <div>
+          <a-row type="flex" justify="start" align="middle" :gutter="10">
+            <a-col><img src="@/assets/images/logo.png" alt="" class="logo"></a-col>
+            <a-col>“智能渔技”综合信息服务平台</a-col>
           </a-row>
-				</div>
-			</div>
-			<div class="bindPhone" v-if='right=="完成绑定"'>
-				<div class='bindPhoneTitle' style="margin-bottom:2px">{{systemNmme}}</div>
-				<div class='bindPhoneTitle' style="font-weight:normal">绑定手机号码</div>
-				<a-form :form="formBind" class="register-form">
-					<a-row type="flex" justify="start" align="middle" :gutter="10">
-						<a-col :span="7">
-							<a-form-item>
-								<a-input v-decorator="[
-									  'phone',
-									  { validateTrigger:'blur',
-										 rules: [
-									  { validator: validatePhone}] }
-									]"
-								 placeholder="手机号" :disabled='disablePhone'>
-									<a-icon slot="prefix" type="mobile" style="color: rgba(0,0,0,.25)" />
-								</a-input>
-							</a-form-item>
-						</a-col>
-						<a-col :span="7">
-							<a-form-item>
-								<a-input v-decorator="[ 'code', { validateTrigger:'change',  rules: [ {validator: validateCode}] } ]"
-								 placeholder="手机验证码" :disabled='disableCode'>
-									<a-icon slot="prefix" type="code" style="color: rgba(0,0,0,.25)" />
-								</a-input>
-							</a-form-item>
-						</a-col>
-						<a-col :span="4">
-							<a-form-item>
-								<a-button type="primary" :disabled='disableBtn' ghost @click="sendCode" size="small" style="height:42px;min-width: 86px;">
-									{{btnTxt}}
-								</a-button>
-							</a-form-item>
-						</a-col>
-					</a-row>
-					<div v-if="!isBind">
-						<div class="tips">{{tips}}</div>
-						<a-row type="flex" justify="start" align="middle" :gutter="10">
-							<a-col span="7">
-								<a-form-item>
-									<a-input v-decorator="[ 'password', { validateTrigger:'blur', rules: [ { validator: validateToNextPassword, }] } ]" type="password" placeholder="密码需大于6位且含字母和数字">
-										<a-icon slot="prefix" type="lock" style="color: rgba(0,0,0,.25)" />
-									</a-input>
-								</a-form-item>
-								<testStrong :pwd="!formBind.getFieldValue('password')?'':formBind.getFieldValue('password')" :width="75" v-show="passwordStrength"></testStrong>
-							</a-col>
-							<a-col span="7">
-								<a-form-item>
-									<a-input v-decorator="[
-										  'rePassword',
-										  { validateTrigger:'blur',
-                        rules: [{ required: true, message: '请重复填写密码!' }, {
-											  validator: compareToFirstPassword,
-											}] }
-										]"
-									 type="password" placeholder="重复密码" @blur="handleConfirmBlur">
-										<a-icon slot="prefix" type="lock" style="color: rgba(0,0,0,.25)" />
-									</a-input>
-								</a-form-item>
-							</a-col>
-						</a-row>
-						<a-row type="flex" justify="start" align="middle" :gutter="10">
-							<a-col span="7">
-								<a-form-item>
-									<a-input v-decorator="[
-											  'name',
-											  {validateTrigger:'blur',
-												rules: [ {
-												  required: true, message: '请输入姓名!',
-												}]
-											  }
-											]"
-									 type="text" placeholder="姓名">
-										<a-icon slot="prefix" type="user" style="color: rgba(0,0,0,.25)" />
-									</a-input>
-								</a-form-item>
-							</a-col>
-							<a-col span="7">
-								<a-form-item>
-									<a-input v-decorator="[
-										  'mail',
-										  {
-                                            validateTrigger:'blur',
-											rules: [{
-											  type: 'email', message: '请输入合法邮箱!',
-											}, {
-											  required: true, message: '请输入邮箱!',
-											}]
-										  }
-										]"
-									 type="text" placeholder="邮箱">
-										<a-icon slot="prefix" type="mail" style="color: rgba(0,0,0,.25)" />
-									</a-input>
-								</a-form-item>
-							</a-col>
-							<a-col span='10'>
-								<a-form-item>
-									<a-input v-decorator="[
-										  'dept',
-										  {
-											rules: [ {
-											  required: true, message: '请输入单位!',
-											}]
-										  }
-										]"
-									 type="text" placeholder="单位">
-										<a-icon slot="prefix" type="bank" style="color: rgba(0,0,0,.25)" />
-									</a-input>
-								</a-form-item>
-							</a-col>
-						</a-row>
-						<a-row type="flex" justify="start" align="middle" :gutter="10">
-							<a-col span='14'>
-								<a-form-item>
-									<a-input v-decorator="[
-										  'addr',
-										  {
-											rules: [ {
-											  required: true, message: '请输入地址!',
-											}]
-										  }
-										]"
-									 type="text" placeholder="地址">
-										<a-icon slot="prefix" type="environment" style="color: rgba(0,0,0,.25)" />
-									</a-input>
-								</a-form-item>
-							</a-col>
+        </div>
+        <div class="systemBlock" v-if='right!="完成绑定"'>
+          <div class="systemTitle">
+            请选择登录系统
+          </div>
+          <div class="systemLists">
+            <a-row :gutter="16">
+            <template v-for="(item,index) in systemLists">
+              <a-col span='6' :key="index">
+                <div class="systemItem" @click="selectSystem(item,index)">
+                  {{item.sysDic.sysName}}
+                  <img src="@/assets/images/system-s.png" alt="" class="checkImage" v-show='activeIndex==index' />
+                  <img src="@/assets/images/isBind.png" alt="" class="checkImage" v-show='item.isBind=="true"||item.isBind=="1"' />
+                </div>
+              </a-col>
+            </template>
+            </a-row>
+          </div>
+        </div>
+        <div class="bindPhone" v-if='right=="完成绑定"'>
+          <div class='bindPhoneTitle' style="margin-bottom:2px">{{systemNmme}}</div>
+          <div class='bindPhoneTitle' style="font-weight:normal">绑定手机号码</div>
+          <a-form :form="formBind" class="register-form">
+            <a-row type="flex" justify="start" align="middle" :gutter="10">
+              <a-col :span="7">
+                <a-form-item>
+                  <a-input v-decorator="[
+                      'phone',
+                      { validateTrigger:'change',
+                      rules: [
+                      { validator: validatePhone}] }
+                    ]"
+                  placeholder="手机号" :disabled='disablePhone'>
+                    <a-icon slot="prefix" type="mobile" style="color: rgba(0,0,0,.25)" />
+                  </a-input>
+                </a-form-item>
+              </a-col>
+              <a-col :span="7">
+                <a-form-item>
+                  <a-input v-decorator="[ 'code', { validateTrigger:'change',  rules: [ {validator: validateCode}] } ]"
+                  placeholder="手机验证码" :disabled='disableCode'>
+                    <a-icon slot="prefix" type="code" style="color: rgba(0,0,0,.25)" />
+                  </a-input>
+                </a-form-item>
+              </a-col>
+              <a-col :span="4">
+                <a-form-item>
+                  <a-button type="primary" :disabled='disableBtn' ghost @click="sendCode" size="small" style="height:42px;min-width: 86px;">
+                    {{btnTxt}}
+                  </a-button>
+                </a-form-item>
+              </a-col>
+            </a-row>
+            <div v-if="!isBind">
+              <div class="tips">{{tips}}</div>
+              <a-row type="flex" justify="start" align="middle" :gutter="10">
+                <a-col span="7">
+                  <a-form-item>
+                    <a-input v-decorator="[ 'password', { validateTrigger:'blur', rules: [ { validator: validateToNextPassword, }] } ]" type="password" placeholder="密码需大于6位且含字母和数字">
+                      <a-icon slot="prefix" type="lock" style="color: rgba(0,0,0,.25)" />
+                    </a-input>
+                  </a-form-item>
+                  <testStrong :pwd="!formBind.getFieldValue('password')?'':formBind.getFieldValue('password')" :width="75" v-show="passwordStrength"></testStrong>
+                </a-col>
+                <a-col span="7">
+                  <a-form-item>
+                    <a-input v-decorator="[
+                        'rePassword',
+                        { validateTrigger:'blur',
+                          rules: [{ required: true, message: '请重复填写密码!' }, {
+                          validator: compareToFirstPassword,
+                        }] }
+                      ]"
+                    type="password" placeholder="重复密码" @blur="handleConfirmBlur">
+                      <a-icon slot="prefix" type="lock" style="color: rgba(0,0,0,.25)" />
+                    </a-input>
+                  </a-form-item>
+                </a-col>
+              </a-row>
+              <a-row type="flex" justify="start" align="middle" :gutter="10">
+                <a-col span="7">
+                  <a-form-item>
+                    <a-input v-decorator="[
+                          'name',
+                          {validateTrigger:'blur',
+                          rules: [ {
+                            required: true, message: '请输入姓名!',
+                          }]
+                          }
+                        ]"
+                    type="text" placeholder="姓名">
+                      <a-icon slot="prefix" type="user" style="color: rgba(0,0,0,.25)" />
+                    </a-input>
+                  </a-form-item>
+                </a-col>
+                <a-col span="7">
+                  <a-form-item>
+                    <a-input v-decorator="[
+                        'mail',
+                        {
+                                              validateTrigger:'blur',
+                        rules: [{
+                          type: 'email', message: '请输入合法邮箱!',
+                        }, {
+                          required: true, message: '请输入邮箱!',
+                        }]
+                        }
+                      ]"
+                    type="text" placeholder="邮箱">
+                      <a-icon slot="prefix" type="mail" style="color: rgba(0,0,0,.25)" />
+                    </a-input>
+                  </a-form-item>
+                </a-col>
+                <a-col span='10'>
+                  <a-form-item>
+                    <a-input v-decorator="[
+                        'dept',
+                        {
+                        rules: [ {
+                          required: true, message: '请输入单位!',
+                        }]
+                        }
+                      ]"
+                    type="text" placeholder="单位">
+                      <a-icon slot="prefix" type="bank" style="color: rgba(0,0,0,.25)" />
+                    </a-input>
+                  </a-form-item>
+                </a-col>
+              </a-row>
+              <a-row type="flex" justify="start" align="middle" :gutter="10">
+                <a-col span='14'>
+                  <a-form-item>
+                    <a-input v-decorator="[
+                        'addr',
+                        {
+                        rules: [ {
+                          required: true, message: '请输入地址!',
+                        }]
+                        }
+                      ]"
+                    type="text" placeholder="地址">
+                      <a-icon slot="prefix" type="environment" style="color: rgba(0,0,0,.25)" />
+                    </a-input>
+                  </a-form-item>
+                </a-col>
 
-							<a-col span='7'>
-								<a-form-item>
-									<a-input v-decorator="[
-										  'zipCode',
-										  {
-											validateTrigger:'blur',
-											rules: [ {
-											  required: true,
-												validator: checkZipCode,
-											}]
-										  }
-										]"
-									 type="text" placeholder="邮编">
-										<a-icon slot="prefix" type="code" style="color: rgba(0,0,0,.25)" />
-									</a-input>
-								</a-form-item>
-							</a-col>
-						</a-row>
-					</div>
-				</a-form>
-			</div>
-		  <img src="@/assets/images/border.png" alt="" class="border">
-			<div class="btnGroup">
-				<div v-if="hasLogined" @click="toLogin">
-					<img src="@/assets/images/left.png" alt="">
-					<div>退出</div>
-				</div>
-				<div v-else @click="showLeft">
-					<img src="@/assets/images/left.png" alt="">
-					<div>{{left}}</div>
-				</div>
-				<div @click="showRight">
-					<img src="@/assets/images/right2.png" alt="" v-if='disableNext'>
-					<img src="@/assets/images/right.png" alt="" v-else>
-					<div>{{right}}</div>
-				</div>
-			</div>
+                <a-col span='7'>
+                  <a-form-item>
+                    <a-input v-decorator="[
+                        'zipCode',
+                        {
+                        validateTrigger:'blur',
+                        rules: [ {
+                          required: true,
+                          validator: checkZipCode,
+                        }]
+                        }
+                      ]"
+                    type="text" placeholder="邮编">
+                      <a-icon slot="prefix" type="code" style="color: rgba(0,0,0,.25)" />
+                    </a-input>
+                  </a-form-item>
+                </a-col>
+              </a-row>
+            </div>
+          </a-form>
+        </div>
+        <img src="@/assets/images/border.png" alt="" class="border">
+        <div class="btnGroup">
+          <div v-if="hasLogined" @click="toLogin">
+            <img src="@/assets/images/left.png" alt="">
+            <div>退出</div>
+          </div>
+          <div v-else @click="showLeft">
+            <img src="@/assets/images/left.png" alt="">
+            <div>{{left}}</div>
+          </div>
+          <div @click="showRight">
+            <img src="@/assets/images/right2.png" alt="" v-if='disableNext'>
+            <img src="@/assets/images/right.png" alt="" v-else>
+            <div>{{right}}</div>
+          </div>
+        </div>
+      </a-spin>
 		</div>
 		<a-modal title="完成绑定" :visible="visibleModal" :closable='false' :maskClosable='false'>
 			<template slot="footer">
@@ -239,7 +241,7 @@ export default {
       disablePhone    : false,
       visibleModal    : false,
       gainDatas       : {},
-      registerCount   : 1
+      spinning        : false
     }
   },
   mounted() {
@@ -292,6 +294,7 @@ export default {
       }
     },
     handleBind() {
+      this.spinning = true
       this.formBind.validateFields((err, values) => {
         if (!err) {
           const params = {
@@ -324,6 +327,7 @@ export default {
             params: transData
           }).then(res => {
             this.gainDatas = res.data.content
+            this.spinning = false
             this.visibleModal = true
           })
         }else{
@@ -356,32 +360,27 @@ export default {
       }
     },
     showRight() {
-      if(this.registerCount > 0) {
-        console.log('内' + this.registerCount)
-        if (this.pageType != '') {
-          if (this.pageType == 'isBind') {
-            if (this.right == '完成绑定') {
-              this.handleBind()
-            } else {
-              this.right = '完成绑定'
-              this.left = '上一步'
-              this.disablePhone = false
-              this.disableBtn = true
-            }
+      if (this.pageType != '') {
+        if (this.pageType == 'isBind') {
+          if (this.right == '完成绑定') {
+            this.handleBind()
           } else {
-            this.goLogin()
+            this.right = '完成绑定'
+            this.left = '上一步'
+            this.disablePhone = false
+            this.disableBtn = true
           }
         } else {
-          this.$modal.error({
-            title     : '提示',
-            content   : '请先选择系统，再进行下一步！',
-            okText    : '确认',
-            cancelText: '取消',
-          })
+          this.goLogin()
         }
-        this.registerCount -= 1
-      } 
-
+      } else {
+        this.$modal.error({
+          title     : '提示',
+          content   : '请先选择系统，再进行下一步！',
+          okText    : '确认',
+          cancelText: '取消',
+        })
+      }
     },
     goLogin() {
       let links = '?userId=' + this.userId
@@ -568,6 +567,11 @@ export default {
 .loginFrame { width: 100%; height: 100%; min-width: 1000px; min-height: 700px; margin: 0px; padding: 0px; position: relative; background-size: cover; z-index: 10;}
 .chooseSystem { width: 900px; height: 540px; position:relative; margin: auto; top: calc((100% - 560px)/2); background: white; padding: 10px 20px; font-size: 26px; color: rgba(101, 101, 101);}
 .logo { height: 70px; }
+  .spin-content {
+    border: 1px solid #91d5ff;
+    background-color: #e6f7ff;
+    padding: 0px;
+  }
 
 	.systemBlock {
 		font-size: 14px;
@@ -603,8 +607,8 @@ export default {
 
 	.btnGroup {
 		position: absolute;
-		bottom: 30px;
-		left: -22px;
+		bottom: -22px;
+		left:-42px;
 		width: 944px;
 		display: flex;
 		justify-content: space-between;
@@ -636,8 +640,8 @@ export default {
 	.border {
 		width: 900px;
 		position: absolute;
-		bottom: 0px;
-		left: 0px;
+		bottom: -42px;
+		left: -22px;
 	}
 
 	.bindPhone {
