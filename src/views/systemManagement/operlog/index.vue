@@ -87,20 +87,20 @@
 <script>
 const columns = [
   {
-    title: "模块名称",
-    dataIndex: "modName",
-    align: "center",
-    width: 120
+    title    : '模块名称',
+    dataIndex: 'modName',
+    align    : 'center',
+    width    : 120
   },
   {
-    title: "功能点描述",
-    dataIndex: "desPoint",
-    align: "center"
+    title    : '功能点描述',
+    dataIndex: 'desPoint',
+    align    : 'center'
   },
   {
-    title: "请求方式",
-    dataIndex: "method",
-    align: "center"
+    title    : '请求方式',
+    dataIndex: 'method',
+    align    : 'center'
   },
   // {
   //   title: "操作人员",
@@ -113,73 +113,73 @@ const columns = [
   //   align: "center"
   // },
   {
-    title: "请求ip",
-    dataIndex: "reqIp",
-    align: "center"
+    title    : '请求ip',
+    dataIndex: 'reqIp',
+    align    : 'center'
   },
   {
-    title: "系统名称",
-    dataIndex: "sysName",
-    align: "center"
+    title    : '系统名称',
+    dataIndex: 'sysName',
+    align    : 'center'
   },
   {
-    title: "响应编码",
-    dataIndex: "statusCode",
-    align: "center"
+    title    : '响应编码',
+    dataIndex: 'statusCode',
+    align    : 'center'
     // scopedSlots: { customRender: "status" }
   },
   {
-    title: "操作日期",
-    dataIndex: "opeTime",
-    align: "center"
+    title    : '操作日期',
+    dataIndex: 'opeTime',
+    align    : 'center'
   },
   {
-    title: "操作",
-    dataIndex: "actions",
-    width: 100,
-    align: "center",
-    scopedSlots: { customRender: "actions" }
+    title      : '操作',
+    dataIndex  : 'actions',
+    width      : 100,
+    align      : 'center',
+    scopedSlots: { customRender: 'actions' }
   }
-];
+]
 // import particularsModal from "./modal/particularsModal";
-import moment from "moment";
-import { FormModel } from "ant-design-vue";
+import moment from 'moment'
+import { FormModel } from 'ant-design-vue'
 export default {
   components: {
-    "a-form-model": FormModel
+    'a-form-model': FormModel
   },
   data() {
     return {
       // 多选的选项
       selectedRowKeys: [],
       //表头
-      columns: columns,
+      columns        : columns,
       //数据
-      list: [],
+      list           : [],
       //查询日期范围
-      dateRange: [],
-      total: 0,
+      dateRange      : [],
+      total          : 0,
       //查询参数
-      queryParams: {},
+      queryParams    : {},
       //时间参数
-      dataTimeSelect: []
-    };
+      dataTimeSelect : []
+    }
   },
   computed: {
     hasSelected() {
-      return this.selectedRowKeys.length > 0;
+      return this.selectedRowKeys.length > 0
     }
   },
   watch: {
     $route(to, from) {
       //当监听到路由返回时候刷新列表
-      if (to.path == "/systemManagement/operlog") {
-        this.getList();
+      if (to.path == '/systemManagement/operlog') {
+        this.getList()
       }
     }
   },
   created() {
-    this.resetQuery();
+    this.resetQuery()
   },
   methods: {
     //moment
@@ -187,105 +187,105 @@ export default {
     //初始化
     resetQuery() {
       this.queryParams = {
-        pageNo: 1,
-        pageSize: 10,
-        modName_l: undefined,
-        opeName_l: undefined,
-        method_l: undefined,
+        pageNo    : 1,
+        pageSize  : 10,
+        modName_l : undefined,
+        opeName_l : undefined,
+        method_l  : undefined,
         statusCode: undefined,
         opeTime_gt: undefined,
         opeTime_lt: undefined
-      };
-      this.dataTimeSelect = [];
-      this.total = 0;
-      this.getList();
+      }
+      this.dataTimeSelect = []
+      this.total = 0
+      this.getList()
     },
     openModal(record) {
-      this.$refs.particulars.showModal(record);
+      this.$refs.particulars.showModal(record)
     },
     //获取列表
     getList() {
       this.$ajax
         .get({
-          url: this.$api.GET_OPERLOG_LIST,
+          url   : this.$api.GET_OPERLOG_LIST,
           params: this.queryParams
         })
         .then(res => {
-          if (res.code === "200") {
-            this.total = res.data.totalRows || 0;
-            this.list = res.data.content || [];
+          if (res.code === '200') {
+            this.total = res.data.totalRows || 0
+            this.list = res.data.content || []
           } else {
-            this.$message.error(res.msg);
+            this.$message.error(res.msg)
           }
-        });
+        })
     },
     //多选
     handleSelectChange(selectedRowKeys, selectedRows) {
       this.selectedRowKeys = selectedRowKeys.map(ele=>{
-        return {id:ele}
-      });
-      console.log(this.selectedRowKeys);
+        return { id: ele }
+      })
+      console.log(this.selectedRowKeys)
       
     },
     //日期选择
     onChange(date, dateString) {
       // console.log(date, dateString);
-      this.dataTimeSelect = date;
-      this.queryParams.opeTime_gt = dateString[0] || undefined;
-      this.queryParams.opeTime_lt = dateString[1] || undefined;
+      this.dataTimeSelect = date
+      this.queryParams.opeTime_gt = dateString[0] || undefined
+      this.queryParams.opeTime_lt = dateString[1] || undefined
     },
     //查看详情
     handelSee(record) {
-      console.log(record);
+      console.log(record)
     },
     //选择分页
     handlePageChange({ current }) {
-      this.queryParams.pageNo = current;
-      this.getList();
+      this.queryParams.pageNo = current
+      this.getList()
     },
     //全部删除
     deleteAll(){
-      const _this = this;
+      const _this = this
       this.$modal.confirm({
-        title: "是否确认删除这些数据？",
-        content: "此操作不可撤销",
-        okText: "确认",
-        okType: "danger",
-        cancelText: "取消",
+        title     : '是否确认删除这些数据？',
+        content   : '此操作不可撤销',
+        okText    : '确认',
+        okType    : 'danger',
+        cancelText: '取消',
         onOk() {
           _this.$ajax
             .post({
               url: _this.$api.POST_OPERLOG_ALL_DELECT,
             })
             .then(res => {
-              _this.getList();
-            });
+              _this.getList()
+            })
         }
-      });
+      })
     },
     //批量删除
     deleteIds() {
-      const _this = this;
+      const _this = this
       this.$modal.confirm({
-        title: "是否确认删除这些数据？",
-        content: "此操作不可撤销",
-        okText: "确认",
-        okType: "danger",
-        cancelText: "取消",
+        title     : '是否确认删除这些数据？',
+        content   : '此操作不可撤销',
+        okText    : '确认',
+        okType    : 'danger',
+        cancelText: '取消',
         onOk() {
           _this.$ajax
             .post({
-              url: _this.$api.POST_OPERLOG_IDS_DELECT,
+              url   : _this.$api.POST_OPERLOG_IDS_DELECT,
               params: _this.selectedRowKeys
             })
             .then(res => {
-              _this.getList();
-            });
+              _this.getList()
+            })
         }
-      });
+      })
     }
   }
-};
+}
 </script>
 <style>
 .ant-advanced-search-form {
