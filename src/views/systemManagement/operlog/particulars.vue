@@ -3,7 +3,7 @@
       <div class="portalDetailTitle">
         <span class="title">详情</span>
         <div class="detailOperations">
-           <a-button  type="danger" @click="delectById($route.query.id)">删除</a-button>
+           <!-- <a-button  type="danger" @click="delectById($route.query.id)">删除</a-button> -->
           <a-button @click="$router.back()">返回</a-button>
         </div>
       </div>
@@ -31,7 +31,7 @@
             <a-col span="8">
               <DetailsItem :labelSpan='8' :textSpan="16" :label='"请求ip"' :text='!detail.reqIp?"暂无":detail.reqIp'></DetailsItem>
             </a-col>
-             
+
           </a-row>
 
            <a-row :gutter="8" class="detailsPartLine">
@@ -100,28 +100,28 @@ export default {
         this.detail = res.data.content
       })
     },
-    
-    delectById(item){
-      const _this = this
-      if(!!item) {
-        this.$modal.confirm({
-          title     : '是否确认删除此数据？',
-          content   : '此操作不可撤销',
-          okText    : '确认',
-          okType    : 'danger',
-          cancelText: '取消',
-          onOk() {
-            _this.$ajax.post({
-              url: _this.$api.POST_OPERLOG_DELECT_BYID.replace('{id}', item)
-            }).then(res => {
-              _this.$router.push({ name: '/systemManagement/operlog' })
-            })
-          }
-        })
-      }
-    }
+    // 删除单个
+    // delectById(item){
+    //   const _this = this
+    //   if(!!item) {
+    //     this.$modal.confirm({
+    //       title     : '是否确认删除此数据？',
+    //       content   : '此操作不可撤销',
+    //       okText    : '确认',
+    //       okType    : 'danger',
+    //       cancelText: '取消',
+    //       onOk() {
+    //         _this.$ajax.post({
+    //             url: _this.$api.POST_OPERLOG_DELECT_BYID.replace('{id}', item)
+    //         }).then(res => {
+    //             _this.$router.push({name : '/systemManagement/operlog'})
+    //         })
+    //       }
+    //     })
+    //   }
+    // }
   },
-}
+};
 </script>
 <style scoped>
 </style>
