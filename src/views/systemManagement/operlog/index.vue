@@ -48,10 +48,10 @@
         </a-row>
       </a-form-model>
       <p class="gayLine"></p>
-      <div class="portalTableOperates">
+      <!-- <div class="portalTableOperates">
         <a-button icon="delete" type="danger" :disabled="!hasSelected" @click="deleteIds">批量删除</a-button>
         <a-button icon="delete" type="danger" @click="deleteAll">清空</a-button>
-      </div>
+      </div> -->
       <ActiveTable
         rowKey="id"
         :columns="columns"
@@ -225,7 +225,7 @@ export default {
         return { id: ele }
       })
       console.log(this.selectedRowKeys)
-      
+
     },
     //日期选择
     onChange(date, dateString) {
@@ -244,46 +244,46 @@ export default {
       this.getList()
     },
     //全部删除
-    deleteAll(){
-      const _this = this
-      this.$modal.confirm({
-        title     : '是否确认删除这些数据？',
-        content   : '此操作不可撤销',
-        okText    : '确认',
-        okType    : 'danger',
-        cancelText: '取消',
-        onOk() {
-          _this.$ajax
-            .post({
-              url: _this.$api.POST_OPERLOG_ALL_DELECT,
-            })
-            .then(res => {
-              _this.getList()
-            })
-        }
-      })
-    },
+    // deleteAll(){
+    //   const _this = this;
+    //   this.$modal.confirm({
+    //     title: "是否确认删除这些数据？",
+    //     content: "此操作不可撤销",
+    //     okText: "确认",
+    //     okType: "danger",
+    //     cancelText: "取消",
+    //     onOk() {
+    //       _this.$ajax
+    //         .post({
+    //           url: _this.$api.POST_OPERLOG_ALL_DELECT,
+    //         })
+    //         .then(res => {
+    //           _this.getList();
+    //         });
+    //     }
+    //   });
+    // },
     //批量删除
-    deleteIds() {
-      const _this = this
-      this.$modal.confirm({
-        title     : '是否确认删除这些数据？',
-        content   : '此操作不可撤销',
-        okText    : '确认',
-        okType    : 'danger',
-        cancelText: '取消',
-        onOk() {
-          _this.$ajax
-            .post({
-              url   : _this.$api.POST_OPERLOG_IDS_DELECT,
-              params: _this.selectedRowKeys
-            })
-            .then(res => {
-              _this.getList()
-            })
-        }
-      })
-    }
+    // deleteIds() {
+    //   const _this = this;
+    //   this.$modal.confirm({
+    //     title: "是否确认删除这些数据？",
+    //     content: "此操作不可撤销",
+    //     okText: "确认",
+    //     okType: "danger",
+    //     cancelText: "取消",
+    //     onOk() {
+    //       _this.$ajax
+    //         .post({
+    //           url: _this.$api.POST_OPERLOG_IDS_DELECT,
+    //           params: _this.selectedRowKeys
+    //         })
+    //         .then(res => {
+    //           _this.getList();
+    //         });
+    //     }
+    //   });
+    // }
   }
 }
 </script>
