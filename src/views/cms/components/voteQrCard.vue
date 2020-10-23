@@ -43,7 +43,7 @@ export default {
   },
   methods: {
     showQrcode(id) {
-      this.url = encodeURI(`http://iftp.omniview.pro/wx/vote/${id}`)
+      this.url = encodeURI(`http://znyj.nftec.agri.cn/wx/vote/${id}`)
       this.visible = true
     },
   },

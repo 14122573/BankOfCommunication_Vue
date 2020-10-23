@@ -86,7 +86,7 @@
       "pathPrefix": "/xshy"
     },
     {
-      "baseUrl": "http://iftp.omniview.pro/lshy",
+      "baseUrl": "http://znyj.nftec.agri.cn/lshy",
       "resourceName": "lshy",
       "micId": "mic:lshy",
       "pathPrefix": "/lshy"
@@ -110,25 +110,25 @@
       "pathPrefix": "/fljps"
     },
     {
-      "baseUrl": "http://iftp.omniview.pro/dyzh",
+      "baseUrl": "http://znyj.nftec.agri.cn/dyzh",
       "resourceName": "dyzh",
       "micId": "mic:dyzh",
       "pathPrefix": "/dyzh"
     },
     {
-      "baseUrl": "http://iftp.omniview.pro/hymc",
+      "baseUrl": "http://znyj.nftec.agri.cn/hymc",
       "resourceName": "hymc",
       "micId": "mic:hymc",
       "pathPrefix": "/hymc"
     },
     {
-      "baseUrl": "http://iftp.omniview.pro/xxyy",
+      "baseUrl": "http://znyj.nftec.agri.cn/xxyy",
       "resourceName": "xxyy",
       "micId": "mic:xxyy",
       "pathPrefix": "/xxyy"
     },
     {
-      "baseUrl": "http://iftp.omniview.pro/styy",
+      "baseUrl": "http://znyj.nftec.agri.cn/styy",
       "resourceName": "styy",
       "micId": "mic:styy",
       "pathPrefix": "/styy"

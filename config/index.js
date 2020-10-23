@@ -12,7 +12,7 @@ module.exports = {
     assetsPublicPath: '/',
     proxyTable: {
       "/ueditorDevBase":{
-        target:"http://iftp.omniview.pro/api",
+        target:"http://znyj.nftec.agri.cn/api",
         changeOrigin:true,
         pathRewrite:{
           '^/ueditorDevBase':''

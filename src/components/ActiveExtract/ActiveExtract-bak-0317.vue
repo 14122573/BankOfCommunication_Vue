@@ -212,7 +212,7 @@ export default {
       selectedRowKeys: [],
       selectedRows   : [],
       selectedList   : [],
-      url            : 'http://iftp.omniview.pro/api/service-expert/expert/dictionary/',
+      url            : 'http://znyj.nftec.agri.cn/api/service-expert/expert/dictionary/',
     }
   },
   mounted() {
