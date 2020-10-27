@@ -120,8 +120,8 @@ export default {
   DELETE_SYSBASICINFO_BREED  : '/service-expert/expert/breedD/{id}', //删除水产品种大类
 
   // 系统管理 --- 操作日志
-  GET_OPERLOG_LIST                  : '/service-log/log/operateLog/page', //获取操作日志列表
-  GET_OPERLOG_PARTICULARS_BYID      : '/service-log/log/operateLog/{id}', //根据id查询操作详情
+  GET_OPERLOG_LIST            : '/service-log/log/operateLog/page', //获取操作日志列表
+  GET_OPERLOG_PARTICULARS_BYID: '/service-log/log/operateLog/{id}', //根据id查询操作详情
   //POST_OPERLOG_DELECT_BYID          : '/service-log/log/operateLog/delete/{id}', //根据id删除数据
   //POST_OPERLOG_IDS_DELECT           : '/service-log/log/operateLog/deleteBatch', //批量删除操作日志
   //POST_OPERLOG_ALL_DELECT           : '/service-log/log/operateLog/deleteAll', //删除全部操作日志
