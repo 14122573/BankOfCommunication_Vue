@@ -294,7 +294,6 @@ export default {
       }
     },
     handleBind() {
-      this.spinning = true
       this.formBind.validateFields((err, values) => {
         if (!err) {
           const params = {
@@ -322,6 +321,7 @@ export default {
           }
           const sendLink = this.isBind == true ? this.$api.POST_BIND_USERINFO_BIND : this.$api.POST_BIND_USERINFO_UNBIND
           const transData = this.isBind == true ? options : params
+          this.spinning = true
           this.$ajax.post({
             url   : sendLink,
             params: transData
@@ -576,6 +576,7 @@ export default {
 	.systemBlock {
 		font-size: 14px;
 		text-align: left;
+    height: 400px;
 		margin: 30px 0 0px 0;
 		font-weight: bold;
 	}
