@@ -209,9 +209,11 @@ export default {
   },
   watch: {
     $route(to) {
+      var fatherurl = []
+      fatherurl = this.defaultSelectedKeys[0].split("/")
       if (!to.name) return
       // if (this.defaultSelectedKeys.indexOf(to.name) < 0) {
-      if (to.name.indexOf(this.defaultSelectedKeys[0]) < 0){
+      if (to.name.indexOf(this.defaultSelectedKeys[0]) < 0 && to.name.indexOf(fatherurl[1]) < 0){
         // 当前路由不为选定路由或选定路由的子集，则清空设置
         // 遍历左侧菜单，找到to路由的父级
         const defaultMenuKeys = this.findDefaultMenuKeys(to.name)
