@@ -131,7 +131,7 @@ export default {
       let list = []
 
       this.$ajax.get({
-        url: this.$api.GET_EXPERT_REVIEW_TODO_LIST.replace('{expertId}', userId)
+        url: this.$api.GET_EXPERT_REVIEW_TODO_LIST.replace('{expertId}', userId) + '?status=0'
       }).then(res => {
         if(res.code === '200'){
           let tidings = this.$com.confirm(res, 'data.content', [])
