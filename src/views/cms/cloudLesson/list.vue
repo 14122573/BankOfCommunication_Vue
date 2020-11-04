@@ -101,7 +101,7 @@
       <div class="portalTableOperates">
         <a-button
           icon="plus"
-          v-if="$permission('P32001')"
+          v-if="$permission('P31001')"
           type="primary"
           @click="goTo('create')"
           >新建云课堂</a-button
