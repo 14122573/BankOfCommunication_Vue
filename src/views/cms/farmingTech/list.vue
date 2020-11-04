@@ -101,7 +101,7 @@
       <div class="portalTableOperates">
         <a-button
           icon="plus"
-          v-if="$permission('P32001')"
+          v-if="$permission('P31001')"
           type="primary"
           @click="goTo('create')"
           >新建养殖技术</a-button
@@ -134,7 +134,7 @@
         <span slot="action" slot-scope="text, record">
           <span
             class="actionBtn"
-            v-if="$permission('P33003')"
+            v-if="$permission('P31005')"
             @click="goTo('detail', record.id)"
             >查看<a-divider
               v-if="$com.oneOf(record.status, ['0', '1'])"
@@ -143,7 +143,7 @@
           <template v-if="record.status == '0'">
             <span
               class="actionBtn"
-              v-if="$permission('P32001')"
+              v-if="$permission('P31001')"
               @click="goTo('edit', record.id)"
               >修改<a-divider type="vertical"
             /></span>
@@ -160,14 +160,14 @@
                 <a-menu-item
                   class="actionBtn"
                   key="publish"
-                  v-if="$permission('P32004')"
+                  v-if="$permission('P31004')"
                 >
                   发布
                 </a-menu-item>
                 <a-menu-item
                   class="actionBtn"
                   key="delete"
-                  v-if="$permission('P32002')"
+                  v-if="$permission('P31002')"
                 >
                   删除
                 </a-menu-item>
@@ -176,7 +176,7 @@
           </template>
           <span
             class="actionBtn"
-            v-if="record.status == '1' && $permission('P32004')"
+            v-if="record.status == '1' && $permission('P31004')"
             @click="doListOpeations('recall', record)"
             >撤回</span
           >
