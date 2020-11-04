@@ -18,10 +18,10 @@
       </a-row>
       <a-row type="flex" align="bottom">
         <a-col :span="10">
-          <a-button type="primary" @click="addBanner()"
+          <a-button type="primary" @click="addBanner()" v-if="$permission('P31001')"
             ><a-icon type="file-image" />新增轮播图</a-button
           >
-          <a-button type="default" @click="bannerSort()"
+          <a-button type="default" @click="bannerSort()" v-if="$permission('P31004')"
             ><a-icon type="sort-ascending" />轮播图排序</a-button
           >
         </a-col>
@@ -38,13 +38,13 @@
       :dataSource="data"
     >
       <span slot="action" slot-scope="text, record">
-        <span class="actionBtn" @click="bannerDetail(record)"
+        <span class="actionBtn" @click="bannerDetail(record)" v-if="$permission('P31005')"
           >查看<a-divider type="vertical"
         /></span>
-        <span class="actionBtn" @click="modifyBanner(record)"
+        <span class="actionBtn" @click="modifyBanner(record)" v-if="$permission('P31001')"
           >修改<a-divider type="vertical"
         /></span>
-        <span class="actionBtn" @click="deleteBanner(record)"
+        <span class="actionBtn" @click="deleteBanner(record)" v-if="$permission('P31002')"
           >删除<a-divider type="vertical"
         /></span>
       </span>

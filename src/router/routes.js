@@ -548,7 +548,7 @@ const appRoutes = [
             meta     : {
               title      : '首页信息维护管理',
               menuPath   : true,
-              authCode   : 'P03000',
+              authCode   : 'P31000',
               menuIcon   : 'cluster',
               hideInBread: false,
               openMode   : 'normal'
@@ -561,7 +561,7 @@ const appRoutes = [
                 meta     : {
                   title      : '添加轮播图',
                   menuPath   : true,
-                  authCode   : 'P32000',
+                  authCode   : 'P31001',
                   menuIcon   : 'file-text',
                   hideInBread: false,
                 },
@@ -573,7 +573,7 @@ const appRoutes = [
                 meta     : {
                   title      : '修改轮播图',
                   menuPath   : true,
-                  authCode   : 'P32000',
+                  authCode   : 'P31001',
                   menuIcon   : 'file-text',
                   hideInBread: false,
                 },
@@ -585,7 +585,7 @@ const appRoutes = [
                 meta     : {
                   title      : '轮播图详情',
                   menuPath   : false,
-                  authCode   : 'P03301',
+                  authCode   : 'P31005',
                   menuIcon   : 'cluster',
                   hideInBread: false,
                   openMode   : 'normal'
@@ -598,7 +598,7 @@ const appRoutes = [
                 meta     : {
                   title      : '轮播图排序',
                   menuPath   : true,
-                  authCode   : 'P32000',
+                  authCode   : 'P31004',
                   menuIcon   : 'file-text',
                   hideInBread: false,
                 },
