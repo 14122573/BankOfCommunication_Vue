@@ -49,7 +49,7 @@ export default {
         pageSize : this.pageSize,
       }
       this.$ajax.get({
-        url: this.$api.GET_VOTE_LIST,
+        url: this.$api.GET_NONPUBLIC_VOTE_LIST,
         params,
       }).then(res => {
         this.list = this.$com.confirm(res, 'data.content', [])
