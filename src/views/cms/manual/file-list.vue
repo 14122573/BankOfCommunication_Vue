@@ -61,7 +61,7 @@ export default {
         pageSize: this.pageSize,
       }
       this.$ajax.get({
-        url: this.$api.GET_MANUAL_LIST,
+        url: this.$api.GET_NONPUBLIC_MN_LIST,
         params,
       }).then(res => {
         this.list = this.$com.confirm(res, 'data.content', [])
