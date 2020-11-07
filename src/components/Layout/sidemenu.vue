@@ -210,7 +210,7 @@ export default {
   watch: {
     $route(to) {
       var fatherurl = []
-      fatherurl = this.defaultSelectedKeys[0].split("/")
+      fatherurl = this.defaultSelectedKeys[0].split('/')
       if (!to.name) return
       // if (this.defaultSelectedKeys.indexOf(to.name) < 0) {
       if (to.name.indexOf(this.defaultSelectedKeys[0]) < 0 && to.name.indexOf(fatherurl[1]) < 0){
