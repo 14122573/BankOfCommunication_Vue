@@ -548,7 +548,7 @@ const appRoutes = [
             meta     : {
               title      : '首页信息维护管理',
               menuPath   : true,
-              authCode   : 'P03000',
+              authCode   : 'P31000',
               menuIcon   : 'cluster',
               hideInBread: false,
               openMode   : 'normal'
@@ -561,7 +561,7 @@ const appRoutes = [
                 meta     : {
                   title      : '添加轮播图',
                   menuPath   : true,
-                  authCode   : 'P32000',
+                  authCode   : 'P31001',
                   menuIcon   : 'file-text',
                   hideInBread: false,
                 },
@@ -573,7 +573,7 @@ const appRoutes = [
                 meta     : {
                   title      : '修改轮播图',
                   menuPath   : true,
-                  authCode   : 'P32000',
+                  authCode   : 'P31001',
                   menuIcon   : 'file-text',
                   hideInBread: false,
                 },
@@ -585,7 +585,7 @@ const appRoutes = [
                 meta     : {
                   title      : '轮播图详情',
                   menuPath   : false,
-                  authCode   : 'P03301',
+                  authCode   : 'P31005',
                   menuIcon   : 'cluster',
                   hideInBread: false,
                   openMode   : 'normal'
@@ -598,7 +598,7 @@ const appRoutes = [
                 meta     : {
                   title      : '轮播图排序',
                   menuPath   : true,
-                  authCode   : 'P32000',
+                  authCode   : 'P31004',
                   menuIcon   : 'file-text',
                   hideInBread: false,
                 },
@@ -613,7 +613,7 @@ const appRoutes = [
               title      : '养殖技术管理',
               tabName    : 'farmingNews',
               menuPath   : true,
-              authCode   : 'P32000',
+              authCode   : 'P31000',
               menuIcon   : 'file-text',
               hideInBread: false,
             },
@@ -625,7 +625,7 @@ const appRoutes = [
                 meta     : {
                   title      : '新建养殖技术',
                   menuPath   : false,
-                  authCode   : 'P32001',
+                  authCode   : 'P31001',
                   menuIcon   : 'file-text',
                   hideInBread: false
                 }
@@ -637,7 +637,7 @@ const appRoutes = [
                 meta     : {
                   title      : '修改养殖技术',
                   menuPath   : false,
-                  authCode   : 'P32001',
+                  authCode   : 'P31001',
                   menuIcon   : 'file-text',
                   hideInBread: false
                 }
@@ -649,7 +649,7 @@ const appRoutes = [
                 meta     : {
                   title      : '查看养殖技术详情',
                   menuPath   : false,
-                  authCode   : 'P33003',
+                  authCode   : 'P31005',
                   menuIcon   : 'file-text',
                   hideInBread: false
                 }
@@ -664,7 +664,7 @@ const appRoutes = [
               title      : '科普知识管理',
               tabName    : 'knowledgeNews',
               menuPath   : true,
-              authCode   : 'P32000',
+              authCode   : 'P31000',
               menuIcon   : 'file-text',
               hideInBread: false
             },
@@ -676,7 +676,7 @@ const appRoutes = [
                 meta     : {
                   title      : '新建科普知识',
                   menuPath   : false,
-                  authCode   : 'P32001',
+                  authCode   : 'P31001',
                   menuIcon   : 'file-text',
                   hideInBread: false
                 }
@@ -688,7 +688,7 @@ const appRoutes = [
                 meta     : {
                   title      : '修改科普知识',
                   menuPath   : false,
-                  authCode   : 'P32001',
+                  authCode   : 'P31001',
                   menuIcon   : 'file-text',
                   hideInBread: false
                 }
@@ -700,7 +700,7 @@ const appRoutes = [
                 meta     : {
                   title      : '查看科普知识详情',
                   menuPath   : false,
-                  authCode   : 'P33003',
+                  authCode   : 'P31005',
                   menuIcon   : 'file-text',
                   hideInBread: false
                 },
@@ -715,7 +715,7 @@ const appRoutes = [
               title      : '云课堂管理',
               menuPath   : true,
               tabName    : 'cloudLessonNews',
-              authCode   : 'P32000',
+              authCode   : 'P31000',
               menuIcon   : 'file-text',
               hideInBread: false
             },
@@ -727,7 +727,7 @@ const appRoutes = [
                 meta     : {
                   title      : '新建云课堂',
                   menuPath   : false,
-                  authCode   : 'P32001',
+                  authCode   : 'P31001',
                   menuIcon   : 'file-text',
                   hideInBread: false
                 }
@@ -739,7 +739,7 @@ const appRoutes = [
                 meta     : {
                   title      : '修改云课堂',
                   menuPath   : false,
-                  authCode   : 'P32001',
+                  authCode   : 'P31001',
                   menuIcon   : 'file-text',
                   hideInBread: false
                 }
@@ -751,7 +751,7 @@ const appRoutes = [
                 meta     : {
                   title      : '查看云课堂详情',
                   menuPath   : false,
-                  authCode   : 'P33003',
+                  authCode   : 'P31005',
                   menuIcon   : 'file-text',
                   hideInBread: false
                 }
@@ -765,7 +765,7 @@ const appRoutes = [
             meta     : {
               title      : '行业动态管理',
               menuPath   : true,
-              authCode   : 'P32000',
+              authCode   : 'P31000',
               menuIcon   : 'file-text',
               hideInBread: false
             },
@@ -777,7 +777,7 @@ const appRoutes = [
                 meta     : {
                   title      : '新建行业动态',
                   menuPath   : false,
-                  authCode   : 'P32001',
+                  authCode   : 'P31001',
                   menuIcon   : 'file-text',
                   hideInBread: false
                 }
@@ -789,7 +789,7 @@ const appRoutes = [
                 meta     : {
                   title      : '修改行业动态',
                   menuPath   : false,
-                  authCode   : 'P32001',
+                  authCode   : 'P31001',
                   menuIcon   : 'file-text',
                   hideInBread: false
                 }
@@ -801,7 +801,7 @@ const appRoutes = [
                 meta     : {
                   title      : '查看行业动态详情',
                   menuPath   : false,
-                  authCode   : 'P33003',
+                  authCode   : 'P31005',
                   menuIcon   : 'file-text',
                   hideInBread: false
                 }

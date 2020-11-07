@@ -136,7 +136,7 @@ export default {
         // pageSize: 10
       }
       this.$ajax.get({
-        url: this.$api.GET_MANUAL_LIST,
+        url: this.$api.GET_NONPUBLIC_MN_LIST,
         params,
       }).then(res => {
         this.manualList = this.$com.confirm(res, 'data.content', [])
@@ -183,7 +183,7 @@ export default {
 
           // 传入新老系统的系统代码
           this.$ajax.get({
-            url: this.$api.GET_MANUAL_LIST + '?sysCode_in=' + finalisedList.toString()
+            url: this.$api.GET_NONPUBLIC_MN_LIST + '?sysCode_in=' + finalisedList.toString()
           }).then(res => {
             this.manualList = this.$com.confirm(res, 'data.content', [])
           })

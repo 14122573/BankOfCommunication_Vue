@@ -164,6 +164,7 @@ export default {
   // PUT_CMS_NOTICE_PLACEMENT: '/service-release/release/news/top/{id}/{top}', //置顶通知公告，top（是否置顶）： 0-否 1-是
   // 内容发布-投票管理
   GET_VOTE_LIST          : '/service-release/release/public/vote', // 获取投票列表
+  GET_NONPUBLIC_VOTE_LIST: '/service-release/release/vote',
   POST_ADD_VOTE          : '/service-release/release/vote', // 新增投票
   GET_VOTE_DETAIL        : '/service-release/release/public/vote/{id}', // 获取投票详情
   GET_VOTE_VIEW          : '/service-release/release/public/vote/result/{id}', // 查看投票信息
@@ -173,6 +174,7 @@ export default {
   GET_VOTE_RESULT        : '/service-release/release/vote/result/count/{id}', // 获取投票结果公示
   // 内容发布-操作手册
   GET_MANUAL_LIST        : '/service-release/release/public/handbooks', //获取手册列表
+  GET_NONPUBLIC_MN_LIST  : '/service-release/release/handbooks',
   POST_ADD_MANUAL        : '/service-release/release/handbook', // 新增手册
   PUT_EDIT_MANUAL        : '/service-release/release/handbookP/{id}', // 编辑手册
   DELETE_MANUAL          : '/service-release/release/handbookD/{id}', // 删除手册
