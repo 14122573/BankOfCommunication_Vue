@@ -162,7 +162,7 @@ export default {
      * @description 监听并用于切换LoginPanel, welcomepanel的状态
      */
     pageTypeChange(data) {
-      console.log(data)
+      // console.log(data)
       // if(typeof(data) == 'object') {
       //   this.pageType = data.username
       //   this.username = data.username
