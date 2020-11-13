@@ -74,7 +74,7 @@ export default {
   DELETE_PREMSPOINT           : '/service-permission/perm/pointD/{id}', //删除功能点
   GET_CHECK_POINTCODE_EXIT    : '/service-permission/perm/pointKey/repeat', //确认功能码是否已存在
   // 系统配置 -- 角色管理
-  GET_ROLE_LIST               : '/service-permission/perm/roles', //获取角色列表
+  GET_ROLE_LIST               : '/service-permission/perm/portal/roles', //获取角色列表
   GET_CHOOSE_ROLE_LIST        : '/service-permission/perm/available/roles', //获取可选范围角色列表
   GET_ALL_ROLE                : '/service-permission/perm/menu/tree', //获取权限
   ADD_ROLE_POST               : '/service-permission/perm/role', // 新增角色
@@ -84,15 +84,15 @@ export default {
   DELETE_CHARACTER            : '/service-permission/perm/roleD/{id}', //删除角色
   USER_LIST_TYPE_GET          : '/service-user/user/accounts/{type}', // 用户{type} old老用户列表   new-新用户列表
   SYSTEM_LIST_ALL_GET         : '/service-user/user/systems', //查询系统列表
-  CHECK_USER_STATUS           : '/service-user/user/acct/{id}/status/{status}/{type}', //切换用户状态
+  CHECK_USER_STATUS           : '/service-user/user/portal/acct/{id}/status/{status}/{type}', //切换用户状态
   GET_AREA_NEXT               : '/service-user/user/area/next', //获取下级地区
   GET_PUBLIC_AREA_NEXT        : '/service-user/user/public/areas', //获取下级地区(无需登录)
   // USER_ACCOUNT_DETAIL         : '/service-user/user/account/{id}', //待分配权限详情
   GET_ORGANIZATION_LIST       : '/service-permission/perm/groups', //组织机构列表
   CONFIG_ROLES_TO_USER        : '/service-user/user/config/roles', //给用户分配权限
-  USER_UPDATE_PWD             : '/service-user/user/update/pwd', //管理员修改密码
-  POST_ADD_USER               : '/service-user/user/account', //管理员新增用户
-  GET_USER_DETAIL             : '/service-user/user/account/{id}', //新用户详情
+  USER_UPDATE_PWD             : '/service-user/user/portal/update/pwd', //管理员修改密码
+  POST_ADD_USER               : '/service-user/user/portal/account', //管理员新增用户
+  GET_USER_DETAIL             : '/service-user/user/portal/account/{id}', //新用户详情
   PUT_USER_LIST               : '/service-user/user/accountP/{id}', //新用户修改
   GET_EXPORT_USER_LIST        : BASE_URL+'/service-user/user/export/users', //新用户导出
   POST_ADD_ORGANIZATION_LIST  : '/service-permission/perm/group', //新增组织机构
