@@ -75,7 +75,8 @@ export default {
   GET_CHECK_POINTCODE_EXIT    : '/service-permission/perm/pointKey/repeat', //确认功能码是否已存在
   // 系统配置 -- 角色管理
   GET_ROLE_LIST               : '/service-permission/perm/portal/roles', //获取角色列表
-  GET_CHOOSE_ROLE_LIST        : '/service-permission/perm/available/roles', //获取可选范围角色列表
+  GET_CHOOSE_ROLE_LIST        : '/service-permission/perm/available/roles', //获取可选范围角色列表(无权限)
+  GET_CHOOSE_ROLE_LIST_ADMIN  : '/service-permission/perm/available/roles/admin', //获取可选范围角色列表(有权限)
   GET_ALL_ROLE                : '/service-permission/perm/menu/tree', //获取权限
   ADD_ROLE_POST               : '/service-permission/perm/role', // 新增角色
   ROLE_DETAIL                 : '/service-permission/perm/roles/{id}', // 查询角色权限
@@ -92,7 +93,7 @@ export default {
   CONFIG_ROLES_TO_USER        : '/service-user/user/config/roles', //给用户分配权限
   USER_UPDATE_PWD             : '/service-user/user/portal/update/pwd', //管理员修改密码
   POST_ADD_USER               : '/service-user/user/portal/account', //管理员新增用户
-  GET_USER_DETAIL             : '/service-user/user/portal/account/{id}', //新用户详情
+  GET_USER_DETAIL             : '/service-user/user/account/{id}', //新用户详情
   PUT_USER_LIST               : '/service-user/user/accountP/{id}', //新用户修改
   GET_EXPORT_USER_LIST        : BASE_URL+'/service-user/user/export/users', //新用户导出
   POST_ADD_ORGANIZATION_LIST  : '/service-permission/perm/group', //新增组织机构

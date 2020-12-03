@@ -17,6 +17,7 @@ const BindTemporarayAccount = () =>
   import('@/views/login/bindTemporarayAccount')
 // 个人信息
 const PersonCenter = () => import('@/views/personal/person-center')
+const UserChange = () => import('@/views/personal/user-change')
 const PersonTransferDatas = () => import('@/views/personal/transferDatas/list')
 // 系统管理
 const SysBasicInfo = () =>
@@ -227,7 +228,13 @@ const appRoutes = [
             name     : '/person/transferDatas',
             component: PersonTransferDatas,
             meta     : { title: '转移申报数据' }
-          }
+          },//
+          {
+            path     : '/person/userChange',
+            name     : '/person/userChange',
+            component: UserChange,
+            meta     : { title: '账户基本信息修改' }
+          },
         ]
       },
       {
