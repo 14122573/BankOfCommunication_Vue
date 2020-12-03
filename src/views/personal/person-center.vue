@@ -127,7 +127,7 @@ export default {
     toEditInfo() {
       const { id } = this.userInfo
       this.$router.push({
-        name : '/systemManagement/administrator/editNewUser',
+        name : '/person/userChange',
         query: {
           id,
           fromCenter: '1',
