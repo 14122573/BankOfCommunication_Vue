@@ -58,8 +58,8 @@
 							</a-form-item>
 						</a-col>
 					</a-row>
-					<a-row class="formItemLine" v-if="!fromCenter">
-						<a-col span="8">
+					<a-row class="formItemLine">
+						<a-col span="8" v-if="!fromCenter">
 							<a-form-item label="角色名称" v-bind="colSpe">
 								<a-select placeholder="请选择" @change="roleChange" allowClear mode="multiple" labelInValue v-decorator="['notes', {
                   validateTrigger: 'blur', rules: [ { required: true, message: '请选择角色名称！' } ]
@@ -76,7 +76,7 @@
 								</a-tree-select>
 							</a-form-item>
 						</a-col>
-						<a-col span="8">
+						<a-col span="8" v-if="!fromCenter">
 							<a-form-item label="组织机构" v-bind="colSpe">
 								<a-select v-decorator="['group']" allowClear placeholder='请选择'>
 									<a-select-option v-for="(item,index) in groupLists" :key="index" :value="item.id">{{item.groupName}}</a-select-option>
