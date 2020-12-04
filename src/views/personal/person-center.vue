@@ -105,6 +105,13 @@ export default {
       this.getData()
     }
   },
+  watch: {
+    $route(){
+      if(this.$route.name == 'person'){   
+        this.getData()
+      }
+    },
+  },
   computed: {
     showChangePwd(){
       return this.isShowChangePwd
