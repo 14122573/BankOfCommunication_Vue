@@ -28,7 +28,8 @@
             <DetailsItem :labelSpan='8' :textSpan="16" :label='"所在单位"' :text='(!userInfo||!userInfo.dept)?"暂无":userInfo.dept'></DetailsItem>
           </a-col>
           <a-col span="8">
-            <DetailsItem :labelSpan='8' :textSpan="16" :label='"所在区域"' :text='(!userInfo ||!userInfo.area||!userInfo.area.areaName)?"暂无":userInfo.area.areaName'></DetailsItem>
+            <DetailsItem :labelSpan='8' :textSpan="16" :label='"所在区域"' 
+            :text="(!!userInfo &&!!userInfo.area&&!!userInfo.area.areaName)?userInfo.area.areaName:(!!userInfo&&!!userInfo.area&&(userInfo.area.id=='999999'))?'中国':'暂无'"></DetailsItem>
           </a-col>
           <a-col span="8">
             <DetailsItem :labelSpan='8' :textSpan="16" :label='"邮编"' :text='(!userInfo||!userInfo.zipCode)?"暂无":userInfo.zipCode'></DetailsItem>
@@ -104,6 +105,13 @@ export default {
     if(this.$route.name == 'person'){
       this.getData()
     }
+  },
+  watch: {
+    $route(){
+      if(this.$route.name == 'person'){   
+        this.getData()
+      }
+    },
   },
   computed: {
     showChangePwd(){
