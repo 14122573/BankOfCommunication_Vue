@@ -86,6 +86,20 @@
               </a-col>
             </a-row>
             <a-row type="flex" justify="start" align="middle" :gutter="10">
+              <a-col span='7'>
+                <a-form-item style="position:relative;">
+                  <!-- <a-input v-decorator="[
+                    'zipCode', { validateTrigger:'blur', rules: [ { required: true, validator: checkZipCode, }] }
+                  ]" type="text" placeholder="所属区域">
+                    <a-icon slot="prefix" type="shop" style="color: rgba(0,0,0,.25)" />
+                  </a-input> -->
+                  <a-tree-select :treeData="administrativeRegions" :loadData="onLoadData" @change="onChangeTree" v-decorator="['area', {
+                    validateTrigger: 'change', rules: [ { required: true, message: '请选择所属区域！'} ]
+                    }]" dropdownMatchSelectWidth :dropdownStyle="{ maxHeight: '200px', overflow: 'auto' }" placeholder='所属区域'>
+								  </a-tree-select>
+                  <a-icon type="environment" style="color: rgba(0,0,0,.25);position:absolute;top:4px;left:10px;" />
+                </a-form-item>
+              </a-col>
               <a-col span='14'>
                 <a-form-item>
                   <a-input v-decorator="[
@@ -101,7 +115,8 @@
                   </a-input>
                 </a-form-item>
               </a-col>
-
+            </a-row>
+            <a-row type="flex" justify="start" align="middle" :gutter="10">
               <a-col span='7'>
                 <a-form-item>
                   <a-input v-decorator="[
@@ -174,12 +189,70 @@ export default {
         password: 'text',
         mail    : true
       },
-      passwordStrength: false
+      passwordStrength     : false,
+      administrativeRegions: [],
+      areaCode             : '',
+      areaName             : '',
+      groupLists           : [],
     }
   },
   mounted() {
+    this.getArea()
   },
-  methods: {
+  methods: { 
+    getArea() {
+      this.$ajax.get({
+        url   : this.$api.GET_PUBLIC_AREA_NEXT,
+        params: {
+          // parentId: this.isAdminator ? '0' : this.$store.state.userInfos.area.id
+          parentId: '0', //this.isAdminator ? '0' : this.$store.state.userInfos.area?this.$store.state.userInfos.area.id:0
+        }
+      }).then(res => {
+        const datas = this.$com.confirm(res, 'data.content', [])
+        datas.forEach((ele, index) => {
+          this.administrativeRegions.push(this.getTreeNode(ele, index))
+        })
+      })
+    },
+    getTreeNode(item, index) {
+      const childrenNode = {
+        'title'   : item.areaName,
+        'value'   : item.id,
+        'id'      : item.id,
+        'key'     : item.id,
+        'parentId': item.parentId,
+        'children': item.childList
+      }
+      return childrenNode
+    },
+    onLoadData(treeNode) {
+      return new Promise((resolve) => {
+        if (treeNode.dataRef.children) {
+          resolve()
+          return
+        }
+        this.$ajax.get({
+          url   : this.$api.GET_PUBLIC_AREA_NEXT,
+          params: {
+            parentId: treeNode.dataRef.id
+          }
+        }).then(res => {
+          console.log(res)
+          const datas = this.$com.confirm(res, 'data.content', [])
+          const array = []
+          datas.forEach((ele, index) => {
+            array.push(this.getTreeNode(ele, index))
+          })
+          treeNode.dataRef.children = array
+          resolve()
+        })
+      })
+    },
+    onChangeTree(value, label) {
+      this.areaCode = value
+      this.areaName = label[0]
+    },
+
     /**
      * 处理邮箱被浏览器自动填充值
      * 当未获取焦点时，设置readonly为true，否则设置为false
@@ -325,7 +398,7 @@ export default {
 
       // 提交表单
       this.formRegister.validateFields((err, values) => {
-        if (!err) {
+        if (!err) { 
           const params = {
             'username': values.phone,
             'pwd'     : encryptDes(values.password),
@@ -336,10 +409,10 @@ export default {
               'dept'   : values.dept,
               'phone'  : values.phone,
               'addr'   : values.addr,
-              'zipCode': values.zipCode
+              'zipCode': values.zipCode,
+              'area'   : { id: values.area }
             }
           }
-
           this.$ajax.post({
             url   : this.$api.POST_REGISTER,
             params: params
@@ -407,11 +480,19 @@ export default {
 <style>
 .registerFrame .ant-input-affix-wrapper { 	height: 44px; text-align: left; }
 .registerFrame .ant-input-affix-wrapper .ant-input { position: relative; text-align: inherit; height: 100%;}
+.registerFrame .ant-select-selection__rendered {
+  line-height: 44px;
+  margin-left: 26px;
+}
+.registerFrame .ant-select-selection--single{
+  height: 44px;
+}
+
 </style>
 
 <style scoped>
 .registerFrame { 	width: 100%; height: 100%; min-height: 700px; margin: 0px; padding: 0px; position: relative; background-size: cover; }
-.registerWapper { width: 900px; height: 460px; background-color: #fff; position:relative; margin: auto; top: calc((100% - 540px)/2); background-size: 100%; padding: 10px 20px; font-size: 26px; color: rgba(101, 101, 101);}
+.registerWapper { width: 900px; height: 500px; background-color: #fff; position:relative; margin: 0 auto; top: calc((100% - 540px)/2); background-size: 100%; padding: 10px 20px; font-size: 26px; color: rgba(101, 101, 101);}
 .registerWapper .logo {height: 70px;}
 .resigerTitle { margin-bottom: 20px; }
 .resigerTitle .title { font-size: 20px; font-weight: bold; }
@@ -420,7 +501,7 @@ export default {
 .resigerTitle .errIcon{ padding-right:5px}
 
 .registerWapper {zoom: 0.9}
-.resigerFormWapper { margin: 0 auto; height: 400px; font-size: 14px; margin-top: 20px; text-align: left; overflow: hidden; overflow-y: auto; padding: 0 10px;}
+.resigerFormWapper { margin: 0 auto; height: 440px; font-size: 14px; margin-top: 20px; text-align: left; overflow: hidden; overflow-y: auto; padding: 0 10px;}
 .resigerFormWapper::-webkit-scrollbar {
   /*滚动条整体样式*/
   width: 4px;

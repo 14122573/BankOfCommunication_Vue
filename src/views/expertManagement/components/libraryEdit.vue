@@ -116,6 +116,14 @@
                   </a-form-item>
                 </a-col>
                 <a-col span="8">
+                  <a-form-item label="所属区域" v-bind="colSpa">
+                    <a-tree-select :treeData="administrativeRegions" :loadData="onLoadData" @change="onChangeTree" v-decorator="['area', {
+                      validateTrigger: 'change', rules: [ { required: true, message: '请选择所属区域！'} ]
+                      }]" dropdownMatchSelectWidth :dropdownStyle="{ maxHeight: '200px', overflow: 'auto' }" placeholder='请选择'>
+                    </a-tree-select>
+                  </a-form-item>
+                </a-col>
+                <a-col span="8">
                   <a-form-item label="邮编" v-bind="colSpa">
                     <a-input v-decorator="['postcode']" placeholder="请输入"></a-input>
                   </a-form-item>
@@ -240,12 +248,15 @@ export default {
       }
     }
     return {
-      isExpert   : true, // 判断的依据， true为专家库， false为人才库
-      currentId  : null,
-      form       : this.$form.createForm(this),
-      age        : null,
-      changeSmall: false,
-      options    : {
+      isExpert             : true, // 判断的依据， true为专家库， false为人才库
+      currentId            : null,
+      form                 : this.$form.createForm(this),
+      age                  : null,
+      changeSmall          : false,
+      administrativeRegions: [],
+      areaCode             : '',
+      areaName             : '',
+      options              : {
         sexList            : [ { label: '男', value: '男' }, { label: '女', value: '女' } ],
         minorityList       : [],
         companyNatureList  : [],
@@ -325,6 +336,7 @@ export default {
     this.isExpert = (this.$route.name.indexOf('talent') < 0) // 根据路由判断是专家还是人才
     // this.getAreas(null)
     this.getJobTitle()
+    this.getArea()
     this.$ajax.all(this.getOptions()).then(() => {
       if (this.$route.query.id) { // 编辑
         this.currentId = this.$route.query.id
@@ -338,6 +350,57 @@ export default {
     })
   },
   methods: {
+    getArea() {
+      this.$ajax.get({
+        url   : this.$api.GET_PUBLIC_AREA_NEXT,
+        params: {
+          // parentId: this.isAdminator ? '0' : this.$store.state.userInfos.area.id
+          parentId: '0', //this.isAdminator ? '0' : this.$store.state.userInfos.area?this.$store.state.userInfos.area.id:0
+        }
+      }).then(res => {
+        const datas = this.$com.confirm(res, 'data.content', [])
+        datas.forEach((ele, index) => {
+          this.administrativeRegions.push(this.getTreeNode(ele, index))
+        })
+      })
+    },
+    getTreeNode(item, index) {
+      const childrenNode = {
+        'title'   : item.areaName,
+        'value'   : item.id,
+        'id'      : item.id,
+        'key'     : item.id,
+        'parentId': item.parentId,
+        'children': item.childList
+      }
+      return childrenNode
+    },
+    onLoadData(treeNode) {
+      return new Promise((resolve) => {
+        if (treeNode.dataRef.children) {
+          resolve()
+          return
+        }
+        this.$ajax.get({
+          url   : this.$api.GET_PUBLIC_AREA_NEXT,
+          params: {
+            parentId: treeNode.dataRef.id
+          }
+        }).then(res => {
+          const datas = this.$com.confirm(res, 'data.content', [])
+          const array = []
+          datas.forEach((ele, index) => {
+            array.push(this.getTreeNode(ele, index))
+          })
+          treeNode.dataRef.children = array
+          resolve()
+        })
+      })
+    },
+    onChangeTree(value, label) {
+      this.areaCode = value
+      this.areaName = label[0]
+    },
     //出生日期不能选到当前日期之后
     disabledDate(current) {
       return current && current > this.$moment().endOf('day')
@@ -625,6 +688,9 @@ export default {
         methods = 'post'
         msg = '新增成功！'
       }
+      data.areaId = this.areaCode
+      data.areaName = this.areaName
+      delete data.area
       this.$ajax[methods]({
         url   : link,
         params: data
@@ -643,6 +709,7 @@ export default {
         url        : this.$api.GET_EXPERT_DETAIL.replace('{experId}', this.currentId),
         hideLoading: false
       }).then(res => {
+        console.log(res)
         const loginPhone=this.$route.query.loginPhone
         let {
           name,
@@ -679,6 +746,9 @@ export default {
           companyPhone,
           topicWord,
         } = this.$com.confirm(res, 'data.content', {})
+        let area = res.data.content.areaName 
+        this.areaCode = res.data.content.areaId
+        this.areaName = res.data.content.areaName
         const transformDate = (data) => { // 格式化动态添加的行数据中的日期
           const list = JSON.parse(data)
           if (list && list.length > 0) {
@@ -720,6 +790,7 @@ export default {
           this.setAge(birthday)
           this.form.setFieldsValue({
             loginPhone,
+            area,
             name,
             sex,
             minority,
