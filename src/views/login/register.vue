@@ -97,7 +97,7 @@
                     validateTrigger: 'change', rules: [ { required: true, message: '请选择所属区域！'} ]
                     }]" dropdownMatchSelectWidth :dropdownStyle="{ maxHeight: '200px', overflow: 'auto' }" placeholder='所属区域'>
 								  </a-tree-select>
-                  <a-icon type="environment" style="color: rgba(0,0,0,.25);position:absolute;top:4px;left:10px;" />
+                  <a-icon type="environment" style="color: rgba(0,0,0,.25);position:absolute;top:2px;left:10px;" />
                 </a-form-item>
               </a-col>
               <a-col span='14'>
@@ -237,7 +237,6 @@ export default {
             parentId: treeNode.dataRef.id
           }
         }).then(res => {
-          console.log(res)
           const datas = this.$com.confirm(res, 'data.content', [])
           const array = []
           datas.forEach((ele, index) => {
@@ -500,7 +499,7 @@ export default {
 .resigerTitle .errTips { font-size:14px; padding-left:20px; color:#FF3737; line-height:20px;}
 .resigerTitle .errIcon{ padding-right:5px}
 
-.registerWapper {zoom: 0.9}
+/* .registerWapper {zoom: 0.9} */
 .resigerFormWapper { margin: 0 auto; height: 440px; font-size: 14px; margin-top: 20px; text-align: left; overflow: hidden; overflow-y: auto; padding: 0 10px;}
 .resigerFormWapper::-webkit-scrollbar {
   /*滚动条整体样式*/
