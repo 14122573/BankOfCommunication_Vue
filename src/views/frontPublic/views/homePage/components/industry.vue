@@ -13,7 +13,7 @@
         <img src="@/assets/images/home/section_line.png" height="4px" width="8%">
         <a class="more" slot="extra" @click="jumpToPage">更多 >></a>
         <div class="content_wrapper">
-          <div class="news_wrapper" v-for="(item, index) in news" :key="index">
+          <div class="news_wrapper" v-for="(item, index) in news" v-if="index < 4" :key="index">
             <a class="mouse_trigger" @click="articleDetails(item)">
               <a-card
                 class="news_wrapper_inside"
