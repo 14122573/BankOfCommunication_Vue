@@ -86,6 +86,15 @@
                     </a-input>
                   </a-form-item>
                 </a-col>
+                <a-col span='7'>
+                <a-form-item style="position:relative;"> 
+                  <a-tree-select :treeData="administrativeRegions" :loadData="onLoadData" @change="onChangeTree" v-decorator="['area', {
+                    validateTrigger: 'change', rules: [ { required: true, message: '请选择所属区域！'} ]
+                    }]" dropdownMatchSelectWidth :dropdownStyle="{ maxHeight: '200px', overflow: 'auto' }" placeholder='所属区域'>
+								  </a-tree-select>
+                  <a-icon type="environment" style="color: rgba(0,0,0,.25);position:absolute;top:2px;left:10px;" />
+                </a-form-item>
+              </a-col>
               </a-row>
               <a-row type="flex" justify="start" align="middle" :gutter="10">
                 <a-col span="7">
@@ -221,27 +230,30 @@ export default {
   },
   data() {
     return {
-      hasLogined      : !this.$route.query.logined ? false : (1 == parseInt(this.$route.query.logined) ? true : false),
-      left            : '返回',
-      disableCode     : true,
-      right           : '下一步(1/2)',
-      btnTxt          : '发送验证码',
-      disableBtn      : true,
-      timer           : null,
-      systemLists     : [],
-      activeIndex     : null,
-      pageType        : '',
-      userId          : '',
-      systemNmme      : '',
-      confirmDirty    : false,
-      isBind          : true,
-      tips            : '',
-      disableNext     : true,
-      passwordStrength: false,
-      disablePhone    : false,
-      visibleModal    : false,
-      gainDatas       : {},
-      spinning        : false
+      hasLogined           : !this.$route.query.logined ? false : (1 == parseInt(this.$route.query.logined) ? true : false),
+      left                 : '返回',
+      disableCode          : true,
+      right                : '下一步(1/2)',
+      btnTxt               : '发送验证码',
+      disableBtn           : true,
+      timer                : null,
+      systemLists          : [],
+      activeIndex          : null,
+      pageType             : '',
+      userId               : '',
+      systemNmme           : '',
+      confirmDirty         : false,
+      isBind               : true,
+      tips                 : '',
+      disableNext          : true,
+      passwordStrength     : false,
+      disablePhone         : false,
+      visibleModal         : false,
+      gainDatas            : {},
+      spinning             : false,
+      administrativeRegions: [],
+      areaCode             : '',
+      areaName             : '',
     }
   },
   mounted() {
@@ -253,9 +265,61 @@ export default {
       this.right = '完成绑定'
       this.left = '返回'
       this.disableNext = false
+      this.getArea()
     }
   },
   methods: {
+    getArea() {
+      this.$ajax.get({
+        url   : this.$api.GET_PUBLIC_AREA_NEXT,
+        params: {
+          // parentId: this.isAdminator ? '0' : this.$store.state.userInfos.area.id
+          parentId: '0', //this.isAdminator ? '0' : this.$store.state.userInfos.area?this.$store.state.userInfos.area.id:0
+        }
+      }).then(res => {
+        const datas = this.$com.confirm(res, 'data.content', [])
+        datas.forEach((ele, index) => {
+          this.administrativeRegions.push(this.getTreeNode(ele, index))
+        })
+      })
+    },
+    getTreeNode(item, index) {
+      const childrenNode = {
+        'title'   : item.areaName,
+        'value'   : item.id,
+        'id'      : item.id,
+        'key'     : item.id,
+        'parentId': item.parentId,
+        'children': item.childList
+      }
+      return childrenNode
+    },
+    onLoadData(treeNode) {
+      return new Promise((resolve) => {
+        if (treeNode.dataRef.children) {
+          resolve()
+          return
+        }
+        this.$ajax.get({
+          url   : this.$api.GET_PUBLIC_AREA_NEXT,
+          params: {
+            parentId: treeNode.dataRef.id
+          }
+        }).then(res => {
+          const datas = this.$com.confirm(res, 'data.content', [])
+          const array = []
+          datas.forEach((ele, index) => {
+            array.push(this.getTreeNode(ele, index))
+          })
+          treeNode.dataRef.children = array
+          resolve()
+        })
+      })
+    },
+    onChangeTree(value, label) {
+      this.areaCode = value
+      this.areaName = label[0]
+    },
     toLogin() {
       this.$com.handleLogOut()
     },
@@ -307,7 +371,8 @@ export default {
               'name'   : values.name,
               'dept'   : values.dept,
               'zipCode': values.zipCode,
-              'code'   : values.code
+              'code'   : values.code,
+              'area'   : { id: values.area }
             }
           }
           const options = {
@@ -561,6 +626,13 @@ export default {
 <style>
 #ChooseSystem .ant-input-affix-wrapper { 	height: 44px; text-align: left; }
 #ChooseSystem .ant-input-affix-wrapper .ant-input { position: relative; text-align: inherit; height: 100%;}
+.loginFrame .ant-select-selection__rendered {
+  line-height: 44px;
+  margin-left: 26px;
+}
+.loginFrame .ant-select-selection--single{
+  height: 44px;
+}
 </style>
 
 <style scoped>
