@@ -150,7 +150,7 @@ export default {
 }
 
 .card-wrapper {
-  height: 400px;
+  height: 360px;
   /* overflow: scroll; */
   overflow: hidden;
   margin: 30px 56px 30px 30px;
@@ -171,6 +171,10 @@ export default {
 
 .content_wrapper {
   height: 300px;
+}
+
+.ant-col ant-col-12{
+  height: 400px;
 }
 
 .noti_oneline {
