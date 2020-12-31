@@ -35,7 +35,7 @@
           </div>
         </a-carousel>
         <router-view style="background-color: #f1f5f8 " />
-        <Footer />
+        <Footer style="margin-top:-75px"/>
       </a-layout-content>
       <!-- <a-layout-footer>Footer</a-layout-footer> -->
     </a-layout>
@@ -150,6 +150,7 @@ export default {
 }
 
 .InlineWrapper {
+  height: 420px;
   background-color: #fff;
   margin: 0px 150px 0px 150px;
 }
