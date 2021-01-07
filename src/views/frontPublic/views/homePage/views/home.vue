@@ -123,7 +123,7 @@ export default {
 
 #components-layout-demo-basic {
   height: 100%;
-  overflow: scroll;
+  overflow-y: scroll;
   text-align: center;
 }
 #components-layout-demo-basic .ant-layout-header {
