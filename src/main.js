@@ -12,6 +12,7 @@ import ajax from '@/server/ajax'
 import api from '@/server/api'
 import titleId from '@/config/titleManageId'
 import { registerMicroApps, start } from 'qiankun'
+import dataJson from './config/System.json'
 import PermissionControl from './util/permission-control.js' // 权限自定义指令 v-permission="code"
 import { PermissionFilter } from './util/permission-filter.js' // 权限全局方法 v-if="$permission('code')"
 import {
@@ -181,16 +182,17 @@ const render = async ({ appContent, loading } = {}) => {
 
 (async function loadMicsystem() {
   let MicRouters = (await Axios.get(api.CONFIGS_MICSYSTEMS_LIST)).data
-  let system = Object.assign({}, MicRouters)
+
+  let system = Object.assign({}, dataJson)
 
   let projects = []
-  for (let i = 0; i < system.sit.length; i++) { 
+  for (let i = 0; i < system.sit.length; i++) {
     projects.push({
       name      : system.sit[i].name,
       entry     : system.sit[i].entry,
       render,
       activeRule: checkPrefix(system.sit[i].activeRule)
-    }) 
+    })
   }
   registerMicroApps(projects) // 注册子项目
 

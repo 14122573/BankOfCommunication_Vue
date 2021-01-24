@@ -47,7 +47,7 @@
       "activeRule": "/lshy"
     },
     {
-      "entry": "http://ssdw.omniview.pro",
+      "entry": "//localhost:8080",
       "name": "ssdw",
       "activeRule": "/ssdw"
     },

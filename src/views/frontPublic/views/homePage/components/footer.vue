@@ -2,7 +2,7 @@
   <div class="container">
     <div class="leftBOX">
       <p>主办单位：全国水产技术推广总站、中国水产学会
-      <br>地址：北京市朝阳区麦子店街18号 
+      <br>地址：北京市朝阳区麦子店街18号
       <br>邮编：100125
       <br>技术支持：博彦科技股份有限公司
       <br>京ICP备05039419号
@@ -26,7 +26,7 @@
 </template>
 
 <script>
-export default {}; 
+export default {}
 </script>
 
 <style scoped>

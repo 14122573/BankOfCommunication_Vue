@@ -18,7 +18,8 @@ case 'production':
   break
 default:
 // 默认环境下（开发环境）
-  BASE_URL = 'http://znyj.nftec.agri.cn/api'
+//   BASE_URL = 'http://znyj.nftec.agri.cn/api'
+  BASE_URL = 'http://iftp.omniview.pro/api'
   MOCK_URL = 'http://yapi.omniview.pro/mock/267'
   break
 }
