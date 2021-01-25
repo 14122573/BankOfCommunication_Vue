@@ -1,7 +1,6 @@
 import Axios from 'axios'
 import TipsOutsite from '@/views/tips/outsite'
 import api from '@/server/api'
-import micRouters1 from '../config/micRouters1.json'
 
 async function GetRoutes(router) {
   // const MicRouters = require('@/router/micRouter.json')
@@ -9,7 +8,7 @@ async function GetRoutes(router) {
   const MicRouters = (
     await Axios.get(api.CONFIGS_MICSYSTEMS_ROUTERS + '?v=' + rv)
   ).data
-  const micSystemRoutersConfigs = Object.assign({}, micRouters1)
+  const micSystemRoutersConfigs = Object.assign({}, MicRouters)
   const { routes } = router.options
   const parent = routes.find(item => item.name === 'Layout')
   for (let key in micSystemRoutersConfigs) {
