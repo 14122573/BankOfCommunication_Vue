@@ -84,8 +84,16 @@
       "meta": { "title": "水生动物防疫系统实验室能力验证", "menuPath": true, "authCode": "S0601", "menuIcon": "barcode", "hideInBread": true },
       "children": [
         {
-          "path": "/ssdw/disease/ssdwDisease", "name": "/ssdw/disease/ssdwDisease",
+          "path": "/ssdw/statistics/resultSummary/list", "name": "/ssdw/statistics/resultSummary/list",
           "meta": { "title": "能力验证", "menuPath":true, "authCode":"S060101", "hideInBread":false, "menuIcon": "appstore", "openMode": "spa"}
+        },
+        {
+          "path": "/ssdw/statistics/resultSummary/natureList", "name": "/ssdw/statistics/resultSummary/natureList",
+          "meta": { "title": "单位筛选", "menuPath":true, "authCode":"S060101", "hideInBread":false, "menuIcon": "appstore", "openMode": "spa"}
+        },
+        {
+          "path": "/ssdw/statistics/resultSummary/chartList", "name": "/ssdw/statistics/resultSummary/chartList",
+          "meta": { "title": "统计图表", "menuPath":true, "authCode":"S060101", "hideInBread":false, "menuIcon": "appstore", "openMode": "spa"}
         },
         {
           "path": "/ssdw/disease/ssdwDisease", "name": "/ssdw/disease/ssdwDisease",
