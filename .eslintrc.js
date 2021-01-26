@@ -26,7 +26,7 @@ module.exports = {
     // 'dot-notation': 2, // 强制尽可能地使用点号
     'no-useless-concat': 1, // 禁止没必要的字符串拼接
     indent: ['error', 2],
-    'linebreak-style': 'off',
+    'linebreak-style': "off",
     quotes: ['error', 'single'],
     'object-curly-spacing': ['error', 'always'], // 对象括号内部需要有空格
     'array-bracket-spacing': ['error', 'always'], // 强制数组方括号中使用一致的空格
@@ -36,7 +36,8 @@ module.exports = {
     'comma-spacing': 0, //逗号前后的空格
     'brace-style': 2, //强制在代码块中使用一致的大括号风格, 默认为1tbs
     'no-multiple-empty-lines': 2, // 禁止出现多行空行,默认最多两行
-    'linebreak-style': ['error', 'unix'], // 强制使用一致的换行风格
+    // 'linebreak-style': ['error', 'windows'], // 强制使用一致的换行风格
+    // 'linebreak-style': ['error', 'windows'], // 强制使用一致的换行风格
     'lines-around-comment': [
       'error',
       {
