@@ -49,7 +49,7 @@
     </a-form-model>
     <p class="gayLine"></p>
     <ActiveTable
-      rowKey="id"
+      rowKey="platformId"
       :columns="columns"
       :data="list"
       showPager
@@ -141,32 +141,23 @@
 
       }
     },
-    computed: {
-
-      hasSelected() {
-        return this.selectedRowKeys.length > 0
-      }
-    },
     watch: {
-      $route(to, from) {
-        //当监听到路由返回时候刷新列表
-        if (to.path == '/scriptMaintenance') {
-          this.getList()
-        }
-      }
+      // 如果路由有变化，会再次执行该方法
+      '$route': 'changeRoute'
     },
     created() {
-      debugger;
       this.resetQuery()
     },
     methods: {
+      changeRoute(){
+
+      },
       addscript(){
         this.$router.push({
           path : '/scriptMaintenance/scriptConfigure'
         })
       },
       editscript(id){
-        debugger;
         this.$router.push({
           path : '/scriptMaintenance/scriptConfigure',
           query: {

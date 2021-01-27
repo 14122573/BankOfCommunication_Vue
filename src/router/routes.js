@@ -53,7 +53,7 @@ const ExtractExample = () => import('@/components/ActiveExtract/example')
 // 首页
 //TODO
 //脚本维护
-const scrpitMaintenance = () => import('@/views/scrpitMaintenance/index')
+const scriptMaintenance = () => import('@/views/scrpitMaintenance/index')
 const scriptConfigure = () => import('@/views/scrpitMaintenance/scriptConfigure')
 //作业维护
 const jobMaintenance = () => import('@/views/jobMaintenance/index')
@@ -84,147 +84,147 @@ const taskQuery = () => import('@/views/taskQuery/index')
  */
 const appRoutes = [
   {
-    path     : '*',
-    name     : 'Layout',
+    path: '*',
+    name: 'Layout',
     // redirect : '/login',
     component: main,
-    children : [
+    children: [
       {
-        path     : '/home',
-        name     : 'home',
+        path: '/home',
+        name: 'home',
         component: HomePage,
-        meta     : { title: '首页' }
+        meta: {title: '首页'}
       },
 
       {
-        path     : '/noauth',
-        name     : 'noautherr',
+        path: '/noauth',
+        name: 'noautherr',
         component: TipsNoAuth,
-        meta     : { title: '没有权限' }
+        meta: {title: '没有权限'}
       },
       {
-        path     : '/innerNetworkerr',
-        name     : 'innerNetworkerr',
+        path: '/innerNetworkerr',
+        name: 'innerNetworkerr',
         component: TipsInnerNetworkErr,
-        meta     : { title: '系统异常' }
+        meta: {title: '系统异常'}
       },
       {
-        path     : '/person',
-        name     : 'person',
+        path: '/person',
+        name: 'person',
         component: PersonCenter,
-        meta     : { title: '账户信息' },
-        children : [
+        meta: {title: '账户信息'},
+        children: [
           {
-            path     : '/person/transferDatas',
-            name     : '/person/transferDatas',
+            path: '/person/transferDatas',
+            name: '/person/transferDatas',
             component: PersonTransferDatas,
-            meta     : { title: '转移申报数据' }
+            meta: {title: '转移申报数据'}
           },//
           {
-            path     : '/person/userChange',
-            name     : '/person/userChange',
+            path: '/person/userChange',
+            name: '/person/userChange',
             component: UserChange,
-            meta     : { title: '账户基本信息修改' }
+            meta: {title: '账户基本信息修改'}
           },
         ]
       },
       {
-        path     : '/person/expert',
-        name     : '/person/expert',
+        path: '/person/expert',
+        name: '/person/expert',
         component: LibraryEdit,
-        meta     : { title: '专家个人信息维护' }
+        meta: {title: '专家个人信息维护'}
       },
       // 系统管理
       {
-        path     : '/systemManagement',
-        name     : 'systemManagement',
+        path: '/systemManagement',
+        name: 'systemManagement',
         component: contentWrapper,
-        meta     : {
-          title      : '系统管理',
-          menuPath   : true,
-          authCode   : 'P00000',
-          menuIcon   : 'setting',
+        meta: {
+          title: '系统管理',
+          menuPath: true,
+          authCode: 'P00000',
+          menuIcon: 'setting',
           hideInBread: true
         },
         children: [
           //专家抽取 样例
           {
-            path     : '/systemManagement/extractExample',
-            name     : '/systemManagement/extractExample',
+            path: '/systemManagement/extractExample',
+            name: '/systemManagement/extractExample',
             component: ExtractExample,
-            meta     : {
-              title      : '专家抽取',
-              menuPath   : false,
-              authCode   : 'super',
-              menuIcon   : 'user',
+            meta: {
+              title: '专家抽取',
+              menuPath: false,
+              authCode: 'super',
+              menuIcon: 'user',
               hideInBread: false,
-              openMode   : 'normal'
+              openMode: 'normal'
             }
           },
           //角色权限配置
           {
-            path     : '/systemManagement/permissionConfig',
-            name     : '/systemManagement/permissionConfig',
+            path: '/systemManagement/permissionConfig',
+            name: '/systemManagement/permissionConfig',
             component: RolePermissionConfig,
-            meta     : {
-              title      : '角色权限配置',
-              menuPath   : true,
-              authCode   : 'super',
-              menuIcon   : 'cluster',
+            meta: {
+              title: '角色权限配置',
+              menuPath: true,
+              authCode: 'super',
+              menuIcon: 'cluster',
               hideInBread: false,
-              openMode   : 'normal'
+              openMode: 'normal'
             },
             children: [
               {
-                path     : '/systemManagement/permissionConfig/point',
-                name     : '/systemManagement/permissionConfig/point',
+                path: '/systemManagement/permissionConfig/point',
+                name: '/systemManagement/permissionConfig/point',
                 component: RolePermissionPoint,
-                meta     : {
-                  title      : '功能点管理',
-                  menuPath   : false,
-                  authCode   : 'super',
-                  menuIcon   : 'cluster',
+                meta: {
+                  title: '功能点管理',
+                  menuPath: false,
+                  authCode: 'super',
+                  menuIcon: 'cluster',
                   hideInBread: false,
-                  openMode   : 'normal'
+                  openMode: 'normal'
                 },
                 children: [
                   {
-                    path     : '/systemManagement/permissionConfig/point/add',
-                    name     : '/systemManagement/permissionConfig/point/add',
+                    path: '/systemManagement/permissionConfig/point/add',
+                    name: '/systemManagement/permissionConfig/point/add',
                     component: RolePermissionAddPoint,
-                    meta     : {
-                      title      : '添加功能点',
-                      menuPath   : false,
-                      authCode   : 'super',
-                      menuIcon   : 'cluster',
+                    meta: {
+                      title: '添加功能点',
+                      menuPath: false,
+                      authCode: 'super',
+                      menuIcon: 'cluster',
                       hideInBread: false,
-                      openMode   : 'normal'
+                      openMode: 'normal'
                     }
                   },
                   {
-                    path     : '/systemManagement/permissionConfig/point/addBatch',
-                    name     : '/systemManagement/permissionConfig/point/addBatch',
+                    path: '/systemManagement/permissionConfig/point/addBatch',
+                    name: '/systemManagement/permissionConfig/point/addBatch',
                     component: RolePermissionAddPointBatch,
-                    meta     : {
-                      title      : '批量添加功能点',
-                      menuPath   : false,
-                      authCode   : 'super',
-                      menuIcon   : 'cluster',
+                    meta: {
+                      title: '批量添加功能点',
+                      menuPath: false,
+                      authCode: 'super',
+                      menuIcon: 'cluster',
                       hideInBread: false,
-                      openMode   : 'normal'
+                      openMode: 'normal'
                     }
                   },
                   {
-                    path     : '/systemManagement/permissionConfig/point/edit',
-                    name     : '/systemManagement/permissionConfig/point/edit',
+                    path: '/systemManagement/permissionConfig/point/edit',
+                    name: '/systemManagement/permissionConfig/point/edit',
                     component: RolePermissionEditPoint,
-                    meta     : {
-                      title      : '编辑功能点',
-                      menuPath   : false,
-                      authCode   : 'super',
-                      menuIcon   : 'cluster',
+                    meta: {
+                      title: '编辑功能点',
+                      menuPath: false,
+                      authCode: 'super',
+                      menuIcon: 'cluster',
                       hideInBread: false,
-                      openMode   : 'normal'
+                      openMode: 'normal'
                     }
                   }
                 ]
@@ -233,284 +233,290 @@ const appRoutes = [
           },
           // RoleManagement角色管理
           {
-            path     : '/systemManagement/role',
-            name     : '/systemManagement/role',
+            path: '/systemManagement/role',
+            name: '/systemManagement/role',
             component: RoleManagement,
-            meta     : {
-              title      : '角色管理',
-              menuPath   : true,
-              authCode   : 'P02000',
-              menuIcon   : 'cluster',
+            meta: {
+              title: '角色管理',
+              menuPath: true,
+              authCode: 'P02000',
+              menuIcon: 'cluster',
               hideInBread: false,
-              openMode   : 'normal'
+              openMode: 'normal'
             },
             children: [
               {
-                path     : '/systemManagement/role/create',
-                name     : '/systemManagement/role/create',
+                path: '/systemManagement/role/create',
+                name: '/systemManagement/role/create',
                 component: RoleCreate,
-                meta     : {
-                  title      : '角色创建',
-                  menuPath   : false,
-                  authCode   : 'P02001',
-                  menuIcon   : 'cluster',
+                meta: {
+                  title: '角色创建',
+                  menuPath: false,
+                  authCode: 'P02001',
+                  menuIcon: 'cluster',
                   hideInBread: false,
-                  openMode   : 'normal'
+                  openMode: 'normal'
                 }
               },
               {
-                path     : '/systemManagement/role/edit',
-                name     : '/systemManagement/role/edit',
+                path: '/systemManagement/role/edit',
+                name: '/systemManagement/role/edit',
                 component: RoleCreate,
-                meta     : {
-                  title      : '角色修改',
-                  menuPath   : false,
-                  authCode   : 'P02003',
-                  menuIcon   : 'cluster',
+                meta: {
+                  title: '角色修改',
+                  menuPath: false,
+                  authCode: 'P02003',
+                  menuIcon: 'cluster',
                   hideInBread: false,
-                  openMode   : 'normal'
+                  openMode: 'normal'
                 }
               },
               {
-                path     : '/systemManagement/role/view',
-                name     : '/systemManagement/role/view',
+                path: '/systemManagement/role/view',
+                name: '/systemManagement/role/view',
                 component: RoleCreate,
-                meta     : {
-                  title      : '角色查看',
-                  menuPath   : false,
-                  authCode   : 'P02002',
-                  menuIcon   : 'cluster',
+                meta: {
+                  title: '角色查看',
+                  menuPath: false,
+                  authCode: 'P02002',
+                  menuIcon: 'cluster',
                   hideInBread: false,
-                  openMode   : 'normal'
+                  openMode: 'normal'
                 }
               }
             ]
           },
           // AdministratorManagement管理员管理
           {
-            path     : '/systemManagement/administrator',
-            name     : '/systemManagement/administrator',
+            path: '/systemManagement/administrator',
+            name: '/systemManagement/administrator',
             component: AdministratorManagement,
-            meta     : {
-              title      : '用户管理',
-              menuPath   : true,
-              authCode   : 'P03000',
-              menuIcon   : 'cluster',
+            meta: {
+              title: '用户管理',
+              menuPath: true,
+              authCode: 'P03000',
+              menuIcon: 'cluster',
               hideInBread: false,
-              openMode   : 'normal'
+              openMode: 'normal'
             },
             children: [
               {
-                path     : '/systemManagement/administrator/createNewUser',
-                name     : '/systemManagement/administrator/createNewUser',
+                path: '/systemManagement/administrator/createNewUser',
+                name: '/systemManagement/administrator/createNewUser',
                 component: CreateNewUser,
-                meta     : {
-                  title      : '新增用户信息',
-                  menuPath   : false,
-                  authCode   : 'P03303',
-                  menuIcon   : 'cluster',
+                meta: {
+                  title: '新增用户信息',
+                  menuPath: false,
+                  authCode: 'P03303',
+                  menuIcon: 'cluster',
                   hideInBread: false,
-                  openMode   : 'normal'
+                  openMode: 'normal'
                 }
               },
               {
-                path     : '/systemManagement/administrator/editNewUser',
-                name     : '/systemManagement/administrator/editNewUser',
+                path: '/systemManagement/administrator/editNewUser',
+                name: '/systemManagement/administrator/editNewUser',
                 component: CreateNewUser,
-                meta     : {
-                  title      : '账户信息修改',
-                  menuPath   : false,
-                  authCode   : 'P03302',
-                  menuIcon   : 'cluster',
+                meta: {
+                  title: '账户信息修改',
+                  menuPath: false,
+                  authCode: 'P03302',
+                  menuIcon: 'cluster',
                   hideInBread: false,
-                  openMode   : 'normal'
+                  openMode: 'normal'
                 }
               },
               {
-                path     : '/systemManagement/administrator/edit',
-                name     : '/systemManagement/administrator/edit',
+                path: '/systemManagement/administrator/edit',
+                name: '/systemManagement/administrator/edit',
                 component: LibraryEdit,
-                meta     : {
-                  title      : '人员信息修改',
-                  menuPath   : false,
-                  authCode   : 'P11003',
-                  menuIcon   : 'user',
+                meta: {
+                  title: '人员信息修改',
+                  menuPath: false,
+                  authCode: 'P11003',
+                  menuIcon: 'user',
                   hideInBread: false,
-                  openMode   : 'normal'
+                  openMode: 'normal'
                 }
               },
               {
-                path     : '/systemManagement/administrator/newUserView',
-                name     : '/systemManagement/administrator/newUserView',
+                path: '/systemManagement/administrator/newUserView',
+                name: '/systemManagement/administrator/newUserView',
                 component: NewUserView,
-                meta     : {
-                  title      : '查看新用户信息',
-                  menuPath   : false,
-                  authCode   : 'P03301',
-                  menuIcon   : 'cluster',
+                meta: {
+                  title: '查看新用户信息',
+                  menuPath: false,
+                  authCode: 'P03301',
+                  menuIcon: 'cluster',
                   hideInBread: false,
-                  openMode   : 'normal'
+                  openMode: 'normal'
                 }
               },
               {
-                path     : '/systemManagement/administrator/pendingView',
-                name     : '/systemManagement/administrator/pendingView',
+                path: '/systemManagement/administrator/pendingView',
+                name: '/systemManagement/administrator/pendingView',
                 component: PendingView,
-                meta     : {
-                  title      : '待分配权限查看',
-                  menuPath   : false,
-                  authCode   : 'P03101',
-                  menuIcon   : 'cluster',
+                meta: {
+                  title: '待分配权限查看',
+                  menuPath: false,
+                  authCode: 'P03101',
+                  menuIcon: 'cluster',
                   hideInBread: false,
-                  openMode   : 'normal'
+                  openMode: 'normal'
                 }
               },
               {
-                path     : '/systemManagement/administrator/distribution',
-                name     : '/systemManagement/administrator/distribution',
+                path: '/systemManagement/administrator/distribution',
+                name: '/systemManagement/administrator/distribution',
                 component: Distribution,
-                meta     : {
-                  title      : '权限分配',
-                  menuPath   : false,
-                  authCode   : 'P03102',
-                  menuIcon   : 'cluster',
+                meta: {
+                  title: '权限分配',
+                  menuPath: false,
+                  authCode: 'P03102',
+                  menuIcon: 'cluster',
                   hideInBread: false,
-                  openMode   : 'normal'
+                  openMode: 'normal'
                 }
               }
             ]
           },
           // 公共基础信息维护
           {
-            path     : '/systemManagement/basic',
-            name     : '/systemManagement/basic',
+            path: '/systemManagement/basic',
+            name: '/systemManagement/basic',
             component: SysBasicInfo,
-            meta     : {
-              title      : '基础信息维护',
-              menuPath   : true,
-              authCode   : 'P04000',
-              menuIcon   : 'cluster',
+            meta: {
+              title: '基础信息维护',
+              menuPath: true,
+              authCode: 'P04000',
+              menuIcon: 'cluster',
               hideInBread: false,
-              openMode   : 'normal'
+              openMode: 'normal'
             },
             children: []
           },
           // 操作日志
           {
-            path     : '/systemManagement/operlog',
-            name     : '/systemManagement/operlog',
+            path: '/systemManagement/operlog',
+            name: '/systemManagement/operlog',
             component: () =>
               import ('@/views/systemManagement/operlog/index'),
             meta: {
-              title      : '操作日志',
-              menuPath   : true,
-              authCode   : 'P05000',
-              menuIcon   : 'cluster',
+              title: '操作日志',
+              menuPath: true,
+              authCode: 'P05000',
+              menuIcon: 'cluster',
               hideInBread: false,
-              openMode   : 'normal'
+              openMode: 'normal'
             },
-            children: [ {
-              path     : '/systemManagement/operlog/particulars',
-              name     : '/systemManagement/operlog/particulars',
+            children: [{
+              path: '/systemManagement/operlog/particulars',
+              name: '/systemManagement/operlog/particulars',
               component: () =>
                 import ('@/views/systemManagement/operlog/particulars'),
               meta: {
-                title      : '查看日志详情',
-                menuPath   : false,
-                authCode   : 'P05001',
-                menuIcon   : 'cluster',
+                title: '查看日志详情',
+                menuPath: false,
+                authCode: 'P05001',
+                menuIcon: 'cluster',
                 hideInBread: false,
-                openMode   : 'normal'
+                openMode: 'normal'
               }
-            } ]
+            }]
           }
         ]
       },
       {
-        path     : '/homepage',
-        name     : 'homepage',
+        path: '/homepage',
+        name: '/homepage',
         component: HomePage,
-        meta     : {
-          title      : '首页',
-          menuPath   : true,
-          menuIcon   : 'home',
+        meta: {
+          title: '首页',
+          menuPath: true,
+          menuIcon: 'home',
           hideInBread: true
         }
       },
       {
-        path     : '/scrpitMaintenance',
-        name     : '/scrpitMaintenance',
-        component: scrpitMaintenance,
-        meta     : {
-          title      : '脚本维护',
-          menuPath   : true,
-          menuIcon   : 'setting',
-          hideInBread: true
+        path: '/scriptMaintenance',
+        name: 'scriptMaintenance',
+        component: scriptMaintenance,
+        meta: {
+          title: '脚本维护',
+          menuPath: true,
+          menuIcon: 'setting',
+          authCode: 'P02000',
+          hideInBread: false,
+          openMode: 'normal',
         },
         children: [
           {
-            path     : '/scriptMaintenance/scriptConfigure',
-            name     : '/scriptMaintenance/scriptConfigure',
+            path: '/scriptMaintenance/scriptConfigure',
+            name: 'scriptMaintenance/scriptConfigure',
             component: scriptConfigure,
-            meta     : {
-              title      : '脚本配置',
-              hideInBread: true
+            meta: {
+              title: '脚本配置',
+              menuPath: false,
+              hideInBread: false,
+              openMode: 'normal',
+              authCode: 'super'
             }
-          }
+          },
         ]
       },
+
       {
-        path     : '/jobMaintenance',
-        name     : 'jobMaintenance',
+        path: '/jobMaintenance',
+        name: 'jobMaintenance',
         component: jobMaintenance,
-        meta     : {
-          title      : '作业维护',
-          menuPath   : true,
-          menuIcon   : 'build',
+        meta: {
+          title: '作业维护',
+          menuPath: true,
+          menuIcon: 'build',
           hideInBread: true
         }
       },
       {
-        path     : '/relationshipAnalysis',
-        name     : 'relationshipAnalysis',
+        path: '/relationshipAnalysis',
+        name: 'relationshipAnalysis',
         component: relationshipAnalysis,
-        meta     : {
-          title      : '血缘分析',
-          menuPath   : true,
-          menuIcon   : 'dropbox',
+        meta: {
+          title: '血缘分析',
+          menuPath: true,
+          menuIcon: 'dropbox',
           hideInBread: true
         }
       },
       {
-        path     : '/dataSourceConfigure',
-        name     : 'dataSourceConfigure',
+        path: '/dataSourceConfigure',
+        name: 'dataSourceConfigure',
         component: dataSourceConfigure,
-        meta     : {
-          title      : '数据源配置',
-          menuPath   : true,
-          menuIcon   : 'setting',
+        meta: {
+          title: '数据源配置',
+          menuPath: true,
+          menuIcon: 'setting',
           hideInBread: true
         }
       },
       {
-        path     : '/etlConfigure',
-        name     : 'etlConfigure',
+        path: '/etlConfigure',
+        name: 'etlConfigure',
         component: etlConfigure,
-        meta     : {
-          title      : 'ETL服务器配置',
-          menuPath   : true,
-          menuIcon   : 'interaction',
+        meta: {
+          title: 'ETL服务器配置',
+          menuPath: true,
+          menuIcon: 'interaction',
           hideInBread: true
         }
       },
       {
-        path     : '/taskQuery',
-        name     : 'taskQuery',
+        path: '/taskQuery',
+        name: 'taskQuery',
         component: taskQuery,
-        meta     : {
-          title      : '任务查询',
-          menuPath   : true,
-          menuIcon   : 'container',
+        meta: {
+          title: '任务查询',
+          menuPath: true,
+          menuIcon: 'container',
           hideInBread: true
         }
       },
@@ -518,54 +524,54 @@ const appRoutes = [
   },
   //内容发布
   {
-    path     : '/login',
-    redirect : '/homepage/index',
-    name     : 'homepage',
+    path: '/login',
+    redirect: '/homepage/index',
+    name: 'homepage',
     component: Home,
-    meta     : { title: '主页' }
+    meta: {title: '主页'}
   },
   {
-    path     : '/register',
-    name     : 'register',
+    path: '/register',
+    name: 'register',
     component: RegisterPage,
-    meta     : { title: '注册' }
+    meta: {title: '注册'}
   },
   {
-    path     : '/bindPhone',
-    name     : 'bindPhone',
+    path: '/bindPhone',
+    name: 'bindPhone',
     component: BindPhone,
-    meta     : { title: '选择系统绑定手机号' }
+    meta: {title: '选择系统绑定手机号'}
   },
   {
-    path     : '/bindTemporarayAccount',
-    name     : 'bindTemporarayAccount',
+    path: '/bindTemporarayAccount',
+    name: 'bindTemporarayAccount',
     component: BindTemporarayAccount,
-    meta     : { title: '选择系统绑定手机号' }
+    meta: {title: '选择系统绑定手机号'}
   },
   {
-    path     : '/oldSysLogout',
-    name     : 'oldSysLogout',
+    path: '/oldSysLogout',
+    name: 'oldSysLogout',
     component: OldSysLogout,
-    meta     : { title: '老系统安全登出' }
+    meta: {title: '老系统安全登出'}
   },
   {
-    path     : '/networkerr',
-    name     : 'networkerr',
+    path: '/networkerr',
+    name: 'networkerr',
     component: TipsNetworkErr,
-    meta     : { title: '网络错误' }
+    meta: {title: '网络错误'}
   },
   {
-    path     : '/error-page',
-    name     : 'error-page',
+    path: '/error-page',
+    name: 'error-page',
     component: ErrorPage,
-    meta     : { title: '404' }
+    meta: {title: '404'}
   },
   {
-    path     : '/upperLimitErr',
-    name     : 'upperLimitErr',
+    path: '/upperLimitErr',
+    name: 'upperLimitErr',
     component: TipsUpperLimitErr,
-    meta     : { title: '访问频繁' }
+    meta: {title: '访问频繁'}
   }
 ]
 
-export const routes = [ ...appRoutes ]
+export const routes = [...appRoutes]

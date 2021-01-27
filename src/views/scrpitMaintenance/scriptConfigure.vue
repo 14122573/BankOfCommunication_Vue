@@ -46,43 +46,24 @@
   </div>
 </template>
 <script>
-
   import moment from 'moment'
   import {FormModel} from 'ant-design-vue'
-
   export default {
     components: {
       'a-form-model': FormModel
     },
     data() {
       return {
-        id:this.$route.query.id,
+        id:this.$router.query.id,
         //数据
         list: [],
         //
         total: 0,
         //查询参数
         queryParams: {},
-
-      }
-    },
-    computed: {
-
-      hasSelected() {
-        return this.selectedRowKeys.length > 0
-      }
-    },
-    watch: {
-      $route(to, from) {
-        //当监听到路由返回时候刷新列表
-        if (to.path == '/scriptMaintenance') {
-          this.getList()
-        }
       }
     },
     created() {
-      debugger;
-      console.log(this.id);
       this.resetQuery()
     },
     methods: {
