@@ -123,9 +123,6 @@ export default {
   // 系统管理 --- 操作日志
   GET_OPERLOG_LIST            : '/service-log/log/operateLog/page', //获取操作日志列表
   GET_OPERLOG_PARTICULARS_BYID: '/service-log/log/operateLog/{id}', //根据id查询操作详情
-  //POST_OPERLOG_DELECT_BYID          : '/service-log/log/operateLog/delete/{id}', //根据id删除数据
-  //POST_OPERLOG_IDS_DELECT           : '/service-log/log/operateLog/deleteBatch', //批量删除操作日志
-  //POST_OPERLOG_ALL_DELECT           : '/service-log/log/operateLog/deleteAll', //删除全部操作日志
 
   // 专家管理
   GET_EXPERT_BASE_LIST              : '/service-expert/expert/dictionary/{type}', //专家字典信息列表接口，type: 0-民族 1-单位性质 2-职务 3-职称 4-学历 5-学位 6-工作领域 7-专业组别 8-研究方向

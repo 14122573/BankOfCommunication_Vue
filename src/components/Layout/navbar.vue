@@ -81,7 +81,6 @@ export default {
     },
     getRoutes() {
       const layoutRoutes = routes.find(route => route.name == 'Layout')
-      debugger;
       const list = []
       layoutRoutes.children.forEach(parent => {
         if (parent.children && parent.children.length > 0) {
