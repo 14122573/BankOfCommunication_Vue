@@ -1,0 +1,74 @@
+{
+  "Layout": [
+    {
+      "path": "/homepage",
+      "name": "homepage",
+      "meta": {
+        "title": "首页",
+        "menuPath": true,
+        "menuIcon": "home",
+        "hideInBread": true
+      }
+    },
+    {
+      "path": "/ScrpitMaintenance",
+      "name": "ScrpitMaintenance",
+      "meta": {
+        "title": "脚本维护",
+        "menuPath": true,
+        "menuIcon": "snippets",
+        "hideInBread": true
+      }
+    },
+    {
+      "path": "/JobMaintenance",
+      "name": "JobMaintenance",
+      "meta": {
+        "title": "作业维护",
+        "menuPath": true,
+        "menuIcon": "build",
+        "hideInBread": true
+      }
+    },
+    {
+      "path": "/RelationshipAnalysis",
+      "name": "RelationshipAnalysis",
+      "meta": {
+        "title": "血缘分析",
+        "menuPath": true,
+        "menuIcon": "dropbox",
+        "hideInBread": true
+      }
+    },
+    {
+      "path": "/DateSorceConfigure",
+      "name": "DateSorceConfigure",
+      "meta": {
+        "title": "数据源配置",
+        "menuPath": true,
+        "menuIcon": "setting",
+        "hideInBread": true
+      }
+    },
+    {
+      "path": "/ETLConfigure",
+      "name": "ETLConfigure",
+      "meta": {
+        "title": "ETL服务器配置",
+        "menuPath": true,
+        "menuIcon": "interaction",
+        "hideInBread": true
+      }
+    },
+    {
+      "path": "/TaskQuery",
+      "name": "TaskQuery",
+      "meta": {
+        "title": "任务查询",
+        "menuPath": true,
+        "menuIcon": "container",
+        "hideInBread": true
+      }
+    }
+  ]
+}

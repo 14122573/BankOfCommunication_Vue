@@ -1,150 +1,133 @@
 <template>
+  <div class="portalDetailWapper">
+    <div class="portalDetailTitle">
+      <span class="title">基本信息</span>
+      <div class="detailOperations">
+        <a-button @click='handleReturn'>返回</a-button>
+        <a-button type="primary" @click='handleSave' html-type="submit">保存</a-button>
+      </div>
+    </div>
+    <div class="portalDetailContentWapper">
+      <div class="layoutMargin layoutPadding ">
+        <a-form class="protalForm ">
+          <a-row class="formItemLine">
+            <a-col span="12">
+              <a-form-item class="formItem" label="系统名称" v-bind="colSpe">
+                <a-input placeholder="请输入" v-model="scriptForm.name"></a-input>
+              </a-form-item>
+            </a-col>
+            <a-col span="12">
+              <a-form-item class="formItem" label="数据源" v-bind="colSpe">
+                <a-select placeholder="请选择" v-model="scriptForm.datasource">
+                  <!--TODO label名称待定-->
+                  <a-option v-for="(item,index) in allDataSource" :key="index" :label="item.datasource_key"
+                            :value="item.datasource_value"></a-option>
+                </a-select>
+              </a-form-item>
+            </a-col>
+          </a-row>
+          <a-row class="formItemLine">
+            <a-col span="12">
+              <a-form-item class="formItem" label="脚本名称" v-bind="colSpe">
+                <a-input placeholder="请输入" v-model="scriptForm.scriptname"></a-input>
+              </a-form-item>
+            </a-col>
+            <a-col span="12">
+              <a-form-item class="formItem" label="ETL服务器" v-bind="colSpe">
+                <a-select placeholder="请选择" v-model="scriptForm.datasource">
+                  <!--TODO label名称待定-->
+                  <a-option v-for="(item,index) in allETL" :key="index" :label="item.ETL_value"
+                            :value="item.ETL_key"></a-option>
+                </a-select>
+              </a-form-item>
+            </a-col>
+          </a-row>
+          <a-row class="formItemLine">
+            <a-col span="12">
+              <a-form-item class="formItem" label="关联任务" v-bind="colSpe">
+                <a-select placeholder="请选择" v-model="scriptForm.taskname">
+                  <!--TODO label名称待定-->
+                  <a-option v-for="(item,index) in allTask" :key="index" :label="item.task_name"
+                            :value="item.task_key"></a-option>
+                </a-select>
+              </a-form-item>
+            </a-col>
+            <a-col span="12">
+              <a-form-item class="formItem" label="GIT路径" v-bind="colSpe">
+                <a-input placeholder="请输入" v-model="scriptForm.gitpath"></a-input>
+              </a-form-item>
+            </a-col>
+          </a-row>
+        </a-form>
+        <p class="gayLine"></p>
+        <span class="title">转换逻辑</span>
+        <div style="border:1px solid #ccc;">
+          <SqlEditor ref="_firstRefs" v-model="sql" class='textasql'/>
+        </div>
+      </div>
 
-  <div class="layoutMargin layoutPadding">
-    <a-form-model
-      class="ant-advanced-search-form"
-      ref="queryForm"
-      :border="false"
-      :form="queryParams"
-      :label-col=" { span: 7 }"
-      :style="{ padding: '0',border:'none' }"
-    >
-      <a-row :gutter="12">
-        <a-col :span="6">
-          <a-form-item label="模糊查询">
-            <a-input placeholder="请输入内容" v-model="queryParams.fuzzyQueryParam"/>
-          </a-form-item>
-        </a-col>
-        <a-col :span="6">
-          <a-form-item label="状态">
-            <a-select placeholder="请选择" v-model="queryParams.scriptStatus">
-              <!--TODO label名称待定-->
-              <a-option v-for="(item,index) in allscriptStatus" :key="index" :label="item.STATUS_NAME"
-                         :value="item.SCRIPT_STATUS"></a-option>
-            </a-select>
-          </a-form-item>
-        </a-col>
-        <a-col :span="6">
-          <a-form-item label="平台">
-            <a-select placeholder="请选择" v-model="queryParams.platformId">
-              <!--TODO label名称待定-->
-              <a-option v-for="(item,index) in allplatform" :key="index" :label="item.platform_name"
-                        :value="item.platformId"></a-option>
-            </a-select>
-          </a-form-item>
-        </a-col>
-        </a-col>
-        <a-col :span="6" :style="{ textAlign: 'right' ,marginTop:'4px'}">
-          <a-button type="primary" html-type="submit" @click="getList">搜索</a-button>
-        </a-col>
-      </a-row>
-    </a-form-model>
-    <p class="gayLine"></p>
+    </div>
 
-  </div>
 
   </div>
 </template>
+
 <script>
-  import moment from 'moment'
-  import {FormModel} from 'ant-design-vue'
+  import SqlEditor from './sqleditor'
+
   export default {
     components: {
-      'a-form-model': FormModel
+      SqlEditor
     },
     data() {
       return {
-        id:this.$router.query.id,
-        //数据
-        list: [],
-        //
-        total: 0,
-        //查询参数
-        queryParams: {},
+        id:this.$route.query.id,
+        allDataSource: [],
+        allTask: [],
+        allETL: [],
+        scriptForm: {},
+        sql:"",
+        colSpe: {
+          labelCol: {
+            span: 6
+          },
+          wrapperCol: {
+            span: 15
+          }
+        },
       }
     },
     created() {
-      this.resetQuery()
+
     },
-    watch:{
-      $route(to, from) {
-        debugger;
-        //当监听到路由返回时候刷新列表
-        if (to.path == '/scriptMaintenance/scriptConfigure') {
-          this.getList()
-        }
-      }
+    mounted() {
     },
     methods: {
-      //moment
-      moment,
-      //初始化
-      resetQuery() {
-        debugger;
-        this.queryParams = {
-          pageIndex: 1,
-          pageSize: 10,
-        }
-        this.total = 0
-        this.getList()
+      handleReturn(){
+        this.$router.push({
+          name: '/scriptMaintenance'
+        })
       },
+      handleSave() {
 
-      //获取列表
-      getList() {
-        this.$ajax
-          .get({
-            //TODO 需要修改 GET_OPERLOG_LIST
-            url: this.$api.GET_OPERLOG_LIST,
-            params: this.queryParams
-          })
-          .then(res => {
-            debugger;
-            //TODO 要修改返回值内容
-            if (res.code === '200') {
-              this.total = res.data.totalRows || 0
-              this.list = res.data.content || []
-            } else {
-              this.$message.error(res.msg)
-            }
-            //TODO 这里要删除
-            this.list=[{"SYSTEM_NAME":"SYSTEM_NAME"}]
-          })
-      },
-      //选择分页
-      handlePageChange({current}) {
-        this.queryParams.pageIndex = current
-        this.getList()
-      },
+      }
     }
   }
 </script>
+
+<style scoped>
+  .position {
+    margin-left: 5px;
+    color: #1890ff;
+    cursor: pointer;
+    display: inline;
+  }
+
+  .textasql >>> .CodeMirror {
+    height: 200px !important;
+    /* width:200px !important; */
+  }
+</style>
 <style>
-  .ant-advanced-search-form {
-    padding: 24px;
-    background: #fbfbfb;
-    border: 1px solid #d9d9d9;
-    border-radius: 6px;
-  }
 
-  .ant-advanced-search-form .ant-form-item {
-    display: flex;
-  }
-
-  .ant-advanced-search-form .ant-form-item-control-wrapper {
-    flex: 1;
-  }
-
-  #components-form-demo-advanced-search .ant-form {
-    max-width: none;
-  }
-
-  #components-form-demo-advanced-search .search-result-list {
-    margin-top: 16px;
-    border: 1px dashed #e9e9e9;
-    border-radius: 6px;
-    background-color: #fafafa;
-    min-height: 100px;
-    text-align: center;
-    padding-top: 80px;
-  }
 </style>

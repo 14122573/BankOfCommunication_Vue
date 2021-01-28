@@ -1,73 +1,71 @@
 <template>
+  <div class="routerWapper">
+    <div v-if="$route.name == '/scriptMaintenance'" class="layoutMargin layoutPadding">
+      <a-form-model
+        class="ant-advanced-search-form"
+        ref="queryForm"
+        :border="false"
+        :form="queryParams"
+        :label-col=" { span: 7 }"
+        :style="{ padding: '0',border:'none' }"
+      >
+        <a-row :gutter="12">
+          <a-col :span="6">
+            <a-form-item label="模糊查询">
+              <a-input placeholder="请输入内容" v-model="queryParams.fuzzyQueryParam"/>
+            </a-form-item>
+          </a-col>
+          <a-col :span="6">
+            <a-form-item label="状态">
+              <a-select placeholder="请选择" v-model="queryParams.scriptStatus">
+                <!--TODO label名称待定-->
+                <a-option v-for="(item,index) in allscriptStatus" :key="index" :label="item.STATUS_NAME"
+                          :value="item.SCRIPT_STATUS"></a-option>
+              </a-select>
+            </a-form-item>
+          </a-col>
+          <a-col :span="6">
+            <a-form-item label="平台">
+              <a-select placeholder="请选择" v-model="queryParams.platformId">
+                <!--TODO label名称待定-->
+                <a-option v-for="(item,index) in allplatform" :key="index" :label="item.platform_name"
+                          :value="item.platformId"></a-option>
+              </a-select>
+            </a-form-item>
+          </a-col>
+          </a-col>
+          <a-col :span="6" :style="{ textAlign: 'right' ,marginTop:'4px'}">
+            <a-button type="primary" html-type="submit" @click="getList">搜索</a-button>
+          </a-col>
+        </a-row>
 
-  <div class="layoutMargin layoutPadding">
-    <a-form-model
-      class="ant-advanced-search-form"
-      ref="queryForm"
-      :border="false"
-      :form="queryParams"
-      :label-col=" { span: 7 }"
-      :style="{ padding: '0',border:'none' }"
-    >
-      <a-row :gutter="12">
-        <a-col :span="6">
-          <a-form-item label="模糊查询">
-            <a-input placeholder="请输入内容" v-model="queryParams.fuzzyQueryParam"/>
-          </a-form-item>
-        </a-col>
-        <a-col :span="6">
-          <a-form-item label="状态">
-            <a-select placeholder="请选择" v-model="queryParams.scriptStatus">
-              <!--TODO label名称待定-->
-              <a-option v-for="(item,index) in allscriptStatus" :key="index" :label="item.STATUS_NAME"
-                         :value="item.SCRIPT_STATUS"></a-option>
-            </a-select>
-          </a-form-item>
-        </a-col>
-        <a-col :span="6">
-          <a-form-item label="平台">
-            <a-select placeholder="请选择" v-model="queryParams.platformId">
-              <!--TODO label名称待定-->
-              <a-option v-for="(item,index) in allplatform" :key="index" :label="item.platform_name"
-                        :value="item.platformId"></a-option>
-            </a-select>
-          </a-form-item>
-        </a-col>
-        </a-col>
-        <a-col :span="6" :style="{ textAlign: 'right' ,marginTop:'4px'}">
-          <a-button type="primary" html-type="submit" @click="getList">搜索</a-button>
-        </a-col>
-      </a-row>
-
-      <a-row :gutter="12">
-        <a-col :span="6" :style="{ textAlign: 'left' ,marginTop:'4px'}">
-          <a-button type="primary" html-type="submit" @click="addscript">新增脚本</a-button>
-        </a-col>
-      </a-row>
-
-
-    </a-form-model>
-    <p class="gayLine"></p>
-    <ActiveTable
-      rowKey="platformId"
-      :columns="columns"
-      :data="list"
-      showPager
-      :currentPage="queryParams.pageIndex"
-      :pageSize="queryParams.pageSize"
-      :total="total"
-      @on-page-change="handlePageChange"
-      class="portalTable"
-    >
+        <a-row :gutter="12">
+          <a-col :span="6" :style="{ textAlign: 'left' ,marginTop:'4px'}">
+            <a-button type="primary" html-type="submit" @click="addscript">新增脚本</a-button>
+          </a-col>
+        </a-row>
+      </a-form-model>
+      <p class="gayLine"></p>
+      <ActiveTable
+        rowKey="platformId"
+        :columns="columns"
+        :data="list"
+        showPager
+        :currentPage="queryParams.pageIndex"
+        :pageSize="queryParams.pageSize"
+        :total="total"
+        @on-page-change="handlePageChange"
+        class="portalTable"
+      >
         <span slot="actions" slot-scope="{ text, record }">
           <a-button
             icon="edit"
             type="link"
             @click="editscript(record.platformId)">编辑</a-button>
         </span>
-    </ActiveTable>
-  </div>
-
+      </ActiveTable>
+    </div>
+    <RouterWapper v-else />
   </div>
 </template>
 <script>
@@ -127,9 +125,9 @@
     data() {
       return {
         //脚本状态
-        allscriptStatus:[],
+        allscriptStatus: [],
         //平台
-        allplatform:[],
+        allplatform: [],
         //表头
         columns: columns,
         //数据
@@ -143,7 +141,6 @@
     },
     watch: {
       $route(to, from) {
-
         //当监听到路由返回时候刷新列表
         if (to.path == '/scriptMaintenance') {
           this.getList()
@@ -154,14 +151,14 @@
       this.resetQuery()
     },
     methods: {
-      addscript(){
+      addscript() {
         this.$router.push({
-          name : '/scriptMaintenance/scriptConfigure'
+          name: '/scriptMaintenance/scriptConfigure'
         })
       },
-      editscript(id){
+      editscript(id) {
         this.$router.push({
-          name : '/scriptMaintenance/scriptConfigure',
+          name: '/scriptMaintenance/scriptConfigure',
           query: {
             id: id
           }
@@ -193,7 +190,7 @@
               this.$message.error(res.msg)
             }
             //TODO 这里要删除
-            this.list=[{"SYSTEM_NAME":"SYSTEM_NAME","platformId":"1"}]
+            this.list = [{'SYSTEM_NAME': 'SYSTEM_NAME', 'platformId': '1'}]
           })
       },
       //选择分页

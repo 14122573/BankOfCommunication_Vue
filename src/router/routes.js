@@ -445,7 +445,6 @@ const appRoutes = [
           title: '脚本维护',
           menuPath: true,
           menuIcon: 'setting',
-          authCode: 'P02000',
           hideInBread: false,
           openMode: 'normal',
         },
@@ -459,7 +458,6 @@ const appRoutes = [
               menuPath: false,
               hideInBread: false,
               openMode: 'normal',
-              authCode: 'super'
             }
           },
         ]
