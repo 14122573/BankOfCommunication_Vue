@@ -10,12 +10,12 @@
         :style="{ padding: '0',border:'none' }"
       >
         <a-row :gutter="12">
-          <a-col :span="6">
+          <a-col :span="7">
             <a-form-item label="模糊查询">
               <a-input placeholder="请输入内容" v-model="queryParams.fuzzyQueryParam"/>
             </a-form-item>
           </a-col>
-          <a-col :span="6">
+          <a-col :span="7">
             <a-form-item label="状态">
               <a-select placeholder="请选择" v-model="queryParams.scriptStatus">
                 <!--TODO label名称待定-->
@@ -24,7 +24,7 @@
               </a-select>
             </a-form-item>
           </a-col>
-          <a-col :span="6">
+          <a-col :span="7">
             <a-form-item label="平台">
               <a-select placeholder="请选择" v-model="queryParams.platformId">
                 <!--TODO label名称待定-->
@@ -34,7 +34,7 @@
             </a-form-item>
           </a-col>
           </a-col>
-          <a-col :span="6" :style="{ textAlign: 'right' ,marginTop:'4px'}">
+          <a-col :span="3" :style="{ textAlign: 'right' ,marginTop:'4px'}">
             <a-button type="primary" html-type="submit" @click="getList">搜索</a-button>
           </a-col>
         </a-row>
@@ -62,6 +62,10 @@
             icon="edit"
             type="link"
             @click="editscript(record.platformId)">编辑</a-button>
+          <a-button
+            icon="edit"
+            type="link"
+            @click="deletescript(record.platformId)">删除</a-button>
         </span>
       </ActiveTable>
     </div>
@@ -110,7 +114,7 @@
     {
       title: '操作',
       dataIndex: 'actions',
-      width: 100,
+      width: 200,
       align: 'center',
       scopedSlots: {customRender: 'actions'}
     }
@@ -163,6 +167,9 @@
             id: id
           }
         })
+      },
+      deletescript(id){
+        location.reload();
       },
       //初始化
       resetQuery() {

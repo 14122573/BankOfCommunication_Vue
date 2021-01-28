@@ -16,56 +16,26 @@
                 <a-input placeholder="请输入" v-model="scriptForm.name"></a-input>
               </a-form-item>
             </a-col>
+          </a-row>
+          <a-row class="formItemLine">
             <a-col span="12">
-              <a-form-item class="formItem" label="数据源" v-bind="colSpe">
-                <a-select placeholder="请选择" v-model="scriptForm.datasource">
-                  <!--TODO label名称待定-->
-                  <a-option v-for="(item,index) in allDataSource" :key="index" :label="item.datasource_key"
-                            :value="item.datasource_value"></a-option>
-                </a-select>
+              <a-form-item class="formItem" label="作业名称" v-bind="colSpe">
+                <a-input placeholder="请输入" v-model="scriptForm.name"></a-input>
               </a-form-item>
             </a-col>
           </a-row>
           <a-row class="formItemLine">
-            <a-col span="12">
-              <a-form-item class="formItem" label="脚本名称" v-bind="colSpe">
-                <a-input placeholder="请输入" v-model="scriptForm.scriptname"></a-input>
-              </a-form-item>
-            </a-col>
-            <a-col span="12">
-              <a-form-item class="formItem" label="ETL服务器" v-bind="colSpe">
-                <a-select placeholder="请选择" v-model="scriptForm.datasource">
-                  <!--TODO label名称待定-->
-                  <a-option v-for="(item,index) in allETL" :key="index" :label="item.ETL_value"
-                            :value="item.ETL_key"></a-option>
-                </a-select>
-              </a-form-item>
-            </a-col>
-          </a-row>
-          <a-row class="formItemLine">
-            <a-col span="12">
-              <a-form-item class="formItem" label="关联任务" v-bind="colSpe">
-                <a-select placeholder="请选择" v-model="scriptForm.taskname">
-                  <!--TODO label名称待定-->
-                  <a-option v-for="(item,index) in allTask" :key="index" :label="item.task_name"
-                            :value="item.task_key"></a-option>
-                </a-select>
-              </a-form-item>
-            </a-col>
-            <a-col span="12">
-              <a-form-item class="formItem" label="GIT路径" v-bind="colSpe">
-                <a-input placeholder="请输入" v-model="scriptForm.gitpath"></a-input>
-              </a-form-item>
-            </a-col>
+            <a-form-item class="formItem" label="运行周期" v-bind="colSpe2">
+              <a-radio placeholder="请选择" v-model="scriptForm.taskname">
+                <!--TODO label名称待定-->
+                <a-option v-for="(item,index) in allTask" :key="index" :label="item.task_name"
+                          :value="item.task_key"></a-option>
+              </a-radio>
+            </a-form-item>
           </a-row>
         </a-form>
         <p class="gayLine"></p>
-        <span class="title">转换逻辑</span>
-        <div style="border:1px solid #ccc;">
-          <SqlEditor ref="_firstRefs" v-model="sql" class='textasql'/>
-        </div>
-        <p class="gayLine"></p>
-        <span class="title">历史版本</span>
+        <span class="title">关联脚本</span>
         <ActiveTable
           rowKey="platformId"
           :columns="columns"
@@ -81,7 +51,11 @@
           <a-button
             icon="edit"
             type="link"
-            @click="showScriptHistory(record.platformId)">查看</a-button>
+            @click="showScriptHistory(record.platformId)">修改</a-button>
+          <a-button
+            icon="edit"
+            type="link"
+            @click="showScriptHistory(record.platformId)">删除</a-button>
         </span>
         </ActiveTable>
       </div>
@@ -95,36 +69,25 @@
 <script>
   const columns = [
     {
-      title: '日期',
+      title: '系统',
       dataIndex: 'DATE',
       align: 'center',
-      width: 120
     },
     {
-      title: '版本说明',
+      title: '脚本名称',
       dataIndex: 'SYSTEM_NAME',
       align: 'center',
-      width: 120
-    },
-    {
-      title: '提交人',
-      dataIndex: 'SCRIPT_NAME',
-      align: 'center'
     },
     {
       title: '操作',
       dataIndex: 'actions',
-      width: 100,
+      width: 200,
       align: 'center',
       scopedSlots: {customRender: 'actions'}
     }
   ]
-  import SqlEditor from './sqleditor'
 
   export default {
-    components: {
-      SqlEditor
-    },
     data() {
       return {
         list: [],
@@ -138,6 +101,14 @@
         colSpe: {
           labelCol: {
             span: 6
+          },
+          wrapperCol: {
+            span: 15
+          }
+        },
+        colSpe2: {
+          labelCol: {
+            span: 3
           },
           wrapperCol: {
             span: 15

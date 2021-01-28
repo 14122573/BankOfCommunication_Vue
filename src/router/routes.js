@@ -55,6 +55,7 @@ const ExtractExample = () => import('@/components/ActiveExtract/example')
 //脚本维护
 const scriptMaintenance = () => import('@/views/scrpitMaintenance/index')
 const scriptConfigure = () => import('@/views/scrpitMaintenance/scriptConfigure')
+const jobConfigure = () => import('@/views/jobMaintenance/jobConfigure')
 //作业维护
 const jobMaintenance = () => import('@/views/jobMaintenance/index')
 //血缘分析
@@ -465,18 +466,31 @@ const appRoutes = [
 
       {
         path: '/jobMaintenance',
-        name: 'jobMaintenance',
+        name: '/jobMaintenance',
         component: jobMaintenance,
         meta: {
           title: '作业维护',
           menuPath: true,
           menuIcon: 'build',
           hideInBread: true
-        }
+        },
+        children: [
+          {
+            path: '/jobMaintenance/jobConfigure',
+            name: '/jobMaintenance/jobConfigure',
+            component: jobConfigure,
+            meta: {
+              title: '脚本配置',
+              menuPath: false,
+              hideInBread: false,
+              openMode: 'normal',
+            }
+          },
+        ]
       },
       {
         path: '/relationshipAnalysis',
-        name: 'relationshipAnalysis',
+        name: '/relationshipAnalysis',
         component: relationshipAnalysis,
         meta: {
           title: '血缘分析',
@@ -487,7 +501,7 @@ const appRoutes = [
       },
       {
         path: '/dataSourceConfigure',
-        name: 'dataSourceConfigure',
+        name: '/dataSourceConfigure',
         component: dataSourceConfigure,
         meta: {
           title: '数据源配置',
@@ -498,7 +512,7 @@ const appRoutes = [
       },
       {
         path: '/etlConfigure',
-        name: 'etlConfigure',
+        name: '/etlConfigure',
         component: etlConfigure,
         meta: {
           title: 'ETL服务器配置',
@@ -509,7 +523,7 @@ const appRoutes = [
       },
       {
         path: '/taskQuery',
-        name: 'taskQuery',
+        name: '/taskQuery',
         component: taskQuery,
         meta: {
           title: '任务查询',
