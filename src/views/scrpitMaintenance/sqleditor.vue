@@ -1,80 +1,38 @@
 <template>
-  <div :id="'editor'+data" style="width:100%;height:200px"></div>
+  <div class="ace-container">
+    <!-- 官方文档中使用 id，这里禁止使用，在后期打包后容易出现问题，使用 ref 或者 DOM 就行 -->
+    <div class="ace-editor" ref="ace"></div>
+  </div>
 </template>
-
 <script>
-  import sqlFormatter from 'sql-formatter'
+  import ace from 'ace-builds'
+  import 'ace-builds/webpack-resolver' // 在 webpack 环境中使用必须要导入
+  import 'ace-builds/src-noconflict/theme-monokai' // 默认设置的主题
+  import 'ace-builds/src-noconflict/mode-javascript' // 默认设置的语言模式
+
   export default {
+    mounted() {
+      this.aceEditor = ace.edit(this.$refs.ace, {
+        maxLines: 40, // 最大行数，超过会自动出现滚动条
+        minLines: 10, // 最小行数，还未到最大行数时，编辑器会自动伸缩大小
+        fontSize: 20, // 编辑器内字体大小
+        theme: this.themePath, // 默认设置的主题
+        mode: this.modePath, // 默认设置的语言模式
+        tabSize: 4 // 制表符设置为 4 个空格大小
+      })
+    },
     data() {
       return {
-        arry: [],
-        arryKeyWords: [],
+        aceEditor: null,
+        themePath: 'ace/theme/monokai', // 不导入 webpack-resolver，该模块路径会报错
+        modePath: 'ace/mode/sql' // 同上
       }
-    },
-    props: ['data'],
-    mounted() {
-      var editordata = 'editor' + String(this.data);
-      let that = this;
-      var editor = ace.edit(editordata)
-      editor.session.setMode('ace/mode/sql') // 设置语言
-      editor.setTheme('ace/theme/chrome') // 设置主题
-      editor.setFontSize(18); //字体大小
-      editor.setReadOnly(false); //设置只读（true时只读，用于展示代码）
-      //自动换行,设置为off关闭
-      editor.setOption("wrap", "free");
-      //启用提示菜单
-      ace.require("ace/ext/language_tools");
-      editor.setOptions({
-        enableBasicAutocompletion: true,
-        enableSnippets: true,
-        enableLiveAutocompletion: true
-      });
-      editor.setHighlightActiveLine(true); //代码高亮
-      editor.setShowPrintMargin(false);
-      editor.getSession().setUseWorker(false);
-      editor.getSession().setUseWrapMode(true); //支持代码折叠
-      editor.selection.getCursor(); //获取光标所在行或列
-      editor.session.getLength(); //获取总行数
-      editor.getSession().setUseSoftTabs(true);
-      var langTools = ace.require("ace/ext/language_tools");
-      langTools.addCompleter({
-        getCompletions: function (editor, session, pos, prefix, callback) {
-          if (prefix.length === 0) {
-            callback(null, []);
-            return;
-          }
-          var value = editor.getValue() + "";
-          if (value.toLowerCase().indexOf("from") >= 0 || value.toLowerCase().indexOf("into") >= 0 || value.toLowerCase().indexOf("set") >= 0) {
-            callback(null, that.arry);
-          }
-        }
-      });
-    },
-    methods: {
-      sqlFormatter() { //格式化sql语句
-        var editordata = 'editor' + String(this.data);
-        var editors = ace.edit(editordata)
-        var beautifys = ace.require("ace/ext/beautify");
-        editors.session.setValue(sqlFormatter.format(editors.session.getValue()));
-        beautifys.beautify(editors.session);
-      },
-      // 页面进入默认设置值
-      setmVal(value) {
-        var editordata = 'editor' + String(this.data);
-        var editors = ace.edit(editordata)
-        editors.session.setValue(sqlFormatter.format(value))
-      },
-      getmVal(){
-        var editordata = 'editor' + String(this.data);
-        var editor = ace.edit(editordata)
-        var execute_sql = editor.session.getValue() + "";
-        return execute_sql;
-      },
     }
-
   }
 </script>
-
-<style>
+<style scoped>
+  .ace_print-margin{
+    visibility: hidden;
+  }
 
 </style>

@@ -65,6 +65,7 @@ import {
 } from 'ant-design-vue'
 import './assets/base.css' // 引入全局样式
 import './assets/reset-ant.css' // 重置ant-design样式
+import ace from 'ace-builds'
 import ActiveForm from '@/components/ActiveForm'
 import ActiveTable from '@/components/ActiveTable'
 
@@ -132,6 +133,7 @@ Vue.use(Carousel)
 Vue.use(Tooltip)
 Vue.use(List)
 Vue.use(Descriptions)
+Vue.use(ace)
 Vue.config.productionTip = false
 
 import RouterWapper from '@/components/Layout/content-wrapper'
