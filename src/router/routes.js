@@ -439,7 +439,7 @@ const appRoutes = [
       },
       {
         path: '/scriptMaintenance',
-        name: 'scriptMaintenance',
+        name: '/scriptMaintenance',
         component: scriptMaintenance,
         meta: {
           title: '脚本维护',
@@ -452,7 +452,7 @@ const appRoutes = [
         children: [
           {
             path: '/scriptMaintenance/scriptConfigure',
-            name: 'scriptMaintenance/scriptConfigure',
+            name: '/scriptMaintenance/scriptConfigure',
             component: scriptConfigure,
             meta: {
               title: '脚本配置',

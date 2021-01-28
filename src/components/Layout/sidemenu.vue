@@ -190,10 +190,12 @@ export default {
           // if('scsd'== menuGroup.name){ // 由于scsd的评审页面路由与其真正的父级菜单路由不匹配，故都默认为函审路由
           //   selectedKeys = '/scsd/exam/scsdExam'
           // }else{
-          for(let j=0;j<menuGroup.children.length;j++){
-            const menuChild = menuGroup.children[j]
-            if(toName.indexOf(menuChild.name)>=0){
-              selectedKeys = menuChild.name
+          if(menuGroup.children) {
+            for (let j = 0; j < menuGroup.children.length; j++) {
+              const menuChild = menuGroup.children[j]
+              if (toName.indexOf(menuChild.name) >= 0) {
+                selectedKeys = menuChild.name
+              }
             }
           }
           // }

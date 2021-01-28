@@ -142,29 +142,30 @@
       }
     },
     watch: {
-      // 如果路由有变化，会再次执行该方法
-      '$route': 'changeRoute'
+      $route(to, from) {
+
+        //当监听到路由返回时候刷新列表
+        if (to.path == '/scriptMaintenance') {
+          this.getList()
+        }
+      }
     },
     created() {
       this.resetQuery()
     },
     methods: {
-      changeRoute(){
-
-      },
       addscript(){
         this.$router.push({
-          path : '/scriptMaintenance/scriptConfigure'
+          name : '/scriptMaintenance/scriptConfigure'
         })
       },
       editscript(id){
         this.$router.push({
-          path : '/scriptMaintenance/scriptConfigure',
+          name : '/scriptMaintenance/scriptConfigure',
           query: {
             id: id
           }
         })
-
       },
       //初始化
       resetQuery() {
@@ -175,7 +176,6 @@
         this.total = 0
         this.getList()
       },
-
       //获取列表
       getList() {
         this.$ajax

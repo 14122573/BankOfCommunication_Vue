@@ -66,6 +66,15 @@
     created() {
       this.resetQuery()
     },
+    watch:{
+      $route(to, from) {
+        debugger;
+        //当监听到路由返回时候刷新列表
+        if (to.path == '/scriptMaintenance/scriptConfigure') {
+          this.getList()
+        }
+      }
+    },
     methods: {
       //moment
       moment,
