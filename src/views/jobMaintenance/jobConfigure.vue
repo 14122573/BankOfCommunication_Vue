@@ -155,7 +155,7 @@
       },
       handleReturn() {
         this.$router.push({
-          name: '/scriptMaintenance'
+          name: '/jobMaintenance'
         })
       },
       handleSave() {

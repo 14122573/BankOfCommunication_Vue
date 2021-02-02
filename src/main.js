@@ -9,7 +9,9 @@ import cookie from './util/local-cookie'
 import common from './util/common'
 import Axios from 'axios'
 import ajax from '@/server/ajax'
+import bankOfCommunicationAjax from '@/server/bankOfCommunicationAjax'
 import api from '@/server/api'
+import bankOfCommunicationApi from '@/server/bankOfCommunicationApi'
 import titleId from '@/config/titleManageId'
 import { registerMicroApps, start } from 'qiankun'
 import PermissionControl from './util/permission-control.js' // 权限自定义指令 v-permission="code"
@@ -75,7 +77,9 @@ import 'moment/locale/zh-cn'
 moment.locale('zh-cn')
 
 Vue.prototype.$ajax = ajax
+Vue.prototype.$bankOfCommunicationAjax = bankOfCommunicationAjax
 Vue.prototype.$api = api
+Vue.prototype.$bankOfCommunicationApi = bankOfCommunicationApi
 Vue.prototype.$cookie = cookie
 Vue.prototype.$com = common
 Vue.prototype.$message = message

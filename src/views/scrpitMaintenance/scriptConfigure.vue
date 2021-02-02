@@ -13,15 +13,14 @@
           <a-row class="formItemLine">
             <a-col span="12">
               <a-form-item class="formItem" label="系统名称" v-bind="colSpe">
-                <a-input placeholder="请输入" v-model="scriptForm.name"></a-input>
+                <a-input placeholder="请输入" v-model="scriptForm.systemId"></a-input>
               </a-form-item>
             </a-col>
             <a-col span="12">
               <a-form-item class="formItem" label="数据源" v-bind="colSpe">
-                <a-select placeholder="请选择" v-model="scriptForm.datasource">
-                  <!--TODO label名称待定-->
-                  <a-option v-for="(item,index) in allDataSource" :key="index" :label="item.datasource_key"
-                            :value="item.datasource_value"></a-option>
+                <a-select placeholder="请选择" v-model="scriptForm.datasourceId">
+                  <a-select-option v-for="item in allDataSource" :key="item.dsId" :label="item.dsName"
+                            :value="item.dsId">{{item.dsName}}</a-select-option>
                 </a-select>
               </a-form-item>
             </a-col>
@@ -29,15 +28,15 @@
           <a-row class="formItemLine">
             <a-col span="12">
               <a-form-item class="formItem" label="脚本名称" v-bind="colSpe">
-                <a-input placeholder="请输入" v-model="scriptForm.scriptname"></a-input>
+                <a-input placeholder="请输入" v-model="scriptForm.scriptName"></a-input>
               </a-form-item>
             </a-col>
             <a-col span="12">
               <a-form-item class="formItem" label="ETL服务器" v-bind="colSpe">
-                <a-select placeholder="请选择" v-model="scriptForm.datasource">
+                <a-select placeholder="请选择" v-model="scriptForm.etlSrvId">
                   <!--TODO label名称待定-->
-                  <a-option v-for="(item,index) in allETL" :key="index" :label="item.ETL_value"
-                            :value="item.ETL_key"></a-option>
+                  <a-select-option v-for="(item,index) in allETL" :key="index" :label="item.ETL_value"
+                            :value="item.ETL_key"></a-select-option>
                 </a-select>
               </a-form-item>
             </a-col>
@@ -45,16 +44,16 @@
           <a-row class="formItemLine">
             <a-col span="12">
               <a-form-item class="formItem" label="关联任务" v-bind="colSpe">
-                <a-select placeholder="请选择" v-model="scriptForm.taskname">
+                <a-select placeholder="请选择" v-model="scriptForm.taskIds">
                   <!--TODO label名称待定-->
-                  <a-option v-for="(item,index) in allTask" :key="index" :label="item.task_name"
-                            :value="item.task_key"></a-option>
+                  <a-select-option v-for="(item,index) in allTask" :key="index" :label="item.task_name"
+                            :value="item.task_key"></a-select-option>
                 </a-select>
               </a-form-item>
             </a-col>
             <a-col span="12">
               <a-form-item class="formItem" label="GIT路径" v-bind="colSpe">
-                <a-input placeholder="请输入" v-model="scriptForm.gitpath"></a-input>
+                <a-input placeholder="请输入" v-model="scriptForm.scriptPath"></a-input>
               </a-form-item>
             </a-col>
           </a-row>
@@ -62,7 +61,7 @@
         <p class="gayLine"></p>
         <span class="title">转换逻辑</span>
         <div style="border:1px solid #ccc;">
-          <SqlEditor ref="_firstRefs" v-model="sql" class='textasql'/>
+          <SqlEditor ref="sql" class='textasql'/>
         </div>
         <p class="gayLine"></p>
         <span class="title">历史版本</span>
@@ -129,12 +128,11 @@
       return {
         list: [],
         columns: columns,
-        id: this.$route.query.id,
+        scriptId: this.$route.query.scriptId,
         allDataSource: [],
         allTask: [],
         allETL: [],
         scriptForm: {},
-        sql: '',
         colSpe: {
           labelCol: {
             span: 6
@@ -150,36 +148,47 @@
       }
     },
     created() {
-      this.resetQuery()
+      this.getAllDataSource();
     },
     mounted() {
-
+      this.resetQuery()
 
     },
     methods: {
+      getAllDataSource(){
+        //FIXME 1 和 100 是魔鬼数字 之后 修改
+        this.$bankOfCommunicationAjax
+          .get({
+            url: this.$bankOfCommunicationApi.getAllDataSource,
+            params:{
+              pageNum:1,
+              pageSize:100
+            }
+          })
+          .then(res => {
+            this.allDataSource = res.body.list
+            console.log(this.allDataSource);
+            debugger;
+          })
+      },
       resetQuery() {
         this.pageIndex = 1
         this.pageSize = 10
         this.total = 0
-        this.getList()
+        if (this.scriptId) {
+          this.getList()
+        }
       },
       getList() {
-        this.$ajax
+        this.$bankOfCommunicationAjax
           .get({
-            //TODO 需要修改 GET_OPERLOG_LIST
-            url: this.$api.GET_OPERLOG_LIST,
-            params: this.queryParams
+            url: this.$bankOfCommunicationApi.getScriptInfo,
+            params: {scriptId: this.$route.query.scriptId}
           })
           .then(res => {
-            //TODO 要修改返回值内容
-            if (res.code === '200') {
-              this.total = res.data.totalRows || 0
-              this.list = res.data.content || []
-            } else {
-              this.$message.error(res.msg)
-            }
-            //TODO 这里要删除
-            this.list = [{'SYSTEM_NAME': 'SYSTEM_NAME', 'platformId': '1'}]
+            this.scriptForm = res.body
+            this.sql = res.body.content
+            this.$refs.sql.setmVal(this.sql)
           })
       },
       handleReturn() {
@@ -188,6 +197,39 @@
         })
       },
       handleSave() {
+        let param = {
+          systemId: this.scriptForm.systemId,
+          datasourceId: this.scriptForm.datasourceId,
+          platformId: this.scriptForm.platformId,
+          etlSrvId: this.scriptForm.etlSrvId,
+          scriptName: this.scriptForm.scriptName,
+          scriptPath: this.scriptForm.scriptPath,
+          scriptDesc: this.scriptForm.scriptDesc,
+          scriptStatus: this.scriptForm.scriptStatus,
+          taskIds: this.scriptForm.taskIds,
+          content: this.scriptForm.content,
+          //TODO
+          updatedBy: "TBH",
+        }
+        //保存
+        // if (!this.scriptId) {
+        this.scriptForm.content = this.$refs.sql.getmVal()
+        this.$bankOfCommunicationAjax
+          .post({
+            url: this.$bankOfCommunicationApi.saveScriptInfo,
+            params: param
+          })
+          .then(res => {
+
+            if (res.status == '0') {
+              this.$router.push({
+                name: '/scriptMaintenance'
+              })
+            }
+          })
+        //更新
+        // } else {
+
 
       },
       handlePageChange({current}) {

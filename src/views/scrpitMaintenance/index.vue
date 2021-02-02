@@ -12,24 +12,24 @@
         <a-row :gutter="12">
           <a-col :span="7">
             <a-form-item label="模糊查询">
-              <a-input placeholder="请输入内容" v-model="queryParams.fuzzyQueryParam"/>
+              <a-input placeholder="请输入内容" v-model="queryParams.keyword"/>
             </a-form-item>
           </a-col>
           <a-col :span="7">
             <a-form-item label="状态">
-              <a-select placeholder="请选择" v-model="queryParams.scriptStatus">
+              <a-select allowClear placeholder="请选择" v-model="queryParams.scriptStatus">
                 <!--TODO label名称待定-->
-                <a-option v-for="(item,index) in allscriptStatus" :key="index" :label="item.STATUS_NAME"
-                          :value="item.SCRIPT_STATUS"></a-option>
+                <a-select-option v-for="item in allScriptStatus" :key="item.code" :label="item.desc"
+                          :value="item.code">{{item.desc}}</a-select-option>
               </a-select>
             </a-form-item>
           </a-col>
           <a-col :span="7">
             <a-form-item label="平台">
-              <a-select placeholder="请选择" v-model="queryParams.platformId">
+              <a-select allowClear placeholder="请选择" v-model="queryParams.platformId">
                 <!--TODO label名称待定-->
-                <a-option v-for="(item,index) in allplatform" :key="index" :label="item.platform_name"
-                          :value="item.platformId"></a-option>
+                <a-select-option v-for="(item) in allPlatform" :key="item.desc" :label="item.desc"
+                          :value="item.desc">{{item.desc}}</a-select-option>
               </a-select>
             </a-form-item>
           </a-col>
@@ -47,11 +47,11 @@
       </a-form-model>
       <p class="gayLine"></p>
       <ActiveTable
-        rowKey="platformId"
+        rowKey="scriptId"
         :columns="columns"
         :data="list"
         showPager
-        :currentPage="queryParams.pageIndex"
+        :currentPage="queryParams.pageNum"
         :pageSize="queryParams.pageSize"
         :total="total"
         @on-page-change="handlePageChange"
@@ -61,11 +61,11 @@
           <a-button
             icon="edit"
             type="link"
-            @click="editscript(record.platformId)">编辑</a-button>
-          <a-button
-            icon="edit"
-            type="link"
-            @click="deletescript(record.platformId)">删除</a-button>
+            @click="editscript(record.scriptId)">编辑</a-button>
+          <!--<a-button-->
+            <!--icon="edit"-->
+            <!--type="link"-->
+            <!--@click="deletescript(record.scriptId)">删除</a-button>-->
         </span>
       </ActiveTable>
     </div>
@@ -73,42 +73,41 @@
   </div>
 </template>
 <script>
-  //TODO
   const columns = [
     {
       title: '系统名称',
-      dataIndex: 'SYSTEM_NAME',
+      dataIndex: 'systemId',
       align: 'center',
       width: 120
     },
     {
       title: '脚本名称',
-      dataIndex: 'SCRIPT_NAME',
+      dataIndex: 'scriptName',
       align: 'center'
     },
     {
       title: '脚本描述',
-      dataIndex: 'SCRIPT_DESC',
+      dataIndex: 'scriptDesc',
       align: 'center'
     },
     {
       title: '平台',
-      dataIndex: 'PLATFORM_NAME',
+      dataIndex: 'platformId',
       align: 'center'
     },
     {
       title: '当前状态',
-      dataIndex: 'SCRIPT_STATUS',
+      dataIndex: 'scriptStatus',
       align: 'center'
     },
     {
       title: '最后修改人',
-      dataIndex: 'UPDATED_BY',
+      dataIndex: 'updatedBy',
       align: 'center'
     },
     {
       title: '最后修改日期',
-      dataIndex: 'LAST_MODIFIED',
+      dataIndex: 'lastModified',
       align: 'center'
     },
     {
@@ -119,7 +118,6 @@
       scopedSlots: {customRender: 'actions'}
     }
   ]
-  // import particularsModal from "./modal/particularsModal";
   import {FormModel} from 'ant-design-vue'
 
   export default {
@@ -129,9 +127,9 @@
     data() {
       return {
         //脚本状态
-        allscriptStatus: [],
+        allScriptStatus: [{code:"",desc:""}],
         //平台
-        allplatform: [],
+        allPlatform: [{desc:""}],
         //表头
         columns: columns,
         //数据
@@ -152,9 +150,33 @@
       }
     },
     created() {
-      this.resetQuery()
+
+
+    },
+    mounted(){
+      this.resetQuery();
+      this.getAllScriptStatus();
+      this.getAllPlatForm();
     },
     methods: {
+      getAllScriptStatus(){
+        this.$bankOfCommunicationAjax
+          .get({
+            url: this.$bankOfCommunicationApi.getAllScriptStatus,
+          })
+          .then(res => {
+            this.allScriptStatus = res.body;
+          })
+      },
+      getAllPlatForm(){
+        this.$bankOfCommunicationAjax
+          .get({
+            url: this.$bankOfCommunicationApi.getAllPlatform,
+          })
+          .then(res => {
+            this.allPlatform = res.body;
+          })
+      },
       addscript() {
         this.$router.push({
           name: '/scriptMaintenance/scriptConfigure'
@@ -164,7 +186,7 @@
         this.$router.push({
           name: '/scriptMaintenance/scriptConfigure',
           query: {
-            id: id
+            scriptId: id
           }
         })
       },
@@ -174,7 +196,7 @@
       //初始化
       resetQuery() {
         this.queryParams = {
-          pageIndex: 1,
+          pageNum: 1,
           pageSize: 10,
         }
         this.total = 0
@@ -182,27 +204,19 @@
       },
       //获取列表
       getList() {
-        this.$ajax
+        this.$bankOfCommunicationAjax
           .get({
-            //TODO 需要修改 GET_OPERLOG_LIST
-            url: this.$api.GET_OPERLOG_LIST,
+            url: this.$bankOfCommunicationApi.getAllScriptData,
             params: this.queryParams
           })
           .then(res => {
-            //TODO 要修改返回值内容
-            if (res.code === '200') {
-              this.total = res.data.totalRows || 0
-              this.list = res.data.content || []
-            } else {
-              this.$message.error(res.msg)
-            }
-            //TODO 这里要删除
-            this.list = [{'SYSTEM_NAME': 'SYSTEM_NAME', 'platformId': '1'}]
+            this.list = res.body.list;
+            this.total= res.body.size;
           })
       },
       //选择分页
       handlePageChange({current}) {
-        this.queryParams.pageIndex = current
+        this.queryParams.pageNum = current
         this.getList()
       },
     }
