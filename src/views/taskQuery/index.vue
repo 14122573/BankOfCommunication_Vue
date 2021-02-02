@@ -12,15 +12,14 @@
         <a-row :gutter="12">
           <a-col :span="10">
             <a-form-item label="模糊查询">
-              <a-input placeholder="请输入内容" v-model="queryParams.fuzzyQueryParam"/>
+              <a-input placeholder="请输入内容" v-model="queryParams.desc"/>
             </a-form-item>
           </a-col>
           <a-col :span="10">
             <a-form-item label="状态">
-              <a-select placeholder="请选择" v-model="queryParams.scriptStatus">
-                <!--TODO label名称待定-->
-                <a-option v-for="(item,index) in allscriptStatus" :key="index" :label="item.STATUS_NAME"
-                          :value="item.SCRIPT_STATUS"></a-option>
+              <a-select allowClear placeholder="请选择" v-model="queryParams.taskStatus">
+                  <a-select-option v-for="item in allTaskStatus" :key="item.code" :label="item.desc"
+                                   :value="item.code">{{item.desc}}</a-select-option>
               </a-select>
             </a-form-item>
           </a-col>
@@ -34,11 +33,11 @@
       </a-form-model>
       <p class="gayLine"></p>
       <ActiveTable
-        rowKey="platformId"
+        rowKey="cqNo"
         :columns="columns"
         :data="list"
         showPager
-        :currentPage="queryParams.pageIndex"
+        :currentPage="queryParams.pageNum"
         :pageSize="queryParams.pageSize"
         :total="total"
         @on-page-change="handlePageChange"
@@ -48,7 +47,7 @@
           <a-button
             icon="edit"
             type="link"
-            @click="editscript(record.platformId)">维护</a-button>
+            @click="editscript(record.taskId)">维护</a-button>
 
         </span>
       </ActiveTable>
@@ -61,18 +60,18 @@
   const columns = [
     {
       title: 'CQ号',
-      dataIndex: 'SYSTEM_NAME',
+      dataIndex: 'cqNo',
       align: 'center',
       width: 120
     },
     {
       title: 'CQ描述',
-      dataIndex: 'SCRIPT_NAME',
+      dataIndex: 'cqDesc',
       align: 'center'
     },
     {
       title: '状态',
-      dataIndex: 'SCRIPT_DESC',
+      dataIndex: 'taskStatusName',
       align: 'center'
     },
     {
@@ -93,9 +92,7 @@
     data() {
       return {
         //脚本状态
-        allscriptStatus: [],
-        //平台
-        allplatform: [],
+        allTaskStatus: [],
         //表头
         columns: columns,
         //数据
@@ -110,7 +107,7 @@
     watch: {
       $route(to, from) {
         //当监听到路由返回时候刷新列表
-        if (to.path == '/scriptMaintenance') {
+        if (to.path == '/taskQuery') {
           this.getList()
         }
       }
@@ -118,27 +115,31 @@
     created() {
       this.resetQuery()
     },
+    mounted(){
+      this.getAllTaskStatus();
+    },
     methods: {
-      addscript() {
-        this.$router.push({
-          name: '/scriptMaintenance/scriptConfigure'
-        })
+      getAllTaskStatus(){
+        this.$bankOfCommunicationAjax
+          .get({
+            url: this.$bankOfCommunicationApi.getAllScriptStatus,
+          })
+          .then(res => {
+            this.allTaskStatus = res.body;
+          })
       },
       editscript(id) {
         this.$router.push({
-          name: '/scriptMaintenance/scriptConfigure',
+          name: '/scriptMaintenance',
           query: {
-            id: id
+            taskId: id
           }
         })
-      },
-      deletescript(id){
-        location.reload();
       },
       //初始化
       resetQuery() {
         this.queryParams = {
-          pageIndex: 1,
+          pageNum: 1,
           pageSize: 10,
         }
         this.total = 0
@@ -146,27 +147,31 @@
       },
       //获取列表
       getList() {
-        this.$ajax
+        this.$bankOfCommunicationAjax
           .get({
-            //TODO 需要修改 GET_OPERLOG_LIST
-            url: this.$api.GET_OPERLOG_LIST,
+            url: this.$bankOfCommunicationApi.getAllTask,
             params: this.queryParams
           })
           .then(res => {
-            //TODO 要修改返回值内容
-            if (res.code === '200') {
-              this.total = res.data.totalRows || 0
-              this.list = res.data.content || []
-            } else {
-              this.$message.error(res.msg)
+            this.list = res.body.list;
+            for(var i=0;i<this.list.length;i++){
+              var status = this.list[i].taskStatus;
+              for(var j=0;j<this.allTaskStatus.length;j++){
+                var code = this.allTaskStatus[j].code;
+                var desc = this.allTaskStatus[j].desc;
+                if(code == status){
+                  this.list[i].taskStatusName = desc;
+                  break;
+                }
+              }
             }
-            //TODO 这里要删除
-            this.list = [{'SYSTEM_NAME': 'SYSTEM_NAME', 'platformId': '1'}]
+
+
           })
       },
       //选择分页
       handlePageChange({current}) {
-        this.queryParams.pageIndex = current
+        this.queryParams.pageNum = current
         this.getList()
       },
     }

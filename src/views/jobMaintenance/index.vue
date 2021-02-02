@@ -42,7 +42,7 @@
         :columns="columns"
         :data="list"
         showPager
-        :currentPage="queryParams.pageIndex"
+        :currentPage="queryParams.pageNum"
         :pageSize="queryParams.pageSize"
         :total="total"
         @on-page-change="handlePageChange"
@@ -123,7 +123,7 @@
     watch: {
       $route(to, from) {
         //当监听到路由返回时候刷新列表
-        if (to.path == '/scriptMaintenance') {
+        if (to.path == '/jobMaintenance') {
           this.getList()
         }
       }
@@ -146,12 +146,12 @@
         })
       },
       deletescript(id) {
-        location.reload()
+        this.resetQuery();
       },
       //初始化
       resetQuery() {
         this.queryParams = {
-          pageIndex: 1,
+          pageNum: 1,
           pageSize: 10,
         }
         this.total = 0
@@ -179,7 +179,7 @@
       },
       //选择分页
       handlePageChange({current}) {
-        this.queryParams.pageIndex = current
+        this.queryParams.pageNum = current
         this.getList()
       },
     }

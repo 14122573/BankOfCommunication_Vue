@@ -18,21 +18,19 @@
           <a-col :span="7">
             <a-form-item label="状态">
               <a-select allowClear placeholder="请选择" v-model="queryParams.scriptStatus">
-                <!--TODO label名称待定-->
                 <a-select-option v-for="item in allScriptStatus" :key="item.code" :label="item.desc"
                           :value="item.code">{{item.desc}}</a-select-option>
               </a-select>
             </a-form-item>
           </a-col>
-          <a-col :span="7">
-            <a-form-item label="平台">
-              <a-select allowClear placeholder="请选择" v-model="queryParams.platformId">
-                <!--TODO label名称待定-->
-                <a-select-option v-for="(item) in allPlatform" :key="item.desc" :label="item.desc"
-                          :value="item.desc">{{item.desc}}</a-select-option>
-              </a-select>
-            </a-form-item>
-          </a-col>
+          <!--<a-col :span="7">-->
+            <!--<a-form-item label="平台">-->
+              <!--<a-select allowClear placeholder="请选择" v-model="queryParams.platformId">-->
+                <!--<a-select-option v-for="(item) in allPlatform" :key="item.desc" :label="item.desc"-->
+                          <!--:value="item.desc">{{item.desc}}</a-select-option>-->
+              <!--</a-select>-->
+            <!--</a-form-item>-->
+          <!--</a-col>-->
           </a-col>
           <a-col :span="3" :style="{ textAlign: 'right' ,marginTop:'4px'}">
             <a-button type="primary" html-type="submit" @click="getList">搜索</a-button>
@@ -90,14 +88,14 @@
       dataIndex: 'scriptDesc',
       align: 'center'
     },
-    {
-      title: '平台',
-      dataIndex: 'platformId',
-      align: 'center'
-    },
+    // {
+    //   title: '平台',
+    //   dataIndex: 'platformId',
+    //   align: 'center'
+    // },
     {
       title: '当前状态',
-      dataIndex: 'scriptStatus',
+      dataIndex: 'scriptStatusName',
       align: 'center'
     },
     {
@@ -127,9 +125,11 @@
     data() {
       return {
         //脚本状态
-        allScriptStatus: [{code:"",desc:""}],
+        allScriptStatus: [],
         //平台
         allPlatform: [{desc:""}],
+        //任务id
+        taskId: this.$route.query.taskId,
         //表头
         columns: columns,
         //数据
@@ -156,7 +156,7 @@
     mounted(){
       this.resetQuery();
       this.getAllScriptStatus();
-      this.getAllPlatForm();
+      // this.getAllPlatForm();
     },
     methods: {
       getAllScriptStatus(){
@@ -168,30 +168,34 @@
             this.allScriptStatus = res.body;
           })
       },
-      getAllPlatForm(){
-        this.$bankOfCommunicationAjax
-          .get({
-            url: this.$bankOfCommunicationApi.getAllPlatform,
-          })
-          .then(res => {
-            this.allPlatform = res.body;
-          })
-      },
+      // getAllPlatForm(){
+      //   this.$bankOfCommunicationAjax
+      //     .get({
+      //       url: this.$bankOfCommunicationApi.getAllPlatform,
+      //     })
+      //     .then(res => {
+      //       this.allPlatform = res.body;
+      //     })
+      // },
       addscript() {
         this.$router.push({
-          name: '/scriptMaintenance/scriptConfigure'
+          name: '/scriptMaintenance/scriptConfigure',
+          query:{
+            taskId:this.taskId,
+          }
         })
       },
       editscript(id) {
         this.$router.push({
           name: '/scriptMaintenance/scriptConfigure',
           query: {
-            scriptId: id
+            scriptId: id,
+            taskId:this.taskId,
           }
         })
       },
       deletescript(id){
-        location.reload();
+        this.resetQuery();;
       },
       //初始化
       resetQuery() {
@@ -212,6 +216,17 @@
           .then(res => {
             this.list = res.body.list;
             this.total= res.body.size;
+            for(var i=0;i<this.list.length;i++){
+              var status = this.list[i].scriptStatus;
+              for(var j=0;j<this.allScriptStatus.length;j++){
+                var code = this.allScriptStatus[j].code;
+                var desc = this.allScriptStatus[j].desc;
+                if(code == status){
+                  this.list[i].scriptStatusName = desc;
+                  break;
+                }
+              }
+            }
           })
       },
       //选择分页

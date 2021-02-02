@@ -41,7 +41,7 @@
           :columns="columns"
           :data="list"
           showPager
-          :currentPage="pageIndex"
+          :currentPage="pageNum"
           :pageSize="pageSize"
           :total="total"
           @on-page-change="handlePageChange"
@@ -114,7 +114,7 @@
             span: 15
           }
         },
-        pageIndex: 1,
+        pageNum: 1,
         pageSize: 10,
         total: 0,
 
@@ -129,7 +129,7 @@
     },
     methods: {
       resetQuery() {
-        this.pageIndex = 1
+        this.pageNum = 1
         this.pageSize = 10
         this.total = 0
         this.getList()
@@ -162,7 +162,7 @@
 
       },
       handlePageChange({current}) {
-        this.pageIndex = current
+        this.pageNum = current
         this.getList()
       },
     }

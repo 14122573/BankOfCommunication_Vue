@@ -17,11 +17,11 @@
       </a-form-model>
       <p class="gayLine"></p>
       <ActiveTable
-        rowKey="platformId"
+        rowKey="dsId"
         :columns="columns"
         :data="list"
         showPager
-        :currentPage="queryParams.pageIndex"
+        :currentPage="queryParams.pageNum"
         :pageSize="queryParams.pageSize"
         :total="total"
         @on-page-change="handlePageChange"
@@ -31,64 +31,65 @@
           <a-button
             icon="edit"
             type="link"
-            @click="editDataSource(record.platformId)">编辑</a-button>
+            @click="editDataSource(record.dsId)">编辑</a-button>
           <a-button
             icon="edit"
             type="link"
-            @click="deleteDataSource(record.platformId)">删除</a-button>
+            @click="deleteDataSourceConfirm(record.dsId)">删除</a-button>
         </span>
       </ActiveTable>
     </div>
     <RouterWapper v-else/>
-    <a-modal title="数据源配置" v-model="dialogDataSource" width="80%" >
+    <a-modal title="数据源配置" v-model="dialogDataSource" width="80%">
       <a-form class="protalForm ">
         <a-row class="formItemLine">
           <a-col span="12">
             <a-form-item class="formItem" label="数据源名称" v-bind="colSpe">
-              <a-input placeholder="请输入" v-model="daraSourceForm.name"></a-input>
+              <a-input placeholder="请输入" v-model="daraSourceForm.dsName"></a-input>
             </a-form-item>
           </a-col>
-          <a-col span="12">
-            <a-form-item class="formItem" label="平台" v-bind="colSpe">
-              <a-input placeholder="请输入" v-model="daraSourceForm.name"></a-input>
-            </a-form-item>
-          </a-col>
-        </a-row>
-        <a-row class="formItemLine">
           <a-col span="12">
             <a-form-item class="formItem" label="IP地址" v-bind="colSpe">
-              <a-input placeholder="请输入" v-model="daraSourceForm.name"></a-input>
+              <a-input placeholder="请输入" v-model="daraSourceForm.dbIpAddr"></a-input>
             </a-form-item>
           </a-col>
+        </a-row>
+        <a-row class="formItemLine">
           <a-col span="12">
             <a-form-item class="formItem" label="端口" v-bind="colSpe">
-              <a-input placeholder="请输入" v-model="daraSourceForm.name"></a-input>
+              <a-input placeholder="请输入" v-model="daraSourceForm.dbPort"></a-input>
             </a-form-item>
           </a-col>
-        </a-row>
-        <a-row class="formItemLine">
           <a-col span="12">
             <a-form-item class="formItem" label="数据库用户ID" v-bind="colSpe">
-              <a-input placeholder="请输入" v-model="daraSourceForm.name"></a-input>
-            </a-form-item>
-          </a-col>
-          <a-col span="12">
-            <a-form-item class="formItem" label="数据库密码" v-bind="colSpe">
-              <a-input placeholder="请输入" v-model="daraSourceForm.name"></a-input>
+              <a-input placeholder="请输入" v-model="daraSourceForm.dbUsr"></a-input>
             </a-form-item>
           </a-col>
         </a-row>
         <a-row class="formItemLine">
           <a-col span="12">
+            <a-form-item class="formItem" label="数据库密码" v-bind="colSpe">
+              <a-input placeholder="请输入" v-model="daraSourceForm.dbPasswd"></a-input>
+            </a-form-item>
+          </a-col>
+          <a-col span="12">
             <a-form-item class="formItem" label="权限范围" v-bind="colSpe">
-              <a-input placeholder="请输入" v-model="daraSourceForm.name"></a-input>
+              <a-input placeholder="请输入" v-model="daraSourceForm.dbPermission"></a-input>
             </a-form-item>
           </a-col>
         </a-row>
+        <a-row class="formItemLine">
+          <a-col span="12">
+            <a-form-item class="formItem" label="数据库类型" v-bind="colSpe">
+              <a-input placeholder="请输入" v-model="daraSourceForm.dbCat"></a-input>
+            </a-form-item>
+          </a-col>
+        </a-row>
+
       </a-form>
       <div slot="footer" class="dialog-footer">
         <a-button type="danger" size="mini" @click="dialogDataSource = false">取 消</a-button>
-        <a-button type="primary" size="mini" @click="saveDataSource()">保 存</a-button>
+        <a-button type="primary" size="mini" @click="dealwithDataSource()">保 存</a-button>
       </div>
     </a-modal>
   </div>
@@ -98,34 +99,30 @@
   const columns = [
     {
       title: '数据源名称',
-      dataIndex: 'SYSTEM_NAME',
+      dataIndex: 'dsName',
       align: 'center',
     },
     {
-      title: '平台',
-      dataIndex: 'SYSTEM_NAME',
-      align: 'center',
-    }, {
       title: 'IP地址',
-      dataIndex: 'SYSTEM_NAME',
+      dataIndex: 'dbIpAddr',
       align: 'center',
     }, {
       title: '端口',
-      dataIndex: 'SYSTEM_NAME',
+      dataIndex: 'dbPort',
       align: 'center',
     }, {
       title: '权限范围',
-      dataIndex: 'SYSTEM_NAME',
+      dataIndex: 'dbPermission',
       align: 'center',
     },
     {
       title: '数据库用户ID',
-      dataIndex: 'SYSTEM_NAME',
+      dataIndex: 'dbUsr',
       align: 'center',
     },
     {
       title: '创建日期',
-      dataIndex: 'SYSTEM_NAME',
+      dataIndex: 'created',
       align: 'center',
     },
     {
@@ -144,8 +141,8 @@
     },
     data() {
       return {
-        daraSourceForm:{},
-
+        daraSourceForm: {},
+        is_add:false,
         colSpe: {
           labelCol: {
             span: 6
@@ -166,8 +163,8 @@
         total: 0,
         //查询参数
         queryParams: {},
-        dialogDataSource:false,
-        }
+        dialogDataSource: false,
+      }
     },
     watch: {
       $route(to, from) {
@@ -183,16 +180,49 @@
     methods: {
       addDataSource() {
         this.dialogDataSource = true;
+        this.is_add = false;
       },
       editDataSource(id) {
+        this.$bankOfCommunicationAjax
+          .get({
+            url: this.$bankOfCommunicationApi.getDataSourceByDsId,
+            params: {dsId: id}
+          })
+          .then(res => {
+            this.daraSourceForm = res.body;
+            this.dialogDataSource = true;
+            this.is_add = true;
+          })
+      },
+      deleteDataSourceConfirm(id) {
+        const vm = this
+        this.$modal.confirm({
+          title: '是否确认删除此组织机构？',
+          content: '此操作不可撤销',
+          okText: '确认删除',
+          okType: 'danger',
+          cancelText: '取消',
+          onOk() {
+            vm.deleteDataSource(id)
+          }
+        })
       },
       deleteDataSource(id) {
-        location.reload()
+        this.$bankOfCommunicationAjax
+          .get({
+            url: this.$bankOfCommunicationApi.deleteDataSource,
+            params: {dsId: id}
+          })
+          .then(res => {
+            if (res.status == '0') {
+              this.resetQuery();
+            }
+          })
       },
       //初始化
       resetQuery() {
         this.queryParams = {
-          pageIndex: 1,
+          pageNum: 1,
           pageSize: 10,
         }
         this.total = 0
@@ -200,31 +230,74 @@
       },
       //获取列表
       getList() {
-        this.$ajax
+        this.$bankOfCommunicationAjax
           .get({
-            //TODO 需要修改 GET_OPERLOG_LIST
-            url: this.$api.GET_OPERLOG_LIST,
+            url: this.$bankOfCommunicationApi.getAllDataSource,
             params: this.queryParams
           })
           .then(res => {
-            //TODO 要修改返回值内容
-            if (res.code === '200') {
-              this.total = res.data.totalRows || 0
-              this.list = res.data.content || []
-            } else {
-              this.$message.error(res.msg)
-            }
-            //TODO 这里要删除
-            this.list = [{'SYSTEM_NAME': 'SYSTEM_NAME', 'platformId': '1'}]
+            this.list = res.body.list
           })
       },
       //选择分页
       handlePageChange({current}) {
-        this.queryParams.pageIndex = current
+        this.queryParams.pageNum = current
         this.getList()
       },
-      saveDataSource(){
-
+      dealwithDataSource(){
+        if(this.is_add){
+          this.updateDataSource();
+        }else{
+          this.saveDataSource();
+        }
+      },
+      saveDataSource() {
+        this.$bankOfCommunicationAjax.post({
+          url: this.$bankOfCommunicationApi.saveDataSource,
+          params: this.generateparam()
+        }).then(res => {
+          if (res.status == '0') {
+            this.dialogDataSource = false;
+            this.resetQuery();
+          }
+        })
+      },
+      updateDataSource() {
+        this.$bankOfCommunicationAjax.post({
+          url: this.$bankOfCommunicationApi.updateDataSource,
+          params: this.generateparam()
+        }).then(res => {
+          if (res.status == '0') {
+            this.dialogDataSource = false;
+            this.resetQuery();
+          }
+        })
+      },
+      generateparam(){
+        if(this.is_add) {
+          var param = {
+            dbIpAddr: this.daraSourceForm.dbIpAddr,
+            dbPasswd: this.daraSourceForm.dbPasswd,
+            dbPermission: this.daraSourceForm.dbPermission,
+            dbPort: this.daraSourceForm.dbPort,
+            dbUsr: this.daraSourceForm.dbUsr,
+            dsName: this.daraSourceForm.dsName,
+            dbCat: this.daraSourceForm.dbCat,
+            dsId: this.daraSourceForm.dsId,
+          }
+          return param;
+        }else{
+          var param = {
+            dbIpAddr: this.daraSourceForm.dbIpAddr,
+            dbPasswd: this.daraSourceForm.dbPasswd,
+            dbPermission: this.daraSourceForm.dbPermission,
+            dbPort: this.daraSourceForm.dbPort,
+            dbUsr: this.daraSourceForm.dbUsr,
+            dsName: this.daraSourceForm.dsName,
+            dbCat: this.daraSourceForm.dbCat,
+          }
+          return param;
+        }
       }
     }
   }
